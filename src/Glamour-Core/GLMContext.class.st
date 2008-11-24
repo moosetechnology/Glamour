@@ -85,14 +85,14 @@ GLMContext >> selection [
 
 { #category : #'as yet unclassified' }
 GLMContext >> selectionIndex [
-	
 	^ self items indexOf: self selection
 ]
 
 { #category : #'as yet unclassified' }
 GLMContext >> selectionIndex: anInteger [ 
-	
-	selectedEntity := self items at: anInteger
+	selectedEntity := self items at: anInteger.
+	self halt.
+	self announce: (GLMContextSelectionChanged new context: self; yourself)
 ]
 
 { #category : #'as yet unclassified' }

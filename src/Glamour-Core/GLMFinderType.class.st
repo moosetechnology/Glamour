@@ -11,6 +11,7 @@ GLMFinderType >> addPanelFor: aContext in: container [
 	component := aContext asDisplayObject.
 	container addMorph: component.
 	aContext onSelectionChange: [:selectionChanged |
+		self halt.
 		"container remmoveAllChildrenAfter: component"
 		self addPanelFor: (aContext copy entity: selectionChanged context selectedItem) in: container.
 	]
