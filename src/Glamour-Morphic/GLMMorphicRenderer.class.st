@@ -1,3 +1,12 @@
+"
+browser := GLMTableLayoutBrowser new.
+browser column: #one; column: #two.
+
+browser showOn: #one; using: [browser list.].
+browser showOn: #two; from: #one; using: [
+	browser text.].
+browser openOn: #(a b c d)
+"
 Class {
 	#name : #GLMMorphicRenderer,
 	#superclass : #GLMRenderer,
@@ -10,7 +19,7 @@ Class {
 { #category : #opening }
 GLMMorphicRenderer >> doOpen: aUI [ 
 
-	^GlamorousSystemWindow new model: aUI; openAsIs; yourself
+	^aUI openInWorld
 ]
 
 { #category : #private }
@@ -40,7 +49,7 @@ GLMMorphicRenderer >> installActionsOnUI: text fromPresentation: aTextPresentati
 { #category : #private }
 GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aUIContainer inBrowser: aBrowser [ 
 	 
-	| panes pane glamourPane splitter totalSpans currentSpanPosition topPane | 
+	| panes pane glamourPane totalSpans currentSpanPosition | 
 	totalSpans := aCell children sum: #span. 
 	currentSpanPosition := 0. 
 	panes := aCell children 
@@ -48,23 +57,23 @@ GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aUIContainer
 			[:each :index |  
 			each hasId 
 				ifFalse: 
-					[pane := Form new. 
+					[pane := RectangleMorph new. 
 					self renderCustomRow: each ofPane: aPane inUI: pane inBrowser: 
 							aBrowser] 
 				ifTrue: 
 					[glamourPane := aBrowser paneNamed: each id. 
 					pane := glamourPane renderGlamorouslyOn: self	"glamourPane onPortValueChange: [:announcement | aPane portValueAt: announcement portName put: announcement portValue]."]. 
-			aUIContainer addComponent: pane. 
-			pane 
+			aUIContainer addMorph: pane. 
+			"pane 
 				frame: 
 					(FractionalFrame 
 						fractionLeft: 0 
 						right: 1 
 						top: currentSpanPosition / totalSpans 
-						bottom: (currentSpanPosition + each span) / totalSpans). 
+						bottom: (currentSpanPosition + each span) / totalSpans). "
 			currentSpanPosition := currentSpanPosition + each span. 
 			pane]. 
-	1 
+	"1 
 		to: panes size - 1 
 		do: 
 			[:index |  
@@ -82,13 +91,13 @@ GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aUIContainer
 			splitter topWidgets: (OrderedCollection with: (panes at: index) id). 
 			splitter 
 				bottomWidgets: (OrderedCollection with: (panes at: index + 1) id). 
-			aUIContainer addComponent: splitter]
+			aUIContainer addComponent: splitter]"
 ]
 
 { #category : #private }
 GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aUIContainer inBrowser: aBrowser [ 
 	 
-	| panes pane glamourPane splitter totalSpans currentSpanPosition leftPane | 
+	| panes pane glamourPane totalSpans currentSpanPosition | 
 	totalSpans := aCell children inject: 0 into: [ :sum :each | sum + each span ]. 
 	currentSpanPosition := 0. 
 	panes := aCell children 
@@ -96,13 +105,13 @@ GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aUIContainer in
 			[:each :index |  
 			each hasId 
 				ifFalse: 
-					[pane := Form new. 
+					[pane := RectangleMorph new. 
 					self renderCustomColumn: each ofPane: aPane inUI: pane inBrowser: 
 							aBrowser] 
 				ifTrue: 
 					[glamourPane := aBrowser paneNamed: each id. 
 					pane := glamourPane renderGlamorouslyOn: self	"glamourPane onPortValueChange: [:announcement | aPane portValueAt: announcement portName put: announcement portValue] "]. 
-			aUIContainer addComponent: pane. 
+			aUIContainer addMorph: pane. 
 			"pane 
 				frame: 
 					(FractionalFrame 
@@ -112,24 +121,17 @@ GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aUIContainer in
 						bottom: 1). "
 			currentSpanPosition := currentSpanPosition + each span. 
 			pane]. 
-	1 
+"	1 
 		to: panes size - 1 
 		do: 
 			[:index |  
 			leftPane := panes at: index. 
 			splitter := BorderedSubpaneDividerMorph new. 
-			"splitter 
-				frame: 
-					((FractionalFrame 
-						fractionLeft: leftPane frame rightFraction 
-						right: leftPane frame rightFraction 
-						top: 0 
-						bottom: 1) setOffsetLeft: -2 top: 0 right: 2 bottom: 0). "
-			splitter beVertical. 
-			splitter leftWidgets: (OrderedCollection with: (panes at: index) id). 
-			splitter 
-				rightWidgets: (OrderedCollection with: (panes at: index + 1) id). 
-			aUIContainer addComponent: splitter]
+
+			splitter vertical. 
+			
+			aUIContainer addMorph: splitter]"
+		
 ]
 
 { #category : #'rendering browsers' }
@@ -197,10 +199,12 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 	items := toShow isCollection 
 		ifTrue: [toShow] 
 		ifFalse: [Array with: toShow]. 
-	list := PluggableListMorph new. 
-	"list frame: FractionalFrame fullyAttached. "
-	list list: (items ifNil: [OrderedCollection new]). 
-	list displaySelector: aListPresentation format. 
+	list := PluggableListMorph on: (GLMListModel new items: ((items ifNil: [OrderedCollection new]) collect: [:e | e perform: aListPresentation format])) list: #items selected: #selection changeSelected: #selection:.
+		list		color: Color white;
+			borderInset;
+			vResizing: #spaceFill;
+			hResizing: #rigid;
+			width: 150.
 	self installActionsOnUI: list fromPresentation: aListPresentation. 
 	"list 
 		when: SelectionChanged 
@@ -208,7 +212,7 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 	aListPresentation 
 		whenContextChanged: 
 			[:ann | ann property = #selection ifTrue: [list selection: ann value]]. 
-	list verticalScrollbar: true. 
+	"list verticalScrollbar: true. "
 	^list
 ]
 
@@ -241,7 +245,7 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 GLMMorphicRenderer >> renderPane: aPane [ 
 	 
 	| container topOffset inspectButton label | 
-	container := Form new. 
+	container := RectangleMorph new. container color: Color red.
 	"container frame: FractionalFrame fullyAttached." 
 	topOffset := 0. 
 	(aPane matchingPresentations anySatisfy: [:each | each isInspectable]) 
@@ -265,7 +269,7 @@ GLMMorphicRenderer >> renderPane: aPane [
 				when: Clicked 
 				do: [(aPane port: #entity) value inspect]. "
 			container addComponent: inspectButton]. 
-	container addComponent: (self renderPresentationsOf: aPane).	"container components last frame topOffset: topOffset." 
+	container addMorph: (self renderPresentationsOf: aPane).	
 	aPane 
 		whenMatchingPresentationsChanged: 
 			[:announcement |  
@@ -303,28 +307,28 @@ GLMMorphicRenderer >> renderPane: aPane inFinder: container [
 { #category : #private }
 GLMMorphicRenderer >> renderPresentationsOf: aPane [ 
 	 
-	| presentations tabs form | 
+	| presentations form | 
 	presentations := OrderedCollection new. 
 	aPane matchingPresentations 
 		do: 
 			[:each |  
 			(each renderGlamorouslyOn: self) 
 				ifNotNil: [:ui | presentations addLast: each title -> ui]]. 
-	presentations size < 1 ifTrue: [^Form new]. 
+	presentations size < 1 ifTrue: [^RectangleMorph new]. 
 	presentations size = 1 ifTrue: [^presentations first value]. 
-	tabs := TabControl new. 
+	"tabs := TabControl new. 
 	tabs frame: FractionalFrame fullyAttached. 
 	presentations 
 		do: 
 			[:each |  
-			form := Form new. 
+			form := RectangleMorph new. 
 			each value frame: FractionalFrame fullyAttached. 
 			form addComponent: each value. 
 			tabs 
 				addPage: form 
 				label: each key]. 
 	tabs showPage: 1. 
-	^tabs
+	^tabs"
 ]
 
 { #category : #'rendering browsers' }
@@ -341,7 +345,7 @@ GLMMorphicRenderer >> renderTableLayoutBrowser: aBrowser [
 				inUI: container 
 				inBrowser: aBrowser] 
 		ifFalse: 
-			[self 
+			[self
 				renderCustomColumn: aBrowser cell 
 				ofPane: aBrowser pane 
 				inUI: container 
