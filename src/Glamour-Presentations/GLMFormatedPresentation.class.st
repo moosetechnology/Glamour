@@ -19,7 +19,7 @@ GLMFormatedPresentation class >> formater: aBlock [
 { #category : #private }
 GLMFormatedPresentation >> defaultFormater [ 
 	 
-	^#asString
+	^#glamourString
 ]
 
 { #category : #accessing }
