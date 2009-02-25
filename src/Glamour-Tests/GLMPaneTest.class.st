@@ -37,7 +37,7 @@ GLMPaneTest >> testPresentationConditions [
 	self assert: pane matchingPresentations first == presentation2. 
 	self assert: pane matchingPresentations last == presentation3. 
 	(pane port: #entity) value: (GLMMultiValue withAll: #(nil 2)). 
-	self assert: pane matchingPresentations size = 0
+	self assert: pane matchingPresentations size = 1
 ]
 
 { #category : #tests }

@@ -256,6 +256,31 @@ GLMScriptingTest >> testThreePanesTransmissions [
 ]
 
 { #category : #tests }
+GLMScriptingTest >> testTransmissionWithTwoOrigins [ 
+	 
+	| browser | 
+	browser := GLMTableLayoutBrowser new. 
+	browser 
+		column: #one; 
+		column: #two; 
+		column: #three. 
+	browser 
+		showOn: #three; 
+		from: #one; 
+		from: #two; 
+		using: [browser text]. 
+	((browser paneNamed: #one) port: #selection) value: 42. 
+	self assert: ((browser paneNamed: #three) port: #entity) value first = 42. 
+	self assert: ((browser paneNamed: #three) port: #entity) value last = nil. 
+	self assert: (browser paneNamed: #three) presentations size = 1. 
+	self assert: (browser paneNamed: #three) matchingPresentations size = 1. 
+	((browser paneNamed: #two) port: #selection) value: 43. 
+	self assert: ((browser paneNamed: #three) port: #entity) value first = 42. 
+	self assert: ((browser paneNamed: #three) port: #entity) value last = 43. 
+	self assert: (browser paneNamed: #three) matchingPresentations size = 1
+]
+
+{ #category : #tests }
 GLMScriptingTest >> testTwoTransmissionsWithOnlyOneEvent [ 
 	 
 	| browser | 
