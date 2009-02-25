@@ -1,3 +1,12 @@
+"
+browser := GLMTableLayoutBrowser new.
+browser column: #one; column: #two.
+
+browser showOn: #one; using: [browser list.].
+browser showOn: #two; from: #one; using: [
+	browser text.].
+browser openOn: #(a b c d)
+"
 Class {
 	#name : #GLMTableLayoutBrowser,
 	#superclass : #GLMExplicitBrowser,
