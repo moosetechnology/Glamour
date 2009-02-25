@@ -1,7 +1,7 @@
 Extension { #name : #Boolean }
 
 { #category : #'*glamour-helpers' }
-Boolean >> glamourValueWithArgs: anArray [
-	
+Boolean >> glamourValueWithArgs: anArray [ 
+	 
 	^self
 ]
