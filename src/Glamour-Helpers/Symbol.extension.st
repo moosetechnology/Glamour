@@ -1,6 +1,6 @@
 Extension { #name : #Symbol }
 
-{ #category : #'*glamour-helpers' }
+{ #category : #'*Glamour-Helpers' }
 Symbol >> glamourValueWithArgs: anArray [ 
 	 
 	anArray size < 1 ifTrue: [^nil]. 

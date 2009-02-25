@@ -12,5 +12,5 @@ Class {
 { #category : #glamour }
 GLMNotNilCondition >> glamourValueWithArgs: anArray [ 
 	 
-	^(anArray includes: nil) not
+	^anArray anySatisfy: [:each | each notNil]
 ]

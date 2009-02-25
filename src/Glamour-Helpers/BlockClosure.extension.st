@@ -1,6 +1,6 @@
 Extension { #name : #BlockClosure }
 
-{ #category : #'*glamour-helpers' }
+{ #category : #'*Glamour-Helpers' }
 BlockClosure >> glamourValueWithArgs: anArray [ 
 	"This is the same as valueWithPossibleArgs: from squeak. 
 	Unfortunately, VW's cullValue: is incompatible." 

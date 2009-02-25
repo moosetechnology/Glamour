@@ -1,6 +1,15 @@
 Extension { #name : #Object }
 
-{ #category : #'*glamour-helpers' }
+{ #category : #'*Glamour-Helpers' }
+Object >> glamourString [ 
+	"This method tries to circumvent the missing displayString from Squeak" 
+	 
+	^(self class canUnderstand: #asString) 
+		ifTrue: [self asString] 
+		ifFalse: [self displayString]
+]
+
+{ #category : #'*Glamour-Helpers' }
 Object >> glamourValue: anObject [ 
 	 
 	^self 
@@ -10,13 +19,13 @@ Object >> glamourValue: anObject [
 				ifFalse: [Array with: anObject])
 ]
 
-{ #category : #'*glamour-helpers' }
+{ #category : #'*Glamour-Helpers' }
 Object >> glamourValueWithArgs: anArray [ 
 	 
 	^self
 ]
 
-{ #category : #'*glamour-helpers' }
+{ #category : #'*Glamour-Helpers' }
 Object >> renderGlamorouslyOn: aRenderer [ 
 	 
 	^aRenderer renderObject: self
