@@ -5,7 +5,7 @@ Object >> glamourValue: anObject [
 	 
 	^self 
 		glamourValueWithArgs: 
-			((anObject isKindOf: MultiValue) 
+			((anObject isKindOf: GLMMultiValue) 
 				ifTrue: [anObject asArray] 
 				ifFalse: [Array with: anObject])
 ]
