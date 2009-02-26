@@ -69,12 +69,12 @@ SGLWindow >> renderPane: aPane [
 	html div
 		id: (id := self uuidFor: aPane);
 		with: [
-			aPane presentations
+			aPane matchingPresentations
 				do: [ :each | each renderGlamorouslyOn: self ] ].
 	aPane whenMatchingPresentationsChanged: [ :ann |
 		scripts add: ((html jQuery id: id) html: [ :r | 
 			html := r.
-			aPane presentations
+			aPane matchingPresentations
 				do: [ :each | each renderGlamorouslyOn: self ] ]) ]
 ]
 
@@ -92,9 +92,9 @@ SGLWindow >> renderTableLayoutBrowserColumn: aBrowser [
 	aBrowser cell children do: [ :each |
 		html tableRow: [
 			html tableData rowSpan: each span; with: [
-				"each hasId ifTrue: [ "
+				each hasId ifTrue: [
 					element := aBrowser paneNamed: each id.
-					element renderGlamorouslyOn: self ] ] ] "]"
+					element renderGlamorouslyOn: self ] ] ] ]
 ]
 
 { #category : #'rendering-widgets' }
@@ -103,15 +103,14 @@ SGLWindow >> renderTableLayoutBrowserRow: aBrowser [
 	html tableRow: [
 		aBrowser cell children do: [ :each |
 			html tableData colSpan: each span; with: [
-				"each hasId ifTrue: [ "
+				each hasId ifTrue: [
 					element := aBrowser paneNamed: each id.
-					element renderGlamorouslyOn: self ] ] ] "]"
+					element renderGlamorouslyOn: self ] ] ] ]
 ]
 
 { #category : #'rendering-presentation' }
 SGLWindow >> renderTextPresentation: aPresentation [
 	| toShow |
-	self halt.
 	toShow := aPresentation formatedDisplayValue.
 	html textArea
 		value: toShow;
