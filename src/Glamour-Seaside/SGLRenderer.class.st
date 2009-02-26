@@ -1,6 +1,6 @@
 Class {
 	#name : #SGLRenderer,
-	#superclass : #GLMRenderer,
+	#superclass : #AnObsoleteGLMRenderer,
 	#category : #'Glamour-Seaside'
 }
 

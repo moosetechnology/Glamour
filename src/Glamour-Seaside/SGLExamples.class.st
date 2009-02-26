@@ -10,9 +10,7 @@ SGLExamples >> classNavigator [
 
 	| browser |
 	browser := GLMTableLayoutBrowser new.
-	browser 
-		column: #classes; column: #selectors;
-		row: #source span: 2.
+	browser column: #classes; column: #selectors; column: #source.
 
 	" classes "
 	browser showOn: #classes; using: [
@@ -29,7 +27,7 @@ SGLExamples >> classNavigator [
 	" source "
 	browser showOn: #source; from: #classes; from: #selectors; using: [
 		browser text
-			"when: [ :class :selector | selector isNil ];"
+			when: [ :class :selector | selector isNil ];
 			display: [ :class :selector | class definition ].
 		browser text
 			when: [ :class :selector | selector notNil ];
