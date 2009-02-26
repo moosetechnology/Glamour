@@ -1,14 +1,19 @@
 Class {
-	#name : #SGLExamples,
-	#superclass : #WAComponent,
-	#category : #'Glamour-Seaside'
+	#name : #SGLBrowser,
+	#superclass : #SGLComponent,
+	#category : #'Glamour-Seaside-Examples'
 }
 
-{ #category : #examples }
-SGLExamples >> classNavigator [
-	" self new classNavigator openOn: (BrowserEnvironment new forPackageNamed: 'Glamour') "
+{ #category : #initialization }
+SGLBrowser class >> initialize [
+	self registerAsApplication: 'glamour/browser'
+]
 
+{ #category : #accessing }
+SGLBrowser >> browser [
 	| browser |
+	
+	" browser "
 	browser := GLMTableLayoutBrowser new.
 	browser column: #category; column: #class; column: #protocol; column: #selector.
 	browser column: #source.
@@ -56,4 +61,9 @@ SGLExamples >> classNavigator [
 			display: [ :class :selector | class sourceCodeAt: selector ] ].
 
 	^ browser
+]
+
+{ #category : #accessing }
+SGLBrowser >> model [
+	^ BrowserEnvironment new forPackageNamed: 'Glamour'
 ]
