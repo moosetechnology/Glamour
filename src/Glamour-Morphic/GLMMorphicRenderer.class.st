@@ -327,7 +327,7 @@ GLMMorphicRenderer >> renderPane: aPane inFinder: container [
 { #category : #private }
 GLMMorphicRenderer >> renderPresentationsOf: aPane [ 
 	 
-	| presentations | 
+	| presentations tabs | 
 	presentations := OrderedCollection new. 
 	aPane matchingPresentations 
 		do: 
@@ -338,19 +338,21 @@ GLMMorphicRenderer >> renderPresentationsOf: aPane [
 	presentations size = 1 ifTrue: [^presentations first value]. 
 	
 	
-	"tabs := TabControl new. 
-	tabs frame: FractionalFrame fullyAttached. 
+	tabs := TabGroupMorph new. 
+	tabs 
+		vResizing: #spaceFill;
+		hResizing: #spaceFill;
+		cornerStyle: #square;
+		borderWidth: 0;
+		cellPositioning: #topLeft.
 	presentations 
 		do: 
 			[:each |  
-			form := RectangleMorph new. 
-			each value frame: FractionalFrame fullyAttached. 
-			form addComponent: each value. 
 			tabs 
-				addPage: form 
+				addPage: each value 
 				label: each key]. 
-	tabs showPage: 1. 
-	^tabs"
+	tabs selectedPageIndex: 1. 
+	^tabs
 ]
 
 { #category : #'rendering browsers' }
@@ -435,7 +437,7 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 		getRootsSelector: #roots;
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;		
-		borderWidth: 0;
+		borderWidth: 1;
 		autoDeselect: false;
 		yourself.
 
