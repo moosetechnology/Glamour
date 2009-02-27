@@ -11,19 +11,38 @@ SGLPackageBrowser class >> initialize [
 
 { #category : #accessing }
 SGLPackageBrowser >> browser [
+
 	| browser |
-	
+
 	" browser "
 	browser := GLMTableLayoutBrowser new.
-	browser column: #category; column: #class; column: #protocol; column: #selector.
-	browser column: #source.
+	browser row: [ :row | 
+		row 
+			column: #category;
+			column: #class;
+			column: #protocol;
+			column: #selector ].
+	browser row: #source.
 	
 	" categories "
+	self categoriesOn: browser.
+	self classesOn: browser.
+	self protocolsOn: browser.
+	self selectorsOn: browser.
+	self sourceOn: browser.
+	
+	^ browser
+]
+
+{ #category : #building }
+SGLPackageBrowser >> categoriesOn: browser [
 	browser showOn: #category; using: [
 		browser list
-			display: [ :environment | environment categories ] ].
+			display: [ :environment | environment categories ] ]
+]
 
-	" classes "
+{ #category : #building }
+SGLPackageBrowser >> classesOn: browser [
 	browser showOn: #class; from: #outer -> #entity; from: #category; using: [
 		browser list
 			title: 'Instance';
@@ -38,38 +57,42 @@ SGLPackageBrowser >> browser [
 				((environment classes select: [ :each | each isMeta ])
 					select: [ :each | each theNonMetaClass category = category ])
 					asSortedCollection: [ :a :b | a name < b name ] ];
-			format: [ :class | class theNonMetaClass name ] ].
+			format: [ :class | class theNonMetaClass name ] ]
+]
 
-	" protocols "
+{ #category : #accessing }
+SGLPackageBrowser >> model [
+	^ BrowserEnvironment new forPackageNamed: 'Glamour'
+]
+
+{ #category : #building }
+SGLPackageBrowser >> protocolsOn: browser [
 	browser showOn: #protocol; from: #outer -> #entity; from: #class; using: [
 		browser list
 			when: [ :environment :class | class notNil ];
 			display: [ :environment :class | 
 				(environment protocolsFor: class)
-					asSortedCollection ] ].
+					asSortedCollection ] ]
+]
 
-	" selectors " 
+{ #category : #building }
+SGLPackageBrowser >> selectorsOn: browser [
 	browser showOn: #selector; from: #outer -> #entity; from: #class; from: #protocol; using: [
 		browser list
 			when: [ :environment :class :protocol | class notNil and: [ protocol notNil ] ];
 			display: [ :environment :class :protocol | environment selectorsFor: protocol in: class ].
 		browser list
 			when: [ :environment :class :protocol | class notNil and: [ protocol isNil ] ];
-			display: [ :environment :class :protocol | environment selectorsForClass: class ] ].
-		
-	" source "
-	browser showOn: #source; from: #class; from: #selector; using: [
-		browser text
-			when: [ :class :selector | selector notNil ];
-			display: [ :class :selector | class sourceCodeAt: selector ].
-		browser text
-			when: [ :class :selector | selector isNil ];
-			display: [ :class :selector | class definition ] ].
-
-	^ browser
+			display: [ :environment :class :protocol | environment selectorsForClass: class ] ]
 ]
 
-{ #category : #accessing }
-SGLPackageBrowser >> model [
-	^ BrowserEnvironment new forPackageNamed: 'Glamour'
+{ #category : #building }
+SGLPackageBrowser >> sourceOn: browser [
+	browser showOn: #source; from: #class; from: #selector; using: [
+		browser text
+			when: [ :class :selector | class notNil and: [ selector notNil ] ];
+			display: [ :class :selector | class sourceCodeAt: selector ifAbsent: [ String new ] ].
+		browser text
+			when: [ :class :selector | class notNil and: [ selector isNil ] ];
+			display: [ :class :selector | class definition ] ]
 ]

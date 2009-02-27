@@ -15,7 +15,7 @@ SGLFileBrowser >> browser [
 	browser := GLMTableLayoutBrowser new.
 	browser 
 		column: #folders;
-		column: [ :c | c row: #files span: 2; row: #summary ] span: 2.
+		column: [ :column | column row: #files span: 2; row: #summary ] span: 2.
 
 	browser showOn: #folders; using: [
 		browser tree 
@@ -38,12 +38,13 @@ SGLFileBrowser >> browser [
 			display: [ :directory |
 				| stream |
 				stream := FileStream oldFileNamed: directory pathName.
-				[ stream contents ] ensure: [ stream close ] ] ].
+				[ (stream binary; next: 2000) asString ] 
+					ensure: [ stream close ] ] ].
 
 	^ browser
 ]
 
 { #category : #accessing }
 SGLFileBrowser >> model [
-	^ FileDirectory default
+	^ FileDirectory default containingDirectory 
 ]

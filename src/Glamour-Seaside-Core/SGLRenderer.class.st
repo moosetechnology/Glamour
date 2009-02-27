@@ -25,8 +25,8 @@ SGLRenderer >> doOpen: anObject [
 SGLRenderer >> initialize [
 	super initialize.
 	uuid := IdentityDictionary new.
-	scripts := OrderedCollection new.
-	properties := IdentityDictionary new
+	properties := IdentityDictionary new.
+	scripts := WASmallDictionary new
 ]
 
 { #category : #initialization }
@@ -43,13 +43,11 @@ SGLRenderer >> renderListPresentation: aPresentation [
 	items := toShow isCollection
 		ifTrue: [ toShow ]
 		ifFalse: [ Array with: toShow ].
-	items := items ifNil: [ OrderedCollection new ].
 	html select
 		size: 10;
-		list: items;
+		list: (items ifNil: [ #() ]);
 		labels: aPresentation format;
 		selected: aPresentation selection;
-		id: (self uuidFor: aPresentation);
 		callback: [ :value | aPresentation selection: value ];
 		onChange: (html jQuery ajax 
 			serializeThis;
@@ -63,14 +61,14 @@ SGLRenderer >> renderMondrianPresentation: aMondrianPresentation [
 
 { #category : #widgets }
 SGLRenderer >> renderPane: aPane [
-	| id |
-	html tableData 
-		id: (id := self uuidFor: aPane);
-		with: [ self renderPaneContent: aPane ].
 	aPane whenMatchingPresentationsChanged: [ :ann |
-		scripts add: ((html jQuery id: id) html: [ :renderer | 
-			html := renderer.
-			self renderPaneContent: aPane ]) ]
+		| id |
+		id := self uuidFor: aPane.
+		scripts at: id put: ((html jQuery id: id)
+			html: [ :renderer | 
+				html := renderer.
+				self renderPaneContent: aPane ]) ].
+	self renderPaneContent: aPane
 ]
 
 { #category : #widgets }
@@ -79,6 +77,8 @@ SGLRenderer >> renderPaneContent: aPane [
 	panes := aPane matchingPresentations.
 	panes isEmpty ifTrue: [ ^ self ].
 	pane := properties at: aPane ifAbsentPut: [ panes first ].
+	(panes includes: pane)
+		ifFalse: [ pane := properties at: aPane put: panes first ].
 	panes size > 1 ifTrue: [
 		html unorderedList class: 'tabs'; with: [
 			panes do: [ :each |
@@ -86,8 +86,8 @@ SGLRenderer >> renderPaneContent: aPane [
 					html anchor
 						url: 'javascript:void(0)';
 						onClick: ((html jQuery id: (self uuidFor: aPane)) load
-							html: [ :renderer | 
-								html := renderer. 
+							html: [ :r | 
+								html := r. 
 								properties at: aPane put: each.
 								self renderPaneContent: aPane ]);
 						with: each title ] ] ] ].
@@ -96,34 +96,50 @@ SGLRenderer >> renderPaneContent: aPane [
 
 { #category : #widgets }
 SGLRenderer >> renderTableLayoutBrowser: aBrowser [
-	html table class: (self uuidFor: aBrowser); with: [ 
-		aBrowser cell isRow
-			ifTrue: [ self renderTableLayoutBrowserRow: aBrowser cell ]
-			ifFalse: [ self renderTableLayoutBrowserColumn: aBrowser cell ] ]
+	aBrowser cell isRow
+		ifTrue: [ self renderTableLayoutBrowserRow: aBrowser cell ]
+		ifFalse: [ self renderTableLayoutBrowserColumn: aBrowser cell ]
 ]
 
 { #category : #widgets }
 SGLRenderer >> renderTableLayoutBrowserColumn: aCell [
-	html tableRow: [
+	| pane |
+	html table class: 'table-layout'; class: 'table-layout-column'; with: [
 		aCell children do: [ :each |
-			each hasId 
-				ifTrue: [ self render: (aCell browser paneNamed: each id) ]
-				ifFalse: [ self renderTableLayoutBrowserRow: each ] ] ]
+			html tableRow: [
+				each hasId 
+					ifTrue: [
+						pane := aCell browser paneNamed: each id.
+						html tableData
+							colSpan: each span;
+							id: (self uuidFor: pane); 
+							with: [ self render: pane ] ]
+					ifFalse: [ 
+						html tableData: [ 
+							self renderTableLayoutBrowserRow: each ] ] ] ] ]
 ]
 
 { #category : #widgets }
 SGLRenderer >> renderTableLayoutBrowserRow: aCell [
-	html tableRow: [
-		aCell children do: [ :each |
-			each hasId 
-				ifTrue: [ self render: (aCell browser paneNamed: each id) ]
-				ifFalse: [ self renderTableLayoutBrowserColumn: each ] ] ]
+	| pane |
+	html table class: 'table-layout'; class: 'table-layout-row'; with: [
+		html tableRow: [
+			aCell children do: [ :each |
+				each hasId
+					ifTrue: [
+						pane := aCell browser paneNamed: each id.
+						html tableData
+							rowSpan: each span;
+							id: (self uuidFor: pane); 
+							with: [ self render: pane ] ]
+					ifFalse: [ 
+						html tableData: [
+							self renderTableLayoutBrowserColumn: each ] ] ] ] ]
 ]
 
 { #category : #presentation }
 SGLRenderer >> renderTextPresentation: aPresentation [
 	html textArea
-		id: (self uuidFor: aPresentation);
 		value: aPresentation formatedDisplayValue;
 		callback: [ :value | aPresentation text: value ];
 		onChange: (html jQuery ajax 
@@ -132,8 +148,35 @@ SGLRenderer >> renderTextPresentation: aPresentation [
 ]
 
 { #category : #presentation }
-SGLRenderer >> renderTreePresentation: aTreePresentation [
-	html text: 'tree'
+SGLRenderer >> renderTreePresentation: aPresentation [
+	| tag nodes |
+	(tag := html select)
+		size: 10;
+		selected: aPresentation selection;
+		callback: [ :value | aPresentation selection: value ];
+		onChange: (html jQuery ajax 
+			serializeThis;
+			script: [ :script | self updateScript: script ]);
+		with: [
+			nodes := aPresentation displayValue.
+			nodes isCollection
+				ifFalse: [ nodes := Array with: nodes ].
+			nodes do: [ :each |
+				self 
+					renderTreePresentation: aPresentation
+					select: tag node: each level: 0 ] ]
+]
+
+{ #category : #presentation }
+SGLRenderer >> renderTreePresentation: aPresentation select: aSelectTag node: anObject level: anInteger [
+	html option
+		selected: (aSelectTag isSelected: anObject);
+		callback: [ aSelectTag performCallback: anObject ];
+		with: [
+			anInteger timesRepeat: [ html html: '&nbsp;' ].
+			html text: (aPresentation format value: anObject) ].
+	(aPresentation children value: anObject)
+		do: [ :each | self renderTreePresentation: aPresentation select: aSelectTag node: each level: anInteger + 5 ]
 ]
 
 { #category : #presentation }
@@ -143,16 +186,11 @@ SGLRenderer >> renderWorkspacePresentation: aWorkspacePresentation [
 
 { #category : #private }
 SGLRenderer >> updateScript: aScript [
-	aScript addAll: scripts.
-	scripts := OrderedCollection new
+	aScript addAll: scripts values.
+	scripts := WASmallDictionary new
 ]
 
 { #category : #private }
 SGLRenderer >> uuidFor: anObject [
-	| key |
-	^ uuid at: anObject ifAbsentPut: [
-		[ key := WAExternalID new.
-		  uuid includesKey: key ] 
-			whileTrue.
-	 	key ]
+	^ uuid at: anObject ifAbsentPut: [ html nextId ]
 ]

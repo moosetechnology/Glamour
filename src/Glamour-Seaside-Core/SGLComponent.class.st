@@ -43,7 +43,10 @@ SGLComponent >> presentation [
 { #category : #rendering }
 SGLComponent >> renderContentOn: html [
 	(SGLRenderer in: self on: html)
-		render: self presentation
+		render: self presentation.
+	html anchor
+		callback: [ ];
+		with: 'Refresh'
 ]
 
 { #category : #accessing }
@@ -60,33 +63,24 @@ a {
 	color: #f5b741;
 	text-decoration: none;
 }
-	
-::-moz-selection {
-	color: #f6feff;
-	background-color: #f5b741;
-}
-::selection {
-	color: #f6feff;
-	background-color: #f5b741;
-}
 
-table { width: 100%; }
-table td { vertical-align: top; }
+table.table-layout { width: 100%; border: 0; margin: 0; padding: 0; border-spacing: 0 0; border-collapse: collapse; }
+table.table-layout td { vertical-align: top; border: 0; margin: 0; padding: 2px; }
 
 select {
 	width: 100%;
 	height: 100%;
 	outline: none;
-	border: #444039 solid 1px;
 	color: inherit;
+	border: #444039 solid 1px;
 	background-color: inherit;
 }
 textarea {
 	width: 100%;
-	height: 100%;
+	height: 200px;
 	outline: none;
-	border: #444039 solid 1px;
 	color: inherit;
+	border: #444039 solid 1px;
 	background-color: inherit;
 }
 
