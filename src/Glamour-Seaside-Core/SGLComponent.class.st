@@ -33,26 +33,66 @@ SGLComponent >> model [
 
 { #category : #private }
 SGLComponent >> presentation [
-	^ presentation ifNil: [
+	presentation isNil ifTrue: [
 		presentation := self browser 
 			startOn: self model;
-			yourself ]
+			yourself ].
+	^ presentation
 ]
 
 { #category : #rendering }
 SGLComponent >> renderContentOn: html [
 	(SGLRenderer in: self on: html)
-		open: self presentation
+		render: self presentation
 ]
 
 { #category : #accessing }
 SGLComponent >> style [
-	^ 'div { border: 1px red solid; }
-	td { border: 1px blue solid; }
+	"Theme: http://kuler.adobe.com/#themeID/375397"
+
+	^ 'body {
+	color: #f6feff;
+	background-color: #201e18;
+	font-family: "Helvetica Neue", Helvetica, Arial;
+	font-size: 14px;
+}
+a {
+	color: #f5b741;
+	text-decoration: none;
+}
 	
-div { width: 100%; }
-select { width: 100%; height: 200px; }
-textarea { width: 100%; height: 200px; }
+::-moz-selection {
+	color: #f6feff;
+	background-color: #f5b741;
+}
+::selection {
+	color: #f6feff;
+	background-color: #f5b741;
+}
+
+table { width: 100%; }
+table td { vertical-align: top; }
+
+select {
+	width: 100%;
+	height: 100%;
+	outline: none;
+	border: #444039 solid 1px;
+	color: inherit;
+	background-color: inherit;
+}
+textarea {
+	width: 100%;
+	height: 100%;
+	outline: none;
+	border: #444039 solid 1px;
+	color: inherit;
+	background-color: inherit;
+}
+
+ul.tabs li.tabs-current {
+	font-weight: bold;
+}
 '
 ]
 

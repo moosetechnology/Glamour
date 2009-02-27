@@ -5,7 +5,8 @@ Class {
 		'component',
 		'html',
 		'uuid',
-		'scripts'
+		'scripts',
+		'properties'
 	],
 	#category : #'Glamour-Seaside-Core'
 }
@@ -24,7 +25,8 @@ SGLRenderer >> doOpen: anObject [
 SGLRenderer >> initialize [
 	super initialize.
 	uuid := IdentityDictionary new.
-	scripts := OrderedCollection new
+	scripts := OrderedCollection new.
+	properties := IdentityDictionary new
 ]
 
 { #category : #initialization }
@@ -62,42 +64,60 @@ SGLRenderer >> renderMondrianPresentation: aMondrianPresentation [
 { #category : #widgets }
 SGLRenderer >> renderPane: aPane [
 	| id |
-	html div id: (id := self uuidFor: aPane); with: [
-		aPane matchingPresentations
-			do: [ :each | self halt; render: each ] ].
+	html tableData 
+		id: (id := self uuidFor: aPane);
+		with: [ self renderPaneContent: aPane ].
 	aPane whenMatchingPresentationsChanged: [ :ann |
 		scripts add: ((html jQuery id: id) html: [ :renderer | 
 			html := renderer.
-			aPane matchingPresentations
-				do: [ :each | self render: each ] ]) ]
+			self renderPaneContent: aPane ]) ]
+]
+
+{ #category : #widgets }
+SGLRenderer >> renderPaneContent: aPane [
+	| panes pane |
+	panes := aPane matchingPresentations.
+	panes isEmpty ifTrue: [ ^ self ].
+	pane := properties at: aPane ifAbsentPut: [ panes first ].
+	panes size > 1 ifTrue: [
+		html unorderedList class: 'tabs'; with: [
+			panes do: [ :each |
+				html listItem class: 'tabs-current' if: pane = each; with: [ 
+					html anchor
+						url: 'javascript:void(0)';
+						onClick: ((html jQuery id: (self uuidFor: aPane)) load
+							html: [ :renderer | 
+								html := renderer. 
+								properties at: aPane put: each.
+								self renderPaneContent: aPane ]);
+						with: each title ] ] ] ].
+	self render: pane
 ]
 
 { #category : #widgets }
 SGLRenderer >> renderTableLayoutBrowser: aBrowser [
 	html table class: (self uuidFor: aBrowser); with: [ 
 		aBrowser cell isRow
-			ifTrue: [ self renderTableLayoutBrowserRow: aBrowser ]
-			ifFalse: [ self renderTableLayoutBrowserColumn: aBrowser ] ]
+			ifTrue: [ self renderTableLayoutBrowserRow: aBrowser cell ]
+			ifFalse: [ self renderTableLayoutBrowserColumn: aBrowser cell ] ]
 ]
 
 { #category : #widgets }
-SGLRenderer >> renderTableLayoutBrowserColumn: aBrowser [
-	aBrowser cell children do: [ :each |
-		html tableRow: [
-			html tableData rowSpan: each span; with: [
-				each hasId
-					ifTrue: [ self render: (aBrowser paneNamed: each id) ]
-					ifFalse: [ html render: 'nothing' ] ] ] ]
-]
-
-{ #category : #widgets }
-SGLRenderer >> renderTableLayoutBrowserRow: aBrowser [
+SGLRenderer >> renderTableLayoutBrowserColumn: aCell [
 	html tableRow: [
-		aBrowser cell children do: [ :each |
-			html tableData colSpan: each span; with: [
-				each hasId 
-					ifTrue: [ self render: (aBrowser paneNamed: each id) ]
-					ifFalse: [ html render: 'nothing' ] ] ] ]
+		aCell children do: [ :each |
+			each hasId 
+				ifTrue: [ self render: (aCell browser paneNamed: each id) ]
+				ifFalse: [ self renderTableLayoutBrowserRow: each ] ] ]
+]
+
+{ #category : #widgets }
+SGLRenderer >> renderTableLayoutBrowserRow: aCell [
+	html tableRow: [
+		aCell children do: [ :each |
+			each hasId 
+				ifTrue: [ self render: (aCell browser paneNamed: each id) ]
+				ifFalse: [ self renderTableLayoutBrowserColumn: each ] ] ]
 ]
 
 { #category : #presentation }
