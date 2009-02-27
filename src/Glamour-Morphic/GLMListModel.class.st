@@ -3,32 +3,50 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'items',
-		'selection'
+		'selection',
+		'onSelection'
 	],
 	#category : #'Glamour-Morphic'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMListModel >> initialize [
 	selection := 0
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMListModel >> items [
 	^items
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMListModel >> items: aCollection [
 	items := aCollection
 ]
 
-{ #category : #'as yet unclassified' }
-GLMListModel >> selection [
+{ #category : #accessing }
+GLMListModel >> listAt: anIndex [
+	^self items at: anIndex
+]
+
+{ #category : #accessing }
+GLMListModel >> listSize [
+	^self items size
+]
+
+{ #category : #updating }
+GLMListModel >> onSelection: aBlock [
+	onSelection := aBlock
+]
+
+{ #category : #accessing }
+GLMListModel >> selection [ 
 	^selection
 ]
 
-{ #category : #'as yet unclassified' }
-GLMListModel >> selection: anIndex [
-	selection := anIndex
+{ #category : #accessing }
+GLMListModel >> selection: anIndex. [
+	selection := anIndex.
+	onSelection ifNotNil: [onSelection value: (self listAt: anIndex)].
+	self changed: #selection.
 ]

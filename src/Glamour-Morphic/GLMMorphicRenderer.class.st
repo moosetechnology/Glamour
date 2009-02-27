@@ -19,7 +19,7 @@ Class {
 { #category : #opening }
 GLMMorphicRenderer >> doOpen: aUI [ 
 
-	^aUI openInWorld
+	^GlamorousSystemWindow openOn: aUI
 ]
 
 { #category : #private }
@@ -33,7 +33,7 @@ GLMMorphicRenderer >> fixedFinderRenderHelper [
 { #category : #private }
 GLMMorphicRenderer >> installActionsOnUI: text fromPresentation: aTextPresentation [ 
 	 
-	aTextPresentation actions 
+	"aTextPresentation actions 
 		do: 
 			[:each |  
 			text keymap 
@@ -43,7 +43,7 @@ GLMMorphicRenderer >> installActionsOnUI: text fromPresentation: aTextPresentati
 				addAction: 
 					(Action 
 						id: (#action , each shortcut asSymbol) asSymbol 
-						action: [each actOn: aTextPresentation pane])]
+						action: [each actOn: aTextPresentation pane])]"
 ]
 
 { #category : #private }
@@ -63,6 +63,7 @@ GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aUIContainer
 				ifTrue: 
 					[glamourPane := aBrowser paneNamed: each id. 
 					pane := glamourPane renderGlamorouslyOn: self	"glamourPane onPortValueChange: [:announcement | aPane portValueAt: announcement portName put: announcement portValue]."]. 
+			"pane cellPositioning: #topLeft.	"	
 			aUIContainer addMorph: pane. 
 			"pane 
 				frame: 
@@ -99,27 +100,32 @@ GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aUIContainer in
 	 
 	| panes pane glamourPane totalSpans currentSpanPosition | 
 	totalSpans := aCell children inject: 0 into: [ :sum :each | sum + each span ]. 
-	currentSpanPosition := 0. 
+	currentSpanPosition := 0.
 	panes := aCell children 
 		collectWithIndex: 
 			[:each :index |  
 			each hasId 
 				ifFalse: 
 					[pane := RectangleMorph new. 
-					self renderCustomColumn: each ofPane: aPane inUI: pane inBrowser: 
-							aBrowser] 
+					pane 
+						layoutPolicy: TableLayout new;
+						listDirection: #leftToRight;
+						cellPositioning: #topLeft;
+						borderWidth: 0;
+						hResizing: #spaceFill;
+						vResizing: #spaceFill;		
+						wrapCentering: #center;
+						rubberBandCells: false;
+						layoutInset: 2;
+						cellInset: 2;
+						color: Color white.	
+					self renderCustomColumn: each ofPane: aPane inUI: pane inBrowser: aBrowser] 
 				ifTrue: 
 					[glamourPane := aBrowser paneNamed: each id. 
-					pane := glamourPane renderGlamorouslyOn: self	"glamourPane onPortValueChange: [:announcement | aPane portValueAt: announcement portName put: announcement portValue] "]. 
-			aUIContainer addMorph: pane. 
-			"pane 
-				frame: 
-					(FractionalFrame 
-						fractionLeft: currentSpanPosition / totalSpans 
-						right: (currentSpanPosition + each span) / totalSpans 
-						top: 0 
-						bottom: 1). "
-			currentSpanPosition := currentSpanPosition + each span. 
+					pane := glamourPane renderGlamorouslyOn: self.
+					"glamourPane onPortValueChange: [:announcement | aPane portValueAt: announcement portName put: announcement portValue]"
+					]. 
+			aUIContainer addMorphBack: pane. 
 			pane]. 
 "	1 
 		to: panes size - 1 
@@ -194,25 +200,27 @@ GLMMorphicRenderer >> renderFixedFinder: aBrowser [
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderListPresentation: aListPresentation [ 
 	 
-	| items list toShow | 
+	| items list toShow listModel | 
 	toShow := aListPresentation displayValue. 
 	items := toShow isCollection 
 		ifTrue: [toShow] 
 		ifFalse: [Array with: toShow]. 
-	list := PluggableListMorph on: (GLMListModel new items: ((items ifNil: [OrderedCollection new]) collect: [:e | e perform: aListPresentation format])) list: #items selected: #selection changeSelected: #selection:.
-		list		color: Color white;
-			borderInset;
-			vResizing: #spaceFill;
-			hResizing: #rigid;
-			width: 150.
-	self installActionsOnUI: list fromPresentation: aListPresentation. 
-	"list 
-		when: SelectionChanged 
-		do: [:ann | aListPresentation selection: ann pane selection]. "
+		
+	listModel := GLMListModel new items: ((items ifNil: [OrderedCollection new]) collect: [:e | e perform: aListPresentation format]); yourself.	
+	list := PluggableListMorph on: listModel list: #items selected: #selection changeSelected: #selection:.
+	list	
+		vResizing: #spaceFill;
+		hResizing: #spaceFill;
+		getListElementSelector: #listAt:;
+		getListSizeSelector: #listSize;
+		borderWidth: 1;
+		autoDeselect: false.
+	self installActionsOnUI: list fromPresentation: aListPresentation.
+	listModel onSelection: [:selection | aListPresentation selection: selection]. 
 	aListPresentation 
 		whenContextChanged: 
 			[:ann | ann property = #selection ifTrue: [list selection: ann value]]. 
-	"list verticalScrollbar: true. "
+	list vShowScrollBar.	
 	^list
 ]
 
@@ -245,17 +253,29 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 GLMMorphicRenderer >> renderPane: aPane [ 
 	 
 	| container topOffset inspectButton label | 
-	container := RectangleMorph new. container color: Color red.
-	"container frame: FractionalFrame fullyAttached." 
+	container := RectangleMorph new. 
+	container				 
+		layoutPolicy: TableLayout new;
+		listDirection: #leftToRight;
+		cellPositioning: #topLeft;
+		borderWidth: 0;
+		hResizing: #spaceFill;
+		vResizing: #spaceFill;		
+		wrapCentering: #center;
+		rubberBandCells: false;
+		layoutInset: 2;
+		cellInset: 2;
+		color: Color white.		
+
 	topOffset := 0. 
 	(aPane matchingPresentations anySatisfy: [:each | each isInspectable]) 
 		ifTrue: 
-			[topOffset := 28. 
+			[topOffset := 28.  
 			label := PluggableTextMorph new. 
 			label layoutInset: 2. 
 			label setText: (aPane port: #entity) value displayString. 
 			inspectButton := PluggableButtonMorph new. 
-			inspectButton 
+			"inspectButton 
 				frame: 
 					(LayoutFrame new 
 						leftFraction: 0; 
@@ -263,18 +283,18 @@ GLMMorphicRenderer >> renderPane: aPane [
 						rightFraction: 1; 
 						bottomFraction: 0; 
 						bottomOffset: 24;
-						yourself). 
-			inspectButton addComponent: label. 
+						yourself). "
+			inspectButton label: (aPane port: #entity) value displayString.
 			"inspectButton 
 				when: Clicked 
 				do: [(aPane port: #entity) value inspect]. "
-			container addComponent: inspectButton]. 
-	container addMorph: (self renderPresentationsOf: aPane).	
+			container addMorphBack: inspectButton]. 
+	container addMorphBack: (self renderPresentationsOf: aPane).	
 	aPane 
 		whenMatchingPresentationsChanged: 
 			[:announcement |  
-			container removeAllComponents. 
-			container addComponent: (self renderPresentationsOf: aPane)]. 
+			container removeAllMorphs. 
+			container addMorph: (self renderPresentationsOf: aPane)]. 
 	^container
 ]
 
@@ -307,15 +327,17 @@ GLMMorphicRenderer >> renderPane: aPane inFinder: container [
 { #category : #private }
 GLMMorphicRenderer >> renderPresentationsOf: aPane [ 
 	 
-	| presentations form | 
+	| presentations | 
 	presentations := OrderedCollection new. 
 	aPane matchingPresentations 
 		do: 
 			[:each |  
 			(each renderGlamorouslyOn: self) 
 				ifNotNil: [:ui | presentations addLast: each title -> ui]]. 
-	presentations size < 1 ifTrue: [^RectangleMorph new]. 
+	presentations size < 1 ifTrue: [^RectangleMorph new width: 1; height: 1; cellPositioning: #topLeft; yourself]. 
 	presentations size = 1 ifTrue: [^presentations first value]. 
+	
+	
 	"tabs := TabControl new. 
 	tabs frame: FractionalFrame fullyAttached. 
 	presentations 
@@ -336,7 +358,18 @@ GLMMorphicRenderer >> renderTableLayoutBrowser: aBrowser [
 	 
 	| container | 
 	container := RectangleMorph new. 
-	"container frame: FractionalFrame fullyAttached. "
+	container 
+		layoutPolicy: TableLayout new;
+		listDirection: #leftToRight;
+		borderWidth: 0;
+		hResizing: #spaceFill;
+		vResizing: #spaceFill;		
+		wrapCentering: #center;
+		rubberBandCells: false;
+		layoutInset: 2;
+		cellInset: 2;
+		color: Color white;
+		yourself.	
 	aBrowser cell isRow 
 		ifTrue: 
 			[self 
@@ -356,38 +389,59 @@ GLMMorphicRenderer >> renderTableLayoutBrowser: aBrowser [
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [ 
 	 
-	| text toShow | 
+	| textMorph toShow textModel | 
 	toShow := aTextPresentation formatedDisplayValue. 
-	text := TextEdit new. 
-	text frame: FractionalFrame fullyAttached. 
-	text model value: (UIText fromString: toShow).	"(toShow ifNil: [''])." 
-	text horizontalScrollbar: true. 
-	text verticalScrollbar: true. 
-	self installActionsOnUI: text fromPresentation: aTextPresentation. 
-	text 
+	textModel := GLMTextModel new text: toShow.
+	textModel onTextChanged: [:text | aTextPresentation text: text].
+	
+	textMorph := (PluggableTextMorph 
+		on: textModel
+		text: #text
+		accept: #accept:notifying:
+		readSelection: #selection
+		menu: #menu:shifted:)
+			font: Preferences standardCodeFont;
+			hideScrollBarsIndefinitely;
+			acceptOnCR: true;
+			height: Preferences standardCodeFont height * 1.2;
+			borderWidth: 0;
+			vResizing: #spaceFill;
+			hResizing: #spaceFill;
+			borderWidth: 1;
+			cellPositioning: #topLeft;
+			yourself.
+	self installActionsOnUI: textMorph fromPresentation: aTextPresentation.
+"	text 
 		when: ValueChanged 
-		do: [:ann | aTextPresentation text: ann newValue]. 
-	^text
+		do: [:ann | aTextPresentation text: ann newValue]. "
+	^textMorph
 ]
 
 { #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [ 
-	 
-	| list toShow | 
+GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [	 
+	| toShow treeMorph treeModel | 
+	
 	toShow := aTreePresentation displayValue. 
-	list := TreeView new. 
-	list frame: FractionalFrame fullyAttached. 
-	list 
-		tree: 
-			(Tree 
-				on: toShow 
-				childrenBlock: aTreePresentation children) expandRoot. 
-	list displaySelector: aTreePresentation format. 
-	list 
-		when: SelectionChanged 
-		do: [:ann | aTreePresentation selection: ann pane selection]. 
-	list verticalScrollbar: true. 
-	^list
+	treeModel := GLMTreeModel new roots: toShow; yourself.
+	treeModel childrenBlock: aTreePresentation children.
+	
+	treeMorph := PluggableTreeMorph new
+		model: treeModel;
+		getLabelSelector: #getLabelOf:;		
+		getSelectedPathSelector: #getSelectionPath;				
+		getChildrenSelector: #getChildrenOf:;
+		hasChildrenSelector: #hasChildren:;
+		setSelectedSelector: #selection:;					
+		getRootsSelector: #roots;
+		vResizing: #spaceFill;
+		hResizing: #spaceFill;		
+		borderWidth: 0;
+		autoDeselect: false;
+		yourself.
+
+	treeModel onSelection: [:selection | aTreePresentation selection: selection]. 
+	treeMorph vShowScrollBar.	
+	^treeMorph
 ]
 
 { #category : #'rendering presentations' }
