@@ -11,7 +11,6 @@ SGLPackageBrowser class >> initialize [
 
 { #category : #accessing }
 SGLPackageBrowser >> browser [
-
 	| browser |
 
 	" browser "

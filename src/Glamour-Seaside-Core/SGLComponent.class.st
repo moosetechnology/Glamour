@@ -43,29 +43,28 @@ SGLComponent >> presentation [
 { #category : #rendering }
 SGLComponent >> renderContentOn: html [
 	(SGLRenderer in: self on: html)
-		render: self presentation.
-	html anchor
-		callback: [ ];
-		with: 'Refresh'
+		render: self presentation
 ]
 
 { #category : #accessing }
 SGLComponent >> style [
 	"Theme: http://kuler.adobe.com/#themeID/375397"
 
-	^ 'body {
+	^ 'body, tabe, tr, td, input, textarea, select {
 	color: #f6feff;
 	background-color: #201e18;
 	font-family: "Helvetica Neue", Helvetica, Arial;
-	font-size: 14px;
+	font-size: 16px;
 }
 a {
 	color: #f5b741;
 	text-decoration: none;
 }
 
-table.table-layout { width: 100%; border: 0; margin: 0; padding: 0; border-spacing: 0 0; border-collapse: collapse; }
-table.table-layout td { vertical-align: top; border: 0; margin: 0; padding: 2px; }
+body { position: relative; }
+table.table-layout { width: 100%; border: 0; margin: 0; padding: 0; border-spacing: 0; border-collapse: collapse; }
+table.table-layout td,
+table.table-layout th { vertical-align: top; text-align: left; border: 0; margin: 0; padding: 2px; position: relative; }
 
 select {
 	width: 100%;
@@ -77,7 +76,7 @@ select {
 }
 textarea {
 	width: 100%;
-	height: 200px;
+	height: 100%;
 	outline: none;
 	color: inherit;
 	border: #444039 solid 1px;

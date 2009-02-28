@@ -103,38 +103,40 @@ SGLRenderer >> renderTableLayoutBrowser: aBrowser [
 
 { #category : #widgets }
 SGLRenderer >> renderTableLayoutBrowserColumn: aCell [
-	| pane |
+	| count pane tag |
+	count := aCell children
+		inject: 0
+		into: [ :result :each | result + each span ].
 	html table class: 'table-layout'; class: 'table-layout-column'; with: [
 		aCell children do: [ :each |
 			html tableRow: [
+				tag := html tableData.
+				tag style: 'height: ' , (300 * each span // count) asString , 'px'.
 				each hasId 
 					ifTrue: [
 						pane := aCell browser paneNamed: each id.
-						html tableData
-							colSpan: each span;
-							id: (self uuidFor: pane); 
-							with: [ self render: pane ] ]
+						tag id: (self uuidFor: pane); with: [ self render: pane ] ]
 					ifFalse: [ 
-						html tableData: [ 
-							self renderTableLayoutBrowserRow: each ] ] ] ] ]
+						tag with: [ self renderTableLayoutBrowserRow: each ] ] ] ] ]
 ]
 
 { #category : #widgets }
 SGLRenderer >> renderTableLayoutBrowserRow: aCell [
-	| pane |
+	| count pane tag |
+	count := aCell children
+		inject: 0
+		into: [ :result :each | result + each span ].
 	html table class: 'table-layout'; class: 'table-layout-row'; with: [
 		html tableRow: [
 			aCell children do: [ :each |
+				tag := html tableData.
+				tag style: 'width: ' , (100 * each span // count) asString , '%'.
 				each hasId
 					ifTrue: [
 						pane := aCell browser paneNamed: each id.
-						html tableData
-							rowSpan: each span;
-							id: (self uuidFor: pane); 
-							with: [ self render: pane ] ]
+						tag id: (self uuidFor: pane); with: [ self render: pane ] ]
 					ifFalse: [ 
-						html tableData: [
-							self renderTableLayoutBrowserColumn: each ] ] ] ] ]
+						tag with: [ self renderTableLayoutBrowserColumn: each ] ] ] ] ]
 ]
 
 { #category : #presentation }
@@ -176,7 +178,7 @@ SGLRenderer >> renderTreePresentation: aPresentation select: aSelectTag node: an
 			anInteger timesRepeat: [ html html: '&nbsp;' ].
 			html text: (aPresentation format value: anObject) ].
 	(aPresentation children value: anObject)
-		do: [ :each | self renderTreePresentation: aPresentation select: aSelectTag node: each level: anInteger + 5 ]
+		do: [ :each | self renderTreePresentation: aPresentation select: aSelectTag node: each level: anInteger + 4 ]
 ]
 
 { #category : #presentation }
