@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMTreeModel,
-	#superclass : #Object,
+	#superclass : #GLMMorphicModel,
 	#instVars : [
 		'roots',
 		'selection',

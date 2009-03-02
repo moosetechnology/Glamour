@@ -31,19 +31,11 @@ GLMMorphicRenderer >> fixedFinderRenderHelper [
 ]
 
 { #category : #private }
-GLMMorphicRenderer >> installActionsOnUI: text fromPresentation: aTextPresentation [ 
-	 
-	"aTextPresentation actions 
+GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPresentation [	 
+	aPresentation actions 
 		do: 
-			[:each |  
-			text keymap 
-				map: (Keystroke ctrl: each shortcut) 
-				to: (#action , each shortcut asSymbol) asSymbol. 
-			text 
-				addAction: 
-					(Action 
-						id: (#action , each shortcut asSymbol) asSymbol 
-						action: [each actOn: aTextPresentation pane])]"
+			[:action |  
+			aMorphicModel when: GLMKeyStroke do: [:ann | ann shortcut = action shortcut ifTrue: [action actOn: aPresentation]]] 
 ]
 
 { #category : #private }
@@ -218,9 +210,10 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 		hResizing: #spaceFill;
 		getListElementSelector: #listAt:;
 		getListSizeSelector: #listSize;
+		keystrokeActionSelector: #keystroke:from:;
 		borderWidth: 1;
 		autoDeselect: false.
-	self installActionsOnUI: list fromPresentation: aListPresentation.
+	self installActionsOnUI: listModel fromPresentation: aListPresentation.
 	listModel onSelection: [:selection | aListPresentation selection: selection]. 
 	aListPresentation 
 		whenContextChanged: 
@@ -408,6 +401,7 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 		menu: #menu:shifted:)
 			font: Preferences standardCodeFont;
 			hideScrollBarsIndefinitely;
+			onKeyStrokeSend: #keystroke:from: to: textModel;
 			acceptOnCR: true;
 			height: Preferences standardCodeFont height * 1.2;
 			borderWidth: 0;
@@ -416,7 +410,7 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 			borderWidth: 1;
 			cellPositioning: #topLeft;
 			yourself.
-	self installActionsOnUI: textMorph fromPresentation: aTextPresentation.
+	self installActionsOnUI: textModel fromPresentation: aTextPresentation.
 "	text 
 		when: ValueChanged 
 		do: [:ann | aTextPresentation text: ann newValue]. "
@@ -439,12 +433,14 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 		hasChildrenSelector: #hasChildren:;
 		setSelectedSelector: #selection:;					
 		getRootsSelector: #roots;
+		keystrokeActionSelector: #keystroke:from:;		
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;		
 		borderWidth: 1;
 		autoDeselect: false;
 		yourself.
-
+	self installActionsOnUI: treeModel fromPresentation: aTreePresentation.
+	
 	treeModel onSelection: [:selection | aTreePresentation selection: selection]. 
 	treeMorph vShowScrollBar.	
 	^treeMorph

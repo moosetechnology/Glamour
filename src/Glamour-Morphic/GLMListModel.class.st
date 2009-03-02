@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMListModel,
-	#superclass : #Object,
+	#superclass : #GLMMorphicModel,
 	#instVars : [
 		'items',
 		'selection',
@@ -15,8 +15,9 @@ GLMListModel >> displaySelector: aSymbol [
 	displaySelector := aSymbol
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 GLMListModel >> initialize [
+	super initialize.
 	selection := 0
 ]
 
@@ -30,12 +31,12 @@ GLMListModel >> items: aCollection [
 	items := aCollection
 ]
 
-{ #category : #accessing }
+{ #category : #callbacks }
 GLMListModel >> listAt: anIndex [
 	^(self items at: anIndex) "perform: displaySelector"
 ]
 
-{ #category : #accessing }
+{ #category : #callbacks }
 GLMListModel >> listSize [
 	^self items size
 ]
@@ -45,12 +46,12 @@ GLMListModel >> onSelection: aBlock [
 	onSelection := aBlock
 ]
 
-{ #category : #accessing }
+{ #category : #callbacks }
 GLMListModel >> selection [ 
 	^selection
 ]
 
-{ #category : #accessing }
+{ #category : #callbacks }
 GLMListModel >> selection: anIndex. [
 	selection := anIndex.
 	onSelection ifNotNil: [onSelection value: (self listAt: anIndex)].

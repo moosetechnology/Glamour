@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMTextModel,
-	#superclass : #Object,
+	#superclass : #GLMMorphicModel,
 	#instVars : [
 		'text',
 		'onTextChanged'
@@ -14,6 +14,11 @@ GLMTextModel >> accept: aText notifying: anObject [
 	"onTextChanged ifNotNil: [onTextChanged value: aText]."
 	text := aText.
 	self changed: #text
+]
+
+{ #category : #callbacks }
+GLMTextModel >> keystroke: anEvent from: aMorph [
+	anEvent anyModifierKeyPressed ifTrue: [super keystroke: anEvent keyCharacter from: aMorph]
 ]
 
 { #category : #accessing }
