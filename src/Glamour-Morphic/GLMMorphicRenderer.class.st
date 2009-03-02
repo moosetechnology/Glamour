@@ -50,7 +50,7 @@ GLMMorphicRenderer >> installActionsOnUI: text fromPresentation: aTextPresentati
 GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aUIContainer inBrowser: aBrowser [ 
 	 
 	| panes pane glamourPane totalSpans currentSpanPosition | 
-	totalSpans := aCell children sum: #span. 
+	totalSpans := aCell children inject: 0 into: [ :sum :each | sum + each span ]. 
 	currentSpanPosition := 0. 
 	panes := aCell children 
 		collectWithIndex: 
@@ -62,9 +62,10 @@ GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aUIContainer
 							aBrowser] 
 				ifTrue: 
 					[glamourPane := aBrowser paneNamed: each id. 
-					pane := glamourPane renderGlamorouslyOn: self	"glamourPane onPortValueChange: [:announcement | aPane portValueAt: announcement portName put: announcement portValue]."]. 
-			"pane cellPositioning: #topLeft.	"	
-			aUIContainer addMorph: pane. 
+					pane := glamourPane renderGlamorouslyOn: self.
+					"glamourPane onPortValueChange: [:announcement | aPane portValueAt: announcement portName put: announcement portValue]."
+				]. 
+			aUIContainer addMorphBack: pane. 
 			"pane 
 				frame: 
 					(FractionalFrame 
@@ -74,6 +75,7 @@ GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aUIContainer
 						bottom: (currentSpanPosition + each span) / totalSpans). "
 			currentSpanPosition := currentSpanPosition + each span. 
 			pane]. 
+		
 	"1 
 		to: panes size - 1 
 		do: 
@@ -206,7 +208,10 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 		ifTrue: [toShow] 
 		ifFalse: [Array with: toShow]. 
 		
-	listModel := GLMListModel new items: ((items ifNil: [OrderedCollection new]) collect: [:e | e perform: aListPresentation format]); yourself.	
+	listModel := GLMListModel new 
+				items: (items ifNil: [OrderedCollection new]); 
+				displaySelector: aListPresentation format;
+				yourself.	
 	list := PluggableListMorph on: listModel list: #items selected: #selection changeSelected: #selection:.
 	list	
 		vResizing: #spaceFill;
@@ -227,18 +232,16 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [ 
 	 
-	| canvas view form | 
-	view := aMondrianPresentation renderView. 
-	canvas := MondrianCanvas new. 
-	canvas frame: FractionalFrame fullyAttached. 
-	canvas renderer: view. 
-	canvas 
+	| canvas view | 
+	view := MOViewRenderer new.
+	aMondrianPresentation renderOn: view. 
+	canvas := MOCanvas new. 
+	canvas root: view root. 
+"	canvas 
 		when: SelectionChanged 
 		do: [:ann | aMondrianPresentation selection: canvas selection]. 
-	form := MooseForm new. 
-	form addComponent: canvas. 
-	form frame: FractionalFrame fullyAttached. 
-	aMondrianPresentation 
+"
+"	aMondrianPresentation 
 		whenContextChanged: 
 			[:ann |  
 			ann property = #selection 
@@ -246,7 +249,7 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 					[canvas artist drawing deepNodeFigures do: [:each | each deselect]. 
 					(canvas artist drawing deepFindNodeWithEntity: ann value) 
 						ifNotNil: [:figure | figure fixedSelect]]]. 
-	^form
+"	^canvas
 ]
 
 { #category : #rendering }
@@ -342,7 +345,7 @@ GLMMorphicRenderer >> renderPresentationsOf: aPane [
 	tabs 
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
-		cornerStyle: #square;
+		cornerStyle: #rounded;
 		borderWidth: 0;
 		cellPositioning: #topLeft.
 	presentations 
@@ -350,7 +353,7 @@ GLMMorphicRenderer >> renderPresentationsOf: aPane [
 			[:each |  
 			tabs 
 				addPage: each value 
-				label: each key]. 
+				label: ((LabelMorph contents: each key) hResizing: #spaceFill)]. 
 	tabs selectedPageIndex: 1. 
 	^tabs
 ]
@@ -362,7 +365,6 @@ GLMMorphicRenderer >> renderTableLayoutBrowser: aBrowser [
 	container := RectangleMorph new. 
 	container 
 		layoutPolicy: TableLayout new;
-		listDirection: #leftToRight;
 		borderWidth: 0;
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;		
@@ -374,13 +376,15 @@ GLMMorphicRenderer >> renderTableLayoutBrowser: aBrowser [
 		yourself.	
 	aBrowser cell isRow 
 		ifTrue: 
-			[self 
+			[container listDirection: #leftToRight.
+			self 
 				renderCustomRow: aBrowser cell 
 				ofPane: aBrowser pane 
 				inUI: container 
 				inBrowser: aBrowser] 
 		ifFalse: 
-			[self
+			[container listDirection: #topToBottom. 
+			self
 				renderCustomColumn: aBrowser cell 
 				ofPane: aBrowser pane 
 				inUI: container 

@@ -4,10 +4,16 @@ Class {
 	#instVars : [
 		'items',
 		'selection',
-		'onSelection'
+		'onSelection',
+		'displaySelector'
 	],
 	#category : #'Glamour-Morphic'
 }
+
+{ #category : #accessing }
+GLMListModel >> displaySelector: aSymbol [
+	displaySelector := aSymbol
+]
 
 { #category : #accessing }
 GLMListModel >> initialize [
@@ -26,7 +32,7 @@ GLMListModel >> items: aCollection [
 
 { #category : #accessing }
 GLMListModel >> listAt: anIndex [
-	^self items at: anIndex
+	^(self items at: anIndex) "perform: displaySelector"
 ]
 
 { #category : #accessing }
