@@ -1,5 +1,5 @@
 Class {
-	#name : #GLMKeyStroke,
+	#name : #GLMMenuItemSelected,
 	#superclass : #GLMActionAnnouncement,
 	#category : #'Glamour-Morphic'
 }

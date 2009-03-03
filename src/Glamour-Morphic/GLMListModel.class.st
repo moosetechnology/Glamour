@@ -5,20 +5,32 @@ Class {
 		'items',
 		'selection',
 		'onSelection',
-		'displaySelector'
+		'displaySelector',
+		'menuActions'
 	],
 	#category : #'Glamour-Morphic'
 }
+
+{ #category : #accessing }
+GLMListModel >> addMenuAction: anAction [
+	menuActions add: anAction
+]
 
 { #category : #accessing }
 GLMListModel >> displaySelector: aSymbol [
 	displaySelector := aSymbol
 ]
 
+{ #category : #callbacks }
+GLMListModel >> executeMenuAction: anAction [
+	self announce: (GLMMenuItemSelected action: anAction)
+]
+
 { #category : #initialization }
 GLMListModel >> initialize [
 	super initialize.
-	selection := 0
+	selection := 0.
+	menuActions := OrderedCollection new.
 ]
 
 { #category : #accessing }
@@ -39,6 +51,13 @@ GLMListModel >> listAt: anIndex [
 { #category : #callbacks }
 GLMListModel >> listSize [
 	^self items size
+]
+
+{ #category : #callbacks }
+GLMListModel >> menu: aMenuMorph [
+	menuActions do: [:action |
+		aMenuMorph add: action title target: self selector: #executeMenuAction: argument: action].
+	^aMenuMorph
 ]
 
 { #category : #updating }

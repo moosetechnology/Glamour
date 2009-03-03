@@ -35,7 +35,13 @@ GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPrese
 	aPresentation actions 
 		do: 
 			[:action |  
-			aMorphicModel when: GLMKeyStroke do: [:ann | ann shortcut = action shortcut ifTrue: [action actOn: aPresentation]]] 
+			"menu actions"
+			aMorphicModel when: GLMMenuItemSelected do: [:ann | ann action actOn: aPresentation].
+			action isMenu ifTrue: [aMorphicModel addMenuAction: action].
+			
+			"keystroke actions"
+			aMorphicModel when: GLMKeyStroke do: [:ann | ann action actOn: aPresentation].			
+			action isShortcut ifTrue: [aMorphicModel addKeystrokeAction: action]]
 ]
 
 { #category : #private }
@@ -204,13 +210,18 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 				items: (items ifNil: [OrderedCollection new]); 
 				displaySelector: aListPresentation format;
 				yourself.	
-	list := PluggableListMorph on: listModel list: #items selected: #selection changeSelected: #selection:.
+	list := PluggableListMorph 
+			on: listModel 
+			list: #items 
+			selected: #selection 
+			changeSelected: #selection:
+			menu: #menu:
+			keystroke: #keystroke:from:.
 	list	
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
 		getListElementSelector: #listAt:;
 		getListSizeSelector: #listSize;
-		keystrokeActionSelector: #keystroke:from:;
 		borderWidth: 1;
 		autoDeselect: false.
 	self installActionsOnUI: listModel fromPresentation: aListPresentation.
@@ -343,10 +354,11 @@ GLMMorphicRenderer >> renderPresentationsOf: aPane [
 		cellPositioning: #topLeft.
 	presentations 
 		do: 
-			[:each |  
+			[:each |  | label |
+			label := each key ifNil: ['unnamed'].
 			tabs 
 				addPage: each value 
-				label: ((LabelMorph contents: each key) hResizing: #spaceFill)]. 
+				label: ((LabelMorph contents: label) hResizing: #spaceFill)]. 
 	tabs selectedPageIndex: 1. 
 	^tabs
 ]
