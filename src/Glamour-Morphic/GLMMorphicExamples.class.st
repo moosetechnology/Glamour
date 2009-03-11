@@ -5,9 +5,26 @@ Class {
 }
 
 { #category : #examples }
+GLMMorphicExamples >> simpleFinder [
+
+	"
+		self new simpleFinder openOn: #(1 2 3 4 5).
+	"
+
+	| finder |
+	finder := GLMFinder new.
+	finder list
+			when: [:each | each isCollection].
+	finder list
+			display: [:each | each to: each*10];
+			when: [:each | each isCollection not].
+	^ finder 
+]
+
+{ #category : #examples }
 GLMMorphicExamples >> stCodeBrowser [	
 	"
-		self new stCodeBrowser openOn: (Refactory.Browser.PundleItem item: Store.Registry)
+		self new stCodeBrowser openOn: Smalltalk organization categories
 	"
 
 	| browser |
@@ -23,7 +40,7 @@ GLMMorphicExamples >> stCodeBrowser [
 		showOn: #sourceCode;
 		from: #navigation->#selectedClass;
 		from: #navigation->#selectedMethod;
-		from: #navigation->#selectedPundle;
+		from: #navigation->#selectedClassCategory;
 		using: [
 			browser text
 				title: 'Method source';
@@ -38,17 +55,17 @@ GLMMorphicExamples >> stCodeBrowser [
 				title: 'Class comment';
 				display: [ :class | class comment];
 				when: [:class | class notNil].
-			"browser mondrian
-				title: 'Pundle System Complexity';
-				painting: [ :view :class :method :pundle | 
-					view nodes: pundle item allDefinedClasses.
+			browser mondrian
+				title: 'System Complexity';
+				painting: [ :view :class :method :cat | 
+					view nodes: ((Smalltalk organization listAtCategoryNamed: cat) collect: [:className | Smalltalk classNamed: className]).
 					view edgesFrom: [:x | x superclass].
 					view treeLayout. ];
-				when: [:class :method :pundle | (pundle notNil and: [pundle item isPackage]) and: [class isNil]]."
+				when: [:class :method :cat | cat notNil].
 		].
 
 	browser push: #navigation->#selectedClass as: #selectedClass.
-	browser push: #navigation->#selectedPundle as: #selectedPundle.
+	browser push: #navigation->#selectedClassCategory as: #selectedClassCategory.
 
 	^browser
 ]
@@ -88,7 +105,7 @@ GLMMorphicExamples >> stCodeNavigator [
 				display: [ :class :category | class selectors asSortedCollection ].
 	].
 
-	browser sendTo: #outer -> #selectedPundle from: #classCats.
+	browser sendTo: #outer -> #selectedClassCategory from: #classCats.
 	browser sendTo: #outer -> #selectedClass from: #classes.
 	browser sendTo: #outer -> #selectedMethod from: #methods.
 

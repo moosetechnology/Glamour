@@ -37,11 +37,11 @@ GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPrese
 			[:action |  
 			"menu actions"
 			aMorphicModel when: GLMMenuItemSelected do: [:ann | ann action actOn: aPresentation].
-			action isMenu ifTrue: [aMorphicModel addMenuAction: action].
+			action hasTitle ifTrue: [aMorphicModel addMenuAction: action].
 			
 			"keystroke actions"
 			aMorphicModel when: GLMKeyStroke do: [:ann | ann action actOn: aPresentation].			
-			action isShortcut ifTrue: [aMorphicModel addKeystrokeAction: action]]
+			action hasShortcut ifTrue: [aMorphicModel addKeystrokeAction: action]]
 ]
 
 { #category : #private }
@@ -144,26 +144,25 @@ GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aUIContainer in
 GLMMorphicRenderer >> renderFinder: aBrowser [ 
 	 
 	| container | 
-	container := Form new. 
-	container 
-		frame: (FractionalFrame fractionLeft: 0 right: 1 top: 0 bottom: 1). 
-	container horizontalScrollbar: true. 
+	container := RectangleMorph new. 
+	container layoutPolicy: TableLayout new;
+				listDirection: #leftToRight.
+
+"	container horizontalScrollbar: true. "
 	aBrowser 
-		when: PaneRemoved 
-		do: [:ann | container removeComponent: container components last]. 
+		when: GLMPaneRemoved 
+		do: [:ann | container removeMorph: container submorphs last]. 
 	aBrowser 
-		when: PaneAdded 
+		when: GLMPaneAdded 
 		do: 
 			[:ann |  
 			self 
 				renderPane: ann pane 
 				inFinder: container. 
-			container 
-				contentsExtent: 
-					(container components last frame windowRelativeBounds right + 10) @ 400. 
-			container 
+"			container 
 				scrollHorizontally: 
-					container components last frame windowRelativeBounds right + 10]. 
+					container components last frame windowRelativeBounds right + 10. "
+					].
 	aBrowser panes do: [:each | self renderPane: each inFinder: container]. 
 	^container
 ]
@@ -310,25 +309,25 @@ GLMMorphicRenderer >> renderPane: aPane inFinder: container [
 	 
 	| uiPane | 
 	uiPane := aPane renderGlamorouslyOn: self. 
-	container components isEmpty 
+	container submorphs isEmpty 
 		ifFalse: 
-			[uiPane 
+			["uiPane 
 				frame: 
-					(InsetExtentFrame 
+					(LayoutFrame 
 						inset: 
 							(container components last frame windowRelativeBounds right + 4) @ 0 
-						extent: 390 @ 500)	"				((FractionalFrame fractionLeft: 0 right: 0 top: 0 bottom: 1)  
+						extent: 390 @ 500)"	"				((FractionalFrame fractionLeft: 0 right: 0 top: 0 bottom: 1)  
 					leftOffset: (container components last frame rightOffset + 4); 
 					rightOffset: (container components last frame rightOffset + 4) + 500) 
 "] 
 		ifTrue: 
-			[uiPane 
+			["uiPane 
 				frame: 
 					(InsetExtentFrame 
 						inset: 4 @ 0 
-						extent: 390 @ 500)	"					((FractionalFrame fractionLeft: 0 right: 0 top: 0 bottom: 1) rightOffset: 500) 
+						extent: 390 @ 500)	""					((FractionalFrame fractionLeft: 0 right: 0 top: 0 bottom: 1) rightOffset: 500) 
 "]. 
-	container addComponent: uiPane
+	container addMorph: uiPane
 ]
 
 { #category : #private }
