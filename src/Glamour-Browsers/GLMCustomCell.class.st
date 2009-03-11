@@ -37,7 +37,9 @@ GLMCustomCell >> children: anObject [
 { #category : #accessing }
 GLMCustomCell >> childrenCount [ 
 	 
-	^self children sum: [:each | each span]
+	^self children 
+		inject: 0 
+		into: [:sum :each | sum + each span]
 ]
 
 { #category : #testing }
