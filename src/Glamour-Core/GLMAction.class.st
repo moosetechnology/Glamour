@@ -53,6 +53,18 @@ GLMAction >> category: aString [
 	category := aString
 ]
 
+{ #category : #testing }
+GLMAction >> hasShortcut [ 
+	 
+	^self shortcut notNil
+]
+
+{ #category : #testing }
+GLMAction >> hasTitle [ 
+	 
+	^self title notNil
+]
+
 { #category : #accessing }
 GLMAction >> position [ 
 	"The relative position within a context menu." 
