@@ -1,6 +1,6 @@
 Class {
 	#name : #SGLRenderer,
-	#superclass : #GLMRenderer,
+	#superclass : #Object,
 	#instVars : [
 		'component',
 		'html',
@@ -16,11 +16,6 @@ SGLRenderer class >> in: aComponent on: html [
 	^ self basicNew initializeIn: aComponent on: html
 ]
 
-{ #category : #opening }
-SGLRenderer >> doOpen: anObject [
-	^ anObject
-]
-
 { #category : #initialization }
 SGLRenderer >> initialize [
 	super initialize.
@@ -34,6 +29,11 @@ SGLRenderer >> initializeIn: aComponent on: aRenderer [
 	self initialize.
 	component := aComponent.
 	html := aRenderer
+]
+
+{ #category : #dispatching }
+SGLRenderer >> render: aRenderable [
+	aRenderable renderGlamorouslyOn: self
 ]
 
 { #category : #presentation }
