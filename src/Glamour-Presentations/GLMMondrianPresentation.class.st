@@ -26,7 +26,7 @@ GLMMondrianPresentation >> renderGlamorouslyOn: aRenderer [
 ]
 
 { #category : #accessing }
-GLMMondrianPresentation >> renderOn: aView [
+GLMMondrianPresentation >> renderOn: aView [ 
 	 
 	self painting 
 		glamourValue: 
@@ -35,7 +35,7 @@ GLMMondrianPresentation >> renderOn: aView [
 				ifFalse: 
 					[GLMMultiValue 
 						with: aView 
-						with: self entity]). 
+						with: self entity])
 ]
 
 { #category : #accessing }

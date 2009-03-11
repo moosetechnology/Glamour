@@ -3,7 +3,8 @@ Class {
 	#superclass : #GLMFormatedPresentation,
 	#instVars : [
 		'multipleSelection',
-		'highlightPort'
+		'highlightPort',
+		'itemActions'
 	],
 	#category : #'Glamour-Presentations'
 }
