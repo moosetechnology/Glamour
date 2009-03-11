@@ -111,7 +111,7 @@ SGLRenderer >> renderTableLayoutBrowserColumn: aCell [
 		aCell children do: [ :each |
 			html tableRow: [
 				tag := html tableData.
-				tag style: 'height: ' , (300 * each span // count) asString , 'px'.
+				tag style: 'height: ' , (100 * each span // count) asString , '%'.
 				each hasId 
 					ifTrue: [
 						pane := aCell browser paneNamed: each id.
@@ -183,12 +183,13 @@ SGLRenderer >> renderTreePresentation: aPresentation select: aSelectTag node: an
 
 { #category : #presentation }
 SGLRenderer >> renderWorkspacePresentation: aWorkspacePresentation [
-	html text: 'workspace'
+	self renderTextPresentation: aWorkspacePresentation
 ]
 
 { #category : #private }
 SGLRenderer >> updateScript: aScript [
 	aScript addAll: scripts values.
+	aScript add: (JSStream on: 'glamourResize()').
 	scripts := WASmallDictionary new
 ]
 

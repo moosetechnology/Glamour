@@ -47,6 +47,18 @@ SGLComponent >> renderContentOn: html [
 ]
 
 { #category : #accessing }
+SGLComponent >> script [
+	^ 'var glamourResize = function() {
+	$("body > table.table-layout").each(function() {
+		$(this).height($(window).height() - 20);
+	});
+};
+
+$(glamourResize);
+$(window).resize(glamourResize);'
+]
+
+{ #category : #accessing }
 SGLComponent >> style [
 	"Theme: http://kuler.adobe.com/#themeID/375397"
 
@@ -61,14 +73,33 @@ a {
 	text-decoration: none;
 }
 
-body { position: relative; }
-table.table-layout { width: 100%; border: 0; margin: 0; padding: 0; border-spacing: 0; border-collapse: collapse; }
+table.table-layout { 
+	border: 0;
+	margin: 0; 
+	padding: 0;
+	width: 100%;
+	height: 100%; 
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+table.table-layout tr {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
 table.table-layout td,
-table.table-layout th { vertical-align: top; text-align: left; border: 0; margin: 0; padding: 2px; position: relative; }
+table.table-layout th { 
+	border: 0; 
+	margin: 0; 
+	padding: 0;
+	text-align: left; 
+	vertical-align: top; 
+}
 
 select {
 	width: 100%;
 	height: 100%;
+	margin: -1px;
 	outline: none;
 	color: inherit;
 	border: #444039 solid 1px;
@@ -77,6 +108,7 @@ select {
 textarea {
 	width: 100%;
 	height: 100%;
+	margin: -1px;
 	outline: none;
 	color: inherit;
 	border: #444039 solid 1px;
