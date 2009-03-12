@@ -55,8 +55,29 @@ SGLRenderer >> renderListPresentation: aPresentation [
 ]
 
 { #category : #presentation }
-SGLRenderer >> renderMondrianPresentation: aMondrianPresentation [
-	html text: 'mondrian'
+SGLRenderer >> renderMondrianPresentation: aPresentation [	 
+	| canvas view values |
+	view := MOViewRenderer new.
+	aPresentation renderOn: view. 
+	canvas := MOCanvas new. 
+	canvas root: view root.
+	canvas root announcer
+		on: MOFigureSelection
+		do: [ :ann | aPresentation selection: ann model ].
+	values := WAValueHolder new.
+	html image
+		style: 'position: relative';
+		form: canvas imageForm;
+		onClick: (html jQuery ajax 
+			callback: [ :value | values contents: value ]
+				value: (JSStream on: 'event.layerX+" "+event.layerY');
+			script: [ :script |
+				values contents isEmptyOrNil ifFalse: [
+					canvas mouseDown: (MouseEvent 
+						type: #mouseUp 
+						readFrom: ('0 ' , values contents , ' 0')
+							readStream) ].
+				self updateScript: script ])
 ]
 
 { #category : #widgets }
