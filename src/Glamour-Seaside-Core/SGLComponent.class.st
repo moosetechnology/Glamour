@@ -12,8 +12,12 @@ SGLComponent class >> registerAsApplication: aString [
 	| application |
 	application := WAAdmin register: self asApplicationAt: aString.
 	application configuration
-		addParent: WADevelopmentConfiguration instance.
-	application addLibrary: JQDeploymentLibrary.
+		addParent: WADevelopmentConfiguration instance;
+		at: #rootDecorationClasses put: #().
+	application 
+		addLibrary: JQDeploymentLibrary;
+		addLibrary: JQUiDeploymentLibrary;
+		addLibrary: JQUiSmoothnessTheme.	
 	^ application
 ]
 
@@ -60,64 +64,57 @@ $(window).resize(glamourResize);'
 
 { #category : #accessing }
 SGLComponent >> style [
-	"Theme: http://kuler.adobe.com/#themeID/375397"
-
-	^ 'body, tabe, tr, td, input, textarea, select {
-	color: #f6feff;
-	background-color: #201e18;
-	font-family: "Helvetica Neue", Helvetica, Arial;
-	font-size: 16px;
+	^ '/* html */
+html, body {
+	overflow: hidden;
 }
-a {
-	color: #f5b741;
-	text-decoration: none;
+body, table, td, th, input, select, textarea, button {
+	font-family: Verdana, Arial, sans-serif;
+}
+input, select, textarea {
+	outline: 0;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	border: none;
+	outline: none;
+	display: block;
 }
 
-table.table-layout { 
+/* layout */
+table.table-layout,
+table.table-layout tr,
+table.table-layout td,
+table.table-layout th {
 	border: 0;
 	margin: 0; 
 	padding: 0;
+}
+table.table-layout {
 	width: 100%;
-	height: 100%; 
+	height: 100%;
 	border-spacing: 0;
 	border-collapse: collapse;
 }
-table.table-layout tr {
-	border: 0;
-	margin: 0;
-	padding: 0;
-}
 table.table-layout td,
-table.table-layout th { 
-	border: 0; 
-	margin: 0; 
-	padding: 0;
-	text-align: left; 
+table.table-layout th {
+	text-align: left;
+	position: relative;
 	vertical-align: top; 
 }
 
-select {
-	width: 100%;
+/* jquery ui */
+.ui-widget,
+.ui-widget-content {
 	height: 100%;
-	margin: -1px;
-	outline: none;
-	color: inherit;
-	border: #444039 solid 1px;
-	background-color: inherit;
+	position: relative;
 }
-textarea {
-	width: 100%;
-	height: 100%;
-	margin: -1px;
-	outline: none;
-	color: inherit;
-	border: #444039 solid 1px;
-	background-color: inherit;
+.ui-tabs .ui-tabs-panel {
+	padding: 0;
 }
 
-ul.tabs li.tabs-current {
-	font-weight: bold;
-}
+
 '
 ]
 

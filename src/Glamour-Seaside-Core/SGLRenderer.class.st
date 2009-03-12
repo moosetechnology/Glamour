@@ -93,26 +93,46 @@ SGLRenderer >> renderPane: aPane [
 ]
 
 { #category : #widgets }
+SGLRenderer >> renderPane: aPane tabs: aCollection [
+	html div script: html jQuery this tabs; with: [
+		html unorderedList: [
+			aCollection do: [ :each |
+				html listItem 
+					class: 'ui-state-selected' if: aPane = each;
+					with: [
+						html anchor
+							url: (html jQuery ajax
+								html: [ :renderer | 
+									html := renderer.
+									properties at: aPane put: each.
+									self render: each ];
+								fullUrl);
+							with: each title ] ] ] ]
+]
+
+{ #category : #widgets }
 SGLRenderer >> renderPaneContent: aPane [
 	| panes pane |
 	panes := aPane matchingPresentations.
-	panes isEmpty ifTrue: [ ^ self ].
-	pane := properties at: aPane ifAbsentPut: [ panes first ].
+	panes isEmpty 
+		ifTrue: [ ^ self ].
+	panes size = 1
+		ifTrue: [ ^ self renderPaneSingle: panes first ].
+	pane := properties 
+		at: aPane
+		ifAbsentPut: [ panes first ].
 	(panes includes: pane)
 		ifFalse: [ pane := properties at: aPane put: panes first ].
-	panes size > 1 ifTrue: [
-		html unorderedList class: 'tabs'; with: [
-			panes do: [ :each |
-				html listItem class: 'tabs-current' if: pane = each; with: [ 
-					html anchor
-						url: 'javascript:void(0)';
-						onClick: ((html jQuery id: (self uuidFor: aPane)) load
-							html: [ :r | 
-								html := r. 
-								properties at: aPane put: each.
-								self renderPaneContent: aPane ]);
-						with: each title ] ] ] ].
-	self render: pane
+	self renderPane: pane tabs: panes
+]
+
+{ #category : #widgets }
+SGLRenderer >> renderPaneSingle: aPane [
+	html div
+		class: 'ui-widget';
+		class: 'ui-widget-content';
+		class: 'ui-corner-all';
+		with: [ self render: aPane ]
 ]
 
 { #category : #widgets }
