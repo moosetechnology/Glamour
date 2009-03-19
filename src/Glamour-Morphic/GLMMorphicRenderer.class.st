@@ -144,26 +144,19 @@ GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aUIContainer in
 GLMMorphicRenderer >> renderFinder: aBrowser [ 
 	 
 	| container | 
-	container := RectangleMorph new. 
-	container layoutPolicy: TableLayout new;
-				listDirection: #leftToRight.
-
-"	container horizontalScrollbar: true. "
+	container := (GLMPaneScroller withModel: aBrowser)
+					name: 'scroller';
+					setRenderer: self;
+					vResizing: #spaceFill;
+					hResizing: #spaceFill;
+					yourself.		
 	aBrowser 
 		when: GLMPaneRemoved 
-		do: [:ann | container removeMorph: container submorphs last]. 
+		do: [:ann | container update: #columns]. 
 	aBrowser 
 		when: GLMPaneAdded 
-		do: 
-			[:ann |  
-			self 
-				renderPane: ann pane 
-				inFinder: container. 
-"			container 
-				scrollHorizontally: 
-					container components last frame windowRelativeBounds right + 10. "
-					].
-	aBrowser panes do: [:each | self renderPane: each inFinder: container]. 
+		do: [:ann |  container update: #columns].
+
 	^container
 ]
 
@@ -302,32 +295,6 @@ GLMMorphicRenderer >> renderPane: aPane [
 			container removeAllMorphs. 
 			container addMorph: (self renderPresentationsOf: aPane)]. 
 	^container
-]
-
-{ #category : #'private-finder' }
-GLMMorphicRenderer >> renderPane: aPane inFinder: container [ 
-	 
-	| uiPane | 
-	uiPane := aPane renderGlamorouslyOn: self. 
-	container submorphs isEmpty 
-		ifFalse: 
-			["uiPane 
-				frame: 
-					(LayoutFrame 
-						inset: 
-							(container components last frame windowRelativeBounds right + 4) @ 0 
-						extent: 390 @ 500)"	"				((FractionalFrame fractionLeft: 0 right: 0 top: 0 bottom: 1)  
-					leftOffset: (container components last frame rightOffset + 4); 
-					rightOffset: (container components last frame rightOffset + 4) + 500) 
-"] 
-		ifTrue: 
-			["uiPane 
-				frame: 
-					(InsetExtentFrame 
-						inset: 4 @ 0 
-						extent: 390 @ 500)	""					((FractionalFrame fractionLeft: 0 right: 0 top: 0 bottom: 1) rightOffset: 500) 
-"]. 
-	container addMorph: uiPane
 ]
 
 { #category : #private }

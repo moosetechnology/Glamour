@@ -16,8 +16,15 @@ GLMMorphicExamples >> simpleFinder [
 	finder list
 			when: [:each | each isCollection].
 	finder list
+			title: 'List';
+			display: [:each | each to: each];
+			when: [:each | each isCollection not].
+	finder list
+			title: 'List * 10';
 			display: [:each | each to: each*10];
 			when: [:each | each isCollection not].
+	finder text
+			title: 'Text'.	
 	^ finder 
 ]
 
