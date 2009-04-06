@@ -29,7 +29,7 @@ GLMScrollBar class >> alwaysShowFlatScrollbarForAlternativeLook [
 ]
 
 { #category : #'class initialization' }
-GLMScrollBar class >> initialize [ "ScrollBar initialize"
+GLMScrollBar class >> initialize [ "GLMScrollBar initialize"
 
 	UpArrow := Form
 		extent: 6@3

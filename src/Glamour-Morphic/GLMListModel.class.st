@@ -66,13 +66,19 @@ GLMListModel >> onSelection: aBlock [
 ]
 
 { #category : #callbacks }
+GLMListModel >> selectSilently: anIndex. [
+	selection := anIndex. 
+	self changed: #selection.
+]
+
+{ #category : #callbacks }
 GLMListModel >> selection [ 
 	^selection
 ]
 
 { #category : #callbacks }
 GLMListModel >> selection: anIndex. [
-	selection := anIndex.
+	selection := anIndex. 
 	onSelection ifNotNil: [onSelection value: (self listAt: anIndex)].
 	self changed: #selection.
 ]

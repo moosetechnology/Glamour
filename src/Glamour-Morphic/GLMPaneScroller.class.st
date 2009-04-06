@@ -28,11 +28,23 @@ GLMPaneScroller >> adjustPaneHeight [
 
 { #category : #private }
 GLMPaneScroller >> basicUpdatePanes [
+	| oldPanes |
+	panes ifNotNil: [oldPanes := panes] ifNil: [oldPanes := #()].
 	panes := model 
 		ifNil: [Array new]
-		ifNotNil: [model panes collect: [:ea | ea renderGlamorouslyOn: renderer]].		
+		ifNotNil: [model panes collect: [:ea | ea renderGlamorouslyOn: renderer]].	
 	self clearPanes.
+	
 	panes do: [:ea | self pushPane: ea].
+	
+	oldPanes keysAndValuesDo: [:index :oldPane | | m pageIndex newPane |
+		m := self modelForContainerMorph: oldPane.
+		pageIndex := self pageIndexForContainerMorph: oldPane.
+		newPane := panes at: index ifAbsent: [nil].
+		newPane ifNotNil: [
+			pageIndex ifNotNil: [newPane submorphs first selectedPageIndex: pageIndex].
+			(self modelForContainerMorph: newPane) selectSilently: m selection]].
+	
 	self adoptPaneColor: model defaultBackgroundColor
 
 ]
@@ -168,6 +180,28 @@ GLMPaneScroller >> maxPanes [
 { #category : #accessing }
 GLMPaneScroller >> model: aBrowser [
 	model := aBrowser
+]
+
+{ #category : #private }
+GLMPaneScroller >> modelForContainerMorph: aMorph [
+	"really ugly..."
+	| subMorph |
+	subMorph := aMorph submorphs first.
+	^(subMorph isKindOf: TabGroupMorph) 
+		ifTrue: [subMorph submorphs first submorphs first model] 
+		ifFalse: [subMorph model]
+
+]
+
+{ #category : #private }
+GLMPaneScroller >> pageIndexForContainerMorph: aMorph [
+	"really ugly..."
+	| subMorph |
+	subMorph := aMorph submorphs first.
+	^(subMorph isKindOf: TabGroupMorph) 
+		ifTrue: [subMorph selectedPageIndex] 
+		ifFalse: [nil]
+
 ]
 
 { #category : #layout }

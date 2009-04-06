@@ -218,9 +218,10 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 		autoDeselect: false.
 	self installActionsOnUI: listModel fromPresentation: aListPresentation.
 	listModel onSelection: [:selection | aListPresentation selection: selection]. 
+	"is this needed?
 	aListPresentation 
 		whenContextChanged: 
-			[:ann | ann property = #selection ifTrue: [list selection: ann value]]. 
+			[:ann | ann property = #selection ifTrue: [list selection: ann value]]. "
 	list vShowScrollBar.	
 	^list
 ]
