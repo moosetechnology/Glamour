@@ -8,13 +8,13 @@ Class {
 GLMPresentationTest >> testAnnouncement [ 
 	 
 	| pane presentation announcement | 
-	pane := GLMPane new. 
-	presentation := GLMPresentation new. 
+	pane _ GLMPane new. 
+	presentation _ GLMPresentation new. 
 	pane addPresentation: presentation. 
-	announcement := nil. 
+	announcement _ nil. 
 	presentation 
 		when: GLMContextChanged 
-		do: [:ann | announcement := ann]. 
+		do: [:ann | announcement _ ann]. 
 	(pane port: #entity) value: 42. 
 	self assert: announcement notNil. 
 	self assert: announcement property = #entity. 
@@ -25,8 +25,8 @@ GLMPresentationTest >> testAnnouncement [
 GLMPresentationTest >> testContext [ 
 	 
 	| pane presentation | 
-	pane := GLMPane new. 
-	presentation := GLMPresentation new. 
+	pane _ GLMPane new. 
+	presentation _ GLMPresentation new. 
 	pane addPresentation: presentation. 
 	presentation selection: 42. 
 	self assert: (pane port: #selection) value = 42. 
@@ -38,7 +38,7 @@ GLMPresentationTest >> testContext [
 GLMPresentationTest >> testDisplay [ 
 	 
 	| presentation | 
-	presentation := GLMPresentation new. 
+	presentation _ GLMPresentation new. 
 	presentation entity: #foo. 
 	self assert: presentation displayValue = #foo. 
 	presentation entity: #(#foo #bar). 
@@ -53,7 +53,7 @@ GLMPresentationTest >> testDisplay [
 GLMPresentationTest >> testMatching [ 
 	 
 	| presentation | 
-	presentation := GLMPresentation new. 
+	presentation _ GLMPresentation new. 
 	self assert: presentation usesImplicitNotNil. 
 	(presentation pane port: #entity) value: nil. 
 	self assert: presentation matches not. 
@@ -94,7 +94,22 @@ GLMPresentationTest >> testMatching [
 GLMPresentationTest >> testSetup [ 
 	 
 	| presentation | 
-	presentation := GLMPresentation new. 
+	presentation _ GLMPresentation new. 
 	self assert: presentation pane notNil. 
 	self assert: (presentation pane presentations includes: presentation)
+]
+
+{ #category : #tests }
+GLMPresentationTest >> testTitle [ 
+	 
+	| presentation | 
+	presentation _ GLMPresentation new. 
+	presentation entity: #foo. 
+	self assert: presentation titleValue = 'foo'. 
+	presentation entity: '4'. 
+	presentation title: [:x | x , '2']. 
+	self assert: presentation titleValue = '42'. 
+	presentation entity: (GLMMultiValue withAll: #('4' '3')). 
+	presentation title: [:first :second | first , second]. 
+	self assert: presentation titleValue = '43'
 ]

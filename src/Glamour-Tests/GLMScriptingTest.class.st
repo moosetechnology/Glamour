@@ -5,10 +5,42 @@ Class {
 }
 
 { #category : #tests }
+GLMScriptingTest >> testComplexFinderBrowser [ 
+	 
+	| browser | 
+	browser _ GLMFinder new. 
+	(browser list) 
+		title: 'Presentation1'; 
+		display: [:each | 1 to: each]. 
+	browser 
+		fromPrevious: #selection; 
+		passivelyFromPrevious: #highlight; 
+		using: 
+				[(browser list) 
+						title: 'Presentation2'; 
+						display: [:selection :highlight | 1 to: selection + highlight]]. 
+	browser startOn: 42. 
+	self assert: browser presentations size = 1. 
+	self assert: browser presentations first title = 'Presentation1'. 
+	self assert: browser transmissions size = 1. 
+	self assert: browser transmissions last origins size = 2. 
+	self assert: browser transmissions last presentations size = 1. 
+	self 
+		assert: 
+			browser transmissions last presentations first title = 'Presentation2'. 
+	self assert: (browser panes first port: #entity) value = 42. 
+	(browser panes first port: #highlight) value: 43. 
+	(browser panes first port: #selection) value: 41. 
+	self assert: browser panes size = 2. 
+	self assert: browser panes last presentations last displayValue size = 84. 
+	self assert: browser panes last presentations size = 2
+]
+
+{ #category : #tests }
 GLMScriptingTest >> testConditionalPresentation [ 
 	 
 	| browser | 
-	browser := GLMTableLayoutBrowser new. 
+	browser _ GLMTableLayoutBrowser new. 
 	browser 
 		column: #one; 
 		column: #two. 
@@ -33,12 +65,31 @@ GLMScriptingTest >> testConditionalPresentation [
 ]
 
 { #category : #tests }
+GLMScriptingTest >> testEntityInUpdateAction [ 
+	 
+	| browser inputFromActionBlock | 
+	browser _ GLMTableLayoutBrowser new. 
+	browser column: #one. 
+	browser 
+		showOn: #one; 
+		using: 
+				[browser text 
+						update: #foo 
+						on: $m 
+						with: [:list :input | inputFromActionBlock _ input]]. 
+	browser startOn: 42. 
+	browser panes first presentations first actions first 
+		actOn: browser panes first presentations first. 
+	self assert: inputFromActionBlock = 42
+]
+
+{ #category : #tests }
 GLMScriptingTest >> testNestedBrowser [ 
 	 
 	| browser innerBrowser | 
-	browser := GLMTableLayoutBrowser new. 
+	browser _ GLMTableLayoutBrowser new. 
 	browser column: #one. 
-	innerBrowser := GLMTableLayoutBrowser new. 
+	innerBrowser _ GLMTableLayoutBrowser new. 
 	innerBrowser column: #innerOne. 
 	innerBrowser 
 		showOn: #innerOne; 
@@ -56,9 +107,9 @@ GLMScriptingTest >> testNestedBrowser [
 GLMScriptingTest >> testNestedBrowserWithExplicitTransmission [ 
 	 
 	| browser innerBrowser | 
-	browser := GLMTableLayoutBrowser new. 
+	browser _ GLMTableLayoutBrowser new. 
 	browser column: #one. 
-	innerBrowser := GLMTableLayoutBrowser new. 
+	innerBrowser _ GLMTableLayoutBrowser new. 
 	innerBrowser column: #innerOne. 
 	innerBrowser 
 		showOn: #innerOne; 
@@ -77,34 +128,34 @@ GLMScriptingTest >> testNestedBrowserWithExplicitTransmission [
 GLMScriptingTest >> testPublishing [ 
 	 
 	| browser | 
-	browser := GLMTableLayoutBrowser new. 
+	browser _ GLMTableLayoutBrowser new. 
 	browser column: #classes. 
 	browser 
-		push: #classes -> #selection 
-		as: #selectedClass. 
+		sendToOutside: #selectedClass 
+		from: #classes -> #selection. 
 	browser 
-		pull: #highlightedClass 
-		to: #classes -> #highlight. 
-	self assert: browser pushedPorts size = 1. 
-	self 
-		assert: 
-			browser pushedPorts first innerPort 
-				= ((browser paneNamed: #classes) port: #selection). 
-	self assert: browser pushedPorts first outerPortName = #selectedClass. 
-	self assert: browser pulledPorts size = 1. 
-	self 
-		assert: 
-			browser pulledPorts first innerPort 
-				= ((browser paneNamed: #classes) port: #highlight). 
-	self assert: browser pulledPorts first outerPortName = #highlightedClass
+		sendTo: #classes -> #highlight 
+		fromOutside: #highlightedClass. 
+	(browser panes first port: #selection) value: 42. 
+	self assert: (browser pane port: #selectedClass) value = 42. 
+	self assert: (browser panes first port: #selection) value = 42. 
+	(browser pane port: #highlightedClass) value: 43. 
+	self assert: (browser pane port: #highlightedClass) value = 43. 
+	self assert: (browser panes first port: #highlight) value = 43. 
+	(browser panes first port: #highlight) value: 44. 
+	self assert: (browser pane port: #highlightedClass) value = 43. 
+	self assert: (browser panes first port: #highlight) value = 44. 
+	(browser pane port: #selectedClass) value: 45. 
+	self assert: (browser pane port: #selectedClass) value = 45. 
+	self assert: (browser panes first port: #selection) value = 42
 ]
 
 { #category : #tests }
 GLMScriptingTest >> testReferences [ 
 	 
 	| browser pane1 | 
-	browser := GLMExplicitBrowser new. 
-	pane1 := GLMPane new name: #pane1. 
+	browser _ GLMExplicitBrowser new. 
+	pane1 _ GLMPane new name: #pane1. 
 	browser addPane: pane1. 
 	self 
 		assert: (browser resolveOriginPort: #pane1) == (pane1 port: #selection). 
@@ -144,7 +195,7 @@ GLMScriptingTest >> testReferences [
 GLMScriptingTest >> testScriptingDefaults [ 
 	 
 	| browser | 
-	browser := GLMTableLayoutBrowser new. 
+	browser _ GLMTableLayoutBrowser new. 
 	browser startOn: 42. 
 	self assert: browser panes size = 1. 
 	self assert: browser jumpstartTransmissions size = 1. 
@@ -158,7 +209,7 @@ GLMScriptingTest >> testScriptingDefaults [
 GLMScriptingTest >> testSimpleTransmission [ 
 	 
 	| browser | 
-	browser := GLMTableLayoutBrowser new. 
+	browser _ GLMTableLayoutBrowser new. 
 	browser 
 		column: #one; 
 		column: #two. 
@@ -181,7 +232,7 @@ GLMScriptingTest >> testSimpleTransmission [
 GLMScriptingTest >> testStartTransmission [ 
 	 
 	| browser | 
-	browser := GLMTableLayoutBrowser new. 
+	browser _ GLMTableLayoutBrowser new. 
 	browser 
 		column: #one; 
 		column: #two. 
@@ -201,7 +252,7 @@ GLMScriptingTest >> testStartTransmission [
 GLMScriptingTest >> testStartWithOnlyJumpStart [ 
 	 
 	| browser | 
-	browser := GLMTableLayoutBrowser new. 
+	browser _ GLMTableLayoutBrowser new. 
 	browser 
 		column: #one; 
 		column: #two. 
@@ -227,7 +278,7 @@ GLMScriptingTest >> testStartWithOnlyJumpStart [
 GLMScriptingTest >> testThreePanesTransmissions [ 
 	 
 	| browser one two | 
-	browser := GLMTableLayoutBrowser new. 
+	browser _ GLMTableLayoutBrowser new. 
 	browser 
 		column: #one; 
 		column: #two; 
@@ -240,8 +291,8 @@ GLMScriptingTest >> testThreePanesTransmissions [
 				[browser text 
 						display: 
 							[:x :y |  
-							one := x. 
-							two := y]]. 
+							one _ x. 
+							two _ y]]. 
 	self assert: browser jumpstartTransmissions isEmpty. 
 	self assert: browser transmissions size = 1. 
 	self assert: browser transmissions first passiveOrigins size = 1. 
@@ -259,7 +310,7 @@ GLMScriptingTest >> testThreePanesTransmissions [
 GLMScriptingTest >> testTransmissionWithTwoOrigins [ 
 	 
 	| browser | 
-	browser := GLMTableLayoutBrowser new. 
+	browser _ GLMTableLayoutBrowser new. 
 	browser 
 		column: #one; 
 		column: #two; 
@@ -284,7 +335,7 @@ GLMScriptingTest >> testTransmissionWithTwoOrigins [
 GLMScriptingTest >> testTwoTransmissionsWithOnlyOneEvent [ 
 	 
 	| browser | 
-	browser := GLMTableLayoutBrowser new. 
+	browser _ GLMTableLayoutBrowser new. 
 	browser 
 		column: #one; 
 		column: #two; 
@@ -309,4 +360,32 @@ GLMScriptingTest >> testTwoTransmissionsWithOnlyOneEvent [
 	self assert: (browser paneNamed: #two) matchingPresentations size = 1. 
 	self assert: (browser paneNamed: #three) presentations isEmpty. 
 	self assert: (browser paneNamed: #three) matchingPresentations isEmpty
+]
+
+{ #category : #tests }
+GLMScriptingTest >> testUpdateAction [ 
+	 
+	| browser | 
+	browser _ GLMTableLayoutBrowser new. 
+	browser 
+		column: #one; 
+		column: #two. 
+	browser 
+		showOn: #one; 
+		using: 
+				[browser list 
+						update: #foo 
+						on: $m 
+						with: [:list :input | 42]]. 
+	browser 
+		showOn: #two; 
+		from: #one -> #foo; 
+		using: [browser text]. 
+	browser startOn: #(1 2 3). 
+	self assert: browser panes first presentations size = 1. 
+	self assert: browser panes last presentations isEmpty. 
+	browser panes first presentations first actions first 
+		actOn: browser panes first presentations first. 
+	self assert: browser panes second presentations size = 1. 
+	self assert: browser panes second presentations first entity = 42
 ]

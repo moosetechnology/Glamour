@@ -9,7 +9,7 @@ GLMBundleTransmissionTest >> testPorts [
 	"Tests that the origins are set up properly and that their order is retained." 
 	 
 	| transmission | 
-	transmission := GLMBundleTransmission new. 
+	transmission _ GLMBundleTransmission new. 
 	transmission 
 		addActiveOrigin: 
 			((GLMSimplePort new) 
@@ -64,7 +64,7 @@ GLMBundleTransmissionTest >> testPresentations [
 	"Tests that the presentations are set up correctly." 
 	 
 	| transmission presentation1 presentation2 presentation3 | 
-	transmission := GLMBundleTransmission new. 
+	transmission _ GLMBundleTransmission new. 
 	transmission 
 		addActiveOrigin: 
 			((GLMSimplePort new) 
@@ -76,9 +76,9 @@ GLMBundleTransmissionTest >> testPresentations [
 				name: #port2; 
 				value: 2). 
 	transmission destination: (GLMSimplePort new name: #port3). 
-	presentation1 := GLMPresentation new title: 'presentation1'. 
-	presentation2 := GLMPresentation new title: 'presentation2'. 
-	presentation3 := GLMPresentation new title: 'presentation3'. 
+	presentation1 _ GLMPresentation new title: 'presentation1'. 
+	presentation2 _ GLMPresentation new title: 'presentation2'. 
+	presentation3 _ GLMPresentation new title: 'presentation3'. 
 	transmission addPresentation: presentation1. 
 	transmission addPresentation: presentation2. 
 	transmission addPresentation: presentation3.	"Test correct setup" 
@@ -93,7 +93,7 @@ GLMBundleTransmissionTest >> testTransmitting [
 	"Tests that the origins are set up properly and that their order is retained." 
 	 
 	| transmission | 
-	transmission := GLMBundleTransmission new. 
+	transmission _ GLMBundleTransmission new. 
 	transmission 
 		addActiveOrigin: 
 			((GLMSimplePort new) 
@@ -131,9 +131,9 @@ GLMBundleTransmissionTest >> testTriggerConditions [
 	"Tests that the transmission is triggered only when the active origins change." 
 	 
 	| transmission port1 port2 | 
-	transmission := GLMBundleTransmission new. 
-	port1 := GLMPort new name: #port1. 
-	port2 := GLMPort new name: #port2. 
+	transmission _ GLMBundleTransmission new. 
+	port1 _ GLMPort new name: #port1. 
+	port2 _ GLMPort new name: #port2. 
 	transmission addActiveOrigin: port1. 
 	transmission addPassiveOrigin: port2. 
 	transmission destination: (GLMPort new name: #port3). 
@@ -145,8 +145,8 @@ GLMBundleTransmissionTest >> testTriggerConditions [
 GLMBundleTransmissionTest >> testTriggerConditionsWithParentPort [ 
 	 
 	| transmission presentation | 
-	transmission := GLMBundleTransmission new. 
-	presentation := GLMPresentation new. 
+	transmission _ GLMBundleTransmission new. 
+	presentation _ GLMPresentation new. 
 	transmission 
 		addActiveOrigin: 
 			((GLMParentPort new) 

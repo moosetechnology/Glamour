@@ -8,7 +8,7 @@ Class {
 GLMFinderTest >> testPaneCreation [ 
 	 
 	| browser | 
-	browser := GLMFinder new. 
+	browser _ GLMFinder new. 
 	browser addPresentation: (GLMPresentation new title: 'presentation1'). 
 	self assert: browser panes isEmpty.	"Outer entity changed." 
 	(browser pane port: #entity) value: #value1. 
@@ -52,7 +52,7 @@ GLMFinderTest >> testPaneCreation [
 GLMFinderTest >> testPortPublishing [ 
 	 
 	| browser | 
-	browser := GLMFinder new. 
+	browser _ GLMFinder new. 
 	(browser pane port: #entity) value: #value1. 
 	self assert: browser panes size = 1. 
 	self assert: browser pane ports size = 1. 

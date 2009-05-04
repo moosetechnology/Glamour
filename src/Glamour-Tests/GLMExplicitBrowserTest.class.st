@@ -8,8 +8,8 @@ Class {
 GLMExplicitBrowserTest >> testJumpstartTransmission [ 
 	 
 	| browser presentation | 
-	browser := GLMExplicitBrowser new. 
-	presentation := GLMPresentation new. 
+	browser _ GLMExplicitBrowser new. 
+	presentation _ GLMPresentation new. 
 	browser addPane: GLMPane new. 
 	browser 
 		addJumpstart: 
@@ -29,14 +29,14 @@ GLMExplicitBrowserTest >> testJumpstartTransmission [
 GLMExplicitBrowserTest >> testParentPort [ 
 	 
 	| browser outerPort1 outerPort2 | 
-	browser := GLMExplicitBrowser new. 
+	browser _ GLMExplicitBrowser new. 
 	browser addPane: GLMTestPane new. 
 	GLMTestPane new addPresentation: browser. 
-	outerPort1 := (GLMParentPort new) 
+	outerPort1 _ (GLMParentPort new) 
 		presentation: browser; 
 		name: #outerPort1; 
 		yourself. 
-	outerPort2 := (GLMParentPort new) 
+	outerPort2 _ (GLMParentPort new) 
 		presentation: browser; 
 		name: #outerPort2; 
 		yourself.	"Capturing" 
@@ -161,10 +161,10 @@ GLMExplicitBrowserTest >> testPortPushing [
 GLMExplicitBrowserTest >> testSetup [ 
 	 
 	| browser pane1 pane2 transmission | 
-	browser := GLMExplicitBrowser new. 
-	pane1 := GLMTestPane new. 
-	pane2 := GLMTestPane new. 
-	transmission := (GLMSimpleTransmission new) 
+	browser _ GLMExplicitBrowser new. 
+	pane1 _ GLMTestPane new. 
+	pane2 _ GLMTestPane new. 
+	transmission _ (GLMSimpleTransmission new) 
 		origin: (pane1 port: #selection); 
 		destination: (pane2 port: #entity); 
 		yourself. 
@@ -184,24 +184,24 @@ GLMExplicitBrowserTest >> testSetup [
 GLMExplicitBrowserTest >> testSimpleTransmission [ 
 	 
 	| browser pane1 pane2 presentation1 presentation2 transmission announcement | 
-	browser := GLMExplicitBrowser new. 
-	presentation1 := GLMPresentation new. 
-	presentation2 := GLMPresentation new. 
-	pane1 := GLMTestPane new. 
-	pane2 := GLMTestPane new. 
+	browser _ GLMExplicitBrowser new. 
+	presentation1 _ GLMPresentation new. 
+	presentation2 _ GLMPresentation new. 
+	pane1 _ GLMTestPane new. 
+	pane2 _ GLMTestPane new. 
 	pane1 addPresentation: presentation1. 
 	pane2 addPresentation: presentation2. 
-	transmission := (GLMSimpleTransmission new) 
+	transmission _ (GLMSimpleTransmission new) 
 		origin: (pane1 port: #selection); 
 		destination: (pane2 port: #entity); 
 		yourself. 
 	browser addPane: pane1. 
 	browser addPane: pane2. 
 	browser addTransmission: transmission. 
-	announcement := nil. 
+	announcement _ nil. 
 	presentation2 
 		when: GLMContextChanged 
-		do: [:ann | announcement := ann]. 
+		do: [:ann | announcement _ ann]. 
 	presentation1 selection: 'foo'. 
 	self assert: (pane1 port: #selection) seenTransmissions size = 1. 
 	self assert: (pane2 port: #entity) seenTransmissions size = 1. 
@@ -216,16 +216,16 @@ GLMExplicitBrowserTest >> testSimpleTransmission [
 GLMExplicitBrowserTest >> testTransmissionBundle [ 
 	 
 	| browser pane1 pane2 pane3 presentation1 presentation2 transmission | 
-	browser := GLMExplicitBrowser new. 
-	presentation1 := GLMPresentation new. 
-	presentation2 := GLMPresentation new. 
-	pane1 := GLMTestPane new. 
-	pane2 := GLMTestPane new. 
-	pane3 := GLMTestPane new. 
+	browser _ GLMExplicitBrowser new. 
+	presentation1 _ GLMPresentation new. 
+	presentation2 _ GLMPresentation new. 
+	pane1 _ GLMTestPane new. 
+	pane2 _ GLMTestPane new. 
+	pane3 _ GLMTestPane new. 
 	pane1 addPresentation: GLMPresentation new. 
 	pane2 addPresentation: GLMPresentation new. 
 	pane3 addPresentation: presentation1. 
-	transmission := (GLMBundleTransmission new) 
+	transmission _ (GLMBundleTransmission new) 
 		addActiveOrigin: (pane1 port: #selection); 
 		addPassiveOrigin: (pane2 port: #selection); 
 		destination: (pane3 port: #entity); 
@@ -261,24 +261,19 @@ GLMExplicitBrowserTest >> testTransmissionBundle [
 GLMExplicitBrowserTest >> testTriggeringConditions [ 
 	 
 	| browser pane1 pane2 transmission | 
-	browser := GLMExplicitBrowser new. 
+	browser _ GLMExplicitBrowser new. 
 	browser pane: GLMTestPane new. 
-	pane1 := GLMTestPane new. 
-	pane2 := GLMTestPane new. 
-	transmission := (GLMSimpleTransmission new) 
+	pane1 _ GLMTestPane new. 
+	pane2 _ GLMTestPane new. 
+	transmission _ (GLMSimpleTransmission new) 
 		origin: (pane1 port: #selection); 
 		destination: (pane2 port: #entity); 
 		yourself. 
 	browser addPane: pane1. 
 	browser addPane: pane2. 
 	browser addTransmission: transmission. 
-	browser 
-		addPush: (pane1 port: #selection) 
-		as: #pane1Selection. 
 	self assert: (pane1 port: #selection) seenTransmissions isEmpty. 
 	self assert: (pane2 port: #entity) seenTransmissions isEmpty. 
-	self 
-		assert: (browser pane port: #pane1Selection) seenTransmissions isEmpty. 
 	(pane1 port: #selection) value: 12. 
 	self assert: (pane1 port: #selection) seenTransmissions size = 1. 
 	self 
@@ -286,13 +281,7 @@ GLMExplicitBrowserTest >> testTriggeringConditions [
 			((pane1 port: #selection) seenTransmissions first isKindOf: 
 					GLMSimpleTransmission). 
 	self assert: (pane2 port: #entity) seenTransmissions size = 1. 
-	self assert: (pane2 port: #entity) seenTransmissions first == transmission. 
-	self 
-		assert: (browser pane port: #pane1Selection) seenTransmissions size = 1. 
-	self 
-		assert: 
-			((browser pane port: #pane1Selection) seenTransmissions first isKindOf: 
-					GLMSimpleTransmission).	"Setting the same value should re-publish but not trigger inner transmissions." 
+	self assert: (pane2 port: #entity) seenTransmissions first == transmission.	"Setting the same value should re-publish but not trigger inner transmissions." 
 	(pane1 port: #selection) value: 12. 
 	self assert: (pane1 port: #selection) seenTransmissions size = 2. 
 	self 
@@ -304,15 +293,5 @@ GLMExplicitBrowserTest >> testTriggeringConditions [
 			((pane1 port: #selection) seenTransmissions last isKindOf: 
 					GLMSimpleTransmission). 
 	self assert: (pane2 port: #entity) seenTransmissions size = 1. 
-	self assert: (pane2 port: #entity) seenTransmissions first == transmission. 
-	self 
-		assert: (browser pane port: #pane1Selection) seenTransmissions size = 2. 
-	self 
-		assert: 
-			((browser pane port: #pane1Selection) seenTransmissions first isKindOf: 
-					GLMSimpleTransmission). 
-	self 
-		assert: 
-			((browser pane port: #pane1Selection) seenTransmissions first isKindOf: 
-					GLMSimpleTransmission)
+	self assert: (pane2 port: #entity) seenTransmissions first == transmission
 ]
