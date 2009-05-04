@@ -44,6 +44,12 @@ GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPrese
 			action hasShortcut ifTrue: [aMorphicModel addKeystrokeAction: action]]
 ]
 
+{ #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderAsMorphPresentation: anAsMorphPresentation [ 
+	 
+	^ anAsMorphPresentation displayValue asMorph
+]
+
 { #category : #private }
 GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aUIContainer inBrowser: aBrowser [ 
 	 

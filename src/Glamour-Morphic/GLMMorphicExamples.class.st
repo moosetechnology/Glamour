@@ -5,6 +5,19 @@ Class {
 }
 
 { #category : #examples }
+GLMMorphicExamples >> asMorphEditor [
+
+	"
+		self new asMorphEditor openOn: 'asdasdasd'
+	"
+
+	| browser |
+	browser := GLMFinder new.
+	browser morph.
+	^ browser 
+]
+
+{ #category : #examples }
 GLMMorphicExamples >> simpleFinder [
 
 	"
