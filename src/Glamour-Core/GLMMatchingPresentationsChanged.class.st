@@ -26,7 +26,7 @@ GLMMatchingPresentationsChanged >> oldMatchingPresentations [
 GLMMatchingPresentationsChanged >> oldMatchingPresentations: aCollection [ 
 	"The presentations that matched before this announcement." 
 	 
-	oldMatchingPresentations := aCollection
+	oldMatchingPresentations _ aCollection
 ]
 
 { #category : #accessing }
@@ -40,5 +40,5 @@ GLMMatchingPresentationsChanged >> pane [
 GLMMatchingPresentationsChanged >> pane: aPane [ 
 	"The pane on which the matching presentations changed." 
 	 
-	pane := aPane
+	pane _ aPane
 ]

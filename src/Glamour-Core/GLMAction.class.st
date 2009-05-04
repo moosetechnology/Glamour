@@ -19,7 +19,11 @@ Class {
 { #category : #'public interface' }
 GLMAction >> actOn: aPresentation [ 
 	 
-	^self action glamourValueWithArgs: (Array with: aPresentation)
+	^self action 
+		glamourValueWithArgs: 
+			(Array 
+				with: aPresentation 
+				withAll: aPresentation entity asGlamorousArray)
 ]
 
 { #category : #accessing }
@@ -36,7 +40,7 @@ GLMAction >> action: aBlock [
 	The block can take optional arguments, the first will always be the 
 	presentation on which this action was triggered." 
 	 
-	action := aBlock
+	action _ aBlock
 ]
 
 { #category : #accessing }
@@ -50,7 +54,7 @@ GLMAction >> category [
 GLMAction >> category: aString [ 
 	"The name of the category that should be used when this action is displayed in a context menu." 
 	 
-	category := aString
+	category _ aString
 ]
 
 { #category : #testing }
@@ -76,7 +80,7 @@ GLMAction >> position [
 GLMAction >> position: anInteger [ 
 	"The relative position within a context menu." 
 	 
-	position := anInteger
+	position _ anInteger
 ]
 
 { #category : #accessing }
@@ -92,7 +96,7 @@ GLMAction >> shortcut: aCharacter [
 	"Shortcut character that this action should be triggered with when the focus rests on the corresponding presentation. 
 	Modifiers are platform specific an can not be defined." 
 	 
-	shortcut := aCharacter
+	shortcut _ aCharacter
 ]
 
 { #category : #accessing }
@@ -106,5 +110,5 @@ GLMAction >> title [
 GLMAction >> title: anObject [ 
 	"Title that this action should use in a context menu." 
 	 
-	title := anObject
+	title _ anObject
 ]

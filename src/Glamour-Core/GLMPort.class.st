@@ -22,16 +22,16 @@ GLMPort >> name [
 { #category : #accessing }
 GLMPort >> name: aSymbol [ 
 	 
-	name := aSymbol
+	name _ aSymbol
 ]
 
 { #category : #printing }
 GLMPort >> printOn: aStream [ 
 	 
 	aStream 
-		nextPutAll: 'Port (name->'; 
+		nextPutAll: 'Port (name='; 
 		nextPutAll: self name printString; 
-		nextPutAll: ' value->'; 
+		nextPutAll: ' value='; 
 		nextPutAll: self value printString; 
 		nextPut: $)
 ]

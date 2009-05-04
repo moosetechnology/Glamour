@@ -25,7 +25,7 @@ GLMPortEvent >> oldValue [
 { #category : #accessing }
 GLMPortEvent >> oldValue: anObject [ 
 	 
-	oldValue := anObject
+	oldValue _ anObject
 ]
 
 { #category : #'accessing-convenience' }
@@ -43,7 +43,7 @@ GLMPortEvent >> port [
 { #category : #accessing }
 GLMPortEvent >> port: aPort [ 
 	 
-	port := aPort
+	port _ aPort
 ]
 
 { #category : #'accessing-convenience' }
@@ -61,7 +61,7 @@ GLMPortEvent >> transmission [
 { #category : #accessing }
 GLMPortEvent >> transmission: aTransmission [ 
 	 
-	transmission := aTransmission
+	transmission _ aTransmission
 ]
 
 { #category : #'accessing-convenience' }

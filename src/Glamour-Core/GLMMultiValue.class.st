@@ -4,3 +4,9 @@ Class {
 	#type : #variable,
 	#category : #'Glamour-Core'
 }
+
+{ #category : #testing }
+GLMMultiValue >> asGlamorousArray [ 
+	 
+	^self asArray
+]

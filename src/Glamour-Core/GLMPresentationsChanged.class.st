@@ -19,7 +19,7 @@ GLMPresentationsChanged >> oldPresentations [
 GLMPresentationsChanged >> oldPresentations: aCollection [ 
 	"The presentations that were present on the pane before the change." 
 	 
-	oldPresentations := aCollection
+	oldPresentations _ aCollection
 ]
 
 { #category : #accessing }
@@ -33,7 +33,7 @@ GLMPresentationsChanged >> pane [
 GLMPresentationsChanged >> pane: aPane [ 
 	"The pane on which the presentations changed." 
 	 
-	pane := aPane
+	pane _ aPane
 ]
 
 { #category : #'accessing-convenience' }

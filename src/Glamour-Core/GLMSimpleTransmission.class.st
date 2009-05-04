@@ -17,7 +17,7 @@ GLMSimpleTransmission >> destination [
 { #category : #accessing }
 GLMSimpleTransmission >> destination: aPort [ 
 	 
-	destination := aPort
+	destination _ aPort
 ]
 
 { #category : #accessing }
@@ -29,7 +29,7 @@ GLMSimpleTransmission >> origin [
 { #category : #accessing }
 GLMSimpleTransmission >> origin: aPort [ 
 	 
-	origin := aPort
+	origin _ aPort
 ]
 
 { #category : #testing }

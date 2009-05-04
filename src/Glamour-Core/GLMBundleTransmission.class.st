@@ -1,3 +1,13 @@
+"
+The main transmission kind.
+
+Instance Variables:
+	destination	<BoundPort>	description of destination
+	origins	<OrderedCollection>	description of origins
+	presentations	<OrderedCollection>	description of presentations
+
+
+"
 Class {
 	#name : #GLMBundleTransmission,
 	#superclass : #GLMTransmission,
@@ -53,13 +63,13 @@ GLMBundleTransmission >> addPresentations: aCollection [
 { #category : #'private accessing' }
 GLMBundleTransmission >> bundleOrigins [ 
 	 
-	^origins ifNil: [origins := OrderedCollection new]
+	^origins ifNil: [origins _ OrderedCollection new]
 ]
 
 { #category : #private }
 GLMBundleTransmission >> clearOrigins [ 
 	 
-	origins := nil
+	origins _ nil
 ]
 
 { #category : #accessing }
@@ -71,7 +81,7 @@ GLMBundleTransmission >> destination [
 { #category : #accessing }
 GLMBundleTransmission >> destination: aPort [ 
 	 
-	destination := aPort
+	destination _ aPort
 ]
 
 { #category : #testing }
@@ -96,7 +106,13 @@ GLMBundleTransmission >> passiveOrigins [
 { #category : #accessing }
 GLMBundleTransmission >> presentations [ 
 	 
-	^presentations ifNil: [presentations := OrderedCollection new]
+	^presentations ifNil: [presentations _ OrderedCollection new]
+]
+
+{ #category : #accessing }
+GLMBundleTransmission >> presentations: aCollection [ 
+	 
+	presentations _ aCollection
 ]
 
 { #category : #transmitting }

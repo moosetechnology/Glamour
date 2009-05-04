@@ -58,13 +58,13 @@ GLMPane >> browser [
 { #category : #accessing }
 GLMPane >> browser: aBrowser [ 
 	 
-	browser := aBrowser
+	browser _ aBrowser
 ]
 
 { #category : #accessing }
 GLMPane >> clear [ 
 	 
-	self notingPresentationChangeDo: [presentations := nil]. 
+	self notingPresentationChangeDo: [presentations _ nil]. 
 	self ports do: [:each | each value: nil]
 ]
 
@@ -89,15 +89,15 @@ GLMPane >> name [
 { #category : #accessing }
 GLMPane >> name: aSymbol [ 
 	 
-	name := aSymbol
+	name _ aSymbol
 ]
 
 { #category : #private }
 GLMPane >> notingPresentationChangeDo: aBlock [ 
 	 
 	| oldPresentations oldMatchingPresentations | 
-	oldPresentations := self presentations copy. 
-	oldMatchingPresentations := self matchingPresentations. 
+	oldPresentations _ self presentations copy. 
+	oldMatchingPresentations _ self matchingPresentations. 
 	aBlock value. 
 	self presentations ~= oldPresentations 
 		ifTrue: 
@@ -141,7 +141,7 @@ GLMPane >> portEvent: aPortEvent [
 { #category : #accessing }
 GLMPane >> ports [ 
 	 
-	^ports ifNil: [ports := OrderedCollection new]
+	^ports ifNil: [ports _ OrderedCollection new]
 ]
 
 { #category : #private }
@@ -153,7 +153,7 @@ GLMPane >> postCopy [
 { #category : #accessing }
 GLMPane >> presentations [ 
 	 
-	^presentations ifNil: [presentations := OrderedCollection new]
+	^presentations ifNil: [presentations _ OrderedCollection new]
 ]
 
 { #category : #rendering }

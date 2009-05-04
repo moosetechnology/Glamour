@@ -22,17 +22,17 @@ GLMPanePort >> pane [
 { #category : #accessing }
 GLMPanePort >> pane: aPane [ 
 	 
-	pane := aPane
+	pane _ aPane
 ]
 
 { #category : #accessing }
 GLMPanePort >> receive: aTransmission [ 
 	 
 	| oldValue | 
-	oldValue := self value. 
+	oldValue _ self value. 
 	self pane 
 		notingPresentationChangeDo: 
-			[value := aTransmission value. 
+			[value _ aTransmission value. 
 			self pane 
 				portEvent: 
 					((GLMPortEvent new) 

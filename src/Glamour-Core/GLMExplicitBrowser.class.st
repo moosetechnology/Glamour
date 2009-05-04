@@ -6,8 +6,6 @@ Class {
 		'hiddenPane',
 		'transmissions',
 		'jumpstartTransmissions',
-		'pushedPorts',
-		'pulledPorts',
 		'scriptTransmission'
 	],
 	#category : #'Glamour-Core'
@@ -59,9 +57,6 @@ GLMExplicitBrowser >> addTransmission: aTransmission [
 { #category : #events }
 GLMExplicitBrowser >> innerPortEvent: aPortEvent [ 
 	 
-	(self pushedPorts select: [:each | each innerPort = aPortEvent port]) 
-		do: 
-			[:each | (self pane port: each outerPortName) value: aPortEvent value]. 
 	aPortEvent hasChanged 
 		ifTrue: 
 			[(self transmissions select: [:each | each originatesAt: aPortEvent port]) 
@@ -72,7 +67,7 @@ GLMExplicitBrowser >> innerPortEvent: aPortEvent [
 GLMExplicitBrowser >> jumpstartTransmissions [ 
 	 
 	^jumpstartTransmissions 
-		ifNil: [jumpstartTransmissions := OrderedCollection new]
+		ifNil: [jumpstartTransmissions _ OrderedCollection new]
 ]
 
 { #category : #events }
@@ -91,10 +86,7 @@ GLMExplicitBrowser >> outerPortEvent: aPortEvent [
 	aPortEvent hasChanged 
 		ifTrue: 
 			[(self transmissions select: [:each | each originatesAt: aPortEvent port]) 
-				do: [:each | each transmit]]. 
-	(self pulledPorts 
-		select: [:each | each outerPortName = aPortEvent portName]) 
-		do: [:each | each innerPort receive: aPortEvent transmission]
+				do: [:each | each transmit]]
 ]
 
 { #category : #accessing }
@@ -106,7 +98,7 @@ GLMExplicitBrowser >> paneNamed: aSymbol [
 { #category : #accessing }
 GLMExplicitBrowser >> panes [ 
 	 
-	^panes ifNil: [panes := OrderedCollection new]
+	^panes ifNil: [panes _ OrderedCollection new]
 ]
 
 { #category : #accessing }
@@ -137,10 +129,10 @@ GLMExplicitBrowser >> resolveOriginPort: aPortReference [
 GLMExplicitBrowser >> resolvePort: aPortReference defaultPortName: aSymbol [ 
 	 
 	| tmp | 
-	tmp := aPortReference. 
-	(tmp isKindOf: GLMPane) ifTrue: [tmp := tmp port: aSymbol]. 
+	tmp _ aPortReference. 
+	(tmp isKindOf: GLMPane) ifTrue: [tmp _ tmp port: aSymbol]. 
 	(tmp isKindOf: GLMPort) ifTrue: [^tmp]. 
-	tmp isSymbol ifTrue: [tmp := tmp -> aSymbol]. 
+	tmp isSymbol ifTrue: [tmp _ tmp -> aSymbol]. 
 	(tmp isKindOf: Association) 
 		ifTrue: 
 			[^tmp key = #outer 
@@ -156,5 +148,5 @@ GLMExplicitBrowser >> resolvePort: aPortReference defaultPortName: aSymbol [
 { #category : #accessing }
 GLMExplicitBrowser >> transmissions [ 
 	 
-	^transmissions ifNil: [transmissions := OrderedCollection new]
+	^transmissions ifNil: [transmissions _ OrderedCollection new]
 ]
