@@ -16,7 +16,7 @@ GLMMondrianPresentation >> painting [
 { #category : #accessing }
 GLMMondrianPresentation >> painting: anObject [ 
 	 
-	painting := anObject
+	painting _ anObject
 ]
 
 { #category : #rendering }

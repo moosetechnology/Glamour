@@ -18,7 +18,7 @@ GLMTextPresentation >> cursorPosition [
 { #category : #accessing }
 GLMTextPresentation >> cursorPosition: anObject [ 
 	 
-	cursorPosition := anObject
+	cursorPosition _ anObject
 ]
 
 { #category : #rendering }
@@ -36,17 +36,17 @@ GLMTextPresentation >> selectedText [
 { #category : #accessing }
 GLMTextPresentation >> selectedText: anObject [ 
 	 
-	selectedText := anObject
+	selectedText _ anObject
 ]
 
 { #category : #accessing }
 GLMTextPresentation >> text [ 
 	 
-	^text
+	^text ifNil: [text _ self formatedDisplayValue]
 ]
 
 { #category : #accessing }
 GLMTextPresentation >> text: anObject [ 
 	 
-	text := anObject
+	text _ anObject
 ]

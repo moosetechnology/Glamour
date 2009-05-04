@@ -12,19 +12,19 @@ Class {
 { #category : #accessing }
 GLMListPresentation >> beMultiple [ 
 	 
-	multipleSelection := true
+	multipleSelection _ true
 ]
 
 { #category : #accessing }
 GLMListPresentation >> beSingle [ 
 	 
-	multipleSelection := false
+	multipleSelection _ false
 ]
 
 { #category : #testing }
 GLMListPresentation >> isMultiple [ 
 	 
-	^multipleSelection ifNil: [multipleSelection := false]
+	^multipleSelection ifNil: [multipleSelection _ false]
 ]
 
 { #category : #testing }
