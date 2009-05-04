@@ -1,6 +1,12 @@
 Extension { #name : #Object }
 
 { #category : #'*Glamour-Helpers' }
+Object >> asGlamorousArray [ 
+	 
+	^Array with: self
+]
+
+{ #category : #'*Glamour-Helpers' }
 Object >> glamourString [ 
 	"This method tries to circumvent the missing displayString from Squeak" 
 	 
@@ -12,11 +18,9 @@ Object >> glamourString [
 { #category : #'*Glamour-Helpers' }
 Object >> glamourValue: anObject [ 
 	 
-	^self 
-		glamourValueWithArgs: 
-			((anObject isKindOf: GLMMultiValue) 
-				ifTrue: [anObject asArray] 
-				ifFalse: [Array with: anObject])
+	| args | 
+	args _ anObject asGlamorousArray. 
+	^self glamourValueWithArgs: args
 ]
 
 { #category : #'*Glamour-Helpers' }
