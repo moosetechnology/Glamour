@@ -28,7 +28,7 @@ GLMPaneAdded >> browser [
 { #category : #accessing }
 GLMPaneAdded >> browser: anObject [ 
 	 
-	browser := anObject
+	browser _ anObject
 ]
 
 { #category : #accessing }
@@ -40,7 +40,7 @@ GLMPaneAdded >> pane [
 { #category : #accessing }
 GLMPaneAdded >> pane: anObject [ 
 	 
-	pane := anObject
+	pane _ anObject
 ]
 
 { #category : #accessing }
@@ -52,5 +52,5 @@ GLMPaneAdded >> position [
 { #category : #accessing }
 GLMPaneAdded >> position: anObject [ 
 	 
-	position := anObject
+	position _ anObject
 ]

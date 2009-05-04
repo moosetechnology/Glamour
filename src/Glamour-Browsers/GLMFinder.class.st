@@ -3,7 +3,9 @@ Class {
 	#superclass : #GLMImplicitBrowser,
 	#instVars : [
 		'panes',
-		'presentations'
+		'presentations',
+		'transmissions',
+		'scriptTransmission'
 	],
 	#category : #'Glamour-Browsers'
 }
@@ -29,51 +31,101 @@ GLMFinder >> addPaneFrom: aPort [
 				inBrowser: self)
 ]
 
+{ #category : #private }
+GLMFinder >> addPaneFromInner: aPort [ 
+	 
+	| newTransmission realTransmissions | 
+	self panes 
+		addLast: 
+			((GLMPane new) 
+				browser: self; 
+				yourself). 
+	(GLMBundleTransmission new) 
+		addActiveOrigin: aPort; 
+		destination: (self panes last port: #entity); 
+		addPresentations: (self presentations collect: [:each | each copy]); 
+		transmit. 
+	realTransmissions _ self transmissions 
+		collect: 
+			[:each |  
+			newTransmission _ GLMBundleTransmission new. 
+			each activeOrigins 
+				do: 
+					[:eachPort | newTransmission addActiveOrigin: (aPort pane port: eachPort name)]. 
+			each passiveOrigins 
+				do: 
+					[:eachPort | newTransmission addPassiveOrigin: (aPort pane port: eachPort name)]. 
+			newTransmission 
+				destination: (self panes last port: #entity); 
+				presentations: 
+						(self presentations collect: #copy) , (each presentations collect: #copy)]. 
+	(realTransmissions select: [:each | each originatesAt: aPort]) 
+		do: [:each | each transmit]. 
+	self 
+		announce: 
+			(GLMPaneAdded 
+				pane: self panes last 
+				atPosition: self panes size 
+				inBrowser: self)
+]
+
 { #category : #accessing }
 GLMFinder >> addPresentation: aPresentation [ 
 	 
 	self presentations addLast: aPresentation
 ]
 
+{ #category : #accessing }
+GLMFinder >> addTransmission: aTransmission [ 
+	 
+	self transmissions addLast: aTransmission
+]
+
 { #category : #events }
 GLMFinder >> innerPortEvent: aPortEvent [ 
 	 
-	aPortEvent portName ~= #entity 
-		ifTrue: 
+	aPortEvent portName = #entity 
+		ifFalse: 
 			["We don't want to resend the transmission, but use a new SimpleTransmission." 
 			(self pane port: aPortEvent portName) value: aPortEvent value]. 
-	aPortEvent port name ~= #selection 
-		ifFalse: 
+	aPortEvent port name = #selection 
+		ifTrue: 
 			[(self panes reverse copyUpTo: aPortEvent pane) 
 				do: 
 					[:each |  
 					self panes removeLast. 
 					self announce: (GLMPaneRemoved pane: each fromBrowser: self)]. 
-			self addPaneFrom: aPortEvent port]
+			self addPaneFromInner: aPortEvent port]
 ]
 
 { #category : #events }
 GLMFinder >> outerPortEvent: aPortEvent [ 
 	 
-	aPortEvent port name ~= #entity ifTrue: [^self]. 
-	panes := nil. 
+	aPortEvent port name = #entity ifFalse: [^self]. 
+	panes _ nil. 
 	self addPaneFrom: aPortEvent port
 ]
 
 { #category : #accessing }
 GLMFinder >> panes [ 
 	 
-	^panes ifNil: [panes := OrderedCollection new]
+	^panes ifNil: [panes _ OrderedCollection new]
 ]
 
 { #category : #accessing }
 GLMFinder >> presentations [ 
 	 
-	^presentations ifNil: [presentations := OrderedCollection new]
+	^presentations ifNil: [presentations _ OrderedCollection new]
 ]
 
 { #category : #rendering }
 GLMFinder >> renderGlamorouslyOn: aRenderer [ 
 	 
 	^aRenderer renderFinder: self
+]
+
+{ #category : #accessing }
+GLMFinder >> transmissions [ 
+	 
+	^transmissions ifNil: [transmissions _ OrderedCollection new]
 ]

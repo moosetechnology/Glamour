@@ -16,5 +16,5 @@ GLMFixedFinder >> numberOfVisiblePanes [
 { #category : #accessing }
 GLMFixedFinder >> numberOfVisiblePanes: anInteger [ 
 	 
-	paneCount := anInteger
+	paneCount _ anInteger
 ]

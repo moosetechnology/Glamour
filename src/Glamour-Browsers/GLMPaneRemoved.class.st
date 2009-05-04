@@ -26,7 +26,7 @@ GLMPaneRemoved >> browser [
 { #category : #accessing }
 GLMPaneRemoved >> browser: anObject [ 
 	 
-	browser := anObject
+	browser _ anObject
 ]
 
 { #category : #accessing }
@@ -38,5 +38,5 @@ GLMPaneRemoved >> pane [
 { #category : #accessing }
 GLMPaneRemoved >> pane: anObject [ 
 	 
-	pane := anObject
+	pane _ anObject
 ]
