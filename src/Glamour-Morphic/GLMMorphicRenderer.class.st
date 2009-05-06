@@ -244,7 +244,10 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 	view := MOViewRenderer new.
 	aMondrianPresentation renderOn: view. 
 	canvas := MOCanvas new. 
-	canvas root: view root. 
+	canvas root: view root.
+	^ canvas
+	
+	
 "	canvas 
 		when: SelectionChanged 
 		do: [:ann | aMondrianPresentation selection: canvas selection]. 
@@ -257,7 +260,20 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 					[canvas artist drawing deepNodeFigures do: [:each | each deselect]. 
 					(canvas artist drawing deepFindNodeWithEntity: ann value) 
 						ifNotNil: [:figure | figure fixedSelect]]]. 
-"	^canvas
+
+	scrollPane := GeneralScrollPane new
+		scrollTarget: canvas;
+		hResizing: #spaceFill;
+		vResizing: #spaceFill.
+	scrollPane
+		minWidth: (canvas width min: Display width // 2) + scrollPane scrollBarThickness;
+		minHeight: (canvas height min: Display height // 2).
+	canvas width > scrollPane minWidth
+		ifTrue: [scrollPane minHeight: scrollPane minHeight + scrollPane scrollBarThickness].
+
+	scrollPane updateScrollbars.
+	^ scrollPane
+"
 ]
 
 { #category : #rendering }
@@ -300,7 +316,7 @@ GLMMorphicRenderer >> renderPane: aPane [
 				when: Clicked 
 				do: [(aPane port: #entity) value inspect]. "
 			container addMorphBack: inspectButton]. 
-	container addMorphBack: (self renderPresentationsOf: aPane).	
+	container addMorph: (self renderPresentationsOf: aPane) frame: (0 @ 0 corner: 1 @ 1).
 	aPane 
 		whenMatchingPresentationsChanged: 
 			[:announcement |  

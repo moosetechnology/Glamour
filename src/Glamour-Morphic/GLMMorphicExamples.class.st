@@ -7,7 +7,7 @@ Class {
 { #category : #examples }
 GLMMorphicExamples >> pierFinder [
 	"
-		self new asMorphEditor openOn: PRKernel instances anyOne root.
+		self new pierFinder openOn: PRKernel instances anyOne root.
 	"
 	| browser |
 	browser := GLMFinder new.
@@ -16,7 +16,14 @@ GLMMorphicExamples >> pierFinder [
 		format: [:each | each title];
 		title: 'Navigation'.
 	browser magritte title: 'Editor'.
-	browser openOn: PRKernel instances anyOne root
+	browser mondrian
+			title: 'Tree';
+			painting: [:view :each | 
+				view nodeShape: (MORectangleShape withBorder height: [:x | x plainText size // 10]).
+				view nodes: each enumerator everything contents.
+				view edgesFrom: #parent.
+				view treeLayout].
+	^ browser 
 ]
 
 { #category : #examples }
