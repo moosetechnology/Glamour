@@ -16,6 +16,11 @@ GLMListModel >> addMenuAction: anAction [
 	menuActions add: anAction
 ]
 
+{ #category : #callbacks }
+GLMListModel >> displayListAt: anIndex [
+	^displaySelector glamourValue: (self items at: anIndex)
+]
+
 { #category : #accessing }
 GLMListModel >> displaySelector: aSymbol [
 	displaySelector := aSymbol
@@ -81,4 +86,9 @@ GLMListModel >> selection: anIndex. [
 	selection := anIndex. 
 	onSelection ifNotNil: [onSelection value: (self listAt: anIndex)].
 	self changed: #selection.
+]
+
+{ #category : #accessing }
+GLMListModel >> stringItems [
+	^items collect: [:each | displaySelector glamourValue: each]
 ]

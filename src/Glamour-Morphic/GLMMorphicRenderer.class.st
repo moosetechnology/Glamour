@@ -47,7 +47,7 @@ GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPrese
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderAsMorphPresentation: anAsMorphPresentation [ 
 	 
-	^ anAsMorphPresentation displayValue asMorph
+	^ anAsMorphPresentation displayValue asMorph addButtons; morph
 ]
 
 { #category : #private }
@@ -218,7 +218,7 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 	list	
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
-		getListElementSelector: #listAt:;
+		getListElementSelector: #displayListAt:;
 		getListSizeSelector: #listSize;
 		borderWidth: 1;
 		autoDeselect: false.
