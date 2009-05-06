@@ -5,7 +5,8 @@ Class {
 		'roots',
 		'selection',
 		'childrenBlock',
-		'onSelection'
+		'onSelection',
+		'displaySelector'
 	],
 	#category : #'Glamour-Morphic'
 }
@@ -20,6 +21,11 @@ GLMTreeModel >> childrenBlock: aBlock [
 	childrenBlock := aBlock
 ]
 
+{ #category : #accessing }
+GLMTreeModel >> displaySelector: aSymbol [
+	displaySelector := aSymbol
+]
+
 { #category : #callbacks }
 GLMTreeModel >> geSelectionPath [
 	^self selection
@@ -31,8 +37,8 @@ GLMTreeModel >> getChildrenOf: aNode [
 ]
 
 { #category : #callbacks }
-GLMTreeModel >> getLabelOf: aStringOrText [
-	^ aStringOrText 
+GLMTreeModel >> getLabelOf: anObject [
+	^ displaySelector glamourValue: anObject
 ]
 
 { #category : #callbacks }

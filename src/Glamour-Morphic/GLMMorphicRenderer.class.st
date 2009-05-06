@@ -408,7 +408,9 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 	
 	toShow := aTreePresentation displayValue. 
 	treeModel := GLMTreeModel new roots: toShow; yourself.
-	treeModel childrenBlock: aTreePresentation children.
+	treeModel 
+			childrenBlock: aTreePresentation children;
+			displaySelector: aTreePresentation format.
 	
 	treeMorph := PluggableTreeMorph new
 		model: treeModel;

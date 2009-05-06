@@ -5,15 +5,43 @@ Class {
 }
 
 { #category : #examples }
-GLMMorphicExamples >> asMorphEditor [
+GLMMorphicExamples >> pierFinder [
 
 	"
-		self new asMorphEditor openOn: 'asdasdasd'
+		self new asMorphEditor openOn: PRKernel instances anyOne root.
 	"
 
 	| browser |
 	browser := GLMFinder new.
-	browser morph.
+	browser list
+		display: [:each | each enumerator contents];
+		format: [:each | each title ];
+		title: 'Navigation'.
+	browser morph
+		title: 'Editor'.
+	^ browser 
+]
+
+{ #category : #examples }
+GLMMorphicExamples >> pierTreeEditor [
+
+	"
+		self new pierTreeEditor openOn: PRKernel instances anyOne root.
+	"
+
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	browser column: #navigation; column: #editor span: 4.
+	browser showOn: #navigation; using: [
+		browser tree
+			children: [:each | each enumerator contents];
+			format: [:each | each title ];
+			title: 'Navigation'.
+	].
+	browser showOn: #editor; from: #navigation; using: [
+		browser morph
+			title: 'Editor'.
+	].
 	^ browser 
 ]
 
