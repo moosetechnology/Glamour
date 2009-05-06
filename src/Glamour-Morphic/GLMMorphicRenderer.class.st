@@ -44,12 +44,6 @@ GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPrese
 			action hasShortcut ifTrue: [aMorphicModel addKeystrokeAction: action]]
 ]
 
-{ #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderAsMorphPresentation: anAsMorphPresentation [ 
-	 
-	^ anAsMorphPresentation displayValue asMorph addButtons; morph
-]
-
 { #category : #private }
 GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aUIContainer inBrowser: aBrowser [ 
 	 
@@ -230,6 +224,17 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 			[:ann | ann property = #selection ifTrue: [list selection: ann value]]. "
 	list vShowScrollBar.	
 	^list
+]
+
+{ #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderMagrittePresentation: anAsMorphPresentation [ 
+	| toShow description |
+	toShow := anAsMorphPresentation displayValue.
+	description := toShow description copy.
+	description morphClass: MASilentContainerMorph.
+	^ (description asMorphOn: toShow) 
+		addButtons;
+		morph
 ]
 
 { #category : #'rendering presentations' }

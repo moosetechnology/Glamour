@@ -6,20 +6,17 @@ Class {
 
 { #category : #examples }
 GLMMorphicExamples >> pierFinder [
-
 	"
 		self new asMorphEditor openOn: PRKernel instances anyOne root.
 	"
-
 	| browser |
 	browser := GLMFinder new.
 	browser list
 		display: [:each | each enumerator contents];
-		format: [:each | each title ];
+		format: [:each | each title];
 		title: 'Navigation'.
-	browser morph
-		title: 'Editor'.
-	^ browser 
+	browser magritte title: 'Editor'.
+	browser openOn: PRKernel instances anyOne root
 ]
 
 { #category : #examples }
@@ -39,7 +36,7 @@ GLMMorphicExamples >> pierTreeEditor [
 			title: 'Navigation'.
 	].
 	browser showOn: #editor; from: #navigation; using: [
-		browser morph
+		browser magritte
 			title: 'Editor'.
 	].
 	^ browser 
