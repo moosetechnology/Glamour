@@ -316,7 +316,7 @@ GLMMorphicRenderer >> renderPane: aPane [
 				when: Clicked 
 				do: [(aPane port: #entity) value inspect]. "
 			container addMorphBack: inspectButton]. 
-	container addMorph: (self renderPresentationsOf: aPane) frame: (0 @ 0 corner: 1 @ 1).
+	container addMorph: (self renderPresentationsOf: aPane).
 	aPane 
 		whenMatchingPresentationsChanged: 
 			[:announcement |  
