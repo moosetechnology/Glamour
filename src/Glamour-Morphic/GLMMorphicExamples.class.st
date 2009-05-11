@@ -5,6 +5,51 @@ Class {
 }
 
 { #category : #examples }
+GLMMorphicExamples >> mooseFinder [
+	"
+		self new mooseFinder openOn: MooseModel root
+	"
+
+
+	| browser pragmas |
+	browser := GLMFinder new.
+	
+	browser list
+		title: 'Entity';
+		display:  [:anObject | 
+			pragmas := anObject class withAllSuperclasses flatCollect: [:each |
+				Pragma allNamed: #navigation: in: each].
+			(pragmas collect: [:each | anObject perform: each selector ])
+				select: [ :each | each isCollection  and: [ each isEmpty not ] ].
+		]";
+		when: [ :each | each isCollection not ]".
+	browser list
+		display: [:each | each entities];
+"		itemAct: [:each | each inspect] entitled: 'Inspect';"
+		title: 'Group';
+		whenKindOf: MooseGroup.
+	browser mondrian
+		painting: [ :view :each | each viewBlueprintOn: view ];
+		title: 'Blueprint';
+		whenKindOf: FAMIXClass.
+	browser text
+		display: #sourceText;
+		title: 'Method Source';
+		whenKindOf: FAMIXMethod.
+	browser text
+		display: #sourceText;
+		title: 'Class Source';
+		whenKindOf: FAMIXClass.
+	browser text
+		display: [:entity | '' ];
+		title: 'Evaluator';
+		update: #selection on: $o with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ];
+		update: #selection on: $s with: [ :text :entity | self halt. ].
+	
+	^ browser
+]
+
+{ #category : #examples }
 GLMMorphicExamples >> pierFinder [
 	"
 		self new pierFinder openOn: PRKernel instances anyOne root.
