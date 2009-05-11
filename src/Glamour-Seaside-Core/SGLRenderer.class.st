@@ -55,6 +55,17 @@ SGLRenderer >> renderListPresentation: aPresentation [
 ]
 
 { #category : #presentation }
+SGLRenderer >> renderMagrittePresentation: aPresentation [
+	| form |
+	form := aPresentation displayValue asComponent
+		addValidatedForm;
+		onAnswer: [ :answer | aPresentation selection: answer ].
+	html div
+		class: 'magritte';
+		with: form
+]
+
+{ #category : #presentation }
 SGLRenderer >> renderMondrianPresentation: aPresentation [	 
 	| canvas view values |
 	view := MOViewRenderer new.

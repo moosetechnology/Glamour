@@ -114,8 +114,14 @@ table.table-layout th {
 	padding: 0;
 }
 
-
-'
+/* magritte */
+div.magritte { width: 100%; }
+div.magritte th { width: 150px; }
+div.magritte textarea { height: 250px; }
+div.magritte table { width: 100%; padding: .3em 1em 0 .4em; }
+div.magritte input, div.magritte textarea { width: 100%; border: 1px solid #d3d3d3; background: #e6e6e6; }
+div.magritte .buttons { text-align: right; border-width: 1px 0 0 0; margin: .5em 0 0 0; padding: .3em 1em .5em .4em; }
+div.magritte .submit { display: inline; margin: .5em .4em .5em 0; cursor: pointer; padding: .2em .6em .3em .6em; line-height: 1.4em; width: auto; overflow: visible; border: 1px solid #d3d3d3; background: #e6e6e6 url(/seaside/files/JQUiSmoothnessTheme/uibgglass75e6e6e61x400.png) 50% 50% repeat-x; font-weight: normal; color: #555555; outline: none; }'
 ]
 
 { #category : #updating }
