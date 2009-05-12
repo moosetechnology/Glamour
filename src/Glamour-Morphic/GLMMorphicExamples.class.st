@@ -5,29 +5,46 @@ Class {
 }
 
 { #category : #examples }
+GLMMorphicExamples >> demoBrowser [
+	"
+		self new demoBrowser openOn: Smalltalk organization categories
+	"
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	^ browser 
+]
+
+{ #category : #examples }
+GLMMorphicExamples >> demoNavigator [
+	"
+		self new demoNavigator openOn: Smalltalk organization categories
+	"
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	^ browser 
+]
+
+{ #category : #examples }
 GLMMorphicExamples >> mooseFinder [
 	"
 		self new mooseFinder openOn: MooseModel root
 	"
 
-
 	| browser pragmas |
 	browser := GLMFinder new.
 	
 	browser list
+		display: [:each | each entities];
+		title: 'Group';
+		whenKindOf: MooseGroup.
+	browser list
 		title: 'Entity';
-		display:  [:anObject | 
+		display:  [ :anObject | 
 			pragmas := anObject class withAllSuperclasses flatCollect: [:each |
 				Pragma allNamed: #navigation: in: each].
 			(pragmas collect: [:each | anObject perform: each selector ])
 				select: [ :each | each isCollection  and: [ each isEmpty not ] ].
-		]";
-		when: [ :each | each isCollection not ]".
-	browser list
-		display: [:each | each entities];
-"		itemAct: [:each | each inspect] entitled: 'Inspect';"
-		title: 'Group';
-		whenKindOf: MooseGroup.
+		].
 	browser mondrian
 		painting: [ :view :each | each viewBlueprintOn: view ];
 		title: 'Blueprint';
@@ -41,11 +58,36 @@ GLMMorphicExamples >> mooseFinder [
 		title: 'Class Source';
 		whenKindOf: FAMIXClass.
 	browser text
-		display: [:entity | '' ];
+		display: [:entity | 'self' ];
 		title: 'Evaluator';
 		update: #selection on: $o with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ];
-		update: #selection on: $s with: [ :text :entity | self halt. ].
+		act: [ :text :entity | (Compiler evaluate: text selectedText for: entity logged: false) inspect ] on: $/.
 	
+	^ browser
+]
+
+{ #category : #examples }
+GLMMorphicExamples >> moosePreviewFinder [
+	"
+		self new moosePreviewFinder openOn: MooseModel root
+	"
+
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	browser row: #visual; row: #finder; row: #textual.
+	browser showOn: #finder; using: [
+		browser custom: self mooseFinder.
+	].
+	browser showOn: #visual; from: #finder; using: [
+		browser mondrian
+			painting: [ :view :classes | classes viewSystemComplexityOn: view ];
+			whenKindOf: FAMIXClassGroup.
+	].
+	browser showOn: #textual; from: #finder; using: [
+		browser text
+			display: [:element | element mooseName]
+	].
+
 	^ browser
 ]
 
@@ -161,9 +203,6 @@ GLMMorphicExamples >> stCodeBrowser [
 				when: [:class :method :cat | cat notNil].
 		].
 
-	browser push: #navigation->#selectedClass as: #selectedClass.
-	browser push: #navigation->#selectedClassCategory as: #selectedClassCategory.
-
 	^browser
 ]
 
@@ -207,4 +246,64 @@ GLMMorphicExamples >> stCodeNavigator [
 	browser sendTo: #outer -> #selectedMethod from: #methods.
 
 	^browser
+]
+
+{ #category : #examples }
+GLMMorphicExamples >> toyBrowser [
+	"
+		self new toyBrowser openOn: Smalltalk organization categories
+	"
+
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	browser column: #categories; column: #classes; column: #methods.
+	browser showOn: #classes; from: #categories; using: [
+		browser list
+			display: [:category | (Smalltalk organization listAtCategoryNamed: category) collect: [:className | Smalltalk classNamed: className] ]
+	].
+	browser showOn: #methods; from: #classes; using: [
+		browser tree
+			children: [ :class  | class selectors asSortedCollection ].
+	].
+	^ browser
+]
+
+{ #category : #examples }
+GLMMorphicExamples >> toyNavigatorBrowser [
+	"
+		| browser |
+		browser := self new toyNavigatorBrowser.
+		browser openOn: Smalltalk organization categories.
+		((browser paneNamed: #categories) port: #selection) value: Smalltalk organization categories first.
+	"
+
+	| browser classes |
+	browser := GLMTableLayoutBrowser new.
+	browser column: #categories; column: #classes; column: #metCategories; column: #methods.
+	browser showOn: #classes->#entity; from: #categories->#selection; using: [
+		browser list
+			title: 'Classes';
+			display: [:category | (Smalltalk organization listAtCategoryNamed: category) collect: [:className | Smalltalk classNamed: className] ].
+		browser mondrian
+			title: 'System Complexity';
+			painting: [:view :category | 
+				classes := (Smalltalk organization listAtCategoryNamed: category) collect: [:className | Smalltalk classNamed: className].
+				view nodes: classes.
+				view edgesFrom: #superclass.
+				view treeLayout
+			]
+	].
+	browser showOn: #metCategories; from: #classes; using: [
+		browser list
+			display: [:class | class organization categories ]
+	].
+	browser showOn: #methods; from: #classes; from: #metCategories; using: [
+		browser list
+			display: [  :class :category | (class organization listAtCategoryNamed: category) asSortedCollection ];
+			when: [  :class :category | class notNil and: [ category notNil ] ].
+		browser list
+			display: [ :class :category | class selectors asSortedCollection ];
+			when: [ :class :category | class notNil and: [ category isNil ] ].
+	].
+	^ browser
 ]

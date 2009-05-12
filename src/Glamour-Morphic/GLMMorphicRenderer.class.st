@@ -245,13 +245,12 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 	aMondrianPresentation renderOn: view. 
 	canvas := MOCanvas new. 
 	canvas root: view root.
+	canvas announcer
+		when: MOFigureSelection
+		do: [ :ann | aMondrianPresentation selection: ann element ].
 	^ canvas
 	
-	
-"	canvas 
-		when: SelectionChanged 
-		do: [:ann | aMondrianPresentation selection: canvas selection]. 
-"
+
 "	aMondrianPresentation 
 		whenContextChanged: 
 			[:ann |  
@@ -336,7 +335,7 @@ GLMMorphicRenderer >> renderPresentationsOf: aPane [
 			(each renderGlamorouslyOn: self) 
 				ifNotNil: [:ui | presentations addLast: each title -> ui]]. 
 	presentations size < 1 ifTrue: [^RectangleMorph new width: 1; height: 1; cellPositioning: #topLeft; yourself]. 
-	presentations size = 1 ifTrue: [^presentations first value]. 
+	presentations size = 1 ifTrue: [^presentations first value cellPositioning: #topLeft; yourself]. 
 	
 	
 	tabs := TabGroupMorph new. 

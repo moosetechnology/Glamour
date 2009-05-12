@@ -10,8 +10,8 @@ Class {
 
 { #category : #callbacks }
 GLMTextModel >> accept: aText notifying: anObject [ 
- 	aText asString withBlanksTrimmed ifEmpty: [^self].
-	"onTextChanged ifNotNil: [onTextChanged value: aText]."
+	aText asString withBlanksTrimmed ifEmpty: [^self].
+	onTextChanged ifNotNil: [onTextChanged value: aText].
 	text := aText.
 	self changed: #text
 ]
