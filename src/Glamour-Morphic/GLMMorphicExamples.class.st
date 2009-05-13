@@ -163,7 +163,9 @@ GLMMorphicExamples >> simpleFinder [
 { #category : #examples }
 GLMMorphicExamples >> stCodeBrowser [	
 	"
-		self new stCodeBrowser openOn: Smalltalk organization categories
+		| browser |
+		browser := self new stCodeBrowser.
+		browser openOn: Smalltalk organization categories.
 	"
 
 	| browser |
@@ -183,7 +185,7 @@ GLMMorphicExamples >> stCodeBrowser [
 		using: [
 			browser text
 				title: 'Method source';
-				on: $d do: [:pane | Transcript show: 'action d'; cr. ]; 
+				act: [:pane | Transcript show: 'action d'; cr. ] on: $d entitled: 'some action'; 
 				display: [ :class :method | class sourceCodeAt: method ];
 				when: [ :class :method | class notNil & method notNil ].
 			browser text
@@ -209,7 +211,10 @@ GLMMorphicExamples >> stCodeBrowser [
 { #category : #examples }
 GLMMorphicExamples >> stCodeNavigator [	
 	"
-		self new stCodeNavigator openOn: Smalltalk organization categories
+		| browser |
+		browser := self new stCodeNavigator.
+		browser openOn: Smalltalk organization categories.
+		((browser paneNamed: #classCats) port: #selection) value: Smalltalk organization categories first
 	"
 
 	| browser |
