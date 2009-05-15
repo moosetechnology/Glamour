@@ -27,6 +27,11 @@ GLMTextModel >> onTextChanged: aBlock [
 ]
 
 { #category : #callbacks }
+GLMTextModel >> selectSilently: anIndex [
+	self changed: #selection
+]
+
+{ #category : #callbacks }
 GLMTextModel >> selection [
 	^ 1 to: 0
 ]

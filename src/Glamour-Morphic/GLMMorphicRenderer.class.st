@@ -228,19 +228,23 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderMagrittePresentation: anAsMorphPresentation [ 
-	| toShow description |
+	| toShow description magritteMorph scrollPane |
 	toShow := anAsMorphPresentation displayValue.
-	description := toShow description copy.
+	description := (anAsMorphPresentation magritteDescription glamourValue: toShow) copy.
 	description morphClass: MASilentContainerMorph.
-	^ (description asMorphOn: toShow) 
+	magritteMorph := (description asMorphOn: toShow) 
 		addButtons;
-		morph
+		morph.
+	scrollPane := ScrollPane new.
+	scrollPane scroller addMorph: magritteMorph.	
+	^ scrollPane
+
 ]
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [ 
 	 
-	| canvas view | 
+	| canvas view canvasScrollPane | 
 	view := MOViewRenderer new.
 	aMondrianPresentation renderOn: view. 
 	canvas := MOCanvas new. 
@@ -248,7 +252,9 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 	canvas announcer
 		when: MOFigureSelection
 		do: [ :ann | aMondrianPresentation selection: ann element ].
-	^ canvas
+	canvasScrollPane := ScrollPane new.
+	canvasScrollPane scroller addMorph: canvas.	
+	^ canvasScrollPane
 	
 
 "	aMondrianPresentation 
