@@ -335,15 +335,14 @@ GLMMorphicRenderer >> renderPresentationsOf: aPane [
 	 
 	| presentations tabs | 
 	presentations := OrderedCollection new. 
-	aPane matchingPresentations 
-		do: 
-			[:each |  
-			(each renderGlamorouslyOn: self) 
-				ifNotNil: [:ui | presentations addLast: each title -> ui]]. 
-	presentations size < 1 ifTrue: [^RectangleMorph new width: 1; height: 1; cellPositioning: #topLeft; yourself]. 
-	presentations size = 1 ifTrue: [^presentations first value cellPositioning: #topLeft; yourself]. 
-	
-	
+	aPane matchingPresentations do: [:each |  
+		(each renderGlamorouslyOn: self) ifNotNil: [:ui | 
+			presentations addLast: each titleValue -> ui]]. 
+	presentations size < 1 ifTrue: [
+		^RectangleMorph new width: 1; height: 1; cellPositioning: #topLeft; yourself]. 
+	presentations size = 1 ifTrue: [
+		^presentations first value cellPositioning: #topLeft; yourself]. 
+
 	tabs := TabGroupMorph new. 
 	tabs 
 		vResizing: #spaceFill;
@@ -351,13 +350,11 @@ GLMMorphicRenderer >> renderPresentationsOf: aPane [
 		cornerStyle: #rounded;
 		borderWidth: 0;
 		cellPositioning: #topLeft.
-	presentations 
-		do: 
-			[:each |  | label |
-			label := each key ifNil: ['unnamed'].
-			tabs 
-				addPage: each value 
-				label: ((LabelMorph contents: label) hResizing: #spaceFill)]. 
+	presentations do: [:each |  | label |
+		label := each key ifNil: ['unnamed'].
+		tabs 
+			addPage: each value 
+			label: ((LabelMorph contents: label) hResizing: #spaceFill)]. 
 	tabs selectedPageIndex: 1. 
 	^tabs
 ]
