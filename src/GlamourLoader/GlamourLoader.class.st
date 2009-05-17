@@ -8,25 +8,28 @@ Class {
 GlamourLoader class >> load [
 	"self load"
 	
+	self loadGlamourForMorphic.
+	self loadMondrian.
+]
+
+{ #category : #'as yet unclassified' }
+GlamourLoader class >> loadGlamourForMorphic [
+	"self loadGlamourForMorphic"
+	
 	Installer ss 
 		project: 'Glamour'; 
 		install: 'Glamour-All';
 		install: 'Glamour-Morphic';
 		install: 'Announcements'.
-	self loadMondrian.
 ]
 
 { #category : #'as yet unclassified' }
 GlamourLoader class >> loadMondrian [
 	"self loadMondrian"
 	
-	| instClass |
-	instClass := self environment at: #Installer ifAbsent: [self new installingInstaller].
-
-	(Smalltalk at: #Rio ifAbsent: [
-		instClass ss project: 'Rio'; install: 'Rio-Kernel'; install: 'Rio-Grande'. ]).
-
-	instClass ss
+	Installer ss
 		project: 'Mondrian';
-		install: 'Mondrian'.
+		install: 'MondrianLoader'.
+	
+	(Smalltalk at: #MondrianLoader) load.
 ]
