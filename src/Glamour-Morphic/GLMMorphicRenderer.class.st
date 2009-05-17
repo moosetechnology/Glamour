@@ -194,15 +194,13 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 	 
 	| items list toShow listModel | 
 	toShow := aListPresentation displayValue. 
-	items := toShow isCollection 
-		ifTrue: [toShow] 
-		ifFalse: [Array with: toShow]. 
+	items := toShow isCollection ifTrue: [ toShow ] ifFalse: [ Array with: toShow ]. 
 		
 	listModel := GLMListModel new 
 				items: (items ifNil: [OrderedCollection new]); 
 				displaySelector: aListPresentation format;
 				yourself.	
-	list := PluggableListMorph 
+	list := PluggableListMorphOfMany 
 			on: listModel 
 			list: #items 
 			selected: #selection 
@@ -218,11 +216,9 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 		autoDeselect: false.
 	self installActionsOnUI: listModel fromPresentation: aListPresentation.
 	listModel onSelection: [:selection | aListPresentation selection: selection]. 
-	"is this needed?
-	aListPresentation 
-		whenContextChanged: 
-			[:ann | ann property = #selection ifTrue: [list selection: ann value]]. "
-	list vShowScrollBar.	
+"	aListPresentation whenContextChanged: [:ann | 
+		ann property = #selection ifTrue: [ list selection: ann value ] ].
+"	list vShowScrollBar.	
 	^list
 ]
 
@@ -251,7 +247,7 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 	canvas root: view root.
 	canvas announcer
 		when: MOFigureSelection
-		do: [ :ann | aMondrianPresentation selection: ann element ].
+		do: [ :ann | aMondrianPresentation selection: ann element model ].
 	canvasScrollPane := ScrollPane new.
 	canvasScrollPane scroller addMorph: canvas.	
 	^ canvasScrollPane
