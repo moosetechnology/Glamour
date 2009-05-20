@@ -272,6 +272,9 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 		do: [ :ann | aMondrianPresentation selection: ann element model ].
 	canvasScrollPane := ScrollPane new.
 	canvasScrollPane scroller addMorph: canvas.	
+	canvasScrollPane
+			vResizing: #spaceFill;
+			hResizing: #spaceFill.
 	^ canvasScrollPane
 	
 
