@@ -6,7 +6,8 @@ Class {
 		'selection',
 		'onSelection',
 		'displaySelector',
-		'menuActions'
+		'menuActions',
+		'searchText'
 	],
 	#category : #'Glamour-Morphic'
 }
@@ -68,6 +69,22 @@ GLMListModel >> menu: aMenuMorph [
 { #category : #updating }
 GLMListModel >> onSelection: aBlock [
 	onSelection := aBlock
+]
+
+{ #category : #accessing }
+GLMListModel >> searchEnabled [
+	^ true
+]
+
+{ #category : #accessing }
+GLMListModel >> searchText [
+	^ searchText ifNil: [searchText := '']
+]
+
+{ #category : #accessing }
+GLMListModel >> searchText: aString [
+	searchText := aString.
+	self halt.
 ]
 
 { #category : #callbacks }

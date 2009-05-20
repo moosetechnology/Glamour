@@ -192,15 +192,24 @@ GLMMorphicRenderer >> renderFixedFinder: aBrowser [
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderListPresentation: aListPresentation [ 
 	 
-	| items list toShow listModel | 
+	| items list toShow listModel container search | 
 	toShow := aListPresentation displayValue. 
 	items := toShow isCollection ifTrue: [ toShow ] ifFalse: [ Array with: toShow ]. 
-		
+	
+"	container := RectangleMorph new
+		borderWidth: 0;
+		color: Color transparent;
+		layoutPolicy: TableLayout new;
+		cellPositioning: #topLeft;
+		vResizing: #spaceFill;
+		hResizing: #spaceFill;
+		yourself.
+"	
 	listModel := GLMListModel new 
 				items: (items ifNil: [OrderedCollection new]); 
 				displaySelector: aListPresentation format;
-				yourself.	
-	list := PluggableListMorphOfMany 
+				yourself.
+	list := PluggableListMorphOfMany
 			on: listModel 
 			list: #items 
 			selected: #selection 
@@ -218,8 +227,21 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 	listModel onSelection: [:selection | aListPresentation selection: selection]. 
 "	aListPresentation whenContextChanged: [:ann | 
 		ann property = #selection ifTrue: [ list selection: ann value ] ].
-"	list vShowScrollBar.	
-	^list
+"	list vShowScrollBar.
+
+"	search := UITheme current 
+		newTextEntryIn: nil 
+		for: listModel
+		get: #searchText
+		set: #searchText:
+		class: nil  
+		getEnabled: #searchEnabled 
+		help: 'Search bar'.
+
+	container addMorph: search.
+	container addMorph: list.
+	^container"
+	^ list
 ]
 
 { #category : #'rendering presentations' }
