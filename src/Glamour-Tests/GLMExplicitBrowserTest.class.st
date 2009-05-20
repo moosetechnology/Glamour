@@ -99,65 +99,6 @@ GLMExplicitBrowserTest >> testParentPort [
 ]
 
 { #category : #tests }
-GLMExplicitBrowserTest >> testPortLoopPublish [ 
-	 
-	| browser pane | 
-	self signalFailure: 'The following test loops indefinetely.'. 
-	browser := GLMExplicitBrowser new. 
-	pane := GLMPane new. 
-	browser addPane: pane. 
-	browser 
-		addPush: (pane port: #port) 
-		as: #publishedPort. 
-	browser 
-		addPull: #publishedPort 
-		to: (pane port: #port). 
-	(pane port: #port) value: #foo. 
-	self assert: browser pane ports size = 1. 
-	self assert: (browser pane port: #publishedPort) value = #foo. 
-	self assert: pane ports size = 1. 
-	self assert: (pane port: #port) value = #foo
-]
-
-{ #category : #tests }
-GLMExplicitBrowserTest >> testPortPulling [ 
-	 
-	| browser pane | 
-	browser := GLMExplicitBrowser new. 
-	pane := GLMPane new. 
-	browser addPane: pane. 
-	browser 
-		addPull: #port 
-		to: (pane port: #pulledPort). 
-	self assert: browser pulledPorts size = 1. 
-	self 
-		assert: browser pulledPorts first innerPort = (pane port: #pulledPort). 
-	self assert: browser pulledPorts first outerPortName = #port. 
-	self assert: (pane port: #pulledPort) value isNil. 
-	(browser pane port: #port) value: #foo. 
-	self assert: pane ports size = 1. 
-	self assert: (pane port: #pulledPort) value = #foo
-]
-
-{ #category : #tests }
-GLMExplicitBrowserTest >> testPortPushing [ 
-	 
-	| browser pane | 
-	browser := GLMExplicitBrowser new. 
-	pane := GLMPane new. 
-	browser addPane: pane. 
-	browser 
-		addPush: (pane port: #port) 
-		as: #pushedPort. 
-	self assert: browser pushedPorts size = 1. 
-	self assert: browser pushedPorts first innerPort = (pane port: #port). 
-	self assert: browser pushedPorts first outerPortName = #pushedPort. 
-	self assert: (browser pane port: #pushedPort) value isNil. 
-	(pane port: #port) value: #foo. 
-	self assert: (browser pane port: #pushedPort) value = #foo
-]
-
-{ #category : #tests }
 GLMExplicitBrowserTest >> testSetup [ 
 	 
 	| browser pane1 pane2 transmission | 
