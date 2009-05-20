@@ -25,30 +25,6 @@ GLMExplicitBrowser >> addPane: aPane [
 ]
 
 { #category : #accessing }
-GLMExplicitBrowser >> addPull: aSymbol to: aContainedPort [ 
-	"Asks the browser to push changes of aContainedPort to the outer pane's port identified by aSymbol." 
-	 
-	self pulledPorts 
-		add: 
-			((GLMPublishedPort new) 
-				innerPort: aContainedPort; 
-				outerPortName: aSymbol; 
-				yourself)
-]
-
-{ #category : #accessing }
-GLMExplicitBrowser >> addPush: aContainedPort as: aSymbol [ 
-	"Asks the browser to push changes of aContainedPort to the outer pane's port identified by aSymbol." 
-	 
-	self pushedPorts 
-		add: 
-			((GLMPublishedPort new) 
-				innerPort: aContainedPort; 
-				outerPortName: aSymbol; 
-				yourself)
-]
-
-{ #category : #accessing }
 GLMExplicitBrowser >> addTransmission: aTransmission [ 
 	 
 	self transmissions addLast: aTransmission
