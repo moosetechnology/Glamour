@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'multipleSelection',
 		'highlightPort',
-		'itemActions'
+		'itemActions',
+		'isSearchable'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -16,6 +17,11 @@ GLMListPresentation >> beMultiple [
 ]
 
 { #category : #accessing }
+GLMListPresentation >> beSearchable [
+	isSearchable := true
+]
+
+{ #category : #accessing }
 GLMListPresentation >> beSingle [ 
 	 
 	multipleSelection _ false
@@ -23,14 +29,17 @@ GLMListPresentation >> beSingle [
 
 { #category : #testing }
 GLMListPresentation >> isMultiple [ 
-	 
-	^multipleSelection ifNil: [multipleSelection _ false]
+	^ multipleSelection ifNil: [multipleSelection := false]
+]
+
+{ #category : #testing }
+GLMListPresentation >> isSearchable [
+	^ isSearchable ifNil: [isSearchable := false]
 ]
 
 { #category : #testing }
 GLMListPresentation >> isSingle [ 
-	 
-	^self isMultiple not
+	^ self isMultiple not
 ]
 
 { #category : #rendering }
