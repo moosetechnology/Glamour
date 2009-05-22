@@ -209,15 +209,16 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 				items: (items ifNil: [OrderedCollection new]); 
 				displaySelector: aListPresentation format;
 				yourself.
-	"list := PluggableListMorphOfMany
+	list := aListPresentation isMultiple ifFalse: [
+		PluggableListMorph
 			on: listModel 
 			list: #items 
 			selected: #selection 
 			changeSelected: #selection:
 			menu: #menu:
-			keystroke: #keystroke:from:."
-	
-	list := PluggableListMorphOfMany
+			keystroke: #keystroke:from:.
+	] ifTrue: [	
+		PluggableListMorphOfMany
 			on: listModel 
 			list: #items 
 			primarySelection: #selection 
@@ -226,6 +227,7 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 			changeListSelection: #listSelectionAt:put:
 			menu: #menu
 			keystroke: #keystroke:from:.
+	].
 	list	
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
@@ -237,26 +239,19 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 	listModel onSelection: [:selection | aListPresentation selection: selection]. 
 "	aListPresentation whenContextChanged: [:ann | 
 		ann property = #selection ifTrue: [ list selection: ann value ] ].
-"	list vShowScrollBar.
+"
+	list vShowScrollBar.
 	aListPresentation isSearchable ifTrue: [
-	search := UITheme current 
-		newTextEntryIn: nil 
-		for: listModel
-		get: #searchText
-		set: #searchText:
-		class: nil  
-		getEnabled: #searchEnabled 
-		help: 'Search bar'.
-		
-	"search := UITheme current 
-		newTextEditorIn: nil 
-		for: listModel
-		getText: #searchText
-		setText: #searchText:
-		getEnabled: #searchEnabled."
-
+		search := UITheme current 
+			newTextEntryIn: nil 
+			for: listModel
+			get: #searchText
+			set: #searchText:
+			class: nil  
+			getEnabled: #searchEnabled 	
+			help: 'Search bar'.
 	
-	searchButton := UITheme current
+		searchButton := UITheme current
 				newButtonIn: nil 
 				for: listModel 
 				getState: #search 
@@ -265,14 +260,12 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 				getEnabled: #searchEnabled 
 				label: 'Search' 
 				help: 'Search'.
-							
-	container addMorph: searchButton.
-	container addMorph: search.
+		container addMorph: searchButton.
+		container addMorph: search.
 	].
 	container addMorph: list.
 	
 	^container
-	"^ list"
 ]
 
 { #category : #'rendering presentations' }
