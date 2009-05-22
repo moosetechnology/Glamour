@@ -5,7 +5,8 @@ Class {
 		'multipleSelection',
 		'highlightPort',
 		'itemActions',
-		'isSearchable'
+		'isSearchable',
+		'searchBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
