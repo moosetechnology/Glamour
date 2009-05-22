@@ -7,7 +7,8 @@ Class {
 		'onSelection',
 		'displaySelector',
 		'menuActions',
-		'searchText'
+		'searchText',
+		'listSelection'
 	],
 	#category : #'Glamour-Morphic'
 }
@@ -27,6 +28,13 @@ GLMListModel >> displaySelector: aSymbol [
 	displaySelector := aSymbol
 ]
 
+{ #category : #associating }
+GLMListModel >> doSearch [
+
+	items do: [:each | each even ifTrue: [ self listSelectionAt: (items indexOf: each) put: true ] ]
+
+]
+
 { #category : #callbacks }
 GLMListModel >> executeMenuAction: anAction [
 	self announce: (GLMMenuItemSelected action: anAction)
@@ -37,6 +45,7 @@ GLMListModel >> initialize [
 	super initialize.
 	selection := 0.
 	menuActions := OrderedCollection new.
+	listSelection := OrderedCollection new.
 ]
 
 { #category : #accessing }
@@ -52,6 +61,22 @@ GLMListModel >> items: aCollection [
 { #category : #callbacks }
 GLMListModel >> listAt: anIndex [
 	^(self items at: anIndex) "perform: displaySelector"
+]
+
+{ #category : #callbacks }
+GLMListModel >> listSelectionAt: anIndex [
+	^listSelection includes: anIndex
+]
+
+{ #category : #callbacks }
+GLMListModel >> listSelectionAt: anIndex put: aValue [
+
+	aValue = true
+		ifTrue: [listSelection add: anIndex]
+		ifFalse: [listSelection
+				remove: anIndex
+				ifAbsent: []]
+	
 ]
 
 { #category : #callbacks }
@@ -71,6 +96,16 @@ GLMListModel >> onSelection: aBlock [
 	onSelection := aBlock
 ]
 
+{ #category : #associating }
+GLMListModel >> search [
+	^true
+]
+
+{ #category : #associating }
+GLMListModel >> search: arguments [
+	self halt
+]
+
 { #category : #accessing }
 GLMListModel >> searchEnabled [
 	^ true
@@ -78,6 +113,7 @@ GLMListModel >> searchEnabled [
 
 { #category : #accessing }
 GLMListModel >> searchText [
+	self halt.
 	^ searchText ifNil: [searchText := '']
 ]
 

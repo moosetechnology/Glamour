@@ -192,11 +192,11 @@ GLMMorphicRenderer >> renderFixedFinder: aBrowser [
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderListPresentation: aListPresentation [ 
 	 
-	| items list toShow listModel container search | 
+	| items list toShow listModel container search searchButton | 
 	toShow := aListPresentation displayValue. 
 	items := toShow isCollection ifTrue: [ toShow ] ifFalse: [ Array with: toShow ]. 
 	
-"	container := RectangleMorph new
+	container := RectangleMorph new
 		borderWidth: 0;
 		color: Color transparent;
 		layoutPolicy: TableLayout new;
@@ -204,17 +204,27 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
 		yourself.
-"	
+	
 	listModel := GLMListModel new 
 				items: (items ifNil: [OrderedCollection new]); 
 				displaySelector: aListPresentation format;
 				yourself.
-	list := PluggableListMorphOfMany
+	"list := PluggableListMorphOfMany
 			on: listModel 
 			list: #items 
 			selected: #selection 
 			changeSelected: #selection:
 			menu: #menu:
+			keystroke: #keystroke:from:."
+	
+	list := PluggableListMorphOfMany
+			on: listModel 
+			list: #items 
+			primarySelection: #selection 
+			changePrimarySelection: #selection: 
+			listSelection: #listSelectionAt:
+			changeListSelection: #listSelectionAt:put:
+			menu: #menu
 			keystroke: #keystroke:from:.
 	list	
 		vResizing: #spaceFill;
@@ -228,8 +238,8 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 "	aListPresentation whenContextChanged: [:ann | 
 		ann property = #selection ifTrue: [ list selection: ann value ] ].
 "	list vShowScrollBar.
-
-"	search := UITheme current 
+	aListPresentation isSearchable ifTrue: [
+	search := UITheme current 
 		newTextEntryIn: nil 
 		for: listModel
 		get: #searchText
@@ -237,11 +247,32 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 		class: nil  
 		getEnabled: #searchEnabled 
 		help: 'Search bar'.
+		
+	"search := UITheme current 
+		newTextEditorIn: nil 
+		for: listModel
+		getText: #searchText
+		setText: #searchText:
+		getEnabled: #searchEnabled."
 
+	
+	searchButton := UITheme current
+				newButtonIn: nil 
+				for: listModel 
+				getState: #search 
+				action: #doSearch
+				arguments: nil
+				getEnabled: #searchEnabled 
+				label: 'Search' 
+				help: 'Search'.
+							
+	container addMorph: searchButton.
 	container addMorph: search.
+	].
 	container addMorph: list.
-	^container"
-	^ list
+	
+	^container
+	"^ list"
 ]
 
 { #category : #'rendering presentations' }
@@ -272,9 +303,6 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 		do: [ :ann | aMondrianPresentation selection: ann element model ].
 	canvasScrollPane := ScrollPane new.
 	canvasScrollPane scroller addMorph: canvas.	
-	canvasScrollPane
-			vResizing: #spaceFill;
-			hResizing: #spaceFill.
 	^ canvasScrollPane
 	
 
