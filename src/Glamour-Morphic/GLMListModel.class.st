@@ -6,7 +6,9 @@ Class {
 		'selection',
 		'onSelection',
 		'displaySelector',
-		'searchText'
+		'searchText',
+		'listSelection',
+		'searchBlock'
 	],
 	#category : #'Glamour-Morphic'
 }
@@ -21,10 +23,20 @@ GLMListModel >> displaySelector: aSymbol [
 	displaySelector := aSymbol
 ]
 
+{ #category : #associating }
+GLMListModel >> doSearch [
+	| searchResult |
+	searchResult := searchBlock value: self searchText asString value: self items.
+	listSelection := searchResult asOrderedCollection.
+	self changed: #selection.
+]
+
 { #category : #initialization }
 GLMListModel >> initialize [
 	super initialize.
 	selection := 0.
+	listSelection := OrderedCollection new.
+	searchBlock := [:text :list | OrderedCollection new]
 ]
 
 { #category : #accessing }
@@ -43,6 +55,23 @@ GLMListModel >> listAt: anIndex [
 ]
 
 { #category : #callbacks }
+GLMListModel >> listSelectionAt: anIndex [
+	^listSelection includes: anIndex
+	"^listSelection includes: (items at: anIndex ifAbsent: [ ^ false ])."
+]
+
+{ #category : #callbacks }
+GLMListModel >> listSelectionAt: anIndex put: aValue [
+	aValue = true
+		ifTrue: [listSelection add: anIndex]
+		ifFalse: [listSelection
+				remove: anIndex
+				ifAbsent: []].
+	self changed: #selection.
+	
+]
+
+{ #category : #callbacks }
 GLMListModel >> listSize [
 	^self items size
 ]
@@ -50,6 +79,22 @@ GLMListModel >> listSize [
 { #category : #updating }
 GLMListModel >> onSelection: aBlock [
 	onSelection := aBlock
+]
+
+{ #category : #associating }
+GLMListModel >> search [
+	^true
+]
+
+{ #category : #associating }
+GLMListModel >> search: arguments [
+	self halt
+]
+
+{ #category : #accessing }
+GLMListModel >> searchBlock: aBlock [
+
+	searchBlock := aBlock
 ]
 
 { #category : #accessing }
@@ -65,7 +110,7 @@ GLMListModel >> searchText [
 { #category : #accessing }
 GLMListModel >> searchText: aString [
 	searchText := aString.
-	self halt.
+
 ]
 
 { #category : #callbacks }
@@ -81,9 +126,20 @@ GLMListModel >> selection [
 
 { #category : #callbacks }
 GLMListModel >> selection: anIndex. [
-	selection := anIndex. 
-	onSelection ifNotNil: [onSelection value: (self listAt: anIndex)].
 	self changed: #selection.
+]
+
+{ #category : #callbacks }
+GLMListModel >> singleSelection [ 
+	^selection
+]
+
+{ #category : #callbacks }
+GLMListModel >> singleSelection: anIndex. [
+	(anIndex == 0) ifFalse: [
+		selection := anIndex.
+		onSelection ifNotNil: [onSelection value: (self listAt: anIndex) ] ].
+	self changed: #singleSelection.
 ]
 
 { #category : #accessing }
