@@ -208,6 +208,7 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 	listModel := GLMListModel new 
 				items: (items ifNil: [OrderedCollection new]); 
 				displaySelector: aListPresentation format;
+				searchBlock: aListPresentation searchStrategy;
 				yourself.
 	list := aListPresentation isMultiple ifFalse: [
 		PluggableListMorph
@@ -218,6 +219,15 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 			menu: #menu:
 			keystroke: #keystroke:from:.
 	] ifTrue: [	
+		"MorphicToolBuilder new buildPluggableMultiSelectionList: (PluggableMultiSelectionListSpec new
+			model: listModel;
+			list: #items;
+			menu: #menu;
+			getIndex: #selection;
+			setIndex: #selection:;
+			getSelectionList: #listSelectionAt:;
+			setSelectionList: #listSelectionAt:put:;
+			yourself)."
 		PluggableListMorphOfMany
 			on: listModel 
 			list: #items 

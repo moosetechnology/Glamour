@@ -8,7 +8,8 @@ Class {
 		'displaySelector',
 		'menuActions',
 		'searchText',
-		'listSelection'
+		'listSelection',
+		'searchBlock'
 	],
 	#category : #'Glamour-Morphic'
 }
@@ -30,9 +31,10 @@ GLMListModel >> displaySelector: aSymbol [
 
 { #category : #associating }
 GLMListModel >> doSearch [
-
-	items do: [:each | each even ifTrue: [ self listSelectionAt: (items indexOf: each) put: true ] ]
-
+	| searchResult |
+	searchResult := searchBlock value: self searchText asString value: self items.
+	listSelection := searchResult asOrderedCollection.
+	self changed: #selection.
 ]
 
 { #category : #callbacks }
@@ -46,6 +48,7 @@ GLMListModel >> initialize [
 	selection := 0.
 	menuActions := OrderedCollection new.
 	listSelection := OrderedCollection new.
+	searchBlock := [:text :list | OrderedCollection new]
 ]
 
 { #category : #accessing }
@@ -65,7 +68,7 @@ GLMListModel >> listAt: anIndex [
 
 { #category : #callbacks }
 GLMListModel >> listSelectionAt: anIndex [
-	^listSelection includes: anIndex
+	^listSelection includes: (items at: anIndex ifAbsent: [ ^ false ]).
 ]
 
 { #category : #callbacks }
@@ -75,7 +78,8 @@ GLMListModel >> listSelectionAt: anIndex put: aValue [
 		ifTrue: [listSelection add: anIndex]
 		ifFalse: [listSelection
 				remove: anIndex
-				ifAbsent: []]
+				ifAbsent: []].
+	self changed: #selection.
 	
 ]
 
@@ -107,20 +111,25 @@ GLMListModel >> search: arguments [
 ]
 
 { #category : #accessing }
+GLMListModel >> searchBlock: aBlock [
+
+	searchBlock := aBlock
+]
+
+{ #category : #accessing }
 GLMListModel >> searchEnabled [
 	^ true
 ]
 
 { #category : #accessing }
 GLMListModel >> searchText [
-	self halt.
 	^ searchText ifNil: [searchText := '']
 ]
 
 { #category : #accessing }
 GLMListModel >> searchText: aString [
 	searchText := aString.
-	self halt.
+
 ]
 
 { #category : #callbacks }
@@ -136,8 +145,6 @@ GLMListModel >> selection [
 
 { #category : #callbacks }
 GLMListModel >> selection: anIndex. [
-	selection := anIndex. 
-	onSelection ifNotNil: [onSelection value: (self listAt: anIndex)].
 	self changed: #selection.
 ]
 
