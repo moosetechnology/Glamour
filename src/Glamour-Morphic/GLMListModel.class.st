@@ -68,12 +68,12 @@ GLMListModel >> listAt: anIndex [
 
 { #category : #callbacks }
 GLMListModel >> listSelectionAt: anIndex [
-	^listSelection includes: (items at: anIndex ifAbsent: [ ^ false ]).
+	^listSelection includes: anIndex
+	"^listSelection includes: (items at: anIndex ifAbsent: [ ^ false ])."
 ]
 
 { #category : #callbacks }
 GLMListModel >> listSelectionAt: anIndex put: aValue [
-
 	aValue = true
 		ifTrue: [listSelection add: anIndex]
 		ifFalse: [listSelection

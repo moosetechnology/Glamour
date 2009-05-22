@@ -223,12 +223,19 @@ GLMMorphicExamples >> stCodeNavigator [
 
 	browser showOn: #classCats; using: [
 		browser list
+			beSearchable;
+			beMultiple;
+			seachOn: [:text :list | list select: [:each | each even]].
 	].
 
 	browser showOn: #classes; from: #classCats; using: [
 		browser list
 			display: [ :classCat |  (Smalltalk organization listAtCategoryNamed: classCat) collect: [:className | Smalltalk classNamed: className] ];
-			when: [ :classCat | classCat notNil "and: [pundle item isPackage]"]
+			when: [ :classCat | classCat notNil "and: [pundle item isPackage]"].
+		"browser list
+			beSearchable;
+			beMultiple;
+			seachOn: [:text :list | list select: [:each | each even]]"
 	].
 
 	browser showOn: #categories; from: #classes; using: [
