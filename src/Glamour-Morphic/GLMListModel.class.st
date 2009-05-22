@@ -148,6 +148,19 @@ GLMListModel >> selection: anIndex. [
 	self changed: #selection.
 ]
 
+{ #category : #callbacks }
+GLMListModel >> singleSelection [ 
+	^selection
+]
+
+{ #category : #callbacks }
+GLMListModel >> singleSelection: anIndex. [
+	(anIndex == 0) ifFalse: [
+		selection := anIndex.
+		onSelection ifNotNil: [onSelection value: (self listAt: anIndex) ] ].
+	self changed: #singleSelection.
+]
+
 { #category : #accessing }
 GLMListModel >> stringItems [
 	^items collect: [:each | displaySelector glamourValue: each]

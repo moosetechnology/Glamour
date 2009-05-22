@@ -214,8 +214,8 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 		PluggableListMorph
 			on: listModel 
 			list: #items 
-			selected: #selection 
-			changeSelected: #selection:
+			selected: #singleSelection 
+			changeSelected: #singleSelection:
 			menu: #menu:
 			keystroke: #keystroke:from:.
 	] ifTrue: [	
