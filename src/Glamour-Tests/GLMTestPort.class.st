@@ -17,5 +17,5 @@ GLMTestPort >> receive: aTransmission [
 { #category : #accessing }
 GLMTestPort >> seenTransmissions [ 
 	 
-	^seenTransmissions ifNil: [seenTransmissions _ OrderedCollection new]
+	^seenTransmissions ifNil: [seenTransmissions := OrderedCollection new]
 ]

@@ -8,7 +8,7 @@ Class {
 GLMScriptingTest >> testComplexFinderBrowser [ 
 	 
 	| browser | 
-	browser _ GLMFinder new. 
+	browser := GLMFinder new. 
 	(browser list) 
 		title: 'Presentation1'; 
 		display: [:each | 1 to: each]. 
@@ -40,7 +40,7 @@ GLMScriptingTest >> testComplexFinderBrowser [
 GLMScriptingTest >> testConditionalPresentation [ 
 	 
 	| browser | 
-	browser _ GLMTableLayoutBrowser new. 
+	browser := GLMTableLayoutBrowser new. 
 	browser 
 		column: #one; 
 		column: #two. 
@@ -68,7 +68,7 @@ GLMScriptingTest >> testConditionalPresentation [
 GLMScriptingTest >> testEntityInUpdateAction [ 
 	 
 	| browser inputFromActionBlock | 
-	browser _ GLMTableLayoutBrowser new. 
+	browser := GLMTableLayoutBrowser new. 
 	browser column: #one. 
 	browser 
 		showOn: #one; 
@@ -76,7 +76,7 @@ GLMScriptingTest >> testEntityInUpdateAction [
 				[browser text 
 						update: #foo 
 						on: $m 
-						with: [:list :input | inputFromActionBlock _ input]]. 
+						with: [:list :input | inputFromActionBlock := input]]. 
 	browser startOn: 42. 
 	browser panes first presentations first actions first 
 		actOn: browser panes first presentations first. 
@@ -87,9 +87,9 @@ GLMScriptingTest >> testEntityInUpdateAction [
 GLMScriptingTest >> testNestedBrowser [ 
 	 
 	| browser innerBrowser | 
-	browser _ GLMTableLayoutBrowser new. 
+	browser := GLMTableLayoutBrowser new. 
 	browser column: #one. 
-	innerBrowser _ GLMTableLayoutBrowser new. 
+	innerBrowser := GLMTableLayoutBrowser new. 
 	innerBrowser column: #innerOne. 
 	innerBrowser 
 		showOn: #innerOne; 
@@ -107,9 +107,9 @@ GLMScriptingTest >> testNestedBrowser [
 GLMScriptingTest >> testNestedBrowserWithExplicitTransmission [ 
 	 
 	| browser innerBrowser | 
-	browser _ GLMTableLayoutBrowser new. 
+	browser := GLMTableLayoutBrowser new. 
 	browser column: #one. 
-	innerBrowser _ GLMTableLayoutBrowser new. 
+	innerBrowser := GLMTableLayoutBrowser new. 
 	innerBrowser column: #innerOne. 
 	innerBrowser 
 		showOn: #innerOne; 
@@ -128,7 +128,7 @@ GLMScriptingTest >> testNestedBrowserWithExplicitTransmission [
 GLMScriptingTest >> testPublishing [ 
 	 
 	| browser | 
-	browser _ GLMTableLayoutBrowser new. 
+	browser := GLMTableLayoutBrowser new. 
 	browser column: #classes. 
 	browser 
 		sendToOutside: #selectedClass 
@@ -154,8 +154,8 @@ GLMScriptingTest >> testPublishing [
 GLMScriptingTest >> testReferences [ 
 	 
 	| browser pane1 | 
-	browser _ GLMExplicitBrowser new. 
-	pane1 _ GLMPane new name: #pane1. 
+	browser := GLMExplicitBrowser new. 
+	pane1 := GLMPane new name: #pane1. 
 	browser addPane: pane1. 
 	self 
 		assert: (browser resolveOriginPort: #pane1) == (pane1 port: #selection). 
@@ -195,7 +195,7 @@ GLMScriptingTest >> testReferences [
 GLMScriptingTest >> testScriptingDefaults [ 
 	 
 	| browser | 
-	browser _ GLMTableLayoutBrowser new. 
+	browser := GLMTableLayoutBrowser new. 
 	browser startOn: 42. 
 	self assert: browser panes size = 1. 
 	self assert: browser jumpstartTransmissions size = 1. 
@@ -209,7 +209,7 @@ GLMScriptingTest >> testScriptingDefaults [
 GLMScriptingTest >> testSimpleTransmission [ 
 	 
 	| browser | 
-	browser _ GLMTableLayoutBrowser new. 
+	browser := GLMTableLayoutBrowser new. 
 	browser 
 		column: #one; 
 		column: #two. 
@@ -232,7 +232,7 @@ GLMScriptingTest >> testSimpleTransmission [
 GLMScriptingTest >> testStartTransmission [ 
 	 
 	| browser | 
-	browser _ GLMTableLayoutBrowser new. 
+	browser := GLMTableLayoutBrowser new. 
 	browser 
 		column: #one; 
 		column: #two. 
@@ -252,7 +252,7 @@ GLMScriptingTest >> testStartTransmission [
 GLMScriptingTest >> testStartWithOnlyJumpStart [ 
 	 
 	| browser | 
-	browser _ GLMTableLayoutBrowser new. 
+	browser := GLMTableLayoutBrowser new. 
 	browser 
 		column: #one; 
 		column: #two. 
@@ -278,7 +278,7 @@ GLMScriptingTest >> testStartWithOnlyJumpStart [
 GLMScriptingTest >> testThreePanesTransmissions [ 
 	 
 	| browser one two | 
-	browser _ GLMTableLayoutBrowser new. 
+	browser := GLMTableLayoutBrowser new. 
 	browser 
 		column: #one; 
 		column: #two; 
@@ -291,8 +291,8 @@ GLMScriptingTest >> testThreePanesTransmissions [
 				[browser text 
 						display: 
 							[:x :y |  
-							one _ x. 
-							two _ y]]. 
+							one := x. 
+							two := y]]. 
 	self assert: browser jumpstartTransmissions isEmpty. 
 	self assert: browser transmissions size = 1. 
 	self assert: browser transmissions first passiveOrigins size = 1. 
@@ -310,7 +310,7 @@ GLMScriptingTest >> testThreePanesTransmissions [
 GLMScriptingTest >> testTransmissionWithTwoOrigins [ 
 	 
 	| browser | 
-	browser _ GLMTableLayoutBrowser new. 
+	browser := GLMTableLayoutBrowser new. 
 	browser 
 		column: #one; 
 		column: #two; 
@@ -335,7 +335,7 @@ GLMScriptingTest >> testTransmissionWithTwoOrigins [
 GLMScriptingTest >> testTwoTransmissionsWithOnlyOneEvent [ 
 	 
 	| browser | 
-	browser _ GLMTableLayoutBrowser new. 
+	browser := GLMTableLayoutBrowser new. 
 	browser 
 		column: #one; 
 		column: #two; 
@@ -366,7 +366,7 @@ GLMScriptingTest >> testTwoTransmissionsWithOnlyOneEvent [
 GLMScriptingTest >> testUpdateAction [ 
 	 
 	| browser | 
-	browser _ GLMTableLayoutBrowser new. 
+	browser := GLMTableLayoutBrowser new. 
 	browser 
 		column: #one; 
 		column: #two. 

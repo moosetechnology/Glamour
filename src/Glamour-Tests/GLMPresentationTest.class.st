@@ -8,13 +8,13 @@ Class {
 GLMPresentationTest >> testAnnouncement [ 
 	 
 	| pane presentation announcement | 
-	pane _ GLMPane new. 
-	presentation _ GLMPresentation new. 
+	pane := GLMPane new. 
+	presentation := GLMPresentation new. 
 	pane addPresentation: presentation. 
-	announcement _ nil. 
+	announcement := nil. 
 	presentation 
 		when: GLMContextChanged 
-		do: [:ann | announcement _ ann]. 
+		do: [:ann | announcement := ann]. 
 	(pane port: #entity) value: 42. 
 	self assert: announcement notNil. 
 	self assert: announcement property = #entity. 
@@ -25,8 +25,8 @@ GLMPresentationTest >> testAnnouncement [
 GLMPresentationTest >> testContext [ 
 	 
 	| pane presentation | 
-	pane _ GLMPane new. 
-	presentation _ GLMPresentation new. 
+	pane := GLMPane new. 
+	presentation := GLMPresentation new. 
 	pane addPresentation: presentation. 
 	presentation selection: 42. 
 	self assert: (pane port: #selection) value = 42. 
@@ -38,7 +38,7 @@ GLMPresentationTest >> testContext [
 GLMPresentationTest >> testDisplay [ 
 	 
 	| presentation | 
-	presentation _ GLMPresentation new. 
+	presentation := GLMPresentation new. 
 	presentation entity: #foo. 
 	self assert: presentation displayValue = #foo. 
 	presentation entity: #(#foo #bar). 
@@ -53,7 +53,7 @@ GLMPresentationTest >> testDisplay [
 GLMPresentationTest >> testMatching [ 
 	 
 	| presentation | 
-	presentation _ GLMPresentation new. 
+	presentation := GLMPresentation new. 
 	self assert: presentation usesImplicitNotNil. 
 	(presentation pane port: #entity) value: nil. 
 	self assert: presentation matches not. 
@@ -94,7 +94,7 @@ GLMPresentationTest >> testMatching [
 GLMPresentationTest >> testSetup [ 
 	 
 	| presentation | 
-	presentation _ GLMPresentation new. 
+	presentation := GLMPresentation new. 
 	self assert: presentation pane notNil. 
 	self assert: (presentation pane presentations includes: presentation)
 ]
@@ -103,7 +103,7 @@ GLMPresentationTest >> testSetup [
 GLMPresentationTest >> testTitle [ 
 	 
 	| presentation | 
-	presentation _ GLMPresentation new. 
+	presentation := GLMPresentation new. 
 	presentation entity: #foo. 
 	self assert: presentation titleValue = 'foo'. 
 	presentation entity: '4'. 

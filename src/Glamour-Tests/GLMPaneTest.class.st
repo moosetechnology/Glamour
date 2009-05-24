@@ -8,9 +8,9 @@ Class {
 GLMPaneTest >> testPorts [ 
 	 
 	| pane port | 
-	pane _ GLMPane new. 
+	pane := GLMPane new. 
 	self assert: pane ports isEmpty. 
-	port _ pane port: #foo. 
+	port := pane port: #foo. 
 	self assert: pane ports size = 1. 
 	self assert: pane ports first == port. 
 	self assert: (pane port: #foo) == port
@@ -20,11 +20,11 @@ GLMPaneTest >> testPorts [
 GLMPaneTest >> testPresentationConditions [ 
 	 
 	| pane presentation1 presentation2 presentation3 | 
-	pane _ GLMPane new. 
-	presentation1 _ GLMPresentation new 
+	pane := GLMPane new. 
+	presentation1 := GLMPresentation new 
 		condition: [:first :second | first = 1 and: [second = 2]]. 
-	presentation2 _ GLMPresentation new condition: [:first | first = #foo]. 
-	presentation3 _ GLMPresentation new. 
+	presentation2 := GLMPresentation new condition: [:first | first = #foo]. 
+	presentation3 := GLMPresentation new. 
 	pane addPresentation: presentation1. 
 	pane addPresentation: presentation2. 
 	pane addPresentation: presentation3. 
@@ -44,11 +44,11 @@ GLMPaneTest >> testPresentationConditions [
 GLMPaneTest >> testPresentations [ 
 	 
 	| pane presentation announcement | 
-	pane _ GLMPane new. 
-	presentation _ GLMPresentation new. 
+	pane := GLMPane new. 
+	presentation := GLMPresentation new. 
 	self assert: pane presentations isEmpty. 
-	announcement _ nil. 
-	pane whenPresentationsChanged: [:ann | announcement _ ann]. 
+	announcement := nil. 
+	pane whenPresentationsChanged: [:ann | announcement := ann]. 
 	pane addPresentation: presentation. 
 	self assert: pane presentations size = 1. 
 	self assert: pane presentations first == presentation. 
@@ -60,11 +60,11 @@ GLMPaneTest >> testPresentations [
 GLMPaneTest >> testSimplePresentations [ 
 	 
 	| pane presentation announcement | 
-	pane _ GLMPane new. 
-	presentation _ GLMPresentation new. 
+	pane := GLMPane new. 
+	presentation := GLMPresentation new. 
 	self assert: pane presentations isEmpty. 
-	announcement _ nil. 
-	pane whenPresentationsChanged: [:ann | announcement _ ann]. 
+	announcement := nil. 
+	pane whenPresentationsChanged: [:ann | announcement := ann]. 
 	pane addPresentation: presentation. 
 	self assert: pane presentations size = 1. 
 	self assert: pane presentations first == presentation. 

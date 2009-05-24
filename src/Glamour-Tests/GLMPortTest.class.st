@@ -8,7 +8,7 @@ Class {
 GLMPortTest >> testPanePort [ 
 	 
 	| port | 
-	port _ GLMTestPane new port: #port1. 
+	port := GLMTestPane new port: #port1. 
 	self assert: port seenTransmissions isEmpty. 
 	port value: 42. 
 	self assert: port seenTransmissions size = 1. 
@@ -22,8 +22,8 @@ GLMPortTest >> testPanePort [
 GLMPortTest >> testParentPort [ 
 	 
 	| presentation port | 
-	presentation _ GLMPresentation new. 
-	port _ (GLMParentPort new) 
+	presentation := GLMPresentation new. 
+	port := (GLMParentPort new) 
 		name: #port; 
 		presentation: presentation. 
 	port value: 42. 
@@ -36,8 +36,8 @@ GLMPortTest >> testParentPort [
 GLMPortTest >> testPortEquality [ 
 	 
 	| presentation port | 
-	presentation _ GLMPresentation new. 
-	port _ (GLMParentPort new) 
+	presentation := GLMPresentation new. 
+	port := (GLMParentPort new) 
 		name: #port; 
 		presentation: presentation. 
 	self assert: port = (presentation pane port: #port). 
@@ -50,7 +50,7 @@ GLMPortTest >> testPortEquality [
 GLMPortTest >> testSimplePort [ 
 	 
 	| port | 
-	port _ GLMSimplePort new. 
+	port := GLMSimplePort new. 
 	port name: #foo. 
 	port value: 42. 
 	self assert: port name = #foo. 

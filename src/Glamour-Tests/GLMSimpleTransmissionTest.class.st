@@ -8,9 +8,9 @@ Class {
 GLMSimpleTransmissionTest >> testSimple [ 
 	 
 	| pane1 pane2 transmission | 
-	pane1 _ GLMPane new. 
-	pane2 _ GLMPane new. 
-	transmission _ (GLMSimpleTransmission new) 
+	pane1 := GLMPane new. 
+	pane2 := GLMPane new. 
+	transmission := (GLMSimpleTransmission new) 
 		origin: (pane1 port: #output); 
 		destination: (pane2 port: #input); 
 		yourself. 
@@ -27,9 +27,9 @@ GLMSimpleTransmissionTest >> testTriggerConditions [
 	"Tests that the transmission is triggered only when the origin changes." 
 	 
 	| transmission port1 port2 | 
-	transmission _ GLMSimpleTransmission new. 
-	port1 _ GLMPort new name: #port1. 
-	port2 _ GLMPort new name: #port2. 
+	transmission := GLMSimpleTransmission new. 
+	port1 := GLMPort new name: #port1. 
+	port2 := GLMPort new name: #port2. 
 	transmission origin: port1. 
 	transmission destination: port2. 
 	self assert: (transmission originatesAt: port1). 
@@ -41,8 +41,8 @@ GLMSimpleTransmissionTest >> testTriggerConditions [
 GLMSimpleTransmissionTest >> testTriggerConditionsWithParentPort [ 
 	 
 	| transmission presentation | 
-	transmission _ GLMSimpleTransmission new. 
-	presentation _ GLMPresentation new. 
+	transmission := GLMSimpleTransmission new. 
+	presentation := GLMPresentation new. 
 	transmission 
 		origin: 
 			((GLMParentPort new) 

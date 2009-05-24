@@ -8,7 +8,7 @@ Class {
 GLMTableLayoutTest >> testComplex [ 
 	 
 	| layout | 
-	layout _ GLMTableLayoutBrowser new. 
+	layout := GLMTableLayoutBrowser new. 
 	layout 
 		addColumn: 
 			[:column |  
@@ -30,7 +30,7 @@ GLMTableLayoutTest >> testComplex [
 GLMTableLayoutTest >> testOneSimpleColumnAndOneNested [ 
 	 
 	| layout | 
-	layout _ GLMTableLayoutBrowser new. 
+	layout := GLMTableLayoutBrowser new. 
 	layout 
 		addColumn: 
 			[:column |  
@@ -46,7 +46,7 @@ GLMTableLayoutTest >> testOneSimpleColumnAndOneNested [
 GLMTableLayoutTest >> testOneSimpleRowAndOneNested [ 
 	 
 	| layout | 
-	layout _ GLMTableLayoutBrowser new. 
+	layout := GLMTableLayoutBrowser new. 
 	layout addRow: #first. 
 	layout 
 		addRow: 
@@ -62,7 +62,7 @@ GLMTableLayoutTest >> testOneSimpleRowAndOneNested [
 GLMTableLayoutTest >> testSimpleColumns [ 
 	 
 	| layout | 
-	layout _ GLMTableLayoutBrowser new. 
+	layout := GLMTableLayoutBrowser new. 
 	layout addColumn: #first. 
 	layout addColumn: #second. 
 	self assert: layout cell children size = 2
@@ -72,7 +72,7 @@ GLMTableLayoutTest >> testSimpleColumns [
 GLMTableLayoutTest >> testSimpleRows [ 
 	 
 	| layout | 
-	layout _ GLMTableLayoutBrowser new. 
+	layout := GLMTableLayoutBrowser new. 
 	layout addRow: #first. 
 	layout addRow: #second. 
 	self assert: layout cell children size = 2. 

@@ -18,10 +18,10 @@ GLMNestedBrowserTest >> testChangeInnerSelection [
 	it to the inner pane using a simple transmission." 
 	 
 	| browser1 browser2 list1 list2 | 
-	browser1 _ GLMExplicitBrowser new. 
-	browser2 _ GLMExplicitBrowser new. 
-	list1 _ GLMListPresentation new. 
-	list2 _ GLMListPresentation new. 
+	browser1 := GLMExplicitBrowser new. 
+	browser2 := GLMExplicitBrowser new. 
+	list1 := GLMListPresentation new. 
+	list2 := GLMListPresentation new. 
 	browser1 addPane: GLMPane new. 
 	browser1 addPane: GLMPane new. 
 	browser2 addPane: GLMPane new. 
@@ -63,9 +63,9 @@ GLMNestedBrowserTest >> testEntityPropogation [
 	be notified when the outer port changes." 
 	 
 	| browser1 browser2 presentation | 
-	browser1 _ GLMExplicitBrowser new. 
-	browser2 _ GLMExplicitBrowser new. 
-	presentation _ GLMPresentation new. 
+	browser1 := GLMExplicitBrowser new. 
+	browser2 := GLMExplicitBrowser new. 
+	presentation := GLMPresentation new. 
 	browser1 addPane: GLMPane new. 
 	browser2 addPane: GLMPane new.	"Jumpstart presentation for outer browser." 
 	browser1 
@@ -123,13 +123,13 @@ GLMNestedBrowserTest >> testEntityPropogationAnnouncements [
 	announcements are raised in the right order and not redundantly." 
 	 
 	| browser1 browser2 presentation announcements | 
-	browser1 _ GLMExplicitBrowser new. 
-	browser2 _ GLMExplicitBrowser new. 
-	presentation _ GLMPresentation new. 
+	browser1 := GLMExplicitBrowser new. 
+	browser2 := GLMExplicitBrowser new. 
+	presentation := GLMPresentation new. 
 	browser1 pane. 
 	browser1 addPane: GLMPane new. 
 	browser2 addPane: GLMPane new. 
-	announcements _ OrderedCollection new. 
+	announcements := OrderedCollection new. 
 	self assert: browser1 pane presentations size = 1. 
 	self assert: browser1 pane presentations first == browser1. 
 	browser1 whenContextChanged: [:ann | announcements addLast: ann]. 
