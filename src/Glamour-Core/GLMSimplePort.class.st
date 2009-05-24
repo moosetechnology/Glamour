@@ -22,5 +22,5 @@ GLMSimplePort >> value [
 { #category : #accessing }
 GLMSimplePort >> value: anObject [ 
 	 
-	value _ anObject
+	value := anObject
 ]

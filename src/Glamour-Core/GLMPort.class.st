@@ -22,7 +22,7 @@ GLMPort >> name [
 { #category : #accessing }
 GLMPort >> name: aSymbol [ 
 	 
-	name _ aSymbol
+	name := aSymbol
 ]
 
 { #category : #printing }

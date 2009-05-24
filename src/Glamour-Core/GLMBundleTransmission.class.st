@@ -63,13 +63,13 @@ GLMBundleTransmission >> addPresentations: aCollection [
 { #category : #'private accessing' }
 GLMBundleTransmission >> bundleOrigins [ 
 	 
-	^origins ifNil: [origins _ OrderedCollection new]
+	^origins ifNil: [origins := OrderedCollection new]
 ]
 
 { #category : #private }
 GLMBundleTransmission >> clearOrigins [ 
 	 
-	origins _ nil
+	origins := nil
 ]
 
 { #category : #accessing }
@@ -81,7 +81,7 @@ GLMBundleTransmission >> destination [
 { #category : #accessing }
 GLMBundleTransmission >> destination: aPort [ 
 	 
-	destination _ aPort
+	destination := aPort
 ]
 
 { #category : #testing }
@@ -106,13 +106,13 @@ GLMBundleTransmission >> passiveOrigins [
 { #category : #accessing }
 GLMBundleTransmission >> presentations [ 
 	 
-	^presentations ifNil: [presentations _ OrderedCollection new]
+	^presentations ifNil: [presentations := OrderedCollection new]
 ]
 
 { #category : #accessing }
 GLMBundleTransmission >> presentations: aCollection [ 
 	 
-	presentations _ aCollection
+	presentations := aCollection
 ]
 
 { #category : #transmitting }

@@ -16,19 +16,19 @@ Class {
 { #category : #accessing }
 GLMBundleOrigin >> beActive [ 
 	 
-	active _ true
+	active := true
 ]
 
 { #category : #accessing }
 GLMBundleOrigin >> bePassive [ 
 	 
-	active _ false
+	active := false
 ]
 
 { #category : #testing }
 GLMBundleOrigin >> isActive [ 
 	 
-	^active ifNil: [active _ true]
+	^active ifNil: [active := true]
 ]
 
 { #category : #testing }
@@ -46,7 +46,7 @@ GLMBundleOrigin >> port [
 { #category : #accessing }
 GLMBundleOrigin >> port: aPort [ 
 	 
-	port _ aPort
+	port := aPort
 ]
 
 { #category : #'accessing-convenience' }

@@ -17,7 +17,7 @@ GLMPublishedPort >> innerPort [
 { #category : #accessing }
 GLMPublishedPort >> innerPort: aPort [ 
 	 
-	innerPort _ aPort
+	innerPort := aPort
 ]
 
 { #category : #accessing }
@@ -29,5 +29,5 @@ GLMPublishedPort >> outerPortName [
 { #category : #accessing }
 GLMPublishedPort >> outerPortName: aSymbol [ 
 	 
-	outerPortName _ aSymbol
+	outerPortName := aSymbol
 ]

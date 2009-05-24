@@ -40,7 +40,7 @@ GLMAction >> action: aBlock [
 	The block can take optional arguments, the first will always be the 
 	presentation on which this action was triggered." 
 	 
-	action _ aBlock
+	action := aBlock
 ]
 
 { #category : #accessing }
@@ -54,7 +54,7 @@ GLMAction >> category [
 GLMAction >> category: aString [ 
 	"The name of the category that should be used when this action is displayed in a context menu." 
 	 
-	category _ aString
+	category := aString
 ]
 
 { #category : #testing }
@@ -80,7 +80,7 @@ GLMAction >> position [
 GLMAction >> position: anInteger [ 
 	"The relative position within a context menu." 
 	 
-	position _ anInteger
+	position := anInteger
 ]
 
 { #category : #accessing }
@@ -96,7 +96,7 @@ GLMAction >> shortcut: aCharacter [
 	"Shortcut character that this action should be triggered with when the focus rests on the corresponding presentation. 
 	Modifiers are platform specific an can not be defined." 
 	 
-	shortcut _ aCharacter
+	shortcut := aCharacter
 ]
 
 { #category : #accessing }
@@ -110,5 +110,5 @@ GLMAction >> title [
 GLMAction >> title: anObject [ 
 	"Title that this action should use in a context menu." 
 	 
-	title _ anObject
+	title := anObject
 ]

@@ -34,7 +34,7 @@ GLMParentPort >> presentation [
 { #category : #accessing }
 GLMParentPort >> presentation: aPresentation [ 
 	 
-	presentation _ aPresentation
+	presentation := aPresentation
 ]
 
 { #category : #accessing }

@@ -16,7 +16,7 @@ Class {
 { #category : #accessing }
 GLMPresentation >> actions [ 
 	 
-	^actions ifNil: [actions _ OrderedCollection new]
+	^actions ifNil: [actions := OrderedCollection new]
 ]
 
 { #category : #accessing }
@@ -28,19 +28,19 @@ GLMPresentation >> addAction: anAction [
 { #category : #accessing }
 GLMPresentation >> beInspectable [ 
 	 
-	^isInspectable _ true
+	^isInspectable := true
 ]
 
 { #category : #accessing }
 GLMPresentation >> condition [ 
 	 
-	^condition ifNil: [condition _ [true]]
+	^condition ifNil: [condition := [true]]
 ]
 
 { #category : #accessing }
 GLMPresentation >> condition: anObject [ 
 	 
-	condition _ anObject
+	condition := anObject
 ]
 
 { #category : #accessing }
@@ -70,7 +70,7 @@ GLMPresentation >> innerPortEvent: aPortEvent [
 { #category : #accessing }
 GLMPresentation >> isInspectable [ 
 	 
-	^isInspectable ifNil: [isInspectable _ false]
+	^isInspectable ifNil: [isInspectable := false]
 ]
 
 { #category : #testing }
@@ -99,7 +99,7 @@ GLMPresentation >> pane [
 	 
 	^pane 
 		ifNil: 
-			[pane _ (GLMPane new) 
+			[pane := (GLMPane new) 
 				addPresentation: self; 
 				yourself]
 ]
@@ -107,7 +107,7 @@ GLMPresentation >> pane [
 { #category : #accessing }
 GLMPresentation >> pane: aPane [ 
 	 
-	pane _ aPane
+	pane := aPane
 ]
 
 { #category : #copying }
@@ -137,13 +137,13 @@ GLMPresentation >> selection: anObject [
 { #category : #accessing }
 GLMPresentation >> title [ 
 	 
-	^title ifNil: [title _ #glamourString]
+	^title ifNil: [title := #glamourString]
 ]
 
 { #category : #accessing }
 GLMPresentation >> title: aStringOrBlock [ 
 	 
-	title _ aStringOrBlock
+	title := aStringOrBlock
 ]
 
 { #category : #accessing }
@@ -155,25 +155,25 @@ GLMPresentation >> titleValue [
 { #category : #accessing }
 GLMPresentation >> transformation [ 
 	 
-	^transformation ifNil: [transformation _ #yourself]
+	^transformation ifNil: [transformation := #yourself]
 ]
 
 { #category : #accessing }
 GLMPresentation >> transformation: aBlock [ 
 	 
-	transformation _ aBlock
+	transformation := aBlock
 ]
 
 { #category : #accessing }
 GLMPresentation >> useExplicitNotNil [ 
 	 
-	implicitNotNil _ false
+	implicitNotNil := false
 ]
 
 { #category : #accessing }
 GLMPresentation >> useImplicitNotNil [ 
 	 
-	implicitNotNil _ true
+	implicitNotNil := true
 ]
 
 { #category : #testing }
@@ -185,7 +185,7 @@ GLMPresentation >> usesExplicitNotNil [
 { #category : #testing }
 GLMPresentation >> usesImplicitNotNil [ 
 	 
-	^implicitNotNil ifNil: [implicitNotNil _ true]
+	^implicitNotNil ifNil: [implicitNotNil := true]
 ]
 
 { #category : #announcements }

@@ -43,7 +43,7 @@ GLMExplicitBrowser >> innerPortEvent: aPortEvent [
 GLMExplicitBrowser >> jumpstartTransmissions [ 
 	 
 	^jumpstartTransmissions 
-		ifNil: [jumpstartTransmissions _ OrderedCollection new]
+		ifNil: [jumpstartTransmissions := OrderedCollection new]
 ]
 
 { #category : #events }
@@ -74,7 +74,7 @@ GLMExplicitBrowser >> paneNamed: aSymbol [
 { #category : #accessing }
 GLMExplicitBrowser >> panes [ 
 	 
-	^panes ifNil: [panes _ OrderedCollection new]
+	^panes ifNil: [panes := OrderedCollection new]
 ]
 
 { #category : #accessing }
@@ -105,10 +105,10 @@ GLMExplicitBrowser >> resolveOriginPort: aPortReference [
 GLMExplicitBrowser >> resolvePort: aPortReference defaultPortName: aSymbol [ 
 	 
 	| tmp | 
-	tmp _ aPortReference. 
-	(tmp isKindOf: GLMPane) ifTrue: [tmp _ tmp port: aSymbol]. 
+	tmp := aPortReference. 
+	(tmp isKindOf: GLMPane) ifTrue: [tmp := tmp port: aSymbol]. 
 	(tmp isKindOf: GLMPort) ifTrue: [^tmp]. 
-	tmp isSymbol ifTrue: [tmp _ tmp -> aSymbol]. 
+	tmp isSymbol ifTrue: [tmp := tmp -> aSymbol]. 
 	(tmp isKindOf: Association) 
 		ifTrue: 
 			[^tmp key = #outer 
@@ -124,5 +124,5 @@ GLMExplicitBrowser >> resolvePort: aPortReference defaultPortName: aSymbol [
 { #category : #accessing }
 GLMExplicitBrowser >> transmissions [ 
 	 
-	^transmissions ifNil: [transmissions _ OrderedCollection new]
+	^transmissions ifNil: [transmissions := OrderedCollection new]
 ]

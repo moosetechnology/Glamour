@@ -16,7 +16,7 @@ GLMSimpleTransformingTransmission >> transformation [
 { #category : #accessing }
 GLMSimpleTransformingTransmission >> transformation: anObject [ 
 	 
-	transformation _ anObject
+	transformation := anObject
 ]
 
 { #category : #transmitting }

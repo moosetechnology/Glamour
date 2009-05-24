@@ -30,7 +30,7 @@ GLMContextChanged >> oldValue [
 { #category : #accessing }
 GLMContextChanged >> oldValue: anObject [ 
 	 
-	oldValue _ anObject
+	oldValue := anObject
 ]
 
 { #category : #accessing }
@@ -42,7 +42,7 @@ GLMContextChanged >> presentation [
 { #category : #accessing }
 GLMContextChanged >> presentation: aPresentation [ 
 	 
-	presentation _ aPresentation
+	presentation := aPresentation
 ]
 
 { #category : #accessing }
@@ -54,7 +54,7 @@ GLMContextChanged >> property [
 { #category : #accessing }
 GLMContextChanged >> property: aSymbol [ 
 	 
-	property _ aSymbol
+	property := aSymbol
 ]
 
 { #category : #accessing }
@@ -66,5 +66,5 @@ GLMContextChanged >> value [
 { #category : #accessing }
 GLMContextChanged >> value: anObject [ 
 	 
-	value _ anObject
+	value := anObject
 ]
