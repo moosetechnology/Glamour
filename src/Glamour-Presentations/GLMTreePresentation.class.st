@@ -16,7 +16,7 @@ GLMTreePresentation >> children [
 { #category : #accessing }
 GLMTreePresentation >> children: anObject [ 
 	 
-	children _ anObject
+	children := anObject
 ]
 
 { #category : #rendering }

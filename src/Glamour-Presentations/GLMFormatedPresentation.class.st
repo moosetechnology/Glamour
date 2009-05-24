@@ -25,13 +25,13 @@ GLMFormatedPresentation >> defaultFormater [
 { #category : #accessing }
 GLMFormatedPresentation >> format [ 
 	 
-	^format ifNil: [format _ self defaultFormater]
+	^format ifNil: [format := self defaultFormater]
 ]
 
 { #category : #accessing }
 GLMFormatedPresentation >> format: anObject [ 
 	 
-	format _ anObject
+	format := anObject
 ]
 
 { #category : #accessing }
