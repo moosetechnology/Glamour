@@ -1,6 +1,9 @@
 Class {
 	#name : #GlamorousSystemWindow,
 	#superclass : #SystemWindow,
+	#instVars : [
+		'actions'
+	],
 	#category : #'Glamour-Morphic'
 }
 
@@ -10,11 +13,23 @@ GlamorousSystemWindow class >> openOn: aMorph [
 ]
 
 { #category : #'as yet unclassified' }
+GlamorousSystemWindow >> actions [
+	^ actions ifNil: [actions := OrderedCollection new]
+]
+
+{ #category : #'as yet unclassified' }
+GlamorousSystemWindow >> actions: aCollection [
+	actions := aCollection
+]
+
+{ #category : #'as yet unclassified' }
 GlamorousSystemWindow >> buildWindowMenu [
 	"Build and answer the window menu."
 	
 	| aMenu |
 	aMenu := self theme newMenuIn: self for: self.
-	aMenu addToggle: 'some action' target: [Transcript show: 'something'] selector: #value.
+	self actions do: [:association | 
+		aMenu add: association key target: association value selector: #value.
+	].
 	^aMenu
 ]
