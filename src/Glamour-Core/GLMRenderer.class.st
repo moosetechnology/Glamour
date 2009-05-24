@@ -30,6 +30,6 @@ GLMRenderer >> renderPane: aPane [
 
 { #category : #rendering }
 GLMRenderer >> renderPresentation: aPresentation [ 
-	 
-	^nil
+
+	^ nil
 ]
