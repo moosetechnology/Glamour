@@ -28,23 +28,23 @@ GLMPaneScroller >> adjustPaneHeight [
 
 { #category : #private }
 GLMPaneScroller >> basicUpdatePanes [
-	| oldPanes |
-	panes ifNotNil: [oldPanes := panes] ifNil: [oldPanes := #()].
+
 	panes := model 
-		ifNil: [Array new]
+		ifNil: [#()]
 		ifNotNil: [model panes collect: [:ea | ea renderGlamorouslyOn: renderer]].	
 	self clearPanes.
 	
 	panes do: [:ea | self pushPane: ea].
 	
-	oldPanes keysAndValuesDo: [:index :oldPane | | m pageIndex newPane |
-		m := self modelForContainerMorph: oldPane.
-		pageIndex := self pageIndexForContainerMorph: oldPane.
+	self flag: 'I have no idea what the code below does, but it still seems to work without it'.
+"	oldPanes doWithIndex: [:each :index |
+		m := self modelForContainerMorph: each.
+		pageIndex := self pageIndexForContainerMorph: each.
 		newPane := panes at: index ifAbsent: [nil].
 		newPane ifNotNil: [
 			pageIndex ifNotNil: [newPane submorphs first selectedPageIndex: pageIndex].
 			(self modelForContainerMorph: newPane) selectSilently: m selection]].
-	
+"	
 	self adoptPaneColor: model defaultBackgroundColor
 
 ]
@@ -187,7 +187,7 @@ GLMPaneScroller >> modelForContainerMorph: aMorph [
 	"really ugly..."
 	| subMorph |
 	subMorph := aMorph submorphs first.
-	^(subMorph isKindOf: TabGroupMorph) 
+	^ (subMorph isKindOf: TabGroupMorph) 
 		ifTrue: [subMorph submorphs first submorphs first model] 
 		ifFalse: [subMorph model]
 
@@ -198,7 +198,7 @@ GLMPaneScroller >> pageIndexForContainerMorph: aMorph [
 	"really ugly..."
 	| subMorph |
 	subMorph := aMorph submorphs first.
-	^(subMorph isKindOf: TabGroupMorph) 
+	^ (subMorph isKindOf: TabGroupMorph) 
 		ifTrue: [subMorph selectedPageIndex] 
 		ifFalse: [nil]
 
@@ -351,9 +351,9 @@ GLMPaneScroller >> updatePanes [
 	self basicUpdatePanes.
 	self basicUpdateSizing.	
 	self layoutPanes.
-	panes size = count
-		ifFalse: [self hideOrShowScrollBar.
-				self setScrollDeltas].
+	panes size = count ifFalse: [
+		self hideOrShowScrollBar.
+		self setScrollDeltas ].
 	panes size > count ifTrue: [self scrollToRight].
 	^ panes
 ]
