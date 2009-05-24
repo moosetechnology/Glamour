@@ -44,6 +44,14 @@ GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPrese
 			action hasShortcut ifTrue: [aMorphicModel addKeystrokeAction: action]]
 ]
 
+{ #category : #opening }
+GLMMorphicRenderer >> open: aRenderable [ 
+	
+	| window |
+	window := GlamorousSystemWindow openOn: (self render: aRenderable).
+	window setLabel: aRenderable titleValue.
+]
+
 { #category : #private }
 GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aUIContainer inBrowser: aBrowser [ 
 	 
