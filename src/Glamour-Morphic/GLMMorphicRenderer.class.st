@@ -13,9 +13,6 @@ browser openOn: #(a b c d)
 Class {
 	#name : #GLMMorphicRenderer,
 	#superclass : #GLMRenderer,
-	#instVars : [
-		'fixedFinderRenderHelper'
-	],
 	#category : #'Glamour-Morphic'
 }
 
@@ -50,19 +47,15 @@ GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aUIContainer
 	| panes pane glamourPane totalSpans currentSpanPosition | 
 	totalSpans := aCell children inject: 0 into: [ :sum :each | sum + each span ]. 
 	currentSpanPosition := 0. 
-	panes := aCell children 
-		collectWithIndex: 
-			[:each :index |  
-			each hasId 
-				ifFalse: 
-					[pane := RectangleMorph new. 
-					self renderCustomRow: each ofPane: aPane inUI: pane inBrowser: 
-							aBrowser] 
-				ifTrue: 
-					[glamourPane := aBrowser paneNamed: each id. 
-					pane := glamourPane renderGlamorouslyOn: self.
-					"glamourPane onPortValueChange: [:announcement | aPane portValueAt: announcement portName put: announcement portValue]."
-				]. 
+	panes := aCell children collectWithIndex: [:each :index |  
+			each hasId ifFalse: [
+				pane := RectangleMorph new. 
+				self renderCustomRow: each ofPane: aPane inUI: pane inBrowser: aBrowser] 
+			ifTrue: [
+				glamourPane := aBrowser paneNamed: each id. 
+				pane := glamourPane renderGlamorouslyOn: self.
+				"glamourPane onPortValueChange: [:announcement | aPane portValueAt: announcement portName put: announcement portValue]."
+			]. 
 			aUIContainer addMorphBack: pane. 
 			"pane 
 				frame: 
@@ -97,8 +90,8 @@ GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aUIContainer
 
 { #category : #private }
 GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aUIContainer inBrowser: aBrowser [ 
-	 
 	| panes pane glamourPane totalSpans currentSpanPosition | 
+	
 	totalSpans := aCell children inject: 0 into: [ :sum :each | sum + each span ]. 
 	currentSpanPosition := 0.
 	panes := aCell children 
@@ -142,8 +135,8 @@ GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aUIContainer in
 
 { #category : #'rendering browsers' }
 GLMMorphicRenderer >> renderFinder: aBrowser [ 
-	 
 	| container | 
+	
 	container := (GLMPaneScroller withModel: aBrowser)
 					name: 'scroller';
 					setRenderer: self;
@@ -162,8 +155,8 @@ GLMMorphicRenderer >> renderFinder: aBrowser [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderListPresentation: aListPresentation [ 
-	 
 	| items list toShow listModel container search searchButton | 
+
 	toShow := aListPresentation displayValue. 
 	items := toShow isCollection ifTrue: [ toShow ] ifFalse: [ Array with: toShow ]. 
 	
@@ -252,6 +245,7 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderMagrittePresentation: anAsMorphPresentation [ 
 	| toShow description magritteMorph scrollPane |
+	
 	toShow := anAsMorphPresentation displayValue.
 	description := (anAsMorphPresentation magritteDescription glamourValue: toShow) copy.
 	description morphClass: MASilentContainerMorph.
@@ -310,9 +304,9 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 { #category : #rendering }
 GLMMorphicRenderer >> renderPane: aPane [ 
 	 
-	| container topOffset inspectButton label | 
+	| container inspectButton label | 
 	container := RectangleMorph new. 
-	container				 
+	container
 		layoutPolicy: TableLayout new;
 		listDirection: #leftToRight;
 		cellPositioning: #topLeft;
@@ -323,37 +317,21 @@ GLMMorphicRenderer >> renderPane: aPane [
 		rubberBandCells: false;
 		layoutInset: 2;
 		cellInset: 2;
-		color: Color white.		
+		color: Color white.
 
-	topOffset := 0. 
-	(aPane matchingPresentations anySatisfy: [:each | each isInspectable]) 
-		ifTrue: 
-			[topOffset := 28.  
-			label := PluggableTextMorph new. 
-			label layoutInset: 2. 
-			label setText: (aPane port: #entity) value displayString. 
-			inspectButton := PluggableButtonMorph new. 
-			"inspectButton 
-				frame: 
-					(LayoutFrame new 
-						leftFraction: 0; 
-						topFraction: 0; 
-						rightFraction: 1; 
-						bottomFraction: 0; 
-						bottomOffset: 24;
-						yourself). "
-			inspectButton label: (aPane port: #entity) value displayString.
-			"inspectButton 
-				when: Clicked 
-				do: [(aPane port: #entity) value inspect]. "
-			container addMorphBack: inspectButton]. 
+	(aPane matchingPresentations anySatisfy: [:each | each isInspectable]) ifTrue: [
+		label := PluggableTextMorph new. 
+		label layoutInset: 2. 
+		label setText: (aPane port: #entity) value displayString. 
+		inspectButton := PluggableButtonMorph new. 
+		inspectButton label: (aPane port: #entity) value displayString.
+		container addMorphBack: inspectButton ].
+	
 	container addMorph: (self renderPresentationsOf: aPane).
-	aPane 
-		whenMatchingPresentationsChanged: 
-			[:announcement |  
-			container removeAllMorphs. 
-			container addMorph: (self renderPresentationsOf: aPane)]. 
-	^container
+	aPane whenMatchingPresentationsChanged: [:ann |  
+		container removeAllMorphs.
+		container addMorph: (self renderPresentationsOf: aPane) ].
+	^ container
 ]
 
 { #category : #private }
