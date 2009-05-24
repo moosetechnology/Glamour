@@ -14,6 +14,7 @@ GlamorousSystemWindow class >> openOn: aMorph [
 
 { #category : #'as yet unclassified' }
 GlamorousSystemWindow >> actions [
+	"this is a pair of associations with the key being the title, and the value being a block without arguments"
 	^ actions ifNil: [actions := OrderedCollection new]
 ]
 

@@ -1,4 +1,7 @@
 "
+This is the class responsible for the binding to Morphic.
+
+| browser |
 browser := GLMTableLayoutBrowser new.
 browser column: #one; column: #two.
 
@@ -35,8 +38,9 @@ GLMMorphicRenderer >> open: aRenderable [
 	
 	| window |
 	window := GlamorousSystemWindow openOn: (self render: aRenderable).
-	window actions: ((aRenderable actions select: [:each | each hasShortcut]) collect: [ :action | 
-		action title -> [ action actOn: aRenderable ] ]).
+	window actions: (
+		(aRenderable actions select: [:each | each hasShortcut]) collect: [ :action | 
+			action title -> [ action actOn: aRenderable ] ]).
 	window setLabel: aRenderable titleValue.
 ]
 
