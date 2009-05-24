@@ -19,7 +19,7 @@ Object >> glamourString [
 Object >> glamourValue: anObject [ 
 	 
 	| args | 
-	args _ anObject asGlamorousArray. 
+	args := anObject asGlamorousArray. 
 	^self glamourValueWithArgs: args
 ]
 

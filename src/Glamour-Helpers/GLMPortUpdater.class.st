@@ -24,7 +24,7 @@ GLMPortUpdater >> portSymbol [
 { #category : #accessing }
 GLMPortUpdater >> portSymbol: anObject [ 
 	 
-	portSymbol _ anObject
+	portSymbol := anObject
 ]
 
 { #category : #accessing }
@@ -36,5 +36,5 @@ GLMPortUpdater >> valueBlock [
 { #category : #accessing }
 GLMPortUpdater >> valueBlock: anObject [ 
 	 
-	valueBlock _ anObject
+	valueBlock := anObject
 ]
