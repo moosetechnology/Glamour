@@ -12,8 +12,8 @@ Class {
 { #category : #accessing }
 GLMFlexiblePresentation >> currentPresentation [ 
 	 
-	^self displayValue isCollection 
-		ifTrue: [GLMListPresentation new pane: self pane] 
+	^ (self displayValue isCollection and: [self displayValue isString not])
+		ifTrue: [GLMListPresentation new pane: self pane]
 		ifFalse: [GLMTextPresentation new pane: self pane]
 ]
 
