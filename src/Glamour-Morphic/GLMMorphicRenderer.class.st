@@ -16,20 +16,6 @@ Class {
 	#category : #'Glamour-Morphic'
 }
 
-{ #category : #opening }
-GLMMorphicRenderer >> doOpen: aUI [ 
-
-	^GlamorousSystemWindow openOn: aUI
-]
-
-{ #category : #private }
-GLMMorphicRenderer >> fixedFinderRenderHelper [ 
-	 
-	^fixedFinderRenderHelper 
-		ifNil: 
-			[fixedFinderRenderHelper := FixedFinderRenderHelper new renderer: self]
-]
-
 { #category : #private }
 GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPresentation [	 
 	aPresentation actions 
@@ -166,35 +152,6 @@ GLMMorphicRenderer >> renderFinder: aBrowser [
 		do: [:ann |  container update: #columns].
 
 	^container
-]
-
-{ #category : #'rendering browsers' }
-GLMMorphicRenderer >> renderFixedFinder: aBrowser [ 
-	 
-	^self fixedFinderRenderHelper render: aBrowser	" 
-	| container uiPane | 
-	container := Widgetry.Form new. 
-	container frame: Widgetry.FractionalFrame fullyAttached. 
-	 
-	aBrowser onPaneRemoved: [ :ann | 
-		container removeComponent: container components last. 
-	]. 
-	aBrowser onPaneAdded: [ :ann | 
-		uiPane := (ann pane renderGlamorouslyOn: self). 
-		container components size > 1 ifTrue: [ 
-			container removeComponent: container components first. 
-			container components last frame: (Widgetry.FractionalFrame fractionLeft: 0 top: 0 right: 0.5 bottom: 1).		 
-		]. 
-		uiPane frame: (Widgetry.FractionalFrame fractionLeft: 0.5 top: 0 right: 1 bottom: 1).	 
-		container addComponent: uiPane. 
-	]. 
-	aBrowser panes doWithIndex: [:each :index | 
-		uiPane := (each renderGlamorouslyOn: self).		 
-		uiPane frame: (Widgetry.FractionalFrame fractionLeft: (index - 1) * 0.5 top: 0 right: index * 0.5 bottom: 1). 
-		container addComponent: uiPane. 
-	]. 
-	^container 
-"
 ]
 
 { #category : #'rendering presentations' }
@@ -521,73 +478,5 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderWorkspacePresentation: aWorkspacePresentation [ 
 	 
-	| pane result textToInsert position anObject | 
-	anObject := aWorkspacePresentation pane input. 
-	pane := TextEdit new. 
-	pane keymap 
-		map: (Keystroke ctrl: $o) 
-		to: #doItAndSelect. 
-	pane 
-		addAction: 
-			(Action 
-				id: #doItAndSelect 
-				action: 
-					[result := self workspaceEvaluateSelectionFrom: anObject for: pane. 
-					pane announce: (SelectionChanged new newValue: result)]). 
-	pane keymap 
-		map: (Keystroke ctrl: $q) 
-		to: #doItAndInspect. 
-	pane 
-		addAction: 
-			(Action 
-				id: #doItAndInspect 
-				action: 
-					[result := self workspaceEvaluateSelectionFrom: anObject for: pane. 
-					result inspect]). 
-	pane keymap 
-		map: (Keystroke ctrl: $d) 
-		to: #doIt. 
-	pane 
-		addAction: 
-			(Action 
-				id: #doIt 
-				action: 
-					[result := self workspaceEvaluateSelectionFrom: anObject for: pane]). 
-	pane keymap 
-		map: (Keystroke ctrl: $p) 
-		to: #doItAndPrint. 
-	pane 
-		addAction: 
-			(Action 
-				id: #doItAndPrint 
-				action: 
-					[result := self workspaceEvaluateSelectionFrom: anObject for: pane. 
-					textToInsert := result printString. 
-					position := pane agent insertionPosition. 
-					pane insertAtCurrentPosition: textToInsert. 
-					pane setInsertionPointAt: position. 
-					pane extendSelectionByCharacters: textToInsert size]). 
-	pane verticalScrollbar: true. 
-	pane wordWrapped: true. 
-	^pane
-]
-
-{ #category : #private }
-GLMMorphicRenderer >> workspaceEvaluateSelectionFrom: anObject for: pane [ 
-	 
-	| bindings result namespaces text | 
-	namespaces := Root allNameSpaces copyWithout: Undeclared. 
-	bindings := NameSpace new 
-		importsObjects: 
-			(namespaces 
-				collect: [:each | GeneralNameSpaceImport pathString: each fullName]). 
-	bindings simpleAddBinding: (VariableBinding key: #entity value: anObject). 
-	pane selection isEmpty 
-		ifTrue: 
-			[pane agent setInsertionPointToBeginningOfLine. 
-			pane selectCurrentLine]. 
-	text := pane selection. 
-	result := Compiler evaluate: text for: nil in: bindings notifying: nil 
-		logged: false. 
-	^result
+	^ self renderTextPresentation: aWorkspacePresentation
 ]
