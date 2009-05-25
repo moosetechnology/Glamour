@@ -135,22 +135,20 @@ GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aUIContainer in
 
 { #category : #'rendering browsers' }
 GLMMorphicRenderer >> renderFinder: aBrowser [ 
-	| container | 
-	
-	container := (GLMPaneScroller withModel: aBrowser)
-					name: 'scroller';
-					setRenderer: self;
-					vResizing: #spaceFill;
-					hResizing: #spaceFill;
-					yourself.		
+	| container |
+	container := GLMPaneScroller new
+		name: 'scroller';
+		vResizing: #spaceFill;
+		hResizing: #spaceFill;
+		yourself.
 	aBrowser 
-		when: GLMPaneRemoved 
-		do: [:ann | container update: #columns]. 
+		when: GLMPaneRemoved
+		do: [ :ann | container popPane.].
 	aBrowser 
-		when: GLMPaneAdded 
-		do: [:ann |  container update: #columns].
-
-	^container
+		when: GLMPaneAdded
+		do: [ :ann | container pushPane: (ann pane renderGlamorouslyOn: self).].
+	aBrowser panes do: [ :each | container pushPane: (each renderGlamorouslyOn: self) ].
+	^ container
 ]
 
 { #category : #'rendering presentations' }

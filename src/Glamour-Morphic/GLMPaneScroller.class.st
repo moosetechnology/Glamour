@@ -2,20 +2,13 @@ Class {
 	#name : #GLMPaneScroller,
 	#superclass : #RectangleMorph,
 	#instVars : [
-		'model',
 		'sizing',
-		'panes',
 		'transform',
 		'scrollBar',
-		'renderer'
+		'paneCount'
 	],
 	#category : #'Glamour-Morphic'
 }
-
-{ #category : #'instance creation' }
-GLMPaneScroller class >> withModel: aModel [
-	^ self new model: aModel
-]
 
 { #category : #layout }
 GLMPaneScroller >> adjustPaneHeight [
@@ -27,30 +20,8 @@ GLMPaneScroller >> adjustPaneHeight [
 ]
 
 { #category : #private }
-GLMPaneScroller >> basicUpdatePanes [
-	self flag: 'It looks like all morphs are removed and then added again. Furthermore, the commented code below tries to reset the selection based on mathing the models behind the morphs. Of course, this breaks everytime we want to do something clever in the rendering. The whole logic must be changed to not remove the panes, but to reuse them'.
-	panes := model 
-		ifNil: [#()]
-		ifNotNil: [model panes collect: [:ea | ea renderGlamorouslyOn: renderer]].	
-	self clearPanes.
-	
-	panes do: [:ea | self pushPane: ea].
-	
-"	oldPanes doWithIndex: [:each :index |
-		m := self modelForContainerMorph: each.
-		pageIndex := self pageIndexForContainerMorph: each.
-		newPane := panes at: index ifAbsent: [nil].
-		newPane ifNotNil: [
-			pageIndex ifNotNil: [newPane submorphs first selectedPageIndex: pageIndex].
-			(self modelForContainerMorph: newPane) selectSilently: m selection]].
-"	
-	self adoptPaneColor: model defaultBackgroundColor
-
-]
-
-{ #category : #private }
 GLMPaneScroller >> basicUpdateSizing [
-	sizing := (self panes size min: self maxPanes) max: 1
+	sizing := (self paneCount min: self maxPanes) max: 1
 ]
 
 { #category : #layout }
@@ -60,11 +31,6 @@ GLMPaneScroller >> bounds: aRectangle [
 	self layoutPanes.
 	self setScrollDeltas.
 
-]
-
-{ #category : #panes }
-GLMPaneScroller >> clearPanes [
-	transform removeAllMorphs.
 ]
 
 { #category : #layout }
@@ -99,6 +65,7 @@ GLMPaneScroller >> initialize [
 	self 
 		initializeTransform;
 		initializeScrollbar.
+	paneCount := 0.
 ]
 
 { #category : #initialization }
@@ -176,36 +143,9 @@ GLMPaneScroller >> maxPanes [
 	^2
 ]
 
-{ #category : #accessing }
-GLMPaneScroller >> model: aBrowser [
-	model := aBrowser
-]
-
-{ #category : #private }
-GLMPaneScroller >> modelForContainerMorph: aMorph [
-	| subMorph |
-	self flag: 'this method should eventually not be needed anymore'.
-	subMorph := aMorph submorphs first.
-	^ (subMorph isKindOf: TabGroupMorph) 
-		ifTrue: [subMorph submorphs first submorphs first model] 
-		ifFalse: [subMorph model]
-
-]
-
-{ #category : #private }
-GLMPaneScroller >> pageIndexForContainerMorph: aMorph [
-	"really ugly..."
-	| subMorph |
-	subMorph := aMorph submorphs first.
-	^ (subMorph isKindOf: TabGroupMorph) 
-		ifTrue: [subMorph selectedPageIndex] 
-		ifFalse: [nil]
-
-]
-
 { #category : #layout }
 GLMPaneScroller >> paneCount [
-	^ self panes size
+	^ paneCount
 ]
 
 { #category : #layout }
@@ -224,15 +164,12 @@ GLMPaneScroller >> paneWidthsToFit: limit [
 	
 ]
 
-{ #category : #accessing }
-GLMPaneScroller >> panes [
-	^ panes ifNil: [self updatePanes. panes]
-]
-
 { #category : #panes }
-GLMPaneScroller >> popPanes: count [
-	count * 2 timesRepeat: [transform removeMorph: transform lastSubmorph].
-	panes removeLast: count
+GLMPaneScroller >> popPane [
+	transform removeMorph: transform lastSubmorph. "one for the separator"
+	transform removeMorph: transform lastSubmorph.
+	paneCount := paneCount - 1.
+	self updatePanes.
 ]
 
 { #category : #panes }
@@ -244,6 +181,8 @@ GLMPaneScroller >> pushPane: aMorph [
 		layoutInset: 0.
 	transform hasSubmorphs ifTrue: [transform addMorphBack: self separator].
 	transform addMorphBack: aMorph.
+	paneCount := paneCount + 1.
+	self updatePanes
 ]
 
 { #category : #layout }
@@ -251,8 +190,7 @@ GLMPaneScroller >> resizeScrollBar [
 	| inner outer |
 	outer := super innerBounds.
 	inner := outer withHeight: outer height - self scrollBarHeight - 1.
-	scrollBar bounds: ((inner left @ inner bottom + 1)
-						corner: outer bottomRight)
+	scrollBar bounds: ((inner left @ inner bottom + 1) corner: outer bottomRight)
 ]
 
 { #category : #layout }
@@ -284,18 +222,13 @@ GLMPaneScroller >> scrollToRight [
 { #category : #panes }
 GLMPaneScroller >> separator [
 	^ BorderedSubpaneDividerMorph vertical
-		color: model defaultBackgroundColor duller;
+		color: self defaultBackgroundColor duller;
 		yourself
 ]
 
 { #category : #layout }
 GLMPaneScroller >> separatorWidth [
 	^3
-]
-
-{ #category : #accessing }
-GLMPaneScroller >> setRenderer: aRenderer [
-	renderer := aRenderer
 ]
 
 { #category : #scrolling }
@@ -338,23 +271,12 @@ GLMPaneScroller >> totalScrollRange [
 ]
 
 { #category : #updating }
-GLMPaneScroller >> update: aSymbol [
-	aSymbol = #sizing ifTrue: [^ self updateSizing].
-	aSymbol = #columns ifTrue: [^ self updatePanes].
-]
-
-{ #category : #updating }
 GLMPaneScroller >> updatePanes [
-	| count |
-	count := panes ifNotNil: [panes size] ifNil: [0].
-	self basicUpdatePanes.
-	self basicUpdateSizing.	
+	self basicUpdateSizing.
 	self layoutPanes.
-	panes size = count ifFalse: [
-		self hideOrShowScrollBar.
-		self setScrollDeltas ].
-	panes size > count ifTrue: [self scrollToRight].
-	^ panes
+	self hideOrShowScrollBar.
+	self setScrollDeltas.
+	self scrollToRight
 ]
 
 { #category : #updating }
