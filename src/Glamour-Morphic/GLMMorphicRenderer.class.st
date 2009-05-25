@@ -159,6 +159,12 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 
 	toShow := aListPresentation displayValue. 
 	items := toShow isCollection ifTrue: [ toShow ] ifFalse: [ Array with: toShow ]. 
+
+	listModel := GLMListModel new 
+				items: (items ifNil: [OrderedCollection new]); 
+				displaySelector: aListPresentation format;
+				searchBlock: aListPresentation searchStrategy;
+				yourself.
 	
 	container := RectangleMorph new
 		borderWidth: 0;
@@ -169,11 +175,6 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 		hResizing: #spaceFill;
 		yourself.
 	
-	listModel := GLMListModel new 
-				items: (items ifNil: [OrderedCollection new]); 
-				displaySelector: aListPresentation format;
-				searchBlock: aListPresentation searchStrategy;
-				yourself.
 	list := aListPresentation isMultiple ifFalse: [
 		PluggableListMorph
 			on: listModel 

@@ -28,7 +28,7 @@ GLMPaneScroller >> adjustPaneHeight [
 
 { #category : #private }
 GLMPaneScroller >> basicUpdatePanes [
-
+	self flag: 'It looks like all morphs are removed and then added again. Furthermore, the commented code below tries to reset the selection based on mathing the models behind the morphs. Of course, this breaks everytime we want to do something clever in the rendering. The whole logic must be changed to not remove the panes, but to reuse them'.
 	panes := model 
 		ifNil: [#()]
 		ifNotNil: [model panes collect: [:ea | ea renderGlamorouslyOn: renderer]].	
@@ -36,7 +36,6 @@ GLMPaneScroller >> basicUpdatePanes [
 	
 	panes do: [:ea | self pushPane: ea].
 	
-	self flag: 'I have no idea what the code below does, but it still seems to work without it'.
 "	oldPanes doWithIndex: [:each :index |
 		m := self modelForContainerMorph: each.
 		pageIndex := self pageIndexForContainerMorph: each.
@@ -184,8 +183,8 @@ GLMPaneScroller >> model: aBrowser [
 
 { #category : #private }
 GLMPaneScroller >> modelForContainerMorph: aMorph [
-	"really ugly..."
 	| subMorph |
+	self flag: 'this method should eventually not be needed anymore'.
 	subMorph := aMorph submorphs first.
 	^ (subMorph isKindOf: TabGroupMorph) 
 		ifTrue: [subMorph submorphs first submorphs first model] 
