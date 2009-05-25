@@ -8,7 +8,8 @@ Class {
 		'displaySelector',
 		'searchText',
 		'listSelection',
-		'searchBlock'
+		'searchBlock',
+		'singleSelection'
 	],
 	#category : #'Glamour-Morphic'
 }
@@ -27,6 +28,7 @@ GLMListModel >> displaySelector: aSymbol [
 GLMListModel >> doSearch [
 	| searchResult |
 	searchResult := searchBlock value: self searchText asString value: self items.
+	self halt.
 	listSelection := searchResult asOrderedCollection.
 	self changed: #selection.
 ]
@@ -67,6 +69,7 @@ GLMListModel >> listSelectionAt: anIndex put: aValue [
 		ifFalse: [listSelection
 				remove: anIndex
 				ifAbsent: []].
+	onSelection ifNotNil: [onSelection value: (OrderedCollection withAll: listSelection) ].
 	self changed: #selection.
 	
 ]
