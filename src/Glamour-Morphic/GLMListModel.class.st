@@ -10,10 +10,16 @@ Class {
 		'listSelection',
 		'searchBlock',
 		'singleSelection',
-		'filterBlock'
+		'filterBlock',
+		'filteredItems'
 	],
 	#category : #'Glamour-Morphic'
 }
+
+{ #category : #accessing }
+GLMListModel >> canonicalItems [
+	^items
+]
 
 { #category : #callbacks }
 GLMListModel >> displayListAt: anIndex [
@@ -35,12 +41,8 @@ GLMListModel >> doSearch [
 
 { #category : #associating }
 GLMListModel >> executeFilter [
-	
-	| searchResult |
-	searchResult := filterBlock value: self searchText asString value: self items.
-	items := searchResult.
-	"listSelection := searchResult asOrderedCollection.
-	onSelection ifNotNil: [onSelection value: (OrderedCollection withAll: listSelection) ]."
+
+	filteredItems := filterBlock value: self searchText asString value: self canonicalItems.
 	self changed: #items
 	
 ]
@@ -72,12 +74,13 @@ GLMListModel >> initialize [
 
 { #category : #accessing }
 GLMListModel >> items [
-	^items
+	^filteredItems
 ]
 
 { #category : #accessing }
 GLMListModel >> items: aCollection [
-	items := aCollection
+	items := aCollection.
+	filteredItems := aCollection.
 ]
 
 { #category : #callbacks }
