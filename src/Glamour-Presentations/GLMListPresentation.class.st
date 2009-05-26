@@ -6,10 +6,16 @@ Class {
 		'highlightPort',
 		'itemActions',
 		'isSearchable',
-		'searchBlock'
+		'searchBlock',
+		'filterBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
+
+{ #category : #accessing }
+GLMListPresentation >> filterStrategy [
+	^filterBlock
+]
 
 { #category : #testing }
 GLMListPresentation >> isMultiple [ 
