@@ -220,8 +220,8 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 			for: listModel
 			get: #searchText
 			set: #searchText:
-			class: nil  
-			getEnabled: #searchEnabled 	
+			class: String  
+			getEnabled: #searchEnabled
 			help: 'Search bar'.
 	
 		searchButton := UITheme current
