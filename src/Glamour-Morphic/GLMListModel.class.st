@@ -9,7 +9,8 @@ Class {
 		'searchText',
 		'listSelection',
 		'searchBlock',
-		'singleSelection'
+		'singleSelection',
+		'filterBlock'
 	],
 	#category : #'Glamour-Morphic'
 }
@@ -26,11 +27,39 @@ GLMListModel >> displaySelector: aSymbol [
 
 { #category : #associating }
 GLMListModel >> doSearch [
+	searchBlock isNil 
+					ifTrue: [self executeFilter]
+					ifFalse: [self executeSearch].
+	
+]
+
+{ #category : #associating }
+GLMListModel >> executeFilter [
+	
+	| searchResult |
+	searchResult := filterBlock value: self searchText asString value: self items.
+	items := searchResult.
+	"listSelection := searchResult asOrderedCollection.
+	onSelection ifNotNil: [onSelection value: (OrderedCollection withAll: listSelection) ]."
+	self changed: #items
+	
+]
+
+{ #category : #associating }
+GLMListModel >> executeSearch [
+	
 	| searchResult |
 	searchResult := searchBlock value: self searchText asString value: self items.
-	self halt.
 	listSelection := searchResult asOrderedCollection.
+	onSelection ifNotNil: [onSelection value: (OrderedCollection withAll: listSelection) ].
 	self changed: #selection.
+	
+]
+
+{ #category : #accessing }
+GLMListModel >> filterBlock: aBlock [
+
+	filterBlock := aBlock
 ]
 
 { #category : #initialization }
@@ -38,7 +67,7 @@ GLMListModel >> initialize [
 	super initialize.
 	selection := 0.
 	listSelection := OrderedCollection new.
-	searchBlock := [:text :list | OrderedCollection new]
+	"searchBlock := [:text :list | OrderedCollection new]"
 ]
 
 { #category : #accessing }
@@ -69,7 +98,8 @@ GLMListModel >> listSelectionAt: anIndex put: aValue [
 		ifFalse: [listSelection
 				remove: anIndex
 				ifAbsent: []].
-	onSelection ifNotNil: [onSelection value: (OrderedCollection withAll: listSelection) ].
+	
+	onSelection ifNotNil: [onSelection value: (listSelection collect: [:eachIndex | self listAt: eachIndex])].
 	self changed: #selection.
 	
 ]
@@ -96,7 +126,6 @@ GLMListModel >> search: arguments [
 
 { #category : #accessing }
 GLMListModel >> searchBlock: aBlock [
-
 	searchBlock := aBlock
 ]
 

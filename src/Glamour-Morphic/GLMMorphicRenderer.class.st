@@ -154,7 +154,6 @@ GLMMorphicRenderer >> renderFinder: aBrowser [
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderListPresentation: aListPresentation [ 
 	| items list toShow listModel container search searchButton | 
-
 	toShow := aListPresentation displayValue. 
 	items := toShow isCollection ifTrue: [ toShow ] ifFalse: [ Array with: toShow ]. 
 
@@ -162,6 +161,7 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 				items: (items ifNil: [OrderedCollection new]); 
 				displaySelector: aListPresentation format;
 				searchBlock: aListPresentation searchStrategy;
+				filterBlock: aListPresentation filterStrategy;
 				yourself.
 	
 	container := RectangleMorph new

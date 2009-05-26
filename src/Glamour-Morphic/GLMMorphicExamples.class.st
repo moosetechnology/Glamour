@@ -223,7 +223,7 @@ GLMMorphicExamples >> stCodeNavigator [
 
 	browser showOn: #classCats; using: [
 		browser list
-			seachOn: [:text :list | list select: [:each | each even]].
+			searchOn: [:text :list | list select: [:each | each even]].
 	].
 
 	browser showOn: #classes; from: #classCats; using: [
