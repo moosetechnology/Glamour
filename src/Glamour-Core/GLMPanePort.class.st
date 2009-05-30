@@ -14,6 +14,27 @@ Class {
 }
 
 { #category : #accessing }
+GLMPanePort >> basicValue: anObject [
+	value := anObject. 
+	
+]
+
+{ #category : #accessing }
+GLMPanePort >> changeValueTo: anObject in: aTransmissionContext [
+		| oldValue | 
+	oldValue := self value. 
+	self pane 
+		notingPresentationChangeDo: 
+			[value := anObject. 
+			self pane 
+				portEvent: 
+					(GLMPortEvent 
+						on: self
+						previouslyValued: oldValue
+						in: aTransmissionContext) ]
+]
+
+{ #category : #accessing }
 GLMPanePort >> pane [ 
 	 
 	^pane
@@ -28,18 +49,7 @@ GLMPanePort >> pane: aPane [
 { #category : #accessing }
 GLMPanePort >> receive: aTransmission [ 
 	 
-	| oldValue | 
-	oldValue := self value. 
-	self pane 
-		notingPresentationChangeDo: 
-			[value := aTransmission value. 
-			self pane 
-				portEvent: 
-					((GLMPortEvent new) 
-						port: self; 
-						transmission: aTransmission; 
-						oldValue: oldValue; 
-						yourself)]
+	self value: aTransmission value dueTo: aTransmission
 ]
 
 { #category : #accessing }
@@ -49,10 +59,14 @@ GLMPanePort >> value [
 ]
 
 { #category : #accessing }
-GLMPanePort >> value: anObject [ 
-	 
-	(GLMSimpleTransmission new) 
-		origin: (GLMSimplePort new value: anObject); 
-		destination: self; 
-		transmit
+GLMPanePort >> value: anObject [  
+	self changeValueTo: anObject in: OrderedCollection new.
+]
+
+{ #category : #accessing }
+GLMPanePort >> value: anObject dueTo: aTransmission [
+	
+	| aTransmissionContext |
+	aTransmissionContext := OrderedCollection with: aTransmission context.
+	self changeValueTo: anObject in: aTransmissionContext
 ]

@@ -4,10 +4,23 @@ Class {
 	#instVars : [
 		'port',
 		'transmission',
-		'oldValue'
+		'oldValue',
+		'transmissionContext'
 	],
 	#category : #'Glamour-Core'
 }
+
+{ #category : #'as yet unclassified' }
+GLMPortEvent class >> on: aPort previouslyValued: anObject [ 
+	^ self new 
+		initializeOn: aPort
+		previouslyValued: anObject
+]
+
+{ #category : #'as yet unclassified' }
+GLMPortEvent class >> on: aPort previouslyValued: anObject in: aTransmissionContext [ 
+	^self new initializeOn: aPort previouslyValued: anObject in: aTransmissionContext 
+]
 
 { #category : #testing }
 GLMPortEvent >> hasChanged [ 
@@ -16,16 +29,22 @@ GLMPortEvent >> hasChanged [
 	^self value ~= self oldValue
 ]
 
+{ #category : #'as yet unclassified' }
+GLMPortEvent >> initializeOn: aPort previouslyValued: anObject [ 
+	self initializeOn: aPort previouslyValued: anObject in: OrderedCollection new
+]
+
+{ #category : #'as yet unclassified' }
+GLMPortEvent >> initializeOn: aPort previouslyValued: anObject in: aTransmissionContext [ 
+	port := aPort.
+	oldValue := anObject.
+	transmissionContext := aTransmissionContext
+]
+
 { #category : #accessing }
 GLMPortEvent >> oldValue [ 
 	 
 	^oldValue
-]
-
-{ #category : #accessing }
-GLMPortEvent >> oldValue: anObject [ 
-	 
-	oldValue := anObject
 ]
 
 { #category : #'accessing-convenience' }
@@ -40,12 +59,6 @@ GLMPortEvent >> port [
 	^port
 ]
 
-{ #category : #accessing }
-GLMPortEvent >> port: aPort [ 
-	 
-	port := aPort
-]
-
 { #category : #'accessing-convenience' }
 GLMPortEvent >> portName [ 
 	 
@@ -58,10 +71,9 @@ GLMPortEvent >> transmission [
 	^transmission
 ]
 
-{ #category : #accessing }
-GLMPortEvent >> transmission: aTransmission [ 
-	 
-	transmission := aTransmission
+{ #category : #'as yet unclassified' }
+GLMPortEvent >> transmissionContext [
+	^transmissionContext
 ]
 
 { #category : #'accessing-convenience' }

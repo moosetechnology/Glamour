@@ -116,11 +116,24 @@ GLMBundleTransmission >> presentations: aCollection [
 ]
 
 { #category : #transmitting }
+GLMBundleTransmission >> printOn: aStream [ 
+	 
+	aStream 
+		nextPutAll: 'BundleTransmission (origin='; 
+		nextPutAll: self origins first printString; 
+		nextPutAll: ' destination='; 
+		nextPutAll: self destination printString; 
+		nextPut: $)
+	 
+	
+]
+
+{ #category : #transmitting }
 GLMBundleTransmission >> transmit [ 
 	 
 	self destination hasPane 
 		ifTrue: 
-			[self destination pane clear. 
+			[self destination pane clear.
 			self destination pane addPresentations: self presentations]. 
 	self destination receive: self
 ]
