@@ -54,8 +54,8 @@ GLMExplicitBrowserTest >> testParentPort [
 				yourself). 
 	(browser pane port: #outerPort1) value: 42. 
 	self assert: (browser panes first port: #innerPort1) value = 42. 
-	self assert: (browser pane port: #outerPort1) seenTransmissions size = 1. 
-	self 
+	self assert: (browser pane port: #outerPort1) seenTransmissions size = 0. 
+	"self 
 		assert: 
 			((browser pane port: #outerPort1) seenTransmissions first isKindOf: 
 					GLMSimpleTransmission). 
@@ -66,7 +66,7 @@ GLMExplicitBrowserTest >> testParentPort [
 	self 
 		assert: 
 			(browser pane port: #outerPort1) seenTransmissions first destination 
-				== (browser pane port: #outerPort1). 
+				== (browser pane port: #outerPort1). "
 	self 
 		assert: 
 			(browser panes first port: #innerPort1) seenTransmissions size = 1. 
@@ -78,8 +78,8 @@ GLMExplicitBrowserTest >> testParentPort [
 	self assert: (browser pane port: #outerPort2) value = 43. 
 	self 
 		assert: 
-			(browser panes first port: #innerPort2) seenTransmissions size = 1. 
-	self 
+			(browser panes first port: #innerPort2) seenTransmissions size = 0. 
+	"self 
 		assert: 
 			((browser panes first port: #innerPort2) seenTransmissions first isKindOf: 
 					GLMSimpleTransmission). 
@@ -90,7 +90,7 @@ GLMExplicitBrowserTest >> testParentPort [
 	self 
 		assert: 
 			(browser panes first port: #innerPort2) seenTransmissions first destination 
-				== (browser panes first port: #innerPort2). 
+				== (browser panes first port: #innerPort2). "
 	self assert: (browser pane port: #outerPort2) seenTransmissions size = 1. 
 	self 
 		assert: 
@@ -144,10 +144,10 @@ GLMExplicitBrowserTest >> testSimpleTransmission [
 		when: GLMContextChanged 
 		do: [:ann | announcement := ann]. 
 	presentation1 selection: 'foo'. 
-	self assert: (pane1 port: #selection) seenTransmissions size = 1. 
+	self assert: (pane1 port: #selection) seenTransmissions size = 0. 
 	self assert: (pane2 port: #entity) seenTransmissions size = 1. 
-	self 
-		assert: (pane1 port: #selection) seenTransmissions first ~~ transmission. 
+	"self 
+		assert: (pane1 port: #selection) seenTransmissions first ~~ transmission. "
 	self assert: (pane2 port: #entity) seenTransmissions first == transmission. 
 	self assert: (pane2 port: #entity) value = 'foo'. 
 	self assert: announcement notNil
@@ -181,15 +181,15 @@ GLMExplicitBrowserTest >> testTransmissionBundle [
 	but the second should." 
 	pane2 presentations first selection: #foo. 
 	pane1 presentations first selection: #bar. 
-	self assert: (pane1 port: #selection) seenTransmissions size = 1. 
-	self assert: (pane2 port: #selection) seenTransmissions size = 1. 
-	self 
+	self assert: (pane1 port: #selection) seenTransmissions size = 0. 
+	self assert: (pane2 port: #selection) seenTransmissions size = 0. 
+	"self 
 		assert: (pane1 port: #selection) seenTransmissions first ~~ transmission. 
 	self 
-		assert: (pane2 port: #selection) seenTransmissions first ~~ transmission. 
-	self assert: (pane3 port: #entity) seenTransmissions size = 2. 
-	self assert: (pane3 port: #entity) seenTransmissions first ~~ transmission. 
-	self assert: (pane3 port: #entity) seenTransmissions first value = nil. 
+		assert: (pane2 port: #selection) seenTransmissions first ~~ transmission." 
+	self assert: (pane3 port: #entity) seenTransmissions size = 1. 
+	"self assert: (pane3 port: #entity) seenTransmissions first ~~ transmission." 
+	"self assert: (pane3 port: #entity) seenTransmissions first value = nil. "
 	self assert: (pane3 port: #entity) seenTransmissions last == transmission. 
 	self 
 		assert: 
@@ -216,23 +216,23 @@ GLMExplicitBrowserTest >> testTriggeringConditions [
 	self assert: (pane1 port: #selection) seenTransmissions isEmpty. 
 	self assert: (pane2 port: #entity) seenTransmissions isEmpty. 
 	(pane1 port: #selection) value: 12. 
-	self assert: (pane1 port: #selection) seenTransmissions size = 1. 
-	self 
+	self assert: (pane1 port: #selection) seenTransmissions size = 0. 
+	"self 
 		assert: 
 			((pane1 port: #selection) seenTransmissions first isKindOf: 
-					GLMSimpleTransmission). 
+					GLMSimpleTransmission). "
 	self assert: (pane2 port: #entity) seenTransmissions size = 1. 
 	self assert: (pane2 port: #entity) seenTransmissions first == transmission.	"Setting the same value should re-publish but not trigger inner transmissions." 
 	(pane1 port: #selection) value: 12. 
-	self assert: (pane1 port: #selection) seenTransmissions size = 2. 
-	self 
+	self assert: (pane1 port: #selection) seenTransmissions size = 0. 
+	"self 
 		assert: 
 			((pane1 port: #selection) seenTransmissions first isKindOf: 
-					GLMSimpleTransmission). 
-	self 
+					GLMSimpleTransmission). "
+	"self 
 		assert: 
 			((pane1 port: #selection) seenTransmissions last isKindOf: 
-					GLMSimpleTransmission). 
+					GLMSimpleTransmission). "
 	self assert: (pane2 port: #entity) seenTransmissions size = 1. 
 	self assert: (pane2 port: #entity) seenTransmissions first == transmission
 ]
