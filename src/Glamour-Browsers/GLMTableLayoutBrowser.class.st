@@ -69,3 +69,9 @@ GLMTableLayoutBrowser >> renderGlamorouslyOn: aRenderer [
 	 
 	^aRenderer renderTableLayoutBrowser: self
 ]
+
+{ #category : #accessing }
+GLMTableLayoutBrowser >> updateContextWith: aPane [ 
+	context isNil ifTrue: [context := OrderedCollection new].
+	context add: aPane
+]
