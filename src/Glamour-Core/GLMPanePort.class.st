@@ -49,7 +49,7 @@ GLMPanePort >> pane: aPane [
 { #category : #accessing }
 GLMPanePort >> receive: aTransmission [ 
 	 
-	self value: aTransmission value dueTo: aTransmission
+	self value: aTransmission value
 ]
 
 { #category : #accessing }

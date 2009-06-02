@@ -19,6 +19,18 @@ GLMExplicitBrowser >> addJumpstart: aTransmission [
 ]
 
 { #category : #accessing }
+GLMExplicitBrowser >> addNewPane [
+	
+	^self addNewPaneNamed: 'undefined'
+]
+
+{ #category : #accessing }
+GLMExplicitBrowser >> addNewPaneNamed: aString [
+	
+	^self panes addLast: (GLMPane named: aString in: self)
+]
+
+{ #category : #accessing }
 GLMExplicitBrowser >> addPane: aPane [ 
 	 
 	aPane browser: self. 
@@ -35,8 +47,8 @@ GLMExplicitBrowser >> addTransmission: aTransmission [
 GLMExplicitBrowser >> innerPortEvent: aPortEvent [ 
 	aPortEvent hasChanged 
 		ifTrue: 
-			[(self transmissions select: [:each | ( each originatesAt: aPortEvent port ) and: [( aPortEvent pane browser context includes: each destination pane) not ]]) 
-				do: [:each | each transmitIn: aPortEvent transmissionContext]]
+			[(self transmissions select: [:each | each originatesAt: aPortEvent port]) 
+				do: [:each | each transmit]]
 ]
 
 { #category : #accessing }
@@ -61,8 +73,8 @@ GLMExplicitBrowser >> outerPortEvent: aPortEvent [
 						transmit]]. 
 	aPortEvent hasChanged 
 		ifTrue: 
-			[(self transmissions select: [:each | ( each originatesAt: aPortEvent port ) and: [( aPortEvent transmissionContext includes: each) not ]]) 
-				do: [:each | each transmitIn: aPortEvent transmissionContext]]
+			[(self transmissions select: [:each | each originatesAt: aPortEvent port]) 
+				do: [:each | each transmit]]
 ]
 
 { #category : #accessing }

@@ -10,6 +10,19 @@ Class {
 	#category : #'Glamour-Core'
 }
 
+{ #category : #'as yet unclassified' }
+GLMPane class >> browser: aBrowser [ 
+	
+	^self new initializeBrowser: aBrowser
+]
+
+{ #category : #'as yet unclassified' }
+GLMPane class >> named: aString in: aBrowser [
+
+	^self new initializeNamed: aString in: aBrowser 
+
+]
+
 { #category : #private }
 GLMPane class >> portClass [ 
 	 
@@ -56,11 +69,6 @@ GLMPane >> browser [
 ]
 
 { #category : #accessing }
-GLMPane >> browser: aBrowser [ 
-	browser := aBrowser
-]
-
-{ #category : #accessing }
 GLMPane >> clear [ 
 	 
 	self notingPresentationChangeDo: [presentations := nil]. 
@@ -73,6 +81,20 @@ GLMPane >> hasBrowser [
 	^self browser isNil not
 ]
 
+{ #category : #initialization }
+GLMPane >> initializeBrowser: aBrowser [ 
+	
+	self initializeNamed: 'undefined' in: aBrowser
+]
+
+{ #category : #initialization }
+GLMPane >> initializeNamed: aString in: aBrowser [ 
+	name := aString.
+	browser := aBrowser.
+	ports := OrderedCollection new.
+	presentations := OrderedCollection new.
+]
+
 { #category : #accessing }
 GLMPane >> matchingPresentations [ 
 	 
@@ -83,12 +105,6 @@ GLMPane >> matchingPresentations [
 GLMPane >> name [ 
 	 
 	^name
-]
-
-{ #category : #accessing }
-GLMPane >> name: aSymbol [ 
-	 
-	name := aSymbol
 ]
 
 { #category : #private }
