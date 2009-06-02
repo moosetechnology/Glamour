@@ -154,9 +154,8 @@ GLMScriptingTest >> testPublishing [
 GLMScriptingTest >> testReferences [ 
 	 
 	| browser pane1 | 
-	browser := GLMExplicitBrowser new. 
-	pane1 := GLMPane new name: #pane1. 
-	browser addPane: pane1. 
+	browser := GLMExplicitBrowser new.  
+ 	pane1 := browser addNewPaneNamed: #pane1.
 	self 
 		assert: (browser resolveOriginPort: #pane1) == (pane1 port: #selection). 
 	self 

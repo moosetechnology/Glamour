@@ -12,3 +12,8 @@ GLMTestPane class >> portClass [
 	 
 	^GLMTestPort
 ]
+
+{ #category : #accessing }
+GLMTestPane >> browser: aBrowser [ 
+	browser := aBrowser
+]

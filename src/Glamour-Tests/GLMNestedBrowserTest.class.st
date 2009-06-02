@@ -22,9 +22,9 @@ GLMNestedBrowserTest >> testChangeInnerSelection [
 	browser2 := GLMExplicitBrowser new. 
 	list1 := GLMListPresentation new. 
 	list2 := GLMListPresentation new. 
-	browser1 addPane: GLMPane new. 
-	browser1 addPane: GLMPane new. 
-	browser2 addPane: GLMPane new. 
+	browser1 addNewPane. 
+	browser1 addNewPane. 
+	browser2 addNewPane. 
 	browser1 panes first addPresentation: list1. 
 	browser1 panes last addPresentation: browser2. 
 	browser2 panes first addPresentation: list2. 
@@ -66,8 +66,8 @@ GLMNestedBrowserTest >> testEntityPropogation [
 	browser1 := GLMExplicitBrowser new. 
 	browser2 := GLMExplicitBrowser new. 
 	presentation := GLMPresentation new. 
-	browser1 addPane: GLMPane new. 
-	browser2 addPane: GLMPane new.	"Jumpstart presentation for outer browser." 
+	browser1 addNewPane. 
+	browser2 addNewPane.	"Jumpstart presentation for outer browser." 
 	browser1 
 		addTransmission: 
 			((GLMBundleTransmission new) 
@@ -127,8 +127,8 @@ GLMNestedBrowserTest >> testEntityPropogationAnnouncements [
 	browser2 := GLMExplicitBrowser new. 
 	presentation := GLMPresentation new. 
 	browser1 pane. 
-	browser1 addPane: GLMPane new. 
-	browser2 addPane: GLMPane new. 
+	browser1 addNewPane. 
+	browser2 addNewPane. 
 	announcements := OrderedCollection new. 
 	self assert: browser1 pane presentations size = 1. 
 	self assert: browser1 pane presentations first == browser1. 

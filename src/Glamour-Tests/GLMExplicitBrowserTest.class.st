@@ -10,7 +10,7 @@ GLMExplicitBrowserTest >> testJumpstartTransmission [
 	| browser presentation | 
 	browser := GLMExplicitBrowser new. 
 	presentation := GLMPresentation new. 
-	browser addPane: GLMPane new. 
+	browser addNewPane. 
 	browser 
 		addJumpstart: 
 			((GLMBundleTransmission new) 
@@ -28,9 +28,9 @@ GLMExplicitBrowserTest >> testJumpstartTransmission [
 { #category : #tests }
 GLMExplicitBrowserTest >> testParentPort [ 
 	 
-	| browser outerPort1 outerPort2 | 
+	| browser outerPort1 outerPort2 transmission1 transmission2 | 
 	browser := GLMExplicitBrowser new. 
-	browser addPane: GLMTestPane new. 
+	browser addNewPane. 
 	GLMTestPane new addPresentation: browser. 
 	outerPort1 := (GLMParentPort new) 
 		presentation: browser; 
@@ -42,19 +42,21 @@ GLMExplicitBrowserTest >> testParentPort [
 		yourself.	"Capturing" 
 	browser 
 		addTransmission: 
-			((GLMSimpleTransmission new) 
+			(transmission1 := (GLMMockSimpleTransmission new) 
 				origin: outerPort1; 
 				destination: (browser panes first port: #innerPort1); 
 				yourself).	"Publishing" 
 	browser 
 		addTransmission: 
-			((GLMSimpleTransmission new) 
+			((transmission2 := GLMMockSimpleTransmission new) 
 				origin: (browser panes first port: #innerPort2); 
 				destination: outerPort2; 
 				yourself). 
 	(browser pane port: #outerPort1) value: 42. 
 	self assert: (browser panes first port: #innerPort1) value = 42. 
-	self assert: (browser pane port: #outerPort1) seenTransmissions size = 0. 
+	self assert: transmission1 wasTransmited.
+	self deny: transmission2 wasTransmited.
+	"self assert: (browser pane port: #outerPort1) seenTransmissions size = 0. "
 	"self 
 		assert: 
 			((browser pane port: #outerPort1) seenTransmissions first isKindOf: 
@@ -67,18 +69,18 @@ GLMExplicitBrowserTest >> testParentPort [
 		assert: 
 			(browser pane port: #outerPort1) seenTransmissions first destination 
 				== (browser pane port: #outerPort1). "
-	self 
+	"self 
 		assert: 
 			(browser panes first port: #innerPort1) seenTransmissions size = 1. 
 	self 
 		assert: 
 			(browser panes first port: #innerPort1) seenTransmissions first 
-				== browser transmissions first. 
+				== browser transmissions first. "
 	(browser panes first port: #innerPort2) value: 43. 
 	self assert: (browser pane port: #outerPort2) value = 43. 
-	self 
+	"self 
 		assert: 
-			(browser panes first port: #innerPort2) seenTransmissions size = 0. 
+			(browser panes first port: #innerPort2) seenTransmissions size = 0. "
 	"self 
 		assert: 
 			((browser panes first port: #innerPort2) seenTransmissions first isKindOf: 
@@ -91,11 +93,11 @@ GLMExplicitBrowserTest >> testParentPort [
 		assert: 
 			(browser panes first port: #innerPort2) seenTransmissions first destination 
 				== (browser panes first port: #innerPort2). "
-	self assert: (browser pane port: #outerPort2) seenTransmissions size = 1. 
+	"self assert: (browser pane port: #outerPort2) seenTransmissions size = 1. 
 	self 
 		assert: 
 			(browser pane port: #outerPort2) seenTransmissions first 
-				== browser transmissions last
+				== browser transmissions last"
 ]
 
 { #category : #tests }
@@ -103,14 +105,13 @@ GLMExplicitBrowserTest >> testSetup [
 	 
 	| browser pane1 pane2 transmission | 
 	browser := GLMExplicitBrowser new. 
-	pane1 := GLMTestPane new. 
-	pane2 := GLMTestPane new. 
+	
+	pane1 := browser addNewPane. 
+	pane2 := browser addNewPane. 
 	transmission := (GLMSimpleTransmission new) 
 		origin: (pane1 port: #selection); 
 		destination: (pane2 port: #entity); 
-		yourself. 
-	browser addPane: pane1. 
-	browser addPane: pane2. 
+		yourself.  
 	browser addTransmission: transmission. 
 	self assert: browser panes size = 2. 
 	self assert: browser transmissions size = 1. 
@@ -128,27 +129,27 @@ GLMExplicitBrowserTest >> testSimpleTransmission [
 	browser := GLMExplicitBrowser new. 
 	presentation1 := GLMPresentation new. 
 	presentation2 := GLMPresentation new. 
-	pane1 := GLMTestPane new. 
-	pane2 := GLMTestPane new. 
+	pane1 := browser addNewPane. 
+	pane2 := browser addNewPane. 
 	pane1 addPresentation: presentation1. 
 	pane2 addPresentation: presentation2. 
-	transmission := (GLMSimpleTransmission new) 
+	transmission := (GLMMockSimpleTransmission new) 
 		origin: (pane1 port: #selection); 
 		destination: (pane2 port: #entity); 
 		yourself. 
-	browser addPane: pane1. 
-	browser addPane: pane2. 
 	browser addTransmission: transmission. 
 	announcement := nil. 
 	presentation2 
 		when: GLMContextChanged 
 		do: [:ann | announcement := ann]. 
 	presentation1 selection: 'foo'. 
-	self assert: (pane1 port: #selection) seenTransmissions size = 0. 
-	self assert: (pane2 port: #entity) seenTransmissions size = 1. 
+	self assert: transmission wasTransmited.
+	"self assert: (pane1 port: #selection) seenTransmissions size = 0. 
+	self assert: (pane2 port: #entity) seenTransmissions size = 1." 
 	"self 
 		assert: (pane1 port: #selection) seenTransmissions first ~~ transmission. "
-	self assert: (pane2 port: #entity) seenTransmissions first == transmission. 
+	"self assert: (pane2 port: #entity) seenTransmissions first == transmission. "
+	self assert: (pane1 port: #selection) value = 'foo'. 
 	self assert: (pane2 port: #entity) value = 'foo'. 
 	self assert: announcement notNil
 ]
