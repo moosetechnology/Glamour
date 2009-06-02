@@ -29,7 +29,7 @@ GLMPaneTest >> testPorts [
 GLMPaneTest >> testPresentationConditions [ 
 	 
 	| pane presentation1 presentation2 presentation3 | 
-	pane := GLMPane new. 
+	pane := GLMPane named: 'test'. 
 	presentation1 := GLMPresentation new 
 		condition: [:first :second | first = 1 and: [second = 2]]. 
 	presentation2 := GLMPresentation new condition: [:first | first = #foo]. 

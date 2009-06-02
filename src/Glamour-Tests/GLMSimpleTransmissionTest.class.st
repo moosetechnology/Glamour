@@ -8,8 +8,8 @@ Class {
 GLMSimpleTransmissionTest >> testSimple [ 
 	 
 	| pane1 pane2 transmission | 
-	pane1 := GLMPane new. 
-	pane2 := GLMPane new. 
+	pane1 := GLMPane named: 'test1'. 
+	pane2 := GLMPane named: 'test2'. 
 	transmission := (GLMSimpleTransmission new) 
 		origin: (pane1 port: #output); 
 		destination: (pane2 port: #input); 

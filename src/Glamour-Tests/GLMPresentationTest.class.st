@@ -8,7 +8,7 @@ Class {
 GLMPresentationTest >> testAnnouncement [ 
 	 
 	| pane presentation announcement | 
-	pane := GLMPane new. 
+	pane := GLMPane named: 'test'. 
 	presentation := GLMPresentation new. 
 	pane addPresentation: presentation. 
 	announcement := nil. 
@@ -25,7 +25,7 @@ GLMPresentationTest >> testAnnouncement [
 GLMPresentationTest >> testContext [ 
 	 
 	| pane presentation | 
-	pane := GLMPane new. 
+	pane := GLMPane named: 'test'. 
 	presentation := GLMPresentation new. 
 	pane addPresentation: presentation. 
 	presentation selection: 42. 

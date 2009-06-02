@@ -14,6 +14,13 @@ GLMTestPane class >> portClass [
 ]
 
 { #category : #accessing }
+GLMTestPane >> browser [
+
+	browser isNil ifTrue: [^GLMNoBrowser new].
+	^browser
+]
+
+{ #category : #accessing }
 GLMTestPane >> browser: aBrowser [ 
 	browser := aBrowser
 ]

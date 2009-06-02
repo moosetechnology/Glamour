@@ -32,6 +32,7 @@ GLMExplicitBrowserTest >> testParentPort [
 	browser := GLMExplicitBrowser new. 
 	browser addNewPane. 
 	GLMTestPane new addPresentation: browser. 
+	GLMTestPane browser: GLMNoBrowser new.
 	outerPort1 := (GLMParentPort new) 
 		presentation: browser; 
 		name: #outerPort1; 
