@@ -13,11 +13,7 @@ Class {
 { #category : #private }
 GLMFinder >> addPaneFrom: aPort [ 
 	 
-	self panes 
-		addLast: 
-			((GLMPane new) 
-				browser: self; 
-				yourself). 
+	self panes addLast: ( GLMPane browser: self ). 
 	(GLMBundleTransmission new) 
 		addActiveOrigin: aPort; 
 		destination: (self panes last port: #entity); 
@@ -35,11 +31,7 @@ GLMFinder >> addPaneFrom: aPort [
 GLMFinder >> addPaneFromInner: aPort [ 
 	 
 	| newTransmission realTransmissions | 
-	self panes 
-		addLast: 
-			((GLMPane new) 
-				browser: self; 
-				yourself). 
+	self panes addLast: (GLMPane browser: self ). 
 	(GLMBundleTransmission new) 
 		addActiveOrigin: aPort; 
 		destination: (self panes last port: #entity); 

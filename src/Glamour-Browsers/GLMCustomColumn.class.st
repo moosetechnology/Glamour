@@ -11,10 +11,7 @@ GLMCustomColumn >> addRow: aBlockOrSymbol [
 	cell _ aBlockOrSymbol isSymbol 
 		ifTrue: 
 			[self browser 
-				addPane: 
-					((GLMPane new) 
-						name: aBlockOrSymbol; 
-						yourself). 
+				addNewPaneNamed: aBlockOrSymbol. 
 			(GLMCustomRow new) 
 				id: aBlockOrSymbol; 
 				browser: self browser] 
