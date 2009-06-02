@@ -130,7 +130,6 @@ GLMBundleTransmission >> printOn: aStream [
 
 { #category : #transmitting }
 GLMBundleTransmission >> transmit [ 
-	 
 	self destination hasPane 
 		ifTrue: 
 			[self destination pane clear.

@@ -6,7 +6,8 @@ Class {
 		'hiddenPane',
 		'transmissions',
 		'jumpstartTransmissions',
-		'scriptTransmission'
+		'scriptTransmission',
+		'context'
 	],
 	#category : #'Glamour-Core'
 }
@@ -34,7 +35,7 @@ GLMExplicitBrowser >> addTransmission: aTransmission [
 GLMExplicitBrowser >> innerPortEvent: aPortEvent [ 
 	aPortEvent hasChanged 
 		ifTrue: 
-			[(self transmissions select: [:each | ( each originatesAt: aPortEvent port ) and: [( aPortEvent transmissionContext includes: each) not ]]) 
+			[(self transmissions select: [:each | ( each originatesAt: aPortEvent port ) and: [( aPortEvent pane browser context includes: each destination pane) not ]]) 
 				do: [:each | each transmitIn: aPortEvent transmissionContext]]
 ]
 

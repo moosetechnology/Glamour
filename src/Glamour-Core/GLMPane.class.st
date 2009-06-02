@@ -57,7 +57,6 @@ GLMPane >> browser [
 
 { #category : #accessing }
 GLMPane >> browser: aBrowser [ 
-	 
 	browser := aBrowser
 ]
 
@@ -65,7 +64,7 @@ GLMPane >> browser: aBrowser [
 GLMPane >> clear [ 
 	 
 	self notingPresentationChangeDo: [presentations := nil]. 
-	self ports do: [:each | each basicValue: nil]
+	self ports do: [:each | each value: nil]
 ]
 
 { #category : #testing }

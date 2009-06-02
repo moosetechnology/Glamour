@@ -60,6 +60,9 @@ GLMPanePort >> value [
 
 { #category : #accessing }
 GLMPanePort >> value: anObject [  
+	self flag: 'This check of anObject is for assuming that we are doing a clear in which case we shoulf go on in the same context. This should be improved.'.
+	( ( self pane browser isNil not) and: [ anObject isNil not] ) ifTrue: [
+	self pane browser initializeContextWith: self pane ].
 	self changeValueTo: anObject in: OrderedCollection new.
 ]
 
