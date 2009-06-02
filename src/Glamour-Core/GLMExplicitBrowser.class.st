@@ -47,7 +47,7 @@ GLMExplicitBrowser >> addTransmission: aTransmission [
 GLMExplicitBrowser >> innerPortEvent: aPortEvent [ 
 	aPortEvent hasChanged 
 		ifTrue: 
-			[(self transmissions select: [:each | each originatesAt: aPortEvent port]) 
+			[(self transmissions select: [:each | ( each originatesAt: aPortEvent port ) and: [( aPortEvent pane browser context includes: each destination pane) not ]]) 
 				do: [:each | each transmit]]
 ]
 
@@ -73,7 +73,7 @@ GLMExplicitBrowser >> outerPortEvent: aPortEvent [
 						transmit]]. 
 	aPortEvent hasChanged 
 		ifTrue: 
-			[(self transmissions select: [:each | each originatesAt: aPortEvent port]) 
+			[(self transmissions select: [:each | (each originatesAt: aPortEvent port) and: [( aPortEvent pane browser context includes: each destination pane) not ]]) 
 				do: [:each | each transmit]]
 ]
 
@@ -137,4 +137,9 @@ GLMExplicitBrowser >> resolvePort: aPortReference defaultPortName: aSymbol [
 GLMExplicitBrowser >> transmissions [ 
 	 
 	^transmissions ifNil: [transmissions := OrderedCollection new]
+]
+
+{ #category : #accessing }
+GLMExplicitBrowser >> updateContextWith: aPane [ 
+
 ]

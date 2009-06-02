@@ -16,6 +16,11 @@ GLMPane class >> browser: aBrowser [
 	^self new initializeBrowser: aBrowser
 ]
 
+{ #category : #'instance creation' }
+GLMPane class >> named: aString [ 
+	^self new initializeNamed: aString
+]
+
 { #category : #'as yet unclassified' }
 GLMPane class >> named: aString in: aBrowser [
 
@@ -88,6 +93,11 @@ GLMPane >> initializeBrowser: aBrowser [
 ]
 
 { #category : #initialization }
+GLMPane >> initializeNamed: aString [ 
+	self initializeNamed: aString in: GLMNoBrowser new  
+]
+
+{ #category : #initialization }
 GLMPane >> initializeNamed: aString in: aBrowser [ 
 	name := aString.
 	browser := aBrowser.
@@ -149,7 +159,7 @@ GLMPane >> port: aSymbol [
 { #category : #private }
 GLMPane >> portEvent: aPortEvent [ 
 	 
-	self hasBrowser ifTrue: [self browser innerPortEvent: aPortEvent]. 
+	self browser innerPortEvent: aPortEvent.
 	self presentations do: [:each | each outerPortEvent: aPortEvent]
 ]
 

@@ -99,7 +99,7 @@ GLMPresentation >> pane [
 	 
 	^pane 
 		ifNil: 
-			[pane := (GLMPane new) 
+			[pane := (GLMPane browser: GLMNoBrowser new) 
 				addPresentation: self; 
 				yourself]
 ]
