@@ -388,3 +388,25 @@ GLMScriptingTest >> testUpdateAction [
 	self assert: browser panes second presentations size = 1. 
 	self assert: browser panes second presentations first entity = 42
 ]
+
+{ #category : #tests }
+GLMScriptingTest >> testVariableActions [
+
+	| browser | 
+	browser := GLMTableLayoutBrowser new. 
+	browser column: #one. 
+	browser showOn: #one; using: [
+		browser list
+				display: [ :x | 1 to: x ];
+				actions: [ :list :input | 1 to: list selection do: [:index | 
+					list act: [ index ] entitled: 'Some action' ] ]
+	].
+	browser startOn: 42. 
+	self assert: browser panes first presentations first activeActions isEmpty.
+
+	(browser panes first port: #selection) value: 3.
+	self assert: browser panes first presentations first activeActions size = 3.
+	
+	(browser panes first port: #selection) value: 5.
+	self assert: browser panes first presentations first activeActions size = 5.
+]
