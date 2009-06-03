@@ -11,9 +11,9 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMPane class >> browser: aBrowser [ 
+GLMPane class >> in: aBrowser [ 
 	
-	^self new initializeBrowser: aBrowser
+	^self new initializeIn: aBrowser
 ]
 
 { #category : #'instance creation' }
@@ -39,7 +39,7 @@ GLMPane >> addPresentation: aPresentation [
 	 
 	self 
 		notingPresentationChangeDo: 
-			[self presentations 
+			[presentations 
 				addLast: 
 					(aPresentation 
 						pane: self; 
@@ -54,7 +54,7 @@ GLMPane >> addPresentations: aCollection [
 			[aCollection 
 				do: 
 					[:each |  
-					self presentations 
+					presentations 
 						addLast: 
 							(each 
 								pane: self; 
@@ -76,8 +76,14 @@ GLMPane >> browser [
 { #category : #accessing }
 GLMPane >> clear [ 
 	 
-	self notingPresentationChangeDo: [presentations := nil]. 
+	self notingPresentationChangeDo: [presentations := OrderedCollection new]. 
 	self ports do: [:each | each value: nil]
+]
+
+{ #category : #initialization }
+GLMPane >> defaultName [
+
+	^'undefined'
 ]
 
 { #category : #testing }
@@ -87,9 +93,9 @@ GLMPane >> hasBrowser [
 ]
 
 { #category : #initialization }
-GLMPane >> initializeBrowser: aBrowser [ 
+GLMPane >> initializeIn: aBrowser [ 
 	
-	self initializeNamed: 'undefined' in: aBrowser
+	self initializeNamed: self defaultName in: aBrowser
 ]
 
 { #category : #initialization }
@@ -108,7 +114,7 @@ GLMPane >> initializeNamed: aString in: aBrowser [
 { #category : #accessing }
 GLMPane >> matchingPresentations [ 
 	 
-	^self presentations select: [:each | each matches]
+	^presentations select: [:each | each matches]
 ]
 
 { #category : #accessing }
@@ -145,10 +151,10 @@ GLMPane >> notingPresentationChangeDo: aBlock [
 { #category : #accessing }
 GLMPane >> port: aSymbol [ 
 	 
-	^self ports 
+	^ports 
 		detect: [:each | each name = aSymbol] 
 		ifNone: 
-			[self ports 
+			[ports 
 				addLast: 
 					((self class portClass new) 
 						pane: self; 
@@ -166,7 +172,7 @@ GLMPane >> portEvent: aPortEvent [
 { #category : #accessing }
 GLMPane >> ports [ 
 	 
-	^ports ifNil: [ports := OrderedCollection new]
+	^OrderedCollection withAll: ports
 ]
 
 { #category : #private }
@@ -178,7 +184,7 @@ GLMPane >> postCopy [
 { #category : #accessing }
 GLMPane >> presentations [ 
 	 
-	^presentations ifNil: [presentations := OrderedCollection new]
+	^OrderedCollection withAll: presentations
 ]
 
 { #category : #rendering }
