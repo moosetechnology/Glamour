@@ -14,15 +14,60 @@ GLMPaneTest >> testCreation [
 ]
 
 { #category : #tests }
+GLMPaneTest >> testIn [
+	 
+	| aPane | 
+	aPane := GLMPane in: 1.
+	self assert: aPane name = aPane defaultName.
+	self assert: aPane browser = 1.
+	self assert: aPane ports isEmpty.
+	self assert: aPane presentations isEmpty.
+]
+
+{ #category : #tests }
+GLMPaneTest >> testNamed [
+	 
+	| aPane | 
+	aPane := GLMPane named: 1.
+	self assert: aPane name = 1.
+	self assert: aPane browser = GLMNoBrowser new.
+	self assert: aPane ports isEmpty.
+	self assert: aPane presentations isEmpty.
+]
+
+{ #category : #tests }
+GLMPaneTest >> testNamedIn [
+	 
+	| aPane | 
+	aPane := GLMPane named: 1 in: 2. 
+	self assert: aPane name = 1.
+	self assert: aPane browser = 2.
+	self assert: aPane ports isEmpty.
+	self assert: aPane presentations isEmpty.
+]
+
+{ #category : #tests }
 GLMPaneTest >> testPorts [ 
 	 
 	| pane port | 
-	pane := GLMPane new. 
+	pane := GLMPane named: 'test'. 
 	self assert: pane ports isEmpty. 
 	port := pane port: #foo. 
 	self assert: pane ports size = 1. 
 	self assert: pane ports first == port. 
 	self assert: (pane port: #foo) == port
+]
+
+{ #category : #tests }
+GLMPaneTest >> testPortsInmmutability [
+	 
+	| aPane ports | 
+	aPane := GLMPane in: 1.
+	self assert: aPane ports isEmpty.
+	ports := aPane ports.
+	ports add: 1.
+	self assert: ports size = 1.
+	self assert: aPane ports isEmpty.
 ]
 
 { #category : #tests }
@@ -53,7 +98,7 @@ GLMPaneTest >> testPresentationConditions [
 GLMPaneTest >> testPresentations [ 
 	 
 	| pane presentation announcement | 
-	pane := GLMPane new. 
+	pane := GLMPane named: 'test'. 
 	presentation := GLMPresentation new. 
 	self assert: pane presentations isEmpty. 
 	announcement := nil. 
@@ -66,10 +111,22 @@ GLMPaneTest >> testPresentations [
 ]
 
 { #category : #tests }
+GLMPaneTest >> testPresentationsInmmutability [
+	 
+	| aPane presentations | 
+	aPane := GLMPane in: 1.
+	self assert: aPane presentations isEmpty.
+	presentations := aPane presentations.
+	presentations add: 1.
+	self assert: presentations size = 1.
+	self assert: aPane presentations isEmpty.
+]
+
+{ #category : #tests }
 GLMPaneTest >> testSimplePresentations [ 
 	 
 	| pane presentation announcement | 
-	pane := GLMPane new. 
+	pane := GLMPane named: 'test'. 
 	presentation := GLMPresentation new. 
 	self assert: pane presentations isEmpty. 
 	announcement := nil. 

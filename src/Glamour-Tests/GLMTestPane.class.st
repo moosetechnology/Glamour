@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #private }
+GLMTestPane class >> new [
+
+	^super new initialize
+]
+
+{ #category : #private }
 GLMTestPane class >> portClass [ 
 	 
 	^GLMTestPort
@@ -23,4 +29,11 @@ GLMTestPane >> browser [
 { #category : #accessing }
 GLMTestPane >> browser: aBrowser [ 
 	browser := aBrowser
+]
+
+{ #category : #accessing }
+GLMTestPane >> initialize [
+
+	ports := OrderedCollection new.
+	presentations := OrderedCollection new.
 ]
