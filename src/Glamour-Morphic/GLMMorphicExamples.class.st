@@ -223,17 +223,13 @@ GLMMorphicExamples >> stCodeNavigator [
 
 	browser showOn: #classCats; using: [
 		browser list
-			searchOn: [:text :list | list select: [:each | each even]].
+			filterOn: [:text :list | list select: [:each | text match: each ]].
 	].
 
 	browser showOn: #classes; from: #classCats; using: [
 		browser list
 			display: [ :classCat |  (Smalltalk organization listAtCategoryNamed: classCat) collect: [:className | Smalltalk classNamed: className] ];
-			when: [ :classCat | classCat notNil "and: [pundle item isPackage]"].
-		"browser list
-			beSearchable;
-			beMultiple;
-			seachOn: [:text :list | list select: [:each | each even]]"
+			when: [ :classCat | classCat notNil ].
 	].
 
 	browser showOn: #categories; from: #classes; using: [
@@ -251,9 +247,9 @@ GLMMorphicExamples >> stCodeNavigator [
 				display: [ :class :category | class selectors asSortedCollection ].
 	].
 
-	browser sendTo: #outer -> #selectedClassCategory from: #classCats.
-	browser sendTo: #outer -> #selectedClass from: #classes.
-	browser sendTo: #outer -> #selectedMethod from: #methods.
+	browser sendToOutside: #selectedClassCategory from: #classCats.
+	browser sendToOutside: #selectedClass from: #classes.
+	browser sendToOutside: #selectedMethod from: #methods.
 
 	^browser
 ]
