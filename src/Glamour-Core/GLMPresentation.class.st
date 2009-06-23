@@ -75,7 +75,6 @@ GLMPresentation >> isInspectable [
 
 { #category : #testing }
 GLMPresentation >> matches [ 
-	 
 	^(self usesImplicitNotNil 
 		ifTrue: [GLMNotNilCondition new glamourValue: self entity] 
 		ifFalse: [true]) and: [(self condition glamourValue: self entity) = true]

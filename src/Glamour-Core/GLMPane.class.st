@@ -105,7 +105,7 @@ GLMPane >> initializeNamed: aString [
 
 { #category : #initialization }
 GLMPane >> initializeNamed: aString in: aBrowser [ 
-	name := aString.
+	name := aString ifNil: [ self defaultName ].
 	browser := aBrowser.
 	ports := OrderedCollection new.
 	presentations := OrderedCollection new.
