@@ -33,28 +33,37 @@ GLMListModel >> displaySelector: aSymbol [
 
 { #category : #associating }
 GLMListModel >> doSearch [
-	searchBlock isNil 
-					ifTrue: [self executeFilter]
-					ifFalse: [self executeSearch].
+	searchText isEmptyOrNil
+		ifTrue: [ self executeReset ]
+		ifFalse:[ 
+			searchBlock isNil 
+				ifTrue: [ self executeFilter ]
+				ifFalse: [ self executeSearch ] ].
+		
 	
 ]
 
 { #category : #associating }
 GLMListModel >> executeFilter [
-
 	filteredItems := filterBlock value: self searchText asString value: self canonicalItems.
-	self changed: #items
+	self changed: #items; changed: #selection
+	
+]
+
+{ #category : #associating }
+GLMListModel >> executeReset [
+	filteredItems := self canonicalItems.
+	self changed: #items; changed: #selection
 	
 ]
 
 { #category : #associating }
 GLMListModel >> executeSearch [
-	
 	| searchResult |
-	searchResult := searchBlock value: self searchText asString value: self items.
+	searchResult := searchBlock value: self searchText asString value: self canonicalItems.
 	listSelection := searchResult asOrderedCollection.
 	onSelection ifNotNil: [onSelection value: (OrderedCollection withAll: listSelection) ].
-	self changed: #selection.
+	self changed: #items; changed: #selection
 	
 ]
 
@@ -69,6 +78,7 @@ GLMListModel >> initialize [
 	super initialize.
 	selection := 0.
 	listSelection := OrderedCollection new.
+	searchText := ''
 	"searchBlock := [:text :list | OrderedCollection new]"
 ]
 
@@ -117,16 +127,6 @@ GLMListModel >> onSelection: aBlock [
 	onSelection := aBlock
 ]
 
-{ #category : #associating }
-GLMListModel >> search [
-	^true
-]
-
-{ #category : #associating }
-GLMListModel >> search: arguments [
-	self halt
-]
-
 { #category : #accessing }
 GLMListModel >> searchBlock: aBlock [
 	searchBlock := aBlock
@@ -139,19 +139,14 @@ GLMListModel >> searchEnabled [
 
 { #category : #accessing }
 GLMListModel >> searchText [
-	^ searchText ifNil: [searchText := '']
+	^ searchText
 ]
 
 { #category : #accessing }
 GLMListModel >> searchText: aString [
 	searchText := aString.
+	self doSearch
 
-]
-
-{ #category : #callbacks }
-GLMListModel >> selectSilently: anIndex. [
-	selection := anIndex. 
-	self changed: #selection.
 ]
 
 { #category : #callbacks }
@@ -161,6 +156,7 @@ GLMListModel >> selection [
 
 { #category : #callbacks }
 GLMListModel >> selection: anIndex. [
+	selection := anIndex. 
 	self changed: #selection.
 ]
 
@@ -175,9 +171,4 @@ GLMListModel >> singleSelection: anIndex. [
 		selection := anIndex.
 		onSelection ifNotNil: [onSelection value: (self listAt: anIndex) ] ].
 	self changed: #singleSelection.
-]
-
-{ #category : #accessing }
-GLMListModel >> stringItems [
-	^items collect: [:each | displaySelector glamourValue: each]
 ]

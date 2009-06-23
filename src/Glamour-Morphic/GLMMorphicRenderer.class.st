@@ -16,107 +16,93 @@ Class {
 	#category : #'Glamour-Morphic'
 }
 
+{ #category : #factory }
+GLMMorphicRenderer >> emptyMorph [
+	^ RectangleMorph new
+		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
+		layoutPolicy: ProportionalLayout new;
+		color: Color transparent;
+		hResizing: #spaceFill;
+		vResizing: #spaceFill;
+		borderWidth: 0;
+		yourself
+]
+
 { #category : #private }
 GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPresentation [	 
-	aPresentation actions 
-		do: 
-			[:action |  
-			"menu actions"
-			aMorphicModel when: GLMMenuItemSelected do: [:ann | ann action actOn: aPresentation].
-			action hasTitle ifTrue: [aMorphicModel addMenuAction: action].
+	aPresentation actions do: [ :action |  
+		"menu actions"
+		aMorphicModel when: GLMMenuItemSelected do: [ :ann | ann action actOn: aPresentation ].
+		action hasTitle ifTrue: [ aMorphicModel addMenuAction: action ].
 			
-			"keystroke actions"
-			aMorphicModel when: GLMKeyStroke do: [:ann | ann action actOn: aPresentation].			
-			action hasShortcut ifTrue: [aMorphicModel addKeystrokeAction: action]]
+		"keystroke actions"
+		aMorphicModel when: GLMKeyStroke do: [ :ann | ann action actOn: aPresentation ].			
+		action hasShortcut ifTrue: [ aMorphicModel addKeystrokeAction: action ] ]
 ]
 
 { #category : #opening }
-GLMMorphicRenderer >> open: aRenderable [ 
-	
+GLMMorphicRenderer >> open: aRenderable [
 	| window |
-	window := GlamorousSystemWindow openOn: (self render: aRenderable).
-	window actions: (
-		(aRenderable actions select: [:each | each hasShortcut]) collect: [ :action | 
-			action title -> [ action actOn: aRenderable ] ]).
-	window setLabel: aRenderable titleValue.
+	window := GlamorousSystemWindow new.
+	window model: self; setLabel: aRenderable titleValue.
+	window addMorph: (self render: aRenderable) frame: (0 @ 0 corner: 1 @ 1).
+	^ window openInWorld
 ]
 
 { #category : #private }
 GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aUIContainer inBrowser: aBrowser [ 
-	| pane glamourPane totalSpans currentSpanPosition |
+	| pane totalSpans currentSpanPosition |
 	totalSpans := aCell children
-				inject: 0
-				into: [:sum :each | sum + each span].
+		inject: 0
+		into: [ :sum :each | sum + each span ].
 	currentSpanPosition := 0.
-	aCell children
-		collectWithIndex: [:each :index | 
-			each hasId
-				ifTrue: [glamourPane := aBrowser paneNamed: each id.
-					pane := self render: glamourPane]
-				ifFalse: [
-					pane := RectangleMorph new.
-					pane 
-						layoutPolicy: ProportionalLayout new;
-						color: Color transparent;
-						borderWidth: 0;
-						hResizing: #spaceFill;
-						vResizing: #spaceFill;
-						layoutInset: 2;
-						cellInset: 2.
-					self
-						renderCustomRow: each
-						ofPane: aPane
-						inUI: pane
-						inBrowser: aBrowser].
-			pane layoutFrame: (LayoutFrame new topFraction: currentSpanPosition / totalSpans offset: 0;
-					 leftFraction: 0 offset: 0;
-					 bottomFraction: currentSpanPosition + each span / totalSpans offset: 0;
-					 rightFraction: 1 offset: 0;
-					 yourself);
-				 hResizing: #spaceFill;
-				 vResizing: #spaceFill.
-			aUIContainer addMorphBack: pane.
-			currentSpanPosition := currentSpanPosition + each span.
-			pane]
+	aCell children keysAndValuesDo: [ :index :each | 
+		each hasId
+			ifTrue: [ pane := self render: (aBrowser paneNamed: each id) ]
+			ifFalse: [
+				self
+					renderCustomRow: each
+					ofPane: aPane
+					inUI: (pane := self emptyMorph)
+					inBrowser: aBrowser.
+				pane addPaneSplitters ].
+		pane 
+			layoutFrame: (LayoutFrame new
+				topFraction: currentSpanPosition / totalSpans offset: 0;
+				leftFraction: 0 offset: 0;
+				bottomFraction: currentSpanPosition + each span / totalSpans offset: 0;
+				rightFraction: 1 offset: 0;
+				yourself).
+		aUIContainer addMorphBack: pane.
+		currentSpanPosition := currentSpanPosition + each span ]
 ]
 
 { #category : #private }
 GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aUIContainer inBrowser: aBrowser [ 
-	| pane glamourPane totalSpans currentSpanPosition |
+	| pane totalSpans currentSpanPosition |
 	totalSpans := aCell children
-				inject: 0
-				into: [:sum :each | sum + each span].
+		inject: 0
+		into: [ :sum :each | sum + each span ].
 	currentSpanPosition := 0.
-	aCell children
-		collectWithIndex: [:each :index | 
-			each hasId
-				ifTrue: [glamourPane := aBrowser paneNamed: each id.
-					pane := self render: glamourPane]
-				ifFalse: [
-					pane := RectangleMorph new.
-					pane 
-						layoutPolicy: ProportionalLayout new;
-						color: Color transparent;
-						borderWidth: 0;
-						hResizing: #spaceFill;
-						vResizing: #spaceFill;
-						layoutInset: 2;
-						cellInset: 2.
-					self
-						renderCustomColumn: each
-						ofPane: aPane
-						inUI: pane
-						inBrowser: aBrowser].
-			pane layoutFrame: (LayoutFrame new topFraction: 0 offset: 0;
-					 leftFraction: currentSpanPosition / totalSpans offset: 0;
-					 bottomFraction: 1 offset: 0;
-					 rightFraction: currentSpanPosition + each span / totalSpans offset: 0;
-					 yourself);
-				 hResizing: #spaceFill;
-				 vResizing: #spaceFill.
-			aUIContainer addMorphBack: pane.
-			currentSpanPosition := currentSpanPosition + each span.
-			pane]
+	aCell children keysAndValuesDo: [ :index :each | 
+		each hasId
+			ifTrue: [ pane := self render: (aBrowser paneNamed: each id) ]
+			ifFalse: [
+				self
+					renderCustomColumn: each
+					ofPane: aPane
+					inUI: (pane := self emptyMorph)
+					inBrowser: aBrowser.
+				pane addPaneSplitters ].
+		pane
+			layoutFrame: (LayoutFrame new 
+				topFraction: 0 offset: 0;
+				leftFraction: currentSpanPosition / totalSpans offset: 0;
+				bottomFraction: 1 offset: 0;
+				rightFraction: currentSpanPosition + each span / totalSpans offset: 0;
+				yourself).
+		aUIContainer addMorphBack: pane.
+		currentSpanPosition := currentSpanPosition + each span ]
 ]
 
 { #category : #'rendering browsers' }
@@ -139,7 +125,7 @@ GLMMorphicRenderer >> renderFinder: aBrowser [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderListPresentation: aListPresentation [ 
-	| items list toShow listModel container search searchButton |
+	| items list toShow listModel container search |
 	toShow := aListPresentation displayValue.
 	items := toShow isCollection
 				ifTrue: [toShow]
@@ -151,15 +137,7 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 				 searchBlock: aListPresentation searchStrategy;
 				 filterBlock: aListPresentation filterStrategy;
 				 yourself.
-	container := RectangleMorph new 
-				borderWidth: 0;
-				color: Color transparent;
-				layoutPolicy: ProportionalLayout new;
-				layoutFrame: (LayoutFrame
-						fractions: (0 @ 0 corner: 1 @ 1));
-				 hResizing: #spaceFill;
-				 vResizing: #spaceFill;
-				 yourself.
+	container := self emptyMorph.
 	list := aListPresentation isMultiple
 				ifTrue: [
 					PluggableListMorphOfMany
@@ -171,52 +149,36 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 						changeListSelection: #listSelectionAt:put:
 						menu: #menu
 						keystroke: #keystroke:from:]
-				ifFalse: [PluggableListMorph
-						on: listModel
-						list: #items
-						selected: #singleSelection
+				ifFalse: [
+					self theme 
+						newListIn: container 
+						for: listModel 
+						list: #items 
+						selected: #singleSelection 
 						changeSelected: #singleSelection:
-						menu: #menu:
-						keystroke: #keystroke:from:].
+						getEnabled: nil 
+						help: nil ].
 	list
-		layoutFrame: (LayoutFrame
-				fractions: (0 @ 0 corner: 1 @ 1));
-		 hResizing: #spaceFill;
-		 vResizing: #spaceFill;
-		 autoDeselect: false.
+		getMenuSelector: #menu:;
+		keystrokeActionSelector: #keystroke:from:;
+		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1)).
 	self installActionsOnUI: listModel fromPresentation: aListPresentation.
 	listModel
 		onSelection: [:selection | aListPresentation selection: selection].
-	"aListPresentation whenContextChanged: [:ann | 
-	ann property = #selection ifTrue: [ list selection: ann value ] ]
-	"
-	list vShowScrollBar.
-	aListPresentation isSearchable
-		ifTrue: [
-			search := UITheme current
-						newTextEntryIn: nil
-						for: listModel
-						get: #searchText
-						set: #searchText:
-						class: String
-						getEnabled: #searchEnabled
-						help: 'Search bar'.
-			search layoutFrame: (LayoutFrame fractions: (0 @ 1 corner: 1 @ 1) offsets: (0 @ -20 corner: -100 @ 0)).
-			searchButton := UITheme current
-						newButtonIn: nil
-						for: listModel
-						getState: #search
-						action: #doSearch
-						arguments: nil
-						getEnabled: #searchEnabled
-						label: 'Search'
-						help: 'Search'.
-			searchButton 
-				width: 200;
-				layoutFrame: (LayoutFrame fractions: (1 @ 1 corner: 1 @ 1) offsets: (-100 @ -20 corner: 0 @ 0)).
-			list layoutFrame bottomOffset: -20.
-			container addMorph: searchButton.
-			container addMorph: search].
+	aListPresentation isSearchable ifTrue: [
+		search := UITheme current
+			newTextEntryIn: nil
+			for: listModel
+			get: #searchText
+			set: #searchText:
+			class: String
+			getEnabled: #searchEnabled
+			help: 'Search Input'.
+		search layoutFrame: (LayoutFrame
+			fractions: (0 @ 1 corner: 1 @ 1) 
+			offsets: (0 @ -24 corner: 0 @ 0)).
+		list layoutFrame bottomOffset: -24.
+		container addMorphBack: search ].
 	container addMorphBack: list.
 	^ container
 ]
@@ -284,19 +246,7 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 GLMMorphicRenderer >> renderPane: aPane [ 
 	 
 	| container inspectButton label | 
-	container := RectangleMorph new. 
-	container
-		layoutPolicy: TableLayout new;
-		listDirection: #leftToRight;
-		cellPositioning: #topLeft;
-		borderWidth: 0;
-		hResizing: #spaceFill;
-		vResizing: #spaceFill;		
-		wrapCentering: #center;
-		rubberBandCells: false;
-		layoutInset: 2;
-		cellInset: 2;
-		color: Color white.
+	container := self emptyMorph.
 
 	(aPane matchingPresentations anySatisfy: [:each | each isInspectable]) ifTrue: [
 		label := PluggableTextMorph new. 
@@ -306,97 +256,70 @@ GLMMorphicRenderer >> renderPane: aPane [
 		inspectButton label: (aPane port: #entity) value displayString.
 		container addMorphBack: inspectButton ].
 	
-	container addMorph: (self renderPresentationsOf: aPane).
+	container addMorphBack: (self renderPresentationsOf: aPane).
 	aPane whenMatchingPresentationsChanged: [:ann |  
 		container removeAllMorphs.
 		container addMorph: (self renderPresentationsOf: aPane) ].
+	container addPaneSplitters.
 	^ container
 ]
 
 { #category : #private }
-GLMMorphicRenderer >> renderPresentationsOf: aPane [ 
-	 
+GLMMorphicRenderer >> renderPresentationsOf: aPane [
 	| presentations tabs | 
-	presentations := OrderedCollection new. 
-	aPane matchingPresentations do: [:each |  
-		(self render: each) ifNotNil: [ :ui | 
-			presentations addLast: each titleValue -> ui]]. 
-	presentations size < 1 
-		ifTrue: [ ^ RectangleMorph new width: 0; height: 0; yourself ]. 
-	presentations size = 1 
-		ifTrue: [ ^ presentations first value ]. 
-
+	presentations := aPane matchingPresentations.
+	presentations isEmpty
+		ifTrue: [ ^ self emptyMorph ].
+	presentations size = 1
+		ifTrue: [ ^ self render: presentations first ].
 	tabs := TabGroupMorph new. 
-	tabs 
-		vResizing: #spaceFill;
-		hResizing: #spaceFill;
-		cornerStyle: #rounded;
-		borderWidth: 0;
-		cellPositioning: #topLeft.
-	presentations do: [:each |  | label |
-		label := each key ifNil: ['unnamed'].
-		tabs 
-			addPage: each value 
-			label: ((LabelMorph contents: label) hResizing: #spaceFill)]. 
-	tabs selectedPageIndex: 1. 
-	^tabs
+	tabs vResizing: #spaceFill; hResizing: #spaceFill.
+	presentations do: [ :each | 
+		tabs
+			addPage: (self render: each)
+			label: (each titleValue ifNil: [ each printString ]) ].
+	tabs selectedPageIndex: 1.
+	^ tabs
 ]
 
 { #category : #'rendering browsers' }
 GLMMorphicRenderer >> renderTableLayoutBrowser: aBrowser [ 
 	| container |
-	container := RectangleMorph new.
-	container layoutPolicy: ProportionalLayout new;
-		
-		layoutFrame: (LayoutFrame
-				fractions: (0 @ 0 corner: 1 @ 1));
-		 hResizing: #spaceFill;
-		 vResizing: #spaceFill;
-		 color: Color transparent;
-		 borderWidth: 0;
-		 yourself.
+	container := self emptyMorph.
 	aBrowser cell isRow
-		ifTrue: [self
+		ifTrue: [
+			self
 				renderCustomRow: aBrowser cell
 				ofPane: aBrowser pane
 				inUI: container
-				inBrowser: aBrowser]
-		ifFalse: [self
+				inBrowser: aBrowser ]
+		ifFalse: [
+			self
 				renderCustomColumn: aBrowser cell
 				ofPane: aBrowser pane
 				inUI: container
-				inBrowser: aBrowser].
+				inBrowser: aBrowser ].
 	^ container
 ]
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [ 
-	 
 	| textMorph toShow textModel | 
 	toShow := aTextPresentation formatedDisplayValue. 
 	textModel := GLMTextModel new text: toShow.
 	textModel onTextChanged: [:text | aTextPresentation text: text].
-	
 	textMorph := (PluggableTextMorph 
 		on: textModel
 		text: #text
 		accept: #accept:notifying:
 		readSelection: #selection
 		menu: #menu:shifted:)
-			font: Preferences standardCodeFont;
 			onKeyStrokeSend: #keystroke:from: to: textModel;
-			acceptOnCR: true;
+			layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 			vResizing: #spaceFill;
 			hResizing: #spaceFill;
 			yourself.
 	self installActionsOnUI: textModel fromPresentation: aTextPresentation.
-	textMorph 
-		vShowScrollBar;
-		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
-		hResizing: #spaceFill; vResizing: #spaceFill.
-"	text 
-		when: ValueChanged 
-		do: [:ann | aTextPresentation text: ann newValue]. "
 	^textMorph
 ]
 
@@ -434,4 +357,9 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 GLMMorphicRenderer >> renderWorkspacePresentation: aWorkspacePresentation [ 
 	 
 	^ self renderTextPresentation: aWorkspacePresentation
+]
+
+{ #category : #factory }
+GLMMorphicRenderer >> theme [
+	^ UITheme current
 ]
