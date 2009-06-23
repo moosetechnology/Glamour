@@ -19,7 +19,6 @@ Class {
 { #category : #factory }
 GLMMorphicRenderer >> emptyMorph [
 	^ RectangleMorph new
-		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		layoutPolicy: ProportionalLayout new;
 		color: Color transparent;
 		hResizing: #spaceFill;
@@ -44,8 +43,10 @@ GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPrese
 GLMMorphicRenderer >> open: aRenderable [
 	| window |
 	window := GlamorousSystemWindow new.
-	window model: self; setLabel: aRenderable titleValue.
-	window addMorph: (self render: aRenderable) frame: (0 @ 0 corner: 1 @ 1).
+	window model: aRenderable; setLabel: aRenderable titleValue.
+	window 
+		addMorph: (self render: aRenderable)
+		frame: (0 @ 0 corner: 1 @ 1).
 	^ window openInWorld
 ]
 
@@ -159,6 +160,7 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 						getEnabled: nil 
 						help: nil ].
 	list
+		color: Color white;
 		getMenuSelector: #menu:;
 		keystrokeActionSelector: #keystroke:from:;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1)).
@@ -213,8 +215,9 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 	canvasScrollPane := ScrollPane new.
 	canvasScrollPane scroller addMorph: canvas.	
 	canvasScrollPane
-			vResizing: #spaceFill;
-			hResizing: #spaceFill.
+		color: Color white;
+		vResizing: #spaceFill;
+		hResizing: #spaceFill.
 	^ canvasScrollPane
 	
 
@@ -243,24 +246,20 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 ]
 
 { #category : #rendering }
-GLMMorphicRenderer >> renderPane: aPane [ 
-	 
-	| container inspectButton label | 
+GLMMorphicRenderer >> renderPane: aPane [
+	| container | 
 	container := self emptyMorph.
-
-	(aPane matchingPresentations anySatisfy: [:each | each isInspectable]) ifTrue: [
-		label := PluggableTextMorph new. 
-		label layoutInset: 2. 
-		label setText: (aPane port: #entity) value displayString. 
-		inspectButton := PluggableButtonMorph new. 
-		inspectButton label: (aPane port: #entity) value displayString.
-		container addMorphBack: inspectButton ].
-	
 	container addMorphBack: (self renderPresentationsOf: aPane).
-	aPane whenMatchingPresentationsChanged: [:ann |  
-		container removeAllMorphs.
-		container addMorph: (self renderPresentationsOf: aPane) ].
-	container addPaneSplitters.
+	aPane whenMatchingPresentationsChanged: [ :ann |
+		container
+			removeAllMorphs;
+			addMorph: ((self renderPresentationsOf: aPane)
+				adoptPaneColor: container paneColor)
+			frame: (0 @ 0 corner: 1 @ 1) ].
+	container 
+		addMorph: ((self renderPresentationsOf: aPane)
+			adoptPaneColor: container paneColor)
+		frame: (0 @ 0 corner: 1 @ 1).
 	^ container
 ]
 
@@ -274,6 +273,8 @@ GLMMorphicRenderer >> renderPresentationsOf: aPane [
 		ifTrue: [ ^ self render: presentations first ].
 	tabs := TabGroupMorph new. 
 	tabs vResizing: #spaceFill; hResizing: #spaceFill.
+	tabs cornerStyle: (self theme tabGroupCornerStyleIn: nil).
+	tabs font: self theme labelFont.
 	presentations do: [ :each | 
 		tabs
 			addPage: (self render: each)
@@ -318,6 +319,7 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 			layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 			vResizing: #spaceFill;
 			hResizing: #spaceFill;
+			color: Color white;
 			yourself.
 	self installActionsOnUI: textModel fromPresentation: aTextPresentation.
 	^textMorph
@@ -345,6 +347,7 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		hResizing: #spaceFill; vResizing: #spaceFill;
 		autoDeselect: false;
+		color: Color white;
 		yourself.
 	self installActionsOnUI: treeModel fromPresentation: aTreePresentation.
 	

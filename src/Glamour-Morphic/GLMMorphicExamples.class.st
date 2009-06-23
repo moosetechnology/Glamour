@@ -257,20 +257,23 @@ GLMMorphicExamples >> stCodeNavigator [
 { #category : #examples }
 GLMMorphicExamples >> toyBrowser [
 	"
-		self new toyBrowser openOn: Smalltalk organization categories
+		self new toyBrowser openOn: Smalltalk
 	"
 
 	| browser |
 	browser := GLMTableLayoutBrowser new.
 	browser column: #categories; column: #classes; column: #methods.
+	browser showOn: #categories; using: [
+		browser list
+			display: [ :environment | environment organization categories ] ].
 	browser showOn: #classes; from: #categories; using: [
 		browser list
-			display: [:category | (Smalltalk organization listAtCategoryNamed: category) collect: [:className | Smalltalk classNamed: className] ]
-	].
+			display: [ :category | 
+				(Smalltalk organization listAtCategoryNamed: category) 
+					collect: [ :name | Smalltalk classNamed: name ] ] ].
 	browser showOn: #methods; from: #classes; using: [
 		browser tree
-			children: [ :class  | class selectors asSortedCollection ].
-	].
+			children: [ :class  | class selectors asSortedCollection ] ].
 	^ browser
 ]
 
