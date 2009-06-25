@@ -19,6 +19,12 @@ GLMPaneScroller >> adjustPaneHeight [
 	transform submorphsDo: [:m | m bounds: (m bounds withHeight: self paneHeight)]
 ]
 
+{ #category : #scrolling }
+GLMPaneScroller >> adoptPaneColor: aColor [
+	super adoptPaneColor: aColor.
+	scrollBar adoptPaneColor: aColor
+]
+
 { #category : #private }
 GLMPaneScroller >> basicUpdateSizing [
 	sizing := (self paneCount min: self maxPanes) max: 1
@@ -179,8 +185,9 @@ GLMPaneScroller >> pushPane: aMorph [
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		layoutInset: 0.
-	transform hasSubmorphs ifTrue: [transform addMorphBack: self separator].
-	transform addMorphBack: aMorph.
+	transform hasSubmorphs 
+		ifTrue: [ transform addMorphBack: self separator ].
+	transform addMorphBack: (aMorph adoptPaneColor: self paneColor).
 	paneCount := paneCount + 1.
 	self updatePanes
 ]
@@ -222,7 +229,7 @@ GLMPaneScroller >> scrollToRight [
 { #category : #panes }
 GLMPaneScroller >> separator [
 	^ BorderedSubpaneDividerMorph vertical
-		color: self defaultBackgroundColor duller;
+		adoptPaneColor: self paneColor;
 		yourself
 ]
 

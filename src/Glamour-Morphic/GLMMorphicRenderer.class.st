@@ -121,8 +121,9 @@ GLMMorphicRenderer >> renderFinder: aBrowser [
 		do: [ :ann | container popPane.].
 	aBrowser 
 		when: GLMPaneAdded
-		do: [ :ann | container pushPane: (ann pane renderGlamorouslyOn: self).].
-	aBrowser panes do: [ :each | container pushPane: (each renderGlamorouslyOn: self) ].
+		do: [ :ann | container pushPane: (self render: ann pane) ].
+	aBrowser panes
+		do: [ :each | container pushPane: (self render: each) ].
 	^ container
 ]
 
