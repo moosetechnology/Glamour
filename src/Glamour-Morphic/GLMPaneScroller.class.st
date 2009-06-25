@@ -134,7 +134,7 @@ GLMPaneScroller >> layoutWidgets [
 	outer := super innerBounds.
 	inner := self innerBounds.
 	transform bounds: inner.
-	scrollBar bounds: ((inner left @ inner bottom + 1)
+	scrollBar bounds: ((inner left @ inner bottom)
 						corner: outer bottomRight)
 ]
 
@@ -196,18 +196,22 @@ GLMPaneScroller >> pushPane: aMorph [
 GLMPaneScroller >> resizeScrollBar [
 	| inner outer |
 	outer := super innerBounds.
-	inner := outer withHeight: outer height - self scrollBarHeight - 1.
-	scrollBar bounds: ((inner left @ inner bottom + 1) corner: outer bottomRight)
+	inner := outer withHeight: outer height - self scrollBarHeight.
+	scrollBar bounds: ((inner left @ inner bottom) corner: outer bottomRight)
 ]
 
 { #category : #layout }
 GLMPaneScroller >> scrollBarHeight [
-	^ 12
+	^ self theme scrollbarThickness
 ]
 
 { #category : #scrolling }
 GLMPaneScroller >> scrollBarIsVisible [
 	^ submorphs includes: scrollBar
+]
+
+{ #category : #'input events' }
+GLMPaneScroller >> scrollBarMenuButtonPressed: anObject [
 ]
 
 { #category : #updating }
