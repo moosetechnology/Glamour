@@ -107,10 +107,13 @@ GLMListModel >> listSelectionAt: anIndex [
 { #category : #callbacks }
 GLMListModel >> listSelectionAt: anIndex put: aValue [
 	aValue = true
-		ifTrue: [listSelection add: anIndex]
-		ifFalse: [listSelection
+		ifTrue: [
+			(listSelection includes: anIndex)
+				ifFalse: [ listSelection add: anIndex ] ]
+		ifFalse: [
+			listSelection
 				remove: anIndex
-				ifAbsent: []].
+				ifAbsent: [ ] ].
 	
 	onSelection ifNotNil: [onSelection value: (listSelection collect: [:eachIndex | self listAt: eachIndex])].
 	self changed: #selection.
