@@ -164,6 +164,9 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 						help: nil ].
 	list
 		color: Color white;
+		hResizing: #spaceFill;
+		vResizing: #spaceFill;
+		getMenuSelector: #menu:;
 		getMenuSelector: #menu:;
 		alwaysShowScrollBars: false;
 		keystrokeActionSelector: #keystroke:from:;

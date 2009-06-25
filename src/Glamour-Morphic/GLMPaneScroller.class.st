@@ -173,7 +173,8 @@ GLMPaneScroller >> paneWidthsToFit: limit [
 { #category : #panes }
 GLMPaneScroller >> popPane [
 	transform removeMorph: transform lastSubmorph. "one for the separator"
-	transform removeMorph: transform lastSubmorph.
+	transform submorphs isEmpty
+		ifFalse: [ transform removeMorph: transform lastSubmorph ].
 	paneCount := paneCount - 1.
 	self updatePanes.
 ]
