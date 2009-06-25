@@ -76,7 +76,7 @@ GLMPaneScroller >> initialize [
 
 { #category : #initialization }
 GLMPaneScroller >> initializeScrollbar [
-	scrollBar := GLMScrollBar new model: self slotName: 'scrollBar'.
+	scrollBar := ScrollBar new model: self slotName: 'scrollBar'.
 	scrollBar 
 		borderWidth: 0;
 		borderColor: #inset;
