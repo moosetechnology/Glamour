@@ -17,7 +17,7 @@ SGLComponent class >> registerAsApplication: aString [
 	application 
 		addLibrary: JQDeploymentLibrary;
 		addLibrary: JQUiDeploymentLibrary;
-		addLibrary: JQUiSmoothnessTheme.	
+		addLibrary: JQSmoothnessTheme.	
 	^ application
 ]
 
@@ -32,7 +32,7 @@ SGLComponent >> browser [
 SGLComponent >> model [
 	"Override this method and answer a model instance."
 	
-	self subclassResponsibility
+	^ nil
 ]
 
 { #category : #private }

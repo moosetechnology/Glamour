@@ -116,7 +116,8 @@ SGLRenderer >> renderPane: aPane tabs: aCollection [
 								html: [ :renderer | 
 									html := renderer.
 									properties at: aPane put: each.
-									self render: each ];
+									self render: each ]
+										fixCallbackTemps;
 								fullUrl);
 							with: each title ] ] ] ]
 ]
