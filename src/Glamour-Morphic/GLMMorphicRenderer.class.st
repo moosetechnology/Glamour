@@ -51,7 +51,7 @@ GLMMorphicRenderer >> open: aRenderable [
 ]
 
 { #category : #private }
-GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aUIContainer inBrowser: aBrowser [ 
+GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aMorph inBrowser: aBrowser [ 
 	| pane totalSpans currentSpanPosition |
 	totalSpans := aCell children
 		inject: 0
@@ -74,12 +74,13 @@ GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aUIContainer
 				bottomFraction: currentSpanPosition + each span / totalSpans offset: 0;
 				rightFraction: 1 offset: 0;
 				yourself).
-		aUIContainer addMorphBack: pane.
-		currentSpanPosition := currentSpanPosition + each span ]
+		aMorph addMorphBack: pane.
+		currentSpanPosition := currentSpanPosition + each span ].
+	aMorph addPaneSplitters
 ]
 
 { #category : #private }
-GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aUIContainer inBrowser: aBrowser [ 
+GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aMorph inBrowser: aBrowser [ 
 	| pane totalSpans currentSpanPosition |
 	totalSpans := aCell children
 		inject: 0
@@ -102,8 +103,9 @@ GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aUIContainer in
 				bottomFraction: 1 offset: 0;
 				rightFraction: currentSpanPosition + each span / totalSpans offset: 0;
 				yourself).
-		aUIContainer addMorphBack: pane.
-		currentSpanPosition := currentSpanPosition + each span ]
+		aMorph addMorphBack: pane.
+		currentSpanPosition := currentSpanPosition + each span ].
+	aMorph addPaneSplitters
 ]
 
 { #category : #'rendering browsers' }
