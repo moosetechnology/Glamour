@@ -162,6 +162,7 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 	list
 		color: Color white;
 		getMenuSelector: #menu:;
+		alwaysShowScrollBars: false;
 		keystrokeActionSelector: #keystroke:from:;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1)).
 	self installActionsOnUI: listModel fromPresentation: aListPresentation.
