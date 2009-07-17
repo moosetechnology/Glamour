@@ -41,18 +41,12 @@ GLMPaneScroller >> bounds: aRectangle [
 
 { #category : #layout }
 GLMPaneScroller >> computeMorphWidths [
-	" | paneWidths widths |
+	| paneWidths widths |
 	paneWidths := self paneWidthsToFit: self totalPaneWidth.
 	widths := OrderedCollection new.
 	paneWidths do: [:w | widths add: w] separatedBy: [widths add: self separatorWidth].
 	^ widths asArray
-" 
-	^ transform submorphs collect: [ :each | each bounds width ]
-]
 
-{ #category : #'input events' }
-GLMPaneScroller >> handlesKeyboard: anEvent [
-	^ true
 ]
 
 { #category : #scrolling }
@@ -119,21 +113,18 @@ GLMPaneScroller >> isScrollable [
 	^ self leftoverScrollRange > 0
 ]
 
-{ #category : #'input events' }
-GLMPaneScroller >> keyStroke: anEvent [
-]
-
 { #category : #layout }
 GLMPaneScroller >> layoutPanes [
 	| widths rect |
-	widths := self computeMorphWidths. 
- 	rect := 0@0 extent: (0 @ self paneHeight).
+	widths := self computeMorphWidths.
+	rect := 0@0 extent: (0 @ self paneHeight).
 	transform submorphs 
 					with: widths 
 					do: [:m :w | 
 						rect := rect withWidth: w.
 						m bounds: rect.
 						rect := rect translateBy: (w@0)]
+						
 
 ]
 
@@ -242,9 +233,8 @@ GLMPaneScroller >> scrollToRight [
 
 { #category : #panes }
 GLMPaneScroller >> separator [
-	^ ProportionalSplitterMorph new
+	^ BorderedSubpaneDividerMorph vertical
 		adoptPaneColor: self paneColor;
-		width: self separatorWidth;
 		yourself
 ]
 
@@ -303,7 +293,9 @@ GLMPaneScroller >> updatePanes [
 
 { #category : #updating }
 GLMPaneScroller >> updateSizing [
+	| old |
+	old := sizing.
 	self basicUpdateSizing.
-"	sizing = old ifFalse: [self layoutPanes]."
+	sizing = old ifFalse: [self layoutPanes].
 	^sizing
 ]

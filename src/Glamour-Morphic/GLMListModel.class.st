@@ -34,6 +34,7 @@ GLMListModel >> displaySelector: aSymbol [
 { #category : #accessing }
 GLMListModel >> displayedItems [
 	^self items collect: [:each | displaySelector glamourValue: each]
+
 ]
 
 { #category : #associating }

@@ -164,8 +164,7 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 						help: nil ].
 	list
 		color: Color white;
-		width: 200;
-		hResizing: #rigid;
+		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		getMenuSelector: #menu:;
 		getMenuSelector: #menu:;
