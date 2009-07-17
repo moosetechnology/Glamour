@@ -146,7 +146,7 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 				ifTrue: [
 					PluggableListMorphOfMany
 						on: listModel
-						list: #items
+						list: #displayedItems
 						primarySelection: #selection
 						changePrimarySelection: #selection:
 						listSelection: #listSelectionAt:
@@ -157,14 +157,15 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 					self theme 
 						newListIn: container 
 						for: listModel 
-						list: #items 
+						list: #displayedItems 
 						selected: #singleSelection 
 						changeSelected: #singleSelection:
 						getEnabled: nil 
 						help: nil ].
 	list
 		color: Color white;
-		hResizing: #spaceFill;
+		width: 200;
+		hResizing: #rigid;
 		vResizing: #spaceFill;
 		getMenuSelector: #menu:;
 		getMenuSelector: #menu:;

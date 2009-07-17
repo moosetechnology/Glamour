@@ -31,6 +31,11 @@ GLMListModel >> displaySelector: aSymbol [
 	displaySelector := aSymbol
 ]
 
+{ #category : #accessing }
+GLMListModel >> displayedItems [
+	^self items collect: [:each | displaySelector glamourValue: each]
+]
+
 { #category : #associating }
 GLMListModel >> doSearch [
 	searchText isEmptyOrNil
