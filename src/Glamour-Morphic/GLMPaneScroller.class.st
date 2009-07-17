@@ -41,12 +41,13 @@ GLMPaneScroller >> bounds: aRectangle [
 
 { #category : #layout }
 GLMPaneScroller >> computeMorphWidths [
-	| paneWidths widths |
+	" | paneWidths widths |
 	paneWidths := self paneWidthsToFit: self totalPaneWidth.
 	widths := OrderedCollection new.
 	paneWidths do: [:w | widths add: w] separatedBy: [widths add: self separatorWidth].
 	^ widths asArray
-
+" 
+	^ transform submorphs collect: [ :each | each width ]
 ]
 
 { #category : #scrolling }
@@ -116,15 +117,14 @@ GLMPaneScroller >> isScrollable [
 { #category : #layout }
 GLMPaneScroller >> layoutPanes [
 	| widths rect |
-	widths := self computeMorphWidths.
-	rect := 0@0 extent: (0 @ self paneHeight).
+	widths := self computeMorphWidths. 
+ 	rect := 0@0 extent: (0 @ self paneHeight).
 	transform submorphs 
 					with: widths 
 					do: [:m :w | 
 						rect := rect withWidth: w.
 						m bounds: rect.
 						rect := rect translateBy: (w@0)]
-						
 
 ]
 
