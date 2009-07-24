@@ -16,7 +16,7 @@ GlamourLoader class >> load [
 GlamourLoader class >> loadGlamourForMorphic [
 	"self loadGlamourForMorphic"
 	
-	Installer ss 
+	ScriptLoader new installer ss 
 		project: 'Glamour'; 
 		install: 'Glamour-All';
 		install: 'Glamour-Morphic';
@@ -27,7 +27,7 @@ GlamourLoader class >> loadGlamourForMorphic [
 GlamourLoader class >> loadMondrian [
 	"self loadMondrian"
 	
-	Installer ss
+	ScriptLoader new installer ss
 		project: 'Mondrian';
 		install: 'MondrianLoader'.
 	
