@@ -278,13 +278,13 @@ GLMMorphicRenderer >> renderPresentationsOf: aPane [
 		ifTrue: [ ^ self emptyMorph ].
 	presentations size = 1
 		ifTrue: [ ^ self render: presentations first ].
-	tabs := TabGroupMorph new. 
+	tabs := LazyTabGroupMorph new. 
 	tabs vResizing: #spaceFill; hResizing: #spaceFill.
 	tabs cornerStyle: (self theme tabGroupCornerStyleIn: nil).
 	tabs font: self theme labelFont.
 	presentations do: [ :each | 
 		tabs
-			addPage: (self render: each)
+			addLazyPage: [ self render: each ]
 			label: (each titleValue ifNil: [ each printString ]) ].
 	tabs selectedPageIndex: 1.
 	^ tabs
