@@ -46,7 +46,11 @@ GLMMorphicRenderer >> open: aRenderable [
 	window model: aRenderable; setLabel: aRenderable titleValue.
 	window 
 		addMorph: (self render: aRenderable)
-		frame: (0 @ 0 corner: 1 @ 1).
+		fullFrame: (LayoutFrame new
+				leftFraction: 0;
+				rightFraction: 1;
+				topFraction: 0;
+				bottomFraction: 1).
 	^ window openInWorld
 ]
 
@@ -262,7 +266,13 @@ GLMMorphicRenderer >> renderPane: aPane [
 			removeAllMorphs;
 			addMorph: ((self renderPresentationsOf: aPane)
 				adoptPaneColor: container paneColor)
-			frame: (0 @ 0 corner: 1 @ 1) ].
+				window 
+			fullFrame: (LayoutFrame new
+				leftFraction: 0;
+				rightFraction: 1;
+				topFraction: 0;
+				bottomFraction: 1).		
+	].
 	container 
 		addMorph: ((self renderPresentationsOf: aPane)
 			adoptPaneColor: container paneColor)
