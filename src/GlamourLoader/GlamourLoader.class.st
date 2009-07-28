@@ -12,7 +12,7 @@ GlamourLoader class >> all [
 	project := FLProject named: 'Glamour All'.
 	project dependsOn: (FLPackage named: 'Glamour-All' in: 'http://www.squeaksource.com/Glamour').
 	project dependsOn: (FLPackage named: 'Glamour-Morphic' in: 'http://www.squeaksource.com/Glamour').
-	project dependsOn: (FLPackage named: 'Annuncements' in: 'http://www.squeaksource.com/Glamour').
+	project dependsOn: (FLPackage named: 'Announcements' in: 'http://www.squeaksource.com/Glamour').
 	project dependsOn: self mondrian.
 	^ project
 ]
