@@ -4,6 +4,27 @@ Class {
 	#category : #GlamourLoader
 }
 
+{ #category : #flair }
+GlamourLoader class >> all [
+	| project |
+	self ensureFlairAndGofer.
+
+	project := FLProject named: 'Glamour All'.
+	project dependsOn: (FLPackage named: 'Glamour-All' in: 'http://www.squeaksource.com/Glamour').
+	project dependsOn: (FLPackage named: 'Glamour-Morphic' in: 'http://www.squeaksource.com/Glamour').
+	project dependsOn: (FLPackage named: 'Annuncements' in: 'http://www.squeaksource.com/Glamour').
+	project dependsOn: self mondrian.
+	^ project
+]
+
+{ #category : #flair }
+GlamourLoader class >> ensureFlairAndGofer [
+
+	Smalltalk at: #FLProject ifAbsent: [
+		ScriptLoader  loadLatestPackage: 'Gofer' from: 'http://source.lukas-renggli.ch/flair'.
+		ScriptLoader  loadLatestPackage: 'Flair' from: 'http://source.lukas-renggli.ch/flair'. ].
+]
+
 { #category : #'as yet unclassified' }
 GlamourLoader class >> load [
 	"self load"
@@ -32,4 +53,11 @@ GlamourLoader class >> loadMondrian [
 		install: 'MondrianLoader'.
 	
 	(Smalltalk at: #MondrianLoader) load.
+]
+
+{ #category : #flair }
+GlamourLoader class >> mondrian [
+	
+	ScriptLoader loadLatestPackage: 'MondrianLoader' from: 'http://www.squeaksource.com/Mondrian'.
+	^ (Smalltalk at: #MondrianLoader) all
 ]
