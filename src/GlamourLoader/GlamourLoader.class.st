@@ -10,7 +10,7 @@ GlamourLoader class >> all [
 	self ensureFlairAndGofer.
 	config := (Smalltalk at: #FLConfiguration) new.
 	self allFor: config.
-	^ config root
+	^ config
 ]
 
 { #category : #flair }
