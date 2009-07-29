@@ -6,15 +6,21 @@ Class {
 
 { #category : #flair }
 GlamourLoader class >> all [
-	| project |
+	| config |
 	self ensureFlairAndGofer.
+	config := (Smalltalk at: #FLConfiguration) new.
+	self allFor: config.
+	^ config root
+]
 
-	project := FLProject named: 'Glamour All'.
-	project dependsOn: (FLPackage named: 'Glamour-All' in: 'http://www.squeaksource.com/Glamour').
-	project dependsOn: (FLPackage named: 'Glamour-Morphic' in: 'http://www.squeaksource.com/Glamour').
-	project dependsOn: (FLPackage named: 'Announcements' in: 'http://www.squeaksource.com/Glamour').
-	project dependsOn: self mondrian.
-	^ project
+{ #category : #flair }
+GlamourLoader class >> allFor: config [
+	config project: 'Glamour All' dependsOn: [
+		config package: 'Glamour-All' from: 'http://www.squeaksource.com/Glamour'.
+		config package: 'Glamour-Morphic' from: 'http://www.squeaksource.com/Glamour'.
+		config package: 'Announcements' from: 'http://www.squeaksource.com/Glamour'.
+		self mondrianFor: config.
+	]
 ]
 
 { #category : #flair }
@@ -56,8 +62,7 @@ GlamourLoader class >> loadMondrian [
 ]
 
 { #category : #flair }
-GlamourLoader class >> mondrian [
-	
+GlamourLoader class >> mondrianFor: config [
 	ScriptLoader loadLatestPackage: 'MondrianLoader' from: 'http://www.squeaksource.com/Mondrian'.
-	^ (Smalltalk at: #MondrianLoader) all
+	^ (Smalltalk at: #MondrianLoader) allFor: config
 ]
