@@ -7,7 +7,9 @@ Class {
 		'itemActions',
 		'isSearchable',
 		'searchBlock',
-		'filterBlock'
+		'filterBlock',
+		'menu',
+		'menuBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -30,6 +32,17 @@ GLMListPresentation >> isSearchable [
 { #category : #testing }
 GLMListPresentation >> isSingle [ 
 	^ self isMultiple not
+]
+
+{ #category : #callbacks }
+GLMListPresentation >> menu: aBlock [ 
+
+	menuBlock := aBlock
+]
+
+{ #category : #accessing }
+GLMListPresentation >> menuBlock [
+	^menuBlock
 ]
 
 { #category : #rendering }
