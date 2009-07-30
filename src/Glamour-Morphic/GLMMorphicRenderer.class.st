@@ -266,7 +266,6 @@ GLMMorphicRenderer >> renderPane: aPane [
 			removeAllMorphs;
 			addMorph: ((self renderPresentationsOf: aPane)
 				adoptPaneColor: container paneColor)
-				window 
 			fullFrame: (LayoutFrame new
 				leftFraction: 0;
 				rightFraction: 1;
