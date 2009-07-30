@@ -19,7 +19,7 @@ GlamourLoader class >> allFor: config [
 		config package: 'Glamour-All' from: 'http://www.squeaksource.com/Glamour'.
 		config package: 'Glamour-Morphic' from: 'http://www.squeaksource.com/Glamour'.
 		config package: 'Announcements' from: 'http://www.squeaksource.com/Glamour'.
-		self mondrianFor: config.
+		config allIn: 'MondrianLoader' from: 'http://www.squeaksource.com/Mondrian'
 	]
 ]
 
@@ -34,10 +34,4 @@ GlamourLoader class >> ensureFlairAndGofer [
 { #category : #flair }
 GlamourLoader class >> load [
 	self all load
-]
-
-{ #category : #flair }
-GlamourLoader class >> mondrianFor: config [
-	ScriptLoader loadLatestPackage: 'MondrianLoader' from: 'http://www.squeaksource.com/Mondrian'.
-	^ (Smalltalk at: #MondrianLoader) allFor: config
 ]
