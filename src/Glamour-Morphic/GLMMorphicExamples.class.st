@@ -161,6 +161,31 @@ GLMMorphicExamples >> simpleFinder [
 ]
 
 { #category : #examples }
+GLMMorphicExamples >> simpleFinderWithMenu [
+
+	"
+		self new simpleFinderWithMenu openOn: #(1 2 3 4 5).
+	"
+
+	| finder |
+	finder := GLMFinder new.
+	finder list
+			when: [:each | each isCollection].
+	finder list
+			title: 'List';
+			display: [:each | each to: each];
+			when: [:each | each isCollection not];
+			menu: [:list | GLMMenu actionsFor: list].
+	finder list
+			title: 'List * 10';
+			display: [:each | each to: each*10];
+			when: [:each | each isCollection not].
+	finder text
+			title: 'Text'.	
+	^ finder 
+]
+
+{ #category : #examples }
 GLMMorphicExamples >> stCodeBrowser [	
 	"
 		| browser |

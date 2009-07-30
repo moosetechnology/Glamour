@@ -21,6 +21,18 @@ GLMTextModel >> keystroke: anEvent from: aMorph [
 	anEvent anyModifierKeyPressed ifTrue: [super keystroke: anEvent keyCharacter from: aMorph]
 ]
 
+{ #category : #callbacks }
+GLMTextModel >> menu: a shifted: b [
+	^ MenuMorph new
+		defaultTarget: self;
+		add: 'Inspect (i)' action: #inspectObject;
+		balloonTextForLastItem: 'Live long and prosper!';
+		addLine;
+		add: 'Search again' action: #searchAgain;
+		balloonTextForLastItem: 'Search again\for the same object' withCRs;
+		yourself
+]
+
 { #category : #accessing }
 GLMTextModel >> onTextChanged: aBlock [
 	onTextChanged := aBlock

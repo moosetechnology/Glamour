@@ -144,6 +144,7 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 				 displaySelector: aListPresentation format;
 				 searchBlock: aListPresentation searchStrategy;
 				 filterBlock: aListPresentation filterStrategy;
+				 dynamicMenu: aListPresentation menuBlock;
 				 yourself.
 	container := self emptyMorph.
 	list := aListPresentation isMultiple
@@ -158,14 +159,13 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 						menu: #menu
 						keystroke: #keystroke:from:]
 				ifFalse: [
-					self theme 
-						newListIn: container 
-						for: listModel 
+					PluggableListMorph
+						on: listModel 
 						list: #displayedItems 
 						selected: #singleSelection 
-						changeSelected: #singleSelection:
-						getEnabled: nil 
-						help: nil ].
+						changeSelected: #singleSelection: 
+						menu: #menu
+						keystroke: #keystroke:from: ].
 	list
 		color: Color white;
 		hResizing: #spaceFill;

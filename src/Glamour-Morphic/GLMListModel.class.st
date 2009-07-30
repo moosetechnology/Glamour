@@ -11,7 +11,9 @@ Class {
 		'searchBlock',
 		'singleSelection',
 		'filterBlock',
-		'filteredItems'
+		'filteredItems',
+		'menuBlock',
+		'dynamicMenu'
 	],
 	#category : #'Glamour-Morphic'
 }
@@ -47,6 +49,11 @@ GLMListModel >> doSearch [
 				ifFalse: [ self executeSearch ] ].
 		
 	
+]
+
+{ #category : #accessing }
+GLMListModel >> dynamicMenu: aDynamicMenu [ 
+	dynamicMenu := aDynamicMenu
 ]
 
 { #category : #associating }
@@ -131,9 +138,40 @@ GLMListModel >> listSize [
 	^self items size
 ]
 
+{ #category : #callbacks }
+GLMListModel >> menu: aMenuMorph [
+	| actions |
+	"self halt.
+	dynamicMenu isNil ifTrue: [^aMenuMorph].
+	actions := dynamicMenu value: (self listAt: self selection).
+	actions do: [:action |
+		aMenuMorph add: action title target: self selector: #executeMenuAction: argument: action].
+	^aMenuMorph"
+	^ MenuMorph new
+		defaultTarget: self;
+		add: 'Print A' action: #printA;
+		balloonTextForLastItem: 'Live long and prosper!';
+		addLine;
+		add: 'Print B' action: #printB;
+		balloonTextForLastItem: 'Search again\for the same object' withCRs;
+		yourself
+]
+
 { #category : #updating }
 GLMListModel >> onSelection: aBlock [
 	onSelection := aBlock
+]
+
+{ #category : #accessing }
+GLMListModel >> printA [
+	Transcript show: 'Print A'; cr.
+	
+]
+
+{ #category : #accessing }
+GLMListModel >> printB [
+	Transcript show: 'Print B'; cr.
+	
 ]
 
 { #category : #accessing }
