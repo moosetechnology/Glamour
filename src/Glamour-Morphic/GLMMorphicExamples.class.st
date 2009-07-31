@@ -92,6 +92,34 @@ GLMMorphicExamples >> moosePreviewFinder [
 ]
 
 { #category : #examples }
+GLMMorphicExamples >> multipleSelectionListWithMenu [
+
+	"
+		self new multipleSelectionListWithMenu openOn: #(1 2 3 4 5).
+	"
+
+	| finder |
+	finder := GLMFinder new.
+	finder list
+			beMultiple;
+			when: [:each | each isCollection];
+			menu: [:list | GLMMenu actionsFor: list]..
+	
+	"finder list
+			title: 'List';
+			display: [:each | each to: each];
+			when: [:each | each isCollection not];
+			menu: [:list | GLMMenu actionsFor: list].
+	finder list
+			title: 'List * 10';
+			display: [:each | each to: each*10];
+			when: [:each | each isCollection not].
+	finder text
+			title: 'Text'.	"
+	^ finder 
+]
+
+{ #category : #examples }
 GLMMorphicExamples >> pierFinder [
 	"
 		self new pierFinder openOn: PRKernel instances anyOne root.

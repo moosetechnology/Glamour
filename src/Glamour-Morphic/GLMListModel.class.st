@@ -95,6 +95,11 @@ GLMListModel >> initialize [
 	"searchBlock := [:text :list | OrderedCollection new]"
 ]
 
+{ #category : #testing }
+GLMListModel >> isMultiple [
+	^listSelection isNil not
+]
+
 { #category : #accessing }
 GLMListModel >> items [
 	^filteredItems
@@ -109,6 +114,11 @@ GLMListModel >> items: aCollection [
 { #category : #callbacks }
 GLMListModel >> listAt: anIndex [
 	^(self items at: anIndex) "perform: displaySelector"
+]
+
+{ #category : #accessing }
+GLMListModel >> listSelection [
+	^listSelection
 ]
 
 { #category : #callbacks }
@@ -142,7 +152,10 @@ GLMListModel >> listSize [
 GLMListModel >> menu: aMenuMorph [
 	| actions |
 	dynamicMenu isNil ifTrue: [^aMenuMorph].
-	actions := dynamicMenu value: (self listAt: self selection).
+	self isMultiple 
+				ifTrue: [actions := dynamicMenu value: (self listSelection collect: [:each | self listAt: each])]
+				ifFalse: [actions := dynamicMenu value: (self listAt: self selection)].
+
 	actions do: [:action |
 		aMenuMorph add: action title target: self selector: #executeMenuAction: argument: action.
 		"self addMenuAction: action"].
