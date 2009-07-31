@@ -29,11 +29,12 @@ GLMMorphicModel >> initialize [
 	super initialize.
 	keystrokeActions := OrderedCollection new.
 	menuActions := OrderedCollection new.
-	menuInvokedAction := (GLMAction new) 
-									action: [:aPresentation :aMenuMorph | self updateMenu: aMenuMorph with: aPresentation menuActions] ; 
+	menuInvokedAction := GLMAction new
+							action: [:aPresentation :aMenuMorph | self updateMenu: aMenuMorph with: aPresentation menuActions]; 
 									shortcut: $x; 
 									title: 'Menu'; 
-									yourself.
+									yourself.									
+	self flag: 'Review the menuInvokedAction initialization'.
 ]
 
 { #category : #callbacks }
@@ -44,15 +45,8 @@ GLMMorphicModel >> keystroke: aChar from: aMorph [
 ]
 
 { #category : #callbacks }
-GLMMorphicModel >> menu [
-	self halt
-]
-
-{ #category : #callbacks }
 GLMMorphicModel >> menu: aMenuMorph [
-	
 	menuInvokedAction ifNotNil: [self announce: (GLMMenuInvoked action: menuInvokedAction on: aMenuMorph)].
-
 
 	"menuActions do: [:action |
 		aMenuMorph add: action title target: self selector: #executeMenuAction: argument: action].

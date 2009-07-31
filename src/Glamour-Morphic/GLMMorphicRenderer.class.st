@@ -138,15 +138,14 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 	toShow := aListPresentation displayValue.
 	items := toShow isCollection
 				ifTrue: [toShow]
-				ifFalse: [Array with: toShow].
+				ifFalse: [OrderedCollection with: toShow].
 	listModel := GLMListModel new
-				items: (items
-						ifNil: [OrderedCollection new]);
-				 displaySelector: aListPresentation format;
-				 searchBlock: aListPresentation searchStrategy;
-				 filterBlock: aListPresentation filterStrategy;
-				 dynamicMenu: aListPresentation menuBlock;
-				 yourself.
+				items: (items ifNil: [OrderedCollection new]); flag: 'why orderedcollection new?';
+				displaySelector: aListPresentation format;
+				searchBlock: aListPresentation searchStrategy;
+				filterBlock: aListPresentation filterStrategy;
+				dynamicMenu: aListPresentation menuBlock;
+				yourself.
 	container := self emptyMorph.
 	list := aListPresentation isMultiple
 				ifTrue: [
@@ -172,13 +171,12 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		getMenuSelector: #menu:;
-		getMenuSelector: #menu:;
+		getMenuSelector: #menu:; flag: 'why two times getMenuSelector:';
 		alwaysShowScrollBars: false;
 		keystrokeActionSelector: #keystroke:from:;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1)).
 	self installActionsOnUI: listModel fromPresentation: aListPresentation.
-	listModel
-		onSelection: [:selection | aListPresentation selection: selection].
+	listModel onSelection: [:selection | aListPresentation selection: selection].
 	aListPresentation isSearchable ifTrue: [
 		search := UITheme current
 			newTextEntryIn: nil
@@ -265,8 +263,7 @@ GLMMorphicRenderer >> renderPane: aPane [
 	aPane whenMatchingPresentationsChanged: [ :ann |
 		container
 			removeAllMorphs;
-			addMorph: ((self renderPresentationsOf: aPane)
-				adoptPaneColor: container paneColor)
+			addMorph: ((self renderPresentationsOf: aPane) adoptPaneColor: container paneColor)
 			fullFrame: (LayoutFrame new
 				leftFraction: 0;
 				rightFraction: 1;
@@ -274,8 +271,7 @@ GLMMorphicRenderer >> renderPane: aPane [
 				bottomFraction: 1).		
 	].
 	container 
-		addMorph: ((self renderPresentationsOf: aPane)
-			adoptPaneColor: container paneColor)
+		addMorph: ((self renderPresentationsOf: aPane) adoptPaneColor: container paneColor)
 		fullFrame: (LayoutFrame new
 				leftFraction: 0;
 				rightFraction: 1;
@@ -348,14 +344,12 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [	 
-	| toShow treeMorph treeModel | 
-	
+	| toShow treeMorph treeModel |
 	toShow := aTreePresentation displayValue. 
 	treeModel := GLMTreeModel new roots: toShow; yourself.
 	treeModel 
 			childrenBlock: aTreePresentation children;
 			displaySelector: aTreePresentation format.
-	
 	treeMorph := PluggableTreeMorph new
 		model: treeModel;
 		getLabelSelector: #getLabelOf:;		
@@ -379,7 +373,6 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderWorkspacePresentation: aWorkspacePresentation [ 
-	 
 	^ self renderTextPresentation: aWorkspacePresentation
 ]
 

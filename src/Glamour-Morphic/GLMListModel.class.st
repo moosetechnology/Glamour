@@ -20,12 +20,12 @@ Class {
 
 { #category : #accessing }
 GLMListModel >> canonicalItems [
-	^items
+	^ items
 ]
 
 { #category : #callbacks }
 GLMListModel >> displayListAt: anIndex [
-	^displaySelector glamourValue: (self items at: anIndex)
+	^ displaySelector glamourValue: (self items at: anIndex)
 ]
 
 { #category : #accessing }
@@ -35,7 +35,7 @@ GLMListModel >> displaySelector: aSymbol [
 
 { #category : #accessing }
 GLMListModel >> displayedItems [
-	^self items collect: [:each | displaySelector glamourValue: each]
+	^ self items collect: [:each | displaySelector glamourValue: each]
 
 ]
 
@@ -73,16 +73,15 @@ GLMListModel >> executeReset [
 { #category : #associating }
 GLMListModel >> executeSearch [
 	| searchResult |
+	self flag: 'OrderedCollection should be replaced with self listSelection species'.
 	searchResult := searchBlock value: self searchText asString value: self canonicalItems.
 	listSelection := searchResult asOrderedCollection.
 	onSelection ifNotNil: [onSelection value: (OrderedCollection withAll: listSelection) ].
 	self changed: #items; changed: #selection
-	
 ]
 
 { #category : #accessing }
 GLMListModel >> filterBlock: aBlock [
-
 	filterBlock := aBlock
 ]
 
@@ -90,19 +89,18 @@ GLMListModel >> filterBlock: aBlock [
 GLMListModel >> initialize [
 	super initialize.
 	selection := 0.
-	listSelection := OrderedCollection new.
 	searchText := ''
 	"searchBlock := [:text :list | OrderedCollection new]"
 ]
 
 { #category : #testing }
 GLMListModel >> isMultiple [
-	^listSelection isNil not
+	^ self listSelection isNil not
 ]
 
 { #category : #accessing }
 GLMListModel >> items [
-	^filteredItems
+	^ filteredItems
 ]
 
 { #category : #accessing }
@@ -113,34 +111,28 @@ GLMListModel >> items: aCollection [
 
 { #category : #callbacks }
 GLMListModel >> listAt: anIndex [
-	^(self items at: anIndex) "perform: displaySelector"
+	^ self items at: anIndex
 ]
 
 { #category : #accessing }
 GLMListModel >> listSelection [
-	^listSelection
+	self flag: 'check if species is correct'.
+	^ listSelection ifNil: [ listSelection := self items species new ]
 ]
 
 { #category : #callbacks }
 GLMListModel >> listSelectionAt: anIndex [
-	^listSelection includes: anIndex
-	"^listSelection includes: (items at: anIndex ifAbsent: [ ^ false ])."
+	^ self listSelection includes: anIndex
 ]
 
 { #category : #callbacks }
 GLMListModel >> listSelectionAt: anIndex put: aValue [
 	aValue = true
-		ifTrue: [
-			(listSelection includes: anIndex)
-				ifFalse: [ listSelection add: anIndex ] ]
-		ifFalse: [
-			listSelection
-				remove: anIndex
-				ifAbsent: [ ] ].
-	
-	onSelection ifNotNil: [onSelection value: (listSelection collect: [:eachIndex | self listAt: eachIndex])].
+		ifTrue: [ (self listSelection includes: anIndex) ifFalse: [ self listSelection add: anIndex ] ]
+		ifFalse: [ self listSelection remove: anIndex ifAbsent: [ ] ].
+	onSelection ifNotNil: [
+		onSelection value: (self listSelection collect: [:eachIndex | self listAt: eachIndex])].
 	self changed: #selection.
-	
 ]
 
 { #category : #callbacks }
@@ -160,18 +152,6 @@ GLMListModel >> menu: aMenuMorph [
 { #category : #updating }
 GLMListModel >> onSelection: aBlock [
 	onSelection := aBlock
-]
-
-{ #category : #accessing }
-GLMListModel >> printA [
-	Transcript show: 'Print A'; cr.
-	
-]
-
-{ #category : #accessing }
-GLMListModel >> printB [
-	Transcript show: 'Print B'; cr.
-	
 ]
 
 { #category : #accessing }
@@ -198,13 +178,14 @@ GLMListModel >> searchText: aString [
 
 { #category : #callbacks }
 GLMListModel >> selectedItems [
-	((listSelection isNil not) and: [ listSelection isEmpty not ]) ifTrue: [ ^self listSelection collect: [:each | self listAt: each]].
-	^OrderedCollection with: (self listAt: self selection)
+	self listSelection isEmpty not ifTrue: [ 
+		^ self listSelection collect: [ :each | self listAt: each ] ].
+	^ OrderedCollection with: (self listAt: self selection)
 ]
 
 { #category : #callbacks }
 GLMListModel >> selection [ 
-	^selection
+	^ selection
 ]
 
 { #category : #callbacks }
@@ -215,7 +196,7 @@ GLMListModel >> selection: anIndex. [
 
 { #category : #callbacks }
 GLMListModel >> singleSelection [ 
-	^selection
+	^ selection
 ]
 
 { #category : #callbacks }
@@ -226,11 +207,9 @@ GLMListModel >> singleSelection: anIndex. [
 	self changed: #singleSelection.
 ]
 
-{ #category : #'as yet unclassified' }
-GLMListModel >> updateMenu: aMenuMorph with: aCollection [ 
-	
+{ #category : #updating }
+GLMListModel >> updateMenu: aMenuMorph with: aCollection [
 	aCollection do: [:action |
-		aMenuMorph add: action title target: self selector: #executeMenuAction: argument: action.
-		].
-	^aMenuMorph
+		aMenuMorph add: action title target: self selector: #executeMenuAction: argument: action ].
+	^ aMenuMorph
 ]

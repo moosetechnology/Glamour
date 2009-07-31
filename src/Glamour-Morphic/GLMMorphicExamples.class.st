@@ -4,6 +4,19 @@ Class {
 	#category : #'Glamour-Morphic'
 }
 
+{ #category : #private }
+GLMMorphicExamples >> actionsFor: aPresentation [ 
+	|actions|
+	aPresentation isMultiple 
+							ifTrue: [actions := (aPresentation selection) ifNil: [OrderedCollection new]]
+							ifFalse: [actions := OrderedCollection with: aPresentation selection ].
+	^ actions collect: [:i |
+					(GLMAction new) 
+						action: [:each | Transcript show: 'Menu - Item', i printString; cr]; 
+						title: 'Menu - Item', i printString; 
+						yourself ]
+]
+
 { #category : #examples }
 GLMMorphicExamples >> demoBrowser [
 	"
@@ -93,7 +106,6 @@ GLMMorphicExamples >> moosePreviewFinder [
 
 { #category : #'menu examples' }
 GLMMorphicExamples >> multipleSelectionListWithMenu [
-
 	"
 		self new multipleSelectionListWithMenu openOn: #(1 2 3 4 5).
 	"
@@ -103,7 +115,7 @@ GLMMorphicExamples >> multipleSelectionListWithMenu [
 	finder list
 			beMultiple;
 			when: [:each | each isCollection];
-			menu: [:list | GLMMenu actionsFor: list].
+			menu: [:list | self actionsFor: list].
 	^ finder 
 ]
 
@@ -191,7 +203,7 @@ GLMMorphicExamples >> simpleFinderWithMenu [
 			title: 'List';
 			display: [:each | 1 to: each];
 			when: [:each | each isCollection not];
-			menu: [:list | GLMMenu actionsFor: list].
+			menu: [:list | self actionsFor: list].
 	finder list
 			title: 'List * 10';
 			display: [:each | each to: each*10];
@@ -212,7 +224,7 @@ GLMMorphicExamples >> simpleMenu [
 	finder list
 			title: 'List';
 			display: [:each | 1 to: each];
-			menu: [:list | GLMMenu actionsFor: list ].
+			menu: [:list | self actionsFor: list ].
 	finder list
 			title: 'List * 10';
 			display: [:each | each to: each*10].
@@ -222,20 +234,13 @@ GLMMorphicExamples >> simpleMenu [
 { #category : #examples }
 GLMMorphicExamples >> stCodeBrowser [	
 	"
-		| browser |
-		browser := self new stCodeBrowser.
-		browser openOn: Smalltalk organization categories.
+		self new stCodeBrowser openOn: Smalltalk organization categories.
 	"
-
 	| browser |
-
 	browser := GLMTableLayoutBrowser new.
 	browser row: #navigation; row: #sourceCode.
-
 	browser showOn: #navigation; using: [
-		browser custom: self stCodeNavigator.
-	].
-
+		browser custom: self stCodeNavigator ].
 	browser
 		showOn: #sourceCode;
 		from: #navigation->#selectedClass;
@@ -259,12 +264,11 @@ GLMMorphicExamples >> stCodeBrowser [
 				title: 'System Complexity';
 				painting: [ :view :class :method :cat | 
 					view nodes: ((Smalltalk organization listAtCategoryNamed: cat) collect: [:className | Smalltalk classNamed: className]).
-					view edgesFrom: [:x | x superclass].
-					view treeLayout. ];
-				when: [:class :method :cat | cat notNil].
+					view edgesFrom: [ :x | x superclass ].
+					view treeLayout ];
+				when: [ :class :method :cat | cat notNil ].
 		].
-
-	^browser
+	^ browser
 ]
 
 { #category : #examples }
