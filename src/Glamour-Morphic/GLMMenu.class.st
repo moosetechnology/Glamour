@@ -8,8 +8,12 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMMenu class >> actionsFor: aSelection [ 
-	^ aSelection collect: [:i |
+GLMMenu class >> actionsFor: aPresentation [ 
+	|actions|
+	aPresentation isMultiple 
+							ifTrue: [actions := (aPresentation selection) ifNil: [OrderedCollection new]]
+							ifFalse: [actions := OrderedCollection with: aPresentation selection ].
+	^ actions collect: [:i |
 					(GLMAction new) 
 						action: [:each | Transcript show: 'Menu - Item', i printString; cr]; 
 						title: 'Menu - Item', i printString; 

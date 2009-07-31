@@ -31,6 +31,7 @@ GLMMorphicRenderer >> emptyMorph [
 GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPresentation [	 
 	aMorphicModel when: GLMMenuItemSelected do: [ :ann | ann action actOn: aPresentation ].
 	aMorphicModel when: GLMKeyStroke do: [ :ann | ann action actOn: aPresentation ].
+	aMorphicModel when: GLMMenuInvoked do: [ :ann | ann action actOn: aPresentation with: ann menuMorph].
 	aPresentation actions do: [ :action |  
 		"menu actions"
 		action hasTitle ifTrue: [ aMorphicModel addMenuAction: action ].

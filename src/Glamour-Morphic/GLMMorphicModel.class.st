@@ -3,7 +3,8 @@ Class {
 	#superclass : #Announcer,
 	#instVars : [
 		'keystrokeActions',
-		'menuActions'
+		'menuActions',
+		'menuInvokedAction'
 	],
 	#category : #'Glamour-Morphic'
 }
@@ -28,6 +29,11 @@ GLMMorphicModel >> initialize [
 	super initialize.
 	keystrokeActions := OrderedCollection new.
 	menuActions := OrderedCollection new.
+	menuInvokedAction := (GLMAction new) 
+									action: [:aPresentation :aMenuMorph | self updateMenu: aMenuMorph with: aPresentation menuActions] ; 
+									shortcut: $x; 
+									title: 'Menu'; 
+									yourself.
 ]
 
 { #category : #callbacks }
@@ -44,7 +50,11 @@ GLMMorphicModel >> menu [
 
 { #category : #callbacks }
 GLMMorphicModel >> menu: aMenuMorph [
-	menuActions do: [:action |
+	
+	menuInvokedAction ifNotNil: [self announce: (GLMMenuInvoked action: menuInvokedAction on: aMenuMorph)].
+
+
+	"menuActions do: [:action |
 		aMenuMorph add: action title target: self selector: #executeMenuAction: argument: action].
-	^aMenuMorph
+	^aMenuMorph"
 ]

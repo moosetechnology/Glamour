@@ -151,12 +151,9 @@ GLMListModel >> listSize [
 { #category : #callbacks }
 GLMListModel >> menu: aMenuMorph [
 	| actions |
-	dynamicMenu isNil ifTrue: [^aMenuMorph].
-	actions := dynamicMenu value: (self selectedItems).
-	actions do: [:action |
-		aMenuMorph add: action title target: self selector: #executeMenuAction: argument: action.
-		"self addMenuAction: action"].
+	menuInvokedAction ifNotNil: [self announce: (GLMMenuInvoked action: menuInvokedAction on: aMenuMorph)].
 	^aMenuMorph
+
 	
 ]
 
@@ -227,4 +224,13 @@ GLMListModel >> singleSelection: anIndex. [
 		selection := anIndex.
 		onSelection ifNotNil: [onSelection value: (self listAt: anIndex) ] ].
 	self changed: #singleSelection.
+]
+
+{ #category : #'as yet unclassified' }
+GLMListModel >> updateMenu: aMenuMorph with: aCollection [ 
+	
+	aCollection do: [:action |
+		aMenuMorph add: action title target: self selector: #executeMenuAction: argument: action.
+		].
+	^aMenuMorph
 ]

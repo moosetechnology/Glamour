@@ -103,7 +103,7 @@ GLMMorphicExamples >> multipleSelectionListWithMenu [
 	finder list
 			beMultiple;
 			when: [:each | each isCollection];
-			menu: [:list | GLMMenu actionsFor: list]..
+			menu: [:list | GLMMenu actionsFor: list].
 	^ finder 
 ]
 
