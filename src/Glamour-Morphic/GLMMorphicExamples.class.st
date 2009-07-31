@@ -91,7 +91,7 @@ GLMMorphicExamples >> moosePreviewFinder [
 	^ browser
 ]
 
-{ #category : #examples }
+{ #category : #'menu examples' }
 GLMMorphicExamples >> multipleSelectionListWithMenu [
 
 	"
@@ -104,18 +104,6 @@ GLMMorphicExamples >> multipleSelectionListWithMenu [
 			beMultiple;
 			when: [:each | each isCollection];
 			menu: [:list | GLMMenu actionsFor: list]..
-	
-	"finder list
-			title: 'List';
-			display: [:each | each to: each];
-			when: [:each | each isCollection not];
-			menu: [:list | GLMMenu actionsFor: list].
-	finder list
-			title: 'List * 10';
-			display: [:each | each to: each*10];
-			when: [:each | each isCollection not].
-	finder text
-			title: 'Text'.	"
 	^ finder 
 ]
 
@@ -188,7 +176,7 @@ GLMMorphicExamples >> simpleFinder [
 	^ finder 
 ]
 
-{ #category : #examples }
+{ #category : #'menu examples' }
 GLMMorphicExamples >> simpleFinderWithMenu [
 
 	"
@@ -201,7 +189,7 @@ GLMMorphicExamples >> simpleFinderWithMenu [
 			when: [:each | each isCollection].
 	finder list
 			title: 'List';
-			display: [:each | each to: each];
+			display: [:each | 1 to: each];
 			when: [:each | each isCollection not];
 			menu: [:list | GLMMenu actionsFor: list].
 	finder list
@@ -211,6 +199,24 @@ GLMMorphicExamples >> simpleFinderWithMenu [
 	finder text
 			title: 'Text'.	
 	^ finder 
+]
+
+{ #category : #'menu examples' }
+GLMMorphicExamples >> simpleMenu [
+	"
+		self new simpleMenu openOn: 10.
+	"
+
+	| finder |
+	finder := GLMFinder new.
+	finder list
+			title: 'List';
+			display: [:each | 1 to: each];
+			menu: [:list | GLMMenu actionsFor: list ].
+	finder list
+			title: 'List * 10';
+			display: [:each | each to: each*10].
+	^ finder
 ]
 
 { #category : #examples }
