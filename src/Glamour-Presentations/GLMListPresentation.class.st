@@ -41,6 +41,11 @@ GLMListPresentation >> menu: aBlock [
 ]
 
 { #category : #accessing }
+GLMListPresentation >> menuActions [
+	^menuBlock value: self
+]
+
+{ #category : #accessing }
 GLMListPresentation >> menuBlock [
 	^menuBlock
 ]
