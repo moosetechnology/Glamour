@@ -152,10 +152,7 @@ GLMListModel >> listSize [
 GLMListModel >> menu: aMenuMorph [
 	| actions |
 	dynamicMenu isNil ifTrue: [^aMenuMorph].
-	self isMultiple 
-				ifTrue: [actions := dynamicMenu value: (self listSelection collect: [:each | self listAt: each])]
-				ifFalse: [actions := dynamicMenu value: (self listAt: self selection)].
-
+	actions := dynamicMenu value: (self selectedItems).
 	actions do: [:action |
 		aMenuMorph add: action title target: self selector: #executeMenuAction: argument: action.
 		"self addMenuAction: action"].
@@ -200,6 +197,12 @@ GLMListModel >> searchText: aString [
 	searchText := aString.
 	self doSearch
 
+]
+
+{ #category : #callbacks }
+GLMListModel >> selectedItems [
+	((listSelection isNil not) and: [ listSelection isEmpty not ]) ifTrue: [ ^self listSelection collect: [:each | self listAt: each]].
+	^OrderedCollection with: (self listAt: self selection)
 ]
 
 { #category : #callbacks }
