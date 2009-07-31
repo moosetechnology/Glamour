@@ -141,20 +141,13 @@ GLMListModel >> listSize [
 { #category : #callbacks }
 GLMListModel >> menu: aMenuMorph [
 	| actions |
-	"self halt.
 	dynamicMenu isNil ifTrue: [^aMenuMorph].
 	actions := dynamicMenu value: (self listAt: self selection).
 	actions do: [:action |
-		aMenuMorph add: action title target: self selector: #executeMenuAction: argument: action].
-	^aMenuMorph"
-	^ MenuMorph new
-		defaultTarget: self;
-		add: 'Print A' action: #printA;
-		balloonTextForLastItem: 'Live long and prosper!';
-		addLine;
-		add: 'Print B' action: #printB;
-		balloonTextForLastItem: 'Search again\for the same object' withCRs;
-		yourself
+		aMenuMorph add: action title target: self selector: #executeMenuAction: argument: action.
+		"self addMenuAction: action"].
+	^aMenuMorph
+	
 ]
 
 { #category : #updating }

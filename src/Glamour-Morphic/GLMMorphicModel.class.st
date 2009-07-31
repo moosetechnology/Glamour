@@ -20,7 +20,6 @@ GLMMorphicModel >> addMenuAction: anAction [
 
 { #category : #callbacks }
 GLMMorphicModel >> executeMenuAction: anAction [
-	self halt.
 	self announce: (GLMMenuItemSelected action: anAction)
 ]
 
@@ -34,7 +33,6 @@ GLMMorphicModel >> initialize [
 { #category : #callbacks }
 GLMMorphicModel >> keystroke: aChar from: aMorph [
 	| action |
-	self halt.
 	action := keystrokeActions detect: [:a | a shortcut = aChar] ifNone: [nil].
 	action ifNotNil: [self announce: (GLMKeyStroke action: action)].
 ]
@@ -46,7 +44,6 @@ GLMMorphicModel >> menu [
 
 { #category : #callbacks }
 GLMMorphicModel >> menu: aMenuMorph [
-	self halt.
 	menuActions do: [:action |
 		aMenuMorph add: action title target: self selector: #executeMenuAction: argument: action].
 	^aMenuMorph

@@ -13,12 +13,12 @@ GLMMenu class >> actionsFor: aSelection [
 	| actions |
 	actions := OrderedCollection new.
 	actions add: ((GLMAction new) 
-				action: [:each | self halt. Transcript show: 'Menu - Item1'; cr]; 
+				action: [:each | Transcript show: 'Menu - Item1'; cr]; 
 				"shortcut: $x; "
 				title: 'Menu - Item1'; 
 				yourself).	 
 	actions add: ((GLMAction new) 
-				action: [:each | self halt. Transcript show: 'Menu - Item2'; cr]; 
+				action: [:each | Transcript show: 'Menu - Item2'; cr]; 
 				"shortcut: $y;"
 				title: 'Menu - Item2'; 
 				yourself).

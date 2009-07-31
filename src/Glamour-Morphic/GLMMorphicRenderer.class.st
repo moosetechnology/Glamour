@@ -29,13 +29,13 @@ GLMMorphicRenderer >> emptyMorph [
 
 { #category : #private }
 GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPresentation [	 
+	aMorphicModel when: GLMMenuItemSelected do: [ :ann | ann action actOn: aPresentation ].
+	aMorphicModel when: GLMKeyStroke do: [ :ann | ann action actOn: aPresentation ].
 	aPresentation actions do: [ :action |  
 		"menu actions"
-		aMorphicModel when: GLMMenuItemSelected do: [ :ann | ann action actOn: aPresentation ].
 		action hasTitle ifTrue: [ aMorphicModel addMenuAction: action ].
 			
-		"keystroke actions"
-		aMorphicModel when: GLMKeyStroke do: [ :ann | ann action actOn: aPresentation ].			
+		"keystroke actions"		
 		action hasShortcut ifTrue: [ aMorphicModel addKeystrokeAction: action ] ]
 ]
 
