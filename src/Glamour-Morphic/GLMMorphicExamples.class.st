@@ -122,10 +122,10 @@ GLMMorphicExamples >> multipleSelectionListWithMenu [
 { #category : #'menu examples' }
 GLMMorphicExamples >> multipleSelectionListWithMenuAndSearch [
 	"
-		self new multipleSelectionListWithMenu openOn: #(1 2 3 4 5).
+		self new multipleSelectionListWithMenuAndSearch openOn: #(1 2 3 4 5).
 	"
 
-	| finder |
+	| finder |	
 	finder := GLMFinder new.
 	finder list
 			beMultiple;

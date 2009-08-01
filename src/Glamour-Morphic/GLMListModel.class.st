@@ -75,7 +75,7 @@ GLMListModel >> executeSearch [
 	| searchResult |
 	self flag: 'OrderedCollection should be replaced with self listSelection species'.
 	searchResult := searchBlock value: self searchText asString value: self canonicalItems.
-	listSelection := (1 to: self canonicalItems size) select: [:eachIndex | searchResult includes: (self canonicalItems at: eachIndex) ].
+	listSelection := ((1 to: self canonicalItems size) select: [:eachIndex | searchResult includes: (self canonicalItems at: eachIndex) ]) asOrderedCollection.
 	onSelection ifNotNil: [ onSelection value: listSelection ].
 	self changed: #allSelections
 	"self changed: #displayedItems; changed: #selection"
