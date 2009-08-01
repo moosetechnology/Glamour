@@ -59,7 +59,7 @@ GLMListModel >> dynamicMenu: aDynamicMenu [
 { #category : #associating }
 GLMListModel >> executeFilter [
 	filteredItems := filterBlock value: self searchText asString value: self canonicalItems.
-	self changed: #items; changed: #selection
+	self changed: #displayedItems; changed: #selection
 	
 ]
 
@@ -75,9 +75,10 @@ GLMListModel >> executeSearch [
 	| searchResult |
 	self flag: 'OrderedCollection should be replaced with self listSelection species'.
 	searchResult := searchBlock value: self searchText asString value: self canonicalItems.
-	listSelection := searchResult.
+	listSelection := (1 to: self canonicalItems size) select: [:eachIndex | searchResult includes: (self canonicalItems at: eachIndex) ].
 	onSelection ifNotNil: [ onSelection value: listSelection ].
-	self changed: #items; changed: #selection
+	self changed: #allSelections
+	"self changed: #displayedItems; changed: #selection"
 ]
 
 { #category : #accessing }
@@ -117,7 +118,7 @@ GLMListModel >> listAt: anIndex [
 { #category : #accessing }
 GLMListModel >> listSelection [
 	self flag: 'check if species is correct'.
-	^ listSelection ifNil: [ listSelection := self items species new ]
+	^ listSelection ifNil: [ listSelection := self items species new asOrderedCollection]
 ]
 
 { #category : #callbacks }

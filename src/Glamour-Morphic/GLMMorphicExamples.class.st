@@ -119,6 +119,22 @@ GLMMorphicExamples >> multipleSelectionListWithMenu [
 	^ finder 
 ]
 
+{ #category : #'menu examples' }
+GLMMorphicExamples >> multipleSelectionListWithMenuAndSearch [
+	"
+		self new multipleSelectionListWithMenu openOn: #(1 2 3 4 5).
+	"
+
+	| finder |
+	finder := GLMFinder new.
+	finder list
+			beMultiple;
+			when: [:each | each isCollection];
+			menu: [:list | self actionsFor: list];
+			searchOn: [:text :list | list select: [:each | each even] ].
+	^ finder 
+]
+
 { #category : #examples }
 GLMMorphicExamples >> pierFinder [
 	"
@@ -286,6 +302,7 @@ GLMMorphicExamples >> stCodeNavigator [
 
 	browser showOn: #classCats; using: [
 		browser list
+			beMultiple;
 			filterOn: [:text :list | list select: [:each | text match: each ]].
 	].
 
