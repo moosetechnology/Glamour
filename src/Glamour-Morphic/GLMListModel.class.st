@@ -75,8 +75,8 @@ GLMListModel >> executeSearch [
 	| searchResult |
 	self flag: 'OrderedCollection should be replaced with self listSelection species'.
 	searchResult := searchBlock value: self searchText asString value: self canonicalItems.
-	listSelection := searchResult asOrderedCollection.
-	onSelection ifNotNil: [onSelection value: (OrderedCollection withAll: listSelection) ].
+	listSelection := searchResult.
+	onSelection ifNotNil: [ onSelection value: listSelection ].
 	self changed: #items; changed: #selection
 ]
 
