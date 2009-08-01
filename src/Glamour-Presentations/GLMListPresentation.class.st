@@ -42,6 +42,7 @@ GLMListPresentation >> menu: aBlock [
 
 { #category : #accessing }
 GLMListPresentation >> menuActions [
+	menuBlock isNil ifTrue: [^OrderedCollection new ].
 	^menuBlock value: self
 ]
 
