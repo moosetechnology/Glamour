@@ -17,27 +17,7 @@ GLMMorphicExamples >> actionsFor: aPresentation [
 						yourself ]
 ]
 
-{ #category : #examples }
-GLMMorphicExamples >> demoBrowser [
-	"
-		self new demoBrowser openOn: Smalltalk organization categories
-	"
-	| browser |
-	browser := GLMTableLayoutBrowser new.
-	^ browser 
-]
-
-{ #category : #examples }
-GLMMorphicExamples >> demoNavigator [
-	"
-		self new demoNavigator openOn: Smalltalk organization categories
-	"
-	| browser |
-	browser := GLMTableLayoutBrowser new.
-	^ browser 
-]
-
-{ #category : #examples }
+{ #category : #'moose examples' }
 GLMMorphicExamples >> mooseFinder [
 	"
 		self new mooseFinder openOn: MooseModel root
@@ -77,9 +57,10 @@ GLMMorphicExamples >> mooseFinder [
 		act: [ :text :entity | (Compiler evaluate: text selectedText for: entity logged: false) inspect ] on: $/.
 	
 	^ browser
+
 ]
 
-{ #category : #examples }
+{ #category : #'moose examples' }
 GLMMorphicExamples >> moosePreviewFinder [
 	"
 		self new moosePreviewFinder openOn: MooseModel root
@@ -105,37 +86,45 @@ GLMMorphicExamples >> moosePreviewFinder [
 ]
 
 { #category : #'menu examples' }
-GLMMorphicExamples >> multipleSelectionListWithMenu [
+GLMMorphicExamples >> multipleFinderWithSearch [
 	"
-		self new multipleSelectionListWithMenu openOn: #(1 2 3 4 5).
-	"
-
-	| finder |
-	finder := GLMFinder new.
-	finder list
-			beMultiple;
-			when: [:each | each isCollection];
-			menu: [:list | self actionsFor: list].
-	^ finder 
-]
-
-{ #category : #'menu examples' }
-GLMMorphicExamples >> multipleSelectionListWithMenuAndSearch [
-	"
-		self new multipleSelectionListWithMenuAndSearch openOn: #(1 2 3 4 5).
+		self new finderSearch openOn: ($a to: $z).
 	"
 
 	| finder |	
 	finder := GLMFinder new.
 	finder list
 			beMultiple;
-			when: [:each | each isCollection];
 			menu: [:list | self actionsFor: list];
-			searchOn: [:text :list | list select: [:each | each even] ].
+			searchOn: [:text :list | list select: (Compiler evaluate: '[:each | | entity | ', text, ']')].
 	^ finder 
 ]
 
-{ #category : #examples }
+{ #category : #'st examples' }
+GLMMorphicExamples >> objectFinder [
+	"
+		self new objectFinder openOn: self new objectFinder
+	"
+
+	| browser |
+	browser := GLMFinder new.
+	browser list
+		title: 'Collection';
+		when: [:each | each isCollection].
+	browser list
+		title: 'Object';
+		display:  [ :anObject | anObject class allInstVarNames collect: [:iv | (anObject instVarNamed: iv) ] ];
+		send: [ :anObject | anObject value ].
+	browser text
+		display: [:entity | 'self' ];
+		title: 'Evaluator';
+		update: #selection on: $o with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ];
+		act: [ :text :entity | (Compiler evaluate: text selectedText for: entity logged: false) inspect ] on: $/.
+	
+	^ browser
+]
+
+{ #category : #'pier examples' }
 GLMMorphicExamples >> pierFinder [
 	"
 		self new pierFinder openOn: PRKernel instances anyOne root.
@@ -157,7 +146,7 @@ GLMMorphicExamples >> pierFinder [
 	^ browser 
 ]
 
-{ #category : #examples }
+{ #category : #'pier examples' }
 GLMMorphicExamples >> pierTreeEditor [
 
 	"
@@ -180,74 +169,22 @@ GLMMorphicExamples >> pierTreeEditor [
 	^ browser 
 ]
 
-{ #category : #examples }
-GLMMorphicExamples >> simpleFinder [
-
-	"
-		self new simpleFinder openOn: #(1 2 3 4 5).
-	"
-
-	| finder |
-	finder := GLMFinder new.
-	finder list
-			when: [:each | each isCollection].
-	finder list
-			title: 'List';
-			display: [:each | each to: each];
-			when: [:each | each isCollection not].
-	finder list
-			title: 'List * 10';
-			display: [:each | each to: each*10];
-			when: [:each | each isCollection not].
-	finder text
-			title: 'Text'.	
-	^ finder 
-]
-
 { #category : #'menu examples' }
 GLMMorphicExamples >> simpleFinderWithMenu [
-
 	"
-		self new simpleFinderWithMenu openOn: #(1 2 3 4 5).
-	"
-
-	| finder |
-	finder := GLMFinder new.
-	finder list
-			when: [:each | each isCollection].
-	finder list
-			title: 'List';
-			display: [:each | 1 to: each];
-			when: [:each | each isCollection not];
-			menu: [:list | self actionsFor: list].
-	finder list
-			title: 'List * 10';
-			display: [:each | each to: each*10];
-			when: [:each | each isCollection not].
-	finder text
-			title: 'Text'.	
-	^ finder 
-]
-
-{ #category : #'menu examples' }
-GLMMorphicExamples >> simpleMenu [
-	"
-		self new simpleMenu openOn: 10.
+		self new simpleMenu openOn: $z.
 	"
 
 	| finder |
 	finder := GLMFinder new.
 	finder list
 			title: 'List';
-			display: [:each | 1 to: each];
+			display: [:each | $a to: each];
 			menu: [:list | self actionsFor: list ].
-	finder list
-			title: 'List * 10';
-			display: [:each | each to: each*10].
 	^ finder
 ]
 
-{ #category : #examples }
+{ #category : #'st examples' }
 GLMMorphicExamples >> stCodeBrowser [	
 	"
 		self new stCodeBrowser openOn: Smalltalk organization categories.
@@ -287,7 +224,7 @@ GLMMorphicExamples >> stCodeBrowser [
 	^ browser
 ]
 
-{ #category : #examples }
+{ #category : #'st examples' }
 GLMMorphicExamples >> stCodeNavigator [	
 	"
 		| browser |
@@ -332,67 +269,4 @@ GLMMorphicExamples >> stCodeNavigator [
 	browser sendToOutside: #selectedMethod from: #methods.
 
 	^browser
-]
-
-{ #category : #examples }
-GLMMorphicExamples >> toyBrowser [
-	"
-		self new toyBrowser openOn: Smalltalk
-	"
-
-	| browser |
-	browser := GLMTableLayoutBrowser new.
-	browser column: #categories; column: #classes; column: #methods.
-	browser showOn: #categories; using: [
-		browser list
-			display: [ :environment | environment organization categories ] ].
-	browser showOn: #classes; from: #categories; using: [
-		browser list
-			display: [ :category | 
-				(Smalltalk organization listAtCategoryNamed: category) 
-					collect: [ :name | Smalltalk classNamed: name ] ] ].
-	browser showOn: #methods; from: #classes; using: [
-		browser tree
-			children: [ :class  | class selectors asSortedCollection ] ].
-	^ browser
-]
-
-{ #category : #examples }
-GLMMorphicExamples >> toyNavigatorBrowser [
-	"
-		| browser |
-		browser := self new toyNavigatorBrowser.
-		browser openOn: Smalltalk organization categories.
-		((browser paneNamed: #categories) port: #selection) value: Smalltalk organization categories first.
-	"
-
-	| browser classes |
-	browser := GLMTableLayoutBrowser new.
-	browser column: #categories; column: #classes; column: #metCategories; column: #methods.
-	browser showOn: #classes->#entity; from: #categories->#selection; using: [
-		browser list
-			title: 'Classes';
-			display: [:category | (Smalltalk organization listAtCategoryNamed: category) collect: [:className | Smalltalk classNamed: className] ].
-		browser mondrian
-			title: 'System Complexity';
-			painting: [:view :category | 
-				classes := (Smalltalk organization listAtCategoryNamed: category) collect: [:className | Smalltalk classNamed: className].
-				view nodes: classes.
-				view edgesFrom: #superclass.
-				view treeLayout
-			]
-	].
-	browser showOn: #metCategories; from: #classes; using: [
-		browser list
-			display: [:class | class organization categories ]
-	].
-	browser showOn: #methods; from: #classes; from: #metCategories; using: [
-		browser list
-			display: [  :class :category | (class organization listAtCategoryNamed: category) asSortedCollection ];
-			when: [  :class :category | class notNil and: [ category notNil ] ].
-		browser list
-			display: [ :class :category | class selectors asSortedCollection ];
-			when: [ :class :category | class notNil and: [ category isNil ] ].
-	].
-	^ browser
 ]
