@@ -16,7 +16,13 @@ GlamourLoader class >> all [
 { #category : #flair }
 GlamourLoader class >> allFor: config [
 	config project: 'Glamour All' dependsOn: [
-		config package: 'Glamour-All' from: 'http://www.squeaksource.com/Glamour'.
+		config package: 'Glamour-Helpers' from: 'http://www.squeaksource.com/Glamour'.
+		config package: 'Glamour-Squeak' from: 'http://www.squeaksource.com/Glamour'.
+		config package: 'Glamour-Core' from: 'http://www.squeaksource.com/Glamour'.
+		config package: 'Glamour-Presentations' from: 'http://www.squeaksource.com/Glamour'.
+		config package: 'Glamour-Browsers' from: 'http://www.squeaksource.com/Glamour'.
+		config package: 'Glamour-Scripting' from: 'http://www.squeaksource.com/Glamour'.
+		config package: 'Glamour-Tests' from: 'http://www.squeaksource.com/Glamour'.
 		config package: 'Glamour-Morphic' from: 'http://www.squeaksource.com/Glamour'.
 		config package: 'Announcements' from: 'http://www.squeaksource.com/Glamour'.
 		config allIn: 'MondrianLoader' from: 'http://www.squeaksource.com/Mondrian'
