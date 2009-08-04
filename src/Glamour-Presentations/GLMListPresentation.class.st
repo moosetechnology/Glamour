@@ -5,14 +5,25 @@ Class {
 		'multipleSelection',
 		'highlightPort',
 		'itemActions',
-		'isSearchable',
 		'searchBlock',
 		'filterBlock',
 		'menu',
-		'menuBlock'
+		'allowsInput',
+		'dynamicActionsBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
+
+{ #category : #testing }
+GLMListPresentation >> allowsInput [
+	^ allowsInput ifNil: [ allowsInput := false ]
+]
+
+{ #category : #accessing }
+GLMListPresentation >> dynamicActions [
+	dynamicActionsBlock isNil ifTrue: [ ^ OrderedCollection new ].
+	^ dynamicActionsBlock value: self
+]
 
 { #category : #accessing }
 GLMListPresentation >> filterStrategy [
@@ -25,30 +36,8 @@ GLMListPresentation >> isMultiple [
 ]
 
 { #category : #testing }
-GLMListPresentation >> isSearchable [
-	^ isSearchable ifNil: [isSearchable := false]
-]
-
-{ #category : #testing }
 GLMListPresentation >> isSingle [ 
 	^ self isMultiple not
-]
-
-{ #category : #callbacks }
-GLMListPresentation >> menu: aBlock [ 
-
-	menuBlock := aBlock
-]
-
-{ #category : #accessing }
-GLMListPresentation >> menuActions [
-	menuBlock isNil ifTrue: [^OrderedCollection new ].
-	^menuBlock value: self
-]
-
-{ #category : #accessing }
-GLMListPresentation >> menuBlock [
-	^menuBlock
 ]
 
 { #category : #rendering }
