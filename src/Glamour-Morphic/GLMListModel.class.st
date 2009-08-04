@@ -136,15 +136,6 @@ GLMListModel >> listSize [
 	^self items size
 ]
 
-{ #category : #callbacks }
-GLMListModel >> menu: aMenuMorph [
-	| actions |
-	menuInvokedAction ifNotNil: [self announce: (GLMMenuInvoked action: menuInvokedAction on: aMenuMorph)].
-	^aMenuMorph
-
-	
-]
-
 { #category : #updating }
 GLMListModel >> onSelection: aBlock [ 
 	onSelectionBlock := aBlock
@@ -207,11 +198,4 @@ GLMListModel >> singleSelection: anIndex [
 		[ selection := anIndex.
 		onSelectionBlock ifNotNil: [ onSelectionBlock value: (self listAt: anIndex) ] ].
 	self changed: #singleSelection
-]
-
-{ #category : #updating }
-GLMListModel >> updateMenu: aMenuMorph with: aCollection [
-	aCollection do: [:action |
-		aMenuMorph add: action title target: self selector: #executeMenuAction: argument: action ].
-	^ aMenuMorph
 ]

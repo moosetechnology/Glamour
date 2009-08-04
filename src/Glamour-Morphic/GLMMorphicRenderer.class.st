@@ -31,7 +31,7 @@ GLMMorphicRenderer >> emptyMorph [
 GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPresentation [	 
 	aMorphicModel when: GLMMenuItemSelected do: [ :ann | ann action actOn: aPresentation ].
 	aMorphicModel when: GLMKeyStroke do: [ :ann | ann action actOn: aPresentation ].
-	aMorphicModel when: GLMMenuInvoked do: [ :ann | ann action actOn: aPresentation with: ann menuMorph].
+"	aMorphicModel when: GLMMenuInvoked do: [ :ann | ann action actOn: aPresentation with: ann menuMorph]."
 	aPresentation actions do: [ :action |  
 		"menu actions"
 		action hasTitle ifTrue: [ aMorphicModel addMenuAction: action ].
@@ -140,6 +140,7 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 				ifTrue: [toShow]
 				ifFalse: [OrderedCollection with: toShow].
 	listModel := GLMListModel new
+				glamourPresentation: aListPresentation;
 				items: (items ifNil: [OrderedCollection new]); flag: 'why orderedcollection new?';
 				displaySelector: aListPresentation format;
 				searchBlock: aListPresentation searchStrategy;
