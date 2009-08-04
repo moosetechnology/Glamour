@@ -9,21 +9,27 @@ Class {
 		'condition',
 		'isInspectable',
 		'implicitNotNil',
-		'postTransformation'
+		'postTransformation',
+		'dynamicActionsBlock'
 	],
 	#category : #'Glamour-Core'
 }
 
 { #category : #accessing }
-GLMPresentation >> actions [ 
-	 
-	^actions ifNil: [actions := OrderedCollection new]
+GLMPresentation >> actions [
+	actions ifNil: [actions := OrderedCollection new].
+	^ actions
 ]
 
 { #category : #accessing }
 GLMPresentation >> addAction: anAction [ 
 	 
 	self actions addLast: anAction
+]
+
+{ #category : #accessing }
+GLMPresentation >> allActions [ 
+	^ self actions, self dynamicActions
 ]
 
 { #category : #accessing }
@@ -47,6 +53,12 @@ GLMPresentation >> condition: anObject [
 { #category : #accessing }
 GLMPresentation >> displayValue [
 	^ self transformation glamourValue: self entity
+]
+
+{ #category : #accessing }
+GLMPresentation >> dynamicActions [
+	dynamicActionsBlock isNil ifTrue: [ ^ OrderedCollection new ].
+	^ dynamicActionsBlock value: self
 ]
 
 { #category : #'accessing ports' }
