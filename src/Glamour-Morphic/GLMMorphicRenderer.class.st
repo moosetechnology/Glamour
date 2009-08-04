@@ -145,7 +145,6 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 				displaySelector: aListPresentation format;
 				searchBlock: aListPresentation searchStrategy;
 				filterBlock: aListPresentation filterStrategy;
-				dynamicMenu: aListPresentation menuBlock;
 				yourself.
 	container := self emptyMorph.
 	list := aListPresentation isMultiple
@@ -172,13 +171,12 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		getMenuSelector: #menu:;
-		getMenuSelector: #menu:; flag: 'why two times getMenuSelector:';
 		alwaysShowScrollBars: false;
 		keystrokeActionSelector: #keystroke:from:;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1)).
 	self installActionsOnUI: listModel fromPresentation: aListPresentation.
 	listModel onSelection: [:selection | aListPresentation selection: selection].
-	aListPresentation isSearchable ifTrue: [
+	aListPresentation allowsInput ifTrue: [
 		search := UITheme current
 			newTextEntryIn: nil
 			for: listModel

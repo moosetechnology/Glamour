@@ -49,9 +49,13 @@ GLMMorphicModel >> keystroke: aChar from: aMorph [
 ]
 
 { #category : #callbacks }
-GLMMorphicModel >> menu: aMenuMorph [
-	self glamourPresentation menuActions do: [:action |
-		aMenuMorph add: action title target: self selector: #executeMenuAction: argument: action 
-	].
+GLMMorphicModel >> menu: aMenuMorph [ 
+	self glamourPresentation dynamicActions do: 
+		[ :action | 
+		aMenuMorph 
+			add: action title
+			target: self
+			selector: #executeMenuAction:
+			argument: action ].
 	^ aMenuMorph
 ]

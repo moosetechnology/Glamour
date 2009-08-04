@@ -95,7 +95,7 @@ GLMMorphicExamples >> multipleFinderWithSearch [
 	finder := GLMFinder new.
 	finder list
 			beMultiple;
-			menu: [:list | self actionsFor: list];
+			actions: [:list | self actionsFor: list];
 			searchOn: [:text :list | list select: (Compiler evaluate: '[:each | | entity | ', text, ']')].
 	^ finder 
 ]

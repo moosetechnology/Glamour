@@ -51,11 +51,6 @@ GLMListModel >> doSearch [
 	
 ]
 
-{ #category : #accessing }
-GLMListModel >> dynamicMenu: aDynamicMenu [ 
-	dynamicMenu := aDynamicMenu
-]
-
 { #category : #associating }
 GLMListModel >> executeFilter [
 	filteredItems := filterBlock value: self searchText asString value: self canonicalItems.
