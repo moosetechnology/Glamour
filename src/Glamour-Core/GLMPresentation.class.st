@@ -8,7 +8,8 @@ Class {
 		'actions',
 		'condition',
 		'isInspectable',
-		'implicitNotNil'
+		'implicitNotNil',
+		'postTransformation'
 	],
 	#category : #'Glamour-Core'
 }
@@ -44,9 +45,8 @@ GLMPresentation >> condition: anObject [
 ]
 
 { #category : #accessing }
-GLMPresentation >> displayValue [ 
-	 
-	^self transformation glamourValue: self entity
+GLMPresentation >> displayValue [
+	^ self transformation glamourValue: self entity
 ]
 
 { #category : #'accessing ports' }
@@ -115,6 +115,17 @@ GLMPresentation >> postCopy [
 	super postCopy
 ]
 
+{ #category : #accessing }
+GLMPresentation >> postTransformation [
+	"this is used for transforming the object before updating the selection"
+	^ postTransformation ifNil: [postTransformation := #yourself]
+]
+
+{ #category : #accessing }
+GLMPresentation >> postTransformation: anObject [
+	postTransformation := anObject
+]
+
 { #category : #rendering }
 GLMPresentation >> renderGlamorouslyOn: aRenderer [ 
 	 
@@ -149,6 +160,11 @@ GLMPresentation >> title: aStringOrBlock [
 GLMPresentation >> titleValue [ 
 	 
 	^self title glamourValue: self entity
+]
+
+{ #category : #accessing }
+GLMPresentation >> toSendValue [
+	^ self postTransformation glamourValue: self entity
 ]
 
 { #category : #accessing }
