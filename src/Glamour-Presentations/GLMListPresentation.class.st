@@ -8,8 +8,7 @@ Class {
 		'searchBlock',
 		'filterBlock',
 		'menu',
-		'allowsInput',
-		'dynamicActionsBlock'
+		'allowsInput'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -17,12 +16,6 @@ Class {
 { #category : #testing }
 GLMListPresentation >> allowsInput [
 	^ allowsInput ifNil: [ allowsInput := false ]
-]
-
-{ #category : #accessing }
-GLMListPresentation >> dynamicActions [
-	dynamicActionsBlock isNil ifTrue: [ ^ OrderedCollection new ].
-	^ dynamicActionsBlock value: self
 ]
 
 { #category : #accessing }

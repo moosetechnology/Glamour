@@ -40,6 +40,12 @@ GLMTextPresentation >> selectedText: anObject [
 ]
 
 { #category : #accessing }
+GLMTextPresentation >> selection [ 
+	 
+	^selectedText
+]
+
+{ #category : #accessing }
 GLMTextPresentation >> text [ 
 	 
 	^text ifNil: [text := self formatedDisplayValue]
