@@ -31,13 +31,6 @@ GLMMorphicRenderer >> emptyMorph [
 GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPresentation [	 
 	aMorphicModel when: GLMMenuItemSelected do: [ :ann | ann action actOn: aPresentation ].
 	aMorphicModel when: GLMKeyStroke do: [ :ann | ann action actOn: aPresentation ].
-"	aMorphicModel when: GLMMenuInvoked do: [ :ann | ann action actOn: aPresentation with: ann menuMorph]."
-	aPresentation actions do: [ :action |  
-		"menu actions"
-		action hasTitle ifTrue: [ aMorphicModel addMenuAction: action ].
-			
-		"keystroke actions"		
-		action hasShortcut ifTrue: [ aMorphicModel addKeystrokeAction: action ] ]
 ]
 
 { #category : #opening }
@@ -141,7 +134,7 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 				ifFalse: [OrderedCollection with: toShow].
 	listModel := GLMListModel new
 				glamourPresentation: aListPresentation;
-				items: (items ifNil: [OrderedCollection new]); flag: 'why orderedcollection new?';
+				items: items;
 				displaySelector: aListPresentation format;
 				searchBlock: aListPresentation searchStrategy;
 				filterBlock: aListPresentation filterStrategy;
@@ -323,7 +316,7 @@ GLMMorphicRenderer >> renderTableLayoutBrowser: aBrowser [
 GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [ 
 	| textMorph toShow textModel | 
 	toShow := aTextPresentation formatedDisplayValue. 
-	textModel := GLMTextModel new text: toShow.
+	textModel := GLMTextModel new text: toShow; glamourPresentation: aTextPresentation.
 	textModel onTextChanged: [:text | aTextPresentation text: text. aTextPresentation selectedText: text].
 	textMorph := (PluggableTextMorph 
 		on: textModel

@@ -118,8 +118,8 @@ GLMMorphicExamples >> objectFinder [
 	browser text
 		display: [:entity | 'self' ];
 		title: 'Evaluator';
-		update: #selection on: $o with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ];
-		act: [ :text :entity | (Compiler evaluate: text selectedText for: entity logged: false) inspect ] on: $/.
+		update: #selection on: $o entitled: 'Open (o)' with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ];
+		act: [ :text :entity | (Compiler evaluate: text selectedText for: entity logged: false) inspect ] on: $/ entitled: 'Inspect (/)'.
 	
 	^ browser
 ]
@@ -269,4 +269,25 @@ GLMMorphicExamples >> stCodeNavigator [
 	browser sendToOutside: #selectedMethod from: #methods.
 
 	^browser
+]
+
+{ #category : #'menu examples' }
+GLMMorphicExamples >> staticAndDynamicMenu [
+	"
+		self new staticAndDynamicMenu openOn: $z.
+	"
+
+	| finder |
+	finder := GLMFinder new.
+	finder list
+			title: 'List';
+			display: [:each | $a to: each];
+			actions: [:list | self actionsFor: list ];
+			act: [] entitled: 'Static action'.
+	finder text
+			title: 'Text';
+			display: [:each | 'Character ', each asString];
+			actions: [:text | OrderedCollection with: (GLMAction new title: 'Print selection'; action: [Transcript show: text selection]; yourself) ];
+			act: [Transcript show: 'Text static action'] entitled: 'Static action'.
+	^ finder
 ]

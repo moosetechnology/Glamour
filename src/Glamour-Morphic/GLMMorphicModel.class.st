@@ -2,21 +2,19 @@ Class {
 	#name : #GLMMorphicModel,
 	#superclass : #Announcer,
 	#instVars : [
-		'keystrokeActions',
-		'menuActions',
 		'glamourPresentation'
 	],
 	#category : #'Glamour-Morphic'
 }
 
-{ #category : #accessing }
-GLMMorphicModel >> addKeystrokeAction: anAction [
-	keystrokeActions add: anAction
+{ #category : #callbacks }
+GLMMorphicModel >> allKeystrokeActions [
+	^ self glamourPresentation allActions select: [:action | action hasShortcut ]
 ]
 
-{ #category : #accessing }
-GLMMorphicModel >> addMenuAction: anAction [
-	menuActions add: anAction
+{ #category : #callbacks }
+GLMMorphicModel >> allMenuActions [
+	^ self glamourPresentation allActions select: [:action | action hasTitle ]
 ]
 
 { #category : #callbacks }
@@ -37,21 +35,18 @@ GLMMorphicModel >> glamourPresentation: anObject [
 { #category : #initialization }
 GLMMorphicModel >> initialize [
 	super initialize.
-	keystrokeActions := OrderedCollection new.
-	menuActions := OrderedCollection new.
 ]
 
 { #category : #callbacks }
 GLMMorphicModel >> keystroke: aChar from: aMorph [
 	| action |
-	action := keystrokeActions detect: [:a | a shortcut = aChar] ifNone: [nil].
+	action := self allKeystrokeActions detect: [:a | a shortcut = aChar] ifNone: [nil].
 	action ifNotNil: [ self announce: (GLMKeyStroke action: action) ].
 ]
 
 { #category : #callbacks }
 GLMMorphicModel >> menu: aMenuMorph [ 
-	self glamourPresentation dynamicActions do: 
-		[ :action | 
+	self allMenuActions do: [ :action | 
 		aMenuMorph 
 			add: action title
 			target: self
