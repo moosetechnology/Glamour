@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'text',
 		'selectedText',
-		'cursorPosition'
+		'cursorPosition',
+		'selectedTextBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -28,15 +29,25 @@ GLMTextPresentation >> renderGlamorouslyOn: aRenderer [
 ]
 
 { #category : #accessing }
-GLMTextPresentation >> selectedText [ 
-	 
-	^selectedText
+GLMTextPresentation >> selectedText [
+	^ selectedText isNil 
+		ifTrue: [self selectedTextBlock value]
+		ifFalse: [selectedText]
 ]
 
 { #category : #accessing }
-GLMTextPresentation >> selectedText: anObject [ 
-	 
+GLMTextPresentation >> selectedText: anObject [
 	selectedText := anObject
+]
+
+{ #category : #accessing }
+GLMTextPresentation >> selectedTextBlock [
+	^ selectedTextBlock ifNil: [ [''] ]
+]
+
+{ #category : #accessing }
+GLMTextPresentation >> selectedTextBlock: anObject [
+	selectedTextBlock := anObject
 ]
 
 { #category : #accessing }

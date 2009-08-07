@@ -2,7 +2,6 @@ Class {
 	#name : #GLMFormatedPresentation,
 	#superclass : #GLMPresentation,
 	#instVars : [
-		'formater',
 		'format'
 	],
 	#category : #'Glamour-Presentations'

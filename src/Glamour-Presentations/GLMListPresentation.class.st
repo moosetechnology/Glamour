@@ -2,13 +2,13 @@ Class {
 	#name : #GLMListPresentation,
 	#superclass : #GLMFormatedPresentation,
 	#instVars : [
-		'multipleSelection',
 		'highlightPort',
 		'itemActions',
 		'searchBlock',
 		'filterBlock',
 		'menu',
-		'allowsInput'
+		'allowsInput',
+		'allowsMultipleSelection'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -24,8 +24,8 @@ GLMListPresentation >> filterStrategy [
 ]
 
 { #category : #testing }
-GLMListPresentation >> isMultiple [ 
-	^ multipleSelection ifNil: [multipleSelection := false]
+GLMListPresentation >> isMultiple [
+	^ allowsMultipleSelection ifNil: [ allowsMultipleSelection := false ]
 ]
 
 { #category : #testing }
@@ -35,6 +35,5 @@ GLMListPresentation >> isSingle [
 
 { #category : #rendering }
 GLMListPresentation >> renderGlamorouslyOn: aRenderer [ 
-	 
 	^aRenderer renderListPresentation: self
 ]
