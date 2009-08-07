@@ -100,6 +100,20 @@ GLMMorphicExamples >> multipleFinderWithSearch [
 	^ finder 
 ]
 
+{ #category : #'tabs examples' }
+GLMMorphicExamples >> multipleTabs [
+	"self new multipleTabs openOn: 1"
+	
+	| finder |
+	finder := GLMFinder new.
+	(1 to: 19) do: [:i | 
+		finder text
+			title: 'Text ', i printString;
+			display: [:x | i printString].
+	].
+	^ finder
+]
+
 { #category : #'st examples' }
 GLMMorphicExamples >> objectFinder [
 	"
