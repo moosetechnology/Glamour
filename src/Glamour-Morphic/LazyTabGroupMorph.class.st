@@ -22,9 +22,18 @@ LazyTabGroupMorph >> addPage: aMorph [
 ]
 
 { #category : #'as yet unclassified' }
+LazyTabGroupMorph >> addPage: aMorph at: anIndex [
+	aMorph
+		hResizing: #spaceFill;
+		vResizing: #spaceFill.
+	^self pages at: anIndex put: aMorph
+]
+
+{ #category : #initialization }
 LazyTabGroupMorph >> initialize [
 	super initialize.
 	lazyPages := OrderedCollection new.
+	pageMorphs := Dictionary new.
 
 ]
 
@@ -36,8 +45,7 @@ LazyTabGroupMorph >> lazyPages [
 
 { #category : #'as yet unclassified' }
 LazyTabGroupMorph >> pageAt: index [
-
-	^self pages at: index ifAbsent: [ self addPage: (self lazyPages at: index) value]
+	^self pages at: index ifAbsent: [ self addPage: (self lazyPages at: index) value at: index]
 ]
 
 { #category : #'as yet unclassified' }

@@ -253,7 +253,6 @@ GLMMorphicExamples >> stCodeNavigator [
 
 	browser showOn: #classCats; using: [
 		browser list
-			beMultiple;
 			filterOn: [:text :list | list select: [:each | text match: each ]].
 	].
 
