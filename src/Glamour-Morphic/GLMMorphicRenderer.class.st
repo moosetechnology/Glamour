@@ -317,8 +317,8 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 	| textMorph toShow textModel | 
 	toShow := aTextPresentation formatedDisplayValue. 
 	textModel := GLMTextModel new text: toShow; glamourPresentation: aTextPresentation.
-	textModel onTextChanged: [:text | aTextPresentation text: text. aTextPresentation selectedText: text].
-	textMorph := (PluggableTextMorph 
+"	textModel onTextChanged: [:text | aTextPresentation text: text. aTextPresentation selectedText: text].
+"	textMorph := (PluggableTextMorph 
 		on: textModel
 		text: #text
 		accept: #accept:notifying:
@@ -331,6 +331,7 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 			color: Color white;
 			yourself.
 	self installActionsOnUI: textModel fromPresentation: aTextPresentation.
+	aTextPresentation selectedTextBlock: [ textMorph textMorph editor selection ].
 	^textMorph
 ]
 
