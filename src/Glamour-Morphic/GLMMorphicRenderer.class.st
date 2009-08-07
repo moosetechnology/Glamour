@@ -317,8 +317,7 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 	| textMorph toShow textModel | 
 	toShow := aTextPresentation formatedDisplayValue. 
 	textModel := GLMTextModel new text: toShow; glamourPresentation: aTextPresentation.
-"	textModel onTextChanged: [:text | aTextPresentation text: text. aTextPresentation selectedText: text].
-"	textMorph := (PluggableTextMorph 
+	textMorph := (PluggableTextMorph 
 		on: textModel
 		text: #text
 		accept: #accept:notifying:

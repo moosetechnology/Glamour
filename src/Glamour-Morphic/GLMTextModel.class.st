@@ -2,8 +2,7 @@ Class {
 	#name : #GLMTextModel,
 	#superclass : #GLMMorphicModel,
 	#instVars : [
-		'text',
-		'onTextChanged'
+		'text'
 	],
 	#category : #'Glamour-Morphic'
 }
@@ -11,7 +10,6 @@ Class {
 { #category : #callbacks }
 GLMTextModel >> accept: aText notifying: anObject [ 
 	aText asString withBlanksTrimmed ifEmpty: [^self].
-	onTextChanged ifNotNil: [onTextChanged value: aText].
 	text := aText.
 	self changed: #text
 ]
@@ -24,11 +22,6 @@ GLMTextModel >> keystroke: anEvent from: aMorph [
 { #category : #callbacks }
 GLMTextModel >> menu: aMorphMenu shifted: b [
 	^ self menu: aMorphMenu
-]
-
-{ #category : #accessing }
-GLMTextModel >> onTextChanged: aBlock [
-	onTextChanged := aBlock
 ]
 
 { #category : #callbacks }
