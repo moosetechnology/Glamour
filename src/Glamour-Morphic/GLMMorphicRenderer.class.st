@@ -248,27 +248,18 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 ]
 
 { #category : #rendering }
-GLMMorphicRenderer >> renderPane: aPane [
-	| container | 
+GLMMorphicRenderer >> renderPane: aPane [ 
+	| container |
 	container := self emptyMorph.
-	container addMorphBack: (self renderPresentationsOf: aPane).
-	aPane whenMatchingPresentationsChanged: [ :ann |
-		container
-			removeAllMorphs;
-			addMorph: ((self renderPresentationsOf: aPane) adoptPaneColor: container paneColor)
-			fullFrame: (LayoutFrame new
-				leftFraction: 0;
-				rightFraction: 1;
-				topFraction: 0;
-				bottomFraction: 1).		
-	].
-	container 
-		addMorph: ((self renderPresentationsOf: aPane) adoptPaneColor: container paneColor)
-		fullFrame: (LayoutFrame new
-				leftFraction: 0;
-				rightFraction: 1;
-				topFraction: 0;
-				bottomFraction: 1).
+	aPane whenMatchingPresentationsChanged: [:ann |
+		container removeAllMorphs;
+				addMorph: (self renderPresentationsOf: aPane)
+				fullFrame: (LayoutFrame fractions: (0@0 corner: 1@1));
+				adoptPaneColor: container paneColor].
+	container
+		addMorph: (self renderPresentationsOf: aPane)
+		fullFrame: (LayoutFrame fractions: (0@0 corner: 1@1));
+		 adoptPaneColor: container paneColor.
 	^ container
 ]
 
