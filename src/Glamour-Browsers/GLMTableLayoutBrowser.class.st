@@ -40,13 +40,13 @@ GLMTableLayoutBrowser >> cell [
 { #category : #private }
 GLMTableLayoutBrowser >> cellOrColumn [ 
 	 
-	^cell ifNil: [cell _ GLMCustomColumn new browser: self]
+	^cell ifNil: [cell := GLMCustomColumn new browser: self]
 ]
 
 { #category : #private }
 GLMTableLayoutBrowser >> cellOrRow [ 
 	 
-	^cell ifNil: [cell _ GLMCustomRow new browser: self]
+	^cell ifNil: [cell := GLMCustomRow new browser: self]
 ]
 
 { #category : #'scripting-private' }

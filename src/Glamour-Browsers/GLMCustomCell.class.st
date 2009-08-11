@@ -19,19 +19,19 @@ GLMCustomCell >> browser [
 { #category : #accessing }
 GLMCustomCell >> browser: anObject [ 
 	 
-	browser _ anObject
+	browser := anObject
 ]
 
 { #category : #accessing }
 GLMCustomCell >> children [ 
 	 
-	^children ifNil: [children _ OrderedCollection new]
+	^children ifNil: [children := OrderedCollection new]
 ]
 
 { #category : #accessing }
 GLMCustomCell >> children: anObject [ 
 	 
-	children _ anObject
+	children := anObject
 ]
 
 { #category : #accessing }
@@ -57,7 +57,7 @@ GLMCustomCell >> id [
 { #category : #accessing }
 GLMCustomCell >> id: anObject [ 
 	 
-	id _ anObject
+	id := anObject
 ]
 
 { #category : #testing }
@@ -87,11 +87,11 @@ GLMCustomCell >> isSplitIntoRows [
 { #category : #accessing }
 GLMCustomCell >> span [ 
 	 
-	^span ifNil: [span _ 1]
+	^span ifNil: [span := 1]
 ]
 
 { #category : #accessing }
 GLMCustomCell >> span: anObject [ 
 	 
-	span _ anObject
+	span := anObject
 ]

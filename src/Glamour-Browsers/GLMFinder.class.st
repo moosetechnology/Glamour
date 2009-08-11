@@ -38,10 +38,10 @@ GLMFinder >> addPaneFromInner: aPort [
 		destination: (self panes last port: #entity); 
 		addPresentations: (self presentations collect: [:each | each copy]); 
 		transmit. 
-	realTransmissions _ self transmissions 
+	realTransmissions := self transmissions 
 		collect: 
 			[:each |  
-			newTransmission _ GLMBundleTransmission new. 
+			newTransmission := GLMBundleTransmission new. 
 			each activeOrigins 
 				do: 
 					[:eachPort | newTransmission addActiveOrigin: (aPort pane port: eachPort name)]. 
@@ -95,20 +95,20 @@ GLMFinder >> innerPortEvent: aPortEvent [
 GLMFinder >> outerPortEvent: aPortEvent [ 
 	 
 	aPortEvent port name = #entity ifFalse: [^self]. 
-	panes _ nil. 
+	panes := nil. 
 	self addPaneFrom: aPortEvent port
 ]
 
 { #category : #accessing }
 GLMFinder >> panes [ 
 	 
-	^panes ifNil: [panes _ OrderedCollection new]
+	^panes ifNil: [panes := OrderedCollection new]
 ]
 
 { #category : #accessing }
 GLMFinder >> presentations [ 
 	 
-	^presentations ifNil: [presentations _ OrderedCollection new]
+	^presentations ifNil: [presentations := OrderedCollection new]
 ]
 
 { #category : #rendering }
@@ -120,5 +120,5 @@ GLMFinder >> renderGlamorouslyOn: aRenderer [
 { #category : #accessing }
 GLMFinder >> transmissions [ 
 	 
-	^transmissions ifNil: [transmissions _ OrderedCollection new]
+	^transmissions ifNil: [transmissions := OrderedCollection new]
 ]

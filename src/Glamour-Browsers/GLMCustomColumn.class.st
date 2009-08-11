@@ -8,7 +8,7 @@ Class {
 GLMCustomColumn >> addRow: aBlockOrSymbol [ 
 	 
 	| newRow cell | 
-	cell _ aBlockOrSymbol isSymbol 
+	cell := aBlockOrSymbol isSymbol 
 		ifTrue: 
 			[self browser 
 				addNewPaneNamed: aBlockOrSymbol. 
@@ -16,7 +16,7 @@ GLMCustomColumn >> addRow: aBlockOrSymbol [
 				id: aBlockOrSymbol; 
 				browser: self browser] 
 		ifFalse: 
-			[newRow _ GLMCustomRow new browser: self browser. 
+			[newRow := GLMCustomRow new browser: self browser. 
 			aBlockOrSymbol value: newRow. 
 			newRow]. 
 	self children addLast: cell. 
