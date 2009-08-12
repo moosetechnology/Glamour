@@ -77,18 +77,14 @@ GLMFinder >> addTransmission: aTransmission [
 { #category : #events }
 GLMFinder >> innerPortEvent: aPortEvent [ 
 	 
-	aPortEvent portName = #entity 
-		ifFalse: 
-			["We don't want to resend the transmission, but use a new SimpleTransmission." 
-			(self pane port: aPortEvent portName) value: aPortEvent value]. 
-	aPortEvent port name = #selection 
-		ifTrue: 
-			[(self panes reverse copyUpTo: aPortEvent pane) 
-				do: 
-					[:each |  
+	aPortEvent portName = #entity ifFalse: [
+		"We don't want to resend the transmission, but use a new SimpleTransmission." 
+		(self pane port: aPortEvent portName) value: aPortEvent value]. 
+	aPortEvent port name = #selection ifTrue: [
+		(self panes reverse copyUpTo: aPortEvent pane) do: [:each |  
 					self panes removeLast. 
 					self announce: (GLMPaneRemoved pane: each fromBrowser: self)]. 
-			self addPaneFromInner: aPortEvent port]
+		self addPaneFromInner: aPortEvent port]
 ]
 
 { #category : #events }
