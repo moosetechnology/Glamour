@@ -17,10 +17,20 @@ GLMMorphicExamples >> actionsFor: aPresentation [
 						yourself ]
 ]
 
+{ #category : #'st examples' }
+GLMMorphicExamples >> messageTally [
+	"self new messageTally openOn: (MessageTally new spyEvery: 1 on: [10000 timesRepeat: [1.23 printString]]; yourself)"
+	| browser |
+	browser := GLMFinder new.
+	browser list
+		display: [:each | each sonsOver: -1].
+	^ browser
+]
+
 { #category : #'menu examples' }
 GLMMorphicExamples >> multipleFinderWithSearch [
 	"
-		self new finderSearch openOn: ($a to: $z).
+		self new multipleFinderWithSearch openOn: ($a to: $z).
 	"
 
 	| finder |	
@@ -118,7 +128,7 @@ GLMMorphicExamples >> pierTreeEditor [
 { #category : #'menu examples' }
 GLMMorphicExamples >> simpleFinderWithMenu [
 	"
-		self new simpleMenu openOn: $z.
+		self new simpleFinderWithMenu openOn: $z.
 	"
 
 	| finder |
@@ -126,7 +136,7 @@ GLMMorphicExamples >> simpleFinderWithMenu [
 	finder list
 			title: 'List';
 			display: [:each | $a to: each];
-			menu: [:list | self actionsFor: list ].
+			actions: [:list | self actionsFor: list ].
 	^ finder
 ]
 
