@@ -113,3 +113,18 @@ GLMPresentationTest >> testTitle [
 	presentation title: [:first :second | first , second]. 
 	self assert: presentation titleValue = '43'
 ]
+
+{ #category : #tests }
+GLMPresentationTest >> testToSend [
+	| presentation |
+	presentation := GLMPresentation new.
+	presentation selection: #foo.
+	self assert: presentation selection = #foo.
+	presentation selection: #(#foo #bar ).
+	self assert: presentation selection = #(#foo #bar ).
+	presentation selection: (GLMMultiValue withAll: #(#foo #bar )).
+	self assert: presentation selection = #foo.
+	presentation selectionTransformation: [ :first :second | (first , second) asSymbol ].
+	presentation selection: (GLMMultiValue withAll: #(#foo #bar )).
+	self assert: presentation selection = #foobar
+]
