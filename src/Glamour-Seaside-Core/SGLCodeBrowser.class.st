@@ -6,7 +6,7 @@ Class {
 
 { #category : #initialization }
 SGLCodeBrowser class >> initialize [
-	self registerAsApplication: 'glamour/codebrowser'
+	self registerAsApplication: 'glamour/code'
 ]
 
 { #category : #accessing }
