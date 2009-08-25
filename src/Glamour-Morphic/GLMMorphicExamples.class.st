@@ -20,10 +20,21 @@ GLMMorphicExamples >> actionsFor: aPresentation [
 { #category : #'st examples' }
 GLMMorphicExamples >> messageTally [
 	"self new messageTally openOn: (MessageTally new spyEvery: 1 on: [10000 timesRepeat: [1.23 printString]]; yourself)"
-	| browser |
-	browser := GLMFinder new.
-	browser list
-		display: [:each | each sonsOver: -1].
+
+	| browser finder |
+	finder := GLMFinder new.
+	finder list
+		title: 'Messages';
+		display: [:each | each sonsOver: -1];
+		format: [:each | each printString, ' (', each tally printString, ')'].
+	browser := GLMTableLayoutBrowser new.
+	browser row: #messages; row: #source.
+	browser showOn: #messages; using: [browser custom: finder].
+	browser showOn: #source; from: #messages; using: [
+		browser text
+		title: 'Source';
+		display: [:each | each method methodClass sourceCodeAt: each method selector ifAbsent: ['unknown']]
+	].
 	^ browser
 ]
 
