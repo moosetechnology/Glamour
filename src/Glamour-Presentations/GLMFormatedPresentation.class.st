@@ -36,5 +36,5 @@ GLMFormatedPresentation >> format: anObject [
 { #category : #accessing }
 GLMFormatedPresentation >> formatedDisplayValue [ 
 	 
-	^self format glamourValue: self displayValue
+	^ self format glamourValue: self displayValue
 ]
