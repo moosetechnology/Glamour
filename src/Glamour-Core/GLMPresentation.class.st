@@ -34,7 +34,7 @@ GLMPresentation >> allActions [
 
 { #category : #accessing }
 GLMPresentation >> beInspectable [ 
-	 
+	self flag: 'reconsider this part'.
 	^isInspectable := true
 ]
 
@@ -133,11 +133,6 @@ GLMPresentation >> postTransformation [
 	^ postTransformation ifNil: [postTransformation := #yourself]
 ]
 
-{ #category : #accessing }
-GLMPresentation >> postTransformation: anObject [
-	postTransformation := anObject
-]
-
 { #category : #rendering }
 GLMPresentation >> renderGlamorouslyOn: aRenderer [ 
 	 
@@ -153,7 +148,12 @@ GLMPresentation >> selection [
 { #category : #'accessing ports' }
 GLMPresentation >> selection: anObject [ 
 	 
-	(self pane port: #selection) value: anObject
+	(self pane port: #selection) value: (self postTransformation glamourValue: anObject)
+]
+
+{ #category : #accessing }
+GLMPresentation >> selectionTransformation: anObject [ 
+	postTransformation := anObject
 ]
 
 { #category : #accessing }
@@ -172,11 +172,6 @@ GLMPresentation >> title: aStringOrBlock [
 GLMPresentation >> titleValue [ 
 	 
 	^self title glamourValue: self entity
-]
-
-{ #category : #accessing }
-GLMPresentation >> toSendValue [
-	^ self postTransformation glamourValue: self entity
 ]
 
 { #category : #accessing }
