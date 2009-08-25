@@ -84,8 +84,9 @@ GLMMorphicExamples >> objectFinder [
 		when: [:each | each isCollection].
 	browser list
 		title: 'Object';
-		display:  [ :anObject | anObject class allInstVarNames collect: [:iv | (anObject instVarNamed: iv) ] ];
-		send: [ :anObject | anObject value ].
+		display:  [ :anObject | anObject class allInstVarNames collect: [:iv | iv -> (anObject instVarNamed: iv) ] ];
+		format: [:assoc | assoc key asString, ' : ', assoc value printString];
+		send: #value.
 	browser text
 		display: [:entity | 'self' ];
 		title: 'Evaluator';
