@@ -19,7 +19,15 @@ SGLSimpleBrowser >> browser [
 
 	browser showOn: #classes; using: [
 		browser tree
-			children: [ :class | class subclasses ] ].
+			title: 'Tree';
+			children: [ :class | class subclasses ].
+		browser mondrian
+			title: 'Mondrian';
+			painting: [ :view :class |
+				view nodeShape size: 10. 
+				view nodes: class withAllSubclasses.
+				view edgesFrom: #superclass. 
+				view treeLayout ] ].
 	browser showOn: #selectors; from: #classes; using: [
 		browser list 
 			display: [ :class | class selectors asSortedCollection ] ].
@@ -38,5 +46,5 @@ SGLSimpleBrowser >> browser [
 
 { #category : #accessing }
 SGLSimpleBrowser >> model [
-	^ Object
+	^ Collection
 ]

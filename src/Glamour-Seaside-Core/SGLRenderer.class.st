@@ -67,27 +67,32 @@ SGLRenderer >> renderMagrittePresentation: aPresentation [
 
 { #category : #presentation }
 SGLRenderer >> renderMondrianPresentation: aPresentation [	 
-	| canvas view values |
+	| uuid canvas view |
+	uuid := self uuidFor: aPresentation.
 	view := MOViewRenderer new.
 	aPresentation renderOn: view. 
 	canvas := MOCanvas new. 
 	canvas root: view root.
-	canvas root announcer
-		on: MOFigureSelection
-		do: [ :ann | aPresentation selection: ann model ].
-	values := WAValueHolder new.
+	canvas selected: (view 
+		nodeForDomainValue: aPresentation selection 
+		ifAbsent: [ nil ]).
 	html image
+		id: uuid;
 		style: 'position: relative';
 		form: canvas imageForm;
 		onClick: (html jQuery ajax 
-			callback: [ :value | values contents: value ]
-				value: (JSStream on: 'event.layerX+" "+event.layerY');
-			script: [ :script |
-				values contents isEmptyOrNil ifFalse: [
-					canvas mouseDown: (MouseEvent 
-						type: #mouseUp 
-						readFrom: ('0 ' , values contents , ' 0')
-							readStream) ].
+			callback: [ :value |
+				| coordinates element |
+				coordinates := (value contents findTokens: $,)
+					collect: [ :each | each asNumber ].
+				element := canvas root elementAt: coordinates first @ coordinates second.
+				aPresentation selection: (element isNil
+					ifFalse: [ element model ]) ]
+			value: (JSStream on: 'event.layerX+","+event.layerY');
+			script: [ :script | 
+				scripts at: uuid put: ((html jQuery id: uuid)
+					replaceWith: [ :renderer | html := renderer. 
+						self renderMondrianPresentation: aPresentation	 ]).
 				self updateScript: script ])
 ]
 
