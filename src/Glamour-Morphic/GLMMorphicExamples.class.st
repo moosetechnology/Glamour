@@ -19,7 +19,9 @@ GLMMorphicExamples >> actionsFor: aPresentation [
 
 { #category : #'st examples' }
 GLMMorphicExamples >> messageTally [
-	"self new messageTally openOn: (MessageTally new spyEvery: 1 on: [10000 timesRepeat: [1.23 printString]]; yourself)"
+	"
+	self new messageTally openOn: (MessageTally new spyEvery: 1 on: [10000 timesRepeat: [1.23 printString]]; yourself)
+	"
 
 	| browser finder |
 	finder := GLMFinder new.
@@ -90,9 +92,7 @@ GLMMorphicExamples >> objectFinder [
 	browser text
 		display: [:entity | 'self' ];
 		title: 'Evaluator';
-		update: #selection on: $o entitled: 'Open (o)' with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ];
-		act: [ :text :entity | (Compiler evaluate: text selectedText for: entity logged: false) inspect ] on: $/ entitled: 'Inspect (/)'.
-	
+		update: #selection on: $o entitled: 'Open (o)' with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ].
 	^ browser
 ]
 
