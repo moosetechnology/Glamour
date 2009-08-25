@@ -100,6 +100,7 @@ div.finder {
 }
 div.finder > div.finder-pane {
 	min-width: 300px;
+	max-width: 500px;
 	height: auto;
 	display: table-cell;
 }
