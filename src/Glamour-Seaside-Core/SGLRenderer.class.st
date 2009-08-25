@@ -36,6 +36,43 @@ SGLRenderer >> render: aRenderable [
 	aRenderable renderGlamorouslyOn: self
 ]
 
+{ #category : #widgets }
+SGLRenderer >> renderFinder: aBrowser [
+	aBrowser 
+		when: GLMPaneRemoved
+		do: [ :ann | self renderFinder: ann browser removePane: ann pane ].
+	aBrowser
+		when: GLMPaneAdded
+		do: [ :ann | self renderFinder: ann browser addPane: ann pane ].
+	html div
+		id: (self uuidFor: aBrowser); 
+		class: 'ui-widget'; class: 'finder';
+		with: [
+			aBrowser panes 
+				do: [ :each | self renderFinder: aBrowser pane: each ] ]
+]
+
+{ #category : #widgets }
+SGLRenderer >> renderFinder: aBrowser addPane: aPane [
+	self scriptFor: aBrowser add: ((html jQuery id: (self uuidFor: aBrowser))
+		append: [ :r | html := r. self renderFinder: aBrowser pane: aPane ])
+]
+
+{ #category : #widgets }
+SGLRenderer >> renderFinder: aBrowser pane: aPane [
+	html div
+		class: 'finder-pane';
+		with: [ self render: aPane ]
+]
+
+{ #category : #widgets }
+SGLRenderer >> renderFinder: aBrowser removePane: aPane [
+	self scriptFor: aBrowser add: ((html jQuery id: (self uuidFor: aBrowser))
+		contents;
+		filter: ':last';
+		remove)
+]
+
 { #category : #presentation }
 SGLRenderer >> renderListPresentation: aPresentation [
 	| items toShow |
@@ -66,9 +103,8 @@ SGLRenderer >> renderMagrittePresentation: aPresentation [
 ]
 
 { #category : #presentation }
-SGLRenderer >> renderMondrianPresentation: aPresentation [	 
-	| uuid canvas view |
-	uuid := self uuidFor: aPresentation.
+SGLRenderer >> renderMondrianPresentation: aPresentation [
+	| view canvas |
 	view := MOViewRenderer new.
 	aPresentation renderOn: view. 
 	canvas := MOCanvas new. 
@@ -77,31 +113,28 @@ SGLRenderer >> renderMondrianPresentation: aPresentation [
 		nodeForDomainValue: aPresentation selection 
 		ifAbsent: [ nil ]).
 	html image
-		id: uuid;
+		form: canvas imageForm;	
 		style: 'position: relative';
-		form: canvas imageForm;
+		id: (self uuidFor: aPresentation);
 		onClick: (html jQuery ajax 
 			callback: [ :value |
-				| coordinates element |
-				coordinates := (value contents findTokens: $,)
-					collect: [ :each | each asNumber ].
-				element := canvas root elementAt: coordinates first @ coordinates second.
-				aPresentation selection: (element isNil
-					ifFalse: [ element model ]) ]
-			value: (JSStream on: 'event.layerX+","+event.layerY');
-			script: [ :script | 
-				scripts at: uuid put: ((html jQuery id: uuid)
-					replaceWith: [ :renderer | html := renderer. 
-						self renderMondrianPresentation: aPresentation	 ]).
-				self updateScript: script ])
+			| coordinates element |
+			coordinates := (value contents findTokens: $,)
+				collect: [ :each | each asNumber ].
+			element := canvas root elementAt: coordinates first @ coordinates second.
+			aPresentation selection: (element isNil
+				ifFalse: [ element model ]) ]
+		value: (JSStream on: 'event.layerX+","+event.layerY');
+		script: [ :script |
+			self scriptFor: aPresentation put: ((html jQuery id: (self uuidFor: aPresentation))
+				replaceWith: [ :r | html := r. self renderMondrianPresentation: aPresentation ]).
+			self updateScript: script ])
 ]
 
 { #category : #widgets }
 SGLRenderer >> renderPane: aPane [
 	aPane whenMatchingPresentationsChanged: [ :ann |
-		| id |
-		id := self uuidFor: aPane.
-		scripts at: id put: ((html jQuery id: id)
+		self scriptFor: aPane put: ((html jQuery id: (self uuidFor: aPane))
 			html: [ :renderer | 
 				html := renderer.
 				self renderPaneContent: aPane ]) ].
@@ -146,7 +179,7 @@ SGLRenderer >> renderPaneContent: aPane [
 { #category : #widgets }
 SGLRenderer >> renderPaneSingle: aPane [
 	html div
-		class: 'ui-widget';
+		class: 'ui-tabs-panel';
 		class: 'ui-widget-content';
 		class: 'ui-corner-all';
 		with: [ self render: aPane ]
@@ -165,7 +198,7 @@ SGLRenderer >> renderTableLayoutBrowserColumn: aCell [
 	count := aCell children
 		inject: 0
 		into: [ :result :each | result + each span ].
-	html table class: 'table-layout'; class: 'table-layout-column'; with: [
+	html table class: 'ui-widget'; class: 'table-layout'; class: 'table-layout-column'; with: [
 		aCell children do: [ :each |
 			html tableRow: [
 				tag := html tableData.
@@ -184,7 +217,7 @@ SGLRenderer >> renderTableLayoutBrowserRow: aCell [
 	count := aCell children
 		inject: 0
 		into: [ :result :each | result + each span ].
-	html table class: 'table-layout'; class: 'table-layout-row'; with: [
+	html table class: 'ui-widget'; class: 'table-layout'; class: 'table-layout-row'; with: [
 		html tableRow: [
 			aCell children do: [ :each |
 				tag := html tableData.
@@ -242,6 +275,16 @@ SGLRenderer >> renderTreePresentation: aPresentation select: aSelectTag node: an
 { #category : #presentation }
 SGLRenderer >> renderWorkspacePresentation: aWorkspacePresentation [
 	self renderTextPresentation: aWorkspacePresentation
+]
+
+{ #category : #private }
+SGLRenderer >> scriptFor: anObject add: aScript [
+	(scripts at: (self uuidFor: anObject) ifAbsentPut: [ JSScript new ]) , aScript
+]
+
+{ #category : #private }
+SGLRenderer >> scriptFor: anObject put: aScript [
+	scripts at: (self uuidFor: anObject) put: aScript
 ]
 
 { #category : #private }

@@ -15,9 +15,9 @@ SGLComponent class >> registerAsApplication: aString [
 		addParent: WADevelopmentConfiguration instance;
 		at: #rootDecorationClasses put: #().
 	application 
-		addLibrary: JQDeploymentLibrary;
-		addLibrary: JQUiDeploymentLibrary;
-		addLibrary: JQSmoothnessTheme.	
+		addLibrary: JQGoogleLibrary;
+		addLibrary: JQUiGoogleLibrary;
+		addLibrary: JQRedmondTheme.
 	^ application
 ]
 
@@ -53,9 +53,12 @@ SGLComponent >> renderContentOn: html [
 { #category : #accessing }
 SGLComponent >> script [
 	^ 'var glamourResize = function() {
-	$("body > table.table-layout").each(function() {
+	$("body > table.table-layout, body > div.finder").each(function() {
 		$(this).height($(window).height() - 20);
 	});
+	/* $(".ui-tabs > .ui-tabs-panel").each(function() {
+		$(this).height($(this).parent().height() - $(this).prev().height());
+	}); */
 };
 
 $(glamourResize);
@@ -72,7 +75,6 @@ html, body {
 	overflow: hidden;
 }
 body, table, td, th, input, select, textarea, button {
-	
 	font-family: Verdana, Arial, sans-serif;
 }
 input, select, textarea {
@@ -84,9 +86,25 @@ input, select, textarea {
 	border: none;
 	outline: none;
 	display: block;
+	background-color: transparent;
 }
 
 /* layout */
+div.finder {
+	width: auto;
+	height: 100%;
+	overflow: auto;
+	overflow-x: scroll;
+	overflow-y: visible;
+	position: relative;
+}
+div.finder > div.finder-pane {
+	min-width: 300px;
+	height: auto;
+	display: table-cell;
+}
+
+
 table.table-layout,
 table.table-layout tr,
 table.table-layout td,
@@ -109,13 +127,13 @@ table.table-layout th {
 }
 
 /* jquery ui */
-.ui-widget,
+.ui-widget, 
 .ui-widget-content {
 	height: 100%;
 	position: relative;
 }
-.ui-tabs .ui-tabs-panel {
-	padding: 0;
+.ui-tabs-panel, .ui-tabs > .ui-tabs-panel {
+	padding: 5px;
 }
 
 /* magritte */
