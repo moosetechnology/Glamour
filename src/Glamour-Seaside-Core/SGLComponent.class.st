@@ -65,10 +65,14 @@ $(window).resize(glamourResize);'
 { #category : #accessing }
 SGLComponent >> style [
 	^ '/* html */
+body {
+	font-size: 0.8em;
+}
 html, body {
 	overflow: hidden;
 }
 body, table, td, th, input, select, textarea, button {
+	
 	font-family: Verdana, Arial, sans-serif;
 }
 input, select, textarea {
