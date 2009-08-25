@@ -35,6 +35,10 @@ GLMMorphicExamples >> messageTally [
 		title: 'Source';
 		display: [:each | each method methodClass sourceCodeAt: each method selector ifAbsent: ['unknown']]
 	].
+	browser 
+		act: [:x |
+			(StringHolder new contents: (String streamContents: [:s | x entity report: s; close])) openLabel: 'Spy Results' wrap: false.]
+		entitled: 'Print report'.	
 	^ browser
 ]
 
