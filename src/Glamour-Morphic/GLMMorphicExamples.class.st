@@ -79,20 +79,29 @@ GLMMorphicExamples >> objectFinder [
 		self new objectFinder openOn: self new objectFinder
 	"
 
-	| browser |
+	| browser insideBrowser |
+	insideBrowser := GLMTableLayoutBrowser new.
 	browser := GLMFinder new.
-	browser list
+"	browser list
 		title: 'Collection';
-		when: [:each | each isCollection].
-	browser list
-		title: 'Object';
-		display:  [ :anObject | anObject class allInstVarNames collect: [:iv | iv -> (anObject instVarNamed: iv) ] ];
-		format: [:assoc | assoc key asString, ' : ', assoc value printString];
-		send: #value.
-	browser text
+		when: [:each | each isCollection]."
+	browser custom: insideBrowser.
+	insideBrowser row: #object; row: #evaluator.
+	insideBrowser showOn: #object; using: [
+		insideBrowser list
+			title: 'Object';
+			display:  [ :anObject | anObject class allInstVarNames collect: [:iv | iv -> (anObject instVarNamed: iv) ] ];
+			format: [:assoc | assoc key asString, ' : ', assoc value printString];
+			send: #value.
+	].
+	insideBrowser showOn: #evaluator; using: [
+		insideBrowser text
 		display: [:entity | 'self' ];
 		title: 'Evaluator';
-		update: #selection on: $o entitled: 'Open (o)' with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ].
+		update: #selection on: $o entitled: 'Open (o)' with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ]
+	].
+	insideBrowser sendToOutside: #selection from: #object.
+	insideBrowser sendToOutside: #selection from: #evaluator.
 	^ browser
 ]
 
@@ -176,7 +185,8 @@ GLMMorphicExamples >> stCodeBrowser [
 				title: 'Method source';
 				act: [:pane | Transcript show: 'action d'; cr. ] on: $d entitled: 'some action'; 
 				display: [ :class :method | class sourceCodeAt: method ];
-				when: [ :class :method | class notNil & method notNil ].
+				when: [ :class :method | class notNil & method notNil ];
+				forSmalltalk.
 			browser text
 				title: 'Class definition';
 				display: [ :class | class definition ];
