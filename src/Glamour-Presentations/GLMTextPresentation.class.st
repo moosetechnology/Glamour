@@ -5,7 +5,8 @@ Class {
 		'text',
 		'selectedText',
 		'cursorPosition',
-		'selectedTextBlock'
+		'selectedTextBlock',
+		'highlightSmalltalk'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -20,6 +21,16 @@ GLMTextPresentation >> cursorPosition [
 GLMTextPresentation >> cursorPosition: anObject [ 
 	 
 	cursorPosition := anObject
+]
+
+{ #category : #accessing }
+GLMTextPresentation >> forSmalltalk [
+	highlightSmalltalk := true
+]
+
+{ #category : #accessing }
+GLMTextPresentation >> highlightSmalltalk [
+	^ highlightSmalltalk ifNil: [highlightSmalltalk := false]
 ]
 
 { #category : #rendering }
