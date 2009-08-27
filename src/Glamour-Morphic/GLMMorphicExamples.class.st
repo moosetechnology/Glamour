@@ -31,15 +31,15 @@ GLMMorphicExamples >> fileExplorer [
 	browser showOn: #folders; using: [
 		browser tree 
 			title: 'Folders'; 
-			children: [ :fd | fd directoryNames collect: [:each | FileDirectory on: fd pathName, fd pathNameDelimiter asString, each] ]; 
+			children: [ :fd | fd directoryNames collect: [ :each | FileDirectory on: fd pathName, fd pathNameDelimiter asString, each ] ]; 
 			format: [ :folder | folder localName ] ].
 	browser showOn: #files; from: #folders; using: [
 		browser list 
-			format: [ :folder | folder localName ]; 
-			display: [ :folder | folder fileNames collect: [:each | FileDirectory on: each ] ].
+			format: [ :fd | fd localName ]; 
+			display: [ :fd | fd fileNames collect: [:each | FileDirectory on: fd pathName, fd pathNameDelimiter asString, each ] ] ].
 	browser showOn: #preview; from: #files; using: [
 		browser text
-			display: [ :file | (FileStream readOnlyFileFullyNamed: file fullName) contents ] ] ].
+			display: [ :file | (FileStream readOnlyFileFullyNamed: file fullName) contents ] ].
 	^ browser
 ]
 
