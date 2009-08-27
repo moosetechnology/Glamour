@@ -17,6 +17,48 @@ GLMMorphicExamples >> actionsFor: aPresentation [
 						yourself ]
 ]
 
+{ #category : #others }
+GLMMorphicExamples >> fileExplorer [
+	"
+	self new fileExplorer openOn: FileDirectory default
+	"
+
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	browser 
+		column: #folders;
+		column: [ :col | col row: #files span: 2; row: #preview ] span: 2. 
+	browser showOn: #folders; using: [
+		browser tree 
+			title: 'Folders'; 
+			children: [ :fd | fd directoryNames collect: [:each | FileDirectory on: fd pathName, fd pathNameDelimiter asString, each] ]; 
+			format: [ :folder | folder localName ] ].
+	browser showOn: #files; from: #folders; using: [
+		browser list 
+			format: [ :folder | folder localName ]; 
+			display: [ :folder | folder fileNames collect: [:each | FileDirectory on: each ] ].
+	browser showOn: #preview; from: #files; using: [
+		browser text
+			display: [ :file | (FileStream readOnlyFileFullyNamed: file fullName) contents ] ] ].
+	^ browser
+]
+
+{ #category : #others }
+GLMMorphicExamples >> fileFinder [
+	"self new fileFinder openOn: FileDirectory default"
+
+	| browser |
+	browser := GLMFinder new.
+	browser list
+		display: [ :fd | fd entries collect: [:each | FileDirectory on: fd pathName, fd pathNameDelimiter asString, each name]];
+		format: [ :fd | fd localName ];
+		when: [ :fd | fd directoryEntry isDirectory ].
+	browser text
+		display: [ :fd | (FileStream readOnlyFileFullyNamed: fd fullName) contents ];
+		when: [ :fd | fd directoryEntry isDirectory not ].
+	^ browser
+]
+
 { #category : #'st examples' }
 GLMMorphicExamples >> messageTally [
 	"
