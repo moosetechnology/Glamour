@@ -118,18 +118,18 @@ GLMMorphicExamples >> multipleTabs [
 { #category : #'st examples' }
 GLMMorphicExamples >> objectFinder [
 	"
-		self new objectFinder openOn: self new objectFinder
+		self new objectFinder openOn: #(1 2 3 4)
 	"
 
 	| browser insideBrowser |
 	insideBrowser := GLMTableLayoutBrowser new.
 	browser := GLMFinder new.
-"	browser list
-		title: 'Collection';
-		when: [:each | each isCollection]."
 	browser custom: insideBrowser.
 	insideBrowser row: #object; row: #evaluator.
 	insideBrowser showOn: #object; using: [
+		insideBrowser list
+			title: 'Collection';
+			when: [:each | each isCollection].
 		insideBrowser list
 			title: 'Object';
 			display:  [ :anObject | anObject class allInstVarNames collect: [:iv | iv -> (anObject instVarNamed: iv) ] ];
