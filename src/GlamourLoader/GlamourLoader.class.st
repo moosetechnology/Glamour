@@ -38,6 +38,15 @@ GlamourLoader class >> ensureFlairAndGofer [
 ]
 
 { #category : #flair }
+GlamourLoader class >> glamourSeaside [
+	| config |
+	self ensureFlairAndGofer.
+	config := (Smalltalk at: #FLConfiguration) new.
+	config package: 'Glamour-Seaside' from: 'http://www.squeaksource.com/Glamour'.
+	^ config
+]
+
+{ #category : #flair }
 GlamourLoader class >> load [
 	self all load
 ]
