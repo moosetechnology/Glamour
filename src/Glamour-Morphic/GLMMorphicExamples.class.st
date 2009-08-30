@@ -86,6 +86,35 @@ GLMMorphicExamples >> messageTally [
 	^ browser
 ]
 
+{ #category : #others }
+GLMMorphicExamples >> metacelloBrowser [
+	"
+		browser openOn: MetacelloMetacelloProject versions
+	"
+	| browser |
+
+	browser := GLMTableLayoutBrowser new.
+	browser column: #versions; column: #packages.
+	browser showOn: #versions; using: [
+		browser list].
+	browser showOn: #packages; from: #versions; using: [
+		browser list
+			title: 'Packages';
+			display: [:version | version spec packages packageSpecsInLoadOrder ];
+			format: [:package | package name];
+			act: [:list | list selection inspect] on: '/' entitled: 'Inspect'.
+		browser mondrian
+			title: 'Dependencies';
+			painting: [:view :version | 
+				view nodes: version spec packages map values.
+				].
+		browser text;
+			title: 'Comment';
+			display: [:version | version description]
+		].
+	^ browser 
+]
+
 { #category : #'menu examples' }
 GLMMorphicExamples >> multipleFinderWithSearch [
 	"
