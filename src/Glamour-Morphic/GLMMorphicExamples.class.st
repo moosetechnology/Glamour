@@ -147,6 +147,31 @@ GLMMorphicExamples >> objectFinder [
 	^ browser
 ]
 
+{ #category : #'st examples' }
+GLMMorphicExamples >> objectFinderPaned [
+	"
+		self new objectFinderPaned openOn: self new objectFinder
+	"
+
+	| browser |
+	browser := GLMFinder new.
+	browser list
+		title: 'Collection';
+		when: [:each | each isCollection].
+	browser list
+			title: 'Object';
+			display:  [ :anObject | anObject class allInstVarNames collect: [:iv | iv -> (anObject instVarNamed: iv) ] ];
+			format: [:assoc | assoc key asString, ' : ', assoc value printString];
+			send: #value.
+	browser text
+		display: [:entity | 'self' ];
+		title: 'Evaluator';
+		update: #selection on: $o entitled: 'Open (o)' with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ];
+		act: [ :text :entity | (Compiler evaluate: text selectedText for: entity logged: false) inspect ] on: $/ entitled: 'Inspect (/)'.
+	
+	^ browser
+]
+
 { #category : #'pier examples' }
 GLMMorphicExamples >> pierFinder [
 	"
