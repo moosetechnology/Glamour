@@ -43,7 +43,7 @@ GlamourConfig >> ensureMetacello [
 { #category : #'as yet unclassified' }
 GlamourConfig >> load [
 	self ensureMetacello.
-	(self project version: self default versionString) load
+	self default asVersion load
 ]
 
 { #category : #'as yet unclassified' }
