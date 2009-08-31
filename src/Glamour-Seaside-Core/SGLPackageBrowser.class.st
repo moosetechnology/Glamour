@@ -79,10 +79,10 @@ SGLPackageBrowser >> selectorsOn: browser [
 	browser showOn: #selector; from: #outer -> #entity; from: #class; from: #protocol; using: [
 		browser list
 			when: [ :environment :class :protocol | class notNil and: [ protocol notNil ] ];
-			display: [ :environment :class :protocol | environment selectorsFor: protocol in: class ].
+			display: [ :environment :class :protocol | (environment selectorsFor: protocol in: class) asOrderedCollection ].
 		browser list
 			when: [ :environment :class :protocol | class notNil and: [ protocol isNil ] ];
-			display: [ :environment :class :protocol | environment selectorsForClass: class ] ]
+			display: [ :environment :class :protocol | (environment selectorsForClass: class) asOrderedCollection ] ]
 ]
 
 { #category : #building }
