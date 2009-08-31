@@ -102,8 +102,10 @@ GLMListModel >> items [
 
 { #category : #accessing }
 GLMListModel >> items: aCollection [
-	items := aCollection.
-	filteredItems := aCollection.
+	| nonSetCollection |
+	nonSetCollection := (aCollection isKindOf: Set) ifTrue: [aCollection asOrderedCollection] ifFalse: [aCollection].
+	items := nonSetCollection.
+	filteredItems := nonSetCollection.
 ]
 
 { #category : #callbacks }
