@@ -77,9 +77,9 @@ GLMSmalltalkExamples >> objectFinder [
 	insideBrowser showOn: #object; using: [
 		insideBrowser list
 			title: 'Collection';
-			when: [:each | each isCollection].
+			when: [:anObject | anObject isCollection].
 		insideBrowser list
-			title: 'Object';
+			title: [:anObject | self printAsOneItem: anObject  ];
 			display:  [ :anObject | anObject class allInstVarNames collect: [:iv | iv -> (anObject instVarNamed: iv) ] ];
 			format: [:assoc | assoc key asString, ' : ', assoc value printString];
 			send: #value.
@@ -96,28 +96,42 @@ GLMSmalltalkExamples >> objectFinder [
 ]
 
 { #category : #'st examples' }
-GLMSmalltalkExamples >> objectFinderPaned [
+GLMSmalltalkExamples >> objectFinderTabbed [
 	"
-		self new objectFinderPaned openOn: self new objectFinder
+		self new objectFinderTabbed openOn: Smalltalk
 	"
-
 	| browser |
 	browser := GLMFinder new.
 	browser list
-		title: 'Collection';
-		when: [:each | each isCollection].
+		title: [:anObject | self printAsOneItem: anObject  ];
+		display: [ :anObject | 
+			anObject class allInstVarNames collect: [ :iv | iv -> (anObject instVarNamed: iv) ] ];
+		format: [ :assoc | assoc key asString , ' : ' , (assoc value printString truncate: 50)  ];
+		send: #value.
 	browser list
-			title: 'Object';
-			display:  [ :anObject | anObject class allInstVarNames collect: [:iv | iv -> (anObject instVarNamed: iv) ] ];
-			format: [:assoc | assoc key asString, ' : ', assoc value printString];
-			send: #value.
+		title: 'Collection';
+		when: [ :each | each isCollection ].
 	browser text
-		display: [:entity | 'self' ];
+		forSmalltalk;
+		display: [ :entity | 'self' ];
 		title: 'Evaluator';
-		update: #selection on: $o entitled: 'Open (o)' with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ];
-		act: [ :text :entity | (Compiler evaluate: text selectedText for: entity logged: false) inspect ] on: $/ entitled: 'Inspect (/)'.
-	
+		update: #selection on: $o entitled: 'Open (o)' with: [ :text :entity | 
+			Compiler evaluate: text selectedText for: entity logged: false ];
+		act: [ :text :entity | 
+			(Compiler evaluate: text selectedText for: entity logged: false) inspect ]
+			on: $/ entitled: 'Inspect (/)'.
 	^ browser
+]
+
+{ #category : #private }
+GLMSmalltalkExamples >> printAsOneItem: anObject [
+	| title stream |
+	stream := String new writeStream.
+	title := anObject class name.
+	stream
+		nextPutAll: (title first isVowel ifTrue: ['an '] ifFalse: ['a ']);
+		nextPutAll: title.
+	^ stream contents
 ]
 
 { #category : #'st examples' }

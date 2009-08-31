@@ -107,7 +107,7 @@ GLMBasicExamples >> pierFinder [
 				view nodes: each enumerator everything contents.
 				view edgesFrom: #parent.
 				view treeLayout].
-	^ browser 
+	^ browser
 ]
 
 { #category : #'pier examples' }
