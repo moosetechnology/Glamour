@@ -59,7 +59,8 @@ GlamourConfig >> packages10beta [
 		add: 'Glamour-Scripting-tg.21' repository: 'http://www.squeaksource.com/Glamour';
 		add: 'Glamour-Tests-tg.19' repository: 'http://www.squeaksource.com/Glamour';
 		add: 'Glamour-Morphic-tg.96' repository: 'http://www.squeaksource.com/Glamour';
-		add: 'Announcements-stephane_ducasse.14' repository: 'http://www.squeaksource.com/Glamour';
+		"will crush newer versions in image?"
+		add: 'Announcements-tg.11' repository: 'http://www.squeaksource.com/Glamour';
 		yourself 
 ]
 
