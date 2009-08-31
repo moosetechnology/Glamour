@@ -279,10 +279,8 @@ GLMMorphicExamples >> stCodeBrowser [
 		using: [
 			browser text
 				title: 'Method source';
-				act: [:pane | Transcript show: 'action d'; cr. ] on: $d entitled: 'some action'; 
 				display: [ :class :method | class sourceCodeAt: method ];
-				when: [ :class :method | class notNil & method notNil ];
-				forSmalltalk.
+				when: [ :class :method | class notNil & method notNil ].
 			browser text
 				title: 'Class definition';
 				display: [ :class | class definition ];
