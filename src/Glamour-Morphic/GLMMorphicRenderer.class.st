@@ -307,8 +307,12 @@ GLMMorphicRenderer >> renderTableLayoutBrowser: aBrowser [
 GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [ 
 	| textMorph toShow textModel | 
 	toShow := aTextPresentation formatedDisplayValue. 
-	textModel := GLMTextModel new text: toShow; glamourPresentation: aTextPresentation.
-	textMorph := ((aTextPresentation highlightSmalltalk ifTrue: [PluggableShoutMorph] ifFalse: [PluggableTextMorph])
+	textModel := GLMTextModel new
+			text: toShow;
+			glamourPresentation: aTextPresentation;
+			highlightSmalltalk: aTextPresentation highlightSmalltalk;
+			highlightSmalltalkContext: aTextPresentation highlightSmalltalkContext.
+	textMorph := (PluggableShoutMorph
 		on: textModel
 		text: #text
 		accept: #accept:notifying:

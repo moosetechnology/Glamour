@@ -2,7 +2,9 @@ Class {
 	#name : #GLMTextModel,
 	#superclass : #GLMMorphicModel,
 	#instVars : [
-		'text'
+		'text',
+		'highlightSmalltalk',
+		'highlightSmalltalkContext'
 	],
 	#category : #'Glamour-Morphic'
 }
@@ -12,6 +14,26 @@ GLMTextModel >> accept: aText notifying: anObject [
 	aText asString withBlanksTrimmed ifEmpty: [^self].
 	text := aText.
 	self changed: #text
+]
+
+{ #category : #accessing }
+GLMTextModel >> highlightSmalltalk [
+	^ highlightSmalltalk
+]
+
+{ #category : #accessing }
+GLMTextModel >> highlightSmalltalk: anObject [
+	highlightSmalltalk := anObject
+]
+
+{ #category : #accessing }
+GLMTextModel >> highlightSmalltalkContext [
+	^ highlightSmalltalkContext
+]
+
+{ #category : #accessing }
+GLMTextModel >> highlightSmalltalkContext: anObject [
+	highlightSmalltalkContext := anObject
 ]
 
 { #category : #callbacks }
@@ -35,7 +57,10 @@ GLMTextModel >> selection [
 ]
 
 { #category : #accessing }
-GLMTextModel >> shoutAboutToStyle: aMorhpic [
+GLMTextModel >> shoutAboutToStyle: aPluggableShoutMorph [
+	self highlightSmalltalk ifFalse: [^ false].
+	self highlightSmalltalkContext notNil ifTrue: [
+		aPluggableShoutMorph classOrMetaClass: self highlightSmalltalkContext].
 	^ true
 ]
 

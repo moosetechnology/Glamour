@@ -280,7 +280,8 @@ GLMMorphicExamples >> stCodeBrowser [
 			browser text
 				title: 'Method source';
 				display: [ :class :method | class sourceCodeAt: method ];
-				when: [ :class :method | class notNil & method notNil ].
+				when: [ :class :method | class notNil & method notNil ];
+				forSmalltalk: [:class | class].
 			browser text
 				title: 'Class definition';
 				display: [ :class | class definition ];
