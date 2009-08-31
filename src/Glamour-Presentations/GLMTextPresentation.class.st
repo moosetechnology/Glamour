@@ -6,7 +6,8 @@ Class {
 		'selectedText',
 		'cursorPosition',
 		'selectedTextBlock',
-		'highlightSmalltalk'
+		'highlightSmalltalk',
+		'highlightSmalltalkContext'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -29,8 +30,21 @@ GLMTextPresentation >> forSmalltalk [
 ]
 
 { #category : #accessing }
+GLMTextPresentation >> forSmalltalk: aBlock [
+	highlightSmalltalk := true.
+	highlightSmalltalkContext := aBlock.
+]
+
+{ #category : #accessing }
 GLMTextPresentation >> highlightSmalltalk [
 	^ highlightSmalltalk ifNil: [highlightSmalltalk := false]
+]
+
+{ #category : #accessing }
+GLMTextPresentation >> highlightSmalltalkContext [
+	^ highlightSmalltalkContext isNil 
+		ifTrue: [nil] 
+		ifFalse: [highlightSmalltalkContext glamourValue: self entity]
 ]
 
 { #category : #rendering }
