@@ -39,6 +39,7 @@ GLMSmalltalkExamples >> metacelloBrowser [
 	| browser |
 
 	browser := GLMTableLayoutBrowser new.
+	browser title: 'Metacello Browser'.
 	browser column: #versions; column: [:c |
 		c row: #packages; row: #comment].
 	browser showOn: #versions; using: [
