@@ -34,6 +34,11 @@ GLMTextModel >> selection [
 	^ 1 to: 0
 ]
 
+{ #category : #accessing }
+GLMTextModel >> shoutAboutToStyle: aMorhpic [
+	^ true
+]
+
 { #category : #callbacks }
 GLMTextModel >> text [
 	^text
