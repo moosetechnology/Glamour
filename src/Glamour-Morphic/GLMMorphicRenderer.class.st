@@ -197,8 +197,16 @@ GLMMorphicRenderer >> renderMagrittePresentation: anAsMorphPresentation [
 	magritteMorph := (description asMorphOn: toShow) 
 		addButtons;
 		morph.
+	magritteMorph
+			layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
+			vResizing: #spaceFill;
+			hResizing: #spaceFill.
 	scrollPane := ScrollPane new.
-	scrollPane scroller addMorph: magritteMorph.	
+	scrollPane
+			layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
+			vResizing: #spaceFill;
+			hResizing: #spaceFill.
+	scrollPane scroller addMorph: magritteMorph.
 	^ scrollPane
 
 ]
