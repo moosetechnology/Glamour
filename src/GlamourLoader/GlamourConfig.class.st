@@ -36,8 +36,8 @@ GlamourConfig >> default [
 GlamourConfig >> ensureMetacello [
 	Smalltalk at: #MetacelloProject ifAbsent: [
 		ScriptLoader  loadLatestPackage: 'Metacello-All' from: 'http://seaside.gemstone.com/ss/metacello'.
-		MetacelloMetacelloProject updateProject.
-		MetacelloMetacelloProject latestVersion load ]
+		(Smalltalk at: #MetacelloMetacelloProject) updateProject.
+		(Smalltalk at: #MetacelloMetacelloProject) latestVersion load ]
 ]
 
 { #category : #'as yet unclassified' }
