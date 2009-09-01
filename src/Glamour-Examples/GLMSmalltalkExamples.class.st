@@ -268,3 +268,38 @@ GLMSmalltalkExamples >> stCodeNavigator [
 
 	^browser
 ]
+
+{ #category : #'st examples' }
+GLMSmalltalkExamples >> traitsBrowser [
+	| browser codeBrowser |
+	browser := GLMFinder new.
+	browser list
+		title: 'Classes'; 
+		when: [:anObject | anObject isCollection and: [anObject anyOne isKindOf: Class]].
+	browser list
+		title: 'Methods';
+		display: [:anObject | anObject selectors collect: [:each | anObject -> each ]];
+		format: [:each | each value];
+		when: [:anObject | (anObject isKindOf: Class) or: [anObject isKindOf: Trait]].
+	browser list
+		title: 'Traits';
+		when: [:anObject | (anObject isKindOf: Class) or: [anObject isKindOf: Trait]];
+		display: [:anObject | anObject traitComposition traits ].
+	codeBrowser := GLMTableLayoutBrowser new.
+	codeBrowser row: [:r | r column: #classes; column: #internals]; row: #details.
+	codeBrowser showOn: #classes; using: [codeBrowser list].
+	codeBrowser showOn: #internals; from: #classes; using: [codeBrowser custom: browser].
+	codeBrowser showOn: #details; from: #internals; using: [
+		codeBrowser text
+			when: [:trait | trait isKindOf: Trait];
+			display: [:trait | trait comment].
+		codeBrowser text
+			forSmalltalk;
+			when: [:trait | trait isKindOf: Trait];
+			display: [:trait | trait definition].
+		codeBrowser text
+			forSmalltalk: [:assoc | assoc key];
+			when: [:assoc | (assoc isKindOf: Association)];
+			display: [:assoc | assoc key sourceCodeAt: assoc value]].
+	codeBrowser openOn: NSCollectionStream withAllSubclasses
+]
