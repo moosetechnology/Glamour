@@ -6,9 +6,8 @@ Class {
 
 { #category : #'st examples' }
 GLMSmalltalkExamples >> messageTally [
-	"
-	self new messageTally openOn: (MessageTally new spyEvery: 1 on: [10000 timesRepeat: [1.23 printString]]; yourself)
-	"
+	"self new messageTally openOn: (
+	MessageTally new spyEvery: 1 on: [10000 timesRepeat: [1.23 printString]]; yourself)"
 
 	| browser finder |
 	finder := GLMFinder new.
@@ -31,6 +30,26 @@ GLMSmalltalkExamples >> messageTally [
 	^ browser
 ]
 
+{ #category : #'st examples' }
+GLMSmalltalkExamples >> messageTallyTree [
+	"
+	self new messageTallyTree openOn: (MessageTally new spyEvery: 1 on: [10000 timesRepeat: [1.23 printString]]; yourself)
+	"
+
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	browser row: #messages; row: #details.
+	browser showOn: #messages; using: [
+		browser tree
+			children: [:each | each sonsOver: -1 ];
+			format: [:each | Text fromString: (each printString, ' (', each tally printString, ')')]].
+	browser showOn: #details; from: #messages; using: [
+		browser text
+			forSmalltalk: [:each | each method methodClass];
+			display: [:each | each method methodClass sourceCodeAt: each method selector ifAbsent: ['unknown']]].
+	^ browser
+]
+
 { #category : #others }
 GLMSmalltalkExamples >> metacelloBrowser [
 	"
@@ -40,10 +59,11 @@ GLMSmalltalkExamples >> metacelloBrowser [
 
 	browser := GLMTableLayoutBrowser new.
 	browser title: 'Metacello Browser'.
-	browser column: #versions; column: [:c |
-		c row: #packages; row: #comment].
+	browser column: #versions; column: [:c | c row: #packages; row: #comment].
 	browser showOn: #versions; using: [
-		browser list].
+		browser list
+			act: [:list | list selection inspect] on: '/' entitled: 'Inspect'
+	].
 	browser showOn: #packages; from: #versions; using: [
 		browser list
 			title: 'Packages';
@@ -105,7 +125,8 @@ GLMSmalltalkExamples >> objectFinderTabbed [
 	browser list
 		title: [:anObject | self printAsOneItem: anObject  ];
 		display: [ :anObject | 
-			anObject class allInstVarNames collect: [ :iv | iv -> (anObject instVarNamed: iv) ] ];
+			anObject class allInstVarNames collect: [ :iv |
+				iv -> (anObject instVarNamed: iv) ] ];
 		format: [ :assoc | assoc key asString , ' : ' , (assoc value printString truncate: 50)  ];
 		send: #value.
 	browser list
@@ -135,6 +156,36 @@ GLMSmalltalkExamples >> printAsOneItem: anObject [
 ]
 
 { #category : #'st examples' }
+GLMSmalltalkExamples >> smalldoc [
+	"self new smalldoc openOn: Smalltalk organization categories"
+	"SGLDefaultComponent register: self new smalldoc on: Smalltalk organization categories"
+	|browser classes|
+	browser := GLMTableLayoutBrowser new.
+	browser column: #classCats; column: #classes; column: #comment.
+	browser showOn: #classCats; using: [
+		browser list].
+	browser showOn: #classes; from: #classCats; using: [
+		browser list
+			title: 'Classes';
+			display: [:classCat | (Smalltalk organization listAtCategoryNamed: classCat) 
+				collect: [:className | Smalltalk classNamed: className]];
+			act: [:list | list selection inspect] entitled: 'Inspect'.
+		"browser mondrian
+			title: 'Hierarchies';
+			painting: [:view :classCat | 
+				classes := (Smalltalk organization listAtCategoryNamed: classCat) 
+					collect: [:className | Smalltalk classNamed: className].
+				view nodes: classes.
+				view edgesFrom: #superclass.
+				view treeLayout
+			]"].
+	browser showOn: #comment; from: #classes; using: [
+		browser text
+			display: [:class | class comment]].
+	^ browser
+]
+
+{ #category : #'st examples' }
 GLMSmalltalkExamples >> stCodeBrowser [	
 	"
 		self new stCodeBrowser openOn: Smalltalk organization categories.
@@ -156,6 +207,7 @@ GLMSmalltalkExamples >> stCodeBrowser [
 				when: [ :class :method | class notNil & method notNil ];
 				forSmalltalk: [:class | class].
 			browser text
+				forSmalltalk;
 				title: 'Class definition';
 				display: [ :class | class definition ];
 				when: [:class | class notNil].
@@ -177,10 +229,7 @@ GLMSmalltalkExamples >> stCodeBrowser [
 { #category : #'st examples' }
 GLMSmalltalkExamples >> stCodeNavigator [	
 	"
-		| browser |
-		browser := self new stCodeNavigator.
-		browser openOn: Smalltalk organization categories.
-		((browser paneNamed: #classCats) port: #selection) value: Smalltalk organization categories first
+		self new stCodeNavigator openOn: Smalltalk organization categories.
 	"
 
 	| browser |
