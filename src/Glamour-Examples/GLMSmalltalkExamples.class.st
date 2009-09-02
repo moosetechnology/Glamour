@@ -242,8 +242,9 @@ GLMSmalltalkExamples >> stCodeNavigator [
 	].
 
 	browser showOn: #classes; from: #classCats; using: [
-		browser list
+		browser tree
 			display: [ :classCat |  (Smalltalk organization listAtCategoryNamed: classCat) collect: [:className | Smalltalk classNamed: className] ];
+			children: [:each | each traitComposition traits ];
 			when: [ :classCat | classCat notNil ].
 	].
 
