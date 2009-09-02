@@ -8,16 +8,6 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GlamourConfig class >> instance [
-	^ self new project
-]
-
-{ #category : #'as yet unclassified' }
-GlamourConfig class >> version: aString [
-	^ self instance version: aString
-]
-
-{ #category : #'as yet unclassified' }
 GlamourConfig >> default [
 	<version: 'default' attribute: #common>
 	^self project versionSpec
