@@ -21,8 +21,9 @@ GlamourConfig >> default [
 				add: 'Glamour-Browsers' repository: 'http://www.squeaksource.com/Glamour';
 				add: 'Glamour-Scripting' repository: 'http://www.squeaksource.com/Glamour';
 				add: 'Glamour-Tests' repository: 'http://www.squeaksource.com/Glamour';
-				add: 'Glamour-Morphic' repository: 'http://www.squeaksource.com/Glamour';
+				add: 'Glamour-Morphic' requires: 'Mondrian for Glamour' repository: 'http://www.squeaksource.com/Glamour';
 				add: 'Announcements' repository: 'http://www.squeaksource.com/Glamour';
+				add: 'Mondrian for Glamour' project: 'Mondrian default' version: 'default';
 				yourself );
 		requiredProjects: (self project projectsSpec
 				add: (self project projectSpec
