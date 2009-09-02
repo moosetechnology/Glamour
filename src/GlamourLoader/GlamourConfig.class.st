@@ -24,6 +24,15 @@ GlamourConfig >> default [
 				add: 'Glamour-Morphic' repository: 'http://www.squeaksource.com/Glamour';
 				add: 'Announcements' repository: 'http://www.squeaksource.com/Glamour';
 				yourself );
+		requiredProjects: (self project projectsSpec
+				add: (self project projectSpec
+					name: 'Mondrian default';
+					className: 'MondrianConfig';
+					projectPackage: (self project packageSpec
+						name: 'MondrianLoader';
+						repositoryName: 'http://www.squeaksource.com/Mondrian';
+						yourself);
+					yourself));
 		projectPackage:
 			(self project packageSpec
 				name: 'GlamourLoader';
