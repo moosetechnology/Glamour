@@ -9,6 +9,7 @@ Class {
 
 { #category : #'as yet unclassified' }
 GlamourConfig >> default [
+	<version: 'default' attribute: #common>
 	^self project versionSpec
 		blessing: #development;
 		description: 'Glamour current version';
