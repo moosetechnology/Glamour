@@ -174,6 +174,28 @@ GLMScriptingTest >> testPublishing [
 ]
 
 { #category : #tests }
+GLMScriptingTest >> testPublishingToOutsideFinder [
+	 
+	| innerBrowser finder | 
+	finder := GLMFinder new.
+	innerBrowser := GLMTableLayoutBrowser new.
+	innerBrowser column: #any.
+	innerBrowser 
+		sendToOutside: #somePort
+		from: #any -> #selection. 
+	innerBrowser 
+		sendToOutside: #selection
+		from: #any -> #selection.
+	finder custom: innerBrowser.
+	finder startOn: 43.
+	(finder panes first presentations first panes first port: #selection) value: 42.
+	self assert: (innerBrowser pane port: #selection) value isNil.
+	self assert: (finder panes first port: #selection) value = 42.
+	self assert: (finder panes last port: #entty) value = 42.
+	
+]
+
+{ #category : #tests }
 GLMScriptingTest >> testReferences [ 
 	 
 	| browser pane1 | 
