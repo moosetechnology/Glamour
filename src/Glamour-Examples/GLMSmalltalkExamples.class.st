@@ -88,30 +88,47 @@ GLMSmalltalkExamples >> objectFinder [
 	"
 		self new objectFinder openOn: #(1 2 3 4)
 	"
-
 	| browser insideBrowser |
 	insideBrowser := GLMTableLayoutBrowser new.
 	browser := GLMFinder new.
 	browser custom: insideBrowser.
-	insideBrowser row: #object; row: #evaluator.
-	insideBrowser showOn: #object; using: [
-		insideBrowser list
-			title: 'Collection';
-			when: [:anObject | anObject isCollection].
-		insideBrowser list
-			title: [:anObject | self printAsOneItem: anObject  ];
-			display:  [ :anObject | anObject class allInstVarNames collect: [:iv | iv -> (anObject instVarNamed: iv) ] ];
-			format: [:assoc | assoc key asString, ' : ', assoc value printString];
-			send: #value.
-	].
-	insideBrowser showOn: #evaluator; using: [
-		insideBrowser text
-		display: [:entity | 'self' ];
-		title: 'Evaluator';
-		update: #selection on: $o entitled: 'Open (o)' with: [ :text :entity | Compiler evaluate: text selectedText for: entity logged: false ]
-	].
-	insideBrowser sendToOutside: #selection from: #object.
-	insideBrowser sendToOutside: #selection from: #evaluator.
+	insideBrowser
+		row: #object;
+		row: #evaluator.
+	insideBrowser
+		showOn: #object;
+		using: 
+			[ insideBrowser list
+				title: 'Collection';
+				when: [ :anObject | anObject isCollection ].
+			insideBrowser list
+				title: [ :anObject | self printObjectAsAnItem: anObject ];
+				display: 
+					[ :anObject | 
+					anObject class allInstVarNames collect: [ :iv | iv -> (anObject instVarNamed: iv) ] ];
+				format: [ :assoc | assoc key asString , ' : ' , assoc value printString ];
+				send: #value ].
+	insideBrowser
+		showOn: #evaluator;
+		using: 
+			[ insideBrowser text
+				display: [ :entity | 'self' ];
+				title: 'Evaluator';
+				update: #selection
+					on: $o
+					entitled: 'Open (o)'
+					with: 
+						[ :text :entity | 
+						Compiler 
+							evaluate: text selectedText
+							for: entity
+							logged: false ] ].
+	insideBrowser 
+		sendToOutside: #selection
+		from: #object.
+	insideBrowser 
+		sendToOutside: #selection
+		from: #evaluator.
 	^ browser
 ]
 
@@ -123,11 +140,11 @@ GLMSmalltalkExamples >> objectFinderTabbed [
 	| browser |
 	browser := GLMFinder new.
 	browser list
-		title: [:anObject | self printAsOneItem: anObject  ];
-		display: [ :anObject | 
-			anObject class allInstVarNames collect: [ :iv |
-				iv -> (anObject instVarNamed: iv) ] ];
-		format: [ :assoc | assoc key asString , ' : ' , (assoc value printString truncate: 50)  ];
+		title: [ :anObject | self printObjectAsAnItem: anObject ];
+		display: 
+			[ :anObject | 
+			anObject class allInstVarNames collect: [ :iv | iv -> (anObject instVarNamed: iv) ] ];
+		format: [ :assoc | assoc key asString , ' : ' , (assoc value printString truncate: 50) ];
 		send: #value.
 	browser list
 		title: 'Collection';
@@ -136,21 +153,35 @@ GLMSmalltalkExamples >> objectFinderTabbed [
 		forSmalltalk;
 		display: [ :entity | 'self' ];
 		title: 'Evaluator';
-		update: #selection on: $o entitled: 'Open (o)' with: [ :text :entity | 
-			Compiler evaluate: text selectedText for: entity logged: false ];
-		act: [ :text :entity | 
-			(Compiler evaluate: text selectedText for: entity logged: false) inspect ]
-			on: $/ entitled: 'Inspect (/)'.
+		update: #selection
+			on: $o
+			entitled: 'Open (o)'
+			with: 
+				[ :text :entity | 
+				Compiler 
+					evaluate: text selectedText
+					for: entity
+					logged: false ];
+		act: 
+				[ :text :entity | 
+				(Compiler 
+					evaluate: text selectedText
+					for: entity
+					logged: false) inspect ]
+			on: $/
+			entitled: 'Inspect (/)'.
 	^ browser
 ]
 
 { #category : #private }
-GLMSmalltalkExamples >> printAsOneItem: anObject [
+GLMSmalltalkExamples >> printObjectAsAnItem: anObject [ 
 	| title stream |
 	stream := String new writeStream.
 	title := anObject class name.
 	stream
-		nextPutAll: (title first isVowel ifTrue: ['an '] ifFalse: ['a ']);
+		nextPutAll: (title first isVowel 
+				ifTrue: [ 'an ' ]
+				ifFalse: [ 'a ' ]);
 		nextPutAll: title.
 	^ stream contents
 ]
@@ -186,88 +217,168 @@ GLMSmalltalkExamples >> smalldoc [
 ]
 
 { #category : #'st examples' }
-GLMSmalltalkExamples >> stCodeBrowser [	
+GLMSmalltalkExamples >> stClassicBrowser [
 	"
-		self new stCodeBrowser openOn: Smalltalk organization categories.
+		self new stBrowser openOn: Smalltalk organization categories.
 	"
 	| browser |
 	browser := GLMTableLayoutBrowser new.
-	browser row: #navigation; row: #sourceCode.
-	browser showOn: #navigation; using: [
-		browser custom: self stCodeNavigator ].
+	browser
+		row: #navigation;
+		row: #sourceCode.
+	browser
+		showOn: #navigation;
+		using: [ browser custom: self stClassicNavigator ].
 	browser
 		showOn: #sourceCode;
-		from: #navigation->#selectedClass;
-		from: #navigation->#selectedMethod;
-		from: #navigation->#selectedClassCategory;
-		using: [
-			browser text
+		from: #navigation -> #selectedClass;
+		from: #navigation -> #selectedMethod;
+		from: #navigation -> #selectedClassCategory;
+		using: 
+			[ browser text
 				title: 'Method source';
 				display: [ :class :method | class sourceCodeAt: method ];
 				when: [ :class :method | class notNil & method notNil ];
-				forSmalltalk: [:class | class].
+				forSmalltalk: [ :class | class ].
 			browser text
 				forSmalltalk;
 				title: 'Class definition';
 				display: [ :class | class definition ];
-				when: [:class | class notNil].
+				when: [ :class | class notNil ].
 			browser text
 				title: 'Class comment';
-				display: [ :class | class comment];
-				when: [:class | class notNil].
-			browser mondrian
-				title: 'System Complexity';
-				painting: [ :view :class :method :cat | 
-					view nodes: ((Smalltalk organization listAtCategoryNamed: cat) collect: [:className | Smalltalk classNamed: className]).
-					view edgesFrom: [ :x | x superclass ].
-					view treeLayout ];
-				when: [ :class :method :cat | cat notNil ].
-		].
+				display: [ :class | class comment ];
+				when: [ :class | class notNil ] ].
 	^ browser
 ]
 
 { #category : #'st examples' }
-GLMSmalltalkExamples >> stCodeNavigator [	
+GLMSmalltalkExamples >> stClassicNavigator [
 	"
-		self new stCodeNavigator openOn: Smalltalk organization categories.
+		self new stClassicNavigator openOn: Smalltalk organization categories.
 	"
-
 	| browser |
 	browser := GLMTableLayoutBrowser new.
-	browser column: #classCats; column:#classes; column:#categories; column: #methods.
-
-	browser showOn: #classCats; using: [
-		browser list
-			filterOn: [:text :list | list select: [:each | text match: each ]].
-	].
-
-	browser showOn: #classes; from: #classCats; using: [
-		browser tree
-			display: [ :classCat |  (Smalltalk organization listAtCategoryNamed: classCat) collect: [:className | Smalltalk classNamed: className] ];
-			children: [:each | each traitComposition traits ];
-			when: [ :classCat | classCat notNil ].
-	].
-
-	browser showOn: #categories; from: #classes; using: [
-		browser list display: [ :class | class organization categories ].
-	].
-
-	browser 
-		showOn: #methods; from: #classes; from: #categories;
-		using: [
-			browser list
-				display: [  :class :category | (class organization listAtCategoryNamed: category) asSortedCollection ];
-				when: [  :class :category | class notNil and: [ category notNil ] ].
+	browser
+		column: #classCats;
+		column: #classes;
+		column: #categories;
+		column: #methods.
+	browser
+		showOn: #classCats;
+		using: 
+			[ browser list filterOn: [ :text :list | list select: [ :each | text match: each ] ] ].
+	browser
+		showOn: #classes;
+		from: #classCats;
+		using: 
+			[ browser tree
+				display: 
+					[ :classCat | 
+					(Smalltalk organization listAtCategoryNamed: classCat) collect: [ :className | Smalltalk classNamed: className ] ];
+				children: [ :each | each traitComposition traits ];
+				when: [ :classCat | classCat notNil ] ].
+	browser
+		showOn: #categories;
+		from: #classes;
+		using: [ browser list display: [ :class | class organization categories ] ].
+	browser
+		showOn: #methods;
+		from: #classes;
+		from: #categories;
+		using: 
+			[ browser list
+				display: 
+					[ :class :category | 
+					(class organization listAtCategoryNamed: category) asSortedCollection ];
+				when: [ :class :category | class notNil and: [ category notNil ] ].
 			browser list
 				when: [ :class :category | class notNil and: [ category isNil ] ];
-				display: [ :class :category | class selectors asSortedCollection ].
-	].
+				display: [ :class :category | class selectors asSortedCollection ] ].
+	browser 
+		sendToOutside: #selectedClassCategory
+		from: #classCats.
+	browser 
+		sendToOutside: #selectedClass
+		from: #classes.
+	browser 
+		sendToOutside: #selectedMethod
+		from: #methods.
+	^ browser
+]
 
-	browser sendToOutside: #selectedClassCategory from: #classCats.
-	browser sendToOutside: #selectedClass from: #classes.
-	browser sendToOutside: #selectedMethod from: #methods.
+{ #category : #'st examples' }
+GLMSmalltalkExamples >> stTreeBasedBrowser [
+	"
+		self new stTreeBasedBrowser openOn: Smalltalk organization categories.
+	"
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	browser
+		row: #navigation;
+		row: #sourceCode.
+	browser
+		showOn: #navigation;
+		using: [ browser custom: self stTreeBasedNavigator ].
+	browser
+		showOn: #sourceCode;
+		from: #navigation -> #selectedClass;
+		from: #navigation -> #selectedMethod;
+		from: #navigation -> #selectedClassCategory;
+		using: 
+			[ browser text
+				title: 'Method source';
+				display: [ :class :method | method sourceCode ];
+				when: [ :class :method | method notNil ];
+				forSmalltalk: [ :class | class stBehavior ].
+			browser text
+				forSmalltalk;
+				title: 'Class definition';
+				display: [ :class | class definition ];
+				when: [ :class | class notNil ].
+			browser text
+				title: 'Class comment';
+				display: [ :class | class comment ];
+				when: [ :class | class notNil ].
+			].
+	^ browser
+]
 
-	^browser
+{ #category : #'st examples' }
+GLMSmalltalkExamples >> stTreeBasedNavigator [
+	"
+		self new stTreeBasedNavigator openOn: Smalltalk organization categories
+	"
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	browser
+		column: #classCats;
+		column: #classes;
+		column: #categorizedMethods.
+	browser showOn: #classCats; using: [ 
+		browser list
+			display: [:collection | collection collect: [:each | GLMSTClassCategory new name: each; yourself] ];
+			filterOn: [ :text :list | list select: [ :each | text match: each name ] ] ].
+	browser showOn: #classes; from: #classCats; using: [
+		browser tree 
+			display: [ :classCat | classCat classes];
+			children: [ :each | each traits ] ].
+	browser showOn: #categorizedMethods; from: #classes; using: [
+		browser tree
+			display: [ :class | class categories];
+			children: [:catOrMethod | 
+				catOrMethod isCategory ifTrue: [catOrMethod methods] ifFalse: [OrderedCollection new] ];
+			send: [:catOrMethod | catOrMethod isCategory ifTrue: [nil] ifFalse: [catOrMethod] ] ].
+	browser 
+		sendToOutside: #selectedClassCategory
+		from: #classCats.
+	browser 
+		sendToOutside: #selectedClass
+		from: #classes.
+	browser 
+		sendToOutside: #selectedMethod
+		from: #categorizedMethods.
+	^ browser
 ]
 
 { #category : #'st examples' }
