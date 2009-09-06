@@ -4,6 +4,11 @@ Class {
 	#category : #'Glamour-Examples'
 }
 
+{ #category : #'as yet unclassified' }
+GLMSTClassCategory class >> all [
+	^ Smalltalk organization categories collect: [:each | self named: each]
+]
+
 { #category : #accessing }
 GLMSTClassCategory >> classes [
 	^ (Smalltalk organization listAtCategoryNamed: self name) collect: [ :className |

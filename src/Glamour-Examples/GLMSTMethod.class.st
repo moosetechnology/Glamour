@@ -17,6 +17,11 @@ GLMSTMethod >> glmCategory: anObject [
 	glmCategory := anObject
 ]
 
+{ #category : #testing }
+GLMSTMethod >> isMethod [
+	^ true
+]
+
 { #category : #accessing }
 GLMSTMethod >> sourceCode [
 	^ self glmCategory glmClass sourceCodeAt: self name

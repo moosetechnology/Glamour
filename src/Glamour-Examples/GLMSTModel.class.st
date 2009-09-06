@@ -7,8 +7,30 @@ Class {
 	#category : #'Glamour-Examples'
 }
 
+{ #category : #'as yet unclassified' }
+GLMSTModel class >> named: aString [
+	^ self new
+		name: aString;
+		yourself
+]
+
 { #category : #testing }
 GLMSTModel >> isCategory [
+	^ false
+]
+
+{ #category : #testing }
+GLMSTModel >> isClass [
+	^ false
+]
+
+{ #category : #testing }
+GLMSTModel >> isClassCategory [
+	^ false
+]
+
+{ #category : #testing }
+GLMSTModel >> isMethod [
 	^ false
 ]
 

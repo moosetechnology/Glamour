@@ -310,7 +310,7 @@ GLMSmalltalkExamples >> stClassicNavigator [
 { #category : #'st examples' }
 GLMSmalltalkExamples >> stTreeBasedBrowser [
 	"
-		self new stTreeBasedBrowser openOn: Smalltalk organization categories.
+		self new stTreeBasedBrowser openOn: GLMSTClassCategory all
 	"
 	| browser |
 	browser := GLMTableLayoutBrowser new.
@@ -329,7 +329,7 @@ GLMSmalltalkExamples >> stTreeBasedBrowser [
 			[ browser text
 				title: 'Method source';
 				display: [ :class :method | method sourceCode ];
-				when: [ :class :method | method notNil ];
+				when: [ :class :method | method notNil and: [method isMethod] ];
 				forSmalltalk: [ :class | class stBehavior ].
 			browser text
 				forSmalltalk;
@@ -347,7 +347,7 @@ GLMSmalltalkExamples >> stTreeBasedBrowser [
 { #category : #'st examples' }
 GLMSmalltalkExamples >> stTreeBasedNavigator [
 	"
-		self new stTreeBasedNavigator openOn: Smalltalk organization categories
+		self new stTreeBasedNavigator openOn: GLMSTClassCategory all
 	"
 	| browser |
 	browser := GLMTableLayoutBrowser new.
@@ -357,7 +357,6 @@ GLMSmalltalkExamples >> stTreeBasedNavigator [
 		column: #categorizedMethods.
 	browser showOn: #classCats; using: [ 
 		browser list
-			display: [:collection | collection collect: [:each | GLMSTClassCategory new name: each; yourself] ];
 			filterOn: [ :text :list | list select: [ :each | text match: each name ] ] ].
 	browser showOn: #classes; from: #classCats; using: [
 		browser tree 
