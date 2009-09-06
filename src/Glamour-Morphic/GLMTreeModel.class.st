@@ -33,7 +33,9 @@ GLMTreeModel >> geSelectionPath [
 
 { #category : #callbacks }
 GLMTreeModel >> getChildrenOf: aNode [
-	^childrenBlock value: aNode
+	^childrenBlock isNil 
+		ifTrue: [OrderedCollection new]
+		ifFalse: [childrenBlock glamourValue: aNode]
 ]
 
 { #category : #callbacks }
