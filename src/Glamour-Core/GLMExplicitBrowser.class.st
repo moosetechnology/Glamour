@@ -89,6 +89,15 @@ GLMExplicitBrowser >> panes [
 	^panes ifNil: [panes := OrderedCollection new]
 ]
 
+{ #category : #copying }
+GLMExplicitBrowser >> postCopy [
+	super postCopy.
+	self flag: 'we should somehow copy the panes, the ports and have the transmissions. The trouble is how to copy the transmissions between the ports that we just copied.'.
+"	panes := panes collect: [:each | each copy].
+	transmissions := self transmissions collect: [:each | each copy].
+	jumpstartTransmissions := self jumpstartTransmissions collect: [:each | each copy]."
+]
+
 { #category : #accessing }
 GLMExplicitBrowser >> pulledPorts [ 
 	 
