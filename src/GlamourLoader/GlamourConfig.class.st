@@ -12,7 +12,7 @@ GlamourConfig >> default [
 	<version: 'default' attribute: #common>
 	^self project versionSpec
 		blessing: #development;
-		description: 'Glamour current version';
+		description: 'Glamour default';
 		packages: (
 			self project packagesSpec
 				add: 'Glamour-Helpers' repository: 'http://www.squeaksource.com/Glamour';
