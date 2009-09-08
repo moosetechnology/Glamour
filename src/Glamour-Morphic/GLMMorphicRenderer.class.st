@@ -339,28 +339,26 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [	 
-	| toShow treeMorph treeModel |
-	toShow := aTreePresentation displayValue. 
-	treeModel := GLMTreeModel new roots: toShow; yourself.
-	treeModel 
-			childrenBlock: aTreePresentation children;
-			displaySelector: aTreePresentation format.
-	treeMorph := PluggableTreeMorph new
-		model: treeModel;
-		getLabelSelector: #getLabelOf:;		
-		getSelectedPathSelector: #getSelectionPath;				
-		getChildrenSelector: #getChildrenOf:;
-		hasChildrenSelector: #hasChildren:;
-		setSelectedSelector: #selection:;					
-		getRootsSelector: #roots;
-		keystrokeActionSelector: #keystroke:from:;		
-		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
-		hResizing: #spaceFill; vResizing: #spaceFill;
-		autoDeselect: false;
-		color: Color white;
+	| treeMorph treeModel |
+	treeModel := GLMTreeMorphModel new
+		roots: aTreePresentation displayValue;
+		childrenBlock: aTreePresentation children;
+"		displaySelector: aTreePresentation format;"
 		yourself.
-	self installActionsOnUI: treeModel fromPresentation: aTreePresentation.
-	
+	treeMorph := (MorphTreeMorph new)
+			 	on: treeModel 
+				list: #roots
+				selected: #getCurrentSelection
+				changeSelected: #noteNewSelection:
+				menu: #menu:shifted:
+				keystroke: #keyStroke:from:;
+				cornerStyle: #square;
+				borderStyle: (BorderStyle inset width: 1);
+				hResizing: #spaceFill;
+				vResizing: #spaceFill;
+				autoDeselect: true;
+				yourself.
+	self installActionsOnUI: treeModel fromPresentation: aTreePresentation.	
 	treeModel onSelection: [:selection | aTreePresentation selection: selection]. 
 	treeMorph vShowScrollBar.	
 	^treeMorph
