@@ -17,7 +17,7 @@ GLMBasicExamples >> actionsFor: aPresentation [
 						yourself ]
 ]
 
-{ #category : #others }
+{ #category : #'file examples' }
 GLMBasicExamples >> fileExplorer [
 	"
 	self new fileExplorer openOn: FileDirectory default
@@ -43,7 +43,7 @@ GLMBasicExamples >> fileExplorer [
 	^ browser
 ]
 
-{ #category : #others }
+{ #category : #'file examples' }
 GLMBasicExamples >> fileFinder [
 	"self new fileFinder openOn: FileDirectory default"
 
@@ -56,6 +56,25 @@ GLMBasicExamples >> fileFinder [
 	browser text
 		display: [ :fd | (FileStream readOnlyFileFullyNamed: fd fullName) contents ];
 		when: [ :fd | fd directoryEntry isDirectory not ].
+	^ browser
+]
+
+{ #category : #others }
+GLMBasicExamples >> interdependentPanes [
+	"self new interdependentPanes openOn: 5"
+	|browser |
+
+	browser := GLMTableLayoutBrowser new.
+	browser column: #one; column: #two.
+	browser showOn: #one; using: [
+		browser list
+			display: [:x | 1 to: x * 3]].
+	browser showOn: #two; from: #one; using: [
+		browser list
+			display: [:x | 1 to: x * 3]].
+	browser showOn: #one; from: #two; using: [
+		browser list
+			display: [:x | 1 to: x * 3]].
 	^ browser
 ]
 
