@@ -179,7 +179,8 @@ GLMBasicExamples >> staticAndDynamicMenu [
 			title: 'List';
 			display: [:each | $a to: each];
 			actions: [:list | self actionsFor: list ];
-			act: [] entitled: 'Static action'.
+			act: [Transcript show: 'static action'; cr] entitled: 'Static action';
+			act: [Transcript show: 'static sub action'; cr] entitled: 'Static sub action' categorized: 'Sub menu'.
 	finder text
 			title: 'Text';
 			display: [:each | 'Character ', each asString];
