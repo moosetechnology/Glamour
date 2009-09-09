@@ -40,7 +40,7 @@ GLMTreeModel >> getChildrenOf: aNode [
 
 { #category : #callbacks }
 GLMTreeModel >> getLabelOf: anObject [
-	^ displaySelector glamourValue: anObject
+	^ self glamourPresentation formatedDisplayValueOf: anObject
 ]
 
 { #category : #callbacks }
