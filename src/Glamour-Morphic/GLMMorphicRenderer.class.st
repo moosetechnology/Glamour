@@ -132,7 +132,7 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 	items := toShow isCollection
 				ifTrue: [toShow]
 				ifFalse: [OrderedCollection with: toShow].
-	listModel := GLMListModel new
+	listModel := (aListPresentation isMultiple ifTrue: [GLMMultiListModel new] ifFalse: [GLMListModel new])
 				glamourPresentation: aListPresentation;
 				items: items;
 				displaySelector: aListPresentation format;
