@@ -23,6 +23,7 @@ GlamourConfig >> default [
 				add: 'Glamour-Scripting' repository: 'http://www.squeaksource.com/Glamour';
 				add: 'Glamour-Tests' repository: 'http://www.squeaksource.com/Glamour';
 				add: 'Glamour-Morphic' requires: 'Mondrian for Glamour' repository: 'http://www.squeaksource.com/Glamour';
+				add: 'System-Settings' repository: 'http://www.squeaksource.com/Pharo';
 				add: 'Announcements' repository: 'http://www.squeaksource.com/Glamour';
 				add: 'Mondrian for Glamour' project: 'Mondrian default' version: 'default';
 				yourself );
