@@ -10,7 +10,8 @@ Class {
 		'rootClass',
 		'glamourPresentation',
 		'childrenBlock',
-		'onSelection'
+		'onSelection',
+		'displayFormat'
 	],
 	#category : #'Glamour-Morphic'
 }
@@ -23,6 +24,16 @@ GLMTreeMorphModel >> childrenBlock [
 { #category : #accessing }
 GLMTreeMorphModel >> childrenBlock: aBlock [
 	childrenBlock := aBlock 
+]
+
+{ #category : #accessing }
+GLMTreeMorphModel >> displayFormat [
+	^ displayFormat
+]
+
+{ #category : #accessing }
+GLMTreeMorphModel >> displayFormat: aBlock [
+	displayFormat := aBlock 
 ]
 
 { #category : #accessing }

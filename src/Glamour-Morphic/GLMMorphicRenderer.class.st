@@ -341,9 +341,10 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [	 
 	| treeMorph treeModel |
 	treeModel := GLMTreeMorphModel new
+		glamourPresentation: aTreePresentation;
 		roots: aTreePresentation displayValue;
 		childrenBlock: aTreePresentation children;
-"		displaySelector: aTreePresentation format;"
+		displayFormat: aTreePresentation format;
 		yourself.
 	treeMorph := (MorphTreeMorph new)
 			 	on: treeModel 

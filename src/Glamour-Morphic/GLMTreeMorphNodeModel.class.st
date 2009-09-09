@@ -41,7 +41,7 @@ GLMTreeMorphNodeModel >> contents [
 GLMTreeMorphNodeModel >> displayText [
 	^ UITheme current 
 		newTextIn: World
-		text: self item printString
+		text: (self containerTree glamourPresentation formatedDisplayValueOf: self item) 
 ]
 
 { #category : #testing }

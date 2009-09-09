@@ -25,7 +25,7 @@ GLMListModel >> canonicalItems [
 
 { #category : #callbacks }
 GLMListModel >> displayListAt: anIndex [
-	^ displaySelector glamourValue: (self items at: anIndex)
+	^ self glamourPresentation formatedDisplayValueOf: (self items at: anIndex)
 ]
 
 { #category : #accessing }
