@@ -7,6 +7,11 @@ Object >> asGlamorousArray [
 ]
 
 { #category : #'*Glamour-Helpers' }
+Object >> asGlamorousMultiValue [
+	^ GLMMultiValue with: self
+]
+
+{ #category : #'*Glamour-Helpers' }
 Object >> glamourString [ 
 	"This method tries to circumvent the missing displayString from Squeak" 
 	 
