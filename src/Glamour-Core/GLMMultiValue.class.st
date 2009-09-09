@@ -10,3 +10,8 @@ GLMMultiValue >> asGlamorousArray [
 	 
 	^self asArray
 ]
+
+{ #category : #testing }
+GLMMultiValue >> asGlamorousMultiValue [
+	^ self
+]
