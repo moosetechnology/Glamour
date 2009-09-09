@@ -9,7 +9,7 @@ GLMMultiListModel >> selectItem: aCollection [
 	| indexes |
 	indexes := OrderedCollection new.
 	self items withIndexDo: [:each :i | 
-		aCollection do: [:anObject |
+		aCollection asOrderedCollection do: [:anObject |
 			each == anObject ifTrue: [indexes add: i]
 		]
 	].
