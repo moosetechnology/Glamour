@@ -78,6 +78,27 @@ GLMBasicExamples >> interdependentPanes [
 	^ browser
 ]
 
+{ #category : #others }
+GLMBasicExamples >> multiInitialSelection [
+	"
+		| browser |
+		browser := self new multiInitialSelection.
+		browser openOn: 5.
+		(browser panes first port: #selection) value: #(2 5 3).
+	"
+	|browser |
+
+	browser := GLMTableLayoutBrowser new.
+	browser column: #one; column: #two.
+	browser showOn: #one; using: [
+		browser list
+			beMultiple;
+			display: [:x | 1 to: x * 3]].
+	browser showOn: #two; from: #one; using: [
+		browser list ].
+	^ browser
+]
+
 { #category : #'menu examples' }
 GLMBasicExamples >> multipleFinderWithSearch [
 	"
@@ -167,6 +188,27 @@ GLMBasicExamples >> simpleFinderWithMenu [
 	^ finder
 ]
 
+{ #category : #others }
+GLMBasicExamples >> singleInitialSelection [
+	"
+		| browser |
+		browser := self new singleInitialSelection.
+		browser openOn: 5.
+		(browser panes first port: #selection) value: 2.
+	"
+	|browser |
+
+	browser := GLMTableLayoutBrowser new.
+	browser column: #one; column: #two.
+	browser showOn: #one; using: [
+		browser list
+			display: [:x | 1 to: x * 3]].
+	browser showOn: #two; from: #one; using: [
+		browser list
+			display: [:x | 1 to: x * 3]].
+	^ browser
+]
+
 { #category : #'menu examples' }
 GLMBasicExamples >> staticAndDynamicMenu [
 	"
@@ -187,25 +229,4 @@ GLMBasicExamples >> staticAndDynamicMenu [
 			actions: [:text | OrderedCollection with: (GLMAction new title: 'Print selection'; action: [Transcript show: text selection]; yourself) ];
 			act: [Transcript show: 'Text static action'] entitled: 'Static action'.
 	^ finder
-]
-
-{ #category : #others }
-GLMBasicExamples >> withInitialSelection [
-	"
-		| browser |
-		browser := self new withInitialSelection.
-		browser openOn: 5.
-		(browser panes first port: #selection) value: 2.
-	"
-	|browser |
-
-	browser := GLMTableLayoutBrowser new.
-	browser column: #one; column: #two.
-	browser showOn: #one; using: [
-		browser list
-			display: [:x | 1 to: x * 3]].
-	browser showOn: #two; from: #one; using: [
-		browser list
-			display: [:x | 1 to: x * 3]].
-	^ browser
 ]

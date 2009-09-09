@@ -219,7 +219,7 @@ GLMSmalltalkExamples >> smalldoc [
 { #category : #'st examples' }
 GLMSmalltalkExamples >> stClassicBrowser [
 	"
-		self new stBrowser openOn: Smalltalk organization categories.
+		self new stClassicBrowser openOn: Smalltalk organization categories.
 	"
 	| browser |
 	browser := GLMTableLayoutBrowser new.
