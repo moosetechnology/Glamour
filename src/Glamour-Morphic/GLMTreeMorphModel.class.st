@@ -90,6 +90,24 @@ GLMTreeMorphModel >> roots: anObjectOrCollection [
 		ifFalse: [ OrderedCollection with: (self nodeModelFor: anObjectOrCollection) ]
 ]
 
+{ #category : #accessing }
+GLMTreeMorphModel >> selectItem: anObject [
+	self roots do: [:eachRoot |
+		eachRoot withContentsDo: [:each |
+			each item = anObject ifTrue: [
+				self silentNoteNewSelection: each.
+				^ self]]]
+]
+
+{ #category : #'as yet unclassified' }
+GLMTreeMorphModel >> silentNoteNewSelection: x [
+	currentSelection := x.
+	self changed: #getCurrentSelection.
+	currentSelection ifNil: [^self].
+	currentSelection sendSettingMessageTo: self.
+	self changed: #selection.
+]
+
 { #category : #'as yet unclassified' }
 GLMTreeMorphModel >> when: GLMMenuItemSelected do: aBlock [
 ]

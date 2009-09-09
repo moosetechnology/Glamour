@@ -33,8 +33,11 @@ GLMTreeMorphNodeModel >> containerTree: anObject [
 { #category : #accessing }
 GLMTreeMorphNodeModel >> contents [
 	^ contents ifNil: [
-		contents := (self childrenItems collect: [:d | self class with: d]) do: [:c | 
-			c parentNode: self; containerTree: self containerTree ] ]
+		contents := self childrenItems collect: [:d | 
+			(self class with: d) 
+				parentNode: self;
+				containerTree: self containerTree;
+				yourself ] ]
 ]
 
 { #category : #accessing }
@@ -90,8 +93,21 @@ GLMTreeMorphNodeModel >> pathIn: aCollection [
 	^ aCollection
 ]
 
+{ #category : #printing }
+GLMTreeMorphNodeModel >> printOn: aStream [
+	aStream nextPutAll: 'a NodeModel with '.
+	aStream nextPutAll: self item printString.
+]
+
 { #category : #accessing }
 GLMTreeMorphNodeModel >> rowMorphListFor: aContainer [ 
 	^ OrderedCollection 
 		with: (UITheme current newRowIn: World for: {self displayText})
+]
+
+{ #category : #enumerating }
+GLMTreeMorphNodeModel >> withContentsDo: aBlock [
+	self flag: 'if the tree is infinite due to recursion, this might not stop'.
+	aBlock value: self.
+	self contents do: [:each | each withContentsDo: aBlock ]
 ]
