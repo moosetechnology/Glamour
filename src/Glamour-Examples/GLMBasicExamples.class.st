@@ -188,3 +188,24 @@ GLMBasicExamples >> staticAndDynamicMenu [
 			act: [Transcript show: 'Text static action'] entitled: 'Static action'.
 	^ finder
 ]
+
+{ #category : #others }
+GLMBasicExamples >> withInitialSelection [
+	"
+		| browser |
+		browser := self new withInitialSelection.
+		browser openOn: 5.
+		(browser panes first port: #selection) value: 2.
+	"
+	|browser |
+
+	browser := GLMTableLayoutBrowser new.
+	browser column: #one; column: #two.
+	browser showOn: #one; using: [
+		browser list
+			display: [:x | 1 to: x * 3]].
+	browser showOn: #two; from: #one; using: [
+		browser list
+			display: [:x | 1 to: x * 3]].
+	^ browser
+]
