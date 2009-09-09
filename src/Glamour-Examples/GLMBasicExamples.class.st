@@ -230,3 +230,22 @@ GLMBasicExamples >> staticAndDynamicMenu [
 			act: [Transcript show: 'Text static action'] entitled: 'Static action'.
 	^ finder
 ]
+
+{ #category : #others }
+GLMBasicExamples >> treeWithInitialSelection [
+	"
+		| browser |
+		browser := self new treeWithInitialSelection. 
+		browser openOn: #(($a $b $c $d) ($e $f) ($g $h $i $j $l)).
+		(browser panes first port: #selection) value: $b.
+	"
+	|browser |
+
+	browser := GLMTableLayoutBrowser new.
+	browser column: #one; column: #two.
+	browser showOn: #one; using: [
+		browser tree
+			children: [:x | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ]].
+	browser showOn: #two; from: #one; using: [ browser text ].
+	^ browser
+]
