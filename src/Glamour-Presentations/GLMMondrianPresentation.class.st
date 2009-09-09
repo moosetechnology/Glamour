@@ -37,19 +37,3 @@ GLMMondrianPresentation >> renderOn: aView [
 						with: aView 
 						with: self entity])
 ]
-
-{ #category : #accessing }
-GLMMondrianPresentation >> renderView [ 
-	 
-	| view | 
-	view := ViewRenderer new. 
-	self painting 
-		glamourValue: 
-			((self entity isKindOf: GLMMultiValue) 
-				ifTrue: [(GLMMultiValue with: view) , self entity] 
-				ifFalse: 
-					[GLMMultiValue 
-						with: view 
-						with: self entity]). 
-	^view
-]

@@ -34,7 +34,11 @@ GLMFormatedPresentation >> format: anObject [
 ]
 
 { #category : #accessing }
-GLMFormatedPresentation >> formatedDisplayValue [ 
-	 
+GLMFormatedPresentation >> formatedDisplayValue [
 	^ self format glamourValue: self displayValue
+]
+
+{ #category : #accessing }
+GLMFormatedPresentation >> formatedDisplayValueOf: anObject [
+	^ self format glamourValue: (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue)
 ]
