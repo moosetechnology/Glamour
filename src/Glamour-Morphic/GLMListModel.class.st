@@ -160,6 +160,16 @@ GLMListModel >> searchText: aString [
 
 ]
 
+{ #category : #callbacks }
+GLMListModel >> selectItem: anObject [ 
+	| index |
+	self flag: 'consider also the case when the list is multicase - hence anObject is a collecton'.
+	index := 0.
+	self items withIndexDo: [:i :each | each == anObject ifTrue: [index := i]].
+	selection := index.
+	self changed: #singleSelection
+]
+
 { #category : #accessing }
 GLMListModel >> selectedIndexes [
 	"this only holds the indexes of the selected items in terms of the entire collection of items"

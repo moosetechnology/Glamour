@@ -184,6 +184,8 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 		list layoutFrame bottomOffset: -24.
 		container addMorphBack: search ].
 	container addMorphBack: list.
+	aListPresentation when: GLMContextChanged do: [:ann | 
+		ann property = #selection ifTrue: [listModel selectItem: ann value ]].
 	^ container
 ]
 
