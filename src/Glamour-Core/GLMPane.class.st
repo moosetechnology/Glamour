@@ -187,6 +187,15 @@ GLMPane >> presentations [
 	^OrderedCollection withAll: presentations
 ]
 
+{ #category : #'as yet unclassified' }
+GLMPane >> printOn: aStream [
+	super printOn: aStream.
+	aStream
+		nextPut: $(;
+		print: self name;
+		nextPut: $)
+]
+
 { #category : #rendering }
 GLMPane >> renderGlamorouslyOn: aRenderer [ 
 	 
