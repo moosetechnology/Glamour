@@ -50,6 +50,23 @@ GLMPresentationTest >> testDisplay [
 ]
 
 { #category : #tests }
+GLMPresentationTest >> testImplicitNotNilMultipleValues [
+	"
+	self debug: #testImplicitNotNilMultipleValues"
+	| presentation | 
+	presentation := GLMPresentation new. 
+	presentation useImplicitNotNil.
+	(presentation pane port: #entity) value: (GLMMultiValue withAll: #(nil nil)).
+	self assert: presentation matches not.
+	(presentation pane port: #entity) value: (GLMMultiValue withAll: #(1 nil)).
+	self assert: presentation matches not.
+	(presentation pane port: #entity) value: (GLMMultiValue withAll: #(nil 1)).
+	self assert: presentation matches not.
+	(presentation pane port: #entity) value: (GLMMultiValue withAll: #(1 2)).
+	self assert: presentation matches.
+]
+
+{ #category : #tests }
 GLMPresentationTest >> testMatching [ 
 	 
 	| presentation | 
