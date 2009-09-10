@@ -52,6 +52,16 @@ GLMTreeMorphNodeModel >> enabled [
 	^ true
 ]
 
+{ #category : #menu }
+GLMTreeMorphNodeModel >> executeMenuAction: anAction [
+	self containerTree announce: (GLMMenuItemSelected action: anAction)
+]
+
+{ #category : #accessing }
+GLMTreeMorphNodeModel >> expandParentPath [
+"	self containerTree changed: {#roots. #openItemPath}, (self path collect: [:each | each item])."
+]
+
 { #category : #accessing }
 GLMTreeMorphNodeModel >> icon [
 	^ nil
@@ -64,8 +74,22 @@ GLMTreeMorphNodeModel >> keyStroke: aCharacter from: aTreeMorph [
 ]
 
 { #category : #menu }
-GLMTreeMorphNodeModel >> menu: menu shifted: b [ 
-
+GLMTreeMorphNodeModel >> menu: aMenuMorph shifted: b [ 
+	| subMenus targetMenuMorph subMenu |
+	subMenus := Dictionary new.
+	self containerTree allMenuActions do: [ :action |
+		targetMenuMorph := action category notNil 
+			ifTrue: [ subMenus at: action category ifAbsentPut: [ 
+					subMenu :=  MenuMorph new.
+					aMenuMorph add: action category subMenu: subMenu.
+					subMenu ] ]
+			ifFalse: [ aMenuMorph ].
+		targetMenuMorph 
+			add: action title
+			target: self
+			selector: #executeMenuAction:
+			argument: action ].
+	^ aMenuMorph
 ]
 
 { #category : #accessing }
@@ -86,9 +110,9 @@ GLMTreeMorphNodeModel >> path [
 
 { #category : #accessing }
 GLMTreeMorphNodeModel >> pathIn: aCollection [ 
-	self parentNode
-		ifNotNil: [(aCollection includes: self parentNode)
-		ifFalse: [self parentNode pathIn: aCollection]].
+	self parentNode ifNotNil: [
+		(aCollection includes: self parentNode)
+			ifFalse: [self parentNode pathIn: aCollection]].
 	aCollection add: self.
 	^ aCollection
 ]

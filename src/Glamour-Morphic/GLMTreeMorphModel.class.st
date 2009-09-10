@@ -16,6 +16,11 @@ Class {
 	#category : #'Glamour-Morphic'
 }
 
+{ #category : #callbacks }
+GLMTreeMorphModel >> allMenuActions [
+	^ self glamourPresentation allActions select: [:action | action hasTitle ]
+]
+
 { #category : #accessing }
 GLMTreeMorphModel >> childrenBlock [
 	^ childrenBlock ifNil: [ [OrderedCollection new] ]
@@ -101,11 +106,12 @@ GLMTreeMorphModel >> selectItem: anObject [
 
 { #category : #'as yet unclassified' }
 GLMTreeMorphModel >> silentNoteNewSelection: x [
+	x expandParentPath.
 	currentSelection := x.
-	self changed: #getCurrentSelection.
+"	self changed: #getCurrentSelection.
 	currentSelection ifNil: [^self].
 	currentSelection sendSettingMessageTo: self.
-	self changed: #selection.
+	self changed: #selection."
 ]
 
 { #category : #'as yet unclassified' }
