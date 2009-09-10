@@ -26,6 +26,7 @@ GlamourConfig >> default [
 				add: 'System-Settings' repository: 'http://www.squeaksource.com/Pharo';
 				add: 'Announcements' repository: 'http://www.squeaksource.com/Glamour';
 				add: 'Mondrian for Glamour' project: 'Mondrian default' version: 'default';
+				add: 'Glamour-Examples' repository: 'http://www.squeaksource.com/Glamour';
 				yourself );
 		requiredProjects: (self project projectsSpec
 				add: (self project projectSpec
