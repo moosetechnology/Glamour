@@ -64,7 +64,7 @@ GLMTreeMorphNodeModel >> expandParentPath [
 
 { #category : #accessing }
 GLMTreeMorphNodeModel >> icon [
-	^ nil
+	^ self containerTree glamourPresentation iconFor: self item
 ]
 
 { #category : #menu }
