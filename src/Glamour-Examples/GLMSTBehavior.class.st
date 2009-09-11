@@ -24,6 +24,13 @@ GLMSTBehavior >> definition [
 ]
 
 { #category : #accessing }
+GLMSTBehavior >> metaSide [
+	^ (GLMSTClass named: self name) 
+		stBehavior: self stBehavior class;
+		yourself
+]
+
+{ #category : #accessing }
 GLMSTBehavior >> name [
 	^ self stBehavior name
 ]

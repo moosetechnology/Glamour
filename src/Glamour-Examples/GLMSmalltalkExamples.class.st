@@ -319,9 +319,10 @@ GLMSmalltalkExamples >> stTreeBasedBrowser [
 	"self new stTreeBasedBrowser openOn: GLMSTClassCategory all"
 	| browser |
 	browser := GLMTableLayoutBrowser new.
+	browser title: 'Glamorous Smallalk Browser'.
 	browser
-		row: #navigation;
-		row: #sourceCode.
+		column: #navigation;
+		column: #sourceCode.
 	browser
 		showOn: #navigation;
 		using: [ browser custom: self stTreeBasedNavigator ].
@@ -358,8 +359,8 @@ GLMSmalltalkExamples >> stTreeBasedNavigator [
 	browser := GLMTableLayoutBrowser new.
 	browser
 		column: #classCats;
-		column: #classes;
-		column: #categorizedMethods.
+		column: [:c | c row: #classes span: 2; row: #classComment];
+		column: [:c | c row: #instanceMethods span: 2; row: #metaMethods].
 	browser showOn: #classCats; using: [ 
 		browser list
 			filterOn: [ :text :list | list select: [ :each | text match: each name ] ] ].
@@ -367,21 +368,25 @@ GLMSmalltalkExamples >> stTreeBasedNavigator [
 		browser tree 
 			display: [ :classCat | classCat classes];
 			children: [ :each | each traits ] ].
-	browser showOn: #categorizedMethods; from: #classes; using: [
+	browser showOn: #classComment; from: #classes; using: [
+		browser text
+			display: [:class | class comment]].
+	browser showOn: #instanceMethods; from: #classes; using: [
 		browser tree
 			display: [ :class | class categories];
 			children: [:catOrMethod | 
 				catOrMethod isCategory ifTrue: [catOrMethod methods] ifFalse: [OrderedCollection new] ];
 			send: [:catOrMethod | (catOrMethod notNil and: [catOrMethod isCategory]) ifTrue: [nil] ifFalse: [catOrMethod] ] ].
-	browser 
-		sendToOutside: #selectedClassCategory
-		from: #classCats.
-	browser 
-		sendToOutside: #selectedClass
-		from: #classes.
-	browser 
-		sendToOutside: #selectedMethod
-		from: #categorizedMethods.
+	browser showOn: #metaMethods; from: #classes; using: [
+		browser tree
+			display: [ :class | class metaSide categories];
+			children: [:catOrMethod | 
+				catOrMethod isCategory ifTrue: [catOrMethod methods] ifFalse: [OrderedCollection new] ];
+			send: [:catOrMethod | (catOrMethod notNil and: [catOrMethod isCategory]) ifTrue: [nil] ifFalse: [catOrMethod] ] ].
+	browser sendToOutside: #selectedClassCategory from: #classCats.
+	browser sendToOutside: #selectedClass from: #classes.
+	browser sendToOutside: #selectedMethod from: #instanceMethods.
+	browser sendToOutside: #selectedMethod from: #metaMethods.
 	^ browser
 ]
 
