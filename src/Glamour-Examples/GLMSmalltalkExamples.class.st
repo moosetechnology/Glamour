@@ -372,7 +372,7 @@ GLMSmalltalkExamples >> stTreeBasedNavigator [
 			display: [ :class | class categories];
 			children: [:catOrMethod | 
 				catOrMethod isCategory ifTrue: [catOrMethod methods] ifFalse: [OrderedCollection new] ];
-			send: [:catOrMethod | catOrMethod isCategory ifTrue: [nil] ifFalse: [catOrMethod] ] ].
+			send: [:catOrMethod | (catOrMethod notNil and: [catOrMethod isCategory]) ifTrue: [nil] ifFalse: [catOrMethod] ] ].
 	browser 
 		sendToOutside: #selectedClassCategory
 		from: #classCats.
