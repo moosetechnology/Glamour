@@ -2,7 +2,8 @@ Class {
 	#name : #GLMFormatedPresentation,
 	#superclass : #GLMPresentation,
 	#instVars : [
-		'format'
+		'format',
+		'icon'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -15,16 +16,9 @@ GLMFormatedPresentation class >> formater: aBlock [
 		yourself
 ]
 
-{ #category : #private }
-GLMFormatedPresentation >> defaultFormater [ 
-	 
-	^#glamourString
-]
-
 { #category : #accessing }
-GLMFormatedPresentation >> format [ 
-	 
-	^format ifNil: [format := self defaultFormater]
+GLMFormatedPresentation >> format [
+	^ format ifNil: [ format := #glamourString ]
 ]
 
 { #category : #accessing }
@@ -41,4 +35,19 @@ GLMFormatedPresentation >> formatedDisplayValue [
 { #category : #accessing }
 GLMFormatedPresentation >> formatedDisplayValueOf: anObject [
 	^ self format glamourValue: (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue)
+]
+
+{ #category : #accessing }
+GLMFormatedPresentation >> icon [
+	^ icon ifNil: [ icon := [nil] ]
+]
+
+{ #category : #accessing }
+GLMFormatedPresentation >> icon: anObject [
+	icon := anObject
+]
+
+{ #category : #accessing }
+GLMFormatedPresentation >> iconFor: anObject [
+	^ self icon glamourValue: (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue)
 ]
