@@ -4,6 +4,22 @@ Class {
 	#category : #'Glamour-Examples'
 }
 
+{ #category : #'as yet unclassified' }
+GLMBasicExamples class >> browse [
+	| browser pragmas |
+	browser := GLMTableLayoutBrowser new.
+	pragmas := Pragma 
+		allNamed: #glmBrowser:script:
+		in: self.
+	browser column: #titles; column: #example.
+	browser showOn: #titles; using: [
+		browser list
+			format: [:each | each argumentAt: 1]].
+	browser showOn: #example; from: #titles; using: [
+		"browser custom: "].
+	browser openOn: pragmas.
+]
+
 { #category : #private }
 GLMBasicExamples >> actionsFor: aPresentation [ 
 	|actions|
@@ -19,9 +35,7 @@ GLMBasicExamples >> actionsFor: aPresentation [
 
 { #category : #'file examples' }
 GLMBasicExamples >> fileExplorer [
-	"
-	self new fileExplorer openOn: FileDirectory default
-	"
+	<glmBrowser: 'File Explorer' script: 'self new fileExplorer openOn: FileDirectory default'>
 
 	| browser |
 	browser := GLMTableLayoutBrowser new.
