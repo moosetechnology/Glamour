@@ -5,7 +5,7 @@ If the entity is a collection, this class renders as a ListPresentation, otherwi
 "
 Class {
 	#name : #GLMFlexiblePresentation,
-	#superclass : #GLMFormatedPresentation,
+	#superclass : #GLMPresentation,
 	#category : #'Glamour-Presentations'
 }
 
