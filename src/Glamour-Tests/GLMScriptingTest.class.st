@@ -5,6 +5,20 @@ Class {
 }
 
 { #category : #tests }
+GLMScriptingTest >> testActionDefinition [ 
+	| browser | 
+	browser := GLMTableLayoutBrowser new. 
+	browser column: #one. 
+	browser showOn: #one; using: [
+		browser text act: [] entitled: ''.
+		browser list act: [] entitled: ''.
+		browser tree act: [] entitled: '']. 
+	browser startOn: #(42).
+	browser panes first presentations do: [:each | 
+		self assert: each actions size = 1]
+]
+
+{ #category : #tests }
 GLMScriptingTest >> testComplexFinderBrowser [ 
 	 
 	| browser | 
