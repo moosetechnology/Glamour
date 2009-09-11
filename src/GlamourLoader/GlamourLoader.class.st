@@ -24,7 +24,7 @@ GlamourLoader class >> allFor: config [
 		config package: 'Glamour-Scripting' from: 'http://www.squeaksource.com/Glamour'.
 		config package: 'Glamour-Tests' from: 'http://www.squeaksource.com/Glamour'.
 		config package: 'Glamour-Morphic' from: 'http://www.squeaksource.com/Glamour' dependsOn: [
-			config package: 'System-Settings' from: 'http://www.squeaksource.com/Pharo'].
+			config package: 'Momo' from: 'http://www.squeaksource.com/Momo'].
 		config package: 'Glamour-Examples' from: 'http://www.squeaksource.com/Glamour'.
 		config package: 'Announcements' from: 'http://www.squeaksource.com/Glamour'.
 		config allIn: 'MondrianLoader' from: 'http://www.squeaksource.com/Mondrian'
