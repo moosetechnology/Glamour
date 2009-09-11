@@ -1,3 +1,6 @@
+"
+self browseExamples
+"
 Class {
 	#name : #GLMSmalltalkExamples,
 	#superclass : #GLMExamples,
@@ -32,13 +35,12 @@ GLMSmalltalkExamples >> messageTally [
 
 { #category : #'st examples' }
 GLMSmalltalkExamples >> messageTallyTree [
-	"
-	self new messageTallyTree openOn: (MessageTally new spyEvery: 1 on: [10000 timesRepeat: [1.23 printString]]; yourself)
-	"
+	<glmBrowser: 'Message Tally Tree' input: 'MessageTally new spyEvery: 1 on: [10000 timesRepeat: [1.23 printString]]; yourself'>
+	"self new messageTallyTree openOn: (MessageTally new spyEvery: 1 on: [10000 timesRepeat: [1.23 printString]]; yourself)"
 
 	| browser |
 	browser := GLMTableLayoutBrowser new.
-	browser row: #messages; row: #details.
+	browser column: #messages; column: #details.
 	browser showOn: #messages; using: [
 		browser tree
 			children: [:each | each sonsOver: -1 ];
@@ -134,6 +136,7 @@ GLMSmalltalkExamples >> objectFinder [
 
 { #category : #'st examples' }
 GLMSmalltalkExamples >> objectFinderTabbed [
+	<glmBrowser: 'Object Finder' input: 'Smalltalk'>
 	"
 		self new objectFinderTabbed openOn: Smalltalk
 	"
@@ -144,7 +147,7 @@ GLMSmalltalkExamples >> objectFinderTabbed [
 		display: 
 			[ :anObject | 
 			anObject class allInstVarNames collect: [ :iv | iv -> (anObject instVarNamed: iv) ] ];
-		format: [ :assoc | assoc key asString , ' : ' , (assoc value printString truncate: 50) ];
+		format: [ :assoc | assoc key asString , ' : ' , (assoc value printString 	copyFrom: 1 to: ((50 min: assoc value printString size) max: 0)) ];
 		send: #value.
 	browser list
 		title: 'Collection';
@@ -188,9 +191,10 @@ GLMSmalltalkExamples >> printObjectAsAnItem: anObject [
 
 { #category : #'st examples' }
 GLMSmalltalkExamples >> smalldoc [
+
 	"self new smalldoc openOn: Smalltalk organization categories"
 	"SGLDefaultComponent register: self new smalldoc on: Smalltalk organization categories"
-	|browser classes|
+	|browser|
 	browser := GLMTableLayoutBrowser new.
 	browser column: #classCats; column: #classes; column: #comment.
 	browser showOn: #classCats; using: [
@@ -311,9 +315,8 @@ GLMSmalltalkExamples >> stClassicNavigator [
 
 { #category : #'st examples' }
 GLMSmalltalkExamples >> stTreeBasedBrowser [
-	"
-		self new stTreeBasedBrowser openOn: GLMSTClassCategory all
-	"
+	<glmBrowser: 'Tree Based Code Browser' input: 'GLMSTClassCategory all'>
+	"self new stTreeBasedBrowser openOn: GLMSTClassCategory all"
 	| browser |
 	browser := GLMTableLayoutBrowser new.
 	browser
