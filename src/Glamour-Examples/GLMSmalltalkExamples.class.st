@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMSmalltalkExamples,
-	#superclass : #Object,
+	#superclass : #GLMExamples,
 	#category : #'Glamour-Examples'
 }
 

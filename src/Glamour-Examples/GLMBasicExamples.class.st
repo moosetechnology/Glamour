@@ -1,24 +1,11 @@
+"
+self browseExamples
+"
 Class {
 	#name : #GLMBasicExamples,
-	#superclass : #Object,
+	#superclass : #GLMExamples,
 	#category : #'Glamour-Examples'
 }
-
-{ #category : #'as yet unclassified' }
-GLMBasicExamples class >> browse [
-	| browser pragmas |
-	browser := GLMTableLayoutBrowser new.
-	pragmas := Pragma 
-		allNamed: #glmBrowser:script:
-		in: self.
-	browser column: #titles; column: #example.
-	browser showOn: #titles; using: [
-		browser list
-			format: [:each | each argumentAt: 1]].
-	browser showOn: #example; from: #titles; using: [
-		"browser custom: "].
-	browser openOn: pragmas.
-]
 
 { #category : #private }
 GLMBasicExamples >> actionsFor: aPresentation [ 
@@ -35,8 +22,8 @@ GLMBasicExamples >> actionsFor: aPresentation [
 
 { #category : #'file examples' }
 GLMBasicExamples >> fileExplorer [
-	<glmBrowser: 'File Explorer' script: 'self new fileExplorer openOn: FileDirectory default'>
-
+	<glmBrowser: 'File Explorer' input: 'FileDirectory default'>
+	"self new fileExplorer openOn: FileDirectory default"
 	| browser |
 	browser := GLMTableLayoutBrowser new.
 	browser 
@@ -59,6 +46,7 @@ GLMBasicExamples >> fileExplorer [
 
 { #category : #'file examples' }
 GLMBasicExamples >> fileFinder [
+	<glmBrowser: 'File Finder' input: 'FileDirectory default'>
 	"self new fileFinder openOn: FileDirectory default"
 
 	| browser |
@@ -75,6 +63,7 @@ GLMBasicExamples >> fileFinder [
 
 { #category : #others }
 GLMBasicExamples >> interdependentPanes [
+	<glmBrowser: 'Inter-dependent Panes' input: '5'>
 	"self new interdependentPanes openOn: 5"
 	|browser |
 
@@ -115,9 +104,8 @@ GLMBasicExamples >> multiInitialSelection [
 
 { #category : #'menu examples' }
 GLMBasicExamples >> multipleFinderWithSearch [
-	"
-		self new multipleFinderWithSearch openOn: ($a to: $z).
-	"
+	<glmBrowser: 'Multiple List with Menu and Search' input: '$a to: $z'>
+	"self new multipleFinderWithSearch openOn: ($a to: $z)"
 
 	| finder |	
 	finder := GLMFinder new.
@@ -130,6 +118,7 @@ GLMBasicExamples >> multipleFinderWithSearch [
 
 { #category : #'tabs examples' }
 GLMBasicExamples >> multipleTabs [
+	<glmBrowser: 'Multiple Tabs' input: '1'>
 	"self new multipleTabs openOn: 1"
 	
 	| finder |
@@ -189,9 +178,8 @@ GLMBasicExamples >> pierTreeEditor [
 
 { #category : #'menu examples' }
 GLMBasicExamples >> simpleFinderWithMenu [
-	"
-		self new simpleFinderWithMenu openOn: $z.
-	"
+	<glmBrowser: 'Finder with Menu' input: '$z'>
+	"self new simpleFinderWithMenu openOn: $z"
 
 	| finder |
 	finder := GLMFinder new.
@@ -226,9 +214,8 @@ GLMBasicExamples >> singleInitialSelection [
 
 { #category : #'menu examples' }
 GLMBasicExamples >> staticAndDynamicMenu [
-	"
-		self new staticAndDynamicMenu openOn: $z.
-	"
+	<glmBrowser: 'Static and Dynamic Menu' input: '$z'>
+	"self new staticAndDynamicMenu openOn: $z"
 
 	| finder |
 	finder := GLMFinder new.
@@ -271,9 +258,8 @@ GLMBasicExamples >> treeWithInitialSelection [
 
 { #category : #'menu examples' }
 GLMBasicExamples >> treeWithMenu [
-	"
-		self new treeWithMenu openOn: #(($a $b $c $d) ($e $f) ($g $h $i $j $l)).
-	"
+	<glmBrowser: 'Tree with Menu' input: '#(($a $b $c $d) ($e $f) ($g $h $i $j $l))'>
+	"self new treeWithMenu openOn: #(($a $b $c $d) ($e $f) ($g $h $i $j $l))"
 	|browser |
 
 	browser := GLMTableLayoutBrowser new.
@@ -281,7 +267,7 @@ GLMBasicExamples >> treeWithMenu [
 	browser showOn: #one; using: [
 		browser tree
 			children: [:x | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ]];
-			act: [] on: $d entitled: '[ :item | item printString ]'.
+			act: [] on: $d entitled: 'Some action'.
 	browser showOn: #two; from: #one; using: [ browser text ].
 	^ browser
 ]
