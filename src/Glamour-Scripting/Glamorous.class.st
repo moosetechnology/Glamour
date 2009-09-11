@@ -1,0 +1,23 @@
+Class {
+	#name : #Glamorous,
+	#superclass : #Object,
+	#category : #'Glamour-Scripting'
+}
+
+{ #category : #'as yet unclassified' }
+Glamorous class >> editor [
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	browser row: #browser; row: #source.
+	browser title: 'Glamorous Editor'.
+	browser showOn: #source; using: [
+		browser text
+			forSmalltalk;
+			update: #selection on: $o entitled: 'Open (o)' with: [:text | text text]].
+	browser showOn: #browser; from: #source; using: [
+		browser dynamic
+			display: [:source | 
+				(Compiler evaluate: source logged: false)]].
+	browser openOn: '| browser |
+	'
+]
