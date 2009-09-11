@@ -266,8 +266,8 @@ GLMBasicExamples >> treeWithMenu [
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser tree
-			children: [:x | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ]];
-			act: [] on: $d entitled: 'Some action'.
+			children: [:x | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ];
+			act: [] entitled: 'Some action' ].
 	browser showOn: #two; from: #one; using: [ browser text ].
-	^ browser
+	^ browser inspect
 ]

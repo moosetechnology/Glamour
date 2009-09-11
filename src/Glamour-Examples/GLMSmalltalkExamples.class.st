@@ -363,6 +363,7 @@ GLMSmalltalkExamples >> stTreeBasedNavigator [
 		column: [:c | c row: #instanceMethods span: 2; row: #metaMethods].
 	browser showOn: #classCats; using: [ 
 		browser list
+			display: [:categories | categories sort: [:a :b | a name < b name]];
 			filterOn: [ :text :list | list select: [ :each | text match: each name ] ] ].
 	browser showOn: #classes; from: #classCats; using: [
 		browser tree 
