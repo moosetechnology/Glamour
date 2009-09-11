@@ -78,7 +78,7 @@ GLMBasicExamples >> interdependentPanes [
 	^ browser
 ]
 
-{ #category : #'explicit selection' }
+{ #category : #others }
 GLMBasicExamples >> multiInitialSelection [
 	"
 		| browser |
@@ -120,7 +120,7 @@ GLMBasicExamples >> multipleTabs [
 	
 	| finder |
 	finder := GLMFinder new.
-	(1 to: 9) do: [:i | 
+	(1 to: 19) do: [:i | 
 		finder text
 			title: 'Text ', i printString;
 			display: [:x | i printString].
@@ -188,7 +188,7 @@ GLMBasicExamples >> simpleFinderWithMenu [
 	^ finder
 ]
 
-{ #category : #'explicit selection' }
+{ #category : #others }
 GLMBasicExamples >> singleInitialSelection [
 	"
 		| browser |
@@ -202,8 +202,7 @@ GLMBasicExamples >> singleInitialSelection [
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser list
-			display: [:x | 1 to: x * 3];
-			format: [:number | Text string: number printString attribute: TextColor red]].
+			display: [:x | 1 to: x * 3]].
 	browser showOn: #two; from: #one; using: [
 		browser list
 			display: [:x | 1 to: x * 3]].
@@ -232,17 +231,13 @@ GLMBasicExamples >> staticAndDynamicMenu [
 	^ finder
 ]
 
-{ #category : #'explicit selection' }
+{ #category : #others }
 GLMBasicExamples >> treeWithInitialSelection [
 	"
 		| browser |
 		browser := self new treeWithInitialSelection. 
-		browser openOn: {
-			#first->{$a->{}. $c->{}. $d->{}}.
-			#second->{$e->{}. $f->{}}. 
-			#third->{$h->{}}
-		}.
-		(browser panes first port: #selection) value: $a->{}.
+		browser openOn: #(($a $b $c $d) ($e $f) ($g $h $i $j $l)).
+		(browser panes first port: #selection) value: $b.
 	"
 	|browser |
 
@@ -250,24 +245,7 @@ GLMBasicExamples >> treeWithInitialSelection [
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser tree
-			children: [:x | x value ]].
-	browser showOn: #two; from: #one; using: [ browser text ].
-	^ browser
-]
-
-{ #category : #'menu examples' }
-GLMBasicExamples >> treeWithMenu [
-	"
-		self new treeWithMenu openOn: #(($a $b $c $d) ($e $f) ($g $h $i $j $l)).
-	"
-	|browser |
-
-	browser := GLMTableLayoutBrowser new.
-	browser column: #one; column: #two.
-	browser showOn: #one; using: [
-		browser tree
-			children: [:x | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ]];
-			act: [] on: $d entitled: '[ :item | item printString ]'.
+			children: [:x | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ]].
 	browser showOn: #two; from: #one; using: [ browser text ].
 	^ browser
 ]

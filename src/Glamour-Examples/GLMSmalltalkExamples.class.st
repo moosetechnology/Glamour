@@ -238,17 +238,14 @@ GLMSmalltalkExamples >> stClassicBrowser [
 			[ browser text
 				title: 'Method source';
 				display: [ :class :method | class sourceCodeAt: method ];
-				when: [ :class :method | class notNil & method notNil ];
 				forSmalltalk: [ :class | class ].
 			browser text
 				forSmalltalk;
 				title: 'Class definition';
-				display: [ :class | class definition ];
-				when: [ :class | class notNil ].
+				display: [ :class | class definition ].
 			browser text
 				title: 'Class comment';
-				display: [ :class | class comment ];
-				when: [ :class | class notNil ] ].
+				display: [ :class | class comment ]].
 	^ browser
 ]
 
@@ -277,7 +274,13 @@ GLMSmalltalkExamples >> stClassicNavigator [
 					[ :classCat | 
 					(Smalltalk organization listAtCategoryNamed: classCat) collect: [ :className | Smalltalk classNamed: className ] ];
 				children: [ :each | each traitComposition traits ];
-				when: [ :classCat | classCat notNil ] ].
+				title: 'Class list'.
+	browser mondrian painting: [ :view :package |
+		view nodes: ((Smalltalk organization listAtCategoryNamed: package) collect: [:name | Smalltalk classNamed: name]).
+		view edgesFrom: #superclass.
+		view treeLayout.
+	]; title: 'Hierarchy'.
+ ].
 	browser
 		showOn: #categories;
 		from: #classes;
@@ -290,8 +293,7 @@ GLMSmalltalkExamples >> stClassicNavigator [
 			[ browser list
 				display: 
 					[ :class :category | 
-					(class organization listAtCategoryNamed: category) asSortedCollection ];
-				when: [ :class :category | class notNil and: [ category notNil ] ].
+					(class organization listAtCategoryNamed: category) asSortedCollection].
 			browser list
 				when: [ :class :category | class notNil and: [ category isNil ] ];
 				display: [ :class :category | class selectors asSortedCollection ] ].
