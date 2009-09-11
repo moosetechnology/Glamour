@@ -369,11 +369,6 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 	^treeMorph
 ]
 
-{ #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderWorkspacePresentation: aWorkspacePresentation [ 
-	^ self renderTextPresentation: aWorkspacePresentation
-]
-
 { #category : #factory }
 GLMMorphicRenderer >> theme [
 	^ UITheme current
