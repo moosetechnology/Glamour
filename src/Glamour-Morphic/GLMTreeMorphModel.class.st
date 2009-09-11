@@ -22,6 +22,16 @@ GLMTreeMorphModel >> allMenuActions [
 ]
 
 { #category : #accessing }
+GLMTreeMorphModel >> announce: anAnnouncement [
+	self announcer announce: anAnnouncement 
+]
+
+{ #category : #accessing }
+GLMTreeMorphModel >> announcer [
+	^ announcer ifNil: [announcer := Announcer new].
+]
+
+{ #category : #accessing }
 GLMTreeMorphModel >> childrenBlock [
 	^ childrenBlock ifNil: [ [OrderedCollection new] ]
 ]
@@ -72,6 +82,7 @@ GLMTreeMorphModel >> nodeModelFor: anObject [
 
 { #category : #'as yet unclassified' }
 GLMTreeMorphModel >> noteNewSelection: x [
+	x = currentSelection ifTrue: [^ self].
 	super noteNewSelection: x.
 	onSelection ifNotNil: [onSelection value: (x isNil ifTrue: [nil] ifFalse: [x item])].
 	self changed: #selection.
@@ -114,6 +125,7 @@ GLMTreeMorphModel >> silentNoteNewSelection: x [
 	self changed: #selection."
 ]
 
-{ #category : #'as yet unclassified' }
-GLMTreeMorphModel >> when: GLMMenuItemSelected do: aBlock [
+{ #category : #announcements }
+GLMTreeMorphModel >> when: anAnnouncement do: aBlock [
+	self announcer when: anAnnouncement do: aBlock 
 ]
