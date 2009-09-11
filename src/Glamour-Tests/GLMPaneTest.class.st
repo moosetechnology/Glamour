@@ -75,10 +75,9 @@ GLMPaneTest >> testPresentationConditions [
 	 
 	| pane presentation1 presentation2 presentation3 | 
 	pane := GLMPane named: 'test'. 
-	presentation1 := GLMPresentation new 
-		condition: [:first :second | first = 1 and: [second = 2]]. 
+	presentation1 := GLMPresentation new condition: [:first :second | first = 1 and: [second = 2]]. 
 	presentation2 := GLMPresentation new condition: [:first | first = #foo]. 
-	presentation3 := GLMPresentation new. 
+	presentation3 := GLMPresentation new useExplicitNotNil. 
 	pane addPresentation: presentation1. 
 	pane addPresentation: presentation2. 
 	pane addPresentation: presentation3. 

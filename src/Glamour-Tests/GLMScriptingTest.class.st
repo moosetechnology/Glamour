@@ -368,7 +368,7 @@ GLMScriptingTest >> testTransmissionWithTwoOrigins [
 	self assert: ((browser paneNamed: #three) port: #entity) value first = 42. 
 	self assert: ((browser paneNamed: #three) port: #entity) value last = nil. 
 	self assert: (browser paneNamed: #three) presentations size = 1. 
-	self assert: (browser paneNamed: #three) matchingPresentations size = 1. 
+	self assert: (browser paneNamed: #three) matchingPresentations size = 0. 
 	((browser paneNamed: #two) port: #selection) value: 43. 
 	self assert: ((browser paneNamed: #three) port: #entity) value first = 42. 
 	self assert: ((browser paneNamed: #three) port: #entity) value last = 43. 
