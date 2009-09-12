@@ -268,7 +268,7 @@ GLMSmalltalkExamples >> stClassicNavigator [
 	browser
 		showOn: #classCats;
 		using: 
-			[ browser list filterOn: [ :text :list | list select: [ :each | text match: each ] ] ].
+			[ browser list ].
 	browser
 		showOn: #classes;
 		from: #classCats;
@@ -368,7 +368,8 @@ GLMSmalltalkExamples >> stTreeBasedNavigator [
 	browser showOn: #classes; from: #classCats; using: [
 		browser tree 
 			display: [ :classCat | classCat classes];
-			children: [ :each | each traits ] ].
+			children: [ :each | each traits ];
+			icon: [:each | each stBehavior theNonMetaClass browserIcon isNil ifFalse: [OBMorphicIcons iconNamed: each stBehavior theNonMetaClass browserIcon] ifTrue: [nil] ] ].
 	browser showOn: #classComment; from: #classes; using: [
 		browser text
 			display: [:class | class comment]].
