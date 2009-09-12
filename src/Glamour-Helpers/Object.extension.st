@@ -15,12 +15,9 @@ Object >> asGlamorousMultiValue [
 Object >> glamourString [ 
 	"This method tries to circumvent the missing displayString from Squeak" 
 	 
-	| value |
-	value := (self class canUnderstand: #asString) 
+	^ (self class canUnderstand: #asString) 
 		ifTrue: [self asString] 
-		ifFalse: [self displayString].
-	value size > 16 ifTrue: [ value := (value copyFrom: 1 to: 12), ' ...' ].	
-	^ value 
+		ifFalse: [self displayString]
 ]
 
 { #category : #'*Glamour-Helpers' }
