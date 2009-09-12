@@ -147,7 +147,7 @@ GLMSmalltalkExamples >> objectFinderTabbed [
 		display: 
 			[ :anObject | 
 			anObject class allInstVarNames collect: [ :iv | iv -> (anObject instVarNamed: iv) ] ];
-		format: [ :assoc | assoc key asString , ' : ' , (assoc value printString 	copyFrom: 1 to: ((50 min: assoc value printString size) max: 0)) ];
+		format: [ :assoc | assoc key asString , ' : ' , (assoc value printString copyFrom: 1 to: ((50 min: assoc value printString size) max: 0)) ];
 		send: #value.
 	browser list
 		title: 'Collection';
@@ -341,10 +341,7 @@ GLMSmalltalkExamples >> stTreeBasedBrowser [
 				forSmalltalk;
 				title: 'Class definition';
 				display: [ :class | class definition ];
-				when: [ :class | class notNil ].
-			browser text
-				title: 'Class comment';
-				display: [ :class | class comment ];
+				useExplicitNotNil;
 				when: [ :class | class notNil ].
 			].
 	^ browser
