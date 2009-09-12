@@ -169,9 +169,8 @@ GLMPresentation >> title: aStringOrBlock [
 ]
 
 { #category : #accessing }
-GLMPresentation >> titleValue [ 
-	 
-	^self title glamourValue: self entity
+GLMPresentation >> titleValue [
+	^ self title glamourValue: self entity
 ]
 
 { #category : #accessing }
