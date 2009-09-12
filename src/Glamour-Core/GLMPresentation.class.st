@@ -170,7 +170,10 @@ GLMPresentation >> title: aStringOrBlock [
 
 { #category : #accessing }
 GLMPresentation >> titleValue [
-	^ self title glamourValue: self entity
+	| value |
+	value := self title glamourValue: self entity.
+	value size > 16 ifTrue: [ value := (value copyFrom: 1 to: 12), ' ...' ].	
+	^ value 
 ]
 
 { #category : #accessing }
