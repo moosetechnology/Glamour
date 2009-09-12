@@ -288,7 +288,7 @@ GLMMorphicRenderer >> renderPresentationsOf: aPane [
 	presentations do: [ :each | 
 		tabs
 			addLazyPage: [ self render: each ]
-			label: (each titleValue ifNil: [ each printString ]) ].
+			label: each titleValue ].
 	tabs selectedPageIndex: 1.
 	^ tabs
 ]
