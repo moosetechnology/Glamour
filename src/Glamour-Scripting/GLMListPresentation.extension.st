@@ -12,7 +12,6 @@ GLMListPresentation >> beSingle [
 
 { #category : #'*Glamour-Scripting' }
 GLMListPresentation >> filterOn: aBlock [ 
-	allowsInput := true.
 	filterBlock := aBlock
 ]
 
@@ -35,8 +34,7 @@ GLMListPresentation >> search: aText on: aList [
 ]
 
 { #category : #'*Glamour-Scripting' }
-GLMListPresentation >> searchOn: aBlock [ 
-	allowsInput := true.
+GLMListPresentation >> searchOn: aBlock [
 	searchBlock := aBlock
 ]
 
