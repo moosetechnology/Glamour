@@ -11,7 +11,8 @@ Class {
 		'glamourPresentation',
 		'childrenBlock',
 		'onSelection',
-		'displayFormat'
+		'displayFormat',
+		'tagsToFilterBy'
 	],
 	#category : #'Glamour-Morphic'
 }
@@ -33,7 +34,8 @@ GLMTreeMorphModel >> announcer [
 
 { #category : #accessing }
 GLMTreeMorphModel >> childrenBlock [
-	^ childrenBlock ifNil: [ [OrderedCollection new] ]
+	^ childrenBlock ifNil: [ childrenBlock := self glamourPresentation children isNil 
+		ifFalse: [self glamourPresentation children] ifTrue: [OrderedCollection new] ]
 ]
 
 { #category : #accessing }
@@ -43,11 +45,11 @@ GLMTreeMorphModel >> childrenBlock: aBlock [
 
 { #category : #accessing }
 GLMTreeMorphModel >> displayFormat [
-	^ displayFormat
+	^ displayFormat ifNil: [displayFormat := self glamourPresentation format]
 ]
 
 { #category : #accessing }
-GLMTreeMorphModel >> displayFormat: aBlock [
+GLMTreeMorphModel >> displayFormat: aBlock [ 
 	displayFormat := aBlock 
 ]
 
@@ -93,10 +95,15 @@ GLMTreeMorphModel >> onSelection: aBlock [
 	onSelection := aBlock
 ]
 
-{ #category : #'as yet unclassified' }
-GLMTreeMorphModel >> roots [
-	^ roots ifNil: [OrderedCollection new]
+{ #category : #callbacks }
+GLMTreeMorphModel >> resetTagsToFilterBy [
+	tagsToFilterBy := OrderedCollection new
+]
 
+{ #category : #accessing }
+GLMTreeMorphModel >> roots [
+	roots ifNil: [ self roots: self glamourPresentation displayValue ].
+	^ roots select: [:each | each hasTags: self tagsToFilterBy ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -115,6 +122,12 @@ GLMTreeMorphModel >> selectItem: anObject [
 				^ self]]]
 ]
 
+{ #category : #callbacks }
+GLMTreeMorphModel >> showOnlyNodesTaggedAs: aTag [
+	self tagsToFilterBy add: aTag.
+	self changed: #roots.
+]
+
 { #category : #'as yet unclassified' }
 GLMTreeMorphModel >> silentNoteNewSelection: x [
 	x expandParentPath.
@@ -123,6 +136,11 @@ GLMTreeMorphModel >> silentNoteNewSelection: x [
 	currentSelection ifNil: [^self].
 	currentSelection sendSettingMessageTo: self.
 	self changed: #selection."
+]
+
+{ #category : #callbacks }
+GLMTreeMorphModel >> tagsToFilterBy [
+	^ tagsToFilterBy ifNil: [ tagsToFilterBy := OrderedCollection new ]
 ]
 
 { #category : #announcements }

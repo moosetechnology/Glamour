@@ -345,8 +345,6 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 	treeModel := GLMTreeMorphModel new
 		glamourPresentation: aTreePresentation;
 		roots: aTreePresentation displayValue;
-		childrenBlock: aTreePresentation children;
-		displayFormat: aTreePresentation format;
 		yourself.
 	treeMorph := (MorphTreeMorph new)
 			 	on: treeModel 

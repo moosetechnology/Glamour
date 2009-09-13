@@ -62,6 +62,12 @@ GLMTreeMorphNodeModel >> expandParentPath [
 	self containerTree changed: {#roots. #openItemPath}, (self path collect: [:each | each item]).
 ]
 
+{ #category : #testing }
+GLMTreeMorphNodeModel >> hasTags: aCollection [
+	^ aCollection allSatisfy: [ :each |
+		(self containerTree glamourPresentation tagsFor: self item ) includes: each ] 
+]
+
 { #category : #accessing }
 GLMTreeMorphNodeModel >> icon [
 	^ self containerTree glamourPresentation iconFor: self item
@@ -117,6 +123,11 @@ GLMTreeMorphNodeModel >> pathIn: aCollection [
 	^ aCollection
 ]
 
+{ #category : #accessing }
+GLMTreeMorphNodeModel >> pressedTag: aTag [
+	self containerTree showOnlyNodesTaggedAs: aTag
+]
+
 { #category : #printing }
 GLMTreeMorphNodeModel >> printOn: aStream [
 	aStream nextPutAll: 'a NodeModel with '.
@@ -125,8 +136,22 @@ GLMTreeMorphNodeModel >> printOn: aStream [
 
 { #category : #accessing }
 GLMTreeMorphNodeModel >> rowMorphListFor: aContainer [ 
-	^ OrderedCollection 
-		with: (UITheme current newRowIn: World for: {self displayText})
+	| row |
+	row := OrderedCollection with: (UITheme current newRowIn: World for: {self displayText}).
+	self containerTree glamourPresentation hasTags ifTrue: [
+		(self containerTree glamourPresentation tagsFor: self item) do: [:each |
+			row add: (UITheme current 
+					newButtonIn: World
+					for: self
+					getState: nil
+					action: #pressedTag:
+					arguments: (Array with: each)
+					getEnabled: nil
+					label: each
+					help: 'tag')
+		]
+	].
+	^ row
 ]
 
 { #category : #enumerating }
