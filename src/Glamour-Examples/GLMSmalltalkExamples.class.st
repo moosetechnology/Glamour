@@ -189,9 +189,8 @@ GLMSmalltalkExamples >> printObjectAsAnItem: anObject [
 
 { #category : #code }
 GLMSmalltalkExamples >> stClassicBrowser [
-	"
-		self new stClassicBrowser openOn: Smalltalk organization categories.
-	"
+	<glmBrowser: 'Classic Code Browser' input: 'Smalltalk organization categories'>
+	"self new stClassicBrowser openOn: Smalltalk organization categories."
 	| browser |
 	browser := GLMTableLayoutBrowser new.
 	browser
@@ -212,19 +211,22 @@ GLMSmalltalkExamples >> stClassicBrowser [
 				forSmalltalk: [ :class | class ].
 			browser text
 				forSmalltalk;
+				useExplicitNotNil;
 				title: 'Class definition';
-				display: [ :class | class definition ].
+				display: [ :class | class definition ];
+				when: [:class | class notNil].
 			browser text
 				title: 'Class comment';
-				display: [ :class | class comment ]].
+				display: [ :class | class comment ];
+				useExplicitNotNil;
+				when: [:class | class notNil]
+		].
 	^ browser
 ]
 
 { #category : #code }
 GLMSmalltalkExamples >> stClassicNavigator [
-	"
-		self new stClassicNavigator openOn: Smalltalk organization categories.
-	"
+	"self new stClassicNavigator openOn: Smalltalk organization categories."
 	| browser |
 	browser := GLMTableLayoutBrowser new.
 	browser
@@ -282,9 +284,9 @@ GLMSmalltalkExamples >> stClassicNavigator [
 
 { #category : #code }
 GLMSmalltalkExamples >> stMultiPanedBrowser [
+	<glmBrowser: 'Multi-paned Code Browser' input: 'GLMSTClassCategory all'>
 	"self new stMultiPanedBrowser openOn: GLMSTClassCategory all"
 	| browser |
-	<glmBrowser: 'Tree Based Code Browser' input: 'GLMSTClassCategory all'>
 	browser := GLMTableLayoutBrowser new.
 	browser title: 'Glamorous Smallalk Browser'.
 	browser
