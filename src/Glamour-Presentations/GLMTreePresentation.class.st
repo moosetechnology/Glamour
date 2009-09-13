@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMTreePresentation,
-	#superclass : #GLMFormatedPresentation,
+	#superclass : #GLMTagablePresentation,
 	#instVars : [
 		'children'
 	],
@@ -20,7 +20,6 @@ GLMTreePresentation >> children: anObject [
 ]
 
 { #category : #rendering }
-GLMTreePresentation >> renderGlamorouslyOn: aRenderer [ 
-	 
-	^aRenderer renderTreePresentation: self
+GLMTreePresentation >> renderGlamorouslyOn: aRenderer [
+	^ aRenderer renderTreePresentation: self
 ]

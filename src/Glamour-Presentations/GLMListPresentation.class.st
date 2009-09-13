@@ -1,13 +1,10 @@
 Class {
 	#name : #GLMListPresentation,
-	#superclass : #GLMFormatedPresentation,
+	#superclass : #GLMTagablePresentation,
 	#instVars : [
-		'highlightPort',
 		'itemActions',
 		'searchBlock',
 		'filterBlock',
-		'menu',
-		'allowsInput',
 		'allowsMultipleSelection'
 	],
 	#category : #'Glamour-Presentations'
@@ -15,12 +12,17 @@ Class {
 
 { #category : #testing }
 GLMListPresentation >> allowsInput [
-	^ allowsInput ifNil: [ allowsInput := false ]
+	^ searchBlock notNil or: [ filterBlock notNil ]
 ]
 
 { #category : #accessing }
 GLMListPresentation >> filterStrategy [
 	^filterBlock
+]
+
+{ #category : #accessing }
+GLMListPresentation >> hasTags [
+	^ tag notNil
 ]
 
 { #category : #testing }
@@ -36,4 +38,19 @@ GLMListPresentation >> isSingle [
 { #category : #rendering }
 GLMListPresentation >> renderGlamorouslyOn: aRenderer [ 
 	^aRenderer renderListPresentation: self
+]
+
+{ #category : #accessing }
+GLMListPresentation >> tag [
+	^ tag
+]
+
+{ #category : #accessing }
+GLMListPresentation >> tag: anObject [
+	tag := anObject
+]
+
+{ #category : #accessing }
+GLMListPresentation >> tagFor: anObject [
+	self tag glamourValue: (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue)
 ]
