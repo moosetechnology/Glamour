@@ -7,9 +7,9 @@ Class {
 	#category : #'Glamour-Examples'
 }
 
-{ #category : #'st examples' }
-GLMSmalltalkExamples >> messageTally [
-	"self new messageTally openOn: (
+{ #category : #objects }
+GLMSmalltalkExamples >> messageTallyFinder [
+	"self new messageTallyFinder openOn: (
 	MessageTally new spyEvery: 1 on: [10000 timesRepeat: [1.23 printString]]; yourself)"
 
 	| browser finder |
@@ -33,7 +33,7 @@ GLMSmalltalkExamples >> messageTally [
 	^ browser
 ]
 
-{ #category : #'st examples' }
+{ #category : #objects }
 GLMSmalltalkExamples >> messageTallyTree [
 	<glmBrowser: 'Message Tally Tree' input: 'MessageTally new spyEvery: 1 on: [10000 timesRepeat: [1.23 printString]]; yourself'>
 	"self new messageTallyTree openOn: (MessageTally new spyEvery: 1 on: [10000 timesRepeat: [1.23 printString]]; yourself)"
@@ -54,9 +54,7 @@ GLMSmalltalkExamples >> messageTallyTree [
 
 { #category : #others }
 GLMSmalltalkExamples >> metacelloBrowser [
-	"
-		self new metacelloBrowser openOn: MetacelloMetacelloProject versions
-	"
+	"self new metacelloBrowser openOn: MetacelloMetacelloProject versions"
 	| browser |
 
 	browser := GLMTableLayoutBrowser new.
@@ -85,7 +83,7 @@ GLMSmalltalkExamples >> metacelloBrowser [
 	^ browser 
 ]
 
-{ #category : #'st examples' }
+{ #category : #objects }
 GLMSmalltalkExamples >> objectFinder [
 	"
 		self new objectFinder openOn: #(1 2 3 4)
@@ -134,7 +132,7 @@ GLMSmalltalkExamples >> objectFinder [
 	^ browser
 ]
 
-{ #category : #'st examples' }
+{ #category : #objects }
 GLMSmalltalkExamples >> objectFinderTabbed [
 	<glmBrowser: 'Object Finder' input: 'Smalltalk'>
 	"
@@ -189,38 +187,7 @@ GLMSmalltalkExamples >> printObjectAsAnItem: anObject [
 	^ stream contents
 ]
 
-{ #category : #'st examples' }
-GLMSmalltalkExamples >> smalldoc [
-
-	"self new smalldoc openOn: Smalltalk organization categories"
-	"SGLDefaultComponent register: self new smalldoc on: Smalltalk organization categories"
-	|browser|
-	browser := GLMTableLayoutBrowser new.
-	browser column: #classCats; column: #classes; column: #comment.
-	browser showOn: #classCats; using: [
-		browser list].
-	browser showOn: #classes; from: #classCats; using: [
-		browser list
-			title: 'Classes';
-			display: [:classCat | (Smalltalk organization listAtCategoryNamed: classCat) 
-				collect: [:className | Smalltalk classNamed: className]];
-			act: [:list | list selection inspect] entitled: 'Inspect'.
-		"browser mondrian
-			title: 'Hierarchies';
-			painting: [:view :classCat | 
-				classes := (Smalltalk organization listAtCategoryNamed: classCat) 
-					collect: [:className | Smalltalk classNamed: className].
-				view nodes: classes.
-				view edgesFrom: #superclass.
-				view treeLayout
-			]"].
-	browser showOn: #comment; from: #classes; using: [
-		browser text
-			display: [:class | class comment]].
-	^ browser
-]
-
-{ #category : #'st examples' }
+{ #category : #code }
 GLMSmalltalkExamples >> stClassicBrowser [
 	"
 		self new stClassicBrowser openOn: Smalltalk organization categories.
@@ -253,7 +220,7 @@ GLMSmalltalkExamples >> stClassicBrowser [
 	^ browser
 ]
 
-{ #category : #'st examples' }
+{ #category : #code }
 GLMSmalltalkExamples >> stClassicNavigator [
 	"
 		self new stClassicNavigator openOn: Smalltalk organization categories.
@@ -313,11 +280,11 @@ GLMSmalltalkExamples >> stClassicNavigator [
 	^ browser
 ]
 
-{ #category : #'st examples' }
-GLMSmalltalkExamples >> stTreeBasedBrowser [
-	<glmBrowser: 'Tree Based Code Browser' input: 'GLMSTClassCategory all'>
-	"self new stTreeBasedBrowser openOn: GLMSTClassCategory all"
+{ #category : #code }
+GLMSmalltalkExamples >> stMultiPanedBrowser [
+	"self new stMultiPanedBrowser openOn: GLMSTClassCategory all"
 	| browser |
+	<glmBrowser: 'Tree Based Code Browser' input: 'GLMSTClassCategory all'>
 	browser := GLMTableLayoutBrowser new.
 	browser title: 'Glamorous Smallalk Browser'.
 	browser
@@ -325,7 +292,7 @@ GLMSmalltalkExamples >> stTreeBasedBrowser [
 		column: #sourceCode.
 	browser
 		showOn: #navigation;
-		using: [ browser custom: self stTreeBasedNavigator ].
+		using: [ browser custom: self stMutiPanedNavigator ].
 	browser
 		showOn: #sourceCode;
 		from: #navigation -> #selectedClass;
@@ -335,20 +302,19 @@ GLMSmalltalkExamples >> stTreeBasedBrowser [
 			[ browser text
 				title: 'Method source';
 				display: [ :class :method | method sourceCode ];
-				when: [ :class :method | method notNil and: [method isMethod] ];
+				when: [ :class :method | method notNil and: [ method isMethod ] ];
 				forSmalltalk: [ :class | class stBehavior ].
 			browser text
 				forSmalltalk;
 				title: 'Class definition';
 				display: [ :class | class definition ];
 				useExplicitNotNil;
-				when: [ :class | class notNil ].
-			].
+				when: [ :class | class notNil ] ].
 	^ browser
 ]
 
-{ #category : #'st examples' }
-GLMSmalltalkExamples >> stTreeBasedNavigator [
+{ #category : #code }
+GLMSmalltalkExamples >> stMutiPanedNavigator [
 	"
 		self new stTreeBasedNavigator openOn: GLMSTClassCategory all
 	"
@@ -356,40 +322,89 @@ GLMSmalltalkExamples >> stTreeBasedNavigator [
 	browser := GLMTableLayoutBrowser new.
 	browser
 		column: #classCats;
-		column: [:c | c row: #classes span: 2; row: #classComment];
-		column: [:c | c row: #instanceMethods span: 2; row: #metaMethods].
-	browser showOn: #classCats; using: [ 
-		browser list
-			display: [:categories | categories sort: [:a :b | a name < b name]];
-			filterOn: [ :text :list | list select: [ :each | text match: each name ] ] ].
-	browser showOn: #classes; from: #classCats; using: [
-		browser tree 
-			display: [ :classCat | classCat classes];
-			children: [ :each | each traits ];
-			icon: [:each | each stBehavior theNonMetaClass browserIcon isNil ifFalse: [OBMorphicIcons iconNamed: each stBehavior theNonMetaClass browserIcon] ifTrue: [nil] ] ].
-	browser showOn: #classComment; from: #classes; using: [
-		browser text
-			display: [:class | class comment]].
-	browser showOn: #instanceMethods; from: #classes; using: [
-		browser tree
-			display: [ :class | class categories];
-			children: [:catOrMethod | 
-				catOrMethod isCategory ifTrue: [catOrMethod methods] ifFalse: [OrderedCollection new] ];
-			send: [:catOrMethod | (catOrMethod notNil and: [catOrMethod isCategory]) ifTrue: [nil] ifFalse: [catOrMethod] ] ].
-	browser showOn: #metaMethods; from: #classes; using: [
-		browser tree
-			display: [ :class | class metaSide categories];
-			children: [:catOrMethod | 
-				catOrMethod isCategory ifTrue: [catOrMethod methods] ifFalse: [OrderedCollection new] ];
-			send: [:catOrMethod | (catOrMethod notNil and: [catOrMethod isCategory]) ifTrue: [nil] ifFalse: [catOrMethod] ] ].
-	browser sendToOutside: #selectedClassCategory from: #classCats.
-	browser sendToOutside: #selectedClass from: #classes.
-	browser sendToOutside: #selectedMethod from: #instanceMethods.
-	browser sendToOutside: #selectedMethod from: #metaMethods.
+		column: 
+			[ :c | 
+			c
+				row: #classes
+					span: 2;
+				row: #classComment ];
+		column: 
+			[ :c | 
+			c
+				row: #instanceMethods
+					span: 2;
+				row: #metaMethods ].
+	browser
+		showOn: #classCats;
+		using: 
+			[ browser list
+				display: [ :categories | categories sort: [ :a :b | a name < b name ] ];
+				filterOn: [ :text :list | list select: [ :each | text match: each name ] ] ].
+	browser
+		showOn: #classes;
+		from: #classCats;
+		using: 
+			[ browser tree
+				display: [ :classCat | classCat classes ];
+				children: [ :each | each traits ];
+				icon: 
+					[ :each | 
+					each stBehavior theNonMetaClass browserIcon isNil 
+						ifFalse: 
+							[ OBMorphicIcons iconNamed: each stBehavior theNonMetaClass browserIcon ]
+						ifTrue: [ nil ] ] ].
+	browser
+		showOn: #classComment;
+		from: #classes;
+		using: [ browser text display: [ :class | class comment ] ].
+	browser
+		showOn: #instanceMethods;
+		from: #classes;
+		using: 
+			[ browser tree
+				display: [ :class | class categories ];
+				children: 
+					[ :catOrMethod | 
+					catOrMethod isCategory 
+						ifTrue: [ catOrMethod methods ]
+						ifFalse: [ OrderedCollection new ] ];
+				send: 
+					[ :catOrMethod | 
+					(catOrMethod notNil and: [ catOrMethod isCategory ]) 
+						ifTrue: [ nil ]
+						ifFalse: [ catOrMethod ] ] ].
+	browser
+		showOn: #metaMethods;
+		from: #classes;
+		using: 
+			[ browser tree
+				display: [ :class | class metaSide categories ];
+				children: 
+					[ :catOrMethod | 
+					catOrMethod isCategory 
+						ifTrue: [ catOrMethod methods ]
+						ifFalse: [ OrderedCollection new ] ];
+				send: 
+					[ :catOrMethod | 
+					(catOrMethod notNil and: [ catOrMethod isCategory ]) 
+						ifTrue: [ nil ]
+						ifFalse: [ catOrMethod ] ] ].
+	browser 
+		sendToOutside: #selectedClassCategory
+		from: #classCats.
+	browser 
+		sendToOutside: #selectedClass
+		from: #classes.
+	browser 
+		sendToOutside: #selectedMethod
+		from: #instanceMethods.
+	browser 
+		sendToOutside: #selectedMethod
+		from: #metaMethods.
 	^ browser
 ]
 
-{ #category : #'st examples' }
+{ #category : #code }
 GLMSmalltalkExamples >> traitsBrowser [
 	| browser codeBrowser |
 	browser := GLMFinder new.
