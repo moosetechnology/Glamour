@@ -25,6 +25,11 @@ GLMSTBehavior >> definition [
 	^ self stBehavior definition
 ]
 
+{ #category : #testing }
+GLMSTBehavior >> isMetaSide [ 
+	^ self stBehavior class = Metaclass 
+]
+
 { #category : #accessing }
 GLMSTBehavior >> metaSide [
 	^ (GLMSTClass named: self name) 

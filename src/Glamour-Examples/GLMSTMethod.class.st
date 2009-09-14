@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #accessing }
+GLMSTMethod >> glmBehavior [ 
+	^ self glmCategory glmBehavior 
+]
+
+{ #category : #accessing }
 GLMSTMethod >> glmCategory [
 	^ glmCategory
 ]

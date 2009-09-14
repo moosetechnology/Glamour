@@ -302,7 +302,7 @@ GLMSmalltalkExamples >> stMultiPanedBrowser [
 		from: #navigation -> #selectedClassCategory;
 		using: 
 			[ browser text
-				title: 'Method source';
+				title: [:class :method | method glmBehavior isMetaSide ifTrue: ['Meta-side method'] ifFalse: ['Instance-side method']];
 				display: [ :class :method | method sourceCode ];
 				when: [ :class :method | method notNil and: [ method isMethod ] ];
 				forSmalltalk: [ :class | class stBehavior ].
