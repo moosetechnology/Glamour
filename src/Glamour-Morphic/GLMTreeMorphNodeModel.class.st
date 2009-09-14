@@ -11,6 +11,32 @@ Class {
 }
 
 { #category : #accessing }
+GLMTreeMorphNodeModel >> buttonForTag: each [ 
+	| button oldLabel m |
+	button := SimpleButtonMorph new.
+	(oldLabel := button findA: StringMorph) ifNotNil: [oldLabel delete].
+	m := StringMorph 
+			contents: each 
+			font: (LogicalFont 
+						familyName: UITheme current buttonFont familyName 
+						pointSize: UITheme current buttonFont pointSize - 2).
+	button extent: (m width + 6) @ (m height).
+	m position: 3@0 "button center - (m extent // 2)".
+	m lock.
+	m color: Color white.
+	button 
+		addMorph: m;
+		borderStyle: (BorderStyle inset width: 1);
+		borderColor: Color gray;
+		color: Color gray;
+		target: self;
+		actionSelector: #pressedTag:;
+		arguments: (Array with: each);
+		useRoundedCorners.
+	^ button
+]
+
+{ #category : #accessing }
 GLMTreeMorphNodeModel >> childrenItems [
 	^ self containerTree childrenBlock glamourValue: self item
 ]
@@ -136,24 +162,12 @@ GLMTreeMorphNodeModel >> printOn: aStream [
 
 { #category : #accessing }
 GLMTreeMorphNodeModel >> rowMorphListFor: aContainer [ 
-	| row button |
-	row := OrderedCollection with: (UITheme current newRowIn: World for: {self displayText}).
-	self containerTree glamourPresentation hasTags ifTrue: [
-		(self containerTree glamourPresentation tagsFor: self item) do: [:each |
-			button := SimpleButtonMorph new.
-			button
-				label: each font: (StrikeFont familyName: #Accuny size: 8);
-				borderStyle: (BorderStyle inset width: 1);
-				extent: button extent - 3;
-				borderColor: Color gray;
-				color: Color lightGray;
-				target: self;
-				actionSelector: #pressedTag:;
-				arguments: (Array with: each);
-				useRoundedCorners.
-			row addLast: button
-		]
-	].
+	| row |
+	row := OrderedCollection with: (UITheme current 
+			newRowIn: World
+			for: {  (self displayText)  }).
+	self containerTree glamourPresentation hasTags ifTrue: 
+		[ (self containerTree glamourPresentation tagsFor: self item) do: [ :each | row addLast: (self buttonForTag: each) ] ].
 	^ row
 ]
 
