@@ -233,6 +233,23 @@ GLMBasicExamples >> staticAndDynamicMenu [
 	^ finder
 ]
 
+{ #category : #others }
+GLMBasicExamples >> taggedTree [
+	<glmBrowser: 'Tagged Tree' input: '#(1 2 3 4 5)'>
+	"self new taggedTree openOn: #(1 2 3 4 5)"
+	|browser |
+
+	browser := GLMTableLayoutBrowser new.
+	browser column: #one; column: #two.
+	browser showOn: #one; using: [
+		browser tree
+			tags: [:each | each even ifTrue: ['even'] ifFalse: ['odd']]].
+	browser showOn: #two; from: #one; using: [
+		browser text
+			display: [:x | 'You have selected ', x printString ]].
+	^ browser
+]
+
 { #category : #'explicit selection' }
 GLMBasicExamples >> treeWithInitialSelection [
 	"
