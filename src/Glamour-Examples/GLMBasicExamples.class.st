@@ -102,7 +102,7 @@ GLMBasicExamples >> multiInitialSelection [
 	^ browser
 ]
 
-{ #category : #'menu examples' }
+{ #category : #'actions examples' }
 GLMBasicExamples >> multipleFinderWithSearch [
 	<glmBrowser: 'Multiple List with Menu and Search' input: '$a to: $z'>
 	"self new multipleFinderWithSearch openOn: ($a to: $z)"
@@ -176,7 +176,7 @@ GLMBasicExamples >> pierTreeEditor [
 	^ browser 
 ]
 
-{ #category : #'menu examples' }
+{ #category : #'actions examples' }
 GLMBasicExamples >> simpleFinderWithMenu [
 	<glmBrowser: 'Finder with Menu' input: '$z'>
 	"self new simpleFinderWithMenu openOn: $z"
@@ -212,7 +212,7 @@ GLMBasicExamples >> singleInitialSelection [
 	^ browser
 ]
 
-{ #category : #'menu examples' }
+{ #category : #'actions examples' }
 GLMBasicExamples >> staticAndDynamicMenu [
 	<glmBrowser: 'Static and Dynamic Menu' input: '$z'>
 	"self new staticAndDynamicMenu openOn: $z"
@@ -256,7 +256,7 @@ GLMBasicExamples >> treeWithInitialSelection [
 	^ browser
 ]
 
-{ #category : #'menu examples' }
+{ #category : #'actions examples' }
 GLMBasicExamples >> treeWithMenu [
 	<glmBrowser: 'Tree with Menu' input: '#(($a $b $c $d) ($e $f) ($g $h $i $j $l))'>
 	"self new treeWithMenu openOn: #(($a $b $c $d) ($e $f) ($g $h $i $j $l))"
@@ -271,4 +271,16 @@ GLMBasicExamples >> treeWithMenu [
 			icon: [:x | MenuIcons helpIcon ]].
 	browser showOn: #two; from: #one; using: [ browser text ].
 	^ browser
+]
+
+{ #category : #'actions examples' }
+GLMBasicExamples >> updateAction [
+	<glmBrowser: 'Update Action' input: 'String withAll: ''Select a piece of text and open on the next pane via the contextual menu or by pressing Modifier+o. Otherwise just open the complete copy of the current text on the next pane via the menu or by pressing Modifier+l.'''>
+	"self new updateAction openOn: 'Select a piece of text and open on the next pane'"
+	| browser |
+	browser := GLMFinder new.
+	browser text
+		update: #selection on: $o entitled: 'Open selection on next pane' with: [:text | text selectedText ];
+		update: #selection on: $l entitled: 'Open complete text on next pane' with: [:text | text text ].
+	^ browser 
 ]
