@@ -336,6 +336,7 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 			yourself.
 	self installActionsOnUI: textModel fromPresentation: aTextPresentation.
 	aTextPresentation selectedTextBlock: [ textMorph textMorph editor selection ].
+	aTextPresentation textBlock: [ textMorph textMorph editor text ].
 	^textMorph
 ]
 
