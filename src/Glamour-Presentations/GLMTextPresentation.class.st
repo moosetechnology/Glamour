@@ -2,12 +2,13 @@ Class {
 	#name : #GLMTextPresentation,
 	#superclass : #GLMFormatedPresentation,
 	#instVars : [
-		'text',
 		'selectedText',
 		'cursorPosition',
 		'selectedTextBlock',
 		'highlightSmalltalk',
-		'highlightSmalltalkContext'
+		'highlightSmalltalkContext',
+		'textBlock',
+		'text'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -82,13 +83,18 @@ GLMTextPresentation >> selection [
 ]
 
 { #category : #accessing }
-GLMTextPresentation >> text [ 
-	 
-	^text ifNil: [text := self formatedDisplayValue]
+GLMTextPresentation >> text [
+	^ text isNil 
+		ifTrue: [self textBlock value]
+		ifFalse: [text]
 ]
 
 { #category : #accessing }
-GLMTextPresentation >> text: anObject [ 
-	 
-	text := anObject
+GLMTextPresentation >> textBlock [
+	^ textBlock
+]
+
+{ #category : #accessing }
+GLMTextPresentation >> textBlock: anObject [ 
+	textBlock := anObject
 ]
