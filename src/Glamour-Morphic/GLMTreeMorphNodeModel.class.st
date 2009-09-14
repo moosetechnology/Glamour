@@ -136,19 +136,22 @@ GLMTreeMorphNodeModel >> printOn: aStream [
 
 { #category : #accessing }
 GLMTreeMorphNodeModel >> rowMorphListFor: aContainer [ 
-	| row |
+	| row button |
 	row := OrderedCollection with: (UITheme current newRowIn: World for: {self displayText}).
 	self containerTree glamourPresentation hasTags ifTrue: [
 		(self containerTree glamourPresentation tagsFor: self item) do: [:each |
-			row add: (UITheme current 
-					newButtonIn: World
-					for: self
-					getState: nil
-					action: #pressedTag:
-					arguments: (Array with: each)
-					getEnabled: nil
-					label: each
-					help: 'tag')
+			button := SimpleButtonMorph new.
+			button
+				label: each font: (StrikeFont familyName: #Accuny size: 8);
+				borderStyle: (BorderStyle inset width: 1);
+				extent: button extent - 3;
+				borderColor: Color gray;
+				color: Color lightGray;
+				target: self;
+				actionSelector: #pressedTag:;
+				arguments: (Array with: each);
+				useRoundedCorners.
+			row addLast: button
 		]
 	].
 	^ row
