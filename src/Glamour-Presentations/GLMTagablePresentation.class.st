@@ -25,6 +25,7 @@ GLMTagablePresentation >> tagsBlock: anObject [
 { #category : #accessing }
 GLMTagablePresentation >> tagsFor: anObject [
 	| value |
+	self hasTags ifFalse: [ ^ OrderedCollection new ].
 	value := self tagsBlock glamourValue: (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue).
 	^ value isString
 		ifTrue: [ OrderedCollection with: value ]
