@@ -97,13 +97,14 @@ GLMTreeMorphModel >> onSelection: aBlock [
 
 { #category : #callbacks }
 GLMTreeMorphModel >> resetTagsToFilterBy [
-	tagsToFilterBy := OrderedCollection new
+	tagsToFilterBy := OrderedCollection new.
+	self changed: #roots.
 ]
 
 { #category : #accessing }
 GLMTreeMorphModel >> roots [
 	roots ifNil: [ self roots: self glamourPresentation displayValue ].
-	^ roots select: [:each | each hasTags: self tagsToFilterBy ]
+	^ roots select: [ :each | each itemHasTags: self tagsToFilterBy ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -123,9 +124,8 @@ GLMTreeMorphModel >> selectItem: anObject [
 ]
 
 { #category : #callbacks }
-GLMTreeMorphModel >> showOnlyNodesTaggedAs: aTag [
-	self tagsToFilterBy add: aTag.
-	self changed: #roots.
+GLMTreeMorphModel >> shouldFilterByTag: aTag [
+	^ self tagsToFilterBy includes: aTag 
 ]
 
 { #category : #'as yet unclassified' }
@@ -141,6 +141,14 @@ GLMTreeMorphModel >> silentNoteNewSelection: x [
 { #category : #callbacks }
 GLMTreeMorphModel >> tagsToFilterBy [
 	^ tagsToFilterBy ifNil: [ tagsToFilterBy := OrderedCollection new ]
+]
+
+{ #category : #callbacks }
+GLMTreeMorphModel >> toggleFilteringByTag: aTag [ 
+	(self shouldFilterByTag: aTag) 
+		ifTrue: [self tagsToFilterBy remove: aTag ]
+		ifFalse: [self tagsToFilterBy add: aTag].
+	self changed: #roots
 ]
 
 { #category : #announcements }

@@ -14,36 +14,36 @@ Class {
 GLMTreeMorphNodeModel >> buttonForTag: each [ 
 	| button oldLabel m |
 	button := SimpleButtonMorph new.
-	(oldLabel := button findA: StringMorph) ifNotNil: [oldLabel delete].
+	(oldLabel := button findA: StringMorph) ifNotNil: [ oldLabel delete ].
 	m := StringMorph 
-			contents: each 
-			font: (LogicalFont 
-						familyName: UITheme current buttonFont familyName 
-						pointSize: UITheme current buttonFont pointSize - 2).
-	button extent: (m width + 6) @ (m height).
-	m position: 3@0 "button center - (m extent // 2)".
+		contents: each
+		font: (LogicalFont 
+				familyName: UITheme current buttonFont familyName
+				pointSize: UITheme current buttonFont pointSize - 2).
+	button extent: (m width + 6) @ m height.
+	m position: 3 @ 0.	"button center - (m extent // 2)"
 	m lock.
-	m color: Color white.
-	button 
+	button
 		addMorph: m;
 		borderStyle: (BorderStyle inset width: 1);
 		borderColor: Color gray;
-		color: Color gray;
 		target: self;
-		actionSelector: #pressedTag:;
+		actionSelector: #toggleFilteringByTag:;
 		arguments: (Array with: each);
 		useRoundedCorners.
+	(self containerTree shouldFilterByTag: each) 
+		ifFalse: 
+			[ m color: Color white.
+			button color: Color gray ]
+		ifTrue: 
+			[ m color: Color darkGray.
+			button color: Color veryLightGray ].
 	^ button
 ]
 
 { #category : #accessing }
 GLMTreeMorphNodeModel >> childrenItems [
 	^ self containerTree childrenBlock glamourValue: self item
-]
-
-{ #category : #accessing }
-GLMTreeMorphNodeModel >> classButtonRow [
-	^ UITheme current newRowIn: World for: {self displayText}
 ]
 
 { #category : #accessing }
@@ -88,15 +88,16 @@ GLMTreeMorphNodeModel >> expandParentPath [
 	self containerTree changed: {#roots. #openItemPath}, (self path collect: [:each | each item]).
 ]
 
-{ #category : #testing }
-GLMTreeMorphNodeModel >> hasTags: aCollection [
-	^ aCollection allSatisfy: [ :each |
-		(self containerTree glamourPresentation tagsFor: self item ) includes: each ] 
-]
-
 { #category : #accessing }
 GLMTreeMorphNodeModel >> icon [
 	^ self containerTree glamourPresentation iconFor: self item
+]
+
+{ #category : #testing }
+GLMTreeMorphNodeModel >> itemHasTags: aCollection [ 
+	^ aCollection allSatisfy: 
+		[ :each | 
+		(self containerTree glamourPresentation tagsFor: self item) includes: each ]
 ]
 
 { #category : #menu }
@@ -149,11 +150,6 @@ GLMTreeMorphNodeModel >> pathIn: aCollection [
 	^ aCollection
 ]
 
-{ #category : #accessing }
-GLMTreeMorphNodeModel >> pressedTag: aTag [
-	self containerTree showOnlyNodesTaggedAs: aTag
-]
-
 { #category : #printing }
 GLMTreeMorphNodeModel >> printOn: aStream [
 	aStream nextPutAll: 'a NodeModel with '.
@@ -163,12 +159,15 @@ GLMTreeMorphNodeModel >> printOn: aStream [
 { #category : #accessing }
 GLMTreeMorphNodeModel >> rowMorphListFor: aContainer [ 
 	| row |
-	row := OrderedCollection with: (UITheme current 
-			newRowIn: World
-			for: {  (self displayText)  }).
-	self containerTree glamourPresentation hasTags ifTrue: 
-		[ (self containerTree glamourPresentation tagsFor: self item) do: [ :each | row addLast: (self buttonForTag: each) ] ].
+	row := OrderedCollection with: (UITheme current newRowIn: World for: { self displayText }).
+	(self containerTree glamourPresentation tagsFor: self item) do: [ :each | 
+			row addLast: (self buttonForTag: each) ].
 	^ row
+]
+
+{ #category : #accessing }
+GLMTreeMorphNodeModel >> toggleFilteringByTag: aTag [ 
+	self containerTree toggleFilteringByTag: aTag
 ]
 
 { #category : #enumerating }
