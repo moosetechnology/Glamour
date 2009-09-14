@@ -1,26 +1,18 @@
 Class {
 	#name : #GLMSTClassCategory,
-	#superclass : #GLMSTModel,
+	#superclass : #GLMSTNamedModel,
 	#category : #'Glamour-Examples'
 }
 
 { #category : #'as yet unclassified' }
 GLMSTClassCategory class >> all [
-	^ Smalltalk organization categories collect: [:each | self named: each]
+	|environment|
+	environment := self defaultEnvironment.
+	^ environment categories collect: [:each | self named: each environment: environment]
 ]
 
 { #category : #accessing }
 GLMSTClassCategory >> classes [
 	^ (Smalltalk organization listAtCategoryNamed: self name) collect: [ :className |
-		GLMSTClass new stBehavior: (Smalltalk classNamed: className) ]
-]
-
-{ #category : #accessing }
-GLMSTClassCategory >> name [
-	^ name
-]
-
-{ #category : #accessing }
-GLMSTClassCategory >> name: anObject [
-	name := anObject
+		GLMSTClass behavior: (Smalltalk classNamed: className) environment: self environment]
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMSTMethod,
-	#superclass : #GLMSTModel,
+	#superclass : #GLMSTNamedModel,
 	#instVars : [
 		'glmCategory'
 	],
@@ -24,5 +24,5 @@ GLMSTMethod >> isMethod [
 
 { #category : #accessing }
 GLMSTMethod >> sourceCode [
-	^ self glmCategory glmClass sourceCodeAt: self name
+	^ self glmCategory glmBehavior sourceCodeAt: self name
 ]

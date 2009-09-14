@@ -1,16 +1,18 @@
 Class {
 	#name : #GLMSTBehavior,
-	#superclass : #GLMSTModel,
+	#superclass : #GLMSTNamedModel,
 	#instVars : [
 		'stBehavior'
 	],
 	#category : #'Glamour-Examples'
 }
 
-{ #category : #accessing }
-GLMSTBehavior >> categories [
-	^ self stBehavior organization categories collect: [:each |
-		GLMSTCategory new name: each; glmClass: self; yourself]
+{ #category : #'instance creation' }
+GLMSTBehavior class >> behavior: aBehavior environment: anEnvironment [
+	^ self new
+		stBehavior: aBehavior;
+		environment: anEnvironment;
+		yourself
 ]
 
 { #category : #accessing }
@@ -33,6 +35,16 @@ GLMSTBehavior >> metaSide [
 { #category : #accessing }
 GLMSTBehavior >> name [
 	^ self stBehavior name
+]
+
+{ #category : #accessing }
+GLMSTBehavior >> protocols [
+	^ (self environment protocolsFor: self stBehavior) collect: 
+		[ :each | 
+		GLMSTProtocol new
+			name: each;
+			glmBehavior: self;
+			yourself ]
 ]
 
 { #category : #accessing }

@@ -364,7 +364,7 @@ GLMSmalltalkExamples >> stMutiPanedNavigator [
 		from: #classes;
 		using: 
 			[ browser tree
-				display: [ :class | class categories ];
+				display: [ :class | class protocols ];
 				children: 
 					[ :catOrMethod | 
 					catOrMethod isCategory 
@@ -380,7 +380,7 @@ GLMSmalltalkExamples >> stMutiPanedNavigator [
 		from: #classes;
 		using: 
 			[ browser tree
-				display: [ :class | class metaSide categories ];
+				display: [ :class | class metaSide protocols ];
 				children: 
 					[ :catOrMethod | 
 					catOrMethod isCategory 

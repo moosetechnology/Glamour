@@ -2,16 +2,24 @@ Class {
 	#name : #GLMSTModel,
 	#superclass : #Object,
 	#instVars : [
-		'name'
+		'environment'
 	],
 	#category : #'Glamour-Examples'
 }
 
-{ #category : #'as yet unclassified' }
-GLMSTModel class >> named: aString [
-	^ self new
-		name: aString;
-		yourself
+{ #category : #defaults }
+GLMSTModel class >> defaultEnvironment [
+	^ BrowserEnvironment new
+]
+
+{ #category : #accessing }
+GLMSTModel >> environment [
+	^ environment
+]
+
+{ #category : #accessing }
+GLMSTModel >> environment: anObject [
+	environment := anObject
 ]
 
 { #category : #testing }
@@ -36,12 +44,7 @@ GLMSTModel >> isMethod [
 
 { #category : #accessing }
 GLMSTModel >> name [
-	^ name
-]
-
-{ #category : #accessing }
-GLMSTModel >> name: anObject [
-	name := anObject
+	self subclassResponsibility
 ]
 
 { #category : #printing }
