@@ -318,7 +318,7 @@ GLMSmalltalkExamples >> stMultiPanedBrowser [
 { #category : #code }
 GLMSmalltalkExamples >> stMutiPanedNavigator [
 	"
-		self new stTreeBasedNavigator openOn: GLMSTClassCategory all
+		self new stMutiPanedNavigator openOn: GLMSTClassCategory all
 	"
 	| browser |
 	browser := GLMTableLayoutBrowser new.

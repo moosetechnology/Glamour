@@ -2,7 +2,9 @@ Class {
 	#name : #GLMSTBehavior,
 	#superclass : #GLMSTNamedModel,
 	#instVars : [
-		'stBehavior'
+		'stBehavior',
+		'instanceAndMetaMethods',
+		'methods'
 	],
 	#category : #'Glamour-Examples'
 }
@@ -25,6 +27,11 @@ GLMSTBehavior >> definition [
 	^ self stBehavior definition
 ]
 
+{ #category : #accessing }
+GLMSTBehavior >> instanceAndMetaMethods [
+	^ instanceAndMetaMethods ifNil: [ instanceAndMetaMethods := (self methods, self metaSide methods) asSortedCollection: [:a :b | a name < b name] ]
+]
+
 { #category : #testing }
 GLMSTBehavior >> isMetaSide [ 
 	^ self stBehavior class = Metaclass 
@@ -35,6 +42,15 @@ GLMSTBehavior >> metaSide [
 	^ (GLMSTClass named: self name) 
 		stBehavior: self stBehavior class;
 		yourself
+]
+
+{ #category : #accessing }
+GLMSTBehavior >> methods [
+	^ methods ifNil: [
+		methods := OrderedCollection new.
+		self protocols do: [:each |
+			methods addAll: each methods ].
+		methods ]
 ]
 
 { #category : #accessing }

@@ -36,9 +36,14 @@ GLMCodeBrowser >> buildBrowser [
 GLMCodeBrowser >> buildClasses [
 	browser
 		showOn: #classes; from: #packages;
-		using: [browser list
+		using: [browser tree
 					when: [:package | package isCollection not];
 					display: [:package | package classes];
+					children: [ :each | each traits ];
+					icon: [ :each | 
+						each stBehavior theNonMetaClass browserIcon isNil ifFalse: 
+							[ OBMorphicIcons iconNamed: each stBehavior theNonMetaClass browserIcon ]
+						ifTrue: [ nil ] ];
 					format: [:class | class name]]
 ]
 
@@ -52,22 +57,12 @@ GLMCodeBrowser >> buildLayout [
 
 { #category : #building }
 GLMCodeBrowser >> buildMethods [
-	browser
-		showOn: #methods;
-		from: #classes;
-		using: 
-			[ browser tree
-				display: [ :class | class protocols ];
-				children: 
-					[ :catOrMethod | 
-					catOrMethod isCategory 
-						ifTrue: [ catOrMethod methods ]
-						ifFalse: [ OrderedCollection new ] ];
-				send: 
-					[ :catOrMethod | 
-					(catOrMethod isNil or: [catOrMethod isCategory]) 
-						ifTrue: [ nil ]
-						ifFalse: [ catOrMethod ] ] ]
+	browser showOn: #methods; from: #classes; using: [ 
+		browser tree
+				display: [ :class | class instanceAndMetaMethods ];
+				tags: [ :each | 
+					{each glmCategory name.
+					each glmBehavior isMetaSide ifTrue: ['META'] ifFalse: ['INSTANCE']} ] ]
 ]
 
 { #category : #building }
