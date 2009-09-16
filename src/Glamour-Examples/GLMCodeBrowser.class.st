@@ -26,14 +26,24 @@ GLMCodeBrowser >> browser [
 { #category : #building }
 GLMCodeBrowser >> buildBrowser [
 	browser := GLMTableLayoutBrowser new.
-	self buildLayout.
-	self buildPackages.
-	self buildClasses.
-	self buildMethods.
+	browser title: 'No Category Code Browser'.
+	self layout.
+	self onPackages.
+	self onClassesFromPackages.
+	self onMethodsFromClasses.
+	self onDetailsFromPackagesFromClassesFromMethods.
 ]
 
 { #category : #building }
-GLMCodeBrowser >> buildClasses [
+GLMCodeBrowser >> layout [
+	browser
+		column: #packages;
+		column: [:c | c row: #classes; row: #methods span: 2 ] span: 2;
+		column: #details span: 3.
+]
+
+{ #category : #building }
+GLMCodeBrowser >> onClassesFromPackages [
 	browser
 		showOn: #classes; from: #packages;
 		using: [browser tree
@@ -48,15 +58,26 @@ GLMCodeBrowser >> buildClasses [
 ]
 
 { #category : #building }
-GLMCodeBrowser >> buildLayout [
+GLMCodeBrowser >> onDetailsFromPackagesFromClassesFromMethods [
 	browser
-		column: #packages;
-		column: #classes;
-		column: #methods
+		showOn: #details; from: #classes; from: #methods; from: #packages; 
+		using: [
+			browser text
+					forSmalltalk: [:class | class stBehavior ];
+					title: 'Method';
+					display: [:class :method | method sourceCode ].
+			browser text
+					forSmalltalk;
+					title: 'Class';
+					useExplicitNotNil;
+					when: [:class | class notNil ];
+					display: [:class | class definition ].
+					
+		]
 ]
 
 { #category : #building }
-GLMCodeBrowser >> buildMethods [
+GLMCodeBrowser >> onMethodsFromClasses [
 	browser showOn: #methods; from: #classes; using: [ 
 		browser tree
 				display: [ :class | class instanceAndMetaMethods ];
@@ -66,7 +87,7 @@ GLMCodeBrowser >> buildMethods [
 ]
 
 { #category : #building }
-GLMCodeBrowser >> buildPackages [
+GLMCodeBrowser >> onPackages [
 	browser
 		showOn: #packages;
 		using: 
