@@ -12,7 +12,8 @@ Class {
 		'childrenBlock',
 		'onSelection',
 		'displayFormat',
-		'tagsToFilterBy'
+		'tagsToFilterBy',
+		'announcer'
 	],
 	#category : #'Glamour-Morphic'
 }
