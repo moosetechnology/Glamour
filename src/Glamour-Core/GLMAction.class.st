@@ -80,6 +80,12 @@ GLMAction >> hasTitle [
 	^self title notNil
 ]
 
+{ #category : #testing }
+GLMAction >> isCategorized [
+	 
+	^self category notNil
+]
+
 { #category : #accessing }
 GLMAction >> position [ 
 	"The relative position within a context menu." 
