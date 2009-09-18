@@ -7,7 +7,6 @@ Class {
 	#superclass : #AbstractHierarchicalList,
 	#instVars : [
 		'roots',
-		'rootClass',
 		'glamourPresentation',
 		'childrenBlock',
 		'onSelection',
@@ -64,13 +63,13 @@ GLMTreeMorphModel >> glamourPresentation: anObject [
 	glamourPresentation := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #callbacks }
 GLMTreeMorphModel >> keyStroke: aCharacter from: aTreeMorph [ 
 	self getCurrentSelection
 		ifNotNil: [:current | current keyStroke: aCharacter from: aTreeMorph]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #callbacks }
 GLMTreeMorphModel >> menu: menu shifted: b [ 
 	"Set up the menu to apply to the receiver's, 
 	honoring the #shifted boolean"
@@ -78,12 +77,12 @@ GLMTreeMorphModel >> menu: menu shifted: b [
 	^ menu
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMTreeMorphModel >> nodeModelFor: anObject [
 	^ (GLMTreeMorphNodeModel with: anObject) containerTree: self; yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #callbacks }
 GLMTreeMorphModel >> noteNewSelection: x [
 	x = currentSelection ifTrue: [^ self].
 	super noteNewSelection: x.
@@ -91,7 +90,7 @@ GLMTreeMorphModel >> noteNewSelection: x [
 	self changed: #selection.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #callbacks }
 GLMTreeMorphModel >> onSelection: aBlock [
 	onSelection := aBlock
 ]
@@ -108,7 +107,7 @@ GLMTreeMorphModel >> roots [
 	^ roots select: [ :each | each itemHasTags: self tagsToFilterBy ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMTreeMorphModel >> roots: anObjectOrCollection [
 	roots := anObjectOrCollection isCollection 
 		ifTrue: [ anObjectOrCollection collect: [:each | self nodeModelFor: each ] ]
@@ -129,7 +128,7 @@ GLMTreeMorphModel >> shouldFilterByTag: aTag [
 	^ self tagsToFilterBy includes: aTag 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #callbacks }
 GLMTreeMorphModel >> silentNoteNewSelection: x [
 	x expandParentPath.
 	currentSelection := x.

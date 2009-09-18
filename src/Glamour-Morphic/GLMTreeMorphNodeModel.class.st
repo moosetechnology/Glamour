@@ -10,7 +10,7 @@ Class {
 	#category : #'Glamour-Morphic'
 }
 
-{ #category : #accessing }
+{ #category : #callbacks }
 GLMTreeMorphNodeModel >> buttonForTag: each [ 
 	| button oldLabel m |
 	button := SimpleButtonMorph new.
@@ -156,7 +156,7 @@ GLMTreeMorphNodeModel >> printOn: aStream [
 	aStream nextPutAll: self item printString.
 ]
 
-{ #category : #accessing }
+{ #category : #callbacks }
 GLMTreeMorphNodeModel >> rowMorphListFor: aContainer [ 
 	| row |
 	row := OrderedCollection with: (UITheme current newRowIn: World for: { self displayText }).
@@ -165,7 +165,7 @@ GLMTreeMorphNodeModel >> rowMorphListFor: aContainer [
 	^ row
 ]
 
-{ #category : #accessing }
+{ #category : #callbacks }
 GLMTreeMorphNodeModel >> toggleFilteringByTag: aTag [ 
 	self containerTree toggleFilteringByTag: aTag
 ]
