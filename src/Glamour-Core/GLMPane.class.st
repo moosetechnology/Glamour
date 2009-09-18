@@ -77,7 +77,7 @@ GLMPane >> browser [
 GLMPane >> clear [ 
 	 
 	self notingPresentationChangeDo: [presentations := OrderedCollection new]. 
-	self ports do: [:each | each value: nil]
+	self ports do: [:each | each value: nil ]
 ]
 
 { #category : #initialization }
