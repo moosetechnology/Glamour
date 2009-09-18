@@ -26,20 +26,26 @@ GLMCodeBrowser >> browser [
 { #category : #building }
 GLMCodeBrowser >> buildBrowser [
 	browser := GLMTableLayoutBrowser new.
-	browser title: 'No Category Code Browser'.
+	browser title: 'Glamorous ST Browser'.
 	self layout.
 	self onPackages.
 	self onClassesFromPackages.
+	self onInstVarsFromClasses.
 	self onMethodsFromClasses.
+	self onMethodsFromInstVars.
 	self onDetailsFromPackagesFromClassesFromMethods.
+	browser sendTo: #outer->#focusOnMethod from: #details->#focusOnMethod with: [:m | m ].
+	browser sendTo: #packages->#selection from: #details->#focusOnMethod with: [:method | method glmBehavior glmPackage].
+"	browser sendTo: #classes->#selection from: #outer->#focusOnMethod with: [:method | method glmBehavior halt].
+	browser sendTo: #methods->#selection from: #outer->#focusOnMethod with: [:method | method halt]"
 ]
 
 { #category : #building }
 GLMCodeBrowser >> layout [
 	browser
 		column: #packages;
-		column: [:c | c row: #classes; row: #methods span: 2 ] span: 2;
-		column: #details span: 3.
+		column: [:c | c row: #classes; row: #instVars ];
+		column: [:c | c row: #methods; row: #details] span: 3.
 ]
 
 { #category : #building }
@@ -48,7 +54,7 @@ GLMCodeBrowser >> onClassesFromPackages [
 		showOn: #classes; from: #packages;
 		using: [browser tree
 					when: [:package | package isCollection not];
-					display: [:package | package classes];
+					display: [:package | package allClasses];
 					children: [ :each | each traits ];
 					icon: [ :each | 
 						each stBehavior theNonMetaClass browserIcon isNil ifFalse: 
@@ -72,8 +78,31 @@ GLMCodeBrowser >> onDetailsFromPackagesFromClassesFromMethods [
 					useExplicitNotNil;
 					when: [:class | class notNil ];
 					display: [:class | class definition ].
-					
+			browser list
+					title: 'References';
+					useExplicitNotNil;
+					when: [:class | class notNil ];
+					display: [:class | class references];
+					format: [:each | each glmBehavior name, '>>', each name];
+					update: #focusOnMethod on: $f entitled: 'Focus' with: [:list | list selection ].
+			browser list
+					title: 'Senders';
+					display: [:class :method | method senders];
+					format: [:each | each glmBehavior name, '>>', each name].
+			browser list
+					title: 'Implementors';
+					display: [:class :method | method implementors];
+					format: [:each | each glmBehavior name, '>>', each name]
 		]
+]
+
+{ #category : #building }
+GLMCodeBrowser >> onInstVarsFromClasses [
+	browser showOn: #instVars; from: #classes; using: [ 
+		browser tree
+				display: [ :class | class instVars ]";
+				tags: [ :each | 
+					{ each glmBehavior isMetaSide ifTrue: ['META'] ifFalse: ['INSTANCE'] } ]" ]
 ]
 
 { #category : #building }
@@ -81,6 +110,16 @@ GLMCodeBrowser >> onMethodsFromClasses [
 	browser showOn: #methods; from: #classes; using: [ 
 		browser tree
 				display: [ :class | class instanceAndMetaMethods ];
+				tags: [ :each | 
+					{each glmCategory name.
+					each glmBehavior isMetaSide ifTrue: ['META'] ifFalse: ['INSTANCE']} ] ]
+]
+
+{ #category : #building }
+GLMCodeBrowser >> onMethodsFromInstVars [
+	browser showOn: #methods; from: #instVars; using: [ 
+		browser tree
+				display: [ :var | var accessingMethods ];
 				tags: [ :each | 
 					{each glmCategory name.
 					each glmBehavior isMetaSide ifTrue: ['META'] ifFalse: ['INSTANCE']} ] ]

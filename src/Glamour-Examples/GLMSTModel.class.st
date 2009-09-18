@@ -13,8 +13,13 @@ GLMSTModel class >> defaultEnvironment [
 ]
 
 { #category : #accessing }
+GLMSTModel >> = anObject [
+	^ self class = anObject class and: [self name = anObject name ]
+]
+
+{ #category : #accessing }
 GLMSTModel >> environment [
-	^ environment
+	^ environment ifNil: [environment := self class defaultEnvironment]
 ]
 
 { #category : #accessing }

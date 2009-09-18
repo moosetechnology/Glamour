@@ -19,9 +19,18 @@ GLMSTPackage class >> rootPackagesOn: anEnvironment [
 ]
 
 { #category : #accessing }
+GLMSTPackage >> allClasses [
+	| all |
+	all := self classes asOrderedCollection.
+	self subPackages do: [:each | 
+		all addAll: each allClasses ].
+	^ all
+]
+
+{ #category : #accessing }
 GLMSTPackage >> classes [
 	^ (self environment classNamesFor: self name)
-		collect: [:className | GLMSTClass behavior: (self environment at: className) environment: self environment]
+		collect: [:className | GLMSTClass behavior: (self environment at: className) environment: self environment ]
 ]
 
 { #category : #accessing }

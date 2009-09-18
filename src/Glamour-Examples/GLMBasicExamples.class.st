@@ -250,6 +250,29 @@ GLMBasicExamples >> taggedTree [
 	^ browser
 ]
 
+{ #category : #others }
+GLMBasicExamples >> threeInterdependentPanes [
+	<glmBrowser: 'Inter-dependent Panes' input: '5'>
+	"self new threeInterdependentPanes openOn: 5"
+	|browser |
+
+	browser := GLMTableLayoutBrowser new.
+	browser column: #one; column: #two; column: #three.
+	browser showOn: #one; using: [
+		browser list
+			display: [:x | 1 to: x]].
+	browser showOn: #two; from: #one; using: [ 
+		browser list
+			display: [:x | 1 to: x*2]].
+	browser showOn: #three; from: #two; using: [
+		browser list
+			display: [:x | 1 to: x*3];
+			update: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
+	browser sendTo: #outer->#focus from: #three->#focus with: [:x | x halt].
+	browser sendTo: #one->#selection from: #outer->#focus with: [:x | x halt].
+	^ browser
+]
+
 { #category : #'explicit selection' }
 GLMBasicExamples >> treeWithInitialSelection [
 	"

@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'stBehavior',
 		'instanceAndMetaMethods',
-		'methods'
+		'methods',
+		'instVars'
 	],
 	#category : #'Glamour-Examples'
 }
@@ -25,6 +26,18 @@ GLMSTBehavior >> comment [
 { #category : #accessing }
 GLMSTBehavior >> definition [
 	^ self stBehavior definition
+]
+
+{ #category : #accessing }
+GLMSTBehavior >> glmPackage [
+	^ GLMSTPackage named: (PackageOrganizer default mostSpecificPackageOfClass: self stBehavior) packageName environment: self environment
+]
+
+{ #category : #accessing }
+GLMSTBehavior >> instVars [
+	^ instVars ifNil: [
+		instVars := self stBehavior instVarNames collect: [:each | 
+			GLMSTVariable new name: each; glmBehavior: self; yourself ] ]
 ]
 
 { #category : #accessing }
@@ -66,6 +79,14 @@ GLMSTBehavior >> protocols [
 			name: each;
 			glmBehavior: self;
 			yourself ]
+]
+
+{ #category : #accessing }
+GLMSTBehavior >> references [
+	| association |
+	association := Smalltalk associationAt: self name ifAbsent: [ ^ #() ].
+	^ (self systemNavigation allCallsOn: association) collect: [ :each |
+		GLMSTMethod fromMethodReference: each ]
 ]
 
 { #category : #accessing }
