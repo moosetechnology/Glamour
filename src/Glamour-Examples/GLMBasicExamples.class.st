@@ -268,8 +268,8 @@ GLMBasicExamples >> threeInterdependentPanes [
 		browser list
 			display: [:x | 1 to: x*3];
 			update: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
-	browser sendTo: #outer->#focus from: #three->#focus with: [:x | x  ].
-	browser sendTo: #one->#selection from: #outer->#focus with: [:x | x  ].
+	browser sendTo: #outer->#focus from: #three->#focus with: [:x | x  halt ].
+	browser sendTo: #one->#selection from: #outer->#focus with: [:x | x  halt ].
 	^ browser
 ]
 
