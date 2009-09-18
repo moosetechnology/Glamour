@@ -27,6 +27,13 @@ GLMMockSimpleTransmission >> transmit [
 ]
 
 { #category : #testing }
+GLMMockSimpleTransmission >> transmitIn: aContext [
+
+	wasTransmited := true.
+	super transmitIn: aContext
+]
+
+{ #category : #testing }
 GLMMockSimpleTransmission >> wasTransmited [
 	^wasTransmited
 ]

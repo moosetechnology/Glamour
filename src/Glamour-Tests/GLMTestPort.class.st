@@ -15,6 +15,13 @@ GLMTestPort >> receive: aTransmission [
 ]
 
 { #category : #accessing }
+GLMTestPort >> receive: aTransmission in: aContext [
+	 
+	self seenTransmissions addLast: aTransmission. 
+	^super receive: aTransmission in: aContext
+]
+
+{ #category : #accessing }
 GLMTestPort >> seenTransmissions [ 
 	 
 	^seenTransmissions ifNil: [seenTransmissions := OrderedCollection new]
