@@ -45,6 +45,12 @@ GLMSimpleTransmission >> transmit [
 ]
 
 { #category : #transmitting }
+GLMSimpleTransmission >> transmitIn: aContext [
+	 
+	self destination receive: self in: aContext
+]
+
+{ #category : #transmitting }
 GLMSimpleTransmission >> value [ 
 	 
 	^self origin value

@@ -53,6 +53,12 @@ GLMPanePort >> receive: aTransmission [
 ]
 
 { #category : #accessing }
+GLMPanePort >> receive: aTransmission in: aContext [
+	 
+	self value: aTransmission value in: aContext
+]
+
+{ #category : #accessing }
 GLMPanePort >> value [ 
 	 
 	^value

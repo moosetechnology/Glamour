@@ -138,6 +138,15 @@ GLMBundleTransmission >> transmit [
 ]
 
 { #category : #transmitting }
+GLMBundleTransmission >> transmitIn: aContext [
+	self destination hasPane 
+		ifTrue: 
+			[self destination pane clear.
+			self destination pane addPresentations: self presentations]. 
+	self destination receive: self in: aContext
+]
+
+{ #category : #transmitting }
 GLMBundleTransmission >> value [ 
 	 
 	^self origins size = 1 
