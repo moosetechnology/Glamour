@@ -56,6 +56,34 @@ GLMPortEventTest >> testInterdependentPanes [
 ]
 
 { #category : #testing }
+GLMPortEventTest >> testInterdependentPanes2 [
+	|browser |
+	browser := GLMTableLayoutBrowser new.
+	browser column: #one; column: #two; column: #three.
+	browser showOn: #one; using: [
+		browser list
+			display: [:x | 1 to: x]].
+	browser showOn: #two; from: #one; using: [
+		browser list
+			display: [:x | 1 to: x*2]].
+	browser showOn: #three; from: #two; using: [
+		browser list
+			display: [:x | 1 to: x*3];
+			update: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
+	browser sendTo: #outer->#focus from: #three->#focus.
+	browser sendTo: #one->#selection from: #outer->#focus with: [:x | x + 1].
+	browser sendTo: #two->#selection from: #outer->#focus with: [:x | x + 2].
+	browser startOn: 5.
+	((browser paneNamed: #one) port: #selection) value: 3.
+	((browser paneNamed: #two) port: #selection) value: 6.
+	((browser paneNamed: #three) port: #selection) value: 12.
+	((browser paneNamed: #three) port: #focus) value: 12.
+	self assert: (browser pane port: #focus) value = 12.
+	self assert: ((browser paneNamed: #one) port: #selection) value = 13.
+	self assert: ((browser paneNamed: #two) port: #selection) value = 14.
+]
+
+{ #category : #testing }
 GLMPortEventTest >> testPortName [
 	| anEvent |
 	anEvent := GLMPortEvent 
