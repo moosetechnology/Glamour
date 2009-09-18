@@ -49,7 +49,7 @@ GLMPanePort >> pane: aPane [
 { #category : #accessing }
 GLMPanePort >> receive: aTransmission [ 
 	 
-	self value: aTransmission value
+	self value: aTransmission value in: aTransmission context
 ]
 
 { #category : #accessing }
@@ -60,10 +60,13 @@ GLMPanePort >> value [
 
 { #category : #accessing }
 GLMPanePort >> value: anObject [  
-	self flag: 'This check of anObject is for assuming that we are doing a clear in which case we shoulf go on in the same context. This should be improved.'.
-	 ( anObject isNil not ) 
-		ifTrue: [ self pane browser initializeContextWith: self pane ]
-		ifFalse: [ self pane browser updateContextWith: self pane].
-	
+
+	self pane browser pane browser initializeContextWith: self pane. 	
 	self changeValueTo: anObject in: OrderedCollection new.
+]
+
+{ #category : #accessing }
+GLMPanePort >> value: anObject in: aContext [
+	aContext add: self pane.
+	self changeValueTo: anObject in: aContext.
 ]
