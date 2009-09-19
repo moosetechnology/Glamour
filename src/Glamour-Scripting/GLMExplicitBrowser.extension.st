@@ -1,13 +1,6 @@
 Extension { #name : #GLMExplicitBrowser }
 
 { #category : #'*Glamour-Scripting' }
-GLMExplicitBrowser >> context [
-
-	context isNil ifTrue: [context := OrderedCollection new].
-	^context
-]
-
-{ #category : #'*Glamour-Scripting' }
 GLMExplicitBrowser >> custom: aPresentation [ 
 	"this message sets a custom presentation to the current Transmission. 
 	it is to be used within the using: block. 
@@ -24,12 +17,6 @@ GLMExplicitBrowser >> from: anOriginPortReference [
 	 
 	scriptTransmission 
 		addActiveOrigin: (self resolveOriginPort: anOriginPortReference)
-]
-
-{ #category : #'*Glamour-Scripting' }
-GLMExplicitBrowser >> initializeContextWith: aPane [
-
-	context := OrderedCollection with: aPane
 ]
 
 { #category : #'*Glamour-Scripting' }
