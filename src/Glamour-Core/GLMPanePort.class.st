@@ -85,6 +85,6 @@ GLMPanePort >> value: anObject [
 
 { #category : #accessing }
 GLMPanePort >> value: anObject in: aContext [
-	aContext add: self pane.
+	aContext add: self.
 	self changeValueTo: anObject in: aContext.
 ]

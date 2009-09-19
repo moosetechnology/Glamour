@@ -44,10 +44,9 @@ GLMExplicitBrowser >> addTransmission: aTransmission [
 
 { #category : #events }
 GLMExplicitBrowser >> innerPortEvent: aPortEvent [ 
-
 	aPortEvent hasChanged 
 		ifTrue: 
-			[(self transmissions select: [:each | ( each originatesAt: aPortEvent port ) and: [( aPortEvent transmissionContext includes: each destination pane) not ]]) 
+			[(self transmissions select: [:each | ( each originatesAt: aPortEvent port ) and: [( aPortEvent transmissionContext includes: each destination) not ]]) 
 				do: [:each | each transmitIn: aPortEvent transmissionContext ]]
 ]
 
@@ -72,7 +71,7 @@ GLMExplicitBrowser >> outerPortEvent: aPortEvent [
 						transmit]]. 
 	aPortEvent hasChanged 
 		ifTrue: 
-			[(self transmissions select: [:each | (each originatesAt: aPortEvent port) and: [( aPortEvent transmissionContext includes: each destination pane) not ]]) 
+			[(self transmissions select: [:each | (each originatesAt: aPortEvent port) and: [( aPortEvent transmissionContext includes: each destination) not ]]) 
 				do: [:each | each transmitIn: aPortEvent transmissionContext ]]
 ]
 

@@ -73,7 +73,7 @@ GLMPortEvent >> transmission [
 
 { #category : #'as yet unclassified' }
 GLMPortEvent >> transmissionContext [
-	^transmissionContext
+	^OrderedCollection withAll: transmissionContext
 ]
 
 { #category : #'accessing-convenience' }
