@@ -17,14 +17,15 @@ GLMPortEventTest >> testCreation [
 
 { #category : #testing }
 GLMPortEventTest >> testCreationWithTransmissionContext [
-	| anEvent |
+	| anEvent aContext|
+	aContext := OrderedCollection new.
 	anEvent := GLMPortEvent 
 		on: 1
 		previouslyValued: 2
-		in: 3.
+		in: aContext.
 	self assert: anEvent port = 1.
 	self assert: anEvent oldValue = 2.
-	self assert: anEvent transmissionContext = 3.
+	self assert: anEvent transmissionContext = aContext.
 ]
 
 { #category : #testing }
