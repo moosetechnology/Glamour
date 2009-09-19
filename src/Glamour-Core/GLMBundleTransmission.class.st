@@ -141,7 +141,7 @@ GLMBundleTransmission >> transmit [
 GLMBundleTransmission >> transmitIn: aContext [
 	self destination hasPane 
 		ifTrue: 
-			[self destination pane clear.
+			[self destination pane clearIn: aContext.
 			self destination pane addPresentations: self presentations]. 
 	self destination receive: self in: aContext
 ]

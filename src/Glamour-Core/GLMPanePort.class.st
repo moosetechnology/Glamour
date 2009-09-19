@@ -47,6 +47,19 @@ GLMPanePort >> pane: aPane [
 ]
 
 { #category : #accessing }
+GLMPanePort >> printOn: aStream [ 
+	 
+	aStream 
+		nextPutAll: 'Port (pane='; 
+		nextPutAll: self pane name printString; 
+		nextPutAll: ' name='; 
+		nextPutAll: self name printString; 
+		nextPutAll: ' value='; 
+		nextPutAll: self value printString; 
+		nextPut: $)
+]
+
+{ #category : #accessing }
 GLMPanePort >> receive: aTransmission [ 
 	 
 	self value: aTransmission value in: aTransmission context
