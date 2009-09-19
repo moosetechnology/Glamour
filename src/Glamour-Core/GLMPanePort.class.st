@@ -79,8 +79,7 @@ GLMPanePort >> value [
 
 { #category : #accessing }
 GLMPanePort >> value: anObject [  
-
-	self pane browser pane browser initializeContextWith: self pane. 	
+	
 	self changeValueTo: anObject in: OrderedCollection new.
 ]
 

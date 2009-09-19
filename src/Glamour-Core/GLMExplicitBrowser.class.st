@@ -6,8 +6,7 @@ Class {
 		'hiddenPane',
 		'transmissions',
 		'jumpstartTransmissions',
-		'scriptTransmission',
-		'context'
+		'scriptTransmission'
 	],
 	#category : #'Glamour-Core'
 }
