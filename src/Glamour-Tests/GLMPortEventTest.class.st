@@ -79,8 +79,12 @@ GLMPortEventTest >> testInterdependentPanes2 [
 	((browser paneNamed: #three) port: #selection) value: 12.
 	((browser paneNamed: #three) port: #focus) value: 12.
 	self assert: (browser pane port: #focus) value = 12.
+	self assert: ((browser paneNamed: #one) port: #entity) value = 5.
 	self assert: ((browser paneNamed: #one) port: #selection) value = 13.
+	self assert: ((browser paneNamed: #two) port: #entity) value = 13.
 	self assert: ((browser paneNamed: #two) port: #selection) value = 14.
+	self assert: ((browser paneNamed: #three) port: #entity) value = 14.
+	self assert: ((browser paneNamed: #three) port: #selection) value = nil.
 ]
 
 { #category : #testing }
