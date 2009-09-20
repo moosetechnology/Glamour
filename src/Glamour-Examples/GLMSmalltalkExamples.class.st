@@ -7,6 +7,29 @@ Class {
 	#category : #'Glamour-Examples'
 }
 
+{ #category : #code }
+GLMSmalltalkExamples >> implementorsChasingBrowser [
+	"self new implementorsChasingBrowser openOn: #implementorsChasingBrowser"
+	| finder browser |
+	finder := GLMFinder new.
+	finder tree
+		display: [ :each | self systemNavigation allImplementorsOf:	each ];
+		format: [:each | 
+			(each isKindOf: MethodReference) ifTrue: [each classSymbol, '>>', each selector ] ifFalse: [ each ]];
+		children: [ :each | 
+			(each isKindOf: MethodReference) ifTrue: [each compiledMethod messages] ifFalse: [OrderedCollection new]];
+		whenKindOf: String.
+	browser := GLMTableLayoutBrowser new.
+	browser row: #finder; row: #details.
+	browser showOn: #finder; using: [browser custom: finder].
+	browser showOn: #details; from: #finder; using: [
+		browser text
+			forSmalltalk: [:reference | reference actualClass ];
+			display: [:reference | reference sourceCode ];
+			whenKindOf: MethodReference ].
+	^ browser
+]
+
 { #category : #objects }
 GLMSmalltalkExamples >> messageTallyFinder [
 	"self new messageTallyFinder openOn: (
