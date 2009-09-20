@@ -43,7 +43,7 @@ GLMTreeMorphNodeModel >> buttonForTag: each [
 
 { #category : #accessing }
 GLMTreeMorphNodeModel >> childrenItems [
-	^ self containerTree childrenBlock glamourValue: self item
+	^ (self containerTree childrenBlock glamourValue: self item)
 ]
 
 { #category : #accessing }
@@ -58,12 +58,14 @@ GLMTreeMorphNodeModel >> containerTree: anObject [
 
 { #category : #accessing }
 GLMTreeMorphNodeModel >> contents [
-	^ contents ifNil: [
-		contents := self childrenItems collect: [:d | 
-			(self class with: d) 
+	| allContents |
+	^ contents ifNil: 
+		[ allContents := self childrenItems collect: [ :d | 
+			(self class with: d)
 				parentNode: self;
 				containerTree: self containerTree;
-				yourself ] ]
+				yourself ].
+		contents := allContents select: [ :each | each shouldBeDisplayed ] ]
 ]
 
 { #category : #accessing }
@@ -91,13 +93,6 @@ GLMTreeMorphNodeModel >> expandParentPath [
 { #category : #accessing }
 GLMTreeMorphNodeModel >> icon [
 	^ self containerTree glamourPresentation iconFor: self item
-]
-
-{ #category : #testing }
-GLMTreeMorphNodeModel >> itemHasTags: aCollection [ 
-	^ aCollection allSatisfy: 
-		[ :each | 
-		(self containerTree glamourPresentation tagsFor: self item) includes: each ]
 ]
 
 { #category : #menu }
@@ -163,6 +158,15 @@ GLMTreeMorphNodeModel >> rowMorphListFor: aContainer [
 	(self containerTree glamourPresentation tagsFor: self item) do: [ :each | 
 			row addLast: (self buttonForTag: each) ].
 	^ row
+]
+
+{ #category : #testing }
+GLMTreeMorphNodeModel >> shouldBeDisplayed [
+	self containerTree tagsToFilterBy isEmpty ifTrue: [ ^ true ].
+	self withContentsDo: [ :node | 
+		self containerTree tagsToFilterBy do: [ :each | 
+			((self containerTree glamourPresentation tagsFor: node item) includes: each) ifTrue: [ ^ true ] ] ].
+	^ false
 ]
 
 { #category : #callbacks }

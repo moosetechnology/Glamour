@@ -104,7 +104,7 @@ GLMTreeMorphModel >> resetTagsToFilterBy [
 { #category : #accessing }
 GLMTreeMorphModel >> roots [
 	roots ifNil: [ self roots: self glamourPresentation displayValue ].
-	^ roots select: [ :each | each itemHasTags: self tagsToFilterBy ]
+	^ roots select: [ :each | each shouldBeDisplayed ]
 ]
 
 { #category : #accessing }
