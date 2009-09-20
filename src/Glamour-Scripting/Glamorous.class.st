@@ -1,3 +1,6 @@
+"
+A Glamorous is just a library of browsers stored as methods on the class side.
+"
 Class {
 	#name : #Glamorous,
 	#superclass : #Object,
