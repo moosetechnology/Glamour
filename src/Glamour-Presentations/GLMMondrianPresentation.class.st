@@ -1,3 +1,9 @@
+"
+A GLMMondrianPresentation delegates the actual presenation to the Mondrian visualization engine. The only parameter it takes is a painting block to which it passes an instance of a ViewRenderer.
+
+Instance Variables
+	painting:		aBlock that takes a ViewRenderer as the first parameter
+"
 Class {
 	#name : #GLMMondrianPresentation,
 	#superclass : #GLMPresentation,
