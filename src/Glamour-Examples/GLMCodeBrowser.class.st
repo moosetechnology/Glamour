@@ -35,9 +35,9 @@ GLMCodeBrowser >> buildBrowser [
 	self onMethodsFromInstVars.
 	self onDetailsFromPackagesFromClassesFromMethods.
 	browser sendTo: #outer->#focusOnMethod from: #details->#focusOnMethod with: [:m | m ].
-	browser sendTo: #packages->#selection from: #details->#focusOnMethod with: [:method | method glmBehavior glmPackage].
-"	browser sendTo: #classes->#selection from: #outer->#focusOnMethod with: [:method | method glmBehavior halt].
-	browser sendTo: #methods->#selection from: #outer->#focusOnMethod with: [:method | method halt]"
+	browser sendTo: #packages->#selection from: #outer->#focusOnMethod with: [:method | method glmBehavior glmPackage].
+	browser sendTo: #classes->#selection from: #outer->#focusOnMethod with: [:method | method glmBehavior ].
+	browser sendTo: #methods->#selection from: #outer->#focusOnMethod with: [:method | method ]
 ]
 
 { #category : #building }
@@ -100,9 +100,9 @@ GLMCodeBrowser >> onDetailsFromPackagesFromClassesFromMethods [
 GLMCodeBrowser >> onInstVarsFromClasses [
 	browser showOn: #instVars; from: #classes; using: [ 
 		browser tree
-				display: [ :class | class instVars ]";
+				display: [ :class | class instVars ];
 				tags: [ :each | 
-					{ each glmBehavior isMetaSide ifTrue: ['META'] ifFalse: ['INSTANCE'] } ]" ]
+					{ each glmBehavior isMetaSide ifTrue: ['META'] ifFalse: ['INST'] } ] ]
 ]
 
 { #category : #building }
