@@ -20,6 +20,7 @@ GLMSmalltalkExamples >> implementorsChasingBrowser [
 			(each isKindOf: MethodReference) ifTrue: [each compiledMethod messages] ifFalse: [OrderedCollection new]];
 		whenKindOf: String.
 	browser := GLMTableLayoutBrowser new.
+	browser title: [:each | 'Implementors of ', each].
 	browser row: #finder; row: #details.
 	browser showOn: #finder; using: [browser custom: finder].
 	browser showOn: #details; from: #finder; using: [
