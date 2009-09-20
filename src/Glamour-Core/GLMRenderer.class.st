@@ -1,3 +1,6 @@
+"
+A GLMRenderer is the abstract class for the renderer hierarchy. This should be subclassed for each rendering platform (e.g. Morphic)
+"
 Class {
 	#name : #GLMRenderer,
 	#superclass : #Object,

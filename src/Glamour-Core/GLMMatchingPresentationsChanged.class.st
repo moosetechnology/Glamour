@@ -1,3 +1,6 @@
+"
+A GLMMatchingPresentationsChanged is announced by the pane.
+"
 Class {
 	#name : #GLMMatchingPresentationsChanged,
 	#superclass : #Announcement,

@@ -1,3 +1,6 @@
+"
+A GLMPresentationsChanged is announced by the pane.
+"
 Class {
 	#name : #GLMPresentationsChanged,
 	#superclass : #Announcement,

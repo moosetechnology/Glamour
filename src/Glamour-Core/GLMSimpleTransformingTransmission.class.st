@@ -1,3 +1,6 @@
+"
+A GLMSimpleTransformingTransmission adds a transformation to the simple transmission.
+"
 Class {
 	#name : #GLMSimpleTransformingTransmission,
 	#superclass : #GLMSimpleTransmission,

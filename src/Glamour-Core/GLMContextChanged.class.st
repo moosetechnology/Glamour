@@ -1,3 +1,6 @@
+"
+A GLMContextChanged is announced by a presentation.
+"
 Class {
 	#name : #GLMContextChanged,
 	#superclass : #Announcement,

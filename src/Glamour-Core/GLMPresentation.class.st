@@ -1,3 +1,6 @@
+"
+A GLMPresentation is the abstract class for the hierarchy of presentations. A presentation specifies how the pane is going to be displayed. It typically reads at least the #entity port of a pane and populates at least the #selection port.
+"
 Class {
 	#name : #GLMPresentation,
 	#superclass : #Announcer,

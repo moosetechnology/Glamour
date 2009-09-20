@@ -1,3 +1,6 @@
+"
+A GLMSimpleTransmission connects one origin port with one destination port. Whenever the origin changes, the value is passed to the destination.
+"
 Class {
 	#name : #GLMSimpleTransmission,
 	#superclass : #GLMTransmission,
