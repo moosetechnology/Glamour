@@ -265,18 +265,18 @@ GLMSmalltalkExamples >> stClassicNavigator [
 	browser
 		showOn: #classes;
 		from: #classCats;
-		using: 
-			[ browser tree
-				display: 
-					[ :classCat | 
+		using: [
+			browser tree
+				display: [ :classCat | 
 					(Smalltalk organization listAtCategoryNamed: classCat) collect: [ :className | Smalltalk classNamed: className ] ];
 				children: [ :each | each traitComposition traits ];
 				title: 'Class list'.
-	browser mondrian painting: [ :view :package |
-		view nodes: ((Smalltalk organization listAtCategoryNamed: package) collect: [:name | Smalltalk classNamed: name]).
-		view edgesFrom: #superclass.
-		view treeLayout.
-	]; title: 'Hierarchy'.
+			browser mondrian 
+				painting: [ :view :package |
+					view nodes: ((Smalltalk organization listAtCategoryNamed: package) collect: [:name | Smalltalk classNamed: name]).
+					view edgesFrom: #superclass.
+					view treeLayout.];
+				title: 'Hierarchy'.
  ].
 	browser
 		showOn: #categories;
