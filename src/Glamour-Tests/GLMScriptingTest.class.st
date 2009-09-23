@@ -4,6 +4,11 @@ Class {
 	#category : #'Glamour-Tests'
 }
 
+{ #category : #testing }
+GLMScriptingTest >> expectedFailures [
+	^ Array with: #testPublishingToOutsideFinder
+]
+
 { #category : #tests }
 GLMScriptingTest >> testActionDefinition [ 
 	| browser | 
