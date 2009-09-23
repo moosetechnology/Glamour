@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMTreePresentation,
-	#superclass : #GLMTagablePresentation,
+	#superclass : #GLMListingPresentation,
 	#instVars : [
 		'children'
 	],
