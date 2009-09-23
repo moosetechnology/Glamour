@@ -196,7 +196,7 @@ GLMBasicExamples >> singleInitialSelection [
 		| browser |
 		browser := self new singleInitialSelection.
 		browser openOn: 5.
-		(browser panes first port: #selection) value: 2.
+		(browser panes first port: #selection) value: 3.
 	"
 	|browser |
 
@@ -204,11 +204,11 @@ GLMBasicExamples >> singleInitialSelection [
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser list
-			display: [:x | 1 to: x * 3];
+			display: [:x | 1 to: x];
 			format: [:number | Text string: number printString attribute: TextColor red]].
 	browser showOn: #two; from: #one; using: [
 		browser list
-			display: [:x | 1 to: x * 3]].
+			display: [:x | 1 to: x * 2]].
 	^ browser
 ]
 
@@ -292,6 +292,10 @@ GLMBasicExamples >> treeWithInitialSelection [
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser tree
+			title: 'first tree';
+			children: [:x | x value ].
+		browser tree
+			title: 'second tree';
 			children: [:x | x value ]].
 	browser showOn: #two; from: #one; using: [ browser text ].
 	^ browser
