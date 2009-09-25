@@ -1,6 +1,6 @@
 Class {
 	#name : #GlamorousSystemWindow,
-	#superclass : #SystemWindow,
+	#superclass : #StandardWindow,
 	#category : #'Glamour-Morphic'
 }
 

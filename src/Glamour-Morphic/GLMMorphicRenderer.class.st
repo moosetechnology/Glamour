@@ -35,16 +35,15 @@ GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPrese
 
 { #category : #opening }
 GLMMorphicRenderer >> open: aRenderable [
-	| window |
+	| window dock |
 	window := GlamorousSystemWindow new.
 	window model: aRenderable; setLabel: aRenderable titleValue.
-	window 
-		addMorph: (self render: aRenderable)
-		fullFrame: (LayoutFrame new
-				leftFraction: 0;
-				rightFraction: 1;
-				topFraction: 0;
-				bottomFraction: 1).
+	dock := self renderToolbarForBrowser: aRenderable inWindow: window.
+	window
+			addMorph: dock
+			fullFrame: (LayoutFrame fractions: (0@0 corner: 1@0) offsets: (0@0 corner: 0 @ dock minExtent y));
+			addMorph: 	(self render: aRenderable)
+			fullFrame: (LayoutFrame fractions: (0@0 corner: 1@1) offsets: (0@dock minExtent y corner: 0 @ 0)).
 	^ window openInWorld
 ]
 
@@ -205,9 +204,7 @@ GLMMorphicRenderer >> renderMagrittePresentation: anAsMorphPresentation [
 			hResizing: #spaceFill.
 	scrollPane := ScrollPane new.
 	scrollPane
-			layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
-			vResizing: #spaceFill;
-			hResizing: #spaceFill.
+			layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1)).
 	scrollPane scroller addMorph: magritteMorph.
 	^ scrollPane
 
@@ -338,6 +335,23 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 	aTextPresentation selectedTextBlock: [ textMorph textMorph editor selection ].
 	aTextPresentation textBlock: [ textMorph textMorph editor text ].
 	^textMorph
+]
+
+{ #category : #private }
+GLMMorphicRenderer >> renderToolbarForBrowser: aBrowser inWindow: aWin [
+	| dock tools |
+	dock := aWin newToolDockingBar.
+	tools := aWin newToolbar: (aBrowser allActions collect: [:each |
+		aWin
+			newButtonFor: nil "if we had a model it would go here"
+			getState: nil
+			action: #openFile
+			arguments: nil
+			getEnabled: nil
+			label: each title
+			help: 'Open file' translated ]).
+	dock addMorphBack: tools.
+	^ dock
 ]
 
 { #category : #'rendering presentations' }
