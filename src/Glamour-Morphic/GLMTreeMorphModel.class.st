@@ -12,7 +12,8 @@ Class {
 		'onSelection',
 		'displayFormat',
 		'tagsToFilterBy',
-		'announcer'
+		'announcer',
+		'inputText'
 	],
 	#category : #'Glamour-Morphic'
 }
@@ -53,6 +54,22 @@ GLMTreeMorphModel >> displayFormat: aBlock [
 	displayFormat := aBlock 
 ]
 
+{ #category : #'search and filtering' }
+GLMTreeMorphModel >> doSearchOrFilter [
+	inputText isEmptyOrNil
+		ifTrue: [ self resetInput ]
+		ifFalse:[ 
+			self glamourPresentation allowsFilter 
+				ifTrue: [ self executeFilter ]
+				ifFalse: [ self executeSearch ] ].
+
+]
+
+{ #category : #'search and filtering' }
+GLMTreeMorphModel >> executeFilter [
+	self changed: #roots
+]
+
 { #category : #accessing }
 GLMTreeMorphModel >> glamourPresentation [
 	^ glamourPresentation
@@ -63,6 +80,22 @@ GLMTreeMorphModel >> glamourPresentation: anObject [
 	glamourPresentation := anObject
 ]
 
+{ #category : #accessing }
+GLMTreeMorphModel >> inputText [
+	^ inputText ifNil: [inputText := '']
+]
+
+{ #category : #accessing }
+GLMTreeMorphModel >> inputText: anObject [
+	inputText := anObject.
+	self doSearchOrFilter
+]
+
+{ #category : #accessing }
+GLMTreeMorphModel >> inputTextEnabled [
+	^ true
+]
+
 { #category : #callbacks }
 GLMTreeMorphModel >> keyStroke: aCharacter from: aTreeMorph [ 
 	self getCurrentSelection
@@ -71,8 +104,7 @@ GLMTreeMorphModel >> keyStroke: aCharacter from: aTreeMorph [
 
 { #category : #callbacks }
 GLMTreeMorphModel >> menu: menu shifted: b [ 
-	"Set up the menu to apply to the receiver's, 
-	honoring the #shifted boolean"
+	"Set up the menu to apply to the receiver's, honoring the #shifted boolean"
 	self getCurrentSelection ifNotNil: [:current | current menu: menu shifted: b].
 	^ menu
 ]
@@ -93,6 +125,11 @@ GLMTreeMorphModel >> noteNewSelection: x [
 { #category : #callbacks }
 GLMTreeMorphModel >> onSelection: aBlock [
 	onSelection := aBlock
+]
+
+{ #category : #'search and filtering' }
+GLMTreeMorphModel >> resetInput [
+
 ]
 
 { #category : #callbacks }
@@ -123,6 +160,11 @@ GLMTreeMorphModel >> selectItem: anObject [
 				^ self]]]
 ]
 
+{ #category : #'search and filtering' }
+GLMTreeMorphModel >> shouldFilter [
+	^ self glamourPresentation allowsFilter and: [ self inputText notEmpty ]
+]
+
 { #category : #callbacks }
 GLMTreeMorphModel >> shouldFilterByTag: aTag [
 	^ self tagsToFilterBy includes: aTag 
@@ -131,11 +173,7 @@ GLMTreeMorphModel >> shouldFilterByTag: aTag [
 { #category : #callbacks }
 GLMTreeMorphModel >> silentNoteNewSelection: x [
 	x expandParentPath.
-	currentSelection := x.
-"	self changed: #getCurrentSelection.
-	currentSelection ifNil: [^self].
-	currentSelection sendSettingMessageTo: self.
-	self changed: #selection."
+	currentSelection := x
 ]
 
 { #category : #callbacks }

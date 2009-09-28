@@ -74,7 +74,6 @@ GLMListModel >> executeSearch [
 	selectedIndexes := ((1 to: self canonicalItems size) select: [ :eachIndex | searchResult includes: (self canonicalItems at: eachIndex) ]) asOrderedCollection.
 	onSelectionBlock ifNotNil: [ onSelectionBlock value: searchResult ].
 	self changed: #allSelections
-	"self changed: #displayedItems; changed: #selection"
 ]
 
 { #category : #accessing }

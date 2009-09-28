@@ -162,10 +162,25 @@ GLMTreeMorphNodeModel >> rowMorphListFor: aContainer [
 
 { #category : #testing }
 GLMTreeMorphNodeModel >> shouldBeDisplayed [
+	^ self shouldBeDisplayedByTags and: [self shouldBeDisplayedByFiltering]
+]
+
+{ #category : #testing }
+GLMTreeMorphNodeModel >> shouldBeDisplayedByFiltering [
+	^ self containerTree shouldFilter 
+		ifTrue: [
+			self containerTree glamourPresentation filterStrategy value: self containerTree inputText asString value: self item ]
+	ifFalse: [ true ]
+]
+
+{ #category : #testing }
+GLMTreeMorphNodeModel >> shouldBeDisplayedByTags [
+	| nodeTags |
 	self containerTree tagsToFilterBy isEmpty ifTrue: [ ^ true ].
 	self withContentsDo: [ :node | 
+		nodeTags := self containerTree glamourPresentation tagsFor: node item.
 		self containerTree tagsToFilterBy do: [ :each | 
-			((self containerTree glamourPresentation tagsFor: node item) includes: each) ifTrue: [ ^ true ] ] ].
+			(nodeTags includes: each) ifTrue: [ ^ true ] ] ].
 	^ false
 ]
 

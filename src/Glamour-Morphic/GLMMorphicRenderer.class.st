@@ -356,11 +356,12 @@ GLMMorphicRenderer >> renderToolbarForBrowser: aBrowser inWindow: aWin [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [	 
-	| treeMorph treeModel |
+	| treeMorph treeModel search container |
 	treeModel := GLMTreeMorphModel new
 		glamourPresentation: aTreePresentation;
 		roots: aTreePresentation displayValue;
 		yourself.
+	container := self emptyMorph.
 	treeMorph := (MorphTreeMorph new)
 			 	on: treeModel 
 				list: #roots
@@ -373,13 +374,29 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 				hResizing: #spaceFill;
 				vResizing: #spaceFill;
 				autoDeselect: true;
+				layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 				yourself.
-	self installActionsOnUI: treeModel fromPresentation: aTreePresentation.	
+	aTreePresentation allowsInput ifTrue: [
+		search := UITheme current
+			newTextEntryIn: nil
+			for: treeModel
+			get: #inputText
+			set: #inputText:
+			class: String
+			getEnabled: #inputTextEnabled
+			help: 'Search Input'.
+		search layoutFrame: (LayoutFrame
+			fractions: (0 @ 1 corner: 1 @ 1) 
+			offsets: (0 @ -24 corner: 0 @ 0)).
+		treeMorph layoutFrame bottomOffset: -24.
+		container addMorphBack: search ].
+	container addMorphBack: treeMorph.
+	self installActionsOnUI: treeModel fromPresentation: aTreePresentation.
 	treeModel onSelection: [:selection | aTreePresentation selection: selection]. 
 	treeMorph vShowScrollBar.	
 	aTreePresentation when: GLMContextChanged do: [:ann | 
 		ann property = #selection ifTrue: [ treeModel selectItem: ann value ]].
-	^treeMorph
+	^container
 ]
 
 { #category : #factory }
