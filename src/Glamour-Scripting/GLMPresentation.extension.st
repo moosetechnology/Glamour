@@ -24,6 +24,17 @@ GLMPresentation >> act: aBlock entitled: aString categorized: anotherString [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMPresentation >> act: aBlock icon: anIcon entitled: aString [
+	self 
+		addAction: 
+			((GLMAction new) 
+				action: aBlock; 
+				icon: anIcon;
+				title: aString;
+				yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMPresentation >> act: aBlock on: aCharacter [ 
 	 
 	self 
