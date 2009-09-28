@@ -10,8 +10,18 @@ Class {
 }
 
 { #category : #testing }
+GLMListingPresentation >> allowsFilter [
+	^ filterBlock notNil
+]
+
+{ #category : #testing }
 GLMListingPresentation >> allowsInput [
-	^ searchBlock notNil or: [ filterBlock notNil ]
+	^ self allowsFilter or: [ self allowsSearch ]
+]
+
+{ #category : #testing }
+GLMListingPresentation >> allowsSearch [
+	^ searchBlock notNil
 ]
 
 { #category : #accessing }
