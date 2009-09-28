@@ -11,7 +11,8 @@ Class {
 		'title',
 		'shortcut',
 		'position',
-		'category'
+		'category',
+		'icon'
 	],
 	#category : #'Glamour-Core'
 }
@@ -69,6 +70,12 @@ GLMAction >> category: aString [
 ]
 
 { #category : #testing }
+GLMAction >> hasIcon [
+	 
+	^self icon notNil
+]
+
+{ #category : #testing }
 GLMAction >> hasShortcut [ 
 	 
 	^self shortcut notNil
@@ -78,6 +85,16 @@ GLMAction >> hasShortcut [
 GLMAction >> hasTitle [ 
 	 
 	^self title notNil
+]
+
+{ #category : #accessing }
+GLMAction >> icon [
+	^ icon
+]
+
+{ #category : #accessing }
+GLMAction >> icon: anObject [
+	icon := anObject
 ]
 
 { #category : #testing }

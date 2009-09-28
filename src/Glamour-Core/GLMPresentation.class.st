@@ -61,7 +61,7 @@ GLMPresentation >> displayValue [
 { #category : #accessing }
 GLMPresentation >> dynamicActions [
 	dynamicActionsBlock isNil ifTrue: [ ^ OrderedCollection new ].
-	^ dynamicActionsBlock value: self
+	^ dynamicActionsBlock glamourValue: self
 ]
 
 { #category : #'accessing ports' }
