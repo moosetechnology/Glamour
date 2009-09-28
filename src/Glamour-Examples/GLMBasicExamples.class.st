@@ -110,9 +110,14 @@ GLMBasicExamples >> multipleFinderWithSearch [
 	| finder |	
 	finder := GLMFinder new.
 	finder list
+			title: 'List';
 			beMultiple;
 			actions: [:list | self actionsFor: list];
-			searchOn: [:text :list | list select: (Compiler evaluate: '[:each | | entity | ', text, ']')].
+			filterOn: [:text :list | list select: (Compiler evaluate: '[:each | ', text, ']')].
+	finder tree
+			title: 'Tree';
+			actions: [:list | self actionsFor: list];
+			filterOn: [:text :each | (Compiler evaluate: '[:each | ', text, ']') value: each].
 	^ finder 
 ]
 
