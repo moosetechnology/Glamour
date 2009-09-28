@@ -341,15 +341,15 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 GLMMorphicRenderer >> renderToolbarForBrowser: aBrowser inWindow: aWin [
 	| dock tools |
 	dock := aWin newToolDockingBar.
-	tools := aWin newToolbar: (aBrowser allActions collect: [:each |
+	tools := aWin newToolbar: ((aBrowser allActions select: [:each | each hasIcon]) collect: [:each |
 		aWin
-			newButtonFor: nil "if we had a model it would go here"
+			newButtonFor: each
 			getState: nil
-			action: #openFile
-			arguments: nil
+			action: #actOn:
+			arguments: {aBrowser}
 			getEnabled: nil
-			label: each title
-			help: 'Open file' translated ]).
+			labelForm: each icon
+			help: each title ]).
 	dock addMorphBack: tools.
 	^ dock
 ]
