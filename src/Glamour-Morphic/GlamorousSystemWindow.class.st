@@ -18,3 +18,13 @@ GlamorousSystemWindow >> buildWindowMenu [
 						add: action title target: action selector: #actOn: argument: self model;
 						yourself ] ]
 ]
+
+{ #category : #building }
+GlamorousSystemWindow >> extent: aPoint [
+	super extent: aPoint.
+	self fullBounds.
+	self allMorphsDo: [ :morph |
+		(morph isKindOf: ScrollPane) ifTrue: [
+			morph scroller submorphs anyOne
+				width: morph scroller width - 20 ] ]
+]
