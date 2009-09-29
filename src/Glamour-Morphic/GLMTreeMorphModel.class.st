@@ -70,6 +70,11 @@ GLMTreeMorphModel >> executeFilter [
 	self changed: #roots
 ]
 
+{ #category : #'search and filtering' }
+GLMTreeMorphModel >> executeSearch [
+	self changed: #roots
+]
+
 { #category : #accessing }
 GLMTreeMorphModel >> glamourPresentation [
 	^ glamourPresentation
