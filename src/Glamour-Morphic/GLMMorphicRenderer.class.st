@@ -225,30 +225,6 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 		vResizing: #spaceFill;
 		hResizing: #spaceFill.
 	^ canvasScrollPane
-	
-
-"	aMondrianPresentation 
-		whenContextChanged: 
-			[:ann |  
-			ann property = #selection 
-				ifTrue: 
-					[canvas artist drawing deepNodeFigures do: [:each | each deselect]. 
-					(canvas artist drawing deepFindNodeWithEntity: ann value) 
-						ifNotNil: [:figure | figure fixedSelect]]]. 
-
-	scrollPane := GeneralScrollPane new
-		scrollTarget: canvas;
-		hResizing: #spaceFill;
-		vResizing: #spaceFill.
-	scrollPane
-		minWidth: (canvas width min: Display width // 2) + scrollPane scrollBarThickness;
-		minHeight: (canvas height min: Display height // 2).
-	canvas width > scrollPane minWidth
-		ifTrue: [scrollPane minHeight: scrollPane minHeight + scrollPane scrollBarThickness].
-
-	scrollPane updateScrollbars.
-	^ scrollPane
-"
 ]
 
 { #category : #rendering }
