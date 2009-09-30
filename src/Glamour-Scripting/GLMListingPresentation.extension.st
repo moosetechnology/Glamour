@@ -11,6 +11,11 @@ GLMListingPresentation >> searchOn: aBlock [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMListingPresentation >> showOnly: aBlock [
+	amountToShowBlock := aBlock
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMListingPresentation >> tags: anObject [
 	tagsBlock := anObject
 ]
