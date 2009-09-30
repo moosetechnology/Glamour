@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'tagsBlock',
 		'searchBlock',
-		'filterBlock'
+		'filterBlock',
+		'amountToShowBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -25,6 +26,11 @@ GLMListingPresentation >> allowsSearch [
 ]
 
 { #category : #accessing }
+GLMListingPresentation >> amountToShow [
+	^ amountToShowBlock glamourValue: self entity
+]
+
+{ #category : #accessing }
 GLMListingPresentation >> filterStrategy [
 	^filterBlock
 ]
@@ -32,6 +38,11 @@ GLMListingPresentation >> filterStrategy [
 { #category : #testing }
 GLMListingPresentation >> hasTags [
 	^ tagsBlock notNil
+]
+
+{ #category : #testing }
+GLMListingPresentation >> limitsAmount [
+	^ amountToShowBlock notNil
 ]
 
 { #category : #accessing }
