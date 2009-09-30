@@ -13,7 +13,8 @@ Class {
 		'displayFormat',
 		'tagsToFilterBy',
 		'announcer',
-		'inputText'
+		'inputText',
+		'amountToFilterBy'
 	],
 	#category : #'Glamour-Morphic'
 }
@@ -21,6 +22,16 @@ Class {
 { #category : #callbacks }
 GLMTreeMorphModel >> allMenuActions [
 	^ self glamourPresentation allActions select: [:action | action hasTitle ]
+]
+
+{ #category : #accessing }
+GLMTreeMorphModel >> amountToFilterBy [
+	^ amountToFilterBy
+]
+
+{ #category : #accessing }
+GLMTreeMorphModel >> amountToFilterBy: aNumber [ 
+	amountToFilterBy := aNumber
 ]
 
 { #category : #accessing }
@@ -73,6 +84,14 @@ GLMTreeMorphModel >> executeFilter [
 { #category : #'search and filtering' }
 GLMTreeMorphModel >> executeSearch [
 	self changed: #roots
+]
+
+{ #category : #accessing }
+GLMTreeMorphModel >> filteredRoots [
+	| filtered |
+	roots ifNil: [ self roots: self glamourPresentation displayValue ].
+	filtered := roots select: [ :each | each shouldBeDisplayed ].
+	^ filtered
 ]
 
 { #category : #accessing }
@@ -145,8 +164,14 @@ GLMTreeMorphModel >> resetTagsToFilterBy [
 
 { #category : #accessing }
 GLMTreeMorphModel >> roots [
+	| filtered |
 	roots ifNil: [ self roots: self glamourPresentation displayValue ].
-	^ roots select: [ :each | each shouldBeDisplayed ]
+	filtered := roots select: [ :each | each shouldBeDisplayed ].
+	((self shouldFilterByAmount and: [
+		self amountToFilterBy < filtered size]) and: [
+			filtered notEmpty]) ifTrue: [
+		filtered := filtered first: self amountToFilterBy ].
+	^ filtered
 ]
 
 { #category : #accessing }
@@ -166,13 +191,18 @@ GLMTreeMorphModel >> selectItem: anObject [
 ]
 
 { #category : #'search and filtering' }
-GLMTreeMorphModel >> shouldFilter [
-	^ self glamourPresentation allowsFilter and: [ self inputText notEmpty ]
+GLMTreeMorphModel >> shouldFilterByAmount [
+	^ self amountToFilterBy notNil and: [self amountToFilterBy isZero not]
 ]
 
 { #category : #callbacks }
 GLMTreeMorphModel >> shouldFilterByTag: aTag [
 	^ self tagsToFilterBy includes: aTag 
+]
+
+{ #category : #'search and filtering' }
+GLMTreeMorphModel >> shouldFilterByText [
+	^ self glamourPresentation allowsFilter and: [ self inputText notEmpty ]
 ]
 
 { #category : #callbacks }
@@ -184,6 +214,15 @@ GLMTreeMorphModel >> silentNoteNewSelection: x [
 { #category : #callbacks }
 GLMTreeMorphModel >> tagsToFilterBy [
 	^ tagsToFilterBy ifNil: [ tagsToFilterBy := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+GLMTreeMorphModel >> toggleAmountToFilterBy [
+	self amountToFilterBy notNil ifTrue: 
+		[ self amountToFilterBy isZero 
+			ifTrue: [ amountToFilterBy := self glamourPresentation amountToShow ]
+			ifFalse: [ amountToFilterBy := 0 ].
+		self changed: #roots ]
 ]
 
 { #category : #callbacks }

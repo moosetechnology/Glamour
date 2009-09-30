@@ -328,29 +328,28 @@ GLMMorphicRenderer >> renderToolbarForBrowser: aBrowser inWindow: aWin [
 ]
 
 { #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [	 
-	| treeMorph treeModel search container |
+GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [ 
+	| treeMorph treeModel search container amountFilteringButton |
 	treeModel := GLMTreeMorphModel new
 		glamourPresentation: aTreePresentation;
-		roots: aTreePresentation displayValue;
-		yourself.
+		amountToFilterBy: aTreePresentation amountToShow.
 	container := self emptyMorph.
-	treeMorph := (MorphTreeMorph new)
-			 	on: treeModel 
-				list: #roots
-				selected: #getCurrentSelection
-				changeSelected: #noteNewSelection:
-				menu: #menu:shifted:
-				keystroke: #keyStroke:from:;
-				cornerStyle: #square;
-				borderStyle: (BorderStyle inset width: 1);
-				hResizing: #spaceFill;
-				vResizing: #spaceFill;
-				autoDeselect: true;
-				layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
-				yourself.
-	aTreePresentation allowsInput ifTrue: [
-		search := UITheme current
+	treeMorph := MorphTreeMorph new
+		on: treeModel
+			list: #roots
+			selected: #getCurrentSelection
+			changeSelected: #noteNewSelection:
+			menu: #menu:shifted:
+			keystroke: #keyStroke:from:;
+		cornerStyle: #square;
+		borderStyle: (BorderStyle inset width: 1);
+		hResizing: #spaceFill;
+		vResizing: #spaceFill;
+		autoDeselect: true;
+		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
+		yourself.
+	aTreePresentation allowsInput ifTrue: 
+		[ search := UITheme current 
 			newTextEntryIn: nil
 			for: treeModel
 			get: #inputText
@@ -358,18 +357,33 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 			class: String
 			getEnabled: #inputTextEnabled
 			help: 'Search Input'.
-		search layoutFrame: (LayoutFrame
-			fractions: (0 @ 1 corner: 1 @ 1) 
-			offsets: (0 @ -24 corner: 0 @ 0)).
+		search layoutFrame: (LayoutFrame 
+				fractions: (0 @ 1 corner: 1 @ 1)
+				offsets: (0 @ -24 corner: 0 @ 0)).
 		treeMorph layoutFrame bottomOffset: -24.
 		container addMorphBack: search ].
+	aTreePresentation limitsAmount ifTrue: 
+		[ amountFilteringButton := GLMMorphicLibrary 
+			togglingButtonLabelled: 'There are hidden elements'
+			pressed: false.
+		amountFilteringButton layoutFrame: (LayoutFrame 
+				fractions: (0 @ 0 corner: 1 @ 0)
+				offsets: (0 @ 0 corner: 0 @ 24)).
+		amountFilteringButton
+			target: treeModel;
+			actionSelector: #toggleAmountToFilterBy.
+		treeMorph layoutFrame topOffset: 24.
+		container addMorphBack: amountFilteringButton ].
 	container addMorphBack: treeMorph.
-	self installActionsOnUI: treeModel fromPresentation: aTreePresentation.
-	treeModel onSelection: [:selection | aTreePresentation selection: selection]. 
-	treeMorph vShowScrollBar.	
-	aTreePresentation when: GLMContextChanged do: [:ann | 
-		ann property = #selection ifTrue: [ treeModel selectItem: ann value ]].
-	^container
+	self 
+		installActionsOnUI: treeModel
+		fromPresentation: aTreePresentation.
+	treeModel onSelection: [ :selection | aTreePresentation selection: selection ].
+	treeMorph vShowScrollBar.
+	aTreePresentation 
+		when: GLMContextChanged
+		do: [ :ann | ann property = #selection ifTrue: [ treeModel selectItem: ann value ] ].
+	^ container
 ]
 
 { #category : #factory }

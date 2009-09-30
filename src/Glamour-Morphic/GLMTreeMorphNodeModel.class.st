@@ -12,32 +12,12 @@ Class {
 
 { #category : #callbacks }
 GLMTreeMorphNodeModel >> buttonForTag: each [ 
-	| button oldLabel m |
-	button := SimpleButtonMorph new.
-	(oldLabel := button findA: StringMorph) ifNotNil: [ oldLabel delete ].
-	m := StringMorph 
-		contents: each
-		font: (LogicalFont 
-				familyName: UITheme current buttonFont familyName
-				pointSize: UITheme current buttonFont pointSize - 2).
-	button extent: (m width + 6) @ m height.
-	m position: 3 @ 0.	"button center - (m extent // 2)"
-	m lock.
+	| button |
+	button := GLMMorphicLibrary togglingButtonLabelled: each pressed: (self containerTree shouldFilterByTag: each).
 	button
-		addMorph: m;
-		borderStyle: (BorderStyle inset width: 1);
-		borderColor: Color gray;
 		target: self;
 		actionSelector: #toggleFilteringByTag:;
-		arguments: (Array with: each);
-		useRoundedCorners.
-	(self containerTree shouldFilterByTag: each) 
-		ifFalse: 
-			[ m color: Color white.
-			button color: Color gray ]
-		ifTrue: 
-			[ m color: Color darkGray.
-			button color: Color veryLightGray ].
+		arguments: (Array with: each).
 	^ button
 ]
 
@@ -162,20 +142,7 @@ GLMTreeMorphNodeModel >> rowMorphListFor: aContainer [
 
 { #category : #testing }
 GLMTreeMorphNodeModel >> shouldBeDisplayed [
-	^ self shouldBeDisplayedByTags and: [self shouldBeDisplayedByFiltering]
-]
-
-{ #category : #testing }
-GLMTreeMorphNodeModel >> shouldBeDisplayedByFiltering [
-	self containerTree shouldFilter ifFalse: [ ^ true ].
-	self withContentsDo: [ :node | 
-		self flag: 'this should be delegated to the presentation
-		and glamourValue should be used to include the entity ports'.
-		(self containerTree glamourPresentation filterStrategy 
-				value: self containerTree inputText asString
-				value: node item) == true ifTrue: [ ^ true ]
-	].
-	^ false
+	^ self shouldBeDisplayedByTags and: [ self shouldBeDisplayedByText ]
 ]
 
 { #category : #testing }
@@ -186,6 +153,19 @@ GLMTreeMorphNodeModel >> shouldBeDisplayedByTags [
 		nodeTags := self containerTree glamourPresentation tagsFor: node item.
 		self containerTree tagsToFilterBy do: [ :each | 
 			(nodeTags includes: each) ifTrue: [ ^ true ] ] ].
+	^ false
+]
+
+{ #category : #testing }
+GLMTreeMorphNodeModel >> shouldBeDisplayedByText [
+	self containerTree shouldFilterByText ifFalse: [ ^ true ].
+	self withContentsDo: 
+		[ :node | 
+		self flag: 'this should be delegated to the presentation
+		and glamourValue should be used to include the entity ports'.
+		(self containerTree glamourPresentation filterStrategy 
+			value: self containerTree inputText asString
+			value: node item) == true ifTrue: [ ^ true ] ].
 	^ false
 ]
 
