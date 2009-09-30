@@ -279,6 +279,19 @@ GLMBasicExamples >> threeInterdependentPanes [
 	^ browser
 ]
 
+{ #category : #others }
+GLMBasicExamples >> treeWithAmountFiltering [
+	"self new treeWithAmountFiltering openOn: (1 to: 100)"
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	browser column: #one.
+	browser showOn: #one; using: [
+		browser tree
+			tags: [:each | {each even printString} ];
+			showOnly: 20].
+	^ browser 
+]
+
 { #category : #'explicit selection' }
 GLMBasicExamples >> treeWithInitialSelection [
 	"
