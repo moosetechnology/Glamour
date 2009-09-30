@@ -245,7 +245,7 @@ GLMMorphicRenderer >> renderPane: aPane [
 
 { #category : #private }
 GLMMorphicRenderer >> renderPresentationsOf: aPane [
-	| presentations tabs | 
+	| presentations tabs title | 
 	presentations := aPane matchingPresentations.
 	presentations isEmpty
 		ifTrue: [ ^ self emptyMorph ].
@@ -256,9 +256,12 @@ GLMMorphicRenderer >> renderPresentationsOf: aPane [
 	tabs cornerStyle: (self theme tabGroupCornerStyleIn: nil).
 	tabs font: self theme labelFont.
 	presentations do: [ :each | 
+		title := each hasTitleIcon 
+			ifTrue: [ UITheme current newImageIn: tabs form: each titleIcon ]
+			ifFalse: [ each titleValue ].
 		tabs
 			addLazyPage: [ self render: each ]
-			label: each titleValue ].
+			label:  title ].
 	tabs selectedPageIndex: 1.
 	^ tabs
 ]
