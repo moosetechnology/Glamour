@@ -128,11 +128,15 @@ GLMBasicExamples >> multipleTabs [
 	
 	| finder |
 	finder := GLMFinder new.
-	(1 to: 9) do: [:i | 
+	(1 to: 3) do: [:i | 
 		finder text
-			title: 'Text ', i printString;
+			title: i printString;
 			display: [:x | i printString].
+		finder text
+			titleIcon: MenuIcons smallFindIcon;
+			display: [:x | i printString]
 	].
+	
 	^ finder
 ]
 
