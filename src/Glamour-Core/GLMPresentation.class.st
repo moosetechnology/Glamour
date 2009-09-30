@@ -7,6 +7,7 @@ Class {
 	#instVars : [
 		'pane',
 		'title',
+		'titleIcon',
 		'transformation',
 		'actions',
 		'condition',
@@ -74,6 +75,11 @@ GLMPresentation >> entity [
 GLMPresentation >> entity: anObject [ 
 	 
 	(self pane port: #entity) value: anObject
+]
+
+{ #category : #testing }
+GLMPresentation >> hasTitleIcon [
+	^ self titleIcon notNil
 ]
 
 { #category : #events }
@@ -169,6 +175,16 @@ GLMPresentation >> title [
 GLMPresentation >> title: aStringOrBlock [ 
 	 
 	title := aStringOrBlock
+]
+
+{ #category : #accessing }
+GLMPresentation >> titleIcon [
+	^ titleIcon
+]
+
+{ #category : #accessing }
+GLMPresentation >> titleIcon: anObject [
+	titleIcon := anObject
 ]
 
 { #category : #accessing }
