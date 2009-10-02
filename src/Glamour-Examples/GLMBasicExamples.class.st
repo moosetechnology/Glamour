@@ -82,6 +82,28 @@ GLMBasicExamples >> interdependentPanes [
 ]
 
 { #category : #'explicit selection' }
+GLMBasicExamples >> listsWithUpdatedSelection [
+	"self new listsWithUpdatedSelection openOn: 10"
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	browser column: #one; column: #two; column: #three.
+	browser showOn: #one; using: [
+		browser list
+			display: [:x | 1 to: x ]].
+	browser showOn: #two; using: [
+		browser list
+			display: [:x | 1 to: x + 2 ]].
+	browser showOn: #three; using: [
+		browser list
+			beMultiple;
+			display: [:x | 1 to: x ]].
+	browser sendTo: #two->#selection from: #one with: [:x | x + 2].
+	browser sendTo: #one->#selection from: #two with: [:x | x - 2].
+	browser sendTo: #three->#selection from: #two with: [:x | (1 to: (x - 2)) ].
+	^ browser
+]
+
+{ #category : #'explicit selection' }
 GLMBasicExamples >> multiInitialSelection [
 	"
 		| browser |
