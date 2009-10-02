@@ -151,8 +151,8 @@ GLMTreeMorphNodeModel >> shouldBeDisplayedByTags [
 	self containerTree tagsToFilterBy isEmpty ifTrue: [ ^ true ].
 	self withContentsDo: [ :node | 
 		nodeTags := self containerTree glamourPresentation tagsFor: node item.
-		self containerTree tagsToFilterBy do: [ :each | 
-			(nodeTags includes: each) ifTrue: [ ^ true ] ] ].
+		(self containerTree tagsToFilterBy allSatisfy: [ :each | nodeTags includes: each ])
+			ifTrue: [ ^ true ] ].
 	^ false
 ]
 
