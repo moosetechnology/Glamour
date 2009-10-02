@@ -14,5 +14,5 @@ GLMMultiListModel >> selectItem: aCollection [
 		]
 	].
 	self selectedIndexes: indexes.
-	self changed: #selection.
+	self changed: #displayedItems.
 ]
