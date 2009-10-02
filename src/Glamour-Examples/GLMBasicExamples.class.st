@@ -274,7 +274,10 @@ GLMBasicExamples >> taggedTree [
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser tree
-			tags: [:each | each even ifTrue: ['even'] ifFalse: ['odd']]].
+			tags: [:each | 
+				{each even ifTrue: ['even'] ifFalse: ['odd'].
+				each even ifTrue: ['x'] ifFalse: ['y']}
+				]].
 	browser showOn: #two; from: #one; using: [
 		browser text
 			display: [:x | 'You have selected ', x printString ]].
