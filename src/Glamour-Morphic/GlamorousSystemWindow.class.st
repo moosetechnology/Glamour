@@ -20,11 +20,10 @@ GlamorousSystemWindow >> buildWindowMenu [
 ]
 
 { #category : #building }
-GlamorousSystemWindow >> extent: aPoint [
+GlamorousSystemWindow >> extent: aPoint [ 
 	super extent: aPoint.
 	self fullBounds.
-	self allMorphsDo: [ :morph |
-		(morph isKindOf: ScrollPane) ifTrue: [
-			morph scroller submorphs anyOne
-				width: morph scroller width - 20 ] ]
+	self allMorphsDo: 
+		[ :morph | 
+		(morph isKindOf: GLMScrollPaneForHResize) ifTrue: [ morph scroller submorphs anyOne width: morph scroller width - 20 ] ]
 ]

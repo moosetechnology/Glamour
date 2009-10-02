@@ -191,20 +191,18 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderMagrittePresentation: anAsMorphPresentation [ 
 	| toShow description magritteMorph scrollPane |
-	
 	toShow := anAsMorphPresentation displayValue.
 	description := (anAsMorphPresentation magritteDescription glamourValue: toShow) copy.
 	description morphClass: MASilentContainerMorph.
-	magritteMorph := (description asMorphOn: toShow) 
+	magritteMorph := (description asMorphOn: toShow)
 		addButtons;
 		morph.
-	scrollPane := ScrollPane new.
-	scrollPane scroller 
+	scrollPane := GLMScrollPaneForHResize new.
+	scrollPane scroller
 		addMorph: magritteMorph;
 		layoutChanged.
 	magritteMorph width: scrollPane width.
-	^ scrollPane  
-
+	^ scrollPane
 ]
 
 { #category : #'rendering presentations' }
