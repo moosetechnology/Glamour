@@ -5,7 +5,8 @@ Class {
 		'tagsBlock',
 		'searchBlock',
 		'filterBlock',
-		'amountToShowBlock'
+		'amountToShowBlock',
+		'allowsMultipleSelection'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -38,6 +39,16 @@ GLMListingPresentation >> filterStrategy [
 { #category : #testing }
 GLMListingPresentation >> hasTags [
 	^ tagsBlock notNil
+]
+
+{ #category : #testing }
+GLMListingPresentation >> isMultiple [
+	^ allowsMultipleSelection ifNil: [ allowsMultipleSelection := false ]
+]
+
+{ #category : #testing }
+GLMListingPresentation >> isSingle [ 
+	^ self isMultiple not
 ]
 
 { #category : #testing }
