@@ -349,8 +349,10 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 		autoDeselect: true;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		yourself.
-	aTreePresentation allowsInput ifTrue: 
-		[ search := UITheme current 
+	aTreePresentation isMultiple ifTrue: [
+		treeMorph secondarySelectionChangedSelector: #secondarySelectionChanged:].
+	aTreePresentation allowsInput ifTrue: [
+		search := UITheme current 
 			newTextEntryIn: nil
 			for: treeModel
 			get: #inputText
@@ -363,8 +365,8 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 				offsets: (0 @ -24 corner: 0 @ 0)).
 		treeMorph layoutFrame bottomOffset: -24.
 		container addMorphBack: search ].
-	aTreePresentation limitsAmount ifTrue: 
-		[ amountFilteringButton := GLMMorphicLibrary 
+	aTreePresentation limitsAmount ifTrue: [
+		amountFilteringButton := GLMMorphicLibrary 
 			togglingButtonLabelled: 'There are hidden elements'
 			pressed: false.
 		amountFilteringButton layoutFrame: (LayoutFrame 

@@ -181,6 +181,11 @@ GLMTreeMorphModel >> roots: anObjectOrCollection [
 		ifFalse: [ OrderedCollection with: (self nodeModelFor: anObjectOrCollection) ]
 ]
 
+{ #category : #callbacks }
+GLMTreeMorphModel >> secondarySelectionChanged: secondaryList [
+	
+]
+
 { #category : #accessing }
 GLMTreeMorphModel >> selectItem: anObject [
 	self roots do: [:eachRoot |
