@@ -131,7 +131,7 @@ GLMBasicExamples >> multipleFinderWithSearch [
 
 	| finder |	
 	finder := GLMFinder new.
-	finder list
+	finder tree
 			title: 'List';
 			beMultiple;
 			actions: [:list | self actionsFor: list];
