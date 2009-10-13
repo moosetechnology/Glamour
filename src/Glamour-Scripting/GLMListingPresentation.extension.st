@@ -1,6 +1,16 @@
 Extension { #name : #GLMListingPresentation }
 
 { #category : #'*Glamour-Scripting' }
+GLMListingPresentation >> beMultiple [
+	allowsMultipleSelection := true
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMListingPresentation >> beSingle [
+	allowsMultipleSelection := false
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMListingPresentation >> filterOn: aBlock [ 
 	filterBlock := aBlock
 ]
