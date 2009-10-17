@@ -134,7 +134,8 @@ GLMCodeBrowser >> onPackages [
 		using: 
 			[ browser tree
 				children: [ :package | package subPackages ];
-				format: [ :package | package name ] ]
+				format: [ :package | package name ];
+				filterOn: [ :text :each | text match: each name ] ]
 ]
 
 { #category : #opening }
