@@ -84,15 +84,17 @@ GLMCodeBrowser >> onDetailsFromPackagesFromClassesFromMethods [
 					when: [:class | class notNil ];
 					display: [:class | class references];
 					format: [:each | each glmBehavior name, '>>', each name];
-					update: #focusOnMethod on: $f entitled: 'Focus' with: [:list | list selection ].
+					update: #focusOnMethod on: $f entitled: 'Jump there' with: [:list | list selection ].
 			browser list
 					title: 'Senders';
 					display: [:class :method | method senders];
-					format: [:each | each glmBehavior name, '>>', each name].
+					format: [:each | each glmBehavior name, '>>', each name];
+					update: #focusOnMethod on: $f entitled: 'Jump there' with: [:list | list selection ].
 			browser list
 					title: 'Implementors';
 					display: [:class :method | method implementors];
-					format: [:each | each glmBehavior name, '>>', each name]
+					format: [:each | each glmBehavior name, '>>', each name];
+					update: #focusOnMethod on: $f entitled: 'Jump there' with: [:list | list selection ].
 		]
 ]
 
