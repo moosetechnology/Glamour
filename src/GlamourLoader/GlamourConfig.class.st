@@ -2,7 +2,8 @@ Class {
 	#name : #GlamourConfig,
 	#superclass : #Object,
 	#instVars : [
-		'project'
+		'project',
+		'repo'
 	],
 	#category : #GlamourLoader
 }
@@ -48,9 +49,12 @@ GlamourConfig >> default [
 { #category : #'as yet unclassified' }
 GlamourConfig >> ensureMetacello [
 	Smalltalk at: #MetacelloProject ifAbsent: [
-		ScriptLoader  loadLatestPackage: 'Metacello-All' from: 'http://seaside.gemstone.com/ss/metacello'.
-		(Smalltalk at: #MetacelloMetacelloProject) updateProject.
-		((Smalltalk at: #MetacelloMetacelloProject) version: '0.16') load ]
+		repo := 'http://seaside.gemstone.com/ss/metacello'.
+		self loadPackage: 'Metacello-Core-dkh.242' from: repo.
+		self loadPackage: 'Metacello-MC-dkh.163' from: repo.
+		self loadPackage: 'Metacello-MetacelloProject-dkh.218' from: repo.
+		(Smalltalk at: #MetacelloMetacelloProject) instance updateProject.
+		((Smalltalk at: #MetacelloMetacelloProject) instance version: '0.16') load ]
 ]
 
 { #category : #'as yet unclassified' }
