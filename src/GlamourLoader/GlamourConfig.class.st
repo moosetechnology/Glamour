@@ -64,6 +64,22 @@ GlamourConfig >> load [
 ]
 
 { #category : #'as yet unclassified' }
+GlamourConfig >> loadPackage: aString from: aPath [ 
+	| repository version |
+	repository := MCHttpRepository
+				location: aPath
+				user: ''
+				password: ''.
+	repository
+		versionReaderForFileNamed: aString , '.mcz'
+		do: [:reader | 
+			version := reader version.
+			version load.
+			version workingCopy repositoryGroup addRepository: repository]
+
+]
+
+{ #category : #'as yet unclassified' }
 GlamourConfig >> packages10beta [
 	<packages: '1.0-beta' attribute: #common>
 
