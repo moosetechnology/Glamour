@@ -5,7 +5,8 @@ Class {
 		'browser',
 		'name',
 		'presentations',
-		'ports'
+		'ports',
+		'lastActivePresentation'
 	],
 	#category : #'Glamour-Core'
 }
@@ -118,6 +119,16 @@ GLMPane >> initializeNamed: aString in: aBrowser [
 ]
 
 { #category : #accessing }
+GLMPane >> lastActivePresentation [
+	^ lastActivePresentation
+]
+
+{ #category : #accessing }
+GLMPane >> lastActivePresentation: anObject [
+	lastActivePresentation := anObject
+]
+
+{ #category : #accessing }
 GLMPane >> matchingPresentations [ 
 	 
 	^presentations select: [:each | each matches]
@@ -193,7 +204,7 @@ GLMPane >> presentations [
 	^OrderedCollection withAll: presentations
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 GLMPane >> printOn: aStream [
 	super printOn: aStream.
 	aStream
