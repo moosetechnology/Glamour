@@ -48,15 +48,9 @@ ConfigurationOfGlamour class >> isMetacelloConfig [
 	^true
 ]
 
-{ #category : #accessing }
-ConfigurationOfGlamour class >> project [
-
-	^self new project
-]
-
 { #category : #baselines }
 ConfigurationOfGlamour >> default: spec [ 
-	<version: '0-default'>
+	<version: 'default'>
 	
 	spec for: #common do: [
 		spec blessing: #default.
@@ -78,7 +72,7 @@ ConfigurationOfGlamour >> default: spec [
 				spec
 					className: 'ConfigurationOfMondrian';
 					file: 'ConfigurationOfMondrian';
-					version: '0-default';
+					version: 'default';
 					repository: 'http://www.squeaksource.com/Mondrian' ].
 	]
 ]
