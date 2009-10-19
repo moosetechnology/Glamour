@@ -76,8 +76,8 @@ ConfigurationOfGlamour >> default: spec [
 		spec
 			project: 'Mondrian for Glamour' with: [
 				spec
-					className: 'MondrianConfiguration';
-					file: 'MondrianConfiguration';
+					className: 'ConfigurationOfMondrian';
+					file: 'ConfigurationOfMondrian';
 					version: '0-default';
 					repository: 'http://www.squeaksource.com/Mondrian' ].
 	]
