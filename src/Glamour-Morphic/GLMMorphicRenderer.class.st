@@ -243,16 +243,17 @@ GLMMorphicRenderer >> renderPane: aPane [
 
 { #category : #private }
 GLMMorphicRenderer >> renderPresentationsOf: aPane [
-	| presentations tabs title | 
+	| presentations tabs title index | 
 	presentations := aPane matchingPresentations.
-	presentations isEmpty
-		ifTrue: [ ^ self emptyMorph ].
-	presentations size = 1
-		ifTrue: [ ^ self render: presentations first ].
+	presentations isEmpty ifTrue: [ ^ self emptyMorph ].
+	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
 	tabs := LazyTabGroupMorph new. 
-	tabs vResizing: #spaceFill; hResizing: #spaceFill.
-	tabs cornerStyle: (self theme tabGroupCornerStyleIn: nil).
-	tabs font: self theme labelFont.
+	tabs 
+		vResizing: #spaceFill;
+		hResizing: #spaceFill;
+		cornerStyle: (self theme tabGroupCornerStyleIn: nil);
+		font: self theme labelFont;
+		onPageIndexChange: [:i | aPane lastActivePresentation: (aPane matchingPresentations at: i) ].
 	presentations do: [ :each | 
 		title := each hasTitleIcon 
 			ifTrue: [ UITheme current newImageIn: tabs form: each titleIcon ]
@@ -260,7 +261,11 @@ GLMMorphicRenderer >> renderPresentationsOf: aPane [
 		tabs
 			addLazyPage: [ self render: each ]
 			label:  title ].
-	tabs selectedPageIndex: 1.
+	index := 1.
+	presentations withIndexDo: [:each :i | 
+		aPane lastActivePresentation notNil and: [
+			each title = aPane lastActivePresentation title ifTrue: [index := i]]].
+	tabs selectedPageIndex: index.
 	^ tabs
 ]
 

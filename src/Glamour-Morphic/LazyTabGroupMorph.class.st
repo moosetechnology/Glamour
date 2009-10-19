@@ -2,7 +2,8 @@ Class {
 	#name : #LazyTabGroupMorph,
 	#superclass : #TabGroupMorph,
 	#instVars : [
-		'lazyPages'
+		'lazyPages',
+		'onPageIndexChange'
 	],
 	#category : #'Glamour-Morphic'
 }
@@ -43,6 +44,16 @@ LazyTabGroupMorph >> lazyPages [
 	^lazyPages
 ]
 
+{ #category : #accessing }
+LazyTabGroupMorph >> onPageIndexChange [
+	^ onPageIndexChange ifNil: [[]]
+]
+
+{ #category : #accessing }
+LazyTabGroupMorph >> onPageIndexChange: anObject [
+	onPageIndexChange := anObject
+]
+
 { #category : #'as yet unclassified' }
 LazyTabGroupMorph >> pageAt: index [
 	^self pages at: index ifAbsent: [ self addPage: (self lazyPages at: index) value at: index]
@@ -60,5 +71,6 @@ LazyTabGroupMorph >> updatePageIndex: index [
 				replaceSubmorph: p
 				by: (self pageAt: index)].
 	self pageMorph layoutChanged.
-	self adoptPaneColor: (self owner ifNil: [self]) paneColor
+	self adoptPaneColor: (self owner ifNil: [self]) paneColor.
+	self onPageIndexChange value: index
 ]
