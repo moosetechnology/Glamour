@@ -48,6 +48,17 @@ ConfigurationOfGlamour class >> isMetacelloConfig [
 	^true
 ]
 
+{ #category : #loading }
+ConfigurationOfGlamour class >> loadDefault [
+	(self project version: 'default') load
+]
+
+{ #category : #accessing }
+ConfigurationOfGlamour class >> project [
+
+	^self new project
+]
+
 { #category : #baselines }
 ConfigurationOfGlamour >> default: spec [ 
 	<version: 'default'>
