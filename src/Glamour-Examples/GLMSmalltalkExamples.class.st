@@ -7,6 +7,45 @@ Class {
 	#category : #'Glamour-Examples'
 }
 
+{ #category : #'as yet unclassified' }
+GLMSmalltalkExamples >> diffBrowser [
+	"self new diffBrowser openOn: (Collection withAllSubclasses asOrderedCollection sortBy: [:a :b | a name < b name])"
+	| browser classBrowser classBrowser2 |
+	classBrowser := GLMTableLayoutBrowser new.
+	classBrowser column: #classes; column: #methods.
+	classBrowser showOn: #classes; using: [classBrowser list].
+	classBrowser showOn: #methods; from: #classes; using: [
+		classBrowser list
+			display: [:cls | cls selectors asOrderedCollection sortBy: [:a :b | a < b]]].
+	classBrowser sendToOutside: #selectedClass from: #classes.
+	classBrowser sendToOutside: #selectedMethod from: #methods.
+	classBrowser2 := GLMTableLayoutBrowser new.
+	classBrowser2 column: #classes; column: #methods.
+	classBrowser2 showOn: #classes; using: [classBrowser2 list].
+	classBrowser2 showOn: #methods; from: #classes; using: [
+		classBrowser2 list
+			display: [:cls | cls selectors asOrderedCollection sortBy: [:a :b | a < b]]].
+	classBrowser2 sendToOutside: #selectedClass from: #classes.
+	classBrowser2 sendToOutside: #selectedMethod from: #methods.
+	browser := GLMTableLayoutBrowser new.
+	browser title: 'Glamorous Diff Browser'.
+	browser
+		row: [:r | r column: #left; column: #right ];
+		row: #diff.
+	browser showOn: #left; using: [browser custom: classBrowser].
+	browser showOn: #right; using: [browser custom: classBrowser2].
+	browser showOn: #diff; 
+		from: #left->#selectedClass; from: #left->#selectedMethod;
+		from: #right->#selectedClass; from: #right->#selectedMethod;
+		using: [
+		browser diff
+			display: [:leftClass :leftMethod :rightClass :rightMethod | 
+				Array with: (leftClass sourceCodeAt: leftMethod) with: (rightClass sourceCodeAt: rightMethod)
+			]
+		].
+	^ browser
+]
+
 { #category : #code }
 GLMSmalltalkExamples >> implementorsChasingBrowser [
 	"self new implementorsChasingBrowser openOn: #implementorsChasingBrowser"
