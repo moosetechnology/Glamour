@@ -103,6 +103,22 @@ GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aMorph inBrowse
 	aMorph addPaneSplitters
 ]
 
+{ #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderDiffPresentation: aDiffPresentation [ 
+	| textMorph textModel |  
+	textMorph := (DiffMorph from: aDiffPresentation displayValue first to: aDiffPresentation displayValue last)
+"			onKeyStrokeSend: #keystroke:from: to: textModel;
+"			layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
+			vResizing: #spaceFill;
+			hResizing: #spaceFill;
+			color: Color white;
+			yourself.
+"	self installActionsOnUI: textModel fromPresentation: aTextPresentation.
+	aTextPresentation selectedTextBlock: [ textMorph textMorph editor selection ].
+	aTextPresentation textBlock: [ textMorph textMorph editor text ].
+"	^textMorph
+]
+
 { #category : #'rendering browsers' }
 GLMMorphicRenderer >> renderFinder: aBrowser [ 
 	| container |
