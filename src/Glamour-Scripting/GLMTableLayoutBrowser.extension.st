@@ -7,6 +7,12 @@ GLMTableLayoutBrowser >> column: aBlockOrSymbol [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMTableLayoutBrowser >> column: aBlockOrSymbol size: anInteger [ 
+	 
+	^self addColumn: aBlockOrSymbol size: anInteger
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMTableLayoutBrowser >> column: aBlockOrSymbol span: anInteger [ 
 	 
 	^self addColumn: aBlockOrSymbol span: anInteger
@@ -16,6 +22,12 @@ GLMTableLayoutBrowser >> column: aBlockOrSymbol span: anInteger [
 GLMTableLayoutBrowser >> row: aBlockOrSymbol [ 
 	 
 	^self addRow: aBlockOrSymbol
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMTableLayoutBrowser >> row: aBlockOrSymbol size: anInteger [ 
+	 
+	^self addRow: aBlockOrSymbol size: anInteger
 ]
 
 { #category : #'*Glamour-Scripting' }
