@@ -19,6 +19,12 @@ GLMBrowser >> defaultRenderer [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMBrowser >> diff [
+	 
+	^self custom: GLMDiffPresentation new
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMBrowser >> dynamic [
 	^ self custom: GLMDynamicPresentation new
 ]
