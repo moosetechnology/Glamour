@@ -49,11 +49,10 @@ GLMMorphicRenderer >> open: aRenderable [
 
 { #category : #private }
 GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aMorph inBrowser: aBrowser [ 
-	| pane totalSpans currentSpanPosition |
-	totalSpans := aCell children
-		inject: 0
-		into: [ :sum :each | sum + each span ].
+	| pane totalSpans currentSpanPosition currentOffset |
+	totalSpans := aCell children inject: 0 into: [ :sum :each | sum + each span ].
 	currentSpanPosition := 0.
+	currentOffset := 0.
 	aCell children keysAndValuesDo: [ :index :each | 
 		each hasId
 			ifTrue: [ pane := self render: (aBrowser paneNamed: each id) ]
@@ -64,25 +63,24 @@ GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aMorph inBro
 					inUI: (pane := self emptyMorph)
 					inBrowser: aBrowser.
 				pane addPaneSplitters ].
-		pane 
-			layoutFrame: (LayoutFrame new
-				topFraction: currentSpanPosition / totalSpans offset: 0;
+		pane layoutFrame: (LayoutFrame new
+				topFraction: currentSpanPosition / totalSpans offset: currentOffset;
 				leftFraction: 0 offset: 0;
-				bottomFraction: currentSpanPosition + each span / totalSpans offset: 0;
+				bottomFraction: currentSpanPosition + each span / totalSpans offset: currentOffset + each size;
 				rightFraction: 1 offset: 0;
 				yourself).
 		aMorph addMorphBack: pane.
-		currentSpanPosition := currentSpanPosition + each span ].
+		currentSpanPosition := currentSpanPosition + each span.
+		currentOffset := currentOffset + each size ].
 	aMorph addPaneSplitters
 ]
 
 { #category : #private }
 GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aMorph inBrowser: aBrowser [ 
-	| pane totalSpans currentSpanPosition |
-	totalSpans := aCell children
-		inject: 0
-		into: [ :sum :each | sum + each span ].
+	| pane totalSpans currentSpanPosition currentOffset |
+	totalSpans := aCell children inject: 0 into: [ :sum :each | sum + each span ].
 	currentSpanPosition := 0.
+	currentOffset := 0.
 	aCell children keysAndValuesDo: [ :index :each | 
 		each hasId
 			ifTrue: [ pane := self render: (aBrowser paneNamed: each id) ]
@@ -93,15 +91,15 @@ GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aMorph inBrowse
 					inUI: (pane := self emptyMorph)
 					inBrowser: aBrowser.
 				pane addPaneSplitters ].
-		pane
-			layoutFrame: (LayoutFrame new 
+		pane layoutFrame: (LayoutFrame new 
 				topFraction: 0 offset: 0;
-				leftFraction: currentSpanPosition / totalSpans offset: 0;
+				leftFraction: currentSpanPosition / totalSpans offset: currentOffset;
 				bottomFraction: 1 offset: 0;
-				rightFraction: currentSpanPosition + each span / totalSpans offset: 0;
+				rightFraction: currentSpanPosition + each span / totalSpans offset: currentOffset + each size;
 				yourself).
 		aMorph addMorphBack: pane.
-		currentSpanPosition := currentSpanPosition + each span ].
+		currentSpanPosition := currentSpanPosition + each span.
+		currentOffset := currentOffset + each size ].
 	aMorph addPaneSplitters
 ]
 
