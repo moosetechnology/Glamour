@@ -5,7 +5,8 @@ Class {
 		'children',
 		'span',
 		'id',
-		'browser'
+		'browser',
+		'size'
 	],
 	#category : #'Glamour-Browsers'
 }
@@ -82,6 +83,16 @@ GLMCustomCell >> isSplitIntoColumns [
 GLMCustomCell >> isSplitIntoRows [ 
 	 
 	^self children allSatisfy: [:each | each isRow]
+]
+
+{ #category : #accessing }
+GLMCustomCell >> size [
+	^ size ifNil: [0]
+]
+
+{ #category : #accessing }
+GLMCustomCell >> size: anObject [
+	size := anObject.
 ]
 
 { #category : #accessing }

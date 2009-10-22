@@ -24,9 +24,15 @@ GLMCustomRow >> addColumn: aBlockOrSymbol [
 ]
 
 { #category : #accessing }
+GLMCustomRow >> addColumn: aBlockOrSymbol size: anInteger [ 
+	 
+	^(self addColumn: aBlockOrSymbol) size: anInteger; span: 0
+]
+
+{ #category : #accessing }
 GLMCustomRow >> addColumn: aBlockOrSymbol span: anInteger [ 
 	 
-	^(self addColumn: aBlockOrSymbol) span: anInteger
+	^(self addColumn: aBlockOrSymbol) span: anInteger; size: 0
 ]
 
 { #category : #testing }

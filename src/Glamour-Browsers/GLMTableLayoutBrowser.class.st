@@ -14,6 +14,12 @@ GLMTableLayoutBrowser >> addColumn: aBlockOrSymbol [
 ]
 
 { #category : #layout }
+GLMTableLayoutBrowser >> addColumn: aBlockOrSymbol size: anInteger [ 
+	 
+	^(self addColumn: aBlockOrSymbol) size: anInteger; span: 0
+]
+
+{ #category : #layout }
 GLMTableLayoutBrowser >> addColumn: aBlockOrSymbol span: anInteger [ 
 	 
 	^(self addColumn: aBlockOrSymbol) span: anInteger
@@ -23,6 +29,12 @@ GLMTableLayoutBrowser >> addColumn: aBlockOrSymbol span: anInteger [
 GLMTableLayoutBrowser >> addRow: aBlockOrSymbol [ 
 	 
 	^self cellOrColumn addRow: aBlockOrSymbol
+]
+
+{ #category : #layout }
+GLMTableLayoutBrowser >> addRow: aBlockOrSymbol size: anInteger [ 
+	 
+	^(self addRow: aBlockOrSymbol) size: anInteger; span: 0
 ]
 
 { #category : #layout }
