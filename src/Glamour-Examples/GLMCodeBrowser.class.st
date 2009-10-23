@@ -114,7 +114,7 @@ GLMCodeBrowser >> onMethodsFromClasses [
 				display: [ :class | class instanceAndMetaMethods ];
 				tags: [ :each | 
 					{each glmCategory name.
-					each glmBehavior isMetaSide ifTrue: ['META'] ifFalse: ['INSTANCE']} ] ]
+					each glmBehavior isMetaSide ifTrue: ['META'] ifFalse: ['INST']} ] ]
 ]
 
 { #category : #building }
@@ -124,7 +124,7 @@ GLMCodeBrowser >> onMethodsFromInstVars [
 				display: [ :var | var accessingMethods ];
 				tags: [ :each | 
 					{each glmCategory name.
-					each glmBehavior isMetaSide ifTrue: ['META'] ifFalse: ['INSTANCE']} ] ]
+					each glmBehavior isMetaSide ifTrue: ['META'] ifFalse: ['INST']} ] ]
 ]
 
 { #category : #building }
