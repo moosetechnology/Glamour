@@ -10,30 +10,14 @@ Class {
 { #category : #'as yet unclassified' }
 GLMSmalltalkExamples >> diffBrowser [
 	"self new diffBrowser openOn: (Collection withAllSubclasses asOrderedCollection sortBy: [:a :b | a name < b name])"
-	| browser classBrowser classBrowser2 |
-	classBrowser := GLMTableLayoutBrowser new.
-	classBrowser column: #classes; column: #methods.
-	classBrowser showOn: #classes; using: [classBrowser list].
-	classBrowser showOn: #methods; from: #classes; using: [
-		classBrowser list
-			display: [:cls | cls selectors asOrderedCollection sortBy: [:a :b | a < b]]].
-	classBrowser sendToOutside: #selectedClass from: #classes.
-	classBrowser sendToOutside: #selectedMethod from: #methods.
-	classBrowser2 := GLMTableLayoutBrowser new.
-	classBrowser2 column: #classes; column: #methods.
-	classBrowser2 showOn: #classes; using: [classBrowser2 list].
-	classBrowser2 showOn: #methods; from: #classes; using: [
-		classBrowser2 list
-			display: [:cls | cls selectors asOrderedCollection sortBy: [:a :b | a < b]]].
-	classBrowser2 sendToOutside: #selectedClass from: #classes.
-	classBrowser2 sendToOutside: #selectedMethod from: #methods.
+	| browser |
 	browser := GLMTableLayoutBrowser new.
 	browser title: 'Glamorous Diff Browser'.
 	browser
 		row: [:r | r column: #left; column: #right ];
 		row: #diff.
-	browser showOn: #left; using: [browser custom: classBrowser].
-	browser showOn: #right; using: [browser custom: classBrowser2].
+	browser showOn: #left; using: [browser custom: self threePaneNavigator ].
+	browser showOn: #right; using: [browser custom: self threePaneNavigator ].
 	browser showOn: #diff; 
 		from: #left->#selectedClass; from: #left->#selectedMethod;
 		from: #right->#selectedClass; from: #right->#selectedMethod;
@@ -467,6 +451,20 @@ GLMSmalltalkExamples >> stMutiPanedNavigator [
 		sendToOutside: #selectedMethod
 		from: #metaMethods.
 	^ browser
+]
+
+{ #category : #'as yet unclassified' }
+GLMSmalltalkExamples >> threePaneNavigator [	
+	| classBrowser |
+	classBrowser := GLMTableLayoutBrowser new.
+	classBrowser column: #classes; column: #methods.
+	classBrowser showOn: #classes; using: [classBrowser list].
+	classBrowser showOn: #methods; from: #classes; using: [
+		classBrowser list
+			display: [:cls | cls selectors asOrderedCollection sortBy: [:a :b | a < b]]].
+	classBrowser sendToOutside: #selectedClass from: #classes.
+	classBrowser sendToOutside: #selectedMethod from: #methods.
+	^ classBrowser
 ]
 
 { #category : #code }
