@@ -76,12 +76,10 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Tests' ;
 			package: 'Glamour-Morphic';
 			package: 'Momo' with: [spec repository: 'http://www.squeaksource.com/Momo'];
-			package: 'Announcements';
 			package: 'Glamour-Examples'.
 		spec group: 'Tests' with: #(
 						'Glamour-Tests'
-						'Glamour-Examples'
-						'Tests-Announcements'). 
+						'Glamour-Examples'). 
 		spec
 			project: 'Mondrian for Glamour' with: [
 				spec
