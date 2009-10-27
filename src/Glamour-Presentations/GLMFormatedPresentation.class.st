@@ -8,14 +8,6 @@ Class {
 	#category : #'Glamour-Presentations'
 }
 
-{ #category : #'instance creation' }
-GLMFormatedPresentation class >> formater: aBlock [ 
-	 
-	^(self new) 
-		formater: aBlock; 
-		yourself
-]
-
 { #category : #accessing }
 GLMFormatedPresentation >> format [
 	^ format ifNil: [ format := #glamourString ]
