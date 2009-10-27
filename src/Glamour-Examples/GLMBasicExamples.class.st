@@ -62,6 +62,17 @@ GLMBasicExamples >> fileFinder [
 ]
 
 { #category : #others }
+GLMBasicExamples >> fixSizePanes [
+	"self new fixSizePanes openOn: 1"
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	browser column: #fix size: 10; column: #variable.
+	browser showOn: #fix; using: [browser text display: 'Fix size'].
+	browser showOn: #variable; using: [browser text display: 'Variable size'].
+	^ browser 
+]
+
+{ #category : #others }
 GLMBasicExamples >> interdependentPanes [
 	<glmBrowser: 'Inter-dependent Panes' input: '5'>
 	"self new interdependentPanes openOn: 5"
