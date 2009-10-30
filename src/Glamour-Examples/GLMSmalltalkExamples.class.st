@@ -315,6 +315,7 @@ GLMSmalltalkExamples >> stClassicNavigator [
 					[ :class :category | 
 					(class organization listAtCategoryNamed: category) asSortedCollection].
 			browser list
+				useExplicitNotNil;
 				when: [ :class :category | class notNil and: [ category isNil ] ];
 				display: [ :class :category | class selectors asSortedCollection ] ].
 	browser 
