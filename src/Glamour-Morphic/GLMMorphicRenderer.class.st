@@ -357,10 +357,11 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 	treeMorph := MorphTreeMorph new
 			on: treeModel
 			list: #roots
-"			selected: #getCurrentSelection"
-			changeSelected: #noteNewSelection:
+"			selected: #getCurrentSelection
+"			changeSelected: #selectionPath:selectionSet:
 			menu: #menu:shifted:
-			keystroke: #keyStroke:from:;
+			keystroke: #keyStroke:from:.
+	treeMorph
 		cornerStyle: #square;
 "		borderStyle: (BorderStyle inset width: 1);
 "		hResizing: #spaceFill;

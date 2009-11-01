@@ -129,7 +129,6 @@ GLMTreeMorphModel >> keyStroke: aCharacter from: aTreeMorph [
 { #category : #callbacks }
 GLMTreeMorphModel >> menu: menu shifted: b [ 
 	"Set up the menu to apply to the receiver's, honoring the #shifted boolean"
-	self haltOnce.
 	self selectedItem ifNotNil: [:current | current haltOnce menu: menu shifted: b].
 	^ menu
 ]
@@ -194,6 +193,14 @@ GLMTreeMorphModel >> selectItem: anObject [
 			each item = anObject ifTrue: [
 				self silentNoteNewSelection: each.
 				^ self]]]
+]
+
+{ #category : #callbacks }
+GLMTreeMorphModel >> selectionPath: path selectionSet: set [
+	super selectionPath: path selectionSet: set.
+"	x = self  ifTrue: [^ self]."
+	onSelection ifNotNil: [onSelection value: (path last isNil ifTrue: [nil] ifFalse: [path last item])].
+"	self changed: #selection."
 ]
 
 { #category : #'search and filtering' }
