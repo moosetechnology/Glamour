@@ -26,7 +26,7 @@ GLMTreeMorphModel >> allMenuActions [
 
 { #category : #accessing }
 GLMTreeMorphModel >> amountToFilterBy [
-	^ amountToFilterBy
+	^ amountToFilterBy ifNil: [self glamourPresentation amountToShow]
 ]
 
 { #category : #accessing }
@@ -199,8 +199,9 @@ GLMTreeMorphModel >> selectItem: anObject [
 GLMTreeMorphModel >> selectionPath: path selectionSet: set [
 	super selectionPath: path selectionSet: set.
 "	x = self  ifTrue: [^ self]."
-	onSelection ifNotNil: [onSelection value: (path last isNil ifTrue: [nil] ifFalse: [path last item])].
-"	self changed: #selection."
+	path isNil ifFalse: [
+		onSelection ifNotNil: [onSelection value: (path last isNil ifTrue: [nil] ifFalse: [path last item])].
+	].
 ]
 
 { #category : #'search and filtering' }

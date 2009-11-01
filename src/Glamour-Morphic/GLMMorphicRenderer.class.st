@@ -350,23 +350,20 @@ GLMMorphicRenderer >> renderToolbarForBrowser: aBrowser inWindow: aWin [
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [ 
 	| treeMorph treeModel search container amountFilteringButton |
-	treeModel := GLMTreeMorphModel new
-		glamourPresentation: aTreePresentation;
-		amountToFilterBy: aTreePresentation amountToShow.
+	treeModel := GLMTreeMorphModel new glamourPresentation: aTreePresentation.
 	container := self emptyMorph.
 	treeMorph := MorphTreeMorph new
-			on: treeModel
-			list: #roots
-"			selected: #getCurrentSelection
-"			changeSelected: #selectionPath:selectionSet:
-			menu: #menu:shifted:
-			keystroke: #keyStroke:from:.
+						on: treeModel
+						list: #roots
+						changeSelected: #selectionPath:selectionSet:
+						menu: #menu:shifted:
+						keystroke: #keyStroke:from:.
 	treeMorph
 		cornerStyle: #square;
-"		borderStyle: (BorderStyle inset width: 1);
-"		hResizing: #spaceFill;
-		vResizing: #spaceFill;
+		borderStyle: (BorderStyle inset width: 1);
 		autoDeselect: true;
+		hResizing: #spaceFill;
+		vResizing: #spaceFill;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		yourself.
 "	aTreePresentation isMultiple ifTrue: [
@@ -398,14 +395,11 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 		treeMorph layoutFrame topOffset: 24.
 		container addMorphBack: amountFilteringButton ].
 	container addMorphBack: treeMorph.
-	self 
-		installActionsOnUI: treeModel
-		fromPresentation: aTreePresentation.
+	self installActionsOnUI: treeModel fromPresentation: aTreePresentation.
 	treeModel onSelection: [ :selection | aTreePresentation selection: selection ].
 	treeMorph vShowScrollBar.
-	aTreePresentation 
-		when: GLMContextChanged
-		do: [ :ann | ann property = #selection ifTrue: [ treeModel selectItem: ann value ] ].
+	aTreePresentation when: GLMContextChanged do: [ :ann |
+		ann property = #selection ifTrue: [ treeModel selectItem: ann value ] ].
 	^ container
 ]
 
