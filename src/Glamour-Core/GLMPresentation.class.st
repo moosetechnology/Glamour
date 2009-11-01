@@ -189,8 +189,7 @@ GLMPresentation >> titleIcon: anObject [
 
 { #category : #accessing }
 GLMPresentation >> titleIconValue [
-
-	^ (titleIcon isKindOf: BlockClosure)
+	^ self titleIcon notNil
 		ifTrue: [ self titleIcon glamourValue: self entity ]
 		ifFalse: [ self titleIcon ]
 ]
