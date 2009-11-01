@@ -33,6 +33,12 @@ GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPrese
 	aMorphicModel when: GLMKeyStroke do: [ :ann | ann action actOn: aPresentation ].
 ]
 
+{ #category : #rendering }
+GLMMorphicRenderer >> library [
+
+	^GLMMorphicLibrary
+]
+
 { #category : #opening }
 GLMMorphicRenderer >> open: aRenderable [
 	| window dock |
@@ -270,7 +276,7 @@ GLMMorphicRenderer >> renderPresentationsOf: aPane [
 		onPageIndexChange: [:i | aPane lastActivePresentation: (aPane matchingPresentations at: i) ].
 	presentations do: [ :each | 
 		title := each hasTitleIcon 
-			ifTrue: [ UITheme current newImageIn: tabs form: each titleIcon ]
+			ifTrue: [ UITheme current newImageIn: tabs form: each titleIconValue ]
 			ifFalse: [ each titleValue ].
 		tabs
 			addLazyPage: [ self render: each ]
@@ -350,7 +356,7 @@ GLMMorphicRenderer >> renderToolbarForBrowser: aBrowser inWindow: aWin [
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [ 
 	| treeMorph treeModel search container amountFilteringButton |
-	treeModel := GLMTreeMorphModel new
+	treeModel := self treeModel new
 		glamourPresentation: aTreePresentation;
 		amountToFilterBy: aTreePresentation amountToShow.
 	container := self emptyMorph.
@@ -385,7 +391,7 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 		treeMorph layoutFrame bottomOffset: -24.
 		container addMorphBack: search ].
 	aTreePresentation limitsAmount ifTrue: [
-		amountFilteringButton := GLMMorphicLibrary 
+		amountFilteringButton := self library 
 			togglingButtonLabelled: 'There are hidden elements'
 			pressed: false.
 		amountFilteringButton layoutFrame: (LayoutFrame 
@@ -411,4 +417,10 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 { #category : #factory }
 GLMMorphicRenderer >> theme [
 	^ UITheme current
+]
+
+{ #category : #rendering }
+GLMMorphicRenderer >> treeModel [
+	
+	^GLMTreeMorphModel
 ]
