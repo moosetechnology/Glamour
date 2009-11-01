@@ -304,13 +304,13 @@ GLMBasicExamples >> threeInterdependentPanes [
 	browser := GLMTableLayoutBrowser new.
 	browser column: #one; column: #two; column: #three.
 	browser showOn: #one; using: [
-		browser list
+		browser tree
 			display: [:x | 1 to: x]].
 	browser showOn: #two; from: #one; using: [ 
-		browser list
+		browser tree
 			display: [:x | 1 to: x*2]].
 	browser showOn: #three; from: #two; using: [
-		browser list
+		browser tree
 			display: [:x | 1 to: x*3];
 			update: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
 	browser sendTo: #outer->#focus from: #three->#focus with: [:x | x ].
@@ -370,8 +370,8 @@ GLMBasicExamples >> treeWithMenu [
 	browser showOn: #one; using: [
 		browser tree
 			children: [:x | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ];
-			act: [:tree | tree inspect ] entitled: 'Inspect';
-			icon: [:x | MenuIcons helpIcon ]].
+			act: [:tree | tree inspect ] entitled: 'Inspect'";
+			icon: [:x | MenuIcons helpIcon ]"].
 	browser showOn: #two; from: #one; using: [ browser text ].
 	^ browser
 ]
