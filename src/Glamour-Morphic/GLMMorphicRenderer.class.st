@@ -362,8 +362,8 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 			menu: #menu:shifted:
 			keystroke: #keyStroke:from:;
 		cornerStyle: #square;
-		borderStyle: (BorderStyle inset width: 1);
-		hResizing: #spaceFill;
+"		borderStyle: (BorderStyle inset width: 1);
+"		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		autoDeselect: true;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
