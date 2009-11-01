@@ -33,12 +33,6 @@ GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPrese
 	aMorphicModel when: GLMKeyStroke do: [ :ann | ann action actOn: aPresentation ].
 ]
 
-{ #category : #rendering }
-GLMMorphicRenderer >> library [
-
-	^GLMMorphicLibrary
-]
-
 { #category : #opening }
 GLMMorphicRenderer >> open: aRenderable [
 	| window dock |
@@ -276,7 +270,7 @@ GLMMorphicRenderer >> renderPresentationsOf: aPane [
 		onPageIndexChange: [:i | aPane lastActivePresentation: (aPane matchingPresentations at: i) ].
 	presentations do: [ :each | 
 		title := each hasTitleIcon 
-			ifTrue: [ UITheme current newImageIn: tabs form: each titleIconValue ]
+			ifTrue: [ UITheme current newImageIn: tabs form: each titleIcon ]
 			ifFalse: [ each titleValue ].
 		tabs
 			addLazyPage: [ self render: each ]
@@ -356,14 +350,14 @@ GLMMorphicRenderer >> renderToolbarForBrowser: aBrowser inWindow: aWin [
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [ 
 	| treeMorph treeModel search container amountFilteringButton |
-	treeModel := self treeModel new
+	treeModel := GLMTreeMorphModel new
 		glamourPresentation: aTreePresentation;
 		amountToFilterBy: aTreePresentation amountToShow.
 	container := self emptyMorph.
 	treeMorph := MorphTreeMorph new
-		on: treeModel
+			on: treeModel
 			list: #roots
-			selected: #getCurrentSelection
+"			selected: #getCurrentSelection"
 			changeSelected: #noteNewSelection:
 			menu: #menu:shifted:
 			keystroke: #keyStroke:from:;
@@ -374,9 +368,9 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 		autoDeselect: true;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		yourself.
-	aTreePresentation isMultiple ifTrue: [
+"	aTreePresentation isMultiple ifTrue: [
 		treeMorph secondarySelectionChangedSelector: #secondarySelectionChanged:].
-	aTreePresentation allowsInput ifTrue: [
+"	aTreePresentation allowsInput ifTrue: [
 		search := UITheme current 
 			newTextEntryIn: nil
 			for: treeModel
@@ -391,7 +385,7 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 		treeMorph layoutFrame bottomOffset: -24.
 		container addMorphBack: search ].
 	aTreePresentation limitsAmount ifTrue: [
-		amountFilteringButton := self library 
+		amountFilteringButton := GLMMorphicLibrary 
 			togglingButtonLabelled: 'There are hidden elements'
 			pressed: false.
 		amountFilteringButton layoutFrame: (LayoutFrame 
@@ -417,10 +411,4 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 { #category : #factory }
 GLMMorphicRenderer >> theme [
 	^ UITheme current
-]
-
-{ #category : #rendering }
-GLMMorphicRenderer >> treeModel [
-	
-	^GLMTreeMorphModel
 ]

@@ -13,7 +13,7 @@ Class {
 { #category : #callbacks }
 GLMTreeMorphNodeModel >> buttonForTag: each [ 
 	| button |
-	button := self library togglingButtonLabelled: each pressed: (self containerTree shouldFilterByTag: each).
+	button := GLMMorphicLibrary togglingButtonLabelled: each pressed: (self containerTree shouldFilterByTag: each).
 	button
 		target: self;
 		actionSelector: #toggleFilteringByTag:;
@@ -79,12 +79,6 @@ GLMTreeMorphNodeModel >> icon [
 GLMTreeMorphNodeModel >> keyStroke: aCharacter from: aTreeMorph [ 
 	^ false
 
-]
-
-{ #category : #accessing }
-GLMTreeMorphNodeModel >> library [ 
-
-	^GLMMorphicLibrary
 ]
 
 { #category : #menu }

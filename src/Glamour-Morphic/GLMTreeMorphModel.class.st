@@ -4,7 +4,7 @@ ClassTree new openOn: Collection
 "
 Class {
 	#name : #GLMTreeMorphModel,
-	#superclass : #AbstractHierarchicalList,
+	#superclass : #TreeModel,
 	#instVars : [
 		'roots',
 		'glamourPresentation',
@@ -140,10 +140,10 @@ GLMTreeMorphModel >> nodeModelFor: anObject [
 
 { #category : #callbacks }
 GLMTreeMorphModel >> noteNewSelection: x [
-	x = currentSelection ifTrue: [^ self].
-	super noteNewSelection: x.
-	onSelection ifNotNil: [onSelection value: (x isNil ifTrue: [nil] ifFalse: [x item])].
-	self changed: #selection.
+	x haltOnce.
+"	x = self  ifTrue: [^ self]."
+	onSelection ifNotNil: [onSelection value: (x isNil ifTrue: [nil] ifFalse: [x first item])].
+"	self changed: #selection."
 ]
 
 { #category : #callbacks }
@@ -212,8 +212,8 @@ GLMTreeMorphModel >> shouldFilterByText [
 
 { #category : #callbacks }
 GLMTreeMorphModel >> silentNoteNewSelection: x [
-	x expandParentPath.
-	currentSelection := x
+"	x expandParentPath.
+	currentSelection := x"
 ]
 
 { #category : #callbacks }
