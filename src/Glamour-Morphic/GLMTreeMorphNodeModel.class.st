@@ -67,6 +67,7 @@ GLMTreeMorphNodeModel >> executeMenuAction: anAction [
 
 { #category : #accessing }
 GLMTreeMorphNodeModel >> expandParentPath [
+"	self openItemPath: anArray"
 	self containerTree changed: {#roots. #openItemPath}, (self path collect: [:each | each item]).
 ]
 

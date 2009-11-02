@@ -175,6 +175,7 @@ GLMTreeMorphModel >> roots: anObjectOrCollection [
 
 { #category : #callbacks }
 GLMTreeMorphModel >> selectItem: anObject [
+	self selectedItem item == anObject ifTrue: [^ self ].
 	self roots do: [:eachRoot |
 		eachRoot withContentsDo: [:each |
 			each item = anObject ifTrue: [
@@ -209,8 +210,8 @@ GLMTreeMorphModel >> shouldFilterByText [
 { #category : #callbacks }
 GLMTreeMorphModel >> silentNoteNewSelection: x [
 	self flag: 'check this out'.
-"	x expandParentPath."
-	self selectionPath: x path.
+	x expandParentPath.
+"	self selectionPath: x path."
 ]
 
 { #category : #callbacks }
