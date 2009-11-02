@@ -7,7 +7,7 @@ Class {
 	#category : #'Glamour-Examples'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #code }
 GLMSmalltalkExamples >> diffBrowser [
 	"self new diffBrowser openOn: (Collection withAllSubclasses asOrderedCollection sortBy: [:a :b | a name < b name])"
 	| browser |
@@ -104,28 +104,22 @@ GLMSmalltalkExamples >> metacelloBrowser [
 	"self new metacelloBrowser openOn: ((Object subclasses select: [:each | each isMetacelloConfig ]) sort: [:a :b | a name < b name])"
 	| browser all |
 
-browser := GLMTableLayoutBrowser new.
-browser column: #configs; column: #versions; column: #packages.
-browser showOn: #versions; from: #configs; using: [
-	browser list
-		display: [:config | config project versions ]].
-browser showOn: #packages; from: #versions; using: [
-	browser list
-		title: 'Items';
-		display: [:version | version spec packages packageSpecsInLoadOrder];
-		format: #name;
-		act: [:list  | list selection inspect] entitled: 'Inspect'.
-	browser mondrian
-		title: 'Dependencies';
-		painting: [:view :version | 
-			all := Dictionary new.
-version packages do: [:each | all at: each name put: each].
-version projects do: [:each | all at: each name put: each].
-view nodes: all values.
-view edges: version packages from: [:eachPackage | all at: eachPackage name] toAll: [:eachPackage |
-	eachPackage requires collect: [:each | all at: each ]].
-view treeLayout.].
- ].
+	browser := GLMTableLayoutBrowser new.
+	browser column: #configs; column: #versions; column: #packages.
+	browser showOn: #versions; from: #configs; using: [
+		browser list
+			display: [:config | config project versions ]].
+	browser showOn: #packages; from: #versions; using: [
+		browser list
+			title: 'Items';
+			display: [:version | version spec packages packageSpecsInLoadOrder];
+			format: #name;
+			act: [:list  | list selection inspect] entitled: 'Inspect'.
+		browser mondrian
+			title: 'Dependencies';
+			painting: [:view :version | 
+				self viewDependenciesOf: version on: view ].
+	 ].
 	^ browser 
 ]
 
@@ -453,7 +447,7 @@ GLMSmalltalkExamples >> stMutiPanedNavigator [
 	^ browser
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #code }
 GLMSmalltalkExamples >> threePaneNavigator [	
 	| classBrowser |
 	classBrowser := GLMTableLayoutBrowser new.
@@ -500,4 +494,16 @@ GLMSmalltalkExamples >> traitsBrowser [
 			when: [:assoc | (assoc isKindOf: Association)];
 			display: [:assoc | assoc key sourceCodeAt: assoc value]].
 	codeBrowser openOn: NSCollectionStream withAllSubclasses
+]
+
+{ #category : #private }
+GLMSmalltalkExamples >> viewDependenciesOf: version on: view [
+	| all | 
+	all := Dictionary new.
+	version packages do: [:each | all at: each name put: each].
+	version projects do: [:each | all at: each name put: each].
+	view nodes: all values.
+	view edges: version packages from: [:eachPackage | all at: eachPackage name] toAll: [:eachPackage |
+		eachPackage requires collect: [:each | all at: each ]].
+	view treeLayout.
 ]
