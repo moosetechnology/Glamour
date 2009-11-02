@@ -101,32 +101,31 @@ GLMSmalltalkExamples >> messageTallyTree [
 
 { #category : #others }
 GLMSmalltalkExamples >> metacelloBrowser [
-	"self new metacelloBrowser openOn: MetacelloMetacelloProject versions"
-	| browser |
+	"self new metacelloBrowser openOn: ((Object subclasses select: [:each | each isMetacelloConfig ]) sort: [:a :b | a name < b name])"
+	| browser all |
 
-	browser := GLMTableLayoutBrowser new.
-	browser title: 'Metacello Browser'.
-	browser column: #versions; column: [:c | c row: #packages; row: #comment].
-	browser showOn: #versions; using: [
-		browser list
-			act: [:list | list selection inspect] on: '/' entitled: 'Inspect'
-	].
-	browser showOn: #packages; from: #versions; using: [
-		browser list
-			title: 'Packages';
-			display: [:version | version spec packages packageSpecsInLoadOrder ];
-			format: [:package | package name];
-			act: [:list | list selection inspect] on: '/' entitled: 'Inspect'.
-		browser mondrian
-			title: 'Dependencies';
-			painting: [:view :version | 
-				view nodes: version spec packages map values.
-				].
-		].
-	browser showOn: #comment; from: #versions; using: [
-		browser text
-			title: 'Comment';
-			display: [:version | version description] ].
+browser := GLMTableLayoutBrowser new.
+browser column: #configs; column: #versions; column: #packages.
+browser showOn: #versions; from: #configs; using: [
+	browser list
+		display: [:config | config project versions ]].
+browser showOn: #packages; from: #versions; using: [
+	browser list
+		title: 'Items';
+		display: [:version | version spec packages packageSpecsInLoadOrder];
+		format: #name;
+		act: [:list  | list selection inspect] entitled: 'Inspect'.
+	browser mondrian
+		title: 'Dependencies';
+		painting: [:view :version | 
+			all := Dictionary new.
+version packages do: [:each | all at: each name put: each].
+version projects do: [:each | all at: each name put: each].
+view nodes: all values.
+view edges: version packages from: [:eachPackage | all at: eachPackage name] toAll: [:eachPackage |
+	eachPackage requires collect: [:each | all at: each ]].
+view treeLayout.].
+ ].
 	^ browser 
 ]
 
