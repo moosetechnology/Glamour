@@ -84,7 +84,6 @@ GLMTreeMorphNodeModel >> keyStroke: aCharacter from: aTreeMorph [
 { #category : #menu }
 GLMTreeMorphNodeModel >> menu: aMenuMorph shifted: b [ 
 	| subMenus targetMenuMorph subMenu |
-	self haltOnce.
 	subMenus := Dictionary new.
 	self containerTree allMenuActions do: [ :action |
 		targetMenuMorph := action category notNil 
