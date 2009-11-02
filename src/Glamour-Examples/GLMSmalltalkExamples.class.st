@@ -107,6 +107,10 @@ GLMSmalltalkExamples >> metacelloBrowser [
 	browser := GLMTableLayoutBrowser new.
 	browser title: 'Metacello Browser'.
 	browser column: #configs; column: #versions; column: #packages span: 2.
+	browser showOn: #configs; using: [
+		browser list
+			act: [:list  | list selection browse ] entitled: 'Browse implementation';
+			act: [:list  | list selection project inspect] entitled: 'Inspect'].
 	browser showOn: #versions; from: #configs; using: [
 		browser list
 			display: [:config | config project versions ];
