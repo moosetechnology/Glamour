@@ -105,6 +105,7 @@ GLMSmalltalkExamples >> metacelloBrowser [
 	| browser all |
 
 	browser := GLMTableLayoutBrowser new.
+	browser title: 'Metacello Browser'.
 	browser column: #configs; column: #versions; column: #packages.
 	browser showOn: #versions; from: #configs; using: [
 		browser list
@@ -502,8 +503,10 @@ GLMSmalltalkExamples >> viewDependenciesOf: version on: view [
 	all := Dictionary new.
 	version packages do: [:each | all at: each name put: each].
 	version projects do: [:each | all at: each name put: each].
+	view shape label text: [:each | each name ].
 	view nodes: all values.
+	view shape curvedLine.
 	view edges: version packages from: [:eachPackage | all at: eachPackage name] toAll: [:eachPackage |
 		eachPackage requires collect: [:each | all at: each ]].
-	view treeLayout.
+	view horizontalDominanceTreeLayout
 ]
