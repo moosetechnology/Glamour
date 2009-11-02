@@ -175,7 +175,7 @@ GLMTreeMorphModel >> roots: anObjectOrCollection [
 
 { #category : #callbacks }
 GLMTreeMorphModel >> selectItem: anObject [
-	self selectedItem item == anObject ifTrue: [^ self ].
+	(self selectedItem notNil and: [ self selectedItem item == anObject]) ifTrue: [^ self ].
 	self roots do: [:eachRoot |
 		eachRoot withContentsDo: [:each |
 			each item = anObject ifTrue: [
