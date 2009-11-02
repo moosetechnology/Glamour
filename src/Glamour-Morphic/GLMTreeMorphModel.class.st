@@ -34,12 +34,12 @@ GLMTreeMorphModel >> amountToFilterBy: aNumber [
 	amountToFilterBy := aNumber
 ]
 
-{ #category : #accessing }
+{ #category : #announcements }
 GLMTreeMorphModel >> announce: anAnnouncement [
 	self announcer announce: anAnnouncement 
 ]
 
-{ #category : #accessing }
+{ #category : #announcements }
 GLMTreeMorphModel >> announcer [
 	^ announcer ifNil: [announcer := Announcer new].
 ]
@@ -129,21 +129,13 @@ GLMTreeMorphModel >> keyStroke: aCharacter from: aTreeMorph [
 { #category : #callbacks }
 GLMTreeMorphModel >> menu: menu shifted: b [ 
 	"Set up the menu to apply to the receiver's, honoring the #shifted boolean"
-	self selectedItem ifNotNil: [:current | current haltOnce menu: menu shifted: b].
+	self selectedItem ifNotNil: [:current | current menu: menu shifted: b].
 	^ menu
 ]
 
 { #category : #accessing }
 GLMTreeMorphModel >> nodeModelFor: anObject [
 	^ (GLMTreeMorphNodeModel with: anObject) containerTree: self; yourself
-]
-
-{ #category : #callbacks }
-GLMTreeMorphModel >> noteNewSelection: x [
-	self flag: 'check'.
-"	x = self  ifTrue: [^ self]."
-	onSelection ifNotNil: [onSelection value: (x isNil ifTrue: [nil] ifFalse: [x first item])].
-"	self changed: #selection."
 ]
 
 { #category : #callbacks }
@@ -182,11 +174,6 @@ GLMTreeMorphModel >> roots: anObjectOrCollection [
 ]
 
 { #category : #callbacks }
-GLMTreeMorphModel >> secondarySelectionChanged: secondaryList [
-	
-]
-
-{ #category : #accessing }
 GLMTreeMorphModel >> selectItem: anObject [
 	self roots do: [:eachRoot |
 		eachRoot withContentsDo: [:each |
@@ -222,8 +209,8 @@ GLMTreeMorphModel >> shouldFilterByText [
 { #category : #callbacks }
 GLMTreeMorphModel >> silentNoteNewSelection: x [
 	self flag: 'check this out'.
-"	x expandParentPath.
-	currentSelection := x"
+"	x expandParentPath."
+	self selectionPath: x path.
 ]
 
 { #category : #callbacks }
