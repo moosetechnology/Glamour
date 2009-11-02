@@ -40,6 +40,11 @@ GLMBrowser >> list [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMBrowser >> magritte [
+	^ self custom: GLMMagrittePresentation new
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMBrowser >> mondrian [ 
 	 
 	^self custom: GLMMondrianPresentation new
