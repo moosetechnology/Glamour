@@ -106,10 +106,13 @@ GLMSmalltalkExamples >> metacelloBrowser [
 
 	browser := GLMTableLayoutBrowser new.
 	browser title: 'Metacello Browser'.
-	browser column: #configs; column: #versions; column: #packages.
+	browser column: #configs; column: #versions; column: #packages span: 2.
 	browser showOn: #versions; from: #configs; using: [
 		browser list
-			display: [:config | config project versions ]].
+			display: [:config | config project versions ];
+			format: #versionNumber;
+			act: [:list  | list selection inspect] entitled: 'Inspect'.
+			 ].
 	browser showOn: #packages; from: #versions; using: [
 		browser list
 			title: 'Items';
