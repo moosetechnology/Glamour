@@ -355,7 +355,7 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 	treeMorph := MorphTreeMorph new
 						on: treeModel
 						list: #roots
-						changeSelected: #selectionPath:selectionSet:
+						changeSelected: (aTreePresentation isMultiple ifTrue: [#selectionPath:selectionSet:] ifFalse: [#selectionPath:])
 						menu: #menu:shifted:
 						keystroke: #keyStroke:from:.
 	treeMorph
@@ -366,9 +366,7 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 		vResizing: #spaceFill;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		yourself.
-"	aTreePresentation isMultiple ifTrue: [
-		treeMorph secondarySelectionChangedSelector: #secondarySelectionChanged:].
-"	aTreePresentation allowsInput ifTrue: [
+	aTreePresentation allowsInput ifTrue: [
 		search := UITheme current 
 			newTextEntryIn: nil
 			for: treeModel
