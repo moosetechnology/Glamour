@@ -250,7 +250,9 @@ GLMMorphicRenderer >> renderPane: aPane [
 		container removeAllMorphs;
 				addMorph: (self renderPresentationsOf: aPane)
 				fullFrame: (LayoutFrame fractions: (0@0 corner: 1@1));
-				adoptPaneColor: container paneColor].
+				adoptPaneColor: container paneColor.
+				window fullBounds.
+				window refreshHorizontalScollbars ].
 	container
 		addMorph: (self renderPresentationsOf: aPane)
 		fullFrame: (LayoutFrame fractions: (0@0 corner: 1@1));
