@@ -13,6 +13,9 @@ browser openOn: #(a b c d)
 Class {
 	#name : #GLMMorphicRenderer,
 	#superclass : #GLMRenderer,
+	#instVars : [
+		'window'
+	],
 	#category : #'Glamour-Morphic'
 }
 
@@ -35,7 +38,7 @@ GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPrese
 
 { #category : #opening }
 GLMMorphicRenderer >> open: aRenderable [
-	| window dock |
+	| dock |
 	window := GlamorousSystemWindow new.
 	window model: aRenderable; setLabel: aRenderable titleValue.
 	dock := self renderToolbarForBrowser: aRenderable inWindow: window.
@@ -270,7 +273,7 @@ GLMMorphicRenderer >> renderPresentationsOf: aPane [
 		onPageIndexChange: [:i | aPane lastActivePresentation: (aPane matchingPresentations at: i) ].
 	presentations do: [ :each | 
 		title := each hasTitleIcon 
-			ifTrue: [ UITheme current newImageIn: tabs form: each titleIcon ]
+			ifTrue: [ UITheme current newImageIn: tabs form: each titleIconValue ]
 			ifFalse: [ each titleValue ].
 		tabs
 			addLazyPage: [ self render: each ]

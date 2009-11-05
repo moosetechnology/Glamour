@@ -23,6 +23,11 @@ GlamorousSystemWindow >> buildWindowMenu [
 GlamorousSystemWindow >> extent: aPoint [ 
 	super extent: aPoint.
 	self fullBounds.
+	self refreshHorizontalScollbars.
+]
+
+{ #category : #building }
+GlamorousSystemWindow >> refreshHorizontalScollbars [
 	self allMorphsDo: 
 		[ :morph | 
 		(morph isKindOf: GLMScrollPaneForHResize) ifTrue: [ morph scroller submorphs anyOne width: morph scroller width - 20 ] ]
