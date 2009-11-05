@@ -20,6 +20,20 @@ GLMBasicExamples >> actionsFor: aPresentation [
 						yourself ]
 ]
 
+{ #category : #'actions examples' }
+GLMBasicExamples >> browserWithToolbar [
+	"self new browserWithToolbar openOn: $z"
+
+	| finder |
+	finder := GLMFinder new.
+	finder act: [:f | f inspect] icon: MenuIcons smallFindIcon entitled: 'Inspect'.
+	finder list
+			title: 'List';
+			display: [:each | $a to: each];
+			actions: [:list | self actionsFor: list ].
+	^ finder
+]
+
 { #category : #'file examples' }
 GLMBasicExamples >> fileExplorer [
 	<glmBrowser: 'File Explorer' input: 'FileDirectory default'>
