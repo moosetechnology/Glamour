@@ -190,6 +190,7 @@ GLMTreeMorphModel >> roots: anObjectOrCollection [
 { #category : #callbacks }
 GLMTreeMorphModel >> selectItem: anObject [
 	(self selectedItem notNil and: [ self selectedItem item == anObject ]) ifTrue: [ ^ self ].
+	anObject inspect.
 	self roots do: [:eachRoot |
 		eachRoot withContentsDo: [:each |
 			each item = anObject ifTrue: [
@@ -199,16 +200,16 @@ GLMTreeMorphModel >> selectItem: anObject [
 
 { #category : #callbacks }
 GLMTreeMorphModel >> selectMultipleItems: aCollection [
+	| amountToSelect |
 	self flag: 'check this'.
-	(self selectionSet size = aCollection size and: [ self selectionSet = aCollection asSet ]) ifTrue: [ ^ self ].
-	self selectionSet: aCollection asSet.
-	self changed: #selection.
-"	self roots do: [:eachRoot | eachRoot withContentsDo: [:each |
+	amountToSelect := aCollection size.
+	(self selectionSet size = aCollection size "and: [ self selectionSet == aCollection ]") ifTrue: [ ^ self ].
+	self roots do: [:eachRoot | eachRoot withContentsDo: [:each |
 		(aCollection includes: each item) ifTrue: [
 			amountToSelect := amountToSelect - 1.
 			self silentNoteNewSelection: each.
 			amountToSelect > 0 ifFalse: [
-				^ self ]]]]"
+				^ self ]]]]
 ]
 
 { #category : #callbacks }
