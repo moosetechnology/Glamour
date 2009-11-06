@@ -53,12 +53,9 @@ SGLComponent >> renderContentOn: html [
 { #category : #accessing }
 SGLComponent >> script [
 	^ 'var glamourResize = function() {
-	$("body > table.table-layout, body > div.finder").each(function() {
+	$("body > .sgl-table").each(function() {
 		$(this).height($(window).height() - 20);
 	});
-	/* $(".ui-tabs > .ui-tabs-panel").each(function() {
-		$(this).height($(this).parent().height() - $(this).prev().height());
-	}); */
 };
 
 $(glamourResize);
@@ -106,38 +103,61 @@ div.finder > div.finder-pane {
 }
 
 
-table.table-layout,
-table.table-layout tr,
-table.table-layout td,
-table.table-layout th {
-	border: 0;
-	margin: 0; 
-	padding: 0;
-}
-table.table-layout {
-	width: 100%;
-	height: 100%;
-	border-spacing: 0;
-	border-collapse: collapse;
-}
-table.table-layout td,
-table.table-layout th {
-	text-align: left;
-	position: relative;
-	vertical-align: top; 
-}
+
 
 /* jquery ui */
-.ui-widget, 
-.ui-widget-content {
-	height: 100%;
+.ui-tabs {
 	position: relative;
+	display: -webkit-box; display: -moz-box; display: box;
+	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
+	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;
 }
-.ui-tabs-panel, .ui-tabs > .ui-tabs-panel {
-	padding: 5px;
+.ui-tabs > .ui-tabs-nav {
+	-webkit-box-flex: 0; -moz-box-flex: 0; box-flex: 0;
+}
+.ui-tabs > .ui-tabs-panel {
+	padding: 0;
+	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 }
 
-/* magritte */
+/* table layout */
+.sgl-table {
+	width: 100%;	
+	position: relative;
+}
+
+.sgl-table-hbox, 
+.sgl-table-hbox > *,
+.sgl-table-vbox > * {
+	position: relative;
+	display: -webkit-box; display: -moz-box; display: box;
+	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
+	-webkit-box-orient: horizontal; -moz-box-orient: horizontal; box-orient: horizontal;
+}
+
+.sgl-table-hbox > *, 
+.sgl-table-hbox > * > *,
+.sgl-table-vbox > * > * {
+	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+}
+
+.sgl-table-vbox {
+	position: relative;
+	display: -webkit-box; display: -moz-box; display: box;
+	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;
+	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
+}
+
+.sgl-table-vbox > * {
+	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+}
+
+.sgl-table-split {
+	width: 5px; height: 5px;
+	-webkit-box-flex: 0; -moz-box-flex: 0; box-flex: 0;
+}
+
+/* magritte layout */
 div.magritte { width: 100%; }
 div.magritte th { width: 150px; }
 div.magritte textarea { height: 250px; }

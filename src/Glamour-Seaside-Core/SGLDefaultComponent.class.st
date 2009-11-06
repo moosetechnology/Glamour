@@ -2,8 +2,8 @@ Class {
 	#name : #SGLDefaultComponent,
 	#superclass : #SGLComponent,
 	#classVars : [
-		'SGLModel',
-		'SGLBrowser'
+		'SGLBrowser',
+		'SGLModel'
 	],
 	#category : #'Glamour-Seaside-Core'
 }

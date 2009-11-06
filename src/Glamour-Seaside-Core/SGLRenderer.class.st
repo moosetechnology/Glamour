@@ -21,7 +21,7 @@ SGLRenderer >> initialize [
 	super initialize.
 	uuid := IdentityDictionary new.
 	properties := IdentityDictionary new.
-	scripts := WASmallDictionary new
+	scripts := GRSmallDictionary new
 ]
 
 { #category : #initialization }
@@ -134,30 +134,33 @@ SGLRenderer >> renderMondrianPresentation: aPresentation [
 { #category : #widgets }
 SGLRenderer >> renderPane: aPane [
 	aPane whenMatchingPresentationsChanged: [ :ann |
-		self scriptFor: aPane put: ((html jQuery id: (self uuidFor: aPane))
-			html: [ :renderer | 
-				html := renderer.
-				self renderPaneContent: aPane ]) ].
+		self 
+			scriptFor: aPane
+			put: ((html jQuery id: (self uuidFor: aPane))
+				html: [ :renderer |
+					html := renderer.
+					self renderPaneContent: aPane ]) ].
 	self renderPaneContent: aPane
 ]
 
 { #category : #widgets }
 SGLRenderer >> renderPane: aPane tabs: aCollection [
-	html div script: html jQuery this tabs; with: [
-		html unorderedList: [
-			aCollection do: [ :each |
-				html listItem 
-					class: 'ui-state-selected' if: aPane = each;
-					with: [
-						html anchor
-							url: (html jQuery ajax
-								html: [ :renderer | 
-									html := renderer.
-									properties at: aPane put: each.
-									self render: each ]
-										fixCallbackTemps;
-								fullUrl);
-							with: each title ] ] ] ]
+	html div
+		script: (html jQuery this tabs);
+		with: [
+			html unorderedList: [
+				aCollection do: [ :each |
+					html listItem 
+						class: 'ui-state-selected' if: aPane = each;
+						with: [
+							html anchor
+								url: (html jQuery ajax
+									html: [ :renderer | 
+										html := renderer.
+										properties at: aPane put: each.
+										self render: each ];
+									fullUrl);
+								with: each title ] ] ] ]
 ]
 
 { #category : #widgets }
@@ -165,7 +168,7 @@ SGLRenderer >> renderPaneContent: aPane [
 	| panes pane |
 	panes := aPane matchingPresentations.
 	panes isEmpty 
-		ifTrue: [ ^ self ].
+		ifTrue: [ ^ self renderPaneEmpty ].
 	panes size = 1
 		ifTrue: [ ^ self renderPaneSingle: panes first ].
 	pane := properties 
@@ -173,7 +176,15 @@ SGLRenderer >> renderPaneContent: aPane [
 		ifAbsentPut: [ panes first ].
 	(panes includes: pane)
 		ifFalse: [ pane := properties at: aPane put: panes first ].
-	self renderPane: pane tabs: panes
+	self renderPaneTabs: pane tabs: panes
+]
+
+{ #category : #widgets }
+SGLRenderer >> renderPaneEmpty [
+	html div
+		class: 'ui-widget';
+		class: 'ui-widget-content';
+		class: 'ui-corner-all'
 ]
 
 { #category : #widgets }
@@ -186,6 +197,27 @@ SGLRenderer >> renderPaneSingle: aPane [
 ]
 
 { #category : #widgets }
+SGLRenderer >> renderPaneTabs: aPane tabs: aCollection [
+	html div
+		script: (html jQuery this tabs);
+		with: [
+			html unorderedList: [
+				aCollection do: [ :each |
+					html listItem 
+						class: 'ui-state-selected' if: aPane = each;
+						with: [
+							html anchor
+								url: (html jQuery ajax
+									html: [ :renderer | 
+										html := renderer.
+										properties at: aPane put: each.
+										self render: each ];
+									fullUrl);
+								with: each title ] ].
+			"html div: [ self render: aPane ]" ] ]
+]
+
+{ #category : #widgets }
 SGLRenderer >> renderTableLayoutBrowser: aBrowser [
 	aBrowser cell isRow
 		ifTrue: [ self renderTableLayoutBrowserRow: aBrowser cell ]
@@ -194,40 +226,36 @@ SGLRenderer >> renderTableLayoutBrowser: aBrowser [
 
 { #category : #widgets }
 SGLRenderer >> renderTableLayoutBrowserColumn: aCell [
-	| count pane tag |
-	count := aCell children
-		inject: 0
-		into: [ :result :each | result + each span ].
-	html table class: 'ui-widget'; class: 'table-layout'; class: 'table-layout-column'; with: [
-		aCell children do: [ :each |
-			html tableRow: [
-				tag := html tableData.
-				tag style: 'height: ' , (100 * each span // count) asString , '%'.
+	html div class: 'sgl-table'; class: 'sgl-table-vbox'; with: [
+		aCell children 
+			do: [ :each |
+				| tag |
+				tag := html div boxFlex: each span; style: 'position: relative;'.
 				each hasId 
 					ifTrue: [
+						| pane |
 						pane := aCell browser paneNamed: each id.
 						tag id: (self uuidFor: pane); with: [ self render: pane ] ]
 					ifFalse: [ 
-						tag with: [ self renderTableLayoutBrowserRow: each ] ] ] ] ]
+						tag with: [ self renderTableLayoutBrowserRow: each ] ] ]
+			separatedBy: [ html div class: 'sgl-table-split' ] ]
 ]
 
 { #category : #widgets }
 SGLRenderer >> renderTableLayoutBrowserRow: aCell [
-	| count pane tag |
-	count := aCell children
-		inject: 0
-		into: [ :result :each | result + each span ].
-	html table class: 'ui-widget'; class: 'table-layout'; class: 'table-layout-row'; with: [
-		html tableRow: [
-			aCell children do: [ :each |
-				tag := html tableData.
-				tag style: 'width: ' , (100 * each span // count) asString , '%'.
-				each hasId
+	html div class: 'sgl-table'; class: 'sgl-table-hbox'; with: [
+		aCell children 
+			do: [ :each |
+				| tag |
+				tag := html div boxFlex: each span; style: 'position: relative;'.
+				each hasId 
 					ifTrue: [
+						| pane |
 						pane := aCell browser paneNamed: each id.
 						tag id: (self uuidFor: pane); with: [ self render: pane ] ]
 					ifFalse: [ 
-						tag with: [ self renderTableLayoutBrowserColumn: each ] ] ] ] ]
+						tag with: [ self renderTableLayoutBrowserColumn: each ] ] ]
+			separatedBy: [ html div class: 'sgl-table-split' ] ]
 ]
 
 { #category : #presentation }
@@ -291,7 +319,7 @@ SGLRenderer >> scriptFor: anObject put: aScript [
 SGLRenderer >> updateScript: aScript [
 	aScript addAll: scripts values.
 	aScript add: (JSStream on: 'glamourResize()').
-	scripts := WASmallDictionary new
+	scripts := GRSmallDictionary new
 ]
 
 { #category : #private }
