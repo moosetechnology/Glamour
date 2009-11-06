@@ -193,6 +193,15 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 	container addMorphBack: list.
 	aListPresentation when: GLMContextChanged do: [:ann | 
 		ann property = #selection ifTrue: [listModel selectItem: ann value ]].
+	aListPresentation when: GLMPresentationUpdated do: [:ann | 
+																toShow := aListPresentation displayValue.
+																items := toShow isCollection
+																	ifTrue: [toShow]
+																	ifFalse: [OrderedCollection with: toShow].
+																listModel items: items.
+
+															].
+
 	^ container
 ]
 
