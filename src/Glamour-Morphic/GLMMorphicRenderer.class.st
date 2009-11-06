@@ -38,15 +38,18 @@ GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPrese
 
 { #category : #opening }
 GLMMorphicRenderer >> open: aRenderable [
-	| dock |
+	| dock offset |
 	window := GlamorousSystemWindow new.
 	window model: aRenderable; setLabel: aRenderable titleValue.
-	dock := self renderToolbarForBrowser: aRenderable inWindow: window.
+	aRenderable allActions notEmpty ifTrue: [
+		dock := self renderToolbarForBrowser: aRenderable inWindow: window.
+		offset := dock minExtent y.
+		window
+				addMorph: dock
+				fullFrame: (LayoutFrame fractions: (0@0 corner: 1@0) offsets: (0@0 corner: 0 @ offset)) ].
 	window
-			addMorph: dock
-			fullFrame: (LayoutFrame fractions: (0@0 corner: 1@0) offsets: (0@0 corner: 0 @ dock minExtent y));
 			addMorph: 	(self render: aRenderable)
-			fullFrame: (LayoutFrame fractions: (0@0 corner: 1@1) offsets: (0@dock minExtent y corner: 0 @ 0)).
+			fullFrame: (LayoutFrame fractions: (0@0 corner: 1@1) offsets: (0@offset corner: 0 @ 0)).
 	^ window openInWorld
 ]
 
