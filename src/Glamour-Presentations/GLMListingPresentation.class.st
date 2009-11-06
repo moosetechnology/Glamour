@@ -80,3 +80,10 @@ GLMListingPresentation >> tagsFor: anObject [
 		ifTrue: [ OrderedCollection with: value ]
 		ifFalse: [ value asOrderedCollection ]
 ]
+
+{ #category : #validation }
+GLMListingPresentation >> validate: anObject on: aPort [ 
+	(aPort name == #selection) ifFalse: [^true].
+	self entity isNil ifTrue: [^false].
+	^(self pane port: #entity) value includes: anObject
+]
