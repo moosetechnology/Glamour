@@ -360,10 +360,10 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 	treeMorph := MorphTreeMorph new
 						on: treeModel
 						list: #roots
-						changeSelected: (aTreePresentation isMultiple ifTrue: [#selectionPath:selectionSet:] ifFalse: [#selectionPath:])
-						menu: #menu:shifted:
-						keystroke: #keyStroke:from:.
+						multiSelection: aTreePresentation isMultiple.
 	treeMorph
+		getMenuSelector: #menu:shifted:;
+		keystrokeActionSelector: #keyStroke:from:;
 		cornerStyle: #square;
 		borderStyle: (BorderStyle inset width: 1);
 		autoDeselect: true;
