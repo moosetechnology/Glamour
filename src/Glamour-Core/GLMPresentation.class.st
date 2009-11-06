@@ -15,7 +15,8 @@ Class {
 		'implicitNotNil',
 		'postTransformation',
 		'dynamicActionsBlock',
-		'updateAnnouncementsToBlocks'
+		'updateAnnouncementsToBlocks',
+		'color'
 	],
 	#category : #'Glamour-Core'
 }
@@ -41,6 +42,25 @@ GLMPresentation >> allActions [
 GLMPresentation >> beInspectable [ 
 	self flag: 'reconsider this part'.
 	^isInspectable := true
+]
+
+{ #category : #accessing }
+GLMPresentation >> color [ 
+	 
+	^color ifNil: [color := #blue]
+]
+
+{ #category : #accessing }
+GLMPresentation >> color: aSymbolOrColor [ 
+	 
+	color := aSymbolOrColor
+]
+
+{ #category : #accessing }
+GLMPresentation >> colorValue [
+	^self color isSymbol
+		ifTrue: [ Color perform: self color ]
+		ifFalse: [ self color ]
 ]
 
 { #category : #accessing }
