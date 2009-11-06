@@ -28,3 +28,15 @@ GLMTreePresentation >> childrenValueOf: anObject [
 GLMTreePresentation >> renderGlamorouslyOn: aRenderer [
 	^ aRenderer renderTreePresentation: self
 ]
+
+{ #category : #'as yet unclassified' }
+GLMTreePresentation >> selectionPath [
+	 
+	^(self pane port: #selectionPath) value
+]
+
+{ #category : #'as yet unclassified' }
+GLMTreePresentation >> selectionPath: anObject [ 
+	 
+	(self pane port: #selectionPath) value: anObject "(self postTransformation glamourValue: anObject)"
+]
