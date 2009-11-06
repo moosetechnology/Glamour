@@ -391,14 +391,6 @@ GLMBasicExamples >> treeWithMenu [
 	^ browser
 ]
 
-{ #category : #others }
-GLMBasicExamples >> treeWithVariousSelections [
-	"self treeWithVariousSelections openOn: "
-	| browser |
-	browser := GLMTableLayoutBrowser new.
-	^ browser 
-]
-
 { #category : #'actions examples' }
 GLMBasicExamples >> updateAction [
 	<glmBrowser: 'Update Action' input: 'String withAll: ''Select a piece of text and open on the next pane via the contextual menu or by pressing Modifier+o. Otherwise just open the complete copy of the current text on the next pane via the menu or by pressing Modifier+l.'''>
