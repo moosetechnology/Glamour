@@ -19,11 +19,6 @@ GLMTreePresentation >> children: anObject [
 	children := anObject
 ]
 
-{ #category : #accessing }
-GLMTreePresentation >> childrenValueOf: anObject [
-	^ self children glamourValue: (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue)
-]
-
 { #category : #rendering }
 GLMTreePresentation >> renderGlamorouslyOn: aRenderer [
 	^ aRenderer renderTreePresentation: self
