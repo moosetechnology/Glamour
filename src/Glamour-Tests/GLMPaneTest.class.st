@@ -14,6 +14,15 @@ GLMPaneTest >> testCreation [
 ]
 
 { #category : #tests }
+GLMPaneTest >> testDefaultValidate [
+	 
+	| pane port | 
+	pane := GLMPane named: 'test'. 
+	self assert: ((pane port: #selection) validate: 5)
+
+]
+
+{ #category : #tests }
 GLMPaneTest >> testIn [
 	 
 	| aPane | 
@@ -135,4 +144,18 @@ GLMPaneTest >> testSimplePresentations [
 	self assert: pane presentations first == presentation. 
 	self assert: presentation pane == pane. 
 	self assert: announcement notNil
+]
+
+{ #category : #tests }
+GLMPaneTest >> testValidate [
+	 
+	| pane port presentation| 
+	pane := GLMPane named: 'test'. 
+	presentation := GLMListPresentation new.
+	pane addPresentation: presentation.
+	presentation entity: (OrderedCollection with: 1 with: 2).
+	self assert: ((pane port: #selection) validate: 1).
+	self assert: ((pane port: #selection) validate: 2).
+	self deny: ((pane port: #selection) validate: 5)
+
 ]
