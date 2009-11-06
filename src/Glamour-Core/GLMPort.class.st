@@ -42,6 +42,12 @@ GLMPort >> receive: aTransmission [
 	self subclassResponsibility
 ]
 
+{ #category : #validation }
+GLMPort >> validate: anObject [ 
+
+	^true
+]
+
 { #category : #accessing }
 GLMPort >> value [ 
 	 

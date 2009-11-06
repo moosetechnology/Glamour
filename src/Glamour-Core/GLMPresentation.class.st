@@ -241,6 +241,11 @@ GLMPresentation >> usesImplicitNotNil [
 	^implicitNotNil ifNil: [implicitNotNil := true]
 ]
 
+{ #category : #validation }
+GLMPresentation >> validate: anObject on: aPort [ 
+	^true
+]
+
 { #category : #announcements }
 GLMPresentation >> whenContextChanged: aBlock [ 
 	 
