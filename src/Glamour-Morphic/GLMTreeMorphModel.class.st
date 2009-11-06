@@ -244,7 +244,6 @@ GLMTreeMorphModel >> toggleAmountToFilterBy [
 
 { #category : #callbacks }
 GLMTreeMorphModel >> toggleFilteringByTag: aTag [ 
-	self haltOnce.
 	(self shouldFilterByTag: aTag) 
 		ifTrue: [self tagsToFilterBy remove: aTag ]
 		ifFalse: [self tagsToFilterBy add: aTag].
