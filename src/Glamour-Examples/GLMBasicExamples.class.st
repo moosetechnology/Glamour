@@ -384,7 +384,7 @@ GLMBasicExamples >> treeWithMenu [
 	browser showOn: #one; using: [
 		browser tree
 			children: [:x | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ];
-			act: [:tree | tree inspect ] entitled: 'Inspect';
+			act: [:tree | tree inspect ] on: $i entitled: 'Inspect';
 			icon: [:x | MenuIcons helpIcon ]].
 	browser showOn: #two; from: #one; using: [ browser text ].
 	^ browser
