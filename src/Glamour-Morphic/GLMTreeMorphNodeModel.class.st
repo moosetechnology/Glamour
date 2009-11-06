@@ -23,7 +23,7 @@ GLMTreeMorphNodeModel >> buttonForTag: each [
 
 { #category : #accessing }
 GLMTreeMorphNodeModel >> childrenItems [
-	^ (self containerTree childrenBlock glamourValue: self item)
+	^ (self containerTree glamourPresentation childrenValueOf: self item)
 ]
 
 { #category : #accessing }
