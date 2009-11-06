@@ -181,6 +181,7 @@ GLMTreeMorphModel >> roots: anObjectOrCollection [
 
 { #category : #callbacks }
 GLMTreeMorphModel >> selectItem: anObject [
+	self flag: 'This should handle multiple selection'.
 	(self selectedItem notNil and: [ self selectedItem item == anObject ]) ifTrue: [ ^ self ].
 	self roots do: [:eachRoot |
 		eachRoot withContentsDo: [:each |
