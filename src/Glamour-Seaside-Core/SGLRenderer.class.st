@@ -190,7 +190,7 @@ SGLRenderer >> renderPaneEmpty [
 { #category : #widgets }
 SGLRenderer >> renderPaneSingle: aPane [
 	html div
-		class: 'ui-tabs-panel';
+		class: 'ui-widget';
 		class: 'ui-widget-content';
 		class: 'ui-corner-all';
 		with: [ self render: aPane ]
@@ -213,8 +213,7 @@ SGLRenderer >> renderPaneTabs: aPane tabs: aCollection [
 										properties at: aPane put: each.
 										self render: each ];
 									fullUrl);
-								with: each title ] ].
-			"html div: [ self render: aPane ]" ] ]
+								with: each title ] ] ] ]
 ]
 
 { #category : #widgets }
