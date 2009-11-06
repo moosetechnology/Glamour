@@ -45,22 +45,25 @@ GLMPresentation >> beInspectable [
 ]
 
 { #category : #accessing }
-GLMPresentation >> color [ 
-	 
-	^color ifNil: [color := #blue]
+GLMPresentation >> color [
+	^ color
 ]
 
 { #category : #accessing }
-GLMPresentation >> color: aSymbolOrColor [ 
-	 
+GLMPresentation >> color: aSymbolOrColor [
 	color := aSymbolOrColor
 ]
 
 { #category : #accessing }
 GLMPresentation >> colorValue [
-	^self color isSymbol
-		ifTrue: [ Color perform: self color ]
+	^ self color notNil
+		ifTrue: [ self color glamourValue: self entity ]
 		ifFalse: [ self color ]
+"
+	
+	self color isSymbol
+		ifTrue: [ Color perform: self color ]
+		ifFalse: [ self color ]"
 ]
 
 { #category : #accessing }
