@@ -14,7 +14,8 @@ Class {
 		'isInspectable',
 		'implicitNotNil',
 		'postTransformation',
-		'dynamicActionsBlock'
+		'dynamicActionsBlock',
+		'updateAnnouncementsToBlocks'
 	],
 	#category : #'Glamour-Core'
 }
@@ -82,6 +83,11 @@ GLMPresentation >> hasTitleIcon [
 	^ self titleIcon notNil
 ]
 
+{ #category : #accessing }
+GLMPresentation >> initialize [
+	updateAnnouncementsToBlocks := Dictionary new
+]
+
 { #category : #events }
 GLMPresentation >> innerPortEvent: aPortEvent [ 
 	 
@@ -142,9 +148,15 @@ GLMPresentation >> postTransformation [
 	^ postTransformation ifNil: [postTransformation := #yourself]
 ]
 
+{ #category : #updating }
+GLMPresentation >> registerAnnouncements [
+	updateAnnouncementsToBlocks keysAndValuesDo: [ :key :value | value do: [:eachValue | (eachValue glamourValue: self entity) on: key do: [:announcement | self update]]]
+]
+
 { #category : #rendering }
 GLMPresentation >> renderGlamorouslyOn: aRenderer [ 
-	 
+	self halt.
+	self registerAnnouncements.
 	^aRenderer renderPresentation: self
 ]
 
@@ -215,6 +227,17 @@ GLMPresentation >> transformation [
 GLMPresentation >> transformation: aBlock [ 
 	 
 	transformation := aBlock
+]
+
+{ #category : #updating }
+GLMPresentation >> update [
+	self announce: GLMPresentationUpdated
+]
+
+{ #category : #updating }
+GLMPresentation >> updateYourselfOn: anAnnouncement from: aBlockOrSymbol [ 
+	(updateAnnouncementsToBlocks at: anAnnouncement ifAbsentPut: [ OrderedCollection new] ) add: aBlockOrSymbol
+	
 ]
 
 { #category : #accessing }
