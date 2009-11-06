@@ -434,6 +434,5 @@ GLMMorphicRenderer >> windowFor: aRenderable [
 	window
 			addMorph: 	(self render: aRenderable)
 			fullFrame: (LayoutFrame fractions: (0@0 corner: 1@1) offsets: (0@offset corner: 0 @ 0)).
-	window paneColor: aRenderable colorValue.		
 	^ window
 ]
