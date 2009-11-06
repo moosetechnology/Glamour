@@ -126,7 +126,7 @@ GLMScriptingTest >> testEntityInUpdateAction [
 ]
 
 { #category : #tests }
-GLMScriptingTest >> testNestedBrowser [ 
+GLMScriptingTest >> testNestedBrowser [
 	 
 	| browser innerBrowser | 
 	browser := GLMTableLayoutBrowser new. 
@@ -138,11 +138,12 @@ GLMScriptingTest >> testNestedBrowser [
 		using: [innerBrowser text]. 
 	browser 
 		showOn: #one; 
-		using: [browser custom: innerBrowser]. 
-	browser startOn: 42. 
-	self assert: ((browser paneNamed: #one) port: #entity) value = 42. 
-	self 
-		assert: ((innerBrowser paneNamed: #innerOne) port: #entity) value = 42
+		using: [
+			(browser custom: innerBrowser)
+				display: [:x | x + 2 ]]. 
+	browser startOn: 40. 
+	self assert: ((browser paneNamed: #one) port: #entity) value = 40. 
+	self assert: ((innerBrowser paneNamed: #innerOne) port: #entity) value = 42.
 ]
 
 { #category : #tests }
