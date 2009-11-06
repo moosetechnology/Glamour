@@ -361,7 +361,7 @@ GLMBasicExamples >> treeWithInitialSelection [
 	|browser |
 
 	browser := GLMTableLayoutBrowser new.
-	browser column: #one; column: #two.
+	browser column: #one; column: [:c | c row: #two; row: #three].
 	browser showOn: #one; using: [
 		browser tree
 			title: 'first tree';
@@ -370,6 +370,7 @@ GLMBasicExamples >> treeWithInitialSelection [
 			title: 'second tree';
 			children: [:x | x value ]].
 	browser showOn: #two; from: #one; using: [ browser text ].
+	browser showOn: #three; from: #one->#selectionPath; using: [ browser text ].
 	^ browser
 ]
 
@@ -388,6 +389,14 @@ GLMBasicExamples >> treeWithMenu [
 			icon: [:x | MenuIcons helpIcon ]].
 	browser showOn: #two; from: #one; using: [ browser text ].
 	^ browser
+]
+
+{ #category : #others }
+GLMBasicExamples >> treeWithVariousSelections [
+	"self treeWithVariousSelections openOn: "
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	^ browser 
 ]
 
 { #category : #'actions examples' }
