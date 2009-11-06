@@ -19,6 +19,11 @@ Class {
 	#category : #'Glamour-Morphic'
 }
 
+{ #category : #accessing }
+GLMTreeMorphModel >> allKeystrokeActions [
+	^ self glamourPresentation allActions select: [:action | action hasShortcut ]
+]
+
 { #category : #callbacks }
 GLMTreeMorphModel >> allMenuActions [
 	^ self glamourPresentation allActions select: [:action | action hasTitle ]
@@ -122,8 +127,9 @@ GLMTreeMorphModel >> inputTextEnabled [
 
 { #category : #callbacks }
 GLMTreeMorphModel >> keyStroke: aCharacter from: aTreeMorph [ 
-	self getCurrentSelection
-		ifNotNil: [:current | current keyStroke: aCharacter from: aTreeMorph]
+	| action |
+	action := self allKeystrokeActions detect: [:a | a shortcut = aCharacter] ifNone: [nil].
+	action ifNotNil: [ self announce: (GLMKeyStroke action: action) ]
 ]
 
 { #category : #callbacks }
