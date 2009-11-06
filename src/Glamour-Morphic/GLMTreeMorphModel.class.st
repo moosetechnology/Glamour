@@ -91,6 +91,14 @@ GLMTreeMorphModel >> executeSearch [
 	self changed: #roots
 ]
 
+{ #category : #callbacks }
+GLMTreeMorphModel >> explicitSelection: anObject [
+
+	self glamourPresentation isMultiple 
+		ifTrue: [self selectMultipleItems: anObject ]
+		ifFalse: [self selectItem: anObject ]
+]
+
 { #category : #accessing }
 GLMTreeMorphModel >> filteredRoots [
 	| filtered |
@@ -181,13 +189,27 @@ GLMTreeMorphModel >> roots: anObjectOrCollection [
 
 { #category : #callbacks }
 GLMTreeMorphModel >> selectItem: anObject [
-	self flag: 'This should handle multiple selection'.
 	(self selectedItem notNil and: [ self selectedItem item == anObject ]) ifTrue: [ ^ self ].
+	anObject inspect.
 	self roots do: [:eachRoot |
 		eachRoot withContentsDo: [:each |
 			each item = anObject ifTrue: [
 				self silentNoteNewSelection: each.
 				^ self]]]
+]
+
+{ #category : #callbacks }
+GLMTreeMorphModel >> selectMultipleItems: aCollection [
+	| amountToSelect |
+	self flag: 'check this'.
+	amountToSelect := aCollection size.
+	(self selectionSet size = aCollection size "and: [ self selectionSet == aCollection ]") ifTrue: [ ^ self ].
+	self roots do: [:eachRoot | eachRoot withContentsDo: [:each |
+		(aCollection includes: each item) ifTrue: [
+			amountToSelect := amountToSelect - 1.
+			self silentNoteNewSelection: each.
+			amountToSelect > 0 ifFalse: [
+				^ self ]]]]
 ]
 
 { #category : #callbacks }

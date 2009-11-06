@@ -402,7 +402,7 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 	treeModel onSelection: [ :selection | aTreePresentation selection: selection ].
 	treeMorph vShowScrollBar.
 	aTreePresentation when: GLMContextChanged do: [ :ann |
-		ann property = #selection ifTrue: [ treeModel selectItem: ann value ] ].
+		ann property = #selection ifTrue: [ treeModel explicitSelection: ann value ] ].
 	^ container
 ]
 
