@@ -51,6 +51,11 @@ GLMBrowser >> mondrian [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMBrowser >> morph [
+	^ self custom: GLMMorphPresentation new
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMBrowser >> open [ 
 	 
 	^self openWith: self defaultRenderer
