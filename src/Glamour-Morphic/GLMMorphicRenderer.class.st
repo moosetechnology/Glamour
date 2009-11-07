@@ -406,7 +406,8 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 	self installActionsOnUI: treeModel fromPresentation: aTreePresentation.
 	treeModel onSelection: [ :selection | 
 		aTreePresentation selection: selection.
-		aTreePresentation selectionPath: treeModel selectionPath ].
+		aTreePresentation selectionPath: (treeModel selectionPath
+			collect: [ :each | each item ]) ].
 	treeMorph vShowScrollBar.
 	aTreePresentation when: GLMContextChanged do: [ :ann |
 		ann property = #selection ifTrue: [ treeModel explicitSelection: ann value ] ].
