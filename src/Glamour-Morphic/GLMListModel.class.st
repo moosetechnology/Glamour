@@ -105,7 +105,6 @@ GLMListModel >> items: aCollection [
 	nonSetCollection := (aCollection isKindOf: Set) ifTrue: [aCollection asOrderedCollection] ifFalse: [aCollection].
 	items := nonSetCollection.
 	filteredItems := nonSetCollection.
-	self changed: #displayedItems
 ]
 
 { #category : #callbacks }

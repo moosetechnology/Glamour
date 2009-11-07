@@ -23,9 +23,7 @@ GLMTreeMorphNodeModel >> buttonForTag: each [
 
 { #category : #accessing }
 GLMTreeMorphNodeModel >> childrenItems [
-	self flag: 'the commented code should work, but the problem is that it returns nil instead of empty collection'.
-	^  (self containerTree childrenBlock glamourValue: self item)
-	"(self containerTree glamourPresentation childrenValueOf: self item)"
+	^ (self containerTree childrenBlock glamourValue: self item)
 ]
 
 { #category : #accessing }
