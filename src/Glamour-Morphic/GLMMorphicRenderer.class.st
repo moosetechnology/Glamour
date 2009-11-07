@@ -38,19 +38,7 @@ GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPrese
 
 { #category : #opening }
 GLMMorphicRenderer >> open: aRenderable [
-	| dock offset |
-	window := GlamorousSystemWindow new.
-	window model: aRenderable; setLabel: aRenderable titleValue.
-	aRenderable allActions notEmpty ifTrue: [
-		dock := self renderToolbarForBrowser: aRenderable inWindow: window.
-		offset := dock minExtent y.
-		window
-				addMorph: dock
-				fullFrame: (LayoutFrame fractions: (0@0 corner: 1@0) offsets: (0@0 corner: 0 @ offset)) ].
-	window
-			addMorph: 	(self render: aRenderable)
-			fullFrame: (LayoutFrame fractions: (0@0 corner: 1@1) offsets: (0@offset corner: 0 @ 0)).
-	^ window openInWorld
+	^ ( self windowFor: aRenderable ) openInWorld
 ]
 
 { #category : #private }
@@ -205,6 +193,15 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 	container addMorphBack: list.
 	aListPresentation when: GLMContextChanged do: [:ann | 
 		ann property = #selection ifTrue: [listModel selectItem: ann value ]].
+	aListPresentation when: GLMPresentationUpdated do: [:ann | 
+																toShow := aListPresentation displayValue.
+																items := toShow isCollection
+																	ifTrue: [toShow]
+																	ifFalse: [OrderedCollection with: toShow].
+																listModel items: items.
+
+															].
+
 	^ container
 ]
 
@@ -407,14 +404,41 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 		container addMorphBack: amountFilteringButton ].
 	container addMorphBack: treeMorph.
 	self installActionsOnUI: treeModel fromPresentation: aTreePresentation.
-	treeModel onSelection: [ :selection | aTreePresentation selection: selection ].
+	treeModel onSelection: [ :selection | 
+		aTreePresentation selection: selection.
+		aTreePresentation selectionPath: treeModel selectionPath ].
 	treeMorph vShowScrollBar.
 	aTreePresentation when: GLMContextChanged do: [ :ann |
 		ann property = #selection ifTrue: [ treeModel explicitSelection: ann value ] ].
 	^ container
 ]
 
+{ #category : #opening }
+GLMMorphicRenderer >> simulate: aRenderable [
+	^ ( self windowFor: aRenderable ) 
+		newBounds: (0@0 extent: 800@600);
+		layoutChanged
+]
+
 { #category : #factory }
 GLMMorphicRenderer >> theme [
 	^ UITheme current
+]
+
+{ #category : #opening }
+GLMMorphicRenderer >> windowFor: aRenderable [
+	| dock offset |
+	window := GlamorousSystemWindow new.
+	window model: aRenderable; setLabel: aRenderable titleValue.
+	aRenderable allActions notEmpty ifTrue: [
+		dock := self renderToolbarForBrowser: aRenderable inWindow: window.
+		offset := dock minExtent y.
+		window
+				addMorph: dock
+				fullFrame: (LayoutFrame fractions: (0@0 corner: 1@0) offsets: (0@0 corner: 0 @ offset)) ].
+	window
+			addMorph: 	(self render: aRenderable)
+			fullFrame: (LayoutFrame fractions: (0@0 corner: 1@1) offsets: (0@offset corner: 0 @ 0)).
+	aRenderable colorValue ifNotNil: [window paneColor: aRenderable colorValue].
+	^ window
 ]
