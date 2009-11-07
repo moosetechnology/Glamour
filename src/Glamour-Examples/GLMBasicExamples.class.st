@@ -141,7 +141,7 @@ GLMBasicExamples >> multiInitialSelection [
 	browser := GLMTableLayoutBrowser new.
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
-		browser tree
+		browser list
 			beMultiple;
 			display: [:x | 1 to: x * 3]].
 	browser showOn: #two; from: #one; using: [
@@ -156,12 +156,12 @@ GLMBasicExamples >> multipleFinderWithSearch [
 
 	| finder |	
 	finder := GLMFinder new.
-	finder list
+	finder tree
 			title: 'List';
 			beMultiple;
 			actions: [:list | self actionsFor: list];
 			filterOn: [:text :list | list select: (Compiler evaluate: '[:each | ', text, ']')].
-	finder list
+	finder tree
 			title: 'Tree';
 			actions: [:list | self actionsFor: list];
 			filterOn: [:text :each | (Compiler evaluate: '[:each | ', text, ']') value: each].
@@ -259,13 +259,38 @@ GLMBasicExamples >> singleInitialSelection [
 	browser := GLMTableLayoutBrowser new.
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
-		browser tree
+		browser list
 			display: [:x | 1 to: x];
 			format: [:number | Text string: number printString attribute: TextColor red]].
 	browser showOn: #two; from: #one; using: [
 		browser list
 			display: [:x | 1 to: x * 2]].
 	^ browser
+]
+
+{ #category : #others }
+GLMBasicExamples >> starBrowser [
+	"self new starBrowser openOn: { Object. String. #asString. #printString }"
+
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	browser column: #tree; column: #browser span: 4.
+	browser showOn: #tree; using: [ browser list ].
+	browser showOn: #browser; from: #tree; using: [
+		browser morph
+			display: [ :object |
+				| model |
+				" create omnibrowser window "
+				model := object isBehavior
+					ifTrue: [ OBSystemBrowser onClass: object ]
+					ifFalse: [ OBImplementorsBrowser root: (OBSelectorNode on: object) ].
+				" get rid of the window "
+				RectangleMorph new
+					borderWidth: 0;
+					layoutPolicy: ProportionalLayout new;
+					addAllMorphs: (OBMorphBuilder build: model) paneMorphs;
+					yourself ] ].
+	^ browser 
 ]
 
 { #category : #'actions examples' }
@@ -361,7 +386,7 @@ GLMBasicExamples >> treeWithInitialSelection [
 	|browser |
 
 	browser := GLMTableLayoutBrowser new.
-	browser column: #one; column: [:c | c row: #two; row: #three].
+	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser tree
 			title: 'first tree';
@@ -370,7 +395,6 @@ GLMBasicExamples >> treeWithInitialSelection [
 			title: 'second tree';
 			children: [:x | x value ]].
 	browser showOn: #two; from: #one; using: [ browser text ].
-	browser showOn: #three; from: #one->#selectionPath; using: [ browser text ].
 	^ browser
 ]
 
@@ -384,7 +408,7 @@ GLMBasicExamples >> treeWithMenu [
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser tree
-			children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ];
+			children: [:x | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ];
 			act: [:tree | tree inspect ] on: $i entitled: 'Inspect';
 			icon: [:x | MenuIcons helpIcon ]].
 	browser showOn: #two; from: #one; using: [ browser text ].
