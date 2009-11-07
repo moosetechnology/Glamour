@@ -270,21 +270,22 @@ GLMBasicExamples >> singleInitialSelection [
 
 { #category : #others }
 GLMBasicExamples >> starBrowser [
-	"self new starBrowser openOn: { Object. String. #asString. #printString }"
+	"self new starBrowser openOn: { Boolean. String. #asString. #printString }"
 
 	| browser |
 	browser := GLMTableLayoutBrowser new.
+	browser title: 'StarBrowser Light'.
 	browser column: #tree; column: #browser span: 4.
 	browser showOn: #tree; using: [ browser list ].
 	browser showOn: #browser; from: #tree; using: [
 		browser morph
 			display: [ :object |
 				| model |
-				" create omnibrowser window "
+				" create omnibrowser model "
 				model := object isBehavior
-					ifTrue: [ OBSystemBrowser onClass: object ]
+					ifTrue: [ OBHierarchyBrowser onClass: object ]
 					ifFalse: [ OBImplementorsBrowser root: (OBSelectorNode on: object) ].
-				" get rid of the window "
+				" create omnibrowser morph, but get rid of window "
 				RectangleMorph new
 					borderWidth: 0;
 					layoutPolicy: ProportionalLayout new;
