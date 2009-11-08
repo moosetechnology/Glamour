@@ -256,6 +256,7 @@ GLMPresentation >> transformation: aBlock [
 
 { #category : #updating }
 GLMPresentation >> update [
+	self flag: 'the value of all ports should be checked now and reset to nil if they are not the right ones'.
 	self announce: GLMPresentationUpdated
 ]
 
