@@ -62,20 +62,17 @@ GLMExplicitBrowser >> jumpstartTransmissions [
 
 { #category : #events }
 GLMExplicitBrowser >> outerPortEvent: aPortEvent [  
-	super outerPortEvent: aPortEvent.	"Hack for a jumpstart transmission (we should clean this up)." 
-	aPortEvent portName = #entity 
-		ifTrue: 
-			[self jumpstartTransmissions 
-				do: 
-					[:each |  
-					each 
-						clearOrigins; 
-						addActiveOrigin: (self pane port: #entity); 
-						transmit]]. 
-	aPortEvent hasChanged 
-		ifTrue: 
-			[(self transmissions select: [:each | (each originatesAt: aPortEvent port) and: [( aPortEvent transmissionContext includes: each destination) not ]]) 
-				do: [:each | each transmitIn: aPortEvent transmissionContext ]]
+	self flag: 'Hack for a jumpstart transmission (we should clean this up). '.
+	super outerPortEvent: aPortEvent.	
+	aPortEvent portName = #entity ifTrue: [
+		self jumpstartTransmissions do: [:each |  
+			each 
+				clearOrigins; 
+				addActiveOrigin: (self pane port: #entity); 
+				transmit]]. 
+	aPortEvent hasChanged ifTrue: [
+		(self transmissions select: [:each | (each originatesAt: aPortEvent port) and: [( aPortEvent transmissionContext includes: each destination) not ]]) 
+			do: [:each | each transmitIn: aPortEvent transmissionContext ]]
 ]
 
 { #category : #accessing }

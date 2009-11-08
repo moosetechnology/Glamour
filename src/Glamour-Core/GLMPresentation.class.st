@@ -173,12 +173,14 @@ GLMPresentation >> postTransformation [
 
 { #category : #updating }
 GLMPresentation >> registerAnnouncements [
-	updateAnnouncementsToBlocks keysAndValuesDo: [ :key :value | value do: [:eachValue | (eachValue glamourValue: self entity) on: key do: [:announcement | self update]]]
+	self flag: 'The announcements should potentially be interested in any ports, not just in entity'.
+	updateAnnouncementsToBlocks keysAndValuesDo: [ :key :value |
+		value do: [ :eachValue | 
+			(eachValue glamourValue: self entity) on: key do: [ :announcement | self update ]]]
 ]
 
 { #category : #rendering }
 GLMPresentation >> renderGlamorouslyOn: aRenderer [ 
-	self halt.
 	self registerAnnouncements.
 	^aRenderer renderPresentation: self
 ]
