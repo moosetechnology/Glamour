@@ -7,7 +7,7 @@ Class {
 { #category : #rendering }
 GLMListPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
-	^aRenderer renderListPresentation: self
+	^ aRenderer renderListPresentation: self
 ]
 
 { #category : #rendering }
