@@ -12,7 +12,7 @@ GLMListPresentation >> renderGlamorouslyOn: aRenderer [
 
 { #category : #rendering }
 GLMListPresentation >> update [
-
-	(self entity includes: self selection) ifFalse: [self selection: nil].
-	super update
+	self flag: 'this method should be removed'.
+"	(self entity includes: self selection) ifFalse: [self selection: nil].
+"	super update
 ]
