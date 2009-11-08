@@ -1,6 +1,11 @@
 Extension { #name : #GLMBrowser }
 
 { #category : #'*Glamour-Scripting' }
+GLMBrowser >> actionList [
+	^ self custom: GLMActionListPresentation new
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMBrowser >> context [
 
 	^OrderedCollection new
