@@ -443,3 +443,20 @@ GLMScriptingTest >> testUpdateAction [
 	self assert: browser panes second presentations size = 1. 
 	self assert: browser panes second presentations first entity = 42
 ]
+
+{ #category : #tests }
+GLMScriptingTest >> testUpdateYourselfOn [
+
+	| announcer entity browser presentation |
+	announcer := Announcer new.
+	entity := OrderedCollection with: 1 with: 2.
+	browser := GLMTableLayoutBrowser new.
+	browser column: #one.
+	browser showOn: #one; using: [
+		presentation := browser list updateYourselfOn: TestAnnouncement from: [ announcer ]].
+	browser startOn: entity.
+	presentation registerAnnouncements.
+	presentation selection: 2.
+	announcer announce: TestAnnouncement.
+	self assert: presentation selection isNil
+]
