@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Examples'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMSTClass >> superclass [
 	self class behavior: self stBehavior superclass environment: self environment
 

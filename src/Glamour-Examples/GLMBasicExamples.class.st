@@ -418,6 +418,30 @@ GLMBasicExamples >> treeWithMenu [
 ]
 
 { #category : #'actions examples' }
+GLMBasicExamples >> updatableBrowser [
+	"|collection|
+	collection := GLMAnnouncingCollection new.
+	collection add: 1.
+	collection add: 2.
+	collection add: 3.
+
+	self new updatableBrowser openOn: collection.
+	collection inspect"
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	browser column: #test; column: #test2.
+	browser 
+		showOn: #test;
+		using: [ browser list 
+							updateYourselfOn: GLMItemAdded from: #yourself;
+							updateYourselfOn: GLMItemRemoved from: #yourself ].
+	browser showOn: #test2; from: #test;
+			using: [browser list display: [:s | s]].
+
+	^browser
+]
+
+{ #category : #'actions examples' }
 GLMBasicExamples >> updateAction [
 	<glmBrowser: 'Update Action' input: 'String withAll: ''Select a piece of text and open on the next pane via the contextual menu or by pressing Modifier+o. Otherwise just open the complete copy of the current text on the next pane via the menu or by pressing Modifier+l.'''>
 	"self new updateAction openOn: 'Select a piece of text and open on the next pane'"
