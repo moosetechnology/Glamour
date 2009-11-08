@@ -136,9 +136,7 @@ GLMMorphicRenderer >> renderFinder: aBrowser [
 GLMMorphicRenderer >> renderListPresentation: aListPresentation [ 
 	| items list toShow listModel container search |
 	toShow := aListPresentation displayValue.
-	items := toShow isCollection
-				ifTrue: [toShow]
-				ifFalse: [OrderedCollection with: toShow].
+	items := toShow isCollection ifTrue: [toShow] ifFalse: [OrderedCollection with: toShow].
 	listModel := (aListPresentation isMultiple ifTrue: [GLMMultiListModel new] ifFalse: [GLMListModel new])
 				glamourPresentation: aListPresentation;
 				items: items;
@@ -194,14 +192,9 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 	aListPresentation when: GLMContextChanged do: [:ann | 
 		ann property = #selection ifTrue: [listModel selectItem: ann value ]].
 	aListPresentation when: GLMPresentationUpdated do: [:ann | 
-																toShow := aListPresentation displayValue.
-																items := toShow isCollection
-																	ifTrue: [toShow]
-																	ifFalse: [OrderedCollection with: toShow].
-																listModel items: items.
-
-															].
-
+		toShow := aListPresentation displayValue.
+		items := toShow isCollection ifTrue: [toShow] ifFalse: [OrderedCollection with: toShow].
+		listModel items: items ].
 	^ container
 ]
 
