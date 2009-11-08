@@ -41,6 +41,30 @@ GLMMorphicRenderer >> open: aRenderable [
 	^ ( self windowFor: aRenderable ) openInWorld
 ]
 
+{ #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [ 
+	| items list toShow container button buttonModel |
+	toShow := anActionListPresentation displayValue.
+	items := toShow isCollection ifTrue: [toShow] ifFalse: [OrderedCollection with: toShow].
+	container := self emptyMorph.
+	anActionListPresentation allActions do: [:each |
+		buttonModel := GLMButtonModel new.
+		buttonModel glamourPresentation: anActionListPresentation.
+		buttonModel glamourAction: each.
+		button := PluggableButtonMorph
+					on: buttonModel
+					getState: nil
+					action: #execute
+					label: #buttonLabel.
+		container 
+				addMorph: button
+				fullFrame: (LayoutFrame
+					fractions: ((0@0) corner: (1@0)) 
+					offsets: (0 @ 0 corner: 0 @ 24))
+		].
+	^ container
+]
+
 { #category : #private }
 GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aMorph inBrowser: aBrowser [ 
 	| pane totalSpans currentSpanPosition currentOffset |
