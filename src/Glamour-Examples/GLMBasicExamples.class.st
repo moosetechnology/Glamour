@@ -232,6 +232,19 @@ GLMBasicExamples >> pierTreeEditor [
 	^ browser 
 ]
 
+{ #category : #actionlist }
+GLMBasicExamples >> simpleActionList [
+	"self new simpleActionList openOn: #(1 2 3)"
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	browser column: #one.
+	browser showOn: #one; using: [
+		browser actionList
+			act: [:entity | Transcript show: entity ] entitled: 'Transcript';
+			act: [:entity | entity inspect ] entitled: 'Inspect'].
+	^ browser
+]
+
 { #category : #'actions examples' }
 GLMBasicExamples >> simpleFinderWithMenu [
 	<glmBrowser: 'Finder with Menu' input: '$z'>
