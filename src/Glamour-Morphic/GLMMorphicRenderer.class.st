@@ -47,7 +47,7 @@ GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [
 	toShow := anActionListPresentation displayValue.
 	items := toShow isCollection ifTrue: [toShow] ifFalse: [OrderedCollection with: toShow].
 	container := self emptyMorph.
-	anActionListPresentation allActions do: [:each |
+	anActionListPresentation allActions withIndexDo: [:each :index|
 		buttonModel := GLMButtonModel new.
 		buttonModel glamourPresentation: anActionListPresentation.
 		buttonModel glamourAction: each.
@@ -60,7 +60,7 @@ GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [
 				addMorph: button
 				fullFrame: (LayoutFrame
 					fractions: ((0@0) corner: (1@0)) 
-					offsets: (0 @ 0 corner: 0 @ 24))
+					offsets: (0 @ (index-1*24) corner: 0 @ (index*24)))
 		].
 	^ container
 ]
