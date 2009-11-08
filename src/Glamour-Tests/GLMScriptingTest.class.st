@@ -456,7 +456,7 @@ GLMScriptingTest >> testUpdateYourselfOn [
 		presentation := browser list updateYourselfOn: TestAnnouncement from: [ announcer ]].
 	browser startOn: entity.
 	presentation registerAnnouncements.
-	presentation selection: 2.
+	presentation selection: 3.
 	announcer announce: TestAnnouncement.
 	self assert: presentation selection isNil
 ]

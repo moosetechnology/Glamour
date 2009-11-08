@@ -24,7 +24,7 @@ GLMListPresentationTest >> testToSend [
 ]
 
 { #category : #tests }
-GLMListPresentationTest >> testValidate [
+GLMListPresentationTest >> testValidateOn [
 	 
 	| pane port presentation| 
 	pane := GLMPane named: 'test'. 
@@ -34,4 +34,18 @@ GLMListPresentationTest >> testValidate [
 	self assert: (presentation validate: 1 on: (pane port: #selection)).
 	self assert: (presentation validate: 2 on: (pane port: #selection)).
 	self deny: (presentation validate: 5 on: (pane port: #selection))
+]
+
+{ #category : #tests }
+GLMListPresentationTest >> testValidatePorts [
+	 
+	| pane port presentation| 
+	pane := GLMPane named: 'test'.
+	presentation := GLMListPresentation new.
+	pane addPresentation: presentation.
+	presentation entity: (OrderedCollection with: 1 with: 2).
+	presentation selection: 2.
+	self assert: presentation selection = 2.
+	presentation selection: 3."this should be invalid"
+	self assert: presentation selection = 2
 ]

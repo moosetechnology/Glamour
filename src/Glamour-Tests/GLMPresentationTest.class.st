@@ -148,16 +148,18 @@ GLMPresentationTest >> testToSend [
 
 { #category : #tests }
 GLMPresentationTest >> testUpdateYourselfOnSelectionUpdate [
-	| pane port presentation timesTriggered announcer | 
+	| pane port presentation timesTriggered announcer col |
+	col := OrderedCollection with: 1 with: 2. 
 	pane := GLMPane named: 'test'. 
 	presentation := GLMListPresentation new.
 	announcer := Announcer new.
 	pane addPresentation: presentation.
 	presentation updateYourselfOn: TestAnnouncement from: [ announcer ].
-	presentation entity: (OrderedCollection with: 1 with: 2).
+	presentation entity: col.
 	presentation registerAnnouncements.
-	presentation selection: 3.
-	self assert: presentation selection = 3.
+	presentation selection: 2.
+	self assert: presentation selection = 2.
+	col removeLast.
 	announcer announce: TestAnnouncement.
 	self assert: presentation selection isNil
 
