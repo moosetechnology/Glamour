@@ -4,7 +4,7 @@ ClassTree new openOn: Collection
 "
 Class {
 	#name : #GLMTreeMorphModel,
-	#superclass : #TreeModel,
+	#superclass : #MorphTreeModel,
 	#instVars : [
 		'roots',
 		'glamourPresentation',
