@@ -1,72 +1,69 @@
 Extension { #name : #GLMBrowser }
 
-{ #category : #'*Glamour-Scripting' }
-GLMBrowser >> actionList [
-	^ self custom: GLMActionListPresentation new
-]
-
-{ #category : #'*Glamour-Scripting' }
+{ #category : #'*glamour-scripting' }
 GLMBrowser >> context [
 
 	^OrderedCollection new
 ]
 
-{ #category : #'*Glamour-Scripting' }
+{ #category : #'*glamour-scripting' }
 GLMBrowser >> custom: aPresentation [ 
 	 
 	self subclassResponsibility
 ]
 
-{ #category : #'*Glamour-Scripting' }
+{ #category : #'*glamour-scripting' }
 GLMBrowser >> defaultRenderer [ 
 	 
 	^GLMRenderer subclasses first new
 ]
 
-{ #category : #'*Glamour-Scripting' }
+{ #category : #'*glamour-scripting-presentations' }
 GLMBrowser >> diff [
-	 
-	^self custom: GLMDiffPresentation new
+	^ self custom: GLMDiffPresentation new
 ]
 
-{ #category : #'*Glamour-Scripting' }
+{ #category : #'*glamour-scripting-presentations' }
 GLMBrowser >> dynamic [
 	^ self custom: GLMDynamicPresentation new
 ]
 
-{ #category : #'*Glamour-Scripting' }
+{ #category : #'*glamour-scripting-presentations' }
+GLMBrowser >> finder [
+	^ self custom: GLMFinder new
+]
+
+{ #category : #'*glamour-scripting' }
 GLMBrowser >> initializeContextWith: aPane [
 ]
 
-{ #category : #'*Glamour-Scripting' }
+{ #category : #'*glamour-scripting-presentations' }
 GLMBrowser >> list [ 
-	 
-	^self custom: GLMListPresentation new
+	^ self custom: GLMListPresentation new
 ]
 
-{ #category : #'*Glamour-Scripting' }
+{ #category : #'*glamour-scripting-presentations' }
 GLMBrowser >> magritte [
 	^ self custom: GLMMagrittePresentation new
 ]
 
-{ #category : #'*Glamour-Scripting' }
+{ #category : #'*glamour-scripting-presentations' }
 GLMBrowser >> mondrian [ 
-	 
-	^self custom: GLMMondrianPresentation new
+	^ self custom: GLMMondrianPresentation new
 ]
 
-{ #category : #'*Glamour-Scripting' }
+{ #category : #'*glamour-scripting-presentations' }
 GLMBrowser >> morph [
 	^ self custom: GLMMorphPresentation new
 ]
 
-{ #category : #'*Glamour-Scripting' }
+{ #category : #'*glamour-scripting' }
 GLMBrowser >> open [ 
 	 
 	^self openWith: self defaultRenderer
 ]
 
-{ #category : #'*Glamour-Scripting' }
+{ #category : #'*glamour-scripting' }
 GLMBrowser >> openOn: anObject [ 
 	 
 	^self 
@@ -74,34 +71,37 @@ GLMBrowser >> openOn: anObject [
 		with: self defaultRenderer
 ]
 
-{ #category : #'*Glamour-Scripting' }
+{ #category : #'*glamour-scripting' }
 GLMBrowser >> openOn: anObject with: aRenderer [ 
 	 
 	self startOn: anObject. 
 	^aRenderer open: self
 ]
 
-{ #category : #'*Glamour-Scripting' }
+{ #category : #'*glamour-scripting' }
 GLMBrowser >> openWith: aRenderer [ 
 	 
 	^self openOn: nil with: aRenderer
 ]
 
-{ #category : #'*Glamour-Scripting' }
+{ #category : #'*glamour-scripting' }
 GLMBrowser >> startOn: anObject [ 
 	 
 	self initializeScriptingDefaults. 
 	self entity: anObject
 ]
 
-{ #category : #'*Glamour-Scripting' }
-GLMBrowser >> text [ 
-	 
-	^self custom: GLMTextPresentation new
+{ #category : #'*glamour-scripting-presentations' }
+GLMBrowser >> table [
+	^ self custom: GLMTableLayoutBrowser new
 ]
 
-{ #category : #'*Glamour-Scripting' }
+{ #category : #'*glamour-scripting-presentations' }
+GLMBrowser >> text [ 
+	^ self custom: GLMTextPresentation new
+]
+
+{ #category : #'*glamour-scripting-presentations' }
 GLMBrowser >> tree [ 
-	 
-	^self custom: GLMTreePresentation new
+	^ self custom: GLMTreePresentation new
 ]
