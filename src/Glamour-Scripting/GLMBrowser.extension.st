@@ -1,5 +1,10 @@
 Extension { #name : #GLMBrowser }
 
+{ #category : #'*Glamour-Scripting' }
+GLMBrowser >> actionList [
+	^ self custom: GLMActionListPresentation new
+]
+
 { #category : #'*glamour-scripting' }
 GLMBrowser >> context [
 
