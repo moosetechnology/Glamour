@@ -348,6 +348,20 @@ GLMBasicExamples >> taggedTree [
 	^ browser
 ]
 
+{ #category : #text }
+GLMBasicExamples >> textPortsExamples [
+	"
+		self new textPortsExamples openOn: 'Type and select to see the results previewed.'
+	"
+	| browser |
+	browser := GLMTableLayoutBrowser new.
+	browser row: #main; row: [:r | r column: #selected; column: #full].
+	browser showOn: #main; using: [browser text].
+	browser showOn: #selected; from: #main->#selectedText; using: [browser text].
+	browser showOn: #full; from: #main->#text; using: [browser text].
+	^ browser
+]
+
 { #category : #others }
 GLMBasicExamples >> threeInterdependentPanes [
 	<glmBrowser: 'Inter-dependent Panes' input: '5'>
@@ -454,7 +468,7 @@ GLMBasicExamples >> updatableBrowser [
 	^browser
 ]
 
-{ #category : #'actions examples' }
+{ #category : #text }
 GLMBasicExamples >> updateAction [
 	<glmBrowser: 'Update Action' input: 'String withAll: ''Select a piece of text and open on the next pane via the contextual menu or by pressing Modifier+o. Otherwise just open the complete copy of the current text on the next pane via the menu or by pressing Modifier+l.'''>
 	"self new updateAction openOn: 'Select a piece of text and open on the next pane'"
