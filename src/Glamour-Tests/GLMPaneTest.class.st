@@ -14,6 +14,13 @@ GLMPaneTest >> testCreation [
 ]
 
 { #category : #tests }
+GLMPaneTest >> testDefaultPortValue [
+	| pane |
+	pane := GLMPane named: 'test'.
+	self assert: (pane port: #somePort) value isNil
+]
+
+{ #category : #tests }
 GLMPaneTest >> testDefaultValidate [
 	 
 	| pane port | 
