@@ -382,8 +382,11 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 	treeMorph := MorphTreeMorph new
 						on: treeModel
 						list: #roots
-						multiSelection: aTreePresentation isMultiple.
+						multiSelection: aTreePresentation isMultiple
+						columns: {
+							MorphTreeColumn new startWidth: 200; rowMorphGetSelector: #elementColumn.}.
 	treeMorph
+		makeLastColumnUnbounded;
 		getMenuSelector: #menu:shifted:;
 		keystrokeActionSelector: #keyStroke:from:;
 		cornerStyle: #square;

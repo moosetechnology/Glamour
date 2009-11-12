@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMTreeMorphNodeModel,
-	#superclass : #ListItemWrapper,
+	#superclass : #MorphTreeNodeModel,
 	#instVars : [
 		'parentNode',
 		'contents',
@@ -55,6 +55,15 @@ GLMTreeMorphNodeModel >> displayText [
 	^ UITheme current 
 		newTextIn: World
 		text: (self containerTree glamourPresentation formatedDisplayValueOf: self item) 
+]
+
+{ #category : #callbacks }
+GLMTreeMorphNodeModel >> elementColumn [
+	| row |
+	row := OrderedCollection with: self displayText.
+	(self containerTree glamourPresentation tagsFor: self item) do: [ :each | 
+			row addLast: (self buttonForTag: each) ].
+	^ UITheme current newRowIn: World for: row
 ]
 
 { #category : #testing }
@@ -137,6 +146,7 @@ GLMTreeMorphNodeModel >> printOn: aStream [
 { #category : #callbacks }
 GLMTreeMorphNodeModel >> rowMorphListFor: aContainer [ 
 	| row |
+	self flag: 'deprecated'.
 	row := OrderedCollection with: (UITheme current newRowIn: World for: { self displayText }).
 	(self containerTree glamourPresentation tagsFor: self item) do: [ :each | 
 			row addLast: (self buttonForTag: each) ].
@@ -170,6 +180,15 @@ GLMTreeMorphNodeModel >> shouldBeDisplayedByText [
 			value: self containerTree inputText asString
 			value: node item) == true ifTrue: [ ^ true ] ].
 	^ false
+]
+
+{ #category : #callbacks }
+GLMTreeMorphNodeModel >> tagsColumn [ 
+	| tags |
+	tags := (self containerTree glamourPresentation tagsFor: self item).
+	tags isEmpty ifFalse: [
+		^ self buttonForTag: tags last ].
+	^ RectangleMorph new
 ]
 
 { #category : #callbacks }
