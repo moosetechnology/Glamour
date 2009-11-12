@@ -56,14 +56,14 @@ GLMTextPresentation >> renderGlamorouslyOn: aRenderer [
 
 { #category : #accessing }
 GLMTextPresentation >> selectedText [
-	^ selectedText isNil 
+	^ (self pane port: #selectedText) value isNil 
 		ifTrue: [self selectedTextBlock value]
-		ifFalse: [selectedText]
+		ifFalse: [(self pane port: #selectedText) value]
 ]
 
 { #category : #accessing }
-GLMTextPresentation >> selectedText: anObject [
-	selectedText := anObject
+GLMTextPresentation >> selectedText: anObject [	 
+	(self pane port: #selectedText) value: anObject copy
 ]
 
 { #category : #accessing }
@@ -77,16 +77,15 @@ GLMTextPresentation >> selectedTextBlock: anObject [
 ]
 
 { #category : #accessing }
-GLMTextPresentation >> selection [ 
-	 
-	^selectedText
+GLMTextPresentation >> text [
+	^ (self pane port: #text) value isNil 
+		ifTrue: [self textBlock value]
+		ifFalse: [(self pane port: #text) value]
 ]
 
 { #category : #accessing }
-GLMTextPresentation >> text [
-	^ text isNil 
-		ifTrue: [self textBlock value]
-		ifFalse: [text]
+GLMTextPresentation >> text: aString [
+	(self pane port: #text) value: aString copy
 ]
 
 { #category : #accessing }
