@@ -12,7 +12,7 @@ Class {
 { #category : #callbacks }
 GLMTextModel >> accept: aText notifying: anObject [ 
 	aText asString withBlanksTrimmed ifEmpty: [^self].
-	text := aText.
+	self text: aText.
 	self changed: #text
 ]
 
@@ -38,7 +38,9 @@ GLMTextModel >> highlightSmalltalkContext: anObject [
 
 { #category : #callbacks }
 GLMTextModel >> keystroke: anEvent from: aMorph [
-	anEvent anyModifierKeyPressed ifTrue: [super keystroke: anEvent keyCharacter from: aMorph]
+	anEvent anyModifierKeyPressed ifTrue: [ super keystroke: anEvent keyCharacter from: aMorph ].
+	self glamourPresentation text: self text.
+
 ]
 
 { #category : #callbacks }
@@ -71,5 +73,6 @@ GLMTextModel >> text [
 
 { #category : #accessing }
 GLMTextModel >> text: aTextOrString [
-	text := aTextOrString
+	text := aTextOrString.
+	self glamourPresentation ifNotNil: [ :presentation | presentation text: text ]
 ]

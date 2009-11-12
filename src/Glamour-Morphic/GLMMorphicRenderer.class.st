@@ -351,6 +351,7 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 			hResizing: #spaceFill;
 			color: Color white;
 			yourself.
+	textModel text: textMorph textMorph asText. "this is a horrible hack: because we cannot get the update of when the text changes from the morph, we get the reference to the mutable text object :) :)"
 	self installActionsOnUI: textModel fromPresentation: aTextPresentation.
 	aTextPresentation selectedTextBlock: [ textMorph textMorph editor selection ].
 	aTextPresentation textBlock: [ textMorph textMorph editor text ].
