@@ -224,10 +224,13 @@ GLMTreeMorphModel >> selectionPath: path [
 
 { #category : #callbacks }
 GLMTreeMorphModel >> selectionPath: path selectionSet: set [
+	| selectionValue |
 	super selectionPath: path selectionSet: set.
 	path isNil ifFalse: [
-		onSelection ifNotNil: [onSelection value: (set flatCollect: #yourself)].
-	].
+		onSelection ifNotNil: [
+			selectionValue := OrderedCollection new.
+			set do: [ :each | each do: [ :node | selectionValue add: node item ] ].
+			onSelection value: selectionValue ] ]
 ]
 
 { #category : #'search and filtering' }
