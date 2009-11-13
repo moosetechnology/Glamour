@@ -193,7 +193,7 @@ GLMTreeMorphModel >> selectItem: anObject [
 	self roots do: [:eachRoot |
 		eachRoot withContentsDo: [:each |
 			each item = anObject ifTrue: [
-				self silentNoteNewSelection: each.
+				each expandParentPath.
 				^ self]]]
 ]
 
@@ -208,13 +208,7 @@ GLMTreeMorphModel >> selectMultipleItems: aCollection [
 		eachRoot withContentsDo: [:each |
 			(aCollection includes: each item) ifTrue: [
 				newSelection add: each path]]].
-	self changed: #selection. 
-"	self roots do: [:eachRoot | eachRoot withContentsDo: [:each |
-		(aCollection includes: each item) ifTrue: [
-			amountToSelect := amountToSelect - 1.
-			self silentNoteNewSelection: each.
-			amountToSelect > 0 ifFalse: [
-				^ self ]]]]"
+	self changed: #selection.
 ]
 
 { #category : #callbacks }
@@ -247,13 +241,6 @@ GLMTreeMorphModel >> shouldFilterByTag: aTag [
 { #category : #'search and filtering' }
 GLMTreeMorphModel >> shouldFilterByText [
 	^ self glamourPresentation allowsFilter and: [ self inputText notEmpty ]
-]
-
-{ #category : #callbacks }
-GLMTreeMorphModel >> silentNoteNewSelection: x [
-	self flag: 'check this out'.
-	x expandParentPath.
-"	self selectionPath: x path."
 ]
 
 { #category : #callbacks }
