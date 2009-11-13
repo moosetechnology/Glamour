@@ -200,7 +200,6 @@ GLMTreeMorphModel >> selectItem: anObject [
 { #category : #callbacks }
 GLMTreeMorphModel >> selectMultipleItems: aCollection [
 	| newSelection |
-	self flag: 'check this'.
 	(self selectionSet size = aCollection size and: [
 		self selectionSet = aCollection asSet ]) ifTrue: [ ^ self ].
 	newSelection := Set new.
@@ -208,6 +207,7 @@ GLMTreeMorphModel >> selectMultipleItems: aCollection [
 		eachRoot withContentsDo: [:each |
 			(aCollection includes: each item) ifTrue: [
 				newSelection add: each path.
+				self flag: 'check the path expansion'.
 				"each expandParentPath" ]]].
 	self selectionSet: newSelection.
 	self changed: #selection.
@@ -215,11 +215,11 @@ GLMTreeMorphModel >> selectMultipleItems: aCollection [
 
 { #category : #callbacks }
 GLMTreeMorphModel >> selectionPath: path [
-	super selectionPath: path.
 "	x = self  ifTrue: [^ self]."
+	self selectionPath = path ifTrue: [^ self].
+	super selectionPath: path.
 	path isNil ifFalse: [
-		onSelection ifNotNil: [onSelection value: (path last isNil ifTrue: [nil] ifFalse: [path last item])].
-	].
+		onSelection ifNotNil: [ onSelection value: (path last isNil ifTrue: [nil] ifFalse: [path last item]) ] ]
 ]
 
 { #category : #callbacks }
