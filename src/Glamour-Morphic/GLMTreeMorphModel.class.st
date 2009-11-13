@@ -207,7 +207,9 @@ GLMTreeMorphModel >> selectMultipleItems: aCollection [
 	self roots do: [:eachRoot |
 		eachRoot withContentsDo: [:each |
 			(aCollection includes: each item) ifTrue: [
-				newSelection add: each path]]].
+				newSelection add: each path.
+				"each expandParentPath" ]]].
+	self selectionSet: newSelection.
 	self changed: #selection.
 ]
 
