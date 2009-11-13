@@ -206,6 +206,7 @@ GLMTreeMorphModel >> selectItem: anObject [
 { #category : #callbacks }
 GLMTreeMorphModel >> selectMultipleItems: aCollection [
 	| newSelection |
+	aCollection isNil ifTrue: [^ self].
 	(self selectionSet size = aCollection size and: [
 		self selectionSet = aCollection asSet ]) ifTrue: [ ^ self ].
 	newSelection := Set new.
@@ -238,6 +239,8 @@ GLMTreeMorphModel >> selectionPath: path selectionSet: set [
 			selectionValue := OrderedCollection new.
 			set do: [ :each | each do: [ :node | selectionValue add: node item ] ].
 			onSelection value: selectionValue ] ]
+	ifTrue: [
+		onSelection ifNotNil: [ onSelection value: nil ] ]	
 ]
 
 { #category : #'search and filtering' }
