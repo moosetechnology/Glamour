@@ -7,11 +7,24 @@ Class {
 { #category : #'as yet unclassified' }
 GLMMorphicTest >> repeatAssert: aBlock equals: aResult [
 
-	self assert: (self wait: 2 until: aBlock evaluatesTo: aResult)
+	self assert: (self wait: 1 until: aBlock evaluatesTo: aResult)
 ]
 
 { #category : #'as yet unclassified' }
-GLMMorphicTest >> testSimple [
+GLMMorphicTest >> testChildrenBlock [
+
+	| browser window check |
+	browser := GLMFinder new.
+	check := false.
+	browser tree
+		children: [:each | check := true. #()].
+	window := browser openOn: ($a to: $d).
+	self repeatAssert: [check] equals: true.
+	window delete
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphicTest >> testChildrenBlockTakesEntity [
 
 	| browser receivedEntity window |
 	browser := GLMFinder new.
@@ -20,6 +33,30 @@ GLMMorphicTest >> testSimple [
 		children: [:each :entity | receivedEntity := entity. #()].
 	window := browser openOn: ($a to: $d).
 	self repeatAssert: [receivedEntity] equals: ($a to: $d).
+	window delete
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphicTest >> testSpawnFinder [
+
+	| browser window check |
+	browser := GLMFinder new.
+	window := browser openOn: ($a to: $d).
+	self repeatAssert: [window submorphs last class] equals: GLMPaneScroller.
+	window delete
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphicTest >> testSpawnTableLayoutBrowser [
+
+	| browser window check |
+	browser := GLMTableLayoutBrowser new.
+	window := browser openOn: ($a to: $d).
+	self repeatAssert: [
+		window submorphs last 
+					submorphs last 
+						submorphs last 
+							submorphs last class] equals: MorphTreeMorph.
 	window delete
 ]
 
