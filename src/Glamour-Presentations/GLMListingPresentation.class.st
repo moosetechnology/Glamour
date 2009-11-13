@@ -32,6 +32,12 @@ GLMListingPresentation >> amountToShow [
 ]
 
 { #category : #accessing }
+GLMListingPresentation >> childrenValueOf: anObject [
+	self flag: 'this is rather hackish, but needed to treat list and tree in the same way.'.
+	^ OrderedCollection new
+]
+
+{ #category : #accessing }
 GLMListingPresentation >> filterStrategy [
 	^filterBlock
 ]
@@ -59,6 +65,16 @@ GLMListingPresentation >> limitsAmount [
 { #category : #accessing }
 GLMListingPresentation >> searchStrategy [
 	^ searchBlock
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> selectionPath [
+	^ (self pane port: #selectionPath) value
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> selectionPath: anObject [
+	(self pane port: #selectionPath) value: anObject
 ]
 
 { #category : #accessing }
