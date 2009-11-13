@@ -225,6 +225,8 @@ GLMTreeMorphModel >> selectionPath: path [
 	super selectionPath: path.
 	path isNil ifFalse: [
 		onSelection ifNotNil: [ onSelection value: (path last isNil ifTrue: [nil] ifFalse: [path last item]) ] ]
+	ifTrue: [
+		onSelection ifNotNil: [ onSelection value: nil ] ]
 ]
 
 { #category : #callbacks }
