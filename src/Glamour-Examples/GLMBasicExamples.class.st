@@ -108,10 +108,10 @@ GLMBasicExamples >> multiInitialSelection [
 	^ browser
 ]
 
-{ #category : #'actions examples' }
-GLMBasicExamples >> multipleFinderWithSearch [
+{ #category : #'searching and filtering' }
+GLMBasicExamples >> multipleFinderWithFilter [
 	<glmBrowser: 'Multiple List with Menu and Search' input: '$a to: $z'>
-	"self new multipleFinderWithSearch openOn: ($a to: $z)"
+	"self new multipleFinderWithFilter openOn: ($a to: $z)"
 
 	| finder |	
 	finder := GLMFinder new.
@@ -119,11 +119,31 @@ GLMBasicExamples >> multipleFinderWithSearch [
 			title: 'List';
 			beMultiple;
 			actions: [:list | self actionsFor: list];
-			filterOn: [:text :list | list select: (Compiler evaluate: '[:each | ', text, ']')].
-	finder list
+			filterOn: [:text :each | Compiler evaluate: '| each | each := self. ', text for: each logged: false ].
+	finder tree
 			title: 'Tree';
 			actions: [:list | self actionsFor: list];
-			filterOn: [:text :each | (Compiler evaluate: '[:each | ', text, ']') value: each].
+			filterOn: [:text :each | Compiler evaluate: '| each | each := self. ', text for: each logged: false ].
+	^ finder 
+]
+
+{ #category : #'searching and filtering' }
+GLMBasicExamples >> multipleFinderWithSearch [
+	<glmBrowser: 'Multiple List with Menu and Search' input: '$a to: $z'>
+	"self new multipleFinderWithSearch openOn: ($a to: $z)"
+
+	| finder |	
+	finder := GLMFinder new.
+"	finder list
+			title: 'List';
+			beMultiple;
+			actions: [:list | self actionsFor: list];
+			filterOn: [:text :list | list select: (Compiler evaluate: '[:each | ', text, ']')].
+"	finder tree
+			beMultiple;
+			title: 'Tree';
+			actions: [:list | self actionsFor: list];
+			searchOn: [:text :each | (Compiler evaluate: '[:each | ', text, ']') value: each].
 	^ finder 
 ]
 
