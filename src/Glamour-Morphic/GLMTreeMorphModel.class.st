@@ -88,12 +88,18 @@ GLMTreeMorphModel >> executeFilter [
 
 { #category : #'search and filtering' }
 GLMTreeMorphModel >> executeSearch [
-	self changed: #roots
+	| newSelection check |
+	newSelection := Set new.
+	roots do: [ :each | 
+		check := self glamourPresentation searchStrategy value: self inputText value: each item.
+		check ifTrue: [newSelection add: each path]].
+	newSelection isEmpty ifFalse: [
+		self selectionPath: newSelection anyOne selectionSet: newSelection ]
 ]
 
 { #category : #callbacks }
 GLMTreeMorphModel >> explicitSelection: anObject [
-
+	"anObject is a domain object, not a Glamour related object"
 	self glamourPresentation isMultiple 
 		ifTrue: [self selectMultipleItems: anObject ]
 		ifFalse: [self selectItem: anObject ]
@@ -215,7 +221,6 @@ GLMTreeMorphModel >> selectMultipleItems: aCollection [
 
 { #category : #callbacks }
 GLMTreeMorphModel >> selectionPath: path [
-"	x = self  ifTrue: [^ self]."
 	self selectionPath = path ifTrue: [^ self].
 	super selectionPath: path.
 	path isNil ifFalse: [
@@ -244,7 +249,7 @@ GLMTreeMorphModel >> shouldFilterByTag: aTag [
 ]
 
 { #category : #'search and filtering' }
-GLMTreeMorphModel >> shouldFilterByText [
+GLMTreeMorphModel >> shouldFilterByTextInput [
 	^ self glamourPresentation allowsFilter and: [ self inputText notEmpty ]
 ]
 

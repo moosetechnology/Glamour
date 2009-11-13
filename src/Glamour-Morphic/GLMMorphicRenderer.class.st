@@ -158,68 +158,8 @@ GLMMorphicRenderer >> renderFinder: aBrowser [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderListPresentation: aListPresentation [ 
-	| items list toShow listModel container search |
-	toShow := aListPresentation displayValue.
-	items := toShow isCollection ifTrue: [toShow] ifFalse: [OrderedCollection with: toShow].
-	listModel := (aListPresentation isMultiple ifTrue: [GLMMultiListModel new] ifFalse: [GLMListModel new])
-				glamourPresentation: aListPresentation;
-				items: items;
-				displaySelector: aListPresentation format;
-				searchBlock: aListPresentation searchStrategy;
-				filterBlock: aListPresentation filterStrategy;
-				yourself.
-	container := self emptyMorph.
-	list := aListPresentation isMultiple
-				ifTrue: [
-					PluggableListMorphOfMany
-						on: listModel
-						list: #displayedItems
-						primarySelection: #selection
-						changePrimarySelection: #selection:
-						listSelection: #listSelectionAt:
-						changeListSelection: #listSelectionAt:put:
-						menu: #menu
-						keystroke: #keystroke:from:]
-				ifFalse: [
-					PluggableListMorph
-						on: listModel 
-						list: #displayedItems 
-						selected: #singleSelection 
-						changeSelected: #singleSelection: 
-						menu: #menu
-						keystroke: #keystroke:from: ].
-	list
-		color: Color white;
-		hResizing: #spaceFill;
-		vResizing: #spaceFill;
-		getMenuSelector: #menu:;
-		alwaysShowScrollBars: false;
-		keystrokeActionSelector: #keystroke:from:;
-		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1)).
-	self installActionsOnUI: listModel fromPresentation: aListPresentation.
-	listModel onSelection: [:selection | aListPresentation selection: selection].
-	aListPresentation allowsInput ifTrue: [
-		search := UITheme current
-			newTextEntryIn: nil
-			for: listModel
-			get: #searchText
-			set: #searchText:
-			class: String
-			getEnabled: #searchEnabled
-			help: 'Search Input'.
-		search layoutFrame: (LayoutFrame
-			fractions: (0 @ 1 corner: 1 @ 1) 
-			offsets: (0 @ -24 corner: 0 @ 0)).
-		list layoutFrame bottomOffset: -24.
-		container addMorphBack: search ].
-	container addMorphBack: list.
-	aListPresentation when: GLMContextChanged do: [:ann | 
-		ann property = #selection ifTrue: [listModel selectItem: ann value ]].
-	aListPresentation when: GLMPresentationUpdated do: [:ann | 
-		toShow := aListPresentation displayValue.
-		items := toShow isCollection ifTrue: [toShow] ifFalse: [OrderedCollection with: toShow].
-		listModel items: items ].
-	^ container
+	self flag: 'lists are now replaced by trees'.
+	^ self renderTreePresentation: aListPresentation
 ]
 
 { #category : #'rendering presentations' }
