@@ -1,11 +1,11 @@
 Class {
-	#name : #GlamorousSystemWindow,
+	#name : #GLMSystemWindow,
 	#superclass : #StandardWindow,
 	#category : #'Glamour-Morphic'
 }
 
 { #category : #building }
-GlamorousSystemWindow >> buildWindowMenu [
+GLMSystemWindow >> buildWindowMenu [
 	^ self model actions isEmpty
 		ifTrue: [ super buildWindowMenu ]
 		ifFalse: [
@@ -20,14 +20,14 @@ GlamorousSystemWindow >> buildWindowMenu [
 ]
 
 { #category : #building }
-GlamorousSystemWindow >> extent: aPoint [ 
+GLMSystemWindow >> extent: aPoint [ 
 	super extent: aPoint.
 	self fullBounds.
 	self refreshHorizontalScollbars.
 ]
 
 { #category : #building }
-GlamorousSystemWindow >> refreshHorizontalScollbars [
+GLMSystemWindow >> refreshHorizontalScollbars [
 	self allMorphsDo: 
 		[ :morph | 
 		(morph isKindOf: GLMScrollPaneForHResize) ifTrue: [ morph scroller submorphs anyOne width: morph scroller width - 20 ] ]

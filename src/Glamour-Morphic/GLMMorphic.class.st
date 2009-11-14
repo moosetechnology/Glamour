@@ -1,11 +1,22 @@
 Class {
-	#name : #GLMMorphicLibrary,
+	#name : #GLMMorphic,
 	#superclass : #Object,
 	#category : #'Glamour-Morphic'
 }
 
 { #category : #'as yet unclassified' }
-GLMMorphicLibrary class >> togglingButtonLabelled: aString pressed: aBoolean [
+GLMMorphic class >> emptyMorph [
+	^ RectangleMorph new
+		layoutPolicy: ProportionalLayout new;
+		color: Color transparent;
+		hResizing: #spaceFill;
+		vResizing: #spaceFill;
+		borderWidth: 0;
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphic class >> togglingButtonLabelled: aString pressed: aBoolean [
 	| button oldLabel m |
 	button := SimpleButtonMorph new.
 	(oldLabel := button findA: StringMorph) ifNotNil: [ oldLabel delete ].

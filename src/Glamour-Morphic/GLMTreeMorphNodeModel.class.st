@@ -13,7 +13,9 @@ Class {
 { #category : #callbacks }
 GLMTreeMorphNodeModel >> buttonForTag: each [ 
 	| button |
-	button := GLMMorphicLibrary togglingButtonLabelled: each pressed: (self containerTree shouldFilterByTag: each).
+	button := GLMMorphic 
+		togglingButtonLabelled: each
+		pressed: (self containerTree shouldFilterByTag: each).
 	button
 		target: self;
 		actionSelector: #toggleFilteringByTag:;
