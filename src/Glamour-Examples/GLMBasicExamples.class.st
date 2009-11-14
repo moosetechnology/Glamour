@@ -128,20 +128,24 @@ GLMBasicExamples >> multipleFinderWithFilter [
 ]
 
 { #category : #'searching and filtering' }
-GLMBasicExamples >> multipleFinderWithSearch [
+GLMBasicExamples >> multipleFinderWithFilterAndSearch [
 	<glmBrowser: 'Multiple List with Menu and Search' input: '$a to: $z'>
-	"self new multipleFinderWithSearch openOn: ($a to: $z)"
+	"self new multipleFinderWithSearch openOn: (1 to: 100)"
 
 	| finder |	
 	finder := GLMFinder new.
-"	finder list
-			title: 'List';
+	finder list
+			beMultiple;
+			title: 'Simple';
+			actions: [:list | self actionsFor: list].
+	finder list
+			title: 'With filter';
 			beMultiple;
 			actions: [:list | self actionsFor: list];
-			filterOn: [:text :list | list select: (Compiler evaluate: '[:each | ', text, ']')].
-"	finder tree
+			filterOn: [:text :each | (Compiler evaluate: '[:each | ', text, ']') value: each].
+	finder list
+			title: 'With search';
 			beMultiple;
-			title: 'Tree';
 			actions: [:list | self actionsFor: list];
 			searchOn: [:text :each | (Compiler evaluate: '[:each | ', text, ']') value: each].
 	^ finder 
