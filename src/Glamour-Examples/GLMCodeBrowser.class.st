@@ -76,7 +76,7 @@ GLMCodeBrowser >> onDetailsFromPackagesFromClassesFromMethods [
 					forSmalltalk;
 					title: 'Class';
 					useExplicitNotNil;
-					when: [:class | class notNil ];
+					when: [:class :method | class notNil and: [method isNil]];
 					display: [:class | class definition ].
 			browser list
 					title: 'References';
@@ -101,7 +101,7 @@ GLMCodeBrowser >> onDetailsFromPackagesFromClassesFromMethods [
 { #category : #building }
 GLMCodeBrowser >> onInstVarsFromClasses [
 	browser showOn: #instVars; from: #classes; using: [ 
-		browser tree
+		browser list
 				display: [ :class | class instVars ];
 				tags: [ :each | 
 					{ each glmBehavior isMetaSide ifTrue: ['META'] ifFalse: ['INST'] } ] ]
@@ -110,7 +110,7 @@ GLMCodeBrowser >> onInstVarsFromClasses [
 { #category : #building }
 GLMCodeBrowser >> onMethodsFromClasses [
 	browser showOn: #methods; from: #classes; using: [ 
-		browser tree
+		browser list
 				display: [ :class | class instanceAndMetaMethods ];
 				tags: [ :each | 
 					{each glmCategory name.
@@ -120,7 +120,7 @@ GLMCodeBrowser >> onMethodsFromClasses [
 { #category : #building }
 GLMCodeBrowser >> onMethodsFromInstVars [
 	browser showOn: #methods; from: #instVars; using: [ 
-		browser tree
+		browser list
 				display: [ :var | var accessingMethods ];
 				tags: [ :each | 
 					{each glmCategory name.
