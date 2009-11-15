@@ -17,7 +17,8 @@ Class {
 		'dynamicActionsBlock',
 		'updateAnnouncementsToBlocks',
 		'color',
-		'customValidation'
+		'customValidation',
+		'shouldValidate'
 	],
 	#category : #'Glamour-Core'
 }
@@ -86,7 +87,8 @@ GLMPresentation >> customValidation [
 
 { #category : #accessing }
 GLMPresentation >> customValidation: aBlock [
-	customValidation := aBlock
+	customValidation := aBlock.
+	shouldValidate := true.
 ]
 
 { #category : #validation }
@@ -98,6 +100,16 @@ GLMPresentation >> defaultValidate: anObject on: aPort [
 { #category : #accessing }
 GLMPresentation >> displayValue [
 	^ self transformation glamourValue: self entity
+]
+
+{ #category : #validation }
+GLMPresentation >> doValidate: anObject on: aPort [ 
+	^ self customValidation isNil ifFalse: [ 
+		self customValidation glamourValue: (
+			anObject asGlamorousMultiValue,
+			aPort name asGlamorousMultiValue, 
+			self entity asGlamorousMultiValue) ]
+	ifTrue: [ self defaultValidate: anObject on: aPort ]
 ]
 
 { #category : #accessing }
@@ -220,6 +232,16 @@ GLMPresentation >> selectionTransformation: anObject [
 ]
 
 { #category : #accessing }
+GLMPresentation >> shouldValidate [
+	^ shouldValidate ifNil: [shouldValidate := false]
+]
+
+{ #category : #accessing }
+GLMPresentation >> shouldValidate: aBoolean [
+	shouldValidate := aBoolean 
+]
+
+{ #category : #accessing }
 GLMPresentation >> title [ 
 	 
 	^title ifNil: [title := #glamourString]
@@ -309,13 +331,8 @@ GLMPresentation >> usesImplicitNotNil [
 
 { #category : #validation }
 GLMPresentation >> validate: anObject on: aPort [ 
-	"by default any object is allowed in any port"
-	^ self customValidation isNil ifFalse: [ 
-		self customValidation glamourValue: (
-			anObject asGlamorousMultiValue,
-			aPort name asGlamorousMultiValue, 
-			self entity asGlamorousMultiValue) ]
-	ifTrue: [ self defaultValidate: anObject on: aPort ]
+	self shouldValidate ifFalse: [ ^ true ].
+	^ self doValidate: anObject on: aPort.
 ]
 
 { #category : #announcements }
