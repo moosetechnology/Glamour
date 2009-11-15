@@ -114,7 +114,7 @@ GLMSmalltalkExamples >> metacelloBrowser [
 	browser showOn: #versions; from: #configs; using: [
 		browser list
 			display: [:config | config project versions ];
-			format: #versionNumber;
+			format: [:each | each versionNumber asString ];
 			act: [:list  | list selection inspect] entitled: 'Inspect'.
 			 ].
 	browser showOn: #packages; from: #versions; using: [
