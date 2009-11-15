@@ -13,12 +13,39 @@ GLMListPresentationTest >> testChildren [
 	tree entity: 42.
 ]
 
+{ #category : #tests }
+GLMListPresentationTest >> testCustomValidateOn [
+	| pane port presentation |
+
+	pane := GLMPane named: 'test'.
+	presentation := GLMListPresentation new.
+	pane addPresentation: presentation.
+	presentation entity: (OrderedCollection with: 1 with: 2).
+	self assert: (presentation validate: 1 on: (pane port: #selection)).
+	self assert: (presentation validate: 2 on: (pane port: #selection)).
+	self deny: (presentation validate: 5 on: (pane port: #selection))
+]
+
+{ #category : #tests }
+GLMListPresentationTest >> testCustomValidation [
+	| pane port presentation |
+
+	pane := GLMPane named: 'test'.
+	presentation := GLMListPresentation new.
+	pane addPresentation: presentation.
+	presentation customValidation: [ :object :aport :entity | 
+		aport ~= #selection or: [object = (entity last + 40)] ].
+	presentation entity: (OrderedCollection with: 1 with: 2).
+	self assert: presentation entity last = 2.
+	self assert: (presentation validate: 42 on: (pane port: #selection))
+]
+
 { #category : #'as yet unclassified' }
 GLMListPresentationTest >> testToSend [
 	| list |
 	list := GLMListPresentation new.
 	list selectionTransformation: [ :x | x + 1 ].
-	list entity: #(1 #to: 41 ).
+	list entity: ( 1 to: 100 ).
 	list selection: 41.
 	self assert: list selection = 42
 ]
@@ -33,7 +60,7 @@ GLMListPresentationTest >> testValidateOn [
 	presentation entity: (OrderedCollection with: 1 with: 2).
 	self assert: (presentation validate: 1 on: (pane port: #selection)).
 	self assert: (presentation validate: 2 on: (pane port: #selection)).
-	self deny: (presentation validate: 5 on: (pane port: #selection))
+	self deny: (presentation validate: 5 on: (pane port: #selection)).
 ]
 
 { #category : #tests }
@@ -43,7 +70,7 @@ GLMListPresentationTest >> testValidatePorts [
 	pane := GLMPane named: 'test'.
 	presentation := GLMListPresentation new.
 	pane addPresentation: presentation.
-	presentation entity: (OrderedCollection with: 1 with: 2).
+	presentation entity: #(1 2).
 	presentation selection: 2.
 	self assert: presentation selection = 2.
 	presentation selection: 3."this should be invalid"

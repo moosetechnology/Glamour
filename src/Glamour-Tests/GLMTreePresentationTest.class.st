@@ -5,14 +5,32 @@ Class {
 }
 
 { #category : #tests }
-GLMTreePresentationTest >> testValidate [
+GLMTreePresentationTest >> testValidateOn [
 	 
 	| pane port presentation| 
 	pane := GLMPane named: 'test'. 
 	presentation := GLMTreePresentation new.
 	pane addPresentation: presentation.
-	presentation entity: (OrderedCollection with: 1 with: 2).
-	self assert: (presentation validate: 1 on: (pane port: #selection)).
-	self assert: (presentation validate: 2 on: (pane port: #selection)).
-	self deny: (presentation validate: 5 on: (pane port: #selection))
+	presentation entity: #(($a $b $c $d) ($e $f) ($g)).
+	presentation children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new]].
+	self assert: (presentation validate: #($e $f) on: (pane port: #selection)).
+	self assert: (presentation validate: $a on: (pane port: #selection)).
+	self deny: (presentation validate: $h on: (pane port: #selection))
+]
+
+{ #category : #tests }
+GLMTreePresentationTest >> testValidatePorts [
+	 
+	| pane port presentation| 
+	pane := GLMPane named: 'test'.
+	presentation := GLMTreePresentation new.
+	pane addPresentation: presentation.
+	presentation entity: #(($a $b $c $d) ($e $f) ($g)).
+	presentation children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new]].
+	presentation selection: #($e $f).
+	self assert: presentation selection = #($e $f).
+	presentation selection: $a.
+	self assert: presentation selection = $a.
+	presentation selection: 'wrongSelection'."this should be invalid"
+	self assert: presentation selection = $a
 ]
