@@ -333,15 +333,7 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 	| treeMorph treeModel search container amountFilteringButton |
 	treeModel := GLMTreeMorphModel new glamourPresentation: aTreePresentation.
 	container := GLMMorphic emptyMorph.
-	treeMorph := MorphTreeMorph new 
-		on: treeModel
-		list: #roots
-		multiSelection: aTreePresentation isMultiple
-		columns: { 
-				(MorphTreeColumn new
-					startWidth: 200;
-					rowMorphGetSelector: #elementColumn)
-			 }.
+	treeMorph := MorphTreeMorph new .
 	treeMorph
 		makeLastColumnUnbounded;
 		getMenuSelector: #menu:shifted:;
@@ -353,6 +345,15 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 		vResizing: #spaceFill;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		yourself.
+	treeMorph
+		on: treeModel
+		list: #roots
+		multiSelection: aTreePresentation isMultiple
+		columns: { 
+				(MorphTreeColumn new
+					startWidth: 200;
+					rowMorphGetSelector: #elementColumn)
+			 }.
 	aTreePresentation allowsInput ifTrue: 
 		[ search := self theme 
 			newTextEntryIn: nil
