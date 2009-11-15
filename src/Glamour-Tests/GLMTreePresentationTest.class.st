@@ -1,18 +1,24 @@
 Class {
 	#name : #GLMTreePresentationTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'pane',
+		'presentation'
+	],
 	#category : #'Glamour-Tests'
 }
 
 { #category : #tests }
-GLMTreePresentationTest >> testValidateOn [
-	 
-	| pane port presentation| 
-	pane := GLMPane named: 'test'. 
+GLMTreePresentationTest >> setUp [
+	pane := GLMPane named: 'test'.
 	presentation := GLMTreePresentation new.
 	pane addPresentation: presentation.
 	presentation entity: #(($a $b $c $d) ($e $f) ($g)).
 	presentation children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new]].
+]
+
+{ #category : #tests }
+GLMTreePresentationTest >> testValidateOn [
 	self assert: (presentation validate: #($e $f) on: (pane port: #selection)).
 	self assert: (presentation validate: $a on: (pane port: #selection)).
 	self deny: (presentation validate: $h on: (pane port: #selection))
@@ -20,13 +26,6 @@ GLMTreePresentationTest >> testValidateOn [
 
 { #category : #tests }
 GLMTreePresentationTest >> testValidatePorts [
-	 
-	| pane port presentation| 
-	pane := GLMPane named: 'test'.
-	presentation := GLMTreePresentation new.
-	pane addPresentation: presentation.
-	presentation entity: #(($a $b $c $d) ($e $f) ($g)).
-	presentation children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new]].
 	presentation selection: #($e $f).
 	self assert: presentation selection = #($e $f).
 	presentation selection: $a.
