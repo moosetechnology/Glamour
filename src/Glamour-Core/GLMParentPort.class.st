@@ -58,7 +58,7 @@ GLMParentPort >> value [
 ]
 
 { #category : #accessing }
-GLMParentPort >> value: anObject [ 
-	 
+GLMParentPort >> value: anObject [
+	(self validate: anObject) ifFalse: [^ self].
 	self port value: anObject
 ]

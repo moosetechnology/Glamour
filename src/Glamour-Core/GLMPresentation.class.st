@@ -16,7 +16,8 @@ Class {
 		'postTransformation',
 		'dynamicActionsBlock',
 		'updateAnnouncementsToBlocks',
-		'color'
+		'color',
+		'customValidation'
 	],
 	#category : #'Glamour-Core'
 }
@@ -76,6 +77,22 @@ GLMPresentation >> condition [
 GLMPresentation >> condition: anObject [ 
 	 
 	condition := anObject
+]
+
+{ #category : #accessing }
+GLMPresentation >> customValidation [
+	^ customValidation
+]
+
+{ #category : #accessing }
+GLMPresentation >> customValidation: aBlock [
+	customValidation := aBlock
+]
+
+{ #category : #validation }
+GLMPresentation >> defaultValidate: anObject on: aPort [ 
+	"by default any object is allowed in any port"
+	^ true
 ]
 
 { #category : #accessing }
@@ -193,7 +210,7 @@ GLMPresentation >> selection [
 
 { #category : #'accessing ports' }
 GLMPresentation >> selection: anObject [ 
-	 
+	self flag: 'perhaps it would be better to provide 2 ports: a transformed one and a normal one'.
 	(self pane port: #selection) value: (self postTransformation glamourValue: anObject)
 ]
 
@@ -292,7 +309,13 @@ GLMPresentation >> usesImplicitNotNil [
 
 { #category : #validation }
 GLMPresentation >> validate: anObject on: aPort [ 
-	^true
+	"by default any object is allowed in any port"
+	^ self customValidation isNil ifFalse: [ 
+		self customValidation glamourValue: (
+			anObject asGlamorousMultiValue,
+			aPort name asGlamorousMultiValue, 
+			self entity asGlamorousMultiValue) ]
+	ifTrue: [ self defaultValidate: anObject on: aPort ]
 ]
 
 { #category : #announcements }

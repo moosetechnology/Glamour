@@ -78,8 +78,8 @@ GLMPanePort >> value [
 ]
 
 { #category : #accessing }
-GLMPanePort >> value: anObject [  
-	
+GLMPanePort >> value: anObject [ 
+	(self validate: anObject) ifFalse: [^ self].
 	self changeValueTo: anObject in: OrderedCollection new.
 ]
 
