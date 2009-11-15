@@ -130,7 +130,7 @@ GLMBasicExamples >> multipleFinderWithFilter [
 { #category : #'searching and filtering' }
 GLMBasicExamples >> multipleFinderWithFilterAndSearch [
 	<glmBrowser: 'Multiple List with Menu and Search' input: '$a to: $z'>
-	"self new multipleFinderWithSearch openOn: (1 to: 100)"
+	"self new multipleFinderWithFilterAndSearch openOn: (1 to: 100)"
 
 	| finder |	
 	finder := GLMFinder new.
@@ -333,7 +333,7 @@ GLMBasicExamples >> treeWithAmountFiltering [
 	browser showOn: #one; using: [
 		browser tree
 			tags: [:each | {each even printString} ];
-			showOnly: 10].
+			showOnly: 50].
 	^ browser 
 ]
 
