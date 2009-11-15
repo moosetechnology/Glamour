@@ -333,7 +333,7 @@ GLMBasicExamples >> treeWithAmountFiltering [
 	browser showOn: #one; using: [
 		browser tree
 			tags: [:each | {each even printString} ];
-			showOnly: 20].
+			showOnly: 10].
 	^ browser 
 ]
 
