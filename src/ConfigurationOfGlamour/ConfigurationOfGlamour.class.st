@@ -75,7 +75,7 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Scripting' ;
 			package: 'Glamour-Tests' ;
 			package: 'Morphic-MorphTreeWidget' with: [spec repository: 'http://www.squeaksource.com/Momo'];
-			package: 'Glamour-Morphic' with: [spec requires: #('Morphic-MorphTreeWidget')];
+			package: 'Glamour-Morphic'" with: [spec requires: #('Morphic-MorphTreeWidget')]";
 			package: 'Glamour-Test-Morphic' ;
 			package: 'Glamour-Examples'.
 		spec group: 'Tests' with: #(
