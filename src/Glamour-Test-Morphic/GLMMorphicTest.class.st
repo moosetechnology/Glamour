@@ -7,7 +7,7 @@ Class {
 { #category : #'as yet unclassified' }
 GLMMorphicTest >> repeatAssert: aBlock equals: aResult [
 
-	self assert: (self wait: 2 until: aBlock evaluatesTo: aResult)
+	self assert: (self wait: 1 until: aBlock evaluatesTo: aResult)
 ]
 
 { #category : #'as yet unclassified' }
@@ -33,6 +33,19 @@ GLMMorphicTest >> testChildrenBlockTakesEntity [
 		children: [:each :entity | receivedEntity := entity. #()].
 	window := browser openOn: ($a to: $d).
 	self repeatAssert: [receivedEntity] equals: ($a to: $d).
+	window delete
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphicTest >> testColumnBlockTakesEntity [
+
+	| browser receivedEntity window |
+	browser := GLMFinder new.
+	receivedEntity := nil.
+	browser table
+		column: 'Even' evaluated: [:each :entity | receivedEntity := entity. 'x'].
+	window := browser openOn: (1 to: 5).
+	self repeatAssert: [receivedEntity] equals: (1 to: 5).
 	window delete
 ]
 
