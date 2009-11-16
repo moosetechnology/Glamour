@@ -203,9 +203,11 @@ GLMBasicExamples >> simpleTable [
 	| finder |	
 	finder := GLMFinder new.
 	finder table
+			title: 'Number';
 			display: [ :x | 1 to: x ]; 
 			actions: [ :list | self actionsFor: list ];
-			column: 'Even' evaluated: [ :each | each even asString ].
+			column: 'Even' evaluated: [ :each | each even asString ];
+			column: 'Odd' evaluated: [ :each | each odd asString ].
 	^ finder
 ]
 
