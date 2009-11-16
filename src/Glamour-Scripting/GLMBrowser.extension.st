@@ -98,6 +98,11 @@ GLMBrowser >> startOn: anObject [
 
 { #category : #'*glamour-scripting-presentations' }
 GLMBrowser >> table [
+	^ self custom: GLMTablePresentation new
+]
+
+{ #category : #'*glamour-scripting-presentations' }
+GLMBrowser >> tabulator [
 	^ self custom: GLMTableLayoutBrowser new
 ]
 
