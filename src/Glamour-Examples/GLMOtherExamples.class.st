@@ -12,7 +12,7 @@ GLMOtherExamples >> fileExplorer [
 	<glmBrowser: 'File Explorer' input: 'FileDirectory default'>
 	"self new fileExplorer openOn: FileDirectory default"
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser 
 		column: #folders;
 		column: [ :col | col row: #files span: 2; row: #preview ] span: 2. 
@@ -79,7 +79,7 @@ GLMOtherExamples >> pierTreeEditor [
 	"
 
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: #navigation; column: #editor span: 4.
 	browser showOn: #navigation; using: [
 		browser tree

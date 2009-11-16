@@ -25,7 +25,7 @@ GLMCodeBrowser >> browser [
 
 { #category : #building }
 GLMCodeBrowser >> buildBrowser [
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser title: 'Glamorous ST Browser'.
 	self layout.
 	self onPackages.

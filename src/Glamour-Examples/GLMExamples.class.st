@@ -11,7 +11,7 @@ GLMExamples class >> browseExamples [
 	pragmas := Pragma 
 		allNamed: #glmBrowser:input:
 		in: self.
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser title: self name asString.
 	browser column: #titles; column: #example span: 4.
 	browser showOn: #titles; using: [

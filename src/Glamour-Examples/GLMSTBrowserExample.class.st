@@ -12,7 +12,7 @@ GLMSTBrowserExample >> browser [
 
 	| browser |
 
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser row: [ :row | 
 		row 
 			column: #category;

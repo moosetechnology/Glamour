@@ -11,7 +11,7 @@ Class {
 GLMSmalltalkExamples >> diffBrowser [
 	"self new diffBrowser openOn: (Collection withAllSubclasses asOrderedCollection sortBy: [:a :b | a name < b name])"
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser title: 'Glamorous Diff Browser'.
 	browser
 		row: [:r | r column: #left; column: #right ];
@@ -42,7 +42,7 @@ GLMSmalltalkExamples >> implementorsChasingBrowser [
 		children: [ :each | 
 			(each isKindOf: MethodReference) ifTrue: [each compiledMethod messages] ifFalse: [OrderedCollection new]];
 		whenKindOf: String.
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser title: [:each | 'Implementors of ', each].
 	browser row: #finder; row: #details.
 	browser showOn: #finder; using: [browser custom: finder].
@@ -65,7 +65,7 @@ GLMSmalltalkExamples >> messageTallyFinder [
 		title: 'Messages';
 		display: [:each | each sonsOver: -1];
 		format: [:each | each printString, ' (', each tally printString, ')'].
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser row: #messages; row: #source.
 	browser showOn: #messages; using: [browser custom: finder].
 	browser showOn: #source; from: #messages; using: [
@@ -86,7 +86,7 @@ GLMSmalltalkExamples >> messageTallyTree [
 	"self new messageTallyTree openOn: (MessageTally new spyEvery: 1 on: [10000 timesRepeat: [1.23 printString]]; yourself)"
 
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: #messages; column: #details.
 	browser showOn: #messages; using: [
 		browser tree
@@ -104,7 +104,7 @@ GLMSmalltalkExamples >> metacelloBrowser [
 	"self new metacelloBrowser openOn: ((Object subclasses select: [:each | each isMetacelloConfig ]) sort: [:a :b | a name < b name])"
 	| browser all |
 
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser title: 'Metacello Browser'.
 	browser column: #configs; column: #versions; column: #packages span: 2.
 	browser showOn: #configs; using: [
@@ -137,7 +137,7 @@ GLMSmalltalkExamples >> objectFinder [
 		self new objectFinder openOn: #(1 2 3 4)
 	"
 	| browser insideBrowser |
-	insideBrowser := GLMTableLayoutBrowser new.
+	insideBrowser := GLMTabulator new.
 	browser := GLMFinder new.
 	browser custom: insideBrowser.
 	insideBrowser
@@ -240,7 +240,7 @@ GLMSmalltalkExamples >> stClassicBrowser [
 	<glmBrowser: 'Classic Code Browser' input: 'Smalltalk organization categories'>
 	"self new stClassicBrowser openOn: Smalltalk organization categories."
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser
 		row: #navigation;
 		row: #sourceCode.
@@ -276,7 +276,7 @@ GLMSmalltalkExamples >> stClassicBrowser [
 GLMSmalltalkExamples >> stClassicNavigator [
 	"self new stClassicNavigator openOn: Smalltalk organization categories."
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser
 		column: #classCats;
 		column: #classes;
@@ -336,7 +336,7 @@ GLMSmalltalkExamples >> stMultiPanedBrowser [
 	<glmBrowser: 'Multi-paned Code Browser' input: 'GLMSTClassCategory all'>
 	"self new stMultiPanedBrowser openOn: GLMSTClassCategory all"
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser title: 'Glamorous Smallalk Browser'.
 	browser
 		column: #navigation;
@@ -370,7 +370,7 @@ GLMSmalltalkExamples >> stMutiPanedNavigator [
 		self new stMutiPanedNavigator openOn: GLMSTClassCategory all
 	"
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser
 		column: #classCats;
 		column: 
@@ -458,7 +458,7 @@ GLMSmalltalkExamples >> stMutiPanedNavigator [
 { #category : #code }
 GLMSmalltalkExamples >> threePaneNavigator [	
 	| classBrowser |
-	classBrowser := GLMTableLayoutBrowser new.
+	classBrowser := GLMTabulator new.
 	classBrowser column: #classes; column: #methods.
 	classBrowser showOn: #classes; using: [classBrowser list].
 	classBrowser showOn: #methods; from: #classes; using: [
@@ -485,7 +485,7 @@ GLMSmalltalkExamples >> traitsBrowser [
 		title: 'Traits';
 		when: [:anObject | (anObject isKindOf: Class) or: [anObject isKindOf: Trait]];
 		display: [:anObject | anObject traitComposition traits ].
-	codeBrowser := GLMTableLayoutBrowser new.
+	codeBrowser := GLMTabulator new.
 	codeBrowser row: [:r | r column: #classes; column: #internals]; row: #details.
 	codeBrowser showOn: #classes; using: [codeBrowser list].
 	codeBrowser showOn: #internals; from: #classes; using: [codeBrowser custom: browser].

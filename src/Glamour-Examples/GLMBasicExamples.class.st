@@ -38,7 +38,7 @@ GLMBasicExamples >> browserWithToolbar [
 GLMBasicExamples >> fixSizePanes [
 	"self new fixSizePanes openOn: 1"
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: #fix size: 10; column: #variable.
 	browser showOn: #fix; using: [browser text display: 'Fix size'].
 	browser showOn: #variable; using: [browser text display: 'Variable size'].
@@ -51,7 +51,7 @@ GLMBasicExamples >> interdependentPanes [
 	"self new interdependentPanes openOn: 5"
 	|browser |
 
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser list
@@ -69,7 +69,7 @@ GLMBasicExamples >> interdependentPanes [
 GLMBasicExamples >> listsWithUpdatedSelection [
 	"self new listsWithUpdatedSelection openOn: 10"
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: #one; column: #two; column: #three.
 	browser showOn: #one; using: [
 		browser tree
@@ -97,7 +97,7 @@ GLMBasicExamples >> multiInitialSelection [
 	"
 	|browser |
 
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser tree
@@ -174,7 +174,7 @@ GLMBasicExamples >> multipleTabs [
 GLMBasicExamples >> simpleActionList [
 	"self new simpleActionList openOn: #(1 2 3)"
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: #one.
 	browser showOn: #one; using: [
 		browser actionList
@@ -221,7 +221,7 @@ GLMBasicExamples >> singleInitialSelection [
 	"
 	|browser |
 
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser tree
@@ -238,7 +238,7 @@ GLMBasicExamples >> starBrowser [
 	"self new starBrowser openOn: { Boolean. String. #asString. #printString }"
 
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser title: 'StarBrowser Light'.
 	browser column: #tree; column: #browser span: 4.
 	browser showOn: #tree; using: [ browser list ].
@@ -286,7 +286,7 @@ GLMBasicExamples >> taggedTree [
 	"self new taggedTree openOn: #(1 2 3 4 5)"
 	|browser |
 
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser tree
@@ -306,7 +306,7 @@ GLMBasicExamples >> textPortsExamples [
 		self new textPortsExamples openOn: 'Type and select to see the results previewed.'
 	"
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser row: #main; row: [:r | r column: #selected; column: #full].
 	browser showOn: #main; using: [browser text].
 	browser showOn: #selected; from: #main->#selectedText; using: [browser text].
@@ -320,7 +320,7 @@ GLMBasicExamples >> threeInterdependentPanes [
 	"self new threeInterdependentPanes openOn: 5"
 	|browser |
 
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: #one; column: #two; column: #three.
 	browser showOn: #one; using: [
 		browser tree
@@ -342,7 +342,7 @@ GLMBasicExamples >> threeInterdependentPanes [
 GLMBasicExamples >> treeWithAmountFiltering [
 	"self new treeWithAmountFiltering openOn: (1 to: 1000)"
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: #one.
 	browser showOn: #one; using: [
 		browser tree
@@ -365,7 +365,7 @@ GLMBasicExamples >> treeWithInitialSelection [
 	"
 	|browser |
 
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: #one; column: [:c | c row: #two; row: #three].
 	browser showOn: #one; using: [
 		browser tree
@@ -385,7 +385,7 @@ GLMBasicExamples >> treeWithMenu [
 	"self new treeWithMenu openOn: #(($a $b $c $d) ($e $f) ($g $h $i $j $l))"
 	|browser |
 
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser tree
@@ -407,7 +407,7 @@ GLMBasicExamples >> updatableBrowser [
 	self new updatableBrowser openOn: collection.
 	collection inspect"
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: #test; column: #test2.
 	browser 
 		showOn: #test;
