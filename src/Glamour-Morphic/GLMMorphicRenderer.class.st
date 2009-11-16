@@ -178,7 +178,6 @@ GLMMorphicRenderer >> renderFinder: aBrowser [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderListPresentation: aListPresentation [ 
-	self flag: 'lists are now replaced by trees'.
 	^ self renderTreePresentation: aListPresentation
 ]
 
