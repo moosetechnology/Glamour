@@ -199,7 +199,7 @@ GLMBasicExamples >> simpleFinderWithMenu [
 
 { #category : #table }
 GLMBasicExamples >> simpleTable [
-	"self new simpleTable openOn: 100"
+	"self new simpleTable openOn: 1000"
 	| finder |	
 	finder := GLMFinder new.
 	finder table
