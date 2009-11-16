@@ -197,6 +197,18 @@ GLMBasicExamples >> simpleFinderWithMenu [
 	^ finder
 ]
 
+{ #category : #table }
+GLMBasicExamples >> simpleTable [
+	"self new simpleTable openOn: 100"
+	| finder |	
+	finder := GLMFinder new.
+	finder table
+			display: [ :x | 1 to: x ]; 
+			actions: [ :list | self actionsFor: list ];
+			column: 'Even' evaluated: [ :each | each even asString ].
+	^ finder
+]
+
 { #category : #'explicit selection' }
 GLMBasicExamples >> singleInitialSelection [
 	"
@@ -326,7 +338,7 @@ GLMBasicExamples >> threeInterdependentPanes [
 
 { #category : #others }
 GLMBasicExamples >> treeWithAmountFiltering [
-	"self new treeWithAmountFiltering openOn: (1 to: 100)"
+	"self new treeWithAmountFiltering openOn: (1 to: 1000)"
 	| browser |
 	browser := GLMTableLayoutBrowser new.
 	browser column: #one.
