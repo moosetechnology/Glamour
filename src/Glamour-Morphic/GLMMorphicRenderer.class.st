@@ -20,6 +20,21 @@ Class {
 }
 
 { #category : #private }
+GLMMorphicRenderer >> amountFilteringButtonFor: treeModel [
+	| amountFilteringButton |
+	amountFilteringButton := GLMMorphic 
+			togglingButtonLabelled: 'There are hidden elements'
+			pressed: false.
+	amountFilteringButton layoutFrame: (LayoutFrame 
+				fractions: (0 @ 0 corner: 1 @ 0)
+				offsets: (0 @ 0 corner: 0 @ 24)).
+	amountFilteringButton
+			target: treeModel;
+			actionSelector: #toggleAmountToFilterBy.
+	^ amountFilteringButton
+]
+
+{ #category : #private }
 GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPresentation [	 
 	aMorphicModel when: GLMMenuItemSelected do: [ :ann | ann action actOn: aPresentation ].
 	aMorphicModel when: GLMKeyStroke do: [ :ann | ann action actOn: aPresentation ].
@@ -284,6 +299,11 @@ GLMMorphicRenderer >> renderTableLayoutBrowser: aBrowser [
 ]
 
 { #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderTablePresentation: aPresentation [ 
+	^ self renderTreePresentation: aPresentation
+]
+
+{ #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [ 
 	| textMorph toShow textModel | 
 	toShow := aTextPresentation formatedDisplayValue. 
@@ -329,10 +349,61 @@ GLMMorphicRenderer >> renderToolbarForBrowser: aBrowser inWindow: aWin [
 ]
 
 { #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [ 
-	| treeMorph treeModel search container amountFilteringButton |
-	treeModel := GLMTreeMorphModel new glamourPresentation: aTreePresentation.
+GLMMorphicRenderer >> renderTreePresentation: aPresentation [ 
+	| treeMorph treeModel textInput container amountFilteringButton |
+	treeModel := GLMTreeMorphModel new glamourPresentation: aPresentation.
 	container := GLMMorphic emptyMorph.
+	treeMorph := self treeMorphFor: treeModel and: aPresentation.
+	aPresentation allowsInput ifTrue: [
+		textInput := self textInputFor: treeModel.
+		treeMorph layoutFrame bottomOffset: -24.
+		container addMorphBack: textInput ].
+	aPresentation limitsAmount ifTrue: [
+		amountFilteringButton := self amountFilteringButtonFor: treeModel.
+		treeMorph layoutFrame topOffset: 24.
+		container addMorphBack: amountFilteringButton ].
+	container addMorphBack: treeMorph.
+	self installActionsOnUI: treeModel fromPresentation: aPresentation.
+	treeModel onSelection: [ :selection | 
+		aPresentation selection: selection.
+		aPresentation selectionPath: (treeModel selectionPath collect: [ :each | each item ]) ].
+	aPresentation when: GLMContextChanged do: [ :ann | 
+		ann property = #selection ifTrue: [ treeModel explicitSelection: ann value ] ].
+	^ container
+]
+
+{ #category : #opening }
+GLMMorphicRenderer >> simulate: aRenderable [
+	^ ( self windowFor: aRenderable ) 
+		newBounds: (0@0 extent: 800@600);
+		layoutChanged
+]
+
+{ #category : #private }
+GLMMorphicRenderer >> textInputFor: treeModel [
+	| textInput |
+	textInput := self theme 
+			newTextEntryIn: nil
+			for: treeModel
+			get: #inputText
+			set: #inputText:
+			class: String
+			getEnabled: #inputTextEnabled
+			help: 'Search Input'.
+	textInput layoutFrame: (LayoutFrame 
+				fractions: (0 @ 1 corner: 1 @ 1)
+				offsets: (0 @ -24 corner: 0 @ 0)).
+	^ textInput
+]
+
+{ #category : #factory }
+GLMMorphicRenderer >> theme [
+	^ UITheme current
+]
+
+{ #category : #private }
+GLMMorphicRenderer >> treeMorphFor: treeModel and: aPresentation [
+	| treeMorph columns |
 	treeMorph := LazyMorphTreeMorph new.
 	treeMorph
 		makeLastColumnUnbounded;
@@ -345,68 +416,23 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 		vResizing: #spaceFill;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		yourself.
+	columns := OrderedCollection with: (MorphTreeColumn new rowMorphGetSelector: #elementColumn).
+	self flag: 'Please refactor this part'.
+	aPresentation columns notEmpty ifTrue: [
+		columns last headerButtonLabel: aPresentation title font: Preferences standardMenuFont target: nil actionSelector: nil arguments: #()].
+
+	aPresentation columns do: [:each | 
+		columns add: (GLMMorphTreeColumn new 
+			glamourColumn: each; 
+			headerButtonLabel: each title font: Preferences standardMenuFont target: nil actionSelector: nil arguments: #(); 
+			yourself)].
 	treeMorph
 		on: treeModel
 		list: #roots
-		multiSelection: aTreePresentation isMultiple
-		columns: { 
-				(MorphTreeColumn new
-					startWidth: 200;
-					rowMorphGetSelector: #elementColumn)
-			 }.
-	aTreePresentation allowsInput ifTrue: 
-		[ search := self theme 
-			newTextEntryIn: nil
-			for: treeModel
-			get: #inputText
-			set: #inputText:
-			class: String
-			getEnabled: #inputTextEnabled
-			help: 'Search Input'.
-		search layoutFrame: (LayoutFrame 
-				fractions: (0 @ 1 corner: 1 @ 1)
-				offsets: (0 @ -24 corner: 0 @ 0)).
-		treeMorph layoutFrame bottomOffset: -24.
-		container addMorphBack: search ].
-	aTreePresentation limitsAmount ifTrue: 
-		[ amountFilteringButton := GLMMorphic 
-			togglingButtonLabelled: 'There are hidden elements'
-			pressed: false.
-		amountFilteringButton layoutFrame: (LayoutFrame 
-				fractions: (0 @ 0 corner: 1 @ 0)
-				offsets: (0 @ 0 corner: 0 @ 24)).
-		amountFilteringButton
-			target: treeModel;
-			actionSelector: #toggleAmountToFilterBy.
-		treeMorph layoutFrame topOffset: 24.
-		container addMorphBack: amountFilteringButton ].
-	container addMorphBack: treeMorph.
-	self 
-		installActionsOnUI: treeModel
-		fromPresentation: aTreePresentation.
-	treeModel onSelection: 
-		[ :selection | 
-		aTreePresentation selection: selection.
-		aTreePresentation selectionPath: (treeModel selectionPath collect: [ :each | each item ]) ].
+		multiSelection: aPresentation isMultiple
+		columns: columns.
 	treeMorph vShowScrollBar.
-	aTreePresentation 
-		when: GLMContextChanged
-		do: 
-			[ :ann | 
-			ann property = #selection ifTrue: [ treeModel explicitSelection: ann value ] ].
-	^ container
-]
-
-{ #category : #opening }
-GLMMorphicRenderer >> simulate: aRenderable [
-	^ ( self windowFor: aRenderable ) 
-		newBounds: (0@0 extent: 800@600);
-		layoutChanged
-]
-
-{ #category : #factory }
-GLMMorphicRenderer >> theme [
-	^ UITheme current
+	^ treeMorph
 ]
 
 { #category : #opening }

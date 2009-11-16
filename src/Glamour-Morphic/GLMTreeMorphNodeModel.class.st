@@ -144,6 +144,14 @@ GLMTreeMorphNodeModel >> printOn: aStream [
 ]
 
 { #category : #callbacks }
+GLMTreeMorphNodeModel >> rowMorphForColumn: aGlamourColumn [
+	self flag: 'delegate to presentation for glamour value'.
+	^ (UITheme current
+		newTextIn: World
+		text: (aGlamourColumn computation value: self item)) unlock; wrapFlag: true; yourself
+]
+
+{ #category : #callbacks }
 GLMTreeMorphNodeModel >> rowMorphListFor: aContainer [ 
 	| row |
 	self flag: 'deprecated'.
