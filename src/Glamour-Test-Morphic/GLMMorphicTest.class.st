@@ -7,7 +7,7 @@ Class {
 { #category : #'as yet unclassified' }
 GLMMorphicTest >> repeatAssert: aBlock equals: aResult [
 
-	self assert: (self wait: 1 until: aBlock evaluatesTo: aResult)
+	self assert: (self wait: 2 until: aBlock evaluatesTo: aResult)
 ]
 
 { #category : #'as yet unclassified' }
@@ -56,7 +56,7 @@ GLMMorphicTest >> testSpawnTableLayoutBrowser [
 		window submorphs last 
 					submorphs last 
 						submorphs last 
-							submorphs last class] equals: MorphTreeMorph.
+							submorphs last class] equals: LazyMorphTreeMorph.
 	window delete
 ]
 
