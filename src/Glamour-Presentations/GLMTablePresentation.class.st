@@ -18,6 +18,11 @@ GLMTablePresentation >> column: aBlockOrString evaluated: aBlock [
 ]
 
 { #category : #'as yet unclassified' }
+GLMTablePresentation >> column: aGlamourColumn valueFor: anObject [
+	^ aGlamourColumn computation glamourValue: (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue)
+]
+
+{ #category : #'as yet unclassified' }
 GLMTablePresentation >> columns [
 	^ columns ifNil: [ columns := OrderedCollection new ]
 ]
