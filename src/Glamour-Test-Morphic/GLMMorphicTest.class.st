@@ -13,24 +13,26 @@ GLMMorphicTest >> repeatAssert: aBlock equals: aResult [
 { #category : #'as yet unclassified' }
 GLMMorphicTest >> testChildrenBlock [
 
-	| browser window check treeMorph mouseUp |
+	| browser window check treeMorph mouseUp treeNodeMorph |
 	browser := GLMFinder new.
 	check := false.
 	browser tree
 		children: [:each | check := true. #()].
 	window := browser openOn: ($a to: $d).
 	treeMorph := 	window submorphs last submorphs first submorphs first submorphs first submorphs first.
+	treeNodeMorph := treeMorph scroller submorphs first.
 	self assert: treeMorph class = LazyMorphTreeMorph.
 	mouseUp := MouseButtonEvent basicNew 
 		setType: #mouseUp
-		position: (treeMorph bounds origin + (1@1))
+		position: (treeNodeMorph bounds origin + (1@1))
 		which: 4
 		buttons: 7
-		hand: HandMorph new
-		stamp: Time millisecondClockValue.
-	treeMorph scroller submorphs first handleMouseUp: mouseUp.
+		hand: (HandMorph new mouseFocus: treeNodeMorph; yourself)
+		stamp: nil.
+	treeNodeMorph processEvent: mouseUp.
+	treeNodeMorph inspect.
 	self repeatAssert: [check] equals: true.
-	window delete
+"	window delete"
 ]
 
 { #category : #'as yet unclassified' }
