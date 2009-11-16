@@ -196,6 +196,7 @@ GLMTreeMorphModel >> roots: anObjectOrCollection [
 { #category : #callbacks }
 GLMTreeMorphModel >> selectItem: anObject [
 	(self selectedItem notNil and: [ self selectedItem item == anObject ]) ifTrue: [ ^ self ].
+	(self selectedItem isNil and: [ anObject isNil ]) ifTrue: [ ^ self ].
 	self roots do: [:eachRoot |
 		eachRoot withContentsDo: [:each |
 			each item = anObject ifTrue: [
@@ -241,6 +242,11 @@ GLMTreeMorphModel >> selectionPath: path selectionSet: set [
 			onSelection value: selectionValue ] ]
 	ifTrue: [
 		onSelection ifNotNil: [ onSelection value: nil ] ]	
+]
+
+{ #category : #accessing }
+GLMTreeMorphModel >> selectionPathItems [
+	^ selectionPath isNil ifTrue: [ nil ] ifFalse: [ selectionPath collect: [ :each | each item ] ]
 ]
 
 { #category : #'search and filtering' }

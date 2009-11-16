@@ -366,7 +366,7 @@ GLMMorphicRenderer >> renderTreePresentation: aPresentation [
 	self installActionsOnUI: treeModel fromPresentation: aPresentation.
 	treeModel onSelection: [ :selection | 
 		aPresentation selection: selection.
-		aPresentation selectionPath: (treeModel selectionPath collect: [ :each | each item ]) ].
+		aPresentation selectionPath: treeModel selectionPathItems ].
 	aPresentation when: GLMContextChanged do: [ :ann | 
 		ann property = #selection ifTrue: [ treeModel explicitSelection: ann value ] ].
 	^ container
