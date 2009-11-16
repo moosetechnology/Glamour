@@ -75,7 +75,7 @@ GLMMorphicTest >> testSpawnFinder [
 GLMMorphicTest >> testSpawnTableLayoutBrowser [
 
 	| browser window check |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	window := browser openOn: ($a to: $d).
 	self repeatAssert: [
 		window submorphs last 
