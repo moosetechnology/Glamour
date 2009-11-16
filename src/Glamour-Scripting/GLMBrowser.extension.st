@@ -103,7 +103,7 @@ GLMBrowser >> table [
 
 { #category : #'*glamour-scripting-presentations' }
 GLMBrowser >> tabulator [
-	^ self custom: GLMTableLayoutBrowser new
+	^ self custom: GLMTabulator new
 ]
 
 { #category : #'*glamour-scripting-presentations' }

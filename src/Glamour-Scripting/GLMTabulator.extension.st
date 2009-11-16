@@ -1,37 +1,37 @@
-Extension { #name : #GLMTableLayoutBrowser }
+Extension { #name : #GLMTabulator }
 
 { #category : #'*Glamour-Scripting' }
-GLMTableLayoutBrowser >> column: aBlockOrSymbol [ 
+GLMTabulator >> column: aBlockOrSymbol [ 
 	 
 	^self addColumn: aBlockOrSymbol
 ]
 
 { #category : #'*Glamour-Scripting' }
-GLMTableLayoutBrowser >> column: aBlockOrSymbol size: anInteger [ 
+GLMTabulator >> column: aBlockOrSymbol size: anInteger [ 
 	 
 	^self addColumn: aBlockOrSymbol size: anInteger
 ]
 
 { #category : #'*Glamour-Scripting' }
-GLMTableLayoutBrowser >> column: aBlockOrSymbol span: anInteger [ 
+GLMTabulator >> column: aBlockOrSymbol span: anInteger [ 
 	 
 	^self addColumn: aBlockOrSymbol span: anInteger
 ]
 
 { #category : #'*Glamour-Scripting' }
-GLMTableLayoutBrowser >> row: aBlockOrSymbol [ 
+GLMTabulator >> row: aBlockOrSymbol [ 
 	 
 	^self addRow: aBlockOrSymbol
 ]
 
 { #category : #'*Glamour-Scripting' }
-GLMTableLayoutBrowser >> row: aBlockOrSymbol size: anInteger [ 
+GLMTabulator >> row: aBlockOrSymbol size: anInteger [ 
 	 
 	^self addRow: aBlockOrSymbol size: anInteger
 ]
 
 { #category : #'*Glamour-Scripting' }
-GLMTableLayoutBrowser >> row: aBlockOrSymbol span: anInteger [ 
+GLMTabulator >> row: aBlockOrSymbol span: anInteger [ 
 	 
 	^self addRow: aBlockOrSymbol span: anInteger
 ]

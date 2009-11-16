@@ -10,7 +10,7 @@ Class {
 { #category : #'as yet unclassified' }
 Glamorous class >> editor [
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser row: #browser; row: #source.
 	browser title: 'Glamorous Editor'.
 	browser showOn: #source; using: [
