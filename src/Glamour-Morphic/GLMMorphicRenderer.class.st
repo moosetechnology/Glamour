@@ -333,7 +333,7 @@ GLMMorphicRenderer >> renderTreePresentation: aTreePresentation [
 	| treeMorph treeModel search container amountFilteringButton |
 	treeModel := GLMTreeMorphModel new glamourPresentation: aTreePresentation.
 	container := GLMMorphic emptyMorph.
-	treeMorph := MorphTreeMorph new .
+	treeMorph := LazyMorphTreeMorph new.
 	treeMorph
 		makeLastColumnUnbounded;
 		getMenuSelector: #menu:shifted:;
