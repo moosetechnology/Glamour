@@ -33,7 +33,7 @@ GLMPortEventTest >> testInterdependentPanes [
 	|browser outerCount oneCount |
 	outerCount := 0.
 	oneCount := 0.
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: #one; column: #two; column: #three.
 	browser showOn: #one; using: [
 		browser list
@@ -59,7 +59,7 @@ GLMPortEventTest >> testInterdependentPanes [
 { #category : #testing }
 GLMPortEventTest >> testInterdependentPanes2 [
 	|browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: #one; column: #two; column: #three.
 	browser showOn: #one; using: [
 		browser list

@@ -24,7 +24,7 @@ GlamourousBenchmark >> actionsFor: aPresentation [
 { #category : #'as yet unclassified' }
 GlamourousBenchmark >> defaultBrowser [ 
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: #one; column: #two.
 
 	browser showOn: #one; using: [
