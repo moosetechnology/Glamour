@@ -14,7 +14,7 @@ ConfigurationOfGlamour class >> ensureMetacello [
 				url: 'http://seaside.gemstone.com/ss/metacello';
 				addPackage: 'ConfigurationOfMetacello';
 				load.
-		((Smalltalk at: #ConfigurationOfMetacello) project version: '1.0-beta.14') load ]
+		(Smalltalk at: #ConfigurationOfMetacello) loadLatestVersion ]
 ]
 
 { #category : #'metacello tool support' }
