@@ -4,13 +4,26 @@ Class {
 	#category : #'Glamour-Test-Morphic'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 GLMMorphicTest >> repeatAssert: aBlock equals: aResult [
 
-	self assert: (self wait: 1 until: aBlock evaluatesTo: aResult)
+	self assert: (self wait: 0.5 until: aBlock evaluatesTo: aResult)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
+GLMMorphicTest >> send: treeMorph mouseUpOnItem: treeNodeMorph [
+	| mouseUp |
+	mouseUp := MouseButtonEvent basicNew 
+		setType: #mouseUp
+		position: (treeNodeMorph bounds origin + (1@1))
+		which: 4
+		buttons: 7
+		hand: (HandMorph new mouseFocus: treeNodeMorph; yourself)
+		stamp: nil.
+	treeMorph mouseUp: mouseUp onItem: treeNodeMorph.
+]
+
+{ #category : #testing }
 GLMMorphicTest >> testChildrenBlock [
 
 	| browser window check treeMorph mouseUp treeNodeMorph |
@@ -19,23 +32,14 @@ GLMMorphicTest >> testChildrenBlock [
 	browser tree
 		children: [:each | check := true. #()].
 	window := browser openOn: ($a to: $d).
-	treeMorph := 	window submorphs last submorphs first submorphs first submorphs first submorphs first.
+	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
 	treeNodeMorph := treeMorph scroller submorphs first.
 	self assert: treeMorph class = LazyMorphTreeMorph.
-	mouseUp := MouseButtonEvent basicNew 
-		setType: #mouseUp
-		position: (treeNodeMorph bounds origin + (1@1))
-		which: 4
-		buttons: 7
-		hand: (HandMorph new mouseFocus: treeNodeMorph; yourself)
-		stamp: nil.
-	treeNodeMorph processEvent: mouseUp.
-	treeNodeMorph inspect.
-	self repeatAssert: [check] equals: true.
-"	window delete"
+	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	self repeatAssert: [check] equals: true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GLMMorphicTest >> testChildrenBlockTakesEntity [
 
 	| browser receivedEntity window |
@@ -48,7 +52,7 @@ GLMMorphicTest >> testChildrenBlockTakesEntity [
 	window delete
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GLMMorphicTest >> testColumnBlockTakesEntity [
 
 	| browser receivedEntity window |
@@ -61,7 +65,7 @@ GLMMorphicTest >> testColumnBlockTakesEntity [
 	window delete
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GLMMorphicTest >> testSpawnFinder [
 
 	| browser window check |
@@ -71,7 +75,7 @@ GLMMorphicTest >> testSpawnFinder [
 	window delete
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GLMMorphicTest >> testSpawnTableLayoutBrowser [
 
 	| browser window check |
@@ -85,7 +89,7 @@ GLMMorphicTest >> testSpawnTableLayoutBrowser [
 	window delete
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 GLMMorphicTest >> wait: maxWaitSeconds until: validateBlock evaluatesTo: expectedResult [
 	"Evaluate validateBlock until it returns expectedResult or 
 maxWaitSeconds have passed,
