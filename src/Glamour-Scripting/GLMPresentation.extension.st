@@ -76,6 +76,11 @@ GLMPresentation >> actions: aBlock [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMPresentation >> allowNil [
+	^ self useExplicitNotNil
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMPresentation >> display: aBlock [ 
 	 
 	self transformation: aBlock
