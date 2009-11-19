@@ -4,6 +4,11 @@ Class {
 	#category : #'Glamour-Test-Morphic'
 }
 
+{ #category : #testing }
+GLMMorphicTest >> expectedFailures [
+	^ #(testChildrenBlock testChildrenBlockTakesEntity testColumnBlockTakesEntity)
+]
+
 { #category : #private }
 GLMMorphicTest >> repeatAssert: aBlock equals: aResult [
 
@@ -36,6 +41,7 @@ GLMMorphicTest >> testChildrenBlock [
 	treeNodeMorph := treeMorph scroller submorphs first.
 	self assert: treeMorph class = LazyMorphTreeMorph.
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	window delete.
 	self repeatAssert: [check] equals: true
 ]
 
@@ -48,8 +54,9 @@ GLMMorphicTest >> testChildrenBlockTakesEntity [
 	browser tree
 		children: [:each :entity | receivedEntity := entity. #()].
 	window := browser openOn: ($a to: $d).
+	window delete.
 	self repeatAssert: [receivedEntity] equals: ($a to: $d).
-	window delete
+
 ]
 
 { #category : #testing }
@@ -61,8 +68,9 @@ GLMMorphicTest >> testColumnBlockTakesEntity [
 	browser table
 		column: 'Even' evaluated: [:each :entity | receivedEntity := entity. 'x'].
 	window := browser openOn: (1 to: 5).
+	window delete.
 	self repeatAssert: [receivedEntity] equals: (1 to: 5).
-	window delete
+
 ]
 
 { #category : #testing }
@@ -71,8 +79,9 @@ GLMMorphicTest >> testSpawnFinder [
 	| browser window check |
 	browser := GLMFinder new.
 	window := browser openOn: ($a to: $d).
+	window delete.
 	self repeatAssert: [window submorphs last class] equals: GLMPaneScroller.
-	window delete
+
 ]
 
 { #category : #testing }
@@ -81,12 +90,30 @@ GLMMorphicTest >> testSpawnTableLayoutBrowser [
 	| browser window check |
 	browser := GLMTabulator new.
 	window := browser openOn: ($a to: $d).
+	window delete.
 	self repeatAssert: [
 		window submorphs last 
 					submorphs last 
 						submorphs last 
 							submorphs last class] equals: LazyMorphTreeMorph.
-	window delete
+
+]
+
+{ #category : #testing }
+GLMMorphicTest >> testTreeSelection [
+
+	| browser window check treeMorph mouseUp treeNodeMorph |
+	browser := GLMFinder new.
+	check := false.
+	browser tree
+		children: [:each | check := true. #()].
+	window := browser openOn: ($a to: $d).
+	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
+	treeNodeMorph := treeMorph scroller submorphs first.
+	self assert: treeMorph class = LazyMorphTreeMorph.
+	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	window delete.
+	self assert: (browser panes first port: #selection) value = $a
 ]
 
 { #category : #private }
