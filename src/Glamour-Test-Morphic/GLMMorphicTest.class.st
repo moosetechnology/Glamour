@@ -17,12 +17,17 @@ GLMMorphicTest >> repeatAssert: aBlock equals: aResult [
 
 { #category : #private }
 GLMMorphicTest >> send: treeMorph mouseUpOnItem: treeNodeMorph [
+	^ self send: treeMorph mouseUpWithShift: false onItem: treeNodeMorph
+]
+
+{ #category : #private }
+GLMMorphicTest >> send: treeMorph mouseUpWithShift: aBoolean onItem: treeNodeMorph [
 	| mouseUp |
 	mouseUp := MouseButtonEvent basicNew 
 		setType: #mouseUp
 		position: (treeNodeMorph bounds origin + (1@1))
 		which: 4
-		buttons: 7
+		buttons: (aBoolean ifTrue: [8] ifFalse: [0])
 		hand: (HandMorph new mouseFocus: treeNodeMorph; yourself)
 		stamp: nil.
 	treeMorph mouseUp: mouseUp onItem: treeNodeMorph.
@@ -100,13 +105,28 @@ GLMMorphicTest >> testSpawnTableLayoutBrowser [
 ]
 
 { #category : #testing }
+GLMMorphicTest >> testTreeMultipleSelection [
+
+	| browser window treeMorph treeNodeMorph lastTreeNodeMorph |
+	browser := GLMFinder new.
+	browser tree beMultiple.
+	window := browser openOn: ($a to: $d).
+	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
+	treeNodeMorph := treeMorph scroller submorphs first.
+	lastTreeNodeMorph := treeMorph scroller submorphs last.
+	self assert: treeMorph class = LazyMorphTreeMorph.
+	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	self send: treeMorph mouseUpWithShift: true onItem: lastTreeNodeMorph.
+	window delete.
+	self assert: (browser panes first port: #selection) value asSet = ($a to: $d) asSet
+]
+
+{ #category : #testing }
 GLMMorphicTest >> testTreeSelection [
 
-	| browser window check treeMorph mouseUp treeNodeMorph |
+	| browser window treeMorph treeNodeMorph |
 	browser := GLMFinder new.
-	check := false.
-	browser tree
-		children: [:each | check := true. #()].
+	browser tree.
 	window := browser openOn: ($a to: $d).
 	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
 	treeNodeMorph := treeMorph scroller submorphs first.
