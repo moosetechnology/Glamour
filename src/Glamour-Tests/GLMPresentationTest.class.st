@@ -155,7 +155,7 @@ GLMPresentationTest >> testUpdateYourselfOnEntityUpdate [
 	announcer := Announcer new.
 	pane addPresentation: presentation.
 	presentation updateYourselfOn: TestAnnouncement from: [ announcer ].
-	presentation entity: col.
+	presentation entity: col copy.
 	presentation registerAnnouncements.
 	self assert: presentation entity = #(1 2) asOrderedCollection.
 	col add: 3.
