@@ -87,10 +87,6 @@ GLMExplicitBrowser >> using: aBlock [
 	 
 	aBlock value. 
 	scriptTransmission origins isEmpty ifTrue: [self from: #outer->#entity].
-"	scriptTransmission origins isEmpty 
-		ifTrue: [self addJumpstart: scriptTransmission] 
-		ifFalse: [self addTransmission: scriptTransmission]. 
-"	
 	self addTransmission: scriptTransmission.
 	scriptTransmission := nil
 ]
