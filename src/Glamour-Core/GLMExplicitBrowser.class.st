@@ -8,17 +8,10 @@ Class {
 		'panes',
 		'hiddenPane',
 		'transmissions',
-		'jumpstartTransmissions',
 		'scriptTransmission'
 	],
 	#category : #'Glamour-Core'
 }
-
-{ #category : #accessing }
-GLMExplicitBrowser >> addJumpstart: aTransmission [ 
-	 
-	self jumpstartTransmissions addLast: aTransmission
-]
 
 { #category : #accessing }
 GLMExplicitBrowser >> addNewPane [
@@ -53,25 +46,13 @@ GLMExplicitBrowser >> innerPortEvent: aPortEvent [
 				do: [:each | each transmitIn: aPortEvent transmissionContext ]]
 ]
 
-{ #category : #accessing }
-GLMExplicitBrowser >> jumpstartTransmissions [ 
-	 
-	^jumpstartTransmissions 
-		ifNil: [jumpstartTransmissions := OrderedCollection new]
-]
-
 { #category : #events }
 GLMExplicitBrowser >> outerPortEvent: aPortEvent [  
-	self flag: 'Hack for a jumpstart transmission (we should clean this up). In fact, we do not really need it'.
 	super outerPortEvent: aPortEvent.	
-	aPortEvent portName = #entity ifTrue: [
-		self jumpstartTransmissions do: [:each |  
-			each 
-				clearOrigins; 
-				addActiveOrigin: (self pane port: #entity); 
-				transmit]]. 
 	aPortEvent hasChanged ifTrue: [
-		(self transmissions select: [:each | (each originatesAt: aPortEvent port) and: [( aPortEvent transmissionContext includes: each destination) not ]]) 
+		(self transmissions select: [:each | 
+			(each originatesAt: aPortEvent port) and: [
+				( aPortEvent transmissionContext includes: each destination) not ]]) 
 			do: [:each | each transmitIn: aPortEvent transmissionContext ]]
 ]
 
