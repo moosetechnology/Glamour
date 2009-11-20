@@ -86,8 +86,11 @@ GLMExplicitBrowser >> using: aBlock [
 	the using: message takes a block as a parameter to specify the presentations that accompany the Transmission" 
 	 
 	aBlock value. 
-	scriptTransmission origins isEmpty 
+	scriptTransmission origins isEmpty ifTrue: [self from: #outer->#entity].
+"	scriptTransmission origins isEmpty 
 		ifTrue: [self addJumpstart: scriptTransmission] 
 		ifFalse: [self addTransmission: scriptTransmission]. 
+"	
+	self addTransmission: scriptTransmission.
 	scriptTransmission := nil
 ]

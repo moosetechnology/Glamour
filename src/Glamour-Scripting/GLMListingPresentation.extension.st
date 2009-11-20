@@ -27,11 +27,5 @@ GLMListingPresentation >> showOnly: aBlock [
 
 { #category : #'*Glamour-Scripting' }
 GLMListingPresentation >> tags: anObject [
-	tagsBlock := anObject.
-	self hasTagsFilter ifFalse:[ tagsFilterBlock := anObject ]
-]
-
-{ #category : #'*Glamour-Scripting' }
-GLMListingPresentation >> tagsFilter: anObject [
-	tagsFilterBlock := anObject 
+	tagsBlock := anObject
 ]
