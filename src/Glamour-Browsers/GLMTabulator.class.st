@@ -65,15 +65,14 @@ GLMTabulator >> cellOrRow [
 GLMTabulator >> initializeScriptingDefaults [ 
 	 
 	super initializeScriptingDefaults. 
-	self cell isNil ifTrue: [self addColumn: #pane]. 
-	self jumpstartTransmissions isEmpty 
-		ifTrue: 
-			[self 
-				addJumpstart: 
-					((GLMBundleTransmission new) 
-						destination: (self panes first port: #entity); 
-						addPresentation: GLMFlexiblePresentation new; 
-						yourself)]
+	self cell isNil ifTrue: [self addColumn: #pane].
+	self transmissions 
+		detect: [ :each | each origins includes: (self pane port: #entity) ]
+		ifNone: [
+			self 
+				showOn: (self panes first port: #entity);
+				from: #outer->#entity;
+				using: [ self custom: GLMFlexiblePresentation new ] ]
 ]
 
 { #category : #rendering }
