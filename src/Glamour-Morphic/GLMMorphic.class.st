@@ -1,8 +1,29 @@
 Class {
 	#name : #GLMMorphic,
 	#superclass : #Object,
+	#classInstVars : [
+		'styleButton'
+	],
 	#category : #'Glamour-Morphic'
 }
+
+{ #category : #'as yet unclassified' }
+GLMMorphic class >> alignmentMorph: aCollectionOfMorphs [
+	"Answer a row-oriented AlignmentMorph holding the given collection"
+	| morph |
+
+	morph:= AlignmentMorph new
+		listDirection: #leftToRight;
+		borderWidth: 0;
+		color: Color transparent;
+		vResizing: #shrinkWrap;
+		hResizing: #shrinkWrap;
+		layoutInset: 1;
+		wrapCentering: #center;
+		cellPositioning: #topCenter.
+	aCollectionOfMorphs do: [ :each | morph addMorphBack: each].
+	^morph
+]
 
 { #category : #'as yet unclassified' }
 GLMMorphic class >> emptyMorph [
@@ -16,29 +37,141 @@ GLMMorphic class >> emptyMorph [
 ]
 
 { #category : #'as yet unclassified' }
-GLMMorphic class >> togglingButtonLabelled: aString pressed: aBoolean [
+GLMMorphic class >> isAlignmentMorph: anObject [
+
+	^anObject isMemberOf: AlignmentMorph
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphic class >> isImageMorph: anObject [
+
+	^anObject isMemberOf: ImageMorph
+]
+
+{ #category : #'button styles' }
+GLMMorphic class >> isRectangledWhiteButton [
+
+	^self styleButton = #rectangledWhiteButton
+]
+
+{ #category : #'button styles' }
+GLMMorphic class >> isRoundedGrayButton [
+
+	^self styleButton = #roundedGrayButton
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphic class >> morphElement: anObject [
+
+	anObject isString
+	ifTrue:[ ^StringMorph 
+					contents: anObject 
+					font: (LogicalFont 
+						familyName: UITheme current buttonFont familyName
+						pointSize: UITheme current buttonFont pointSize - 2) ].
+	
+	anObject isCollection 
+	ifTrue: [ |row|
+				row:= OrderedCollection new.
+				anObject do: [ :e| row add: (self morphElement: e) ].
+				^self alignmentMorph: row ].
+				
+	anObject isForm
+	ifTrue:[ ^ImageMorph new newForm: anObject ].
+	
+	^nil
+]
+
+{ #category : #'button styles' }
+GLMMorphic class >> rectangledWhiteButtonStyle: button morph: aMorph pressed: aBoolean [
+
+	(self isAlignmentMorph: aMorph)
+	ifTrue:[ 
+		aBoolean 
+		ifTrue: [ aMorph lastSubmorph color: Color white.
+					button color: Color gray ]
+		ifFalse:[ aMorph lastSubmorph color: Color black.
+					button color: Color white ] ]
+	ifFalse:[			
+		aBoolean 
+		ifTrue: [ aMorph color: Color white.
+				   button color: Color gray ]
+		ifFalse:[ aMorph color: Color black.
+					button color: Color white ] ]
+]
+
+{ #category : #'button styles' }
+GLMMorphic class >> roundedGrayButtonStyle: button morph: aMorph pressed: aBoolean [
+
+	button useRoundedCorners.
+	(self isAlignmentMorph: aMorph)
+	ifTrue:[ 
+		aBoolean 
+		ifTrue: [ aMorph lastSubmorph color: Color darkGray.
+					button color: Color veryLightGray ]
+		ifFalse:[ aMorph lastSubmorph color: Color white.
+					button color: Color gray ] ]
+	ifFalse:[			
+		aBoolean 
+		ifTrue: [ aMorph color: Color darkGray.
+				   button color: Color veryLightGray ]
+		ifFalse:[ aMorph color: Color white.
+					button color: Color gray ] ]
+
+]
+
+{ #category : #'button styles' }
+GLMMorphic class >> setRectangledWhiteButton [
+
+	styleButton := #rectangledWhiteButton
+]
+
+{ #category : #'button styles' }
+GLMMorphic class >> setRoundedGrayButton [
+
+	styleButton := #roundedGrayButton
+]
+
+{ #category : #'button styles' }
+GLMMorphic class >> styleButton [
+
+	^styleButton ifNil:[ self setRoundedGrayButton ]
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphic class >> styleButton: button morph: m pressed: aBoolean [
+
+	self isRoundedGrayButton
+	ifTrue:[ self roundedGrayButtonStyle: button morph: m pressed: aBoolean ].
+	
+	self isRectangledWhiteButton
+	ifTrue:[ self rectangledWhiteButtonStyle: button morph: m pressed: aBoolean ]
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphic class >> togglingButtonLabelled: anObject pressed: aBoolean [
 	| button oldLabel m |
 	button := SimpleButtonMorph new.
 	(oldLabel := button findA: StringMorph) ifNotNil: [ oldLabel delete ].
-	m := StringMorph 
-		contents: aString
-		font: (LogicalFont 
-				familyName: UITheme current buttonFont familyName
-				pointSize: UITheme current buttonFont pointSize - 2).
-	button extent: (m width + 6) @ m height.
-	m position: 3 @ 0.	"button center - (m extent // 2)"
-	m lock.
+	m := self morphElement: anObject.
+
 	button
 		addMorph: m;
 		borderStyle: (BorderStyle inset width: 1);
-		borderColor: Color gray;
-		useRoundedCorners.
-	aBoolean 
-		ifFalse: 
-			[ m color: Color white.
-			button color: Color gray ]
-		ifTrue: 
-			[ m color: Color darkGray.
-			button color: Color veryLightGray ].
+		borderColor: Color gray.
+		
+	(self isAlignmentMorph: m)
+	ifTrue:[ 
+		button extent: m width @ (m height - 2).
+		m position: 0 @ -2 ]
+	ifFalse:[ 
+		(self isImageMorph: m)
+		ifTrue: [ button extent: (m width + 6) @ m height ]
+		ifFalse:[ button extent: (m width + 6) @ (m height) ].
+		m position: 3 @ 0.	"button center - (m extent // 2)" ].
+		
+	self styleButton: button morph: m pressed: aBoolean.
+	m lock.
+	
 	^ button
 ]

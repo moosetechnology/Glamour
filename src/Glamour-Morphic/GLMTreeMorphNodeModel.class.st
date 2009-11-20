@@ -23,6 +23,19 @@ GLMTreeMorphNodeModel >> buttonForTag: each [
 	^ button
 ]
 
+{ #category : #callbacks }
+GLMTreeMorphNodeModel >> buttonForTag: each filter: filter [
+	| button |
+	button := GLMMorphic 
+		togglingButtonLabelled: each
+		pressed: (self containerTree shouldFilterByTag: filter).
+	button
+		target: self;
+		actionSelector: #toggleFilteringByTag:;
+		arguments: (Array with: filter).
+	^ button
+]
+
 { #category : #accessing }
 GLMTreeMorphNodeModel >> childrenItems [
 	^ (self containerTree glamourPresentation childrenValueOf: self item) ifNil: [OrderedCollection new]
@@ -59,10 +72,13 @@ GLMTreeMorphNodeModel >> displayText [
 
 { #category : #callbacks }
 GLMTreeMorphNodeModel >> elementColumn [
-	| row |
+	| row tags tagsFilter |
 	row := OrderedCollection with: self displayText.
-	(self containerTree glamourPresentation tagsFor: self item) do: [ :each | 
-			row addLast: (self buttonForTag: each) ].
+	tags:= self containerTree glamourPresentation tagsFor: self item to: #show.
+	tagsFilter := self containerTree glamourPresentation tagsFor: self item to: #filter.
+	tags withIndexDo:[ :each :index | 
+			row addLast: (self buttonForTag: each 
+									  filter: (tagsFilter at: index ifAbsentPut:[ each ])) ].
 	^ UITheme current newRowIn: World for: row
 ]
 
@@ -170,7 +186,7 @@ GLMTreeMorphNodeModel >> shouldBeDisplayedByTags [
 	| nodeTags |
 	self containerTree tagsToFilterBy isEmpty ifTrue: [ ^ true ].
 	self withContentsDo: [ :node | 
-		nodeTags := self containerTree glamourPresentation tagsFor: node item.
+		nodeTags := self containerTree glamourPresentation tagsFor: node item to: #filter.
 		(self containerTree tagsToFilterBy allSatisfy: [ :each | nodeTags includes: each ])
 			ifTrue: [ ^ true ] ].
 	^ false
@@ -192,9 +208,9 @@ GLMTreeMorphNodeModel >> shouldBeDisplayedByText [
 { #category : #callbacks }
 GLMTreeMorphNodeModel >> tagsColumn [ 
 	| tags |
-	tags := (self containerTree glamourPresentation tagsFor: self item).
+	tags := (self containerTree glamourPresentation tagsFor: self item to: #show).
 	tags isEmpty ifFalse: [
-		^ self buttonForTag: tags last ].
+		^ self buttonForTag: tags last filter: tags last ].
 	^ RectangleMorph new
 ]
 
