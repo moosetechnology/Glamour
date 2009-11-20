@@ -20,7 +20,7 @@ GLMMorphic class >> alignmentMorph: aCollectionOfMorphs [
 		hResizing: #shrinkWrap;
 		layoutInset: 1;
 		wrapCentering: #center;
-		cellPositioning: #topCenter.
+		cellPositioning: #center.
 	aCollectionOfMorphs do: [ :each | morph addMorphBack: each].
 	^morph
 ]
@@ -79,7 +79,7 @@ GLMMorphic class >> morphElement: anObject [
 	anObject isForm
 	ifTrue:[ ^ImageMorph new newForm: anObject ].
 	
-	^nil
+	^self emptyMorph
 ]
 
 { #category : #'button styles' }

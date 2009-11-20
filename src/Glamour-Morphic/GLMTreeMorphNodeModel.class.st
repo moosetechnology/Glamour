@@ -13,6 +13,7 @@ Class {
 { #category : #callbacks }
 GLMTreeMorphNodeModel >> buttonForTag: each [ 
 	| button |
+	self flag: 'deprecated'.
 	button := GLMMorphic 
 		togglingButtonLabelled: each
 		pressed: (self containerTree shouldFilterByTag: each).
