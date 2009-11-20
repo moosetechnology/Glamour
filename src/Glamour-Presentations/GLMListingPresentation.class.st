@@ -6,7 +6,8 @@ Class {
 		'searchBlock',
 		'filterBlock',
 		'amountToShowBlock',
-		'allowsMultipleSelection'
+		'allowsMultipleSelection',
+		'tagsFilterBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -54,6 +55,11 @@ GLMListingPresentation >> hasTags [
 ]
 
 { #category : #testing }
+GLMListingPresentation >> hasTagsFilter [
+	^ tagsFilterBlock notNil
+]
+
+{ #category : #testing }
 GLMListingPresentation >> isMultiple [
 	^ allowsMultipleSelection ifNil: [ allowsMultipleSelection := false ]
 ]
@@ -94,10 +100,32 @@ GLMListingPresentation >> tagsBlock: anObject [
 ]
 
 { #category : #accessing }
+GLMListingPresentation >> tagsFilterBlock [
+	^ tagsFilterBlock
+]
+
+{ #category : #accessing }
 GLMListingPresentation >> tagsFor: anObject [
 	| value |
 	self hasTags ifFalse: [ ^ OrderedCollection new ].
 	value := self tagsBlock glamourValue: (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue).
+	^ value isString
+		ifTrue: [ OrderedCollection with: value ]
+		ifFalse: [ value asOrderedCollection ]
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> tagsFor: anObject to: operation [
+	| value hasTags tags |
+	
+	operation == #show 
+	ifTrue: [ hasTags := self hasTags.
+				tags := self tagsBlock ] 
+	ifFalse: [ hasTags := self hasTagsFilter.
+				 tags := self tagsFilterBlock ].
+	
+	hasTags ifFalse: [ ^ OrderedCollection new ].
+	value := tags glamourValue: (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue).
 	^ value isString
 		ifTrue: [ OrderedCollection with: value ]
 		ifFalse: [ value asOrderedCollection ]
