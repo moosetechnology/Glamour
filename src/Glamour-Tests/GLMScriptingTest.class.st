@@ -206,7 +206,6 @@ GLMScriptingTest >> testOuterEntity [
 	self assert: browser transmissions first origins anyOne name = #entity.
 	self assert: browser transmissions last origins anyOne name = #entity.
 	self assert: browser transmissions size = 2.
-	self assert: browser transmissions size = 2.
 	
 ]
 
@@ -288,10 +287,10 @@ GLMScriptingTest >> testScriptingDefaults [
 	browser := GLMTabulator new. 
 	browser startOn: 42. 
 	self assert: browser panes size = 1. 
-	self assert: browser jumpstartTransmissions size = 1. 
-	self 
-		assert: 
-			browser jumpstartTransmissions first destination 
+	self assert: browser transmissions size = 1.
+	self assert: browser transmissions first origins first
+				= (browser pane port: #entity).
+	self assert: browser transmissions first destination 
 				= (browser panes first port: #entity)
 ]
 
@@ -381,7 +380,6 @@ GLMScriptingTest >> testThreePanesTransmissions [
 							[:x :y |  
 							one := x. 
 							two := y]]. 
-	self assert: browser jumpstartTransmissions isEmpty. 
 	self assert: browser transmissions size = 1. 
 	self assert: browser transmissions first passiveOrigins size = 1. 
 	self assert: browser transmissions first activeOrigins size = 1. 
@@ -437,7 +435,6 @@ GLMScriptingTest >> testTwoTransmissionsWithOnlyOneEvent [
 		from: #two; 
 		using: [browser text]. 
 	self assert: browser transmissions size = 2. 
-	self assert: browser jumpstartTransmissions size = 0. 
 	self assert: (browser paneNamed: #one) presentations isEmpty. 
 	self assert: (browser paneNamed: #two) presentations isEmpty. 
 	self assert: (browser paneNamed: #three) presentations isEmpty. 

@@ -12,8 +12,9 @@ GLMExplicitBrowserTest >> testJumpstartTransmission [
 	presentation := GLMPresentation new. 
 	browser addNewPane. 
 	browser 
-		addJumpstart: 
-			((GLMBundleTransmission new) 
+		addTransmission: 
+			((GLMBundleTransmission new)
+				addActiveOrigin: (browser pane port: #entity); 
 				destination: (browser panes first port: #entity); 
 				addPresentation: presentation; 
 				yourself). 
