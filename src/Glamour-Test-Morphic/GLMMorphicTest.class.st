@@ -114,11 +114,28 @@ GLMMorphicTest >> testTreeMultipleSelection [
 	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
 	treeNodeMorph := treeMorph scroller submorphs first.
 	lastTreeNodeMorph := treeMorph scroller submorphs last.
-	self assert: treeMorph class = LazyMorphTreeMorph.
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
 	self send: treeMorph mouseUpWithShift: true onItem: lastTreeNodeMorph.
 	window delete.
 	self assert: (browser panes first port: #selection) value asSet = ($a to: $d) asSet
+]
+
+{ #category : #testing }
+GLMMorphicTest >> testTreeMultipleSelectionWithCancellation [
+
+	| browser window treeMorph treeNodeMorph lastTreeNodeMorph |
+	browser := GLMFinder new.
+	browser tree beMultiple.
+	window := browser openOn: ($a to: $d).
+	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
+	treeNodeMorph := treeMorph scroller submorphs first.
+	lastTreeNodeMorph := treeMorph scroller submorphs last.
+	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	self send: treeMorph mouseUpWithShift: true onItem: lastTreeNodeMorph.
+	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	window delete.
+	self assert: (browser panes first port: #selection) value isNil
 ]
 
 { #category : #testing }
@@ -134,6 +151,21 @@ GLMMorphicTest >> testTreeSelection [
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
 	window delete.
 	self assert: (browser panes first port: #selection) value = $a
+]
+
+{ #category : #testing }
+GLMMorphicTest >> testTreeSelectionCancellation [
+
+	| browser window treeMorph treeNodeMorph |
+	browser := GLMFinder new.
+	browser tree.
+	window := browser openOn: ($a to: $d).
+	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
+	treeNodeMorph := treeMorph scroller submorphs first.
+	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	window delete.
+	self assert: (browser panes first port: #selection) value isNil
 ]
 
 { #category : #private }
