@@ -126,7 +126,7 @@ GLMScriptingTest >> testEntityInUpdateAction [
 ]
 
 { #category : #tests }
-GLMScriptingTest >> testNestedBrowser [
+GLMScriptingTest >> testNestedBrowserEntity [
 	 
 	| browser innerBrowser | 
 	browser := GLMTabulator new. 
@@ -134,7 +134,8 @@ GLMScriptingTest >> testNestedBrowser [
 	innerBrowser := GLMTabulator new. 
 	innerBrowser column: #innerOne. 
 	innerBrowser 
-		showOn: #innerOne; 
+		showOn: #innerOne;
+		from: #outer->#entity;
 		using: [innerBrowser text]. 
 	browser 
 		showOn: #one; 
@@ -143,7 +144,34 @@ GLMScriptingTest >> testNestedBrowser [
 				display: [:x | x + 2 ]]. 
 	browser startOn: 40. 
 	self assert: ((browser paneNamed: #one) port: #entity) value = 40. 
+	self assert: (innerBrowser pane port: #entity) value = 40.
 	self assert: ((innerBrowser paneNamed: #innerOne) port: #entity) value = 42.
+]
+
+{ #category : #tests }
+GLMScriptingTest >> testNestedBrowserOther [
+	 
+	| browser innerBrowser | 
+	browser := GLMTabulator new.
+	browser column: #one; column: #two. 
+	innerBrowser := GLMTabulator new. 
+	innerBrowser column: #innerOne. 
+	innerBrowser 
+		showOn: #innerOne;
+"		from: #outer->#entity;"
+		using: [innerBrowser text].
+	innerBrowser sendToOutside: #selection from: #innerOne.
+	browser showOn: #one; using: [
+		(browser custom: innerBrowser)
+			display: [:x | x + 2 ]]. 
+	browser showOn: #two; from: #one; using: [browser text].
+	browser startOn: 40. 
+	self assert: ((browser paneNamed: #one) port: #entity) value = 40. 
+	self assert: (innerBrowser pane port: #entity) value = 40.
+	self assert: ((innerBrowser paneNamed: #innerOne) port: #entity) value = 42.
+	(innerBrowser panes first port: #selection) value: 7.
+	self assert: (innerBrowser pane port: #selection) value = 7.
+	self assert: (browser panes last port: #entity) value = 7.
 ]
 
 { #category : #tests }
@@ -165,6 +193,21 @@ GLMScriptingTest >> testNestedBrowserWithExplicitTransmission [
 	self assert: ((browser paneNamed: #one) port: #entity) value = 42. 
 	self 
 		assert: ((innerBrowser paneNamed: #innerOne) port: #entity) value = 42
+]
+
+{ #category : #tests }
+GLMScriptingTest >> testOuterEntity [ 
+	| browser innerBrowser | 
+	browser := GLMTabulator new.
+	browser column: #one; column: #two. 
+	browser showOn: #one; using: [browser text]. 
+	browser showOn: #two; from: #outer->#entity; using: [browser text].
+	browser startOn: 42.
+	self assert: browser transmissions first origins anyOne name = #entity.
+	self assert: browser transmissions last origins anyOne name = #entity.
+	self assert: browser transmissions size = 2.
+	self assert: browser transmissions size = 2.
+	
 ]
 
 { #category : #tests }
@@ -216,42 +259,25 @@ GLMScriptingTest >> testPublishingToOutsideFinder [
 ]
 
 { #category : #tests }
-GLMScriptingTest >> testReferences [ 
-	 
+GLMScriptingTest >> testReferences [
 	| browser pane1 | 
 	browser := GLMExplicitBrowser new.  
  	pane1 := browser addNewPaneNamed: #pane1.
-	self 
-		assert: (browser resolveOriginPort: #pane1) == (pane1 port: #selection). 
-	self 
-		assert: (browser resolveOriginPort: #pane1 -> #foo) == (pane1 port: #foo). 
-	self 
-		assert: (browser resolveDestinationPort: #pane1) == (pane1 port: #entity). 
-	self 
-		assert: 
-			(browser resolveDestinationPort: #pane1 -> #foo) == (pane1 port: #foo). 
+	self assert: (browser resolveOriginPort: #pane1) == (pane1 port: #selection). 
+	self assert: (browser resolveOriginPort: #pane1 -> #foo) == (pane1 port: #foo). 
+	self assert: (browser resolveDestinationPort: #pane1) == (pane1 port: #entity). 
+	self assert: (browser resolveDestinationPort: #pane1 -> #foo) == (pane1 port: #foo). 
 	self assert: ((browser resolveOriginPort: #outer) isKindOf: GLMParentPort). 
 	self assert: (browser resolveOriginPort: #outer) presentation == browser. 
 	self assert: (browser resolveOriginPort: #outer) name = #selection. 
-	self 
-		assert: 
-			((browser resolveOriginPort: #outer -> #foo) isKindOf: GLMParentPort). 
-	self 
-		assert: 
-			(browser resolveOriginPort: #outer -> #foo) presentation == browser. 
+	self assert: ((browser resolveOriginPort: #outer -> #foo) isKindOf: GLMParentPort). 
+	self assert: (browser resolveOriginPort: #outer -> #foo) presentation == browser. 
 	self assert: (browser resolveOriginPort: #outer -> #foo) name = #foo. 
-	self 
-		assert: 
-			((browser resolveDestinationPort: #outer) isKindOf: GLMParentPort). 
-	self 
-		assert: (browser resolveDestinationPort: #outer) presentation == browser. 
+	self assert: ((browser resolveDestinationPort: #outer) isKindOf: GLMParentPort). 
+	self assert: (browser resolveDestinationPort: #outer) presentation == browser. 
 	self assert: (browser resolveDestinationPort: #outer) name = #entity. 
-	self 
-		assert: 
-			((browser resolveDestinationPort: #outer -> #foo) isKindOf: GLMParentPort). 
-	self 
-		assert: 
-			(browser resolveDestinationPort: #outer -> #foo) presentation == browser. 
+	self assert: ((browser resolveDestinationPort: #outer -> #foo) isKindOf: GLMParentPort). 
+	self assert: (browser resolveDestinationPort: #outer -> #foo) presentation == browser. 
 	self assert: (browser resolveDestinationPort: #outer -> #foo) name = #foo
 ]
 
@@ -303,8 +329,7 @@ GLMScriptingTest >> testStartTransmission [
 	browser 
 		showOn: #one; 
 		using: [browser list]. 
-	self assert: browser transmissions isEmpty. 
-	self assert: browser jumpstartTransmissions size = 1. 
+	self assert: browser transmissions size = 1.
 	self assert: (browser paneNamed: #one) presentations isEmpty. 
 	self assert: (browser paneNamed: #two) presentations isEmpty. 
 	browser startOn: 15. 
@@ -327,8 +352,7 @@ GLMScriptingTest >> testStartWithOnlyJumpStart [
 		showOn: #two; 
 		from: #one; 
 		using: [browser text]. 
-	self assert: browser transmissions size = 1. 
-	self assert: browser jumpstartTransmissions size = 1. 
+	self assert: browser transmissions size = 2.
 	self assert: (browser paneNamed: #one) presentations isEmpty. 
 	self assert: (browser paneNamed: #two) presentations isEmpty. 
 	browser startOn: #(15 25 35). 
