@@ -30,6 +30,16 @@ GLMSmalltalkExamples >> diffBrowser [
 	^ browser
 ]
 
+{ #category : #private }
+GLMSmalltalkExamples >> getLintResult: anEnvironment [
+
+	| results stream |
+	results := OrderedCollection new.
+	anEnvironment classesAndSelectorsDo: [:class :sel |
+			results add: sel].
+	^ results
+]
+
 { #category : #code }
 GLMSmalltalkExamples >> implementorsChasingBrowser [
 	"self new implementorsChasingBrowser openOn: #implementorsChasingBrowser"
@@ -51,6 +61,32 @@ GLMSmalltalkExamples >> implementorsChasingBrowser [
 			forSmalltalk: [:reference | reference actualClass ];
 			display: [:reference | reference sourceCode ];
 			whenKindOf: MethodReference ].
+	^ browser
+]
+
+{ #category : #code }
+GLMSmalltalkExamples >> lintBrowser [
+	"self new lintBrowser openOn: {Collection. nil}"
+
+	|browser|
+	browser := GLMTabulator new.
+	browser title: 'Lint Browser'.
+	browser column: #groups; column: #rules; column: #results.
+	browser showOn: #groups; using: [
+		browser list
+			display: [:dic | RBCompositeLintRule lintChecks rules];
+			allowNil;
+			format: #name ].
+	browser showOn: #rules; from: #groups; using: [
+		browser list
+			display: [:group | group rules];
+			format: #name ].
+	browser showOn: #results; from: #rules; from: #outer->#entity; using: [
+		browser list
+			display: [:rule :tuple | self getLintResult:
+					(self runRule: rule forClass: tuple first) result] ].
+			"tuple = {class. selector} from the browser. We select the class"
+	browser sendToOutside: #faultyMethod from: #results->#selection.
 	^ browser
 ]
 
@@ -235,11 +271,20 @@ GLMSmalltalkExamples >> printObjectAsAnItem: anObject [
 	^ stream contents
 ]
 
+{ #category : #private }
+GLMSmalltalkExamples >> runRule: aRule forClass: aClass [
+
+	| environment |
+	environment := BrowserEnvironment new
+ 		forClasses: { aClass }.
+	^ SmalllintChecker runRule: aRule onEnvironment: environment
+]
+
 { #category : #code }
 GLMSmalltalkExamples >> stClassicBrowser [
 	<glmBrowser: 'Classic Code Browser' input: 'Smalltalk organization categories'>
 	"self new stClassicBrowser openOn: Smalltalk organization categories."
-	| browser |
+	| browser lintBrowser |
 	browser := GLMTabulator new.
 	browser
 		row: #navigation;
@@ -267,8 +312,13 @@ GLMSmalltalkExamples >> stClassicBrowser [
 				title: 'Class comment';
 				display: [ :class | class comment ];
 				useExplicitNotNil;
-				when: [:class | class notNil]
+				when: [:class | class notNil].
+			lintBrowser := self lintBrowser.
+			lintBrowser allowNil; when: [:clas :mth | clas notNil ].
+			browser custom: lintBrowser
 		].
+	"for updating selection through lintBrowser"
+	"browser sendTo: #navigator->#faultyMethod from: #source->#faultyMethod."
 	^ browser
 ]
 
@@ -328,6 +378,10 @@ GLMSmalltalkExamples >> stClassicNavigator [
 	browser 
 		sendToOutside: #selectedMethod
 		from: #methods.
+	"for updating selection from lintBrowser"
+	"browser 
+		sendTo: #methods -> #selection
+		fromOutside: #faultyMethod."
 	^ browser
 ]
 
