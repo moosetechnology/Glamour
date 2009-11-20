@@ -35,6 +35,46 @@ GLMBasicExamples >> browserWithToolbar [
 ]
 
 { #category : #others }
+GLMBasicExamples >> compoundTaggedTree [
+	<glmBrowser: 'Compound Tagged Tree' input: '#(window help home)'>
+	"self new compoundTaggedTree openOn: #(window help home)"
+	|browser |
+
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser showOn: #one; using: [
+		browser tree
+			title: 'Combined Tags';
+			tags: [:each | 
+				{ {MenuIcons perform: (each, 'Icon') asSymbol . each asString }}].
+	
+		browser tree
+			title: 'Image Tags';
+			tags: [:each | 
+				{ MenuIcons perform: (each, 'Icon') asSymbol}].
+
+		browser tree
+			title: 'Combined Tags - Filter by image';
+			tags: [:each | 
+				{ each == #help 
+						ifTrue:[ {MenuIcons smallDeleteIcon . 'no ok' } ] 
+						ifFalse:[ {MenuIcons smallOkIcon . each asString } ]} ];
+			tagsFilter: [:each | 
+				{ each == #help 
+						ifTrue:[ MenuIcons smallDeleteIcon ] ifFalse:[ MenuIcons smallOkIcon ] } ].
+
+		browser tree
+			title: 'Combined Tags - Filter by label';
+			tags: [:each | 
+				{ {MenuIcons perform: (each, 'Icon') asSymbol.
+					each == #help ifTrue:[ 'no ok' ] ifFalse:[ 'ok' ]}} ];
+			tagsFilter: [:each | 
+				{ each == #help ifTrue:[ 'no ok' ] ifFalse:[ 'ok' ] } ] ].
+
+	^ browser
+]
+
+{ #category : #others }
 GLMBasicExamples >> fixSizePanes [
 	"self new fixSizePanes openOn: 1"
 	| browser |
