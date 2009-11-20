@@ -62,7 +62,7 @@ GLMExplicitBrowser >> jumpstartTransmissions [
 
 { #category : #events }
 GLMExplicitBrowser >> outerPortEvent: aPortEvent [  
-	self flag: 'Hack for a jumpstart transmission (we should clean this up). '.
+	self flag: 'Hack for a jumpstart transmission (we should clean this up). In fact, we do not really need it'.
 	super outerPortEvent: aPortEvent.	
 	aPortEvent portName = #entity ifTrue: [
 		self jumpstartTransmissions do: [:each |  
