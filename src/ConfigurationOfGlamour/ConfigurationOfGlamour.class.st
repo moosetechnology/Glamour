@@ -40,7 +40,7 @@ ConfigurationOfGlamour >> default: spec [
 	<version: 'default'>
 	
 	spec for: #common do: [
-		spec blessing: #default.
+		spec blessing: #baseline.
 		spec repository: 'http://www.squeaksource.com/Glamour'.
 		spec 
 			package: 'Morphic-MorphTreeWidget' with: [
