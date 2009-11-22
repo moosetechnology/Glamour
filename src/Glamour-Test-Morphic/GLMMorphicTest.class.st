@@ -117,6 +117,7 @@ GLMMorphicTest >> testTreeMultipleSelection [
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
 	self send: treeMorph mouseUpWithShift: true onItem: lastTreeNodeMorph.
 	window delete.
+	self assert: (browser panes first port: #selection) value notNil.
 	self assert: (browser panes first port: #selection) value asSet = ($a to: $d) asSet
 ]
 
