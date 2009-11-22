@@ -24,7 +24,7 @@ GLMTreeMorphModel >> allKeystrokeActions [
 	^ self glamourPresentation allActions select: [:action | action hasShortcut ]
 ]
 
-{ #category : #callbacks }
+{ #category : #accessing }
 GLMTreeMorphModel >> allMenuActions [
 	^ self glamourPresentation allActions select: [:action | action hasTitle ]
 ]
@@ -94,15 +94,42 @@ GLMTreeMorphModel >> executeSearch [
 		check := self glamourPresentation searchStrategy value: self inputText value: each item.
 		check ifTrue: [newSelection add: each path]].
 	newSelection isEmpty ifFalse: [
+		self halt.
 		self selectionPath: newSelection anyOne selectionSet: newSelection ]
 ]
 
 { #category : #callbacks }
-GLMTreeMorphModel >> explicitSelection: anObject [
+GLMTreeMorphModel >> explicitSelection: anObject [ 
 	"anObject is a domain object, not a Glamour related object"
 	self glamourPresentation isMultiple 
-		ifTrue: [self selectMultipleItems: anObject ]
-		ifFalse: [self selectItem: anObject ]
+		ifTrue: [ self explicitlySelectMultipleItems: anObject ]
+		ifFalse: [ self explicitlySelectItem: anObject ]
+]
+
+{ #category : #'private selecting' }
+GLMTreeMorphModel >> explicitlySelectItem: anObject [ 
+	(self selectedItem notNil and: [self selectedItem item = anObject]) ifTrue: [ ^ self ].
+	(self selectedItem isNil and: [ anObject isNil ]) ifTrue: [ ^ self ].
+	self roots do: [:eachRoot |
+		eachRoot withContentsDo: [:each |
+			each item = anObject ifTrue: [
+				each expandParentPath.
+				self selectItemPath: each path.
+				^ self]]]
+]
+
+{ #category : #'private selecting' }
+GLMTreeMorphModel >> explicitlySelectMultipleItems: aCollection [ 
+	| newSelection |
+	aCollection isNil ifTrue: [^ self].
+	(self selection selectedItemOrItemsOrNil size = aCollection size and: [
+		self selection selectedItemOrItemsOrNil = aCollection asOrderedCollection ]) ifTrue: [ ^ self ].
+	newSelection := OrderedCollection new.
+	self roots do: [:eachRoot |
+		eachRoot withContentsDo: [:each |
+			(aCollection includes: each item) ifTrue: [
+				newSelection add: each path ]]].
+	self selectAllItemPaths: newSelection
 ]
 
 { #category : #accessing }
@@ -194,59 +221,17 @@ GLMTreeMorphModel >> roots: anObjectOrCollection [
 ]
 
 { #category : #callbacks }
-GLMTreeMorphModel >> selectItem: anObject [
-	(self selectedItem notNil and: [ self selectedItem item == anObject ]) ifTrue: [ ^ self ].
-	(self selectedItem isNil and: [ anObject isNil ]) ifTrue: [ ^ self ].
-	self roots do: [:eachRoot |
-		eachRoot withContentsDo: [:each |
-			each item = anObject ifTrue: [
-				each expandParentPath.
-				^ self]]]
-]
-
-{ #category : #callbacks }
-GLMTreeMorphModel >> selectMultipleItems: aCollection [
-	| newSelection |
-	aCollection isNil ifTrue: [^ self].
-	(self selectionSet size = aCollection size and: [
-		self selectionSet = aCollection asSet ]) ifTrue: [ ^ self ].
-	newSelection := Set new.
-	self roots do: [:eachRoot |
-		eachRoot withContentsDo: [:each |
-			(aCollection includes: each item) ifTrue: [
-				newSelection add: each path.
-				self flag: 'check the path expansion'.
-				"each expandParentPath" ]]].
-	self selectionSet: newSelection.
-	self changed: #selection.
-]
-
-{ #category : #callbacks }
-GLMTreeMorphModel >> selectionPath: path [
-	self selectionPath = path ifTrue: [^ self].
-	super selectionPath: path.
-	path isNil ifFalse: [
-		onSelection ifNotNil: [ onSelection value: (path last isNil ifTrue: [nil] ifFalse: [path last item]) ] ]
-	ifTrue: [
-		onSelection ifNotNil: [ onSelection value: nil ] ]
-]
-
-{ #category : #callbacks }
-GLMTreeMorphModel >> selectionPath: path selectionSet: set [
-	| selectionValue |
-	super selectionPath: path selectionSet: set.
-	path isNil ifFalse: [
-		onSelection ifNotNil: [
-			selectionValue := OrderedCollection new.
-			set do: [ :each | each do: [ :node | selectionValue add: node item ] ].
-			onSelection value: selectionValue ] ]
-	ifTrue: [
-		onSelection ifNotNil: [ onSelection value: nil ] ]	
+GLMTreeMorphModel >> selection: aSelection [ 
+	self selection = aSelection ifTrue: [ ^ self ].
+	super selection: aSelection.
+	aSelection isNil 
+		ifFalse: [ onSelection ifNotNil: [ onSelection value: aSelection selectedItemOrItemsOrNil ] ]
+		ifTrue: [ onSelection ifNotNil: [ onSelection value: nil ] ]
 ]
 
 { #category : #accessing }
 GLMTreeMorphModel >> selectionPathItems [
-	^ selectionPath isNil ifTrue: [ nil ] ifFalse: [ selectionPath collect: [ :each | each item ] ]
+	^ self selectedPath isNil ifTrue: [nil] ifFalse: [self selectedPath collect: [:each | each item]]
 ]
 
 { #category : #'search and filtering' }
