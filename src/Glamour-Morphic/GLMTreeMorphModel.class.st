@@ -89,13 +89,12 @@ GLMTreeMorphModel >> executeFilter [
 { #category : #'search and filtering' }
 GLMTreeMorphModel >> executeSearch [
 	| newSelection check |
-	newSelection := Set new.
+	newSelection := OrderedCollection new.
 	roots do: [ :each | 
 		check := self glamourPresentation searchStrategy value: self inputText value: each item.
 		check ifTrue: [newSelection add: each path]].
 	newSelection isEmpty ifFalse: [
-		self halt.
-		self selectionPath: newSelection anyOne selectionSet: newSelection ]
+		self selection: (MorphTreeMorphMultipleSelection new selectionList: newSelection) ]
 ]
 
 { #category : #callbacks }
