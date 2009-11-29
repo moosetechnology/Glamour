@@ -121,14 +121,14 @@ GLMTreeMorphModel >> explicitlySelectItem: anObject [
 GLMTreeMorphModel >> explicitlySelectMultipleItems: aCollection [ 
 	| newSelection |
 	aCollection isNil ifTrue: [^ self].
-	(self selection selectedItemOrItemsOrNil size = aCollection size and: [
-		self selection selectedItemOrItemsOrNil = aCollection asOrderedCollection ]) ifTrue: [ ^ self ].
+	(self selection notNil and: [self selection selectedItemOrItemsOrNil size = aCollection size and: [
+		self selection selectedItemOrItemsOrNil = aCollection asOrderedCollection ]]) ifTrue: [ ^ self ].
 	newSelection := OrderedCollection new.
 	self roots do: [:eachRoot |
 		eachRoot withContentsDo: [:each |
 			(aCollection includes: each item) ifTrue: [
 				newSelection add: each path ]]].
-	self selectAllItemPaths: newSelection
+	self selectAllNodePaths: newSelection
 ]
 
 { #category : #accessing }
@@ -175,7 +175,7 @@ GLMTreeMorphModel >> keyStroke: aCharacter from: aTreeMorph [
 { #category : #callbacks }
 GLMTreeMorphModel >> menu: menu shifted: b [ 
 	"Set up the menu to apply to the receiver's, honoring the #shifted boolean"
-	self selectedItem ifNotNil: [:current | current menu: menu shifted: b].
+	self selectedNode ifNotNil: [:current | current menu: menu shifted: b].
 	^ menu
 ]
 
