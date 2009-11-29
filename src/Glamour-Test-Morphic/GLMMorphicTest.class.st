@@ -1,6 +1,9 @@
 Class {
 	#name : #GLMMorphicTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'window'
+	],
 	#category : #'Glamour-Test-Morphic'
 }
 
@@ -76,6 +79,28 @@ GLMMorphicTest >> testColumnBlockTakesEntity [
 	window delete.
 	self repeatAssert: [receivedEntity] equals: (1 to: 5).
 
+]
+
+{ #category : #testing }
+GLMMorphicTest >> testMultipleInitialSelection [
+	| browser firstTreeMorph secondTreeMorph |
+	browser := GLMTabulator new.
+	browser column: #one; column: #two.
+	browser showOn: #one; using: [
+		browser tree
+			beMultiple;
+			display: [:x | 1 to: x * 3]].
+	browser showOn: #two; from: #one; using: [ 
+		browser list ].
+	window := browser openOn: 5.
+	(browser panes first port: #selection) value: #(2 5 3).
+	window delete.
+	firstTreeMorph := window submorphs last submorphs second submorphs first submorphs first.
+	secondTreeMorph := window submorphs last submorphs last submorphs first submorphs first.
+	self assert: firstTreeMorph model selection notNil.
+	self assert: firstTreeMorph model selection selectedItemOrItemsOrNil size = 3.
+	self assert: secondTreeMorph model selection isNil.
+	self assert: (secondTreeMorph model roots collect: #item) = firstTreeMorph model selection selectedItemOrItemsOrNil
 ]
 
 { #category : #testing }
