@@ -107,13 +107,13 @@ GLMTreeMorphModel >> explicitSelection: anObject [
 
 { #category : #'private selecting' }
 GLMTreeMorphModel >> explicitlySelectItem: anObject [ 
-	(self selectedItem notNil and: [self selectedItem item = anObject]) ifTrue: [ ^ self ].
+	(self selectedItem notNil and: [self selectedItem = anObject]) ifTrue: [ ^ self ].
 	(self selectedItem isNil and: [ anObject isNil ]) ifTrue: [ ^ self ].
 	self roots do: [:eachRoot |
 		eachRoot withContentsDo: [:each |
 			each item = anObject ifTrue: [
 				each expandParentPath.
-				self selectItemPath: each path.
+				self selectNodePath: each path.
 				^ self]]]
 ]
 
@@ -230,7 +230,7 @@ GLMTreeMorphModel >> selection: aSelection [
 
 { #category : #accessing }
 GLMTreeMorphModel >> selectionPathItems [
-	^ self selectedPath isNil ifTrue: [nil] ifFalse: [self selectedPath collect: [:each | each item]]
+	^ self selectedNodePath isNil ifTrue: [nil] ifFalse: [self selectedNodePath collect: [:each | each item]]
 ]
 
 { #category : #'search and filtering' }
