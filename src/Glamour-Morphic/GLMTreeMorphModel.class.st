@@ -94,7 +94,7 @@ GLMTreeMorphModel >> executeSearch [
 		check := self glamourPresentation searchStrategy value: self inputText value: each item.
 		check ifTrue: [newSelection add: each path]].
 	newSelection isEmpty ifFalse: [
-		self selection: (MorphTreeMorphMultipleSelection new selectionList: newSelection) ]
+		self selection: (MorphTreeMorphMultipleSelection new selectedNodePathList: newSelection) ]
 ]
 
 { #category : #callbacks }
