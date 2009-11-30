@@ -11,20 +11,6 @@ Class {
 }
 
 { #category : #callbacks }
-GLMTreeMorphNodeModel >> buttonForTag: each [ 
-	| button |
-	self flag: 'deprecated'.
-	button := GLMMorphic 
-		togglingButtonLabelled: each
-		pressed: (self containerTree shouldFilterByTag: each).
-	button
-		target: self;
-		actionSelector: #toggleFilteringByTag:;
-		arguments: (Array with: each).
-	^ button
-]
-
-{ #category : #callbacks }
 GLMTreeMorphNodeModel >> buttonForTag: each filter: filter [
 	| button |
 	button := GLMMorphic 
@@ -165,16 +151,6 @@ GLMTreeMorphNodeModel >> rowMorphForColumn: aGlamourColumn [
 	^ (UITheme current
 		newTextIn: World
 		text: (self containerTree glamourPresentation column: aGlamourColumn valueFor: self item)) unlock; wrapFlag: true; yourself
-]
-
-{ #category : #callbacks }
-GLMTreeMorphNodeModel >> rowMorphListFor: aContainer [ 
-	| row |
-	self flag: 'deprecated'.
-	row := OrderedCollection with: (UITheme current newRowIn: World for: { self displayText }).
-	(self containerTree glamourPresentation tagsFor: self item) do: [ :each | 
-			row addLast: (self buttonForTag: each) ].
-	^ row
 ]
 
 { #category : #testing }
