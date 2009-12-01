@@ -201,7 +201,7 @@ GLMScriptingTest >> testOuterEntity [
 	browser := GLMTabulator new.
 	browser column: #one; column: #two. 
 	browser showOn: #one; using: [browser text]. 
-	browser showOn: #two; from: #outer->#entity; using: [browser text].
+	browser showOn: #two; fromOutside: #entity; using: [browser text].
 	browser startOn: 42.
 	self assert: browser transmissions first origins anyOne name = #entity.
 	self assert: browser transmissions last origins anyOne name = #entity.
