@@ -194,6 +194,21 @@ GLMMorphicTest >> testTreeSelectionCancellation [
 	self assert: (browser panes first port: #selection) value isNil
 ]
 
+{ #category : #testing }
+GLMMorphicTest >> testTreeWithDisplay [
+	|browser treeCollection |
+	treeCollection := { #root1->{#child1->{} . #child2->{}} . #root2 ->{} }.
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser showOn: #one; using: [
+		browser tree
+			display: [:each | each value ];
+			children: [:x | x value ] ].
+	window := browser openOn: #something -> treeCollection.
+	self assert: browser panes first presentations first displayValue == treeCollection.
+	window delete
+]
+
 { #category : #private }
 GLMMorphicTest >> wait: maxWaitSeconds until: validateBlock evaluatesTo: expectedResult [
 	"Evaluate validateBlock until it returns expectedResult or 
