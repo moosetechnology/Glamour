@@ -119,14 +119,15 @@ GLMTreeMorphModel >> explicitlySelectItem: anObject [
 
 { #category : #'private selecting' }
 GLMTreeMorphModel >> explicitlySelectMultipleItems: aCollection [ 
-	| newSelection |
+	| newSelection collection|
 	aCollection isNil ifTrue: [^ self].
-	(self selection notNil and: [self selection selectedItemOrItemsOrNil size = aCollection size and: [
-		self selection selectedItemOrItemsOrNil = aCollection asOrderedCollection ]]) ifTrue: [ ^ self ].
+	collection := aCollection isCollection ifTrue: [aCollection] ifFalse: [aCollection asOrderedCollection ].
+	(self selection notNil and: [self selection selectedItemOrItemsOrNil size = collection size and: [
+		self selection selectedItemOrItemsOrNil = collection asOrderedCollection ]]) ifTrue: [ ^ self ].
 	newSelection := OrderedCollection new.
 	self roots do: [:eachRoot |
 		eachRoot withContentsDo: [:each |
-			(aCollection includes: each item) ifTrue: [
+			(collection includes: each item) ifTrue: [
 				newSelection add: each path ]]].
 	self selectAllNodePaths: newSelection
 ]
