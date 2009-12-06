@@ -258,6 +258,13 @@ GLMSmalltalkExamples >> objectFinderTabbed [
 	^ browser
 ]
 
+{ #category : #objects }
+GLMSmalltalkExamples >> openMessageTallyTreeOn: aBlock [
+	"self new messageTallyTreeOn: [10000 timesRepeat: [1.23 printString]]; yourself)"
+
+	^ self messageTallyTree openOn: (MessageTally new spyEvery: 1 on: aBlock; yourself)
+]
+
 { #category : #private }
 GLMSmalltalkExamples >> printObjectAsAnItem: anObject [ 
 	| title stream |
