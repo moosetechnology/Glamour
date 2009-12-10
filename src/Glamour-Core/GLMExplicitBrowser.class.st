@@ -77,18 +77,6 @@ GLMExplicitBrowser >> postCopy [
 	jumpstartTransmissions := self jumpstartTransmissions collect: [:each | each copy]."
 ]
 
-{ #category : #accessing }
-GLMExplicitBrowser >> pulledPorts [ 
-	 
-	^pulledPorts ifNil: [pulledPorts := OrderedCollection new]
-]
-
-{ #category : #accessing }
-GLMExplicitBrowser >> pushedPorts [ 
-	 
-	^pushedPorts ifNil: [pushedPorts := OrderedCollection new]
-]
-
 { #category : #'scripting-private' }
 GLMExplicitBrowser >> resolveDestinationPort: aPortReference [ 
 	 
