@@ -2,7 +2,8 @@ Class {
 	#name : #GLMTabulator,
 	#superclass : #GLMExplicitBrowser,
 	#instVars : [
-		'cell'
+		'cell',
+		'context'
 	],
 	#category : #'Glamour-Browsers'
 }
@@ -82,7 +83,7 @@ GLMTabulator >> renderGlamorouslyOn: aRenderer [
 ]
 
 { #category : #accessing }
-GLMTabulator >> updateContextWith: aPane [ 
+GLMTabulator >> updateContextWith: aPane [
 	context isNil ifTrue: [context := OrderedCollection new].
 	context add: aPane
 ]
