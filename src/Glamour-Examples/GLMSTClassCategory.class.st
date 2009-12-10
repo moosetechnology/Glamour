@@ -6,9 +6,9 @@ Class {
 
 { #category : #'as yet unclassified' }
 GLMSTClassCategory class >> all [
-	|environment|
-	environment := self defaultEnvironment.
-	^ environment categories collect: [:each | self named: each environment: environment]
+	|env|
+	env := self defaultEnvironment.
+	^ env categories collect: [:each | self named: each environment: env]
 ]
 
 { #category : #accessing }

@@ -14,8 +14,8 @@ GLMSTPackage class >> named: aString environment: anEnvironment [
 
 { #category : #'instance creation' }
 GLMSTPackage class >> rootPackagesOn: anEnvironment [
-	^ ((anEnvironment categories collect: [:name | name readStream upTo: $-]) asSet asSortedCollection)
-			collect: [:name | self named: name environment: anEnvironment]
+	^ ((anEnvironment categories collect: [:string | string readStream upTo: $-]) asSet asSortedCollection)
+			collect: [:string | self named: string environment: anEnvironment]
 ]
 
 { #category : #accessing }
@@ -36,6 +36,6 @@ GLMSTPackage >> classes [
 { #category : #accessing }
 GLMSTPackage >> subPackages [
 	^ self environment categories
-		select: [:name | name beginsWith: self name, '-']
-		thenCollect: [:name | self class named: name environment: self environment]
+		select: [:string | string  beginsWith: self name, '-']
+		thenCollect: [:string  | self class named: string environment: self environment]
 ]
