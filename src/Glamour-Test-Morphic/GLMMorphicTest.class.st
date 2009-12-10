@@ -1,9 +1,6 @@
 Class {
 	#name : #GLMMorphicTest,
 	#superclass : #TestCase,
-	#instVars : [
-		'window'
-	],
 	#category : #'Glamour-Test-Morphic'
 }
 
