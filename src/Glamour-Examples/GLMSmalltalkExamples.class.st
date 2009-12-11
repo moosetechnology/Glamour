@@ -146,24 +146,31 @@ GLMSmalltalkExamples >> metacelloBrowser [
 	browser showOn: #configs; using: [
 		browser list
 			act: [:list  | list selection browse ] entitled: 'Browse implementation';
-			act: [:list  | list selection project inspect] entitled: 'Inspect'].
+			act: [:list  | list selection project inspect] entitled: 'Inspect' ].
 	browser showOn: #versions; from: #configs; using: [
 		browser list
 			display: [:config | config project versions ];
 			format: [:each | each versionNumber asString ];
-			act: [:list  | list selection inspect] entitled: 'Inspect'.
-			 ].
+			act: [:list  | list selection inspect] entitled: 'Inspect' ].
 	browser showOn: #packages; from: #versions; using: [
 		browser list
 			title: 'Items';
 			display: [:version | version spec packages packageSpecsInLoadOrder];
-			format: #name;
+			format: [:packageSpec | ((packageSpec isKindOf: MetacelloPackageSpec) and: [
+					self packageSpecNeedsSaving: packageSpec])
+				ifTrue: [Text string: packageSpec name attribute: TextColor blue] ifFalse: [packageSpec name]] ;
 			act: [:list  | list selection inspect] entitled: 'Inspect'.
-		browser mondrian
+ 		browser mondrian
 			title: 'Dependencies';
-			painting: [:view :version | 
-				self viewDependenciesOf: version on: view ].
-	 ].
+			painting: [:view :version | self viewDependenciesOf: version on: view].
+		browser list
+			title: 'Newer in repository?';
+			display: [:version | version spec packages packageSpecsInLoadOrder];
+			format: [:packageSpec | ((packageSpec isKindOf: MetacelloPackageSpec) and: [
+					self packageSpecHasNewerVersions: packageSpec])
+				ifTrue: [Text string: packageSpec name attribute: TextColor red] ifFalse: [packageSpec name]];
+			act: [:list  | list selection inspect] entitled: 'Inspect'
+	].
 	^ browser 
 ]
 
@@ -263,6 +270,27 @@ GLMSmalltalkExamples >> openMessageTallyTreeOn: aBlock [
 	"self new messageTallyTreeOn: [10000 timesRepeat: [1.23 printString]]; yourself)"
 
 	^ self messageTallyTree openOn: (MessageTally new spyEvery: 1 on: aBlock; yourself)
+]
+
+{ #category : #private }
+GLMSmalltalkExamples >> packageSpecHasNewerVersions: aPackageSpec [
+	| copy |
+	copy := aPackageSpec workingCopy.
+	copy isNil ifTrue: [^ false ].
+	copy repositoryGroup repositoriesDo: [:repo | 
+		repo cacheAllFileNamesDuring: [
+			(copy possiblyNewerVersionsIn: repo) ifTrue: [^ true].
+		]
+	].
+	^ false
+]
+
+{ #category : #private }
+GLMSmalltalkExamples >> packageSpecNeedsSaving: aPackageSpec [
+	| copy |
+	copy := aPackageSpec workingCopy.
+	copy isNil ifTrue: [^ false ].
+	^ copy needsSaving
 ]
 
 { #category : #private }
