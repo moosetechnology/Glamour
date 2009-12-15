@@ -1,26 +1,12 @@
 Class {
 	#name : #GLMCodeBrowser,
-	#superclass : #Object,
-	#instVars : [
-		'browser'
-	],
+	#superclass : #GLMBrowserTemplate,
 	#category : #'Glamour-Examples'
 }
 
 { #category : #accessing }
 GLMCodeBrowser class >> defaultEnvironment [
 	^ GLMSTModel defaultEnvironment
-]
-
-{ #category : #opening }
-GLMCodeBrowser class >> open [
-	^ self new
-		open
-]
-
-{ #category : #accessing }
-GLMCodeBrowser >> browser [
-	^ browser ifNil: [self buildBrowser. browser]
 ]
 
 { #category : #building }
@@ -38,6 +24,11 @@ GLMCodeBrowser >> buildBrowser [
 	browser sendTo: #packages->#selection from: #outer->#focusOnMethod with: [:method | method glmBehavior glmPackage].
 	browser sendTo: #classes->#selection from: #outer->#focusOnMethod with: [:method | method glmBehavior ].
 	browser sendTo: #methods->#selection from: #outer->#focusOnMethod with: [:method | method ]
+]
+
+{ #category : #opening }
+GLMCodeBrowser >> defaultEntity [ 
+	^ GLMSTPackage rootPackagesOn: self class defaultEnvironment
 ]
 
 { #category : #building }
@@ -136,9 +127,4 @@ GLMCodeBrowser >> onPackages [
 				children: [ :package | package subPackages ];
 				format: [ :package | package name ];
 				filterOn: [ :text :each | text match: each name ] ]
-]
-
-{ #category : #opening }
-GLMCodeBrowser >> open [
-	^ self browser openOn: (GLMSTPackage rootPackagesOn: self class defaultEnvironment)
 ]

@@ -20,6 +20,15 @@ GLMBasicExamples >> actionsFor: aPresentation [
 						yourself ]
 ]
 
+{ #category : #others }
+GLMBasicExamples >> allowNil [
+	"self new allowNil openOn: "
+	| browser | 
+	browser := GLMTabulator new.
+	browser column: [:c | c row: #one; row: #two; row: #three]; column: #summary.
+	^ browser
+]
+
 { #category : #'actions examples' }
 GLMBasicExamples >> browserWithToolbar [
 	"self new browserWithToolbar openOn: $z"
