@@ -277,12 +277,7 @@ GLMSmalltalkExamples >> packageSpecHasNewerVersions: aPackageSpec [
 	| copy |
 	copy := aPackageSpec workingCopy.
 	copy isNil ifTrue: [^ false ].
-	copy repositoryGroup repositoriesDo: [:repo | 
-		repo cacheAllFileNamesDuring: [
-			(copy possiblyNewerVersionsIn: repo) ifTrue: [^ true].
-		]
-	].
-	^ false
+	^ copy possiblyNewerVersions notEmpty
 ]
 
 { #category : #private }
