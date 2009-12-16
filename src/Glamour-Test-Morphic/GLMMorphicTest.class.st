@@ -34,6 +34,33 @@ GLMMorphicTest >> send: treeMorph mouseUpWithShift: aBoolean onItem: treeNodeMor
 ]
 
 { #category : #testing }
+GLMMorphicTest >> testAllowNil [
+	| browser presentationsChanged window detailsMorph |
+	browser := GLMTabulator new.
+	browser 
+		column: [: c | c row: #one; row: #two];
+		column: #details.
+	browser showOn: #one; using: [
+		browser tree display: #(1 2 3)].
+	browser showOn: #two; using: [
+		browser tree display: #(a b c)].
+	browser showOn: #details; from: #one; from: #two; using: [
+		browser text 
+			display: [ :one :two | one asString, two asString];
+			allowNil ].
+	window := browser openOn: 42.
+	((browser paneNamed: #one) port: #selection) value: 2.
+	detailsMorph := window submorphs last submorphs last submorphs first.
+	self assert: detailsMorph getText = '2nil'.
+	((browser paneNamed: #two) port: #selection) value: #c.
+	self assert: detailsMorph getText = '2c'.
+	((browser paneNamed: #one) port: #selection) value: nil.
+	self assert: detailsMorph getText = 'nilc'.
+	window delete
+
+]
+
+{ #category : #testing }
 GLMMorphicTest >> testChildrenBlock [
 
 	| browser window check treeMorph mouseUp treeNodeMorph |
