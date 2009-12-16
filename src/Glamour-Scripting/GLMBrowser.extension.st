@@ -5,6 +5,11 @@ GLMBrowser >> actionList [
 	^ self custom: GLMActionListPresentation new
 ]
 
+{ #category : #'*glamour-scripting-presentations' }
+GLMBrowser >> composite [
+	^ self custom: GLMCompositePresentation new
+]
+
 { #category : #'*glamour-scripting' }
 GLMBrowser >> context [
 
