@@ -25,7 +25,7 @@ GLMScriptingTest >> testActionDefinition [
 
 { #category : #tests }
 GLMScriptingTest >> testAllowNil [
-	| browser |
+	| browser presentationsChanged |
 	browser := GLMTabulator new.
 	browser 
 		column: [: c | c row: #one; row: #two];
@@ -39,13 +39,19 @@ GLMScriptingTest >> testAllowNil [
 			display: [ :one :two | one asString, two asString];
 			allowNil ].
 	browser startOn: 42.
+	(browser paneNamed: #details) whenPresentationsChanged: [:a | presentationsChanged := true ].
+	presentationsChanged := false.
 	((browser paneNamed: #one) port: #selection) value: 2.
+	self assert: presentationsChanged.
+	presentationsChanged := false.
 	self assert: ((browser paneNamed: #details) presentations first) displayValue = '2nil'.
 	((browser paneNamed: #two) port: #selection) value: #c.
+	self assert: presentationsChanged.
+	presentationsChanged := false.
 	self assert: ((browser paneNamed: #details) presentations first) displayValue = '2c'.
 	((browser paneNamed: #one) port: #selection) value: nil.
+	self assert: presentationsChanged.
 	self assert: ((browser paneNamed: #details) presentations first) displayValue = 'nilc'.
-
 ]
 
 { #category : #tests }
