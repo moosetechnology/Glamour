@@ -25,7 +25,7 @@ GLMScriptingTest >> testActionDefinition [
 
 { #category : #tests }
 GLMScriptingTest >> testAllowNil [
-	| browser presentationsChanged |
+	| browser presentationsChanged matchingPresentationsChanged |
 	browser := GLMTabulator new.
 	browser 
 		column: [: c | c row: #one; row: #two];
@@ -40,17 +40,25 @@ GLMScriptingTest >> testAllowNil [
 			allowNil ].
 	browser startOn: 42.
 	(browser paneNamed: #details) whenPresentationsChanged: [:a | presentationsChanged := true ].
+	(browser paneNamed: #details) whenMatchingPresentationsChanged: [:a | matchingPresentationsChanged := true ].
 	presentationsChanged := false.
+	matchingPresentationsChanged := false.
+
 	((browser paneNamed: #one) port: #selection) value: 2.
 	self assert: presentationsChanged.
-	presentationsChanged := false.
+	self assert: matchingPresentationsChanged.
 	self assert: ((browser paneNamed: #details) presentations first) displayValue = '2nil'.
+	presentationsChanged := false.
+
 	((browser paneNamed: #two) port: #selection) value: #c.
 	self assert: presentationsChanged.
-	presentationsChanged := false.
+	self assert: matchingPresentationsChanged.
 	self assert: ((browser paneNamed: #details) presentations first) displayValue = '2c'.
+	presentationsChanged := false.
+
 	((browser paneNamed: #one) port: #selection) value: nil.
 	self assert: presentationsChanged.
+	self assert: matchingPresentationsChanged.
 	self assert: ((browser paneNamed: #details) presentations first) displayValue = 'nilc'.
 ]
 
@@ -59,25 +67,23 @@ GLMScriptingTest >> testComplexFinderBrowser [
 	 
 	| browser | 
 	browser := GLMFinder new. 
-	(browser list) 
+	browser list
 		title: 'Presentation1'; 
 		display: [:each | 1 to: each]. 
 	browser 
 		fromPrevious: #selection; 
 		passivelyFromPrevious: #highlight; 
-		using: 
-				[(browser list) 
-						title: 'Presentation2'; 
-						display: [:selection :highlight | 1 to: selection + highlight]]. 
+		using: [
+			browser list
+				title: 'Presentation2'; 
+				display: [:selection :highlight | 1 to: selection + highlight]]. 
 	browser startOn: 42. 
 	self assert: browser presentations size = 1. 
 	self assert: browser presentations first title = 'Presentation1'. 
 	self assert: browser transmissions size = 1. 
 	self assert: browser transmissions last origins size = 2. 
 	self assert: browser transmissions last presentations size = 1. 
-	self 
-		assert: 
-			browser transmissions last presentations first title = 'Presentation2'. 
+	self assert: browser transmissions last presentations first title = 'Presentation2'. 
 	self assert: (browser panes first port: #entity) value = 42. 
 	(browser panes first port: #highlight) value: 43. 
 	(browser panes first port: #selection) value: 41. 
