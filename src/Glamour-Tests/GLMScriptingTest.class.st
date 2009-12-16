@@ -24,6 +24,31 @@ GLMScriptingTest >> testActionDefinition [
 ]
 
 { #category : #tests }
+GLMScriptingTest >> testAllowNil [
+	| browser |
+	browser := GLMTabulator new.
+	browser 
+		column: [: c | c row: #one; row: #two];
+		column: #details.
+	browser showOn: #one; using: [
+		browser tree display: #(1 2 3)].
+	browser showOn: #two; using: [
+		browser tree display: #(a b c)].
+	browser showOn: #details; from: #one; from: #two; using: [
+		browser text 
+			display: [ :one :two | one asString, two asString];
+			allowNil ].
+	browser startOn: 42.
+	((browser paneNamed: #one) port: #selection) value: 2.
+	self assert: ((browser paneNamed: #details) presentations first) displayValue = '2nil'.
+	((browser paneNamed: #two) port: #selection) value: #c.
+	self assert: ((browser paneNamed: #details) presentations first) displayValue = '2c'.
+	((browser paneNamed: #one) port: #selection) value: nil.
+	self assert: ((browser paneNamed: #details) presentations first) displayValue = 'nilc'.
+
+]
+
+{ #category : #tests }
 GLMScriptingTest >> testComplexFinderBrowser [ 
 	 
 	| browser | 
