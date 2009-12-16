@@ -21,13 +21,11 @@ GLMPanePort >> basicValue: anObject [
 
 { #category : #accessing }
 GLMPanePort >> changeValueTo: anObject in: aTransmissionContext [
-		| oldValue | 
+	| oldValue | 
 	oldValue := self value. 
-	self pane 
-		notingPresentationChangeDo: 
-			[value := anObject. 
-			self pane 
-				portEvent: 
+	self pane notingPresentationChangeDo: [
+		value := anObject. 
+		self pane portEvent: 
 					(GLMPortEvent 
 						on: self
 						previouslyValued: oldValue
