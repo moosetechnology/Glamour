@@ -56,6 +56,21 @@ GLMScriptingTest >> testComplexFinderBrowser [
 ]
 
 { #category : #tests }
+GLMScriptingTest >> testComposite [
+	 
+	| browser | 
+	browser := GLMTabulator new. 
+	browser column: #one. 
+	browser showOn: #one; using: [
+		browser composite with: [
+			browser list.
+			browser text]].
+	browser startOn: 42. 
+	self assert: (browser paneNamed: #one) presentations size = 1. 
+	self assert: (browser paneNamed: #one) presentations first presentations size = 2.
+]
+
+{ #category : #tests }
 GLMScriptingTest >> testConditionalPresentation [ 
 	 
 	| browser | 
