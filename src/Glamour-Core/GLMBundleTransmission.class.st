@@ -129,13 +129,9 @@ GLMBundleTransmission >> printOn: aStream [
 ]
 
 { #category : #transmitting }
-GLMBundleTransmission >> transmit [ 
+GLMBundleTransmission >> transmit [
+	self flag: 'The context deserves a first class, not just OrderedCollection'.
 	self transmitIn: OrderedCollection new
-	"self destination hasPane 
-		ifTrue: 
-			[self destination pane clear.
-			self destination pane addPresentations: self presentations]. 
-	self destination receive: self"
 ]
 
 { #category : #transmitting }
