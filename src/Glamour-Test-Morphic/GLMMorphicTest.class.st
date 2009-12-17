@@ -53,8 +53,10 @@ GLMMorphicTest >> testAllowNil [
 	detailsMorph := window submorphs last submorphs last submorphs first.
 	self assert: detailsMorph getText = '2nil'.
 	((browser paneNamed: #two) port: #selection) value: #c.
+	detailsMorph := window submorphs last submorphs last submorphs first.
 	self assert: detailsMorph getText = '2c'.
 	((browser paneNamed: #one) port: #selection) value: nil.
+	detailsMorph := window submorphs last submorphs last submorphs first.
 	self assert: detailsMorph getText = 'nilc'.
 	window delete
 
