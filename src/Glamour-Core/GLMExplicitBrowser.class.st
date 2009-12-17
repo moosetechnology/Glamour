@@ -40,10 +40,12 @@ GLMExplicitBrowser >> addTransmission: aTransmission [
 
 { #category : #events }
 GLMExplicitBrowser >> innerPortEvent: aPortEvent [ 
-	aPortEvent hasChanged 
-		ifTrue: 
-			[(self transmissions select: [:each | ( each originatesAt: aPortEvent port ) and: [( aPortEvent transmissionContext includes: each destination) not ]]) 
-				do: [:each | each transmitIn: aPortEvent transmissionContext ]]
+	| wantedTransmissions |
+	aPortEvent hasChanged ifTrue: [
+		wantedTransmissions := self transmissions select: [:each | 
+			( each originatesAt: aPortEvent port ) and: [
+				( aPortEvent transmissionContext includes: each destination ) not ]].
+		wantedTransmissions do: [ :each | each transmitIn: aPortEvent transmissionContext ]]
 ]
 
 { #category : #events }

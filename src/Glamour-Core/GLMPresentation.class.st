@@ -160,11 +160,8 @@ GLMPresentation >> matches [
 ]
 
 { #category : #events }
-GLMPresentation >> outerPortEvent: aPortEvent [ 
-	 
-	self 
-		announce: 
-			((GLMContextChanged new) 
+GLMPresentation >> outerPortEvent: aPortEvent [
+	self announce: (GLMContextChanged new
 				presentation: self; 
 				property: aPortEvent portName; 
 				value: aPortEvent value; 
@@ -336,7 +333,6 @@ GLMPresentation >> validate: anObject on: aPort [
 ]
 
 { #category : #announcements }
-GLMPresentation >> whenContextChanged: aBlock [ 
-	 
-	^self when: GLMContextChanged do: aBlock
+GLMPresentation >> whenContextChanged: aBlock [
+	^ self when: GLMContextChanged do: aBlock
 ]

@@ -130,20 +130,22 @@ GLMBundleTransmission >> printOn: aStream [
 
 { #category : #transmitting }
 GLMBundleTransmission >> transmit [ 
-	self destination hasPane 
+	self transmitIn: OrderedCollection new
+	"self destination hasPane 
 		ifTrue: 
 			[self destination pane clear.
 			self destination pane addPresentations: self presentations]. 
-	self destination receive: self
+	self destination receive: self"
 ]
 
 { #category : #transmitting }
 GLMBundleTransmission >> transmitIn: aContext [
-	self destination hasPane 
-		ifTrue: 
-			[self destination pane clearIn: aContext.
-			self destination pane addPresentations: self presentations]. 
-	self destination receive: self in: aContext
+	self destination hasPane ifTrue: [
+		self destination pane clearIn: aContext.
+		self destination pane addPresentations: self presentations ].
+	"it is important for the destination to be set after the presentation, 
+	because when the presentation is a browser, we might forward the entity internally"
+	self destination receive: self in: aContext.
 ]
 
 { #category : #transmitting }

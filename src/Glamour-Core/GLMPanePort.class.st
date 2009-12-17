@@ -22,7 +22,7 @@ GLMPanePort >> basicValue: anObject [
 { #category : #accessing }
 GLMPanePort >> changeValueTo: anObject in: aTransmissionContext [
 	| oldValue | 
-	oldValue := self value. 
+	oldValue := self value.
 	self pane notingPresentationChangeDo: [
 		value := anObject. 
 		self pane portEvent: 
@@ -58,14 +58,12 @@ GLMPanePort >> printOn: aStream [
 ]
 
 { #category : #accessing }
-GLMPanePort >> receive: aTransmission [ 
-	 
-	self value: aTransmission value in: aTransmission context
+GLMPanePort >> receive: aTransmission [
+	self receive: aTransmission value in: aTransmission context
 ]
 
 { #category : #accessing }
 GLMPanePort >> receive: aTransmission in: aContext [
-	 
 	self value: aTransmission value in: aContext
 ]
 

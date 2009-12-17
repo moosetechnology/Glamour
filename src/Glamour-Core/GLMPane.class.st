@@ -48,18 +48,10 @@ GLMPane >> addPresentation: aPresentation [
 ]
 
 { #category : #accessing }
-GLMPane >> addPresentations: aCollection [ 
-	 
-	self 
-		notingPresentationChangeDo: 
-			[aCollection 
-				do: 
-					[:each |  
-					presentations 
-						addLast: 
-							(each 
-								pane: self; 
-								yourself)]]
+GLMPane >> addPresentations: aCollection [
+	self notingPresentationChangeDo: [
+		aCollection do: [ :each |  
+			presentations addLast: (each pane: self; yourself) ] ]
 ]
 
 { #category : #converting }
@@ -141,25 +133,18 @@ GLMPane >> name [
 ]
 
 { #category : #private }
-GLMPane >> notingPresentationChangeDo: aBlock [ 
-	 
+GLMPane >> notingPresentationChangeDo: aBlock [
 	| oldPresentations oldMatchingPresentations | 
 	oldPresentations := self presentations copy. 
 	oldMatchingPresentations := self matchingPresentations. 
 	aBlock value. 
-	self presentations ~= oldPresentations 
-		ifTrue: 
-			[self 
-				announce: 
-					((GLMPresentationsChanged new) 
+	self presentations ~= oldPresentations ifTrue: [
+		self announce: ((GLMPresentationsChanged new) 
 						pane: self; 
 						oldPresentations: oldPresentations; 
 						yourself)]. 
-	self matchingPresentations ~= oldMatchingPresentations 
-		ifTrue: 
-			[self 
-				announce: 
-					((GLMMatchingPresentationsChanged new) 
+	self matchingPresentations ~= oldMatchingPresentations ifTrue: [
+		self announce: ((GLMMatchingPresentationsChanged new) 
 						pane: self; 
 						oldMatchingPresentations: oldMatchingPresentations; 
 						yourself)]
@@ -180,8 +165,7 @@ GLMPane >> port: aSymbol [
 ]
 
 { #category : #private }
-GLMPane >> portEvent: aPortEvent [ 
-	 
+GLMPane >> portEvent: aPortEvent [
 	self browser innerPortEvent: aPortEvent.
 	self presentations do: [:each | each outerPortEvent: aPortEvent]
 ]
