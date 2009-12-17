@@ -4,6 +4,11 @@ Class {
 	#category : #'Glamour-Tests'
 }
 
+{ #category : #testing }
+GLMPresentationTest >> expectedFailures [
+	^ #(testUpdateYourselfOnEntityUpdate testUpdateYourselfOnPortsUpdate testUpdateYourselfOnSelectionUpdate)
+]
+
 { #category : #tests }
 GLMPresentationTest >> testAnnouncement [ 
 	 

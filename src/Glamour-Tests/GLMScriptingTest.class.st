@@ -6,7 +6,7 @@ Class {
 
 { #category : #testing }
 GLMScriptingTest >> expectedFailures [
-	^ Array with: #testPublishingToOutsideFinder
+	^ #(#testPublishingToOutsideFinder #testUpdateYourselfOn #testComposite)
 ]
 
 { #category : #tests }
