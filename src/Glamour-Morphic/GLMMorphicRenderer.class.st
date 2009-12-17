@@ -227,18 +227,17 @@ GLMMorphicRenderer >> renderMorphPresentation: aMorphPresentation [
 GLMMorphicRenderer >> renderPane: aPane [ 
 	| container |
 	container := GLMMorphic emptyMorph.
-	aPane whenMatchingPresentationsChanged: 
-		[ :ann | 
+	aPane whenMatchingPresentationsChanged: [ :ann | 
 		container
 			removeAllMorphs;
 			addMorph: (self renderPresentationsOf: aPane)
-				fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
+			fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 			adoptPaneColor: container paneColor.
 		window fullBounds.
 		window refreshHorizontalScollbars ].
 	container
 		addMorph: (self renderPresentationsOf: aPane)
-			fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
+		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		adoptPaneColor: container paneColor.
 	^ container
 ]
@@ -255,14 +254,11 @@ GLMMorphicRenderer >> renderPresentationsOf: aPane [
 		hResizing: #spaceFill;
 		cornerStyle: (self theme tabGroupCornerStyleIn: nil);
 		font: self theme labelFont;
-		onPageIndexChange: 
-			[ :i | 
+		onPageIndexChange: [ :i | 
 			aPane lastActivePresentation: (aPane matchingPresentations at: i) ].
-	presentations do: 
-		[ :each | 
-		title := each hasTitleIcon 
-			ifTrue: 
-				[ self theme 
+	presentations do: [ :each | 
+		title := each hasTitleIcon ifTrue: [
+			self theme 
 					newImageIn: tabs
 					form: each titleIconValue ]
 			ifFalse: [ each titleValue ].
@@ -270,9 +266,9 @@ GLMMorphicRenderer >> renderPresentationsOf: aPane [
 			addLazyPage: [ self render: each ]
 			label: title ].
 	index := 1.
-	presentations withIndexDo: 
-		[ :each :i | 
-		aPane lastActivePresentation notNil and: [ each title = aPane lastActivePresentation title ifTrue: [ index := i ] ] ].
+	presentations withIndexDo: [ :each :i | 
+		aPane lastActivePresentation notNil and: [ 
+			each title = aPane lastActivePresentation title ifTrue: [ index := i ] ] ].
 	tabs selectedPageIndex: index.
 	^ tabs
 ]
