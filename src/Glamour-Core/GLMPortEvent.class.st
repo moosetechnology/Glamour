@@ -29,12 +29,12 @@ GLMPortEvent >> hasChanged [
 	^self value ~= self oldValue
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'initialize-release' }
 GLMPortEvent >> initializeOn: aPort previouslyValued: anObject [ 
 	self initializeOn: aPort previouslyValued: anObject in: OrderedCollection new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'initialize-release' }
 GLMPortEvent >> initializeOn: aPort previouslyValued: anObject in: aTransmissionContext [ 
 	port := aPort.
 	oldValue := anObject.
@@ -71,9 +71,9 @@ GLMPortEvent >> transmission [
 	^transmission
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMPortEvent >> transmissionContext [
-	^OrderedCollection withAll: transmissionContext
+	^ transmissionContext copy
 ]
 
 { #category : #'accessing-convenience' }

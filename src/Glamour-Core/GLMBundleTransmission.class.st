@@ -131,7 +131,7 @@ GLMBundleTransmission >> printOn: aStream [
 { #category : #transmitting }
 GLMBundleTransmission >> transmit [
 	self flag: 'The context deserves a first class, not just OrderedCollection'.
-	self transmitIn: OrderedCollection new
+	self transmitIn: GLMTransmissionContext new
 ]
 
 { #category : #transmitting }
