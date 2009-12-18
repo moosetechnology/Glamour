@@ -136,6 +136,23 @@ GLMBasicExamples >> listsWithUpdatedSelection [
 	^ browser
 ]
 
+{ #category : #others }
+GLMBasicExamples >> morphIcons [
+	<glmBrowser: 'OBMorphicIcons Browser' input: 'OBMorphicIcons selectors select: [:each | (OBMorphicIcons new perform: each) isForm ]'>
+	"self new morphIcons openOn: (OBMorphicIcons selectors select: [:each | (OBMorphicIcons new perform: each) isForm ])"
+	| browser |
+	browser := GLMTabulator new.
+	browser column: #list; column: #preview.
+	browser title: 'OBMorphicIcons'.
+	browser showOn: #list; using: [
+		browser list ].
+	browser showOn: #preview; from: #list; using: [
+		browser morph
+			display: [:symbol | 
+				(OBMorphicIcons iconNamed: symbol) asMorph ] ].
+	^ browser
+]
+
 { #category : #'explicit selection' }
 GLMBasicExamples >> multiInitialSelection [
 	"

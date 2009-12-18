@@ -19,6 +19,11 @@ GLMExamples class >> browseExamples [
 			format: [:each | each argumentAt: 1]].
 	browser showOn: #example; from: #titles; using: [
 		browser dynamic
-			display: [:each | (self new perform: each selector) startOn: (Compiler evaluate: (each argumentAt: 2) logged: false)]].
+			title: 'Browser';
+			display: [:each | (self new perform: each selector) startOn: (Compiler evaluate: (each argumentAt: 2) logged: false)].
+		browser text 
+			title: 'Source code';
+			forSmalltalk: self;
+			display: [:each | self sourceCodeAt: each selector]].	
 	browser openOn: pragmas.
 ]
