@@ -113,6 +113,7 @@ ConfigurationOfGlamour >> default: spec [
 		spec repository: 'http://www.squeaksource.com/Glamour'.
 		spec 
 			package: 'Morphic-MorphTreeWidget' with: [
+				spec file: 'Morphic-MorphTreeWidget-AlainPlantec.39'.
 				spec repository: 'http://www.squeaksource.com/Momo' ];
 			package: 'Glamour-Helpers' ;
 			package: 'Glamour-Squeak' ;
