@@ -38,12 +38,6 @@ GLMParentPort >> presentation: aPresentation [
 ]
 
 { #category : #accessing }
-GLMParentPort >> receive: aTransmission [ 
-	 
-	self port receive: aTransmission
-]
-
-{ #category : #accessing }
 GLMParentPort >> receive: aTransmission in: aContext [
 	self port receive: aTransmission in: aContext
 	
@@ -59,7 +53,7 @@ GLMParentPort >> value [
 ]
 
 { #category : #accessing }
-GLMParentPort >> value: anObject [
+GLMParentPort >> value: anObject in: aContext [
 	(self validate: anObject) ifFalse: [^ self].
-	self port value: anObject
+	self port value: anObject in: aContext
 ]

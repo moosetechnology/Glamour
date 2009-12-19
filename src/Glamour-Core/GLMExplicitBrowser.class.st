@@ -45,7 +45,7 @@ GLMExplicitBrowser >> innerPortEvent: aPortEvent [
 		wantedTransmissions := self transmissions select: [:each | 
 			( each originatesAt: aPortEvent port ) and: [
 				( aPortEvent transmissionContext includesPort: each destination ) not ]].
-		wantedTransmissions do: [ :each | each transmitIn: aPortEvent transmissionContext ]]
+		wantedTransmissions do: [ :each | each transmitIn: aPortEvent transmissionContext copy ]]
 ]
 
 { #category : #events }
@@ -55,7 +55,7 @@ GLMExplicitBrowser >> outerPortEvent: aPortEvent [
 		(self transmissions select: [:each | 
 			(each originatesAt: aPortEvent port) and: [
 				( aPortEvent transmissionContext includesPort: each destination) not ]]) 
-			do: [:each | each transmitIn: aPortEvent transmissionContext ]]
+			do: [:each | each transmitIn: aPortEvent transmissionContext copy ]]
 ]
 
 { #category : #accessing }

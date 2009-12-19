@@ -42,12 +42,6 @@ GLMSimpleTransmission >> originatesAt: aPort [
 ]
 
 { #category : #transmitting }
-GLMSimpleTransmission >> transmit [ 
-	 
-	self destination receive: self
-]
-
-{ #category : #transmitting }
 GLMSimpleTransmission >> transmitIn: aContext [
 	 
 	self destination receive: self in: aContext

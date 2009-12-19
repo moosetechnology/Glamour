@@ -58,11 +58,6 @@ GLMPanePort >> printOn: aStream [
 ]
 
 { #category : #accessing }
-GLMPanePort >> receive: aTransmission [
-	self receive: aTransmission value in: GLMTransmissionContext new
-]
-
-{ #category : #accessing }
 GLMPanePort >> receive: aTransmission in: aContext [
 	self value: aTransmission value in: aContext
 ]
@@ -74,13 +69,8 @@ GLMPanePort >> value [
 ]
 
 { #category : #accessing }
-GLMPanePort >> value: anObject [ 
-	(self validate: anObject) ifFalse: [^ self].
-	self changeValueTo: anObject in: GLMTransmissionContext new.
-]
-
-{ #category : #accessing }
 GLMPanePort >> value: anObject in: aContext [
+	(self validate: anObject) ifFalse: [^ self].
 	aContext addPort: self.
 	self changeValueTo: anObject in: aContext.
 ]

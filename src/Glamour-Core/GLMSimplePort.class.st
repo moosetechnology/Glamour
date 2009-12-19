@@ -8,14 +8,8 @@ Class {
 }
 
 { #category : #accessing }
-GLMSimplePort >> receive: aTransmission [ 
-	
-	self value: aTransmission value
-]
-
-{ #category : #accessing }
 GLMSimplePort >> receive: aTransmission in: aContext [
-	self value: aTransmission value
+	self value: aTransmission value in: aContext
 ]
 
 { #category : #accessing }
@@ -25,12 +19,7 @@ GLMSimplePort >> value [
 ]
 
 { #category : #accessing }
-GLMSimplePort >> value: anObject [
-	value := anObject
-]
-
-{ #category : #accessing }
 GLMSimplePort >> value: anObject in: aContext [
-	aContext add: self.
+	aContext addPort: self.
 	value := anObject
 ]

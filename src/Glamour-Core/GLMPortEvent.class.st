@@ -73,7 +73,7 @@ GLMPortEvent >> transmission [
 
 { #category : #accessing }
 GLMPortEvent >> transmissionContext [
-	^ transmissionContext copy
+	^ transmissionContext
 ]
 
 { #category : #'accessing-convenience' }

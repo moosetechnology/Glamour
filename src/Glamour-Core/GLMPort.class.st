@@ -38,7 +38,11 @@ GLMPort >> printOn: aStream [
 
 { #category : #accessing }
 GLMPort >> receive: aTransmission [ 
-	 
+	self receive: aTransmission in: GLMTransmissionContext new
+]
+
+{ #category : #accessing }
+GLMPort >> receive: aTransmission in: aContext [ 
 	self subclassResponsibility
 ]
 
@@ -56,6 +60,10 @@ GLMPort >> value [
 
 { #category : #accessing }
 GLMPort >> value: anObject [ 
-	 
+	self value: anObject in: GLMTransmissionContext new
+]
+
+{ #category : #accessing }
+GLMPort >> value: anObject in: aContext [
 	self subclassResponsibility
 ]

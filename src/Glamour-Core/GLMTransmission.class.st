@@ -32,8 +32,12 @@ GLMTransmission >> originatesAt: aPort [
 ]
 
 { #category : #transmitting }
-GLMTransmission >> transmit [ 
-	 
+GLMTransmission >> transmit [
+	self transmitIn: GLMTransmissionContext new
+]
+
+{ #category : #transmitting }
+GLMTransmission >> transmitIn: aContext [
 	self subclassResponsibility
 ]
 
