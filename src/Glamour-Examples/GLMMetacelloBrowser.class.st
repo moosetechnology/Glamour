@@ -15,9 +15,13 @@ GLMMetacelloBrowser >> buildBrowser [
 			act: [:list  | list selection project inspect] entitled: 'Inspect' ].
 	browser showOn: #versions; from: #configs; using: [
 		browser list
+			title: 'Versions';
 			display: [:config | config project versions ];
 			format: [:each | each versionNumber asString ];
-			act: [:list  | list selection inspect] entitled: 'Inspect' ].
+			act: [:list  | list selection inspect] entitled: 'Inspect'.
+		browser mondrian
+			title: 'Depdendencies';
+			painting: [:view :config | self viewVersionMapOf: config on: view]].
 	browser showOn: #packages; from: #versions; using: [
 		browser list
 			title: 'Items';
@@ -72,5 +76,28 @@ GLMMetacelloBrowser >> viewDependenciesOf: version on: view [
 	view shape curvedLine.
 	view edges: version packages from: [:eachPackage | all at: eachPackage name] toAll: [:eachPackage |
 		eachPackage requires collect: [:each | all at: each ]].
+	view horizontalDominanceTreeLayout
+]
+
+{ #category : #private }
+GLMMetacelloBrowser >> viewVersionMapOf: configClass on: view [
+
+	| prag1 prag2 nodes edges version imported |
+	prag1 := Pragma allNamed: #version:imports: in: configClass.
+	prag2 := Pragma allNamed: #version: in: configClass.
+	nodes := Dictionary new.
+	edges := OrderedCollection new.
+	prag2 do: [:prag | 
+		nodes at: (prag argumentAt: 1) put: (configClass project version: (prag argumentAt: 1)) ].
+	prag1 do: [:prag | 
+		version := nodes at: (prag argumentAt: 1) put: (configClass project version: (prag argumentAt: 1)).
+		(prag argumentAt: 2) do: [:eachImportPrag |
+			imported := nodes at: eachImportPrag ifAbsentPut: [configClass project version: eachImportPrag].
+			edges add: version -> imported.
+			]
+		].
+	view shape label text: [:each | each versionNumber printString].
+	view nodes: nodes values.
+	view edges: edges from: #key to: #value.
 	view horizontalDominanceTreeLayout
 ]
