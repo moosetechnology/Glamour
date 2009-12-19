@@ -8,7 +8,8 @@ Class {
 	#name : #GLMTransmissionContext,
 	#superclass : #Object,
 	#instVars : [
-		'ports'
+		'ports',
+		'forbiddenAnnouncements'
 	],
 	#category : #'Glamour-Core'
 }
@@ -16,6 +17,49 @@ Class {
 { #category : #accessing }
 GLMTransmissionContext >> addPort: aPort [
 	self ports add: aPort
+]
+
+{ #category : #accessing }
+GLMTransmissionContext >> can: aPane announce: anAnnouncement [
+	^ ((self forbiddenAnnouncements at: aPane ifAbsent: [Set new])
+		includes: anAnnouncement ) not
+]
+
+{ #category : #accessing }
+GLMTransmissionContext >> canAnnounceMatchingPresentationsChanged: aPane [
+	^ self can: aPane announce: GLMMatchingPresentationsChanged
+]
+
+{ #category : #accessing }
+GLMTransmissionContext >> canAnnouncePresentationsChanged: aPane [
+	self can: aPane announce: GLMPresentationsChanged
+]
+
+{ #category : #accessing }
+GLMTransmissionContext >> forbid: aPane toAnnounce: anAnnouncement [
+	(self forbiddenAnnouncements at: aPane ifAbsentPut: [Set new])
+		add: anAnnouncement
+]
+
+{ #category : #accessing }
+GLMTransmissionContext >> forbidToAnnounceMatchingPresentationsChanged: aPane [
+	self forbid: aPane toAnnounce: GLMMatchingPresentationsChanged
+]
+
+{ #category : #accessing }
+GLMTransmissionContext >> forbidToAnnouncePresentationsChanged: aPane [
+	self forbid: aPane toAnnounce: GLMPresentationsChanged
+]
+
+{ #category : #accessing }
+GLMTransmissionContext >> forbiddenAnnouncements [
+	"forbiddenAnnouncements holds a dictionary in which the key is a pane and the value is a collection of announcements"
+	^ forbiddenAnnouncements ifNil: [forbiddenAnnouncements := IdentityDictionary new]
+]
+
+{ #category : #accessing }
+GLMTransmissionContext >> forbiddenAnnouncements: anObject [
+	forbiddenAnnouncements := anObject
 ]
 
 { #category : #testing }
