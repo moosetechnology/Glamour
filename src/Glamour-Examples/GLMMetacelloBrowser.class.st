@@ -20,7 +20,7 @@ GLMMetacelloBrowser >> buildBrowser [
 			format: [:each | each versionNumber asString ];
 			act: [:list  | list selection inspect] entitled: 'Inspect'.
 		browser mondrian
-			title: 'Depdendencies';
+			title: 'Imports';
 			painting: [:view :config | self viewVersionMapOf: config on: view]].
 	browser showOn: #packages; from: #versions; using: [
 		browser list
