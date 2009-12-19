@@ -1,3 +1,6 @@
+"
+GLMMultiValue is helper class that is used in #glamourValue:.
+"
 Class {
 	#name : #GLMMultiValue,
 	#superclass : #OrderedCollection,

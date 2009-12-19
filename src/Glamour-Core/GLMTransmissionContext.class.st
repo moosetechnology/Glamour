@@ -1,3 +1,9 @@
+"
+This class models the context in which a set of transmissions take place. In essence, it records all ports that were reached after an outside event.
+ 
+Instance Variables
+	ports:		Collection of Ports
+"
 Class {
 	#name : #GLMTransmissionContext,
 	#superclass : #Object,

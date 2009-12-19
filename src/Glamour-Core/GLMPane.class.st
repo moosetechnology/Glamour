@@ -1,3 +1,13 @@
+"
+A GLMPane represents the building blocks of a browser.
+
+Instance Variables
+	browser:		Browser
+	lastActivePresentation:		Presentation
+	name:		<Object>
+	ports:		Collection of Ports
+	presentations:		Collection of Presentations
+"
 Class {
 	#name : #GLMPane,
 	#superclass : #Announcer,

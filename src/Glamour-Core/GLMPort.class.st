@@ -1,3 +1,6 @@
+"
+GLMPort represents the abstract port. Any port has a name. Subclasses can provide further semantics to a port.
+"
 Class {
 	#name : #GLMPort,
 	#superclass : #Object,
