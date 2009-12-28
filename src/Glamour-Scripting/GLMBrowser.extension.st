@@ -10,6 +10,11 @@ GLMBrowser >> composite [
 	^ self custom: GLMCompositePresentation new
 ]
 
+{ #category : #'*Glamour-Scripting' }
+GLMBrowser >> compositeList [
+	^ self custom: GLMCompositeBuilder new
+]
+
 { #category : #'*glamour-scripting' }
 GLMBrowser >> context [
 

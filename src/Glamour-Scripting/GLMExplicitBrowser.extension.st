@@ -7,7 +7,7 @@ GLMExplicitBrowser >> custom: aPresentation [
 	this message is particularly useful when you want to set a browser as a presentation" 
 	 
 	scriptTransmission addPresentation: aPresentation. 
-	^aPresentation
+	^ aPresentation
 ]
 
 { #category : #'*Glamour-Scripting' }
