@@ -16,3 +16,8 @@ GLMCompositePresentation >> presentations [
 GLMCompositePresentation >> presentations: anObject [
 	presentations := anObject
 ]
+
+{ #category : #rendering }
+GLMCompositePresentation >> renderGlamorouslyOn: aRenderer [
+	^ aRenderer renderCompositePresentation: self
+]
