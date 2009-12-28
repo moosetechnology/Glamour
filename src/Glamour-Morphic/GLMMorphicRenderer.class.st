@@ -71,6 +71,11 @@ GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [
 	^ container
 ]
 
+{ #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderCompositePresentation: aCompositePresentation [
+	self flag: 'implement me'
+]
+
 { #category : #private }
 GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aMorph inBrowser: aBrowser [ 
 	| pane totalSpans currentSpanPosition currentOffset |
