@@ -7,7 +7,7 @@ Class {
 	#category : #'Glamour-Tools'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 GLMChasingBrowser >> buildBrowser [
 	| finder |
 	finder := GLMFinder new.
