@@ -44,9 +44,9 @@ GLMTreeMorphModel >> announce: anAnnouncement [
 	self announcer announce: anAnnouncement 
 ]
 
-{ #category : #announcements }
+{ #category : #accessing }
 GLMTreeMorphModel >> announcer [
-	^ announcer ifNil: [announcer := Announcer new].
+	^ announcer ifNil: [announcer := Announcer new]
 ]
 
 { #category : #accessing }
@@ -187,12 +187,8 @@ GLMTreeMorphModel >> nodeModelFor: anObject [
 
 { #category : #callbacks }
 GLMTreeMorphModel >> onDoubleClick [
-	self selectedNode ifNotNil: [:n | n onDoubleClick]
-]
-
-{ #category : #callbacks }
-GLMTreeMorphModel >> onSelection: aBlock [
-	onSelection := aBlock
+	self announcer announce: (GLMTreeMorphStrongSelectionChanged new strongSelectionValue: 
+		(self selection ifNotNil: [self selection selectedItemOrItemsOrNil]))
 ]
 
 { #category : #'search and filtering' }
@@ -229,9 +225,11 @@ GLMTreeMorphModel >> roots: anObjectOrCollection [
 GLMTreeMorphModel >> selection: aSelection [ 
 	self selection = aSelection ifTrue: [ ^ self ].
 	super selection: aSelection.
-	aSelection isNil 
-		ifFalse: [ onSelection ifNotNil: [ onSelection value: aSelection selectedItemOrItemsOrNil ] ]
-		ifTrue: [ onSelection ifNotNil: [ onSelection value: nil ] ]
+	self announcer announce: (
+			GLMTreeMorphSelectionChanged new 
+				selectionValue: (aSelection ifNotNil: [aSelection selectedItemOrItemsOrNil]);
+				selectionPathValue: self selectionPathItems;
+				yourself)
 ]
 
 { #category : #accessing }
