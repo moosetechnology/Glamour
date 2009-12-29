@@ -6,7 +6,7 @@ Class {
 
 { #category : #testing }
 GLMMorphicTest >> expectedFailures [
-	^ #(testChildrenBlock testChildrenBlockTakesEntity testColumnBlockTakesEntity)
+	^ #(testChildrenBlock testChildrenBlockTakesEntity testColumnBlockTakesEntity testAllowNil)
 ]
 
 { #category : #private }
@@ -146,6 +146,23 @@ GLMMorphicTest >> testListDoubleClick [
 	self send: treeMorph doubleClickWithShift: false onItem: treeNodeMorph.
 	window delete.
 	self assert: (browser panes first port: #strongSelection) value = $a.
+]
+
+{ #category : #testing }
+GLMMorphicTest >> testListDoubleClickWithMultipleSelection [
+
+	| browser window treeMorph treeNodeMorph lastTreeNodeMorph |
+	browser := GLMFinder new.
+	browser tree beMultiple.
+	window := browser openOn: ($a to: $d).
+	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
+	treeNodeMorph := treeMorph scroller submorphs first.
+	lastTreeNodeMorph := treeMorph scroller submorphs last.
+	self send: treeMorph mouseUpWithShift: false onItem: treeNodeMorph.
+	self send: treeMorph mouseUpWithShift: true onItem: lastTreeNodeMorph.
+	self send: treeMorph doubleClickWithShift: false onItem: treeNodeMorph.
+	window delete.
+	self assert: (browser panes first port: #strongSelection) value asSet = ($a to: $d) asSet.
 ]
 
 { #category : #testing }
