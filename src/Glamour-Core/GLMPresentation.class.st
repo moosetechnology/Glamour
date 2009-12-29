@@ -119,14 +119,12 @@ GLMPresentation >> dynamicActions [
 ]
 
 { #category : #'accessing ports' }
-GLMPresentation >> entity [ 
-	 
-	^(self pane port: #entity) value
+GLMPresentation >> entity [
+	^ (self pane port: #entity) value
 ]
 
 { #category : #'accessing ports' }
-GLMPresentation >> entity: anObject [ 
-	 
+GLMPresentation >> entity: anObject [
 	(self pane port: #entity) value: anObject
 ]
 
@@ -212,9 +210,8 @@ GLMPresentation >> renderGlamorouslyOn: aRenderer [
 ]
 
 { #category : #'accessing ports' }
-GLMPresentation >> selection [ 
-	 
-	^(self pane port: #selection) value
+GLMPresentation >> selection [
+	^ (self pane port: #selection) value
 ]
 
 { #category : #'accessing ports' }
@@ -236,6 +233,16 @@ GLMPresentation >> shouldValidate [
 { #category : #accessing }
 GLMPresentation >> shouldValidate: aBoolean [
 	shouldValidate := aBoolean 
+]
+
+{ #category : #'accessing ports' }
+GLMPresentation >> strongSelection [
+	^ (self pane port: #strongSelection) value
+]
+
+{ #category : #'accessing ports' }
+GLMPresentation >> strongSelection: anObject [
+	(self pane port: #strongSelection) value: (self postTransformation glamourValue: anObject)
 ]
 
 { #category : #accessing }
