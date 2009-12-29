@@ -12,7 +12,16 @@ GLMChasingBrowser >> buildBrowser [
 	| finder |
 	finder := GLMFinder new.
 	finder tree
+		title: 'Implementors';
 		display: [ :each | self systemNavigation allImplementorsOf:	each ];
+		format: [:each | 
+			(each isKindOf: MethodReference) ifTrue: [each classSymbol, '>>', each selector ] ifFalse: [ each ]];
+		children: [ :each | 
+			(each isKindOf: MethodReference) ifTrue: [each compiledMethod messages] ifFalse: [OrderedCollection new]];
+		whenKindOf: String.
+	finder tree
+		title: 'Senders';
+		display: [ :each | self systemNavigation allSendersOf:	each ];
 		format: [:each | 
 			(each isKindOf: MethodReference) ifTrue: [each classSymbol, '>>', each selector ] ifFalse: [ each ]];
 		children: [ :each | 

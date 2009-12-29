@@ -3,7 +3,7 @@ self openOn: Smalltalk organization categories.
 "
 Class {
 	#name : #GLMClassicCodeBrowser,
-	#superclass : #GLMBrowserTemplate,
+	#superclass : #GLMGlobalBrowserTemplate,
 	#category : #'Glamour-Tools'
 }
 
