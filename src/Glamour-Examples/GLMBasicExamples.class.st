@@ -84,6 +84,18 @@ GLMBasicExamples >> compoundTaggedTree [
 ]
 
 { #category : #others }
+GLMBasicExamples >> doubleClick [
+	| browser |
+	browser := GLMTabulator new.
+	browser column: #one; column: #two.
+	browser showOn: #one; using: [
+		browser list display: [:x | 1 to: x]].
+	browser showOn: #two; from: #one->#strongSelection; using: [
+		browser list display: [:x | 1 to: x]].
+	browser openOn: 100
+]
+
+{ #category : #others }
 GLMBasicExamples >> fixSizePanes [
 	"self new fixSizePanes openOn: 1"
 	| browser |
