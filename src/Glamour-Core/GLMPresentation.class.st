@@ -18,10 +18,21 @@ Class {
 		'updateAnnouncementsToBlocks',
 		'color',
 		'customValidation',
-		'shouldValidate'
+		'shouldValidate',
+		'acceptsSelection'
 	],
 	#category : #'Glamour-Core'
 }
+
+{ #category : #accessing }
+GLMPresentation >> acceptsSelection [
+	^ acceptsSelection ifNil: [acceptsSelection := true]
+]
+
+{ #category : #accessing }
+GLMPresentation >> acceptsSelection: aBoolean [
+	acceptsSelection := aBoolean
+]
 
 { #category : #accessing }
 GLMPresentation >> actions [
@@ -216,6 +227,7 @@ GLMPresentation >> selection [
 
 { #category : #'accessing ports' }
 GLMPresentation >> selection: anObject [ 
+	self acceptsSelection ifFalse: [^ self].
 	self flag: 'perhaps it would be better to provide 2 ports: a transformed one and a normal one'.
 	(self pane port: #selection) value: (self postTransformation glamourValue: anObject)
 ]
