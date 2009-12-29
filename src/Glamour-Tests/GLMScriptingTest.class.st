@@ -370,6 +370,19 @@ GLMScriptingTest >> testSimpleTransmission [
 ]
 
 { #category : #tests }
+GLMScriptingTest >> testSimpleTransmissionsToOuter [
+	 
+	| browser | 
+	browser := GLMTabulator new. 
+	browser column: #one. 
+	browser sendTo: #outer->#increased from: #outer->#entity with: [ :x | x + 1 ].
+	browser showOn: #one; from: #outer->#increased; using: [browser text].
+	browser startOn: 41.
+	self assert: ((browser paneNamed: #one) port: #entity) value = 42
+
+]
+
+{ #category : #tests }
 GLMScriptingTest >> testStartTransmission [ 
 	 
 	| browser | 
