@@ -157,7 +157,8 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Tests' ;
 			package: 'Glamour-Morphic' with: [spec requires: #('Morphic-MorphTreeWidget')];
 			package: 'Glamour-Test-Morphic' with: [spec requires: #('Glamour-Morphic')];
-			package: 'Glamour-Examples'.
+			package: 'Glamour-Examples' ;
+			package: 'Glamour-Tools' .
 		spec group: 'Tests' with: #(
 						'Glamour-Tests'
 						'Glamour-Examples'
