@@ -1,6 +1,11 @@
 Extension { #name : #GLMListingPresentation }
 
 { #category : #'*Glamour-Scripting' }
+GLMListingPresentation >> allowDeselection [
+	self allowsDeselection: true
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMListingPresentation >> beMultiple [
 	allowsMultipleSelection := true
 ]

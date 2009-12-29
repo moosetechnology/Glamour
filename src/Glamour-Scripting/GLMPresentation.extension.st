@@ -87,6 +87,11 @@ GLMPresentation >> display: aBlock [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMPresentation >> noSelection [
+	self acceptsSelection: false
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMPresentation >> on: aCharacter do: aBlock [
 	
 	self
