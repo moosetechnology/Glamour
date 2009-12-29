@@ -364,10 +364,10 @@ GLMMorphicRenderer >> renderTreePresentation: aPresentation [
 		container addMorphBack: amountFilteringButton ].
 	container addMorphBack: treeMorph.
 	self installActionsOnUI: treeModel fromPresentation: aPresentation.
+
 	treeModel announcer on: GLMTreeMorphSelectionChanged do: [ :ann | 
 		aPresentation selection: ann selectionValue.
-		aPresentation selectionPath: ann selectionPathValue.
-	].
+		aPresentation selectionPath: ann selectionPathValue ].
 	treeModel announcer on: GLMTreeMorphStrongSelectionChanged do: [ :ann | 
 		aPresentation strongSelection: ann strongSelectionValue ].
 		
