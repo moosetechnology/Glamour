@@ -186,6 +186,11 @@ GLMTreeMorphModel >> nodeModelFor: anObject [
 ]
 
 { #category : #callbacks }
+GLMTreeMorphModel >> onDoubleClick [
+	self selectedNode ifNotNil: [:n | n onDoubleClick]
+]
+
+{ #category : #callbacks }
 GLMTreeMorphModel >> onSelection: aBlock [
 	onSelection := aBlock
 ]

@@ -115,6 +115,11 @@ GLMTreeMorphNodeModel >> menu: aMenuMorph shifted: b [
 	^ aMenuMorph
 ]
 
+{ #category : #callbacks }
+GLMTreeMorphNodeModel >> onDoubleClick [
+	self containerTree glamourPresentation strongSelection: self item
+]
+
 { #category : #accessing }
 GLMTreeMorphNodeModel >> parentNode [
 	^ parentNode

@@ -407,11 +407,12 @@ GLMMorphicRenderer >> treeMorphFor: treeModel and: aPresentation [
 	treeMorph := LazyMorphTreeMorph new.
 	treeMorph
 		makeLastColumnUnbounded;
+		doubleClickSelector: #onDoubleClick;
 		getMenuSelector: #menu:shifted:;
 		keystrokeActionSelector: #keyStroke:from:;
 		cornerStyle: #square;
 		borderStyle: (BorderStyle inset width: 1);
-		autoDeselect: true;
+		autoDeselect: aPresentation allowsDeselection;
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
@@ -419,12 +420,20 @@ GLMMorphicRenderer >> treeMorphFor: treeModel and: aPresentation [
 	columns := OrderedCollection with: (MorphTreeColumn new rowMorphGetSelector: #elementColumn).
 	self flag: 'Please refactor this part'.
 	aPresentation columns notEmpty ifTrue: [
-		columns last headerButtonLabel: aPresentation title font: Preferences standardMenuFont target: nil actionSelector: nil arguments: #()].
-
+		columns last 
+			headerButtonLabel: aPresentation title 
+			font: Preferences standardMenuFont 
+			target: nil 
+			actionSelector: nil 
+			arguments: #()].
 	aPresentation columns do: [:each | 
 		columns add: (GLMMorphTreeColumn new 
 			glamourColumn: each; 
-			headerButtonLabel: each title font: Preferences standardMenuFont target: nil actionSelector: nil arguments: #(); 
+			headerButtonLabel: each title 
+			font: Preferences standardMenuFont 
+			target: nil 
+			actionSelector: nil 
+			arguments: #(); 
 			yourself)].
 	treeMorph
 		on: treeModel
