@@ -188,6 +188,19 @@ GLMMorphicTest >> testMultipleInitialSelection [
 ]
 
 { #category : #testing }
+GLMMorphicTest >> testNoSelection [
+	| browser window treeMorph treeNodeMorph lastTreeNodeMorph |
+	browser := GLMFinder new.
+	browser tree noSelection.
+	window := browser openOn: ($a to: $d).
+	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
+	treeNodeMorph := treeMorph scroller submorphs first.
+	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	window delete.
+	self assert: browser panes size = 1
+]
+
+{ #category : #testing }
 GLMMorphicTest >> testSpawnFinder [
 
 	| browser window check |
@@ -215,7 +228,20 @@ GLMMorphicTest >> testSpawnTableLayoutBrowser [
 
 { #category : #testing }
 GLMMorphicTest >> testTreeAllowDeseletion [
+	| browser window treeMorph treeNodeMorph lastTreeNodeMorph |	
+	browser := GLMFinder new.
+	browser list allowDeselection.
+	window := browser openOn: ($a to: $d).
+	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
+	treeNodeMorph := treeMorph scroller submorphs first.
+	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	window delete.
+	self assert: (browser panes first port: #selection) value isNil
+]
 
+{ #category : #testing }
+GLMMorphicTest >> testTreeDefaultAllowDeseletion [
 	| browser window treeMorph treeNodeMorph lastTreeNodeMorph |
 	browser := GLMFinder new.
 	browser tree.
@@ -226,16 +252,6 @@ GLMMorphicTest >> testTreeAllowDeseletion [
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
 	window delete.
 	self assert: (browser panes first port: #selection) value = $a.
-	
-	browser := GLMFinder new.
-	browser list allowDeselection.
-	window := browser openOn: ($a to: $d).
-	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
-	treeNodeMorph := treeMorph scroller submorphs first.
-	self send: treeMorph mouseUpOnItem: treeNodeMorph.
-	self send: treeMorph mouseUpOnItem: treeNodeMorph.
-	window delete.
-	self assert: (browser panes first port: #selection) value isNil
 ]
 
 { #category : #testing }
