@@ -7,10 +7,21 @@ Class {
 		'filterBlock',
 		'amountToShowBlock',
 		'allowsMultipleSelection',
-		'tagsFilterBlock'
+		'tagsFilterBlock',
+		'allowsDeselection'
 	],
 	#category : #'Glamour-Presentations'
 }
+
+{ #category : #accessing }
+GLMListingPresentation >> allowsDeselection [
+	^ allowsDeselection ifNil: [allowsDeselection := false]
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> allowsDeselection: anObject [
+	allowsDeselection := anObject
+]
 
 { #category : #testing }
 GLMListingPresentation >> allowsFilter [
