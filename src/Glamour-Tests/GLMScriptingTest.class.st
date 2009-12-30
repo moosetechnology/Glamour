@@ -301,10 +301,12 @@ GLMScriptingTest >> testPublishingToOutsideFinder [
 		from: #any -> #selection.
 	finder custom: innerBrowser.
 	finder startOn: 43.
-	self assert: (innerBrowser pane port: #selection) value isNil.
-	(finder panes first presentations first panes first port: #selection) value: 42.
+	self assert: (finder panes first port: #entity) value = 43.
+	self assert: (finder panes first port: #selection) value isNil.
+	((finder panes first presentations first paneNamed: #any) port: #selection) value: 42.
 	self assert: (finder panes first port: #selection) value = 42.
-	self assert: (finder panes last port: #entty) value = 42.
+	self assert: (finder panes first port: #entity) value = 43.
+	self assert: (finder panes last port: #entity) value = 42.
 	
 ]
 
