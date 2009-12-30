@@ -6,7 +6,7 @@ Class {
 
 { #category : #testing }
 GLMScriptingTest >> expectedFailures [
-	^ #(#testPublishingToOutsideFinder #testUpdateYourselfOn #testComposite)
+	^ #(#testUpdateYourselfOn #testComposite)
 ]
 
 { #category : #tests }
@@ -289,7 +289,6 @@ GLMScriptingTest >> testPublishing [
 
 { #category : #tests }
 GLMScriptingTest >> testPublishingToOutsideFinder [
-	 
 	| innerBrowser finder | 
 	finder := GLMFinder new.
 	innerBrowser := GLMTabulator new.
@@ -302,8 +301,8 @@ GLMScriptingTest >> testPublishingToOutsideFinder [
 		from: #any -> #selection.
 	finder custom: innerBrowser.
 	finder startOn: 43.
-	(finder panes first presentations first panes first port: #selection) value: 42.
 	self assert: (innerBrowser pane port: #selection) value isNil.
+	(finder panes first presentations first panes first port: #selection) value: 42.
 	self assert: (finder panes first port: #selection) value = 42.
 	self assert: (finder panes last port: #entty) value = 42.
 	
