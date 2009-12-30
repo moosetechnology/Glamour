@@ -5,22 +5,16 @@ Class {
 	#name : #GLMSimpleTransmission,
 	#superclass : #GLMTransmission,
 	#instVars : [
-		'origin',
-		'destination'
+		'origin'
 	],
 	#category : #'Glamour-Core'
 }
 
-{ #category : #accessing }
-GLMSimpleTransmission >> destination [ 
-	 
-	^destination
-]
+{ #category : #copying }
+GLMSimpleTransmission >> changePortsAccordingToPaneMapping: newPanesMapping [
+	super changePortsAccordingToPaneMapping: newPanesMapping.
+	self origin: ((newPanesMapping at: self origin pane) port: self origin name).
 
-{ #category : #accessing }
-GLMSimpleTransmission >> destination: aPort [ 
-	 
-	destination := aPort
 ]
 
 { #category : #accessing }
@@ -39,6 +33,12 @@ GLMSimpleTransmission >> origin: aPort [
 GLMSimpleTransmission >> originatesAt: aPort [ 
 	 
 	^self origin = aPort
+]
+
+{ #category : #accessing }
+GLMSimpleTransmission >> origins [
+	"this is a hack used in Browser>>postCopy to make it polymorphic with BundleTransmission"
+	^ OrderedCollection with: self origin
 ]
 
 { #category : #transmitting }

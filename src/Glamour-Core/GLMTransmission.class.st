@@ -9,10 +9,19 @@ Class {
 	#name : #GLMTransmission,
 	#superclass : #Object,
 	#instVars : [
-		'context'
+		'context',
+		'destination'
 	],
 	#category : #'Glamour-Core'
 }
+
+{ #category : #copying }
+GLMTransmission >> changePortsAccordingToPaneMapping: newPanesMapping [
+	"newPanesMapping is a dictionary with 
+	keys given by old panes and values by new panes"
+	self destination: ((newPanesMapping at: self destination pane) port: self destination name).
+
+]
 
 { #category : #transmitting }
 GLMTransmission >> context [
@@ -23,6 +32,18 @@ GLMTransmission >> context [
 { #category : #transmitting }
 GLMTransmission >> context: aContext [
 	 context := aContext
+]
+
+{ #category : #accessing }
+GLMTransmission >> destination [ 
+	 
+	^destination
+]
+
+{ #category : #accessing }
+GLMTransmission >> destination: aPort [ 
+	 
+	destination := aPort
 ]
 
 { #category : #testing }

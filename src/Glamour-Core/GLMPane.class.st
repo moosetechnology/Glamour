@@ -77,6 +77,11 @@ GLMPane >> browser [
 ]
 
 { #category : #accessing }
+GLMPane >> browser: aBrowser [
+	browser := aBrowser
+]
+
+{ #category : #accessing }
 GLMPane >> clearIn: aContext [ 
 
 	self notingPresentationChangeDo: [presentations := OrderedCollection new]. 
@@ -139,6 +144,8 @@ GLMPane >> name [
 { #category : #private }
 GLMPane >> notingPresentationChangeDo: aBlock [
 	| oldPresentations oldMatchingPresentations | 
+	self flag: 'this should create a context and then check for it before announcing.
+	Like this we can deal with the problem of announcing the same announcement twice'.
 	oldPresentations := self presentations copy. 
 	oldMatchingPresentations := self matchingPresentations. 
 	aBlock value. 
@@ -175,15 +182,20 @@ GLMPane >> portEvent: aPortEvent [
 ]
 
 { #category : #accessing }
-GLMPane >> ports [ 
-	 
-	^OrderedCollection withAll: ports
+GLMPane >> ports [
+	self flag: 'is this because we want a copy?'.
+	^ OrderedCollection withAll: ports
 ]
 
-{ #category : #private }
-GLMPane >> postCopy [ 
-	 
-	super postCopy
+{ #category : #copying }
+GLMPane >> postCopy [
+	| newPort |
+	super postCopy.
+	ports := ports collect: [:each | 
+		newPort := each copy.
+		newPort pane: self.
+		self flag: 'what about value?'.
+		newPort ]
 ]
 
 { #category : #accessing }

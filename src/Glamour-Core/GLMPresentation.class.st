@@ -179,9 +179,8 @@ GLMPresentation >> outerPortEvent: aPortEvent [
 ]
 
 { #category : #accessing }
-GLMPresentation >> pane [ 
-	 
-	^pane 
+GLMPresentation >> pane [
+	^ pane 
 		ifNil: 
 			[pane := (GLMPane in: GLMNoBrowser new) 
 				addPresentation: self; 

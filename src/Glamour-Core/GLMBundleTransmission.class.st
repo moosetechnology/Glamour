@@ -13,7 +13,6 @@ Class {
 	#superclass : #GLMTransmission,
 	#instVars : [
 		'presentations',
-		'destination',
 		'origins'
 	],
 	#category : #'Glamour-Core'
@@ -66,22 +65,19 @@ GLMBundleTransmission >> bundleOrigins [
 	^origins ifNil: [origins := OrderedCollection new]
 ]
 
+{ #category : #copying }
+GLMBundleTransmission >> changePortsAccordingToPaneMapping: newPanesMapping [
+	| newOrigins newPort |
+	super changePortsAccordingToPaneMapping: newPanesMapping.
+	self bundleOrigins do: [:each | 
+		newPort := (newPanesMapping at: each port pane) port: each port name.
+		each port: newPort ]
+]
+
 { #category : #private }
 GLMBundleTransmission >> clearOrigins [ 
 	 
 	origins := nil
-]
-
-{ #category : #accessing }
-GLMBundleTransmission >> destination [ 
-	 
-	^destination
-]
-
-{ #category : #accessing }
-GLMBundleTransmission >> destination: aPort [ 
-	 
-	destination := aPort
 ]
 
 { #category : #testing }

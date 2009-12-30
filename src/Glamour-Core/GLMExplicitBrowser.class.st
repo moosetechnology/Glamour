@@ -6,7 +6,6 @@ Class {
 	#superclass : #GLMBrowser,
 	#instVars : [
 		'panes',
-		'hiddenPane',
 		'transmissions',
 		'scriptTransmission'
 	],
@@ -72,11 +71,23 @@ GLMExplicitBrowser >> panes [
 
 { #category : #copying }
 GLMExplicitBrowser >> postCopy [
+	| newPane newPanes newPanesMapping newTransmission oldPane |
 	super postCopy.
-	self flag: 'we should somehow copy the panes, the ports and have the transmissions. The trouble is how to copy the transmissions between the ports that we just copied.'.
-"	panes := panes collect: [:each | each copy].
-	transmissions := self transmissions collect: [:each | each copy].
-	jumpstartTransmissions := self jumpstartTransmissions collect: [:each | each copy]."
+	newPanesMapping := Dictionary new. "needed for setting the right panes for the new transmissions"
+	newPanes := OrderedCollection new.
+	panes do: [:each | 
+		newPane := each copy.
+		newPane browser: self.
+		newPanes addLast: newPane.
+		newPanesMapping at: each put: newPane ].
+	oldPane := self pane.
+	pane := nil.
+	newPanesMapping at: oldPane ifAbsentPut: [ self pane ].
+	transmissions := self transmissions collect: [:each | 
+		newTransmission := each copy.
+		newTransmission changePortsAccordingToPaneMapping: newPanesMapping.
+		newTransmission ].
+	panes := newPanes
 ]
 
 { #category : #'scripting-private' }
