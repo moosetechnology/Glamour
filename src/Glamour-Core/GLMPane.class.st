@@ -16,7 +16,8 @@ Class {
 		'name',
 		'presentations',
 		'ports',
-		'lastActivePresentation'
+		'lastActivePresentation',
+		'allowedToNotePresentationsChanged'
 	],
 	#category : #'Glamour-Core'
 }
@@ -119,6 +120,11 @@ GLMPane >> initializeNamed: aString in: aBrowser [
 	presentations := OrderedCollection new.
 ]
 
+{ #category : #private }
+GLMPane >> isAllowedToNotePresentationsChanged [
+	^ allowedToNotePresentationsChanged ifNil: [allowedToNotePresentationsChanged := true ]
+]
+
 { #category : #accessing }
 GLMPane >> lastActivePresentation [
 	^ lastActivePresentation
@@ -144,10 +150,14 @@ GLMPane >> name [
 { #category : #private }
 GLMPane >> notingPresentationChangeDo: aBlock [
 	| oldPresentations oldMatchingPresentations | 
-	self flag: 'this should create a context and then check for it before announcing.
-	Like this we can deal with the problem of announcing the same announcement twice'.
+	self isAllowedToNotePresentationsChanged ifFalse: [
+		aBlock value.
+		^ self].
+	"this should create a context and then check for it before announcing.
+	Like this we can deal with the problem of announcing the same announcement twice"
 	oldPresentations := self presentations copy. 
-	oldMatchingPresentations := self matchingPresentations. 
+	oldMatchingPresentations := self matchingPresentations copy. 
+	allowedToNotePresentationsChanged := false.
 	aBlock value. 
 	self presentations ~= oldPresentations ifTrue: [
 		self announce: ((GLMPresentationsChanged new) 
@@ -158,7 +168,9 @@ GLMPane >> notingPresentationChangeDo: aBlock [
 		self announce: ((GLMMatchingPresentationsChanged new) 
 						pane: self; 
 						oldMatchingPresentations: oldMatchingPresentations; 
-						yourself)]
+						yourself)].
+	allowedToNotePresentationsChanged := true.
+
 ]
 
 { #category : #accessing }
