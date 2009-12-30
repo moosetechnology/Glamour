@@ -2,13 +2,13 @@
 self openOn: #buildBrowser
 "
 Class {
-	#name : #GLMChasingBrowser,
+	#name : #GLMChaser,
 	#superclass : #GLMBrowserTemplate,
 	#category : #'Glamour-Tools'
 }
 
 { #category : #building }
-GLMChasingBrowser >> buildBrowser [
+GLMChaser >> buildBrowser [
 	| finder |
 	finder := GLMFinder new.
 	finder tree
