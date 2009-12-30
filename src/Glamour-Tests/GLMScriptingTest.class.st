@@ -293,20 +293,23 @@ GLMScriptingTest >> testPublishingToOutsideFinder [
 	finder := GLMFinder new.
 	innerBrowser := GLMTabulator new.
 	innerBrowser column: #any.
-	innerBrowser 
-		sendToOutside: #somePort
-		from: #any -> #selection. 
-	innerBrowser 
+	innerBrowser showOn: #any; using: [ innerBrowser list display: [:x | 1 to: 43 ] ].
+	innerBrowser
 		sendToOutside: #selection
 		from: #any -> #selection.
 	finder custom: innerBrowser.
-	finder startOn: 43.
+	finder openOn: 43.
 	self assert: (finder panes first port: #entity) value = 43.
 	self assert: (finder panes first port: #selection) value isNil.
 	((finder panes first presentations first paneNamed: #any) port: #selection) value: 42.
 	self assert: (finder panes first port: #selection) value = 42.
 	self assert: (finder panes first port: #entity) value = 43.
+	self assert: finder panes size = 2.
 	self assert: (finder panes last port: #entity) value = 42.
+	
+	self assert: (finder panes first presentations first isKindOf: GLMTabulator).
+	self assert: (finder panes last presentations first isKindOf: GLMTabulator).
+	self assert: (finder panes first presentations first isKindOf: GLMTabulator).
 	
 ]
 
