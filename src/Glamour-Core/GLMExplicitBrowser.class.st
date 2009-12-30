@@ -85,7 +85,7 @@ GLMExplicitBrowser >> postCopy [
 	newPanesMapping at: oldPane ifAbsentPut: [ self pane ].
 	transmissions := self transmissions collect: [:each | 
 		newTransmission := each copy.
-		newTransmission changePortsAccordingToPaneMapping: newPanesMapping.
+		newTransmission changePortsAccordingToPaneMapping: newPanesMapping fromOldBrowser: nil toNewBrowser: self.
 		newTransmission ].
 	panes := newPanes
 ]

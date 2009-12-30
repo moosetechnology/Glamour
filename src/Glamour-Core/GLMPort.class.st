@@ -10,6 +10,11 @@ Class {
 	#category : #'Glamour-Core'
 }
 
+{ #category : #copying }
+GLMPort >> copyAccordingToPaneMapping: newPanesMapping inNewBrowser: anotherBrowser [
+	^ self subclassResponsibility
+]
+
 { #category : #testing }
 GLMPort >> hasPane [ 
 	 

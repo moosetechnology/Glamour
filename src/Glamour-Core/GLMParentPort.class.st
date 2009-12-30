@@ -7,6 +7,11 @@ Class {
 	#category : #'Glamour-Core'
 }
 
+{ #category : #copying }
+GLMParentPort >> copyAccordingToPaneMapping: newPanesMapping inNewBrowser: anotherBrowser [
+	^ self copy presentation: anotherBrowser
+]
+
 { #category : #comparing }
 GLMParentPort >> hash [ 
 	 

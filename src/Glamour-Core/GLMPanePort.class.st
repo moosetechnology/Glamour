@@ -32,6 +32,11 @@ GLMPanePort >> changeValueTo: anObject in: aTransmissionContext [
 						in: aTransmissionContext) ]
 ]
 
+{ #category : #copying }
+GLMPanePort >> copyAccordingToPaneMapping: newPanesMapping inNewBrowser: anotherBrowser [
+	^ (newPanesMapping at: self pane) port: self name
+]
+
 { #category : #accessing }
 GLMPanePort >> pane [ 
 	 

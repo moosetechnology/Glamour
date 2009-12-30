@@ -11,9 +11,9 @@ Class {
 }
 
 { #category : #copying }
-GLMSimpleTransmission >> changePortsAccordingToPaneMapping: newPanesMapping [
-	super changePortsAccordingToPaneMapping: newPanesMapping.
-	self origin: ((newPanesMapping at: self origin pane) port: self origin name).
+GLMSimpleTransmission >> changePortsAccordingToPaneMapping: newPanesMapping fromOldBrowser: aBrowser toNewBrowser: anotherBrowser [
+	super changePortsAccordingToPaneMapping: newPanesMapping fromOldBrowser: aBrowser toNewBrowser: anotherBrowser.
+	self origin: (self origin copyAccordingToPaneMapping: newPanesMapping inNewBrowser: anotherBrowser).
 
 ]
 

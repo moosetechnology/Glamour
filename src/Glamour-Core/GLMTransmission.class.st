@@ -23,6 +23,13 @@ GLMTransmission >> changePortsAccordingToPaneMapping: newPanesMapping [
 
 ]
 
+{ #category : #copying }
+GLMTransmission >> changePortsAccordingToPaneMapping: newPanesMapping fromOldBrowser: aBrowser toNewBrowser: anotherBrowser [
+	"newPanesMapping is a dictionary with 
+	keys given by old panes and values by new panes"
+	self destination: (self destination copyAccordingToPaneMapping: newPanesMapping inNewBrowser: anotherBrowser)
+]
+
 { #category : #transmitting }
 GLMTransmission >> context [
 	 context ifNil: [context := OrderedCollection new].

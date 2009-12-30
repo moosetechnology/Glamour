@@ -66,10 +66,11 @@ GLMBundleTransmission >> bundleOrigins [
 ]
 
 { #category : #copying }
-GLMBundleTransmission >> changePortsAccordingToPaneMapping: newPanesMapping [
+GLMBundleTransmission >> changePortsAccordingToPaneMapping: newPanesMapping fromOldBrowser: aBrowser toNewBrowser: anotherBrowser [
 	| newOrigins newPort |
-	super changePortsAccordingToPaneMapping: newPanesMapping.
+	super changePortsAccordingToPaneMapping: newPanesMapping fromOldBrowser: aBrowser toNewBrowser: anotherBrowser.
 	self bundleOrigins do: [:each | 
+		self flag: 'we might still need to delegate to the port'.
 		newPort := (newPanesMapping at: each port pane) port: each port name.
 		each port: newPort ]
 ]
