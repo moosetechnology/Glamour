@@ -149,7 +149,6 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Morphic-MorphTreeWidget' with: [
 				spec repository: 'http://www.squeaksource.com/Momo10' ];
 			package: 'Glamour-Helpers' ;
-			package: 'Glamour-Squeak' ;
 			package: 'Glamour-Core' ;
 			package: 'Glamour-Presentations' ;
 			package: 'Glamour-Browsers' ;
