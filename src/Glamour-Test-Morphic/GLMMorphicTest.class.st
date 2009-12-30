@@ -6,7 +6,7 @@ Class {
 
 { #category : #testing }
 GLMMorphicTest >> expectedFailures [
-	^ #(testChildrenBlock testChildrenBlockTakesEntity testColumnBlockTakesEntity testAllowNil)
+	^ #(testChildrenBlock testChildrenBlockTakesEntity testColumnBlockTakesEntity)
 ]
 
 { #category : #private }
@@ -167,7 +167,7 @@ GLMMorphicTest >> testListDoubleClickWithMultipleSelection [
 
 { #category : #testing }
 GLMMorphicTest >> testMultipleInitialSelection [
-	| browser firstTreeMorph secondTreeMorph |
+	| browser firstTreeMorph secondTreeMorph window |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
