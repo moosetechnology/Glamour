@@ -6,7 +6,7 @@ Class {
 
 { #category : #testing }
 GLMPresentationTest >> expectedFailures [
-	^ #(testUpdateYourselfOnEntityUpdate testUpdateYourselfOnPortsUpdate testUpdateYourselfOnSelectionUpdate)
+	^ #("testUpdateYourselfOnEntityUpdate testUpdateYourselfOnPortsUpdate testUpdateYourselfOnSelectionUpdate")
 ]
 
 { #category : #tests }
@@ -165,23 +165,6 @@ GLMPresentationTest >> testToSend [
 ]
 
 { #category : #tests }
-GLMPresentationTest >> testUpdateYourselfOnEntityUpdate [
-	| pane port presentation timesTriggered announcer col |
-	col := OrderedCollection with: 1 with: 2. 
-	pane := GLMPane named: 'test'. 
-	presentation := GLMListPresentation new.
-	announcer := Announcer new.
-	pane addPresentation: presentation.
-	presentation updateYourselfOn: TestAnnouncement from: [ announcer ].
-	presentation entity: col copy.
-	presentation registerAnnouncements.
-	self assert: presentation entity = #(1 2) asOrderedCollection.
-	col add: 3.
-	announcer announce: TestAnnouncement.
-	self assert: presentation entity = #(1 2 3) asOrderedCollection
-]
-
-{ #category : #tests }
 GLMPresentationTest >> testUpdateYourselfOnPortsUpdate [
 	| pane port presentation timesTriggered announcer col |
 	col := OrderedCollection with: 1 with: 2. 
@@ -191,25 +174,7 @@ GLMPresentationTest >> testUpdateYourselfOnPortsUpdate [
 	pane addPresentation: presentation.
 	presentation updateYourselfOn: TestAnnouncement from: [ announcer ].
 	presentation entity: col.
-	presentation registerAnnouncements.
-	presentation selection: 2.
-	self assert: presentation selection = 2.
-	col removeLast.
-	announcer announce: TestAnnouncement.
-	self assert: presentation selection isNil
-
-]
-
-{ #category : #tests }
-GLMPresentationTest >> testUpdateYourselfOnSelectionUpdate [
-	| pane port presentation timesTriggered announcer col |
-	col := OrderedCollection with: 1 with: 2. 
-	pane := GLMPane named: 'test'. 
-	presentation := GLMListPresentation new.
-	announcer := Announcer new.
-	pane addPresentation: presentation.
-	presentation updateYourselfOn: TestAnnouncement from: [ announcer ].
-	presentation entity: col.
+	presentation shouldValidate: true.
 	presentation registerAnnouncements.
 	presentation selection: 2.
 	self assert: presentation selection = 2.

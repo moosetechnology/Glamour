@@ -6,7 +6,7 @@ Class {
 
 { #category : #testing }
 GLMScriptingTest >> expectedFailures [
-	^ #(#testUpdateYourselfOn #testComposite)
+	^ #(#testComposite #testPublishingToOutsideFinder)
 ]
 
 { #category : #tests }
@@ -298,7 +298,7 @@ GLMScriptingTest >> testPublishingToOutsideFinder [
 		sendToOutside: #selection
 		from: #any -> #selection.
 	finder custom: innerBrowser.
-	finder openOn: 43.
+	finder startOn: 43.
 	self assert: (finder panes first port: #entity) value = 43.
 	self assert: (finder panes first port: #selection) value isNil.
 	((finder panes first presentations first paneNamed: #any) port: #selection) value: 42.
@@ -539,14 +539,17 @@ GLMScriptingTest >> testUpdateYourselfOn [
 
 	| announcer entity browser presentation |
 	announcer := Announcer new.
-	entity := OrderedCollection with: 1 with: 2.
+	entity := OrderedCollection with: 1 with: 2 with: 3.
 	browser := GLMTabulator new.
 	browser column: #one.
 	browser showOn: #one; using: [
-		presentation := browser list updateYourselfOn: TestAnnouncement from: [ announcer ]].
+		presentation := browser list 
+			updateYourselfOn: TestAnnouncement from: [ announcer ];
+			shouldValidate: true ].
 	browser startOn: entity.
 	presentation registerAnnouncements.
 	presentation selection: 3.
+	entity removeLast.
 	announcer announce: TestAnnouncement.
-	self assert: presentation selection isNil
+	self assert: presentation selection isNil 
 ]

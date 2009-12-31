@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMListPresentationTest >> testChildren [
 	| tree |
 	tree := GLMTreePresentation new.
@@ -27,7 +27,7 @@ GLMListPresentationTest >> testCustomValidation [
 	self assert: (presentation validate: 42 on: (pane port: #selection))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMListPresentationTest >> testToSend [
 	| list |
 	list := GLMListPresentation new.
