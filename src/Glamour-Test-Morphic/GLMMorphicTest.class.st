@@ -321,7 +321,7 @@ GLMMorphicTest >> testTreeSelectionCancellation [
 
 { #category : #testing }
 GLMMorphicTest >> testTreeWithDisplay [
-	|browser treeCollection |
+	|browser treeCollection window |
 	treeCollection := { #root1->{#child1->{} . #child2->{}} . #root2 ->{} }.
 	browser := GLMTabulator new.
 	browser column: #one.
