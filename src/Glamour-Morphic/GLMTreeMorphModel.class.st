@@ -274,6 +274,12 @@ GLMTreeMorphModel >> toggleFilteringByTag: aTag [
 	self changed: #roots
 ]
 
+{ #category : #accessing }
+GLMTreeMorphModel >> updateRoots [
+	roots := nil.
+	self changed: #roots
+]
+
 { #category : #announcements }
 GLMTreeMorphModel >> when: anAnnouncement do: aBlock [
 	self announcer when: anAnnouncement do: aBlock 

@@ -376,6 +376,8 @@ GLMMorphicRenderer >> renderTreePresentation: aPresentation [
 		
 	aPresentation when: GLMContextChanged do: [ :ann | 
 		ann property = #selection ifTrue: [ treeModel explicitSelection: ann value ] ].
+	aPresentation when: GLMPresentationUpdated do: [:ann |
+		treeModel updateRoots].
 	^ container
 ]
 
