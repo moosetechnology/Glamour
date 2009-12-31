@@ -67,7 +67,7 @@ GLMPresentation >> color: aSymbolOrColor [
 	color := aSymbolOrColor
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing values' }
 GLMPresentation >> colorValue [
 	^ self color notNil
 		ifTrue: [ self color glamourValue: self entity ]
@@ -91,12 +91,12 @@ GLMPresentation >> condition: anObject [
 	condition := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing validation' }
 GLMPresentation >> customValidation [
 	^ customValidation
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing validation' }
 GLMPresentation >> customValidation: aBlock [
 	customValidation := aBlock.
 	shouldValidate := true.
@@ -108,7 +108,7 @@ GLMPresentation >> defaultValidate: anObject on: aPort [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing values' }
 GLMPresentation >> displayValue [
 	^ self transformation glamourValue: self entity
 ]
@@ -144,7 +144,7 @@ GLMPresentation >> hasTitleIcon [
 	^ self titleIcon notNil
 ]
 
-{ #category : #accessing }
+{ #category : #'initialize-release' }
 GLMPresentation >> initialize [
 	updateAnnouncementsToBlocks := Dictionary new
 ]
@@ -238,12 +238,12 @@ GLMPresentation >> selectionTransformation: anObject [
 	postTransformation := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing validation' }
 GLMPresentation >> shouldValidate [
 	^ shouldValidate ifNil: [shouldValidate := false]
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing validation' }
 GLMPresentation >> shouldValidate: aBoolean [
 	shouldValidate := aBoolean 
 ]
@@ -280,14 +280,14 @@ GLMPresentation >> titleIcon: anObject [
 	titleIcon := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing values' }
 GLMPresentation >> titleIconValue [
 	^ self titleIcon notNil
 		ifTrue: [ self titleIcon glamourValue: self entity ]
 		ifFalse: [ self titleIcon ]
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing values' }
 GLMPresentation >> titleValue [
 	| value |
 	^ title isNil
@@ -313,6 +313,8 @@ GLMPresentation >> transformation: aBlock [
 { #category : #updating }
 GLMPresentation >> update [
 	self flag: 'the value of all ports should be checked now and reset to nil if they are not the right ones'.
+	self pane ports do: [:each |
+		(self validate: each value on: each) ifFalse: [each resetValue] ].
 	self announce: GLMPresentationUpdated
 ]
 

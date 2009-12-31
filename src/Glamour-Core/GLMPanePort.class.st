@@ -68,6 +68,14 @@ GLMPanePort >> receive: aTransmission in: aContext [
 ]
 
 { #category : #accessing }
+GLMPanePort >> resetValue [
+	| context |
+	context := GLMTransmissionContext new.
+	context addPort: self.
+	self changeValueTo: nil in: context.
+]
+
+{ #category : #accessing }
 GLMPanePort >> value [ 
 	 
 	^value
