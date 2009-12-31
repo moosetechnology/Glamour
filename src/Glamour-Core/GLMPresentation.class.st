@@ -163,9 +163,11 @@ GLMPresentation >> isInspectable [
 
 { #category : #testing }
 GLMPresentation >> matches [ 
-	^(self usesImplicitNotNil 
-		ifTrue: [GLMNotNilCondition new glamourValue: self entity] 
-		ifFalse: [true]) and: [(self condition glamourValue: self entity) = true]
+	^ (self usesImplicitNotNil 
+		ifTrue: [GLMAllNotNilCondition new glamourValue: self entity] 
+		ifFalse: [GLMSomeNotNilCondition new glamourValue: self entity]
+	) and: [
+			(self condition glamourValue: self entity) = true]
 ]
 
 { #category : #events }
