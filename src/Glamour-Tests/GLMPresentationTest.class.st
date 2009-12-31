@@ -60,7 +60,7 @@ GLMPresentationTest >> testExplicitNotNilMultipleValues [
 	presentation := GLMPresentation new. 
 	presentation useExplicitNotNil.
 	(presentation pane port: #entity) value: (GLMMultiValue withAll: #(nil nil)).
-	self assert: presentation matches.
+	self assert: presentation matches not.
 	(presentation pane port: #entity) value: (GLMMultiValue withAll: #(1 nil)).
 	self assert: presentation matches.
 	(presentation pane port: #entity) value: (GLMMultiValue withAll: #(nil 1)).
@@ -90,13 +90,13 @@ GLMPresentationTest >> testMatching [
 	| presentation | 
 	presentation := GLMPresentation new. 
 	self assert: presentation usesImplicitNotNil. 
-	(presentation pane port: #entity) value: nil. 
-	self assert: presentation matches not. 
+	(presentation pane port: #entity) value: (GLMMultiValue withAll: #(nil 1)). 
+	self assert: presentation matches not.
 	(presentation pane port: #entity) value: 1. 
 	self assert: presentation matches. 
 	presentation useExplicitNotNil. 
 	self assert: presentation usesImplicitNotNil not. 
-	(presentation pane port: #entity) value: nil. 
+	(presentation pane port: #entity) value: (GLMMultiValue withAll: #(nil 1)). 
 	self assert: presentation matches. 
 	(presentation pane port: #entity) value: 1. 
 	self assert: presentation matches. 
@@ -115,7 +115,7 @@ GLMPresentationTest >> testMatching [
 	(presentation pane port: #entity) value: 2. 
 	self assert: presentation matches. 
 	self assert: presentation usesImplicitNotNil not. 
-	[(presentation pane port: #entity) value: nil. 
+	[(presentation pane port: #entity) value: (GLMMultiValue withAll: #(nil 1)). 
 	presentation matches. 
 	self signalFailure: 'Should have raised error'] 
 		on: MessageNotUnderstood 
