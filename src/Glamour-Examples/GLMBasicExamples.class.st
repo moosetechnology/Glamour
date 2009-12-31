@@ -478,23 +478,20 @@ GLMBasicExamples >> treeWithMenu [
 GLMBasicExamples >> updatableBrowser [
 	"|collection|
 	collection := GLMAnnouncingCollection new.
-	collection add: 1.
-	collection add: 2.
-	collection add: 3.
-
+	collection add: 1; add: 2; add: 3.
 	self new updatableBrowser openOn: collection.
 	collection inspect"
+	
 	| browser |
 	browser := GLMTabulator new.
-	browser column: #test; column: #test2.
+	browser column: #one; column: #two.
 	browser 
-		showOn: #test;
+		showOn: #one;
 		using: [ browser list 
+							shouldValidate: true;
 							updateYourselfOn: GLMItemAdded from: #yourself;
 							updateYourselfOn: GLMItemRemoved from: #yourself ].
-	browser showOn: #test2; from: #test;
-			using: [browser list display: [:s | s]].
-
+	browser showOn: #two; from: #one; using: [browser list ].
 	^browser
 ]
 
