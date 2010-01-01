@@ -9,24 +9,25 @@ Class {
 
 { #category : #building }
 GLMChaser >> buildBrowser [
+	"self openOn: #buildBrowser"
 	| finder |
 	finder := GLMFinder new.
 	finder tree
 		title: 'Implementors';
-		display: [ :each | self systemNavigation allImplementorsOf:	each ];
+		display: [ :each | 
+			self systemNavigation allImplementorsOf: ((each isKindOf: MethodReference) ifTrue: [each selector ] ifFalse: [ each ]) ];
 		format: [:each | 
 			(each isKindOf: MethodReference) ifTrue: [each classSymbol, '>>', each selector ] ifFalse: [ each ]];
 		children: [ :each | 
-			(each isKindOf: MethodReference) ifTrue: [each compiledMethod messages] ifFalse: [OrderedCollection new]];
-		whenKindOf: String.
+			(each isKindOf: MethodReference) ifTrue: [each compiledMethod messages] ifFalse: [OrderedCollection new]].
 	finder tree
 		title: 'Senders';
-		display: [ :each | self systemNavigation allSendersOf:	each ];
+		display: [ :each | 
+			self systemNavigation allSendersOf:	((each isKindOf: MethodReference) ifTrue: [each selector ] ifFalse: [ each ]) ];
 		format: [:each | 
 			(each isKindOf: MethodReference) ifTrue: [each classSymbol, '>>', each selector ] ifFalse: [ each ]];
 		children: [ :each | 
-			(each isKindOf: MethodReference) ifTrue: [each compiledMethod messages] ifFalse: [OrderedCollection new]];
-		whenKindOf: String.
+			(each isKindOf: MethodReference) ifTrue: [each compiledMethod messages] ifFalse: [OrderedCollection new]].
 	browser := GLMTabulator new.
 	browser title: [:each | 'Chasing Browser of ', each].
 	browser row: #finder; row: #details.
