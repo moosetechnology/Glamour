@@ -45,6 +45,16 @@ GLMMorphicRenderer >> open: aRenderable [
 	^ ( self windowFor: aRenderable ) openInWorld
 ]
 
+{ #category : #accessing }
+GLMMorphicRenderer >> postBuildActions [
+	^ postBuildActions ifNil: [postBuildActions := OrderedCollection new]
+]
+
+{ #category : #accessing }
+GLMMorphicRenderer >> postBuildActions: anObject [
+	postBuildActions := anObject
+]
+
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [ 
 	| items list toShow container button buttonModel |
@@ -209,11 +219,14 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 	| canvas view canvasScrollPane | 
 	view := MOViewRenderer new.
 	aMondrianPresentation renderOn: view. 
-	canvas := MOCanvas new. 
+	canvas := MOCanvas new.
 	canvas root: view root.
+	canvas initializeHanders.
 	canvas announcer
-		when: MOFigureSelection
-		do: [ :ann | aMondrianPresentation selection: ann element model ].
+			when: MOFigureSelection
+			do: [ :ann | aMondrianPresentation selection: ann element model ].
+	self postBuildActions add: [:window | 
+		view setDefaultHandlerForWindow: window ].
 	canvasScrollPane := ScrollPane new.
 	canvasScrollPane scroller addMorph: canvas.	
 	canvasScrollPane
@@ -477,5 +490,7 @@ GLMMorphicRenderer >> windowFor: aRenderable [
 				offsets: (0 @ offset corner: 0 @ 0)).
 	(self theme isKindOf: UIThemeWatery) ifFalse: 
 		[ aRenderable colorValue ifNotNil: [ window paneColor: aRenderable colorValue ] ].
+	self postBuildActions do: [:each |
+		each value: window ].
 	^ window
 ]
