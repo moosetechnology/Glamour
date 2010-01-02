@@ -50,6 +50,28 @@ GLMOtherExamples >> fileFinder [
 ]
 
 { #category : #'pier examples' }
+GLMOtherExamples >> mondrianEasel [
+	"self new mondrianEasel openOn: ''"
+	| browser |
+	browser := GLMTabulator new.
+	browser row: #painting span: 10; row: #script span: 4; row: #actions.
+	browser showOn: #script; using: [
+		browser text
+			display: 'view';
+			update: #selection on: $o entitled: 'Generate View' with: [:text | text text ] ].
+	browser showOn: #painting; from: #script; using: [
+		browser dynamic
+			display: [:script | 
+				GLMMondrianPresentation new
+					painting: [:view | 
+						(Compiler evaluate: 'view := self.', script for: view logged: false)  ]]].
+	browser showOn: #actions; using: [
+		browser actionList 
+			act: [] entitled: 'Generate View' ].
+	^ browser
+]
+
+{ #category : #'pier examples' }
 GLMOtherExamples >> pierFinder [
 	"
 		self new pierFinder openOn: PRKernel instances anyOne root.
