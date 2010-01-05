@@ -56,7 +56,7 @@ GLMExplicitBrowser >> sendTo: aDesinationPortReference from: anOriginPortReferen
 	 
 	self transmissions 
 		addLast: 
-			((GLMSimpleTransformingTransmission new) 
+			((GLMSimpleTransmission new) 
 				origin: (self resolveOriginPort: anOriginPortReference); 
 				destination: (self resolveDestinationPort: aDesinationPortReference); 
 				transformation: aBlock; 
