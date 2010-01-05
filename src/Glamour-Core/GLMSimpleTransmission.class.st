@@ -10,6 +10,11 @@ Class {
 	#category : #'Glamour-Core'
 }
 
+{ #category : #accessing }
+GLMSimpleTransmission >> addActiveOrigin: aPort [
+	self origin: aPort
+]
+
 { #category : #copying }
 GLMSimpleTransmission >> changePortsAccordingToPaneMapping: newPanesMapping fromOldBrowser: aBrowser toNewBrowser: anotherBrowser [
 	super changePortsAccordingToPaneMapping: newPanesMapping fromOldBrowser: aBrowser toNewBrowser: anotherBrowser.

@@ -10,10 +10,26 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'context',
-		'destination'
+		'destination',
+		'browser'
 	],
 	#category : #'Glamour-Core'
 }
+
+{ #category : #accessing }
+GLMTransmission >> addActiveOrigin: aPort [
+	self subclassResponsibility 
+]
+
+{ #category : #accessing }
+GLMTransmission >> browser [
+	^ browser
+]
+
+{ #category : #accessing }
+GLMTransmission >> browser: anObject [
+	browser := anObject
+]
 
 { #category : #copying }
 GLMTransmission >> changePortsAccordingToPaneMapping: newPanesMapping [

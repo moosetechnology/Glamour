@@ -48,14 +48,12 @@ GLMBundleTransmission >> addPassiveOrigin: aPort [
 ]
 
 { #category : #'accessing-convenience' }
-GLMBundleTransmission >> addPresentation: aPresentation [ 
-	 
-	self presentations addLast: aPresentation
+GLMBundleTransmission >> addPresentation: aPresentation [
+	self presentations add: aPresentation
 ]
 
 { #category : #'accessing-convenience' }
-GLMBundleTransmission >> addPresentations: aCollection [ 
-	 
+GLMBundleTransmission >> addPresentations: aCollection [
 	aCollection do: [:each | self addPresentation: each]
 ]
 
@@ -75,21 +73,18 @@ GLMBundleTransmission >> changePortsAccordingToPaneMapping: newPanesMapping from
 ]
 
 { #category : #private }
-GLMBundleTransmission >> clearOrigins [ 
-	 
+GLMBundleTransmission >> clearOrigins [
 	origins := nil
 ]
 
 { #category : #testing }
-GLMBundleTransmission >> originatesAt: aPort [ 
-	 
-	^self activeOrigins includes: aPort
+GLMBundleTransmission >> originatesAt: aPort [
+	^ self activeOrigins includes: aPort
 ]
 
 { #category : #accessing }
-GLMBundleTransmission >> origins [ 
-	 
-	^self bundleOrigins collect: [:each | each port]
+GLMBundleTransmission >> origins [
+	^ self bundleOrigins collect: [:each | each port]
 ]
 
 { #category : #accessing }
@@ -101,8 +96,8 @@ GLMBundleTransmission >> passiveOrigins [
 
 { #category : #accessing }
 GLMBundleTransmission >> presentations [ 
-	 
-	^presentations ifNil: [presentations := OrderedCollection new]
+	self flag: 'it should be GLMCompositePresentation'.
+	^presentations ifNil: [presentations := GLMCompositePresentation new]
 ]
 
 { #category : #accessing }
@@ -128,7 +123,7 @@ GLMBundleTransmission >> printOn: aStream [
 GLMBundleTransmission >> transmitIn: aContext [
 	self destination hasPane ifTrue: [
 		self destination pane clearIn: aContext.
-		self destination pane addPresentations: self presentations ].
+		self destination pane presentations: self presentations ].
 	"it is important for the destination to be set after the presentation, 
 	because when the presentation is a browser, we might forward the entity internally"
 	self destination receive: self in: aContext.

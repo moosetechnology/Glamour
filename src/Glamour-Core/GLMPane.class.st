@@ -136,9 +136,8 @@ GLMPane >> lastActivePresentation: anObject [
 ]
 
 { #category : #accessing }
-GLMPane >> matchingPresentations [ 
-	 
-	^presentations select: [:each | each matches]
+GLMPane >> matchingPresentations [
+	^ presentations select: [:each | each matches]
 ]
 
 { #category : #accessing }
@@ -211,9 +210,16 @@ GLMPane >> postCopy [
 ]
 
 { #category : #accessing }
-GLMPane >> presentations [ 
-	 
-	^OrderedCollection withAll: presentations
+GLMPane >> presentations [
+	^ presentations copy
+]
+
+{ #category : #accessing }
+GLMPane >> presentations: aCompositePresentation [
+	self notingPresentationChangeDo: [
+		aCompositePresentation pane: self.
+		aCompositePresentation do: [:each | each pane: self].
+		presentations := aCompositePresentation ]
 ]
 
 { #category : #printing }
