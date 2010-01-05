@@ -112,26 +112,17 @@ GLMScriptingTest >> testConditionalPresentation [
 	 
 	| browser | 
 	browser := GLMTabulator new. 
-	browser 
-		column: #one; 
-		column: #two. 
-	browser 
-		showOn: #two; 
-		from: #one; 
-		using: 
-				[browser text when: [:x | x = 42]. 
-					browser list when: [:x | x > 42]]. 
+	browser column: #one; column: #two. 
+	browser showOn: #two; from: #one; using: [
+		browser text when: [:x | x = 42]. 
+		browser list when: [:x | x > 42]]. 
 	((browser paneNamed: #one) port: #selection) value: 42. 
 	self assert: (browser paneNamed: #two) matchingPresentations size = 1. 
-	self 
-		assert: 
-			((browser paneNamed: #two) matchingPresentations first isKindOf: 
+	self assert: ((browser paneNamed: #two) matchingPresentations first isKindOf: 
 					GLMTextPresentation). 
 	((browser paneNamed: #one) port: #selection) value: 43. 
 	self assert: (browser paneNamed: #two) matchingPresentations size = 1. 
-	self 
-		assert: 
-			((browser paneNamed: #two) matchingPresentations first isKindOf: 
+	self assert: ((browser paneNamed: #two) matchingPresentations first isKindOf: 
 					GLMListPresentation)
 ]
 

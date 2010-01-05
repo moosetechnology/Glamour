@@ -10,6 +10,13 @@ GLMExplicitBrowserTest >> expectedFailures [
 ]
 
 { #category : #tests }
+GLMExplicitBrowserTest >> testAddTransmissionReturn [
+	| transmission |
+	transmission := GLMSimpleTransmission new.
+	self assert: (GLMExplicitBrowser new addTransmission: transmission) == transmission
+]
+
+{ #category : #tests }
 GLMExplicitBrowserTest >> testCopy [
 	 
 	| browser pane1 pane2 transmission1 transmission2 copiedBrowser | 
