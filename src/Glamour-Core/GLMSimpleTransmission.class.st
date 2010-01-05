@@ -5,7 +5,8 @@ Class {
 	#name : #GLMSimpleTransmission,
 	#superclass : #GLMTransmission,
 	#instVars : [
-		'origin'
+		'origin',
+		'transformation'
 	],
 	#category : #'Glamour-Core'
 }
@@ -46,6 +47,18 @@ GLMSimpleTransmission >> origins [
 	^ OrderedCollection with: self origin
 ]
 
+{ #category : #accessing }
+GLMSimpleTransmission >> transformation [ 
+	 
+	^transformation ifNil: [#yourself]
+]
+
+{ #category : #accessing }
+GLMSimpleTransmission >> transformation: anObject [ 
+	 
+	transformation := anObject
+]
+
 { #category : #transmitting }
 GLMSimpleTransmission >> transmitIn: aContext [
 	 
@@ -53,7 +66,8 @@ GLMSimpleTransmission >> transmitIn: aContext [
 ]
 
 { #category : #transmitting }
-GLMSimpleTransmission >> value [ 
-	 
-	^self origin value
+GLMSimpleTransmission >> value [
+	^ self transformation isNil 
+		ifTrue: [self origin value] 
+		ifFalse: [self transformation glamourValue: self origin value]
 ]
