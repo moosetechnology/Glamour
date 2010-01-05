@@ -45,6 +45,11 @@ GLMCompositePresentation >> first [
 ]
 
 { #category : #accessing }
+GLMCompositePresentation >> includes: aPresentation [
+	^ self presentations includes: aPresentation 
+]
+
+{ #category : #accessing }
 GLMCompositePresentation >> isEmpty [
 	^ self presentations isEmpty
 ]
@@ -52,6 +57,11 @@ GLMCompositePresentation >> isEmpty [
 { #category : #accessing }
 GLMCompositePresentation >> last [
 	^ self presentations last
+]
+
+{ #category : #accessing }
+GLMCompositePresentation >> matchingPresentations [
+	^ self presentations select: [:each | each matches]
 ]
 
 { #category : #accessing }

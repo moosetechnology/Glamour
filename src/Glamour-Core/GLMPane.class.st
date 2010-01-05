@@ -47,12 +47,9 @@ GLMPane class >> portClass [
 ]
 
 { #category : #accessing }
-GLMPane >> addPresentation: aPresentation [ 
-	 
-	self 
-		notingPresentationChangeDo: 
-			[presentations 
-				addLast: 
+GLMPane >> addPresentation: aPresentation [
+	self notingPresentationChangeDo: [
+		presentations add: 
 					(aPresentation 
 						pane: self; 
 						yourself)]
@@ -85,7 +82,7 @@ GLMPane >> browser: aBrowser [
 { #category : #accessing }
 GLMPane >> clearIn: aContext [ 
 
-	self notingPresentationChangeDo: [presentations := OrderedCollection new]. 
+	self notingPresentationChangeDo: [presentations := GLMCompositePresentation new]. 
 	self ports do: [:each | each value: nil in: aContext]
 ]
 
@@ -117,7 +114,7 @@ GLMPane >> initializeNamed: aString in: aBrowser [
 	name := aString ifNil: [ self defaultName ].
 	browser := aBrowser.
 	ports := OrderedCollection new.
-	presentations := OrderedCollection new.
+	presentations := GLMCompositePresentation new.
 ]
 
 { #category : #private }
