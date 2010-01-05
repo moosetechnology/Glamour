@@ -5,10 +5,10 @@ When a BundleTransmission consideres a port as active, the browser will trigger 
 "
 Class {
 	#name : #GLMOriginPortReference,
-	#superclass : #Object,
+	#superclass : #GLMPortReference,
 	#instVars : [
-		'port',
-		'active'
+		'active',
+		'transformation'
 	],
 	#category : #'Glamour-Core'
 }
@@ -38,18 +38,16 @@ GLMOriginPortReference >> isPassive [
 ]
 
 { #category : #accessing }
-GLMOriginPortReference >> port [ 
-	 
-	^port
+GLMOriginPortReference >> transformation [
+	^ transformation
 ]
 
 { #category : #accessing }
-GLMOriginPortReference >> port: aPort [
-	port := aPort
+GLMOriginPortReference >> transformation: anObject [
+	transformation := anObject
 ]
 
 { #category : #'accessing-convenience' }
-GLMOriginPortReference >> value [ 
-	 
-	^self port value
+GLMOriginPortReference >> value [
+	^ self transformation isNil ifTrue: [self port value] ifFalse: [self transformation value: self port value]
 ]

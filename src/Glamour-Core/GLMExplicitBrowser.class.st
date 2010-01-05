@@ -115,7 +115,7 @@ GLMExplicitBrowser >> resolvePort: aPortReference defaultPortName: aSymbol [
 		ifTrue: 
 			[^tmp key = #outer 
 				ifTrue: 
-					[(GLMParentPort new) 
+					[(GLMPresentationBoundPort new) 
 						presentation: self; 
 						name: tmp value; 
 						yourself] 
