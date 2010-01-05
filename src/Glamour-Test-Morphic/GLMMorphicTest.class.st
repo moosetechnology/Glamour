@@ -174,7 +174,7 @@ GLMMorphicTest >> testMultipleInitialSelection [
 		browser tree
 			beMultiple;
 			display: [:x | 1 to: x * 3]].
-	browser showOn: #two; from: #one; using: [ 
+	browser showOn: #two; from: #one; using: [
 		browser list ].
 	window := browser openOn: 5.
 	(browser panes first port: #selection) value: #(2 5 3).
