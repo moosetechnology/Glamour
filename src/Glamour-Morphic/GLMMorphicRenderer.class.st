@@ -83,7 +83,34 @@ GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderCompositePresentation: aCompositePresentation [
-	self flag: 'implement me'
+		| presentations tabs title index |
+	self flag: 'this should go in the composite presentation rendering'.
+	presentations := aCompositePresentation matchingPresentations.
+	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
+	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
+	tabs := LazyTabGroupMorph new.
+	tabs
+		vResizing: #spaceFill;
+		hResizing: #spaceFill;
+		cornerStyle: (self theme tabGroupCornerStyleIn: nil);
+		font: self theme labelFont;
+		onPageIndexChange: [ :i | 
+			aCompositePresentation pane lastActivePresentation: (aCompositePresentation matchingPresentations at: i) ].
+	presentations do: [ :each | 
+		title := each hasTitleIcon ifTrue: [
+			self theme 
+					newImageIn: tabs
+					form: each titleIconValue ]
+			ifFalse: [ each titleValue ].
+		tabs 
+			addLazyPage: [ self render: each ]
+			label: title ].
+	index := 1.
+	presentations withIndexDo: [ :each :i | 
+		aCompositePresentation pane lastActivePresentation notNil and: [ 
+			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
+	tabs selectedPageIndex: index.
+	^ tabs
 ]
 
 { #category : #private }
@@ -248,13 +275,13 @@ GLMMorphicRenderer >> renderPane: aPane [
 	aPane whenMatchingPresentationsChanged: [ :ann | 
 		container
 			removeAllMorphs;
-			addMorph: (self renderPresentationsOf: aPane)
+			addMorph: (self render: aPane presentations)"(self renderPresentationsOf: aPane)"
 			fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 			adoptPaneColor: container paneColor.
 		window fullBounds.
 		window refreshHorizontalScollbars ].
 	container
-		addMorph: (self renderPresentationsOf: aPane)
+		addMorph: (self render: aPane presentations)
 		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		adoptPaneColor: container paneColor.
 	^ container
