@@ -9,6 +9,7 @@ Class {
 
 { #category : #accessing }
 GLMPresentationBuilder >> presentationContext [
+	self flag: 'This hierarchy should probably go away'.
 	^ presentationContext
 ]
 
