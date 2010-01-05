@@ -16,9 +16,8 @@ GLMPort >> copyAccordingToPaneMapping: newPanesMapping inNewBrowser: anotherBrow
 ]
 
 { #category : #testing }
-GLMPort >> hasPane [ 
-	 
-	^false
+GLMPort >> hasPane [
+	^ false
 ]
 
 { #category : #accessing }

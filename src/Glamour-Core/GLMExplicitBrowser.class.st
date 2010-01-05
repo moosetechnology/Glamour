@@ -34,7 +34,7 @@ GLMExplicitBrowser >> addPane: aPane [
 { #category : #accessing }
 GLMExplicitBrowser >> addTransmission: aTransmission [ 
 	 
-	self transmissions addLast: aTransmission
+	^ self transmissions addLast: aTransmission
 ]
 
 { #category : #events }
