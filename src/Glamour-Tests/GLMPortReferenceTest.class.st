@@ -15,9 +15,7 @@ GLMPortReferenceTest >> testOriginTransformedValue [
 { #category : #testing }
 GLMPortReferenceTest >> testOriginValue [
 	| port reference |
-	port := GLMSimplePort new.
-	port value: 42.
-	reference := GLMOriginPortReference new.
-	reference port: port.
+	port := GLMSimplePort new value: 42.
+	reference := GLMOriginPortReference new port: port.
 	self assert: reference value = 42
 ]

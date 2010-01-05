@@ -25,6 +25,19 @@ GLMNewScriptingTest >> testBundleTransmission [
 ]
 
 { #category : #'as yet unclassified' }
+GLMNewScriptingTest >> testBundleTransmissionWithTransformation [
+	| browser | 
+	browser := GLMTabulator new. 
+	browser column: #one; column: #two.
+	browser transmit to: #one; showing: [ :a | a text ].
+	browser transmit from: #one transformed: [:x | x + 1 ]; to: #two; showing: [ :a | a text ].
+	browser startOn: 1.
+	((browser paneNamed: #one) port: #selection) value: 41.
+	
+	self assert: ((browser paneNamed: #two) port: #entity) value = 42
+]
+
+{ #category : #'as yet unclassified' }
 GLMNewScriptingTest >> testSimpleTransmission [
 	| browser | 
 	browser := GLMTabulator new. 
