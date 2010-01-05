@@ -25,7 +25,7 @@ GLMSimpleTransmissionTest >> testSimple [
 { #category : #tests }
 GLMSimpleTransmissionTest >> testTriggerConditions [ 
 	"Tests that the transmission is triggered only when the origin changes." 
-	 
+	
 	| transmission port1 port2 | 
 	transmission := GLMSimpleTransmission new. 
 	port1 := GLMPort new name: #port1. 
