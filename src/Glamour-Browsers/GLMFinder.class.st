@@ -49,8 +49,8 @@ GLMFinder >> addPaneFromInner: aPort [
 					[:eachPort | newTransmission addPassiveOrigin: (aPort pane port: eachPort name)]. 
 			newTransmission 
 				destination: (self panes last port: #entity); 
-				presentations: 
-						(self presentations collect: #copy) , (each presentations collect: #copy)]. 
+				addPresentations: (self presentations collect: #copy);
+				addPresentations: (each presentations collect: #copy)] . 
 	(realTransmissions select: [:each | each originatesAt: aPort]) 
 		do: [:each | each transmit]. 
 	self 
