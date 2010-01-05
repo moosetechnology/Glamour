@@ -149,7 +149,7 @@ GLMBundleTransmissionTest >> testTriggerConditionsWithParentPort [
 	presentation := GLMPresentation new. 
 	transmission 
 		addActiveOrigin: 
-			((GLMParentPort new) 
+			((GLMPresentationBoundPort new) 
 				presentation: presentation; 
 				name: #port1; 
 				yourself). 
@@ -157,7 +157,7 @@ GLMBundleTransmissionTest >> testTriggerConditionsWithParentPort [
 		assert: 
 			(transmission 
 				originatesAt: 
-					((GLMParentPort new) 
+					((GLMPresentationBoundPort new) 
 						presentation: presentation; 
 						name: #port1; 
 						yourself)). 

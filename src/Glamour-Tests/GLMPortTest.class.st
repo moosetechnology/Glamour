@@ -19,31 +19,31 @@ GLMPortTest >> testPanePort [
 ]
 
 { #category : #tests }
-GLMPortTest >> testParentPort [ 
-	 
-	| presentation port | 
-	presentation := GLMPresentation new. 
-	port := (GLMParentPort new) 
-		name: #port; 
-		presentation: presentation. 
-	port value: 42. 
-	self assert: (presentation pane port: #port) value = 42. 
-	(presentation pane port: #port) value: 43. 
-	self assert: port value = 43
-]
-
-{ #category : #tests }
 GLMPortTest >> testPortEquality [ 
 	 
 	| presentation port | 
 	presentation := GLMPresentation new. 
-	port := (GLMParentPort new) 
+	port := (GLMPresentationBoundPort new) 
 		name: #port; 
 		presentation: presentation. 
 	self assert: port = (presentation pane port: #port). 
 	self assert: (presentation pane port: #port) = port. 
 	self assert: port hash = (presentation pane port: #port) hash. 
 	self assert: (presentation pane port: #port) hash = port hash
+]
+
+{ #category : #tests }
+GLMPortTest >> testPresentationBoundPort [ 
+	 
+	| presentation port | 
+	presentation := GLMPresentation new. 
+	port := (GLMPresentationBoundPort new) 
+		name: #port; 
+		presentation: presentation. 
+	port value: 42. 
+	self assert: (presentation pane port: #port) value = 42. 
+	(presentation pane port: #port) value: 43. 
+	self assert: port value = 43
 ]
 
 { #category : #tests }

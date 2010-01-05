@@ -45,7 +45,7 @@ GLMSimpleTransmissionTest >> testTriggerConditionsWithParentPort [
 	presentation := GLMPresentation new. 
 	transmission 
 		origin: 
-			((GLMParentPort new) 
+			((GLMPresentationBoundPort new) 
 				presentation: presentation; 
 				name: #port1; 
 				yourself). 
@@ -53,7 +53,7 @@ GLMSimpleTransmissionTest >> testTriggerConditionsWithParentPort [
 		assert: 
 			(transmission 
 				originatesAt: 
-					((GLMParentPort new) 
+					((GLMPresentationBoundPort new) 
 						presentation: presentation; 
 						name: #port1; 
 						yourself)). 

@@ -298,16 +298,16 @@ GLMScriptingTest >> testReferences [
 	self assert: (browser resolveOriginPort: #pane1 -> #foo) == (pane1 port: #foo). 
 	self assert: (browser resolveDestinationPort: #pane1) == (pane1 port: #entity). 
 	self assert: (browser resolveDestinationPort: #pane1 -> #foo) == (pane1 port: #foo). 
-	self assert: ((browser resolveOriginPort: #outer) isKindOf: GLMParentPort). 
+	self assert: ((browser resolveOriginPort: #outer) isKindOf: GLMPresentationBoundPort). 
 	self assert: (browser resolveOriginPort: #outer) presentation == browser. 
 	self assert: (browser resolveOriginPort: #outer) name = #selection. 
-	self assert: ((browser resolveOriginPort: #outer -> #foo) isKindOf: GLMParentPort). 
+	self assert: ((browser resolveOriginPort: #outer -> #foo) isKindOf: GLMPresentationBoundPort). 
 	self assert: (browser resolveOriginPort: #outer -> #foo) presentation == browser. 
 	self assert: (browser resolveOriginPort: #outer -> #foo) name = #foo. 
-	self assert: ((browser resolveDestinationPort: #outer) isKindOf: GLMParentPort). 
+	self assert: ((browser resolveDestinationPort: #outer) isKindOf: GLMPresentationBoundPort). 
 	self assert: (browser resolveDestinationPort: #outer) presentation == browser. 
 	self assert: (browser resolveDestinationPort: #outer) name = #entity. 
-	self assert: ((browser resolveDestinationPort: #outer -> #foo) isKindOf: GLMParentPort). 
+	self assert: ((browser resolveDestinationPort: #outer -> #foo) isKindOf: GLMPresentationBoundPort). 
 	self assert: (browser resolveDestinationPort: #outer -> #foo) presentation == browser. 
 	self assert: (browser resolveDestinationPort: #outer -> #foo) name = #foo
 ]

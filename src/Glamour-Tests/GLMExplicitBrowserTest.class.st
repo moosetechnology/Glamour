@@ -86,17 +86,17 @@ GLMExplicitBrowserTest >> testJumpstartTransmission [
 ]
 
 { #category : #tests }
-GLMExplicitBrowserTest >> testParentPort [ 
+GLMExplicitBrowserTest >> testPresentationBoundPort [ 
 	 
 	| browser outerPort1 outerPort2 transmission1 transmission2 | 
 	browser := GLMExplicitBrowser new. 
 	browser addNewPane. 
 	GLMTestPane new addPresentation: browser. 
-	outerPort1 := (GLMParentPort new) 
+	outerPort1 := (GLMPresentationBoundPort new) 
 		presentation: browser; 
 		name: #outerPort1; 
 		yourself. 
-	outerPort2 := (GLMParentPort new) 
+	outerPort2 := (GLMPresentationBoundPort new) 
 		presentation: browser; 
 		name: #outerPort2; 
 		yourself.	"Capturing" 

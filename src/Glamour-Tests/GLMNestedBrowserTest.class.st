@@ -43,7 +43,7 @@ GLMNestedBrowserTest >> testChangeInnerSelection [
 		addTransmission: 
 			((GLMSimpleTransmission new) 
 				origin: 
-						((GLMParentPort new) 
+						((GLMPresentationBoundPort new) 
 								presentation: browser2; 
 								name: #innerSelection; 
 								yourself); 
@@ -77,7 +77,7 @@ GLMNestedBrowserTest >> testEntityPropogation [
 		addTransmission: 
 			((GLMBundleTransmission new) 
 				addActiveOrigin: 
-						((GLMParentPort new) 
+						((GLMPresentationBoundPort new) 
 								presentation: browser1; 
 								name: #entity; 
 								yourself); 
@@ -88,7 +88,7 @@ GLMNestedBrowserTest >> testEntityPropogation [
 		addTransmission: 
 			((GLMBundleTransmission new) 
 				addActiveOrigin: 
-						((GLMParentPort new) 
+						((GLMPresentationBoundPort new) 
 								presentation: browser2; 
 								name: #entity; 
 								yourself); 
@@ -156,7 +156,7 @@ GLMNestedBrowserTest >> testEntityPropogationAnnouncements [
 		addTransmission: 
 			((GLMBundleTransmission new) 
 				addActiveOrigin: 
-						((GLMParentPort new) 
+						((GLMPresentationBoundPort new) 
 								presentation: browser1; 
 								name: #entity; 
 								yourself); 
@@ -167,7 +167,7 @@ GLMNestedBrowserTest >> testEntityPropogationAnnouncements [
 		addTransmission: 
 			((GLMBundleTransmission new) 
 				addActiveOrigin: 
-						((GLMParentPort new) 
+						((GLMPresentationBoundPort new) 
 								presentation: browser2; 
 								name: #entity; 
 								yourself); 
