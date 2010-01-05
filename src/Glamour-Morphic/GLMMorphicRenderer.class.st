@@ -263,6 +263,7 @@ GLMMorphicRenderer >> renderPane: aPane [
 { #category : #private }
 GLMMorphicRenderer >> renderPresentationsOf: aPane [ 
 	| presentations tabs title index |
+	self flag: 'this should go in the composite presentation rendering'.
 	presentations := aPane matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
 	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
