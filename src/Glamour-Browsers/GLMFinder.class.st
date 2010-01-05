@@ -62,9 +62,8 @@ GLMFinder >> addPaneFromInner: aPort [
 ]
 
 { #category : #accessing }
-GLMFinder >> addPresentation: aPresentation [ 
-	 
-	self presentations addLast: aPresentation
+GLMFinder >> addPresentation: aPresentation [
+	self presentations add: aPresentation
 ]
 
 { #category : #accessing }
@@ -103,7 +102,7 @@ GLMFinder >> panes [
 { #category : #accessing }
 GLMFinder >> presentations [ 
 	 
-	^presentations ifNil: [presentations := OrderedCollection new]
+	^presentations ifNil: [presentations := GLMCompositePresentation new]
 ]
 
 { #category : #rendering }

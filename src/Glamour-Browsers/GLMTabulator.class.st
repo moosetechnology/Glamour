@@ -81,9 +81,3 @@ GLMTabulator >> renderGlamorouslyOn: aRenderer [
 	 
 	^aRenderer renderTableLayoutBrowser: self
 ]
-
-{ #category : #accessing }
-GLMTabulator >> updateContextWith: aPane [
-	context isNil ifTrue: [context := OrderedCollection new].
-	context add: aPane
-]
