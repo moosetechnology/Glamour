@@ -12,7 +12,7 @@ Class {
 
 { #category : #accessing }
 GLMSimpleTransmission >> addActiveOrigin: aPort [
-	self origin: aPort
+	^ self origin: aPort
 ]
 
 { #category : #copying }

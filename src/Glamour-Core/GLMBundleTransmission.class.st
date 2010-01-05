@@ -28,7 +28,7 @@ GLMBundleTransmission >> activeOrigins [
 { #category : #accessing }
 GLMBundleTransmission >> addActiveOrigin: aPort [ 
 	 
-	self bundleOrigins 
+	^ self bundleOrigins 
 		add: 
 			((GLMOriginPortReference new) 
 				port: aPort; 
@@ -130,8 +130,8 @@ GLMBundleTransmission >> transmitIn: aContext [
 
 { #category : #transmitting }
 GLMBundleTransmission >> value [
-	^ self origins size = 1 
-		ifTrue: [ self origins first value ] 
+	^ self bundleOrigins size = 1 
+		ifTrue: [ self bundleOrigins first value ] 
 		ifFalse: [
-			GLMMultiValue withAll: (self origins collect: [:each | each value]) ]
+			GLMMultiValue withAll: (self bundleOrigins collect: [:each | each value]) ]
 ]
