@@ -126,9 +126,8 @@ GLMPresentationTest >> testMatching [
 ]
 
 { #category : #tests }
-GLMPresentationTest >> testSetup [ 
-	 
-	| presentation | 
+GLMPresentationTest >> testSetup [
+	| presentation |
 	presentation := GLMPresentation new. 
 	self assert: presentation pane notNil. 
 	self assert: (presentation pane presentations includes: presentation)

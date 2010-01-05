@@ -21,6 +21,13 @@ GLMPaneTest >> testDefaultPortValue [
 ]
 
 { #category : #tests }
+GLMPaneTest >> testDefaultPresentations [
+	| pane |
+	pane := GLMPane named: 'test'.
+	self assert: (pane presentations isKindOf: GLMCompositePresentation)
+]
+
+{ #category : #tests }
 GLMPaneTest >> testDefaultValidate [
 	 
 	| pane port | 
