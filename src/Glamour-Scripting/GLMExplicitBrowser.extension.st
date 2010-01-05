@@ -34,6 +34,11 @@ GLMExplicitBrowser >> passivelyFrom: anOriginPortReference [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMExplicitBrowser >> send [
+	^ self addTransmission: (GLMSimpleTransmission new browser: self; yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMExplicitBrowser >> sendTo: aDesinationPortReference from: anOriginPortReference [ 
 	"this message links two port references with a transmission that holds no presentation" 
 	 
@@ -83,6 +88,11 @@ GLMExplicitBrowser >> showOn: aDestinationPane [
 	scriptTransmission := (GLMBundleTransmission new) 
 		destination: (self resolveDestinationPort: aDestinationPane); 
 		yourself
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMExplicitBrowser >> transmit [
+	^ self addTransmission: (GLMBundleTransmission new browser: self; yourself)
 ]
 
 { #category : #'*Glamour-Scripting' }
