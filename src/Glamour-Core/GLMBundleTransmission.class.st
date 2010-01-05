@@ -58,9 +58,8 @@ GLMBundleTransmission >> addPresentations: aCollection [
 ]
 
 { #category : #'private accessing' }
-GLMBundleTransmission >> bundleOrigins [ 
-	 
-	^origins ifNil: [origins := OrderedCollection new]
+GLMBundleTransmission >> bundleOrigins [
+	^ origins ifNil: [origins := OrderedCollection new]
 ]
 
 { #category : #copying }
@@ -130,10 +129,9 @@ GLMBundleTransmission >> transmitIn: aContext [
 ]
 
 { #category : #transmitting }
-GLMBundleTransmission >> value [ 
-	 
-	^self origins size = 1 
-		ifTrue: [self origins first value] 
-		ifFalse: 
-			[GLMMultiValue withAll: (self origins collect: [:each | each value])]
+GLMBundleTransmission >> value [
+	^ self origins size = 1 
+		ifTrue: [ self origins first value ] 
+		ifFalse: [
+			GLMMultiValue withAll: (self origins collect: [:each | each value]) ]
 ]

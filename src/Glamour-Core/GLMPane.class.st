@@ -173,17 +173,13 @@ GLMPane >> notingPresentationChangeDo: aBlock [
 ]
 
 { #category : #accessing }
-GLMPane >> port: aSymbol [ 
-	 
-	^ports 
-		detect: [:each | each name = aSymbol] 
-		ifNone: 
-			[ports 
-				addLast: 
-					((self class portClass new) 
+GLMPane >> port: aSymbol [
+	^ ports detect: [ :each | each name = aSymbol ] ifNone: [
+		ports addLast: (
+			(self class portClass new) 
 						pane: self; 
 						name: aSymbol; 
-						yourself)]
+						yourself) ]
 ]
 
 { #category : #private }

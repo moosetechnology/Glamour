@@ -44,8 +44,7 @@ GLMBundleOrigin >> port [
 ]
 
 { #category : #accessing }
-GLMBundleOrigin >> port: aPort [ 
-	 
+GLMBundleOrigin >> port: aPort [
 	port := aPort
 ]
 
