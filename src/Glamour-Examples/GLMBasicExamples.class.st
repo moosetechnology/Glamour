@@ -22,10 +22,25 @@ GLMBasicExamples >> actionsFor: aPresentation [
 
 { #category : #others }
 GLMBasicExamples >> allowNil [
-	"self new allowNil openOn: "
+	<glmBrowser: 'Allowing Nil' input: '42'>
+	"self new allowNil openOn: 42"
 	| browser | 
 	browser := GLMTabulator new.
-	browser column: [:c | c row: #one; row: #two; row: #three]; column: #summary.
+	browser 
+		column: [: c | c row: #one; row: #two];
+		column: #details.
+	browser showOn: #one; using: [
+		browser tree 
+			display: #(1 2 3);
+			allowDeselection ].
+	browser showOn: #two; using: [
+		browser tree 
+			display: #(a b c);
+			allowDeselection].
+	browser showOn: #details; from: #one; from: #two; using: [
+		browser text 
+			display: [ :one :two | one asString, two asString];
+			allowNil ].
 	^ browser
 ]
 
@@ -85,6 +100,8 @@ GLMBasicExamples >> compoundTaggedTree [
 
 { #category : #others }
 GLMBasicExamples >> doubleClick [
+	<glmBrowser: 'Double Click' input: '100'>
+	"self new doubleClick openOn: 100"
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
@@ -92,7 +109,7 @@ GLMBasicExamples >> doubleClick [
 		browser list display: [:x | 1 to: x]].
 	browser showOn: #two; from: #one->#strongSelection; using: [
 		browser list display: [:x | 1 to: x]].
-	browser openOn: 100
+	^ browser
 ]
 
 { #category : #others }
@@ -275,8 +292,30 @@ GLMBasicExamples >> simpleFinderWithMenu [
 	^ finder
 ]
 
+{ #category : #others }
+GLMBasicExamples >> simpleMondrianPainting [
+	<glmBrowser: 'Simple Mondrian Painting' input: '100'>
+	"self new simpleMondrianPainting openOn: 100"
+	| browser |
+	browser := GLMTabulator new.
+	browser column: #one; column: #two.
+	browser showOn: #one; using: [
+		browser mondrian painting: [:view :number | 
+			view shape label.
+			view nodes: (1 to: number).
+			view edgesFrom: [:x | x // 3 ].
+			view horizontalTreeLayout ]].
+	browser showOn: #two; from: #one; using: [
+		browser mondrian painting: [:view :number |
+			view shape rectangle width: 20; text: #printString; withoutBorder.
+			view nodes: (1 to: number).
+			view gridLayout ]].
+	^ browser
+]
+
 { #category : #table }
 GLMBasicExamples >> simpleTable [
+	<glmBrowser: 'Simple Table in Finder' input: '100'>
 	"self new simpleTable openOn: 1000"
 	| finder |	
 	finder := GLMFinder new.
