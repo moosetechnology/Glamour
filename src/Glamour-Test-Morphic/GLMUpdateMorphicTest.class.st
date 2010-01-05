@@ -12,6 +12,11 @@ Class {
 }
 
 { #category : #testing }
+GLMUpdateMorphicTest >> expectedFailures [
+	^ #(testInvalidateSelection)
+]
+
+{ #category : #testing }
 GLMUpdateMorphicTest >> setUp [
 	announcer := Announcer new.
 	entity := OrderedCollection with: 1 with: 2 with: 3.
