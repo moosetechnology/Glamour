@@ -30,7 +30,7 @@ GLMBundleTransmission >> addActiveOrigin: aPort [
 	 
 	self bundleOrigins 
 		add: 
-			((GLMBundleOrigin new) 
+			((GLMOriginPortReference new) 
 				port: aPort; 
 				beActive; 
 				yourself)
@@ -41,7 +41,7 @@ GLMBundleTransmission >> addPassiveOrigin: aPort [
 	 
 	self bundleOrigins 
 		add: 
-			((GLMBundleOrigin new) 
+			((GLMOriginPortReference new) 
 				port: aPort; 
 				bePassive; 
 				yourself)

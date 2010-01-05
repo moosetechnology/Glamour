@@ -4,7 +4,7 @@ Used by BundleTransmission to annotate its originating ports whether they are ac
 When a BundleTransmission consideres a port as active, the browser will trigger it when the corresponding port changes.
 "
 Class {
-	#name : #GLMBundleOrigin,
+	#name : #GLMOriginPortReference,
 	#superclass : #Object,
 	#instVars : [
 		'port',
@@ -14,42 +14,42 @@ Class {
 }
 
 { #category : #accessing }
-GLMBundleOrigin >> beActive [ 
+GLMOriginPortReference >> beActive [ 
 	 
 	active := true
 ]
 
 { #category : #accessing }
-GLMBundleOrigin >> bePassive [ 
+GLMOriginPortReference >> bePassive [ 
 	 
 	active := false
 ]
 
 { #category : #testing }
-GLMBundleOrigin >> isActive [ 
+GLMOriginPortReference >> isActive [ 
 	 
 	^active ifNil: [active := true]
 ]
 
 { #category : #testing }
-GLMBundleOrigin >> isPassive [ 
+GLMOriginPortReference >> isPassive [ 
 	 
 	^self isActive not
 ]
 
 { #category : #accessing }
-GLMBundleOrigin >> port [ 
+GLMOriginPortReference >> port [ 
 	 
 	^port
 ]
 
 { #category : #accessing }
-GLMBundleOrigin >> port: aPort [
+GLMOriginPortReference >> port: aPort [
 	port := aPort
 ]
 
 { #category : #'accessing-convenience' }
-GLMBundleOrigin >> value [ 
+GLMOriginPortReference >> value [ 
 	 
 	^self port value
 ]
