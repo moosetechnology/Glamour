@@ -20,6 +20,7 @@ GLMNewScriptingTest >> testBundleTransmission [
 	self assert: transmission origins first = ((browser paneNamed: #one) port: #port1). 
 	self assert: transmission origins last = ((browser paneNamed: #two) port: #port2). 
 	self assert: transmission destination = ((browser paneNamed: #three) port: #port3).
+	self assert: (transmission presentations isKindOf: GLMCompositePresentation).
 	self assert: transmission presentations size = 2
 ]
 
@@ -35,4 +36,17 @@ GLMNewScriptingTest >> testSimpleTransmission [
 	self assert: browser transmissions first origin = ((browser paneNamed: #one) port: #port1). 
 	self assert: browser transmissions first destination = ((browser paneNamed: #two) port: #port2).
 
+]
+
+{ #category : #'as yet unclassified' }
+GLMNewScriptingTest >> testStartTabulator [
+	| browser | 
+	browser := GLMTabulator new. 
+	browser column: #one. 
+	browser transmit to: #one; showing: [ :a |
+		a list.
+		a text ].
+	browser startOn: 42. 
+	self assert: ((browser paneNamed: #one) presentations isKindOf: GLMCompositePresentation).
+	self assert: (browser paneNamed: #one) presentations size = 2
 ]

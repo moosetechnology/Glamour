@@ -6,7 +6,7 @@ Class {
 
 { #category : #testing }
 GLMScriptingTest >> expectedFailures [
-	^ #(#testComposite #testPublishingToOutsideFinder)
+	^ #(#testPublishingToOutsideFinder)
 ]
 
 { #category : #tests }
@@ -90,21 +90,6 @@ GLMScriptingTest >> testComplexFinderBrowser [
 	self assert: browser panes size = 2. 
 	self assert: browser panes last presentations last displayValue size = 84. 
 	self assert: browser panes last presentations size = 2
-]
-
-{ #category : #tests }
-GLMScriptingTest >> testComposite [
-	 
-	| browser | 
-	browser := GLMTabulator new. 
-	browser column: #one. 
-	browser showOn: #one; using: [
-		browser composite with: [
-			browser list.
-			browser text]].
-	browser startOn: 42. 
-	self assert: (browser paneNamed: #one) presentations size = 1. 
-	self assert: (browser paneNamed: #one) presentations first presentations size = 2.
 ]
 
 { #category : #tests }
