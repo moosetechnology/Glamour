@@ -11,6 +11,14 @@ GLMTPresentationBuilder >> composite [
 ]
 
 { #category : #'*glamour-scripting-presentations' }
+GLMTPresentationBuilder >> composite: aBlock [
+	| composite |
+	composite := GLMCompositePresentation new.
+	aBlock value: composite.
+	^ self custom: composite
+]
+
+{ #category : #'*glamour-scripting-presentations' }
 GLMTPresentationBuilder >> diff [
 	^ self custom: GLMDiffPresentation new
 ]
