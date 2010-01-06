@@ -342,7 +342,7 @@ maxWaitSeconds have passed,
 value"
 
 	| startTime result |
-	startTime := Time secondClock.
+	startTime := Time millisecondClockValue // 1000.
 	[result := validateBlock value = expectedResult] whileFalse:
 			[Time secondClock - startTime > maxWaitSeconds ifTrue: [^result].
 			(Delay forMilliseconds: 50) wait].
