@@ -6,11 +6,6 @@ GLMTPresentationBuilder >> actionList [
 ]
 
 { #category : #'*glamour-scripting-presentations' }
-GLMTPresentationBuilder >> composite [
-	^ self custom: GLMCompositePresentation new
-]
-
-{ #category : #'*glamour-scripting-presentations' }
 GLMTPresentationBuilder >> composite: aBlock [
 	| composite |
 	composite := GLMCompositePresentation new.
