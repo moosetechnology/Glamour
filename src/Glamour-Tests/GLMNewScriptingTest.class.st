@@ -5,6 +5,24 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+GLMNewScriptingTest >> testBuildingNestedComposites [
+	| browser | 
+	browser := GLMTabulator new. 
+	browser column: #one. 
+	browser transmit to: #one; showing: [ :a |
+		a list.
+		a text.
+		a composite: [:another | 
+			another text.
+			another list ] ].
+	browser startOn: 42.
+	self assert: ((browser paneNamed: #one) presentations isKindOf: GLMCompositePresentation).
+	self assert: (browser paneNamed: #one) presentations size = 3.
+	self assert: ((browser paneNamed: #one) presentations last isKindOf: GLMCompositePresentation).
+	self assert: (browser paneNamed: #one) presentations last size = 2
+]
+
+{ #category : #'as yet unclassified' }
 GLMNewScriptingTest >> testBundleTransmission [
 	| browser transmission | 
 	browser := GLMTabulator new. 
@@ -38,7 +56,7 @@ GLMNewScriptingTest >> testBundleTransmissionWithTransformation [
 ]
 
 { #category : #'as yet unclassified' }
-GLMNewScriptingTest >> testNestedComposites [
+GLMNewScriptingTest >> testNestedCompositesPaneReference [
 	| browser | 
 	browser := GLMTabulator new. 
 	browser column: #one. 
@@ -46,12 +64,13 @@ GLMNewScriptingTest >> testNestedComposites [
 		a list.
 		a text.
 		a composite: [:another | 
-			another table ] ].
+			another text.
+			another list ] ].
 	browser startOn: 42.
-	self assert: ((browser paneNamed: #one) presentations isKindOf: GLMCompositePresentation).
-	self assert: (browser paneNamed: #one) presentations size = 3.
-	self assert: ((browser paneNamed: #one) presentations last isKindOf: GLMCompositePresentation).
-
+	(browser paneNamed: #one) presentations do: [:each |
+		self assert: each pane == (browser paneNamed: #one) ].
+	(browser paneNamed: #one) presentations last do: [:each |
+		self assert: each pane == (browser paneNamed: #one) ]
 ]
 
 { #category : #'as yet unclassified' }
