@@ -83,8 +83,7 @@ GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderCompositePresentation: aCompositePresentation [
-		| presentations tabs title index |
-	self flag: 'this should go in the composite presentation rendering'.
+	| presentations tabs title index |
 	presentations := aCompositePresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
 	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
@@ -285,38 +284,6 @@ GLMMorphicRenderer >> renderPane: aPane [
 		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		adoptPaneColor: container paneColor.
 	^ container
-]
-
-{ #category : #private }
-GLMMorphicRenderer >> renderPresentationsOf: aPane [ 
-	| presentations tabs title index |
-	self flag: 'this should go in the composite presentation rendering'.
-	presentations := aPane matchingPresentations.
-	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
-	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
-	tabs := LazyTabGroupMorph new.
-	tabs
-		vResizing: #spaceFill;
-		hResizing: #spaceFill;
-		cornerStyle: (self theme tabGroupCornerStyleIn: nil);
-		font: self theme labelFont;
-		onPageIndexChange: [ :i | 
-			aPane lastActivePresentation: (aPane matchingPresentations at: i) ].
-	presentations do: [ :each | 
-		title := each hasTitleIcon ifTrue: [
-			self theme 
-					newImageIn: tabs
-					form: each titleIconValue ]
-			ifFalse: [ each titleValue ].
-		tabs 
-			addLazyPage: [ self render: each ]
-			label: title ].
-	index := 1.
-	presentations withIndexDo: [ :each :i | 
-		aPane lastActivePresentation notNil and: [ 
-			each title = aPane lastActivePresentation title ifTrue: [ index := i ] ] ].
-	tabs selectedPageIndex: index.
-	^ tabs
 ]
 
 { #category : #'rendering browsers' }
