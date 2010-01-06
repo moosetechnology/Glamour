@@ -65,6 +65,12 @@ GLMCompositePresentation >> matchingPresentations [
 ]
 
 { #category : #accessing }
+GLMCompositePresentation >> pane: aPane [ 
+	super pane: aPane.
+	self presentations do: [:each | each pane: aPane ]
+]
+
+{ #category : #accessing }
 GLMCompositePresentation >> presentations [
 	^ presentations ifNil: [presentations := OrderedCollection new]
 ]
