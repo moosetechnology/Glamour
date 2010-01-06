@@ -31,13 +31,13 @@ GLMBundleTransmissionTest >> testPorts [
 				name: #port4; 
 				value: 4). 
 	transmission destination: (GLMSimplePort new name: #port5). 
-	self assert: transmission bundleOrigins size = 4. 
-	transmission bundleOrigins 
+	self assert: transmission originReferences size = 4. 
+	transmission originReferences 
 		do: [:each | self assert: (each isKindOf: GLMOriginPortReference)]. 
-	self assert: (transmission bundleOrigins at: 1) port name = #port1. 
-	self assert: (transmission bundleOrigins at: 2) port name = #port2. 
-	self assert: (transmission bundleOrigins at: 3) port name = #port3. 
-	self assert: (transmission bundleOrigins at: 4) port name = #port4. 
+	self assert: (transmission originReferences at: 1) port name = #port1. 
+	self assert: (transmission originReferences at: 2) port name = #port2. 
+	self assert: (transmission originReferences at: 3) port name = #port3. 
+	self assert: (transmission originReferences at: 4) port name = #port4. 
 	self assert: transmission origins size = 4. 
 	transmission origins 
 		do: [:each | self assert: (each isKindOf: GLMSimplePort)]. 
