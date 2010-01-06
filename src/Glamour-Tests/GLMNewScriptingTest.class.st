@@ -38,6 +38,23 @@ GLMNewScriptingTest >> testBundleTransmissionWithTransformation [
 ]
 
 { #category : #'as yet unclassified' }
+GLMNewScriptingTest >> testNestedComposites [
+	| browser | 
+	browser := GLMTabulator new. 
+	browser column: #one. 
+	browser transmit to: #one; showing: [ :a |
+		a list.
+		a text.
+		a composite: [:another | 
+			another table ] ].
+	browser startOn: 42.
+	self assert: ((browser paneNamed: #one) presentations isKindOf: GLMCompositePresentation).
+	self assert: (browser paneNamed: #one) presentations size = 3.
+	self assert: ((browser paneNamed: #one) presentations last isKindOf: GLMCompositePresentation).
+
+]
+
+{ #category : #'as yet unclassified' }
 GLMNewScriptingTest >> testSimpleTransmission [
 	| browser | 
 	browser := GLMTabulator new. 
