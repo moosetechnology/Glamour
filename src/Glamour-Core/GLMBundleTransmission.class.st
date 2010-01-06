@@ -21,14 +21,14 @@ Class {
 { #category : #accessing }
 GLMBundleTransmission >> activeOrigins [ 
 	 
-	^(self bundleOrigins select: [:each | each isActive]) 
+	^(self originReferences select: [:each | each isActive]) 
 		collect: [:each | each port]
 ]
 
 { #category : #accessing }
 GLMBundleTransmission >> addActiveOrigin: aPort [ 
 	 
-	^ self bundleOrigins 
+	^ self originReferences 
 		add: 
 			((GLMOriginPortReference new) 
 				port: aPort; 
@@ -39,7 +39,7 @@ GLMBundleTransmission >> addActiveOrigin: aPort [
 { #category : #accessing }
 GLMBundleTransmission >> addPassiveOrigin: aPort [ 
 	 
-	self bundleOrigins 
+	self originReferences 
 		add: 
 			((GLMOriginPortReference new) 
 				port: aPort; 
@@ -57,16 +57,11 @@ GLMBundleTransmission >> addPresentations: aCollection [
 	aCollection do: [:each | self addPresentation: each]
 ]
 
-{ #category : #'private accessing' }
-GLMBundleTransmission >> bundleOrigins [
-	^ origins ifNil: [origins := OrderedCollection new]
-]
-
 { #category : #copying }
 GLMBundleTransmission >> changePortsAccordingToPaneMapping: newPanesMapping fromOldBrowser: aBrowser toNewBrowser: anotherBrowser [
 	| newOrigins newPort |
 	super changePortsAccordingToPaneMapping: newPanesMapping fromOldBrowser: aBrowser toNewBrowser: anotherBrowser.
-	self bundleOrigins do: [:each | 
+	self originReferences do: [:each | 
 		newPort := each port copyAccordingToPaneMapping: newPanesMapping inNewBrowser: anotherBrowser.
 		each port: newPort ]
 ]
@@ -76,6 +71,11 @@ GLMBundleTransmission >> clearOrigins [
 	origins := nil
 ]
 
+{ #category : #'private accessing' }
+GLMBundleTransmission >> originReferences [
+	^ origins ifNil: [origins := OrderedCollection new]
+]
+
 { #category : #testing }
 GLMBundleTransmission >> originatesAt: aPort [
 	^ self activeOrigins includes: aPort
@@ -83,13 +83,13 @@ GLMBundleTransmission >> originatesAt: aPort [
 
 { #category : #accessing }
 GLMBundleTransmission >> origins [
-	^ self bundleOrigins collect: [:each | each port]
+	^ self originReferences collect: [:each | each port]
 ]
 
 { #category : #accessing }
 GLMBundleTransmission >> passiveOrigins [ 
 	 
-	^(self bundleOrigins select: [:each | each isPassive]) 
+	^(self originReferences select: [:each | each isPassive]) 
 		collect: [:each | each port]
 ]
 
@@ -130,8 +130,8 @@ GLMBundleTransmission >> transmitIn: aContext [
 
 { #category : #transmitting }
 GLMBundleTransmission >> value [
-	^ self bundleOrigins size = 1 
-		ifTrue: [ self bundleOrigins first value ] 
+	^ self originReferences size = 1 
+		ifTrue: [ self originReferences first value ] 
 		ifFalse: [
-			GLMMultiValue withAll: (self bundleOrigins collect: [:each | each value]) ]
+			GLMMultiValue withAll: (self originReferences collect: [:each | each value]) ]
 ]
