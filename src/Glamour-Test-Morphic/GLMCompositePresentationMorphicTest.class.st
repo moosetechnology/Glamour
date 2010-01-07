@@ -24,6 +24,22 @@ GLMCompositePresentationMorphicTest >> testAccordion [
 ]
 
 { #category : #'as yet unclassified' }
+GLMCompositePresentationMorphicTest >> testStackedVertically [
+	| browser window compositeMorph |
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit to: #one; showing: [ :a | 
+		a stackedVerticallyArrangement.
+		a list.
+		a text ].
+	window := browser openOn: 42.
+	window delete.
+	compositeMorph := window submorphs last submorphs last submorphs last.
+	self assert: compositeMorph class == PanelMorph.
+	self assert: compositeMorph submorphs first class == GroupboxMorph.
+]
+
+{ #category : #'as yet unclassified' }
 GLMCompositePresentationMorphicTest >> testTabs [
 	| browser window compositeMorph |
 	browser := GLMTabulator new.
