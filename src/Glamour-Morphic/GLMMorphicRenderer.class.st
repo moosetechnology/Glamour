@@ -64,7 +64,10 @@ GLMMorphicRenderer >> renderAccordionCompositePresentation: aCompositePresentati
 	container := PanelMorph new.
 	container
 		vResizing: #spaceFill;
-		hResizing: #spaceFill.
+		hResizing: #spaceFill;
+		fillStyle: Color transparent; "non pane color tracking"
+		changeTableLayout;
+		cellInset: 2.
 	presentations do: [ :each | 
 		title := each hasTitleIcon ifTrue: [
 			self theme 
@@ -74,9 +77,8 @@ GLMMorphicRenderer >> renderAccordionCompositePresentation: aCompositePresentati
 		expander := ExpanderMorph new
 			font: self theme menuFont;
 			titleText: title;
-			hResizing: #spaceFill;
-			fillStyle: Color white.
-		expander addMorphBack: ((self render: each) extent: 200@200).
+			fillStyle: Color transparent "non pane color tracking".
+		expander addMorphBack: (self render: each).
 		container addMorphBack: expander ].
 	index := 1.
 	presentations withIndexDo: [ :each :i | 

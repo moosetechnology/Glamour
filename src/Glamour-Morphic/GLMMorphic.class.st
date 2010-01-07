@@ -27,7 +27,7 @@ GLMMorphic class >> alignmentMorph: aCollectionOfMorphs [
 
 { #category : #'as yet unclassified' }
 GLMMorphic class >> emptyMorph [
-	^ RectangleMorph new
+	^ PanelMorph new
 		layoutPolicy: ProportionalLayout new;
 		color: Color transparent;
 		hResizing: #spaceFill;
