@@ -288,6 +288,37 @@ GLMMorphicRenderer >> renderPane: aPane [
 ]
 
 { #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderStackedVerticallyCompositePresentation: aCompositePresentation [
+	| presentations container expander title index |
+	presentations := aCompositePresentation matchingPresentations.
+	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
+	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
+	container := PanelMorph new.
+	container
+		vResizing: #spaceFill;
+		hResizing: #spaceFill;
+		fillStyle: Color transparent; "non pane color tracking"
+		changeTableLayout;
+		cellInset: 2.
+	presentations do: [ :each | 
+		title := each hasTitleIcon ifTrue: [
+			self theme 
+					newImageIn: container
+					form: each titleIconValue ]
+			ifFalse: [ each titleValue ].
+		expander := GroupboxMorph new
+"			font: self labelFont;"
+	"		cornerStyle: aThemedMorph preferredCornerStyle;
+	"		hResizing: #spaceFill;
+			vResizing: #spaceFill;
+			label: title;
+			yourself.
+		expander addContentMorph: (self render: each).
+		container addMorphBack: expander ].
+	^ container
+]
+
+{ #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation [
 	| presentations tabs title index |
 	presentations := aCompositePresentation matchingPresentations.
