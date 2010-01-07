@@ -98,6 +98,25 @@ GLMBasicExamples >> compoundTaggedTree [
 	^ browser
 ]
 
+{ #category : #composite }
+GLMBasicExamples >> differentComposites [
+	"self new differentComposites openOn: (1 to: 100)"
+	| browser |
+	browser := GLMTabulator new.
+	browser row: [:r | 
+		r column: #tabbed; column: #accordion ] span: 4; row: #preview.
+	browser transmit to: #tabbed; showing: [:a | 
+		a list ; text ].
+	browser transmit to: #accordion; showing: [:a | 
+		a accordionArrangement.
+		a list; text ].
+	browser transmit to: #preview; from: #tabbed; showing: [:a | 
+		a text display: [:x | x printString, ' from tabbed' ]].
+	browser transmit to: #preview; from: #accordion; showing: [:a | 
+		a text display: [:x | x printString, ' from accordion' ]].
+	^ browser 
+]
+
 { #category : #others }
 GLMBasicExamples >> doubleClick [
 	<glmBrowser: 'Double Click' input: '100'>
