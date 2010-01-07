@@ -4,7 +4,8 @@ Class {
 	#traits : 'GLMTPresentationBuilder',
 	#classTraits : 'GLMTPresentationBuilder classTrait',
 	#instVars : [
-		'presentations'
+		'presentations',
+		'arrangement'
 	],
 	#category : #'Glamour-Core'
 }
@@ -22,6 +23,17 @@ GLMCompositePresentation >> allSatisfy: aBlock [
 { #category : #accessing }
 GLMCompositePresentation >> anySatisfy: aBlock [
 	^ self presentations anySatisfy: aBlock 
+]
+
+{ #category : #accessing }
+GLMCompositePresentation >> arrangement [
+	^ arrangement ifNil: [arrangement := GLMTabbedArrangement of: self]
+]
+
+{ #category : #accessing }
+GLMCompositePresentation >> arrangement: anArrangement [
+	anArrangement composite: self.
+	^ arrangement := anArrangement
 ]
 
 { #category : #accessing }
@@ -82,7 +94,8 @@ GLMCompositePresentation >> presentations: anObject [
 
 { #category : #rendering }
 GLMCompositePresentation >> renderGlamorouslyOn: aRenderer [
-	^ aRenderer renderCompositePresentation: self
+	"we delegate to the arrangement to dispatch the type of the actual arrangement of the nested presentations"
+	^ self arrangement renderGlamorouslyOn: aRenderer
 ]
 
 { #category : #accessing }
