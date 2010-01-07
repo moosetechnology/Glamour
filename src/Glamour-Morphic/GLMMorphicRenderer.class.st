@@ -56,6 +56,36 @@ GLMMorphicRenderer >> postBuildActions: anObject [
 ]
 
 { #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderAccordionCompositePresentation: aCompositePresentation [
+	| presentations container expander title index |
+	presentations := aCompositePresentation matchingPresentations.
+	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
+	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
+	container := PanelMorph new.
+	container
+		vResizing: #spaceFill;
+		hResizing: #spaceFill.
+	presentations do: [ :each | 
+		title := each hasTitleIcon ifTrue: [
+			self theme 
+					newImageIn: container
+					form: each titleIconValue ]
+			ifFalse: [ each titleValue ].
+		expander := ExpanderMorph new
+			font: self theme menuFont;
+			titleText: title;
+			hResizing: #spaceFill;
+			fillStyle: Color white.
+		expander addMorphBack: ((self render: each) extent: 200@200).
+		container addMorphBack: expander ].
+	index := 1.
+	presentations withIndexDo: [ :each :i | 
+		aCompositePresentation pane lastActivePresentation notNil and: [ 
+			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
+	^ container
+]
+
+{ #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [ 
 	| items list toShow container button buttonModel |
 	toShow := anActionListPresentation displayValue.
@@ -79,37 +109,6 @@ GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [
 					fractions: (0 @ 0 corner: 1 @ 0)
 					offsets: (0 @ ((index - 1) * 24) corner: 0 @ (index * 24))) ].
 	^ container
-]
-
-{ #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderCompositePresentation: aCompositePresentation [
-	| presentations tabs title index |
-	presentations := aCompositePresentation matchingPresentations.
-	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
-	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
-	tabs := LazyTabGroupMorph new.
-	tabs
-		vResizing: #spaceFill;
-		hResizing: #spaceFill;
-		cornerStyle: (self theme tabGroupCornerStyleIn: nil);
-		font: self theme labelFont;
-		onPageIndexChange: [ :i | 
-			aCompositePresentation pane lastActivePresentation: (aCompositePresentation matchingPresentations at: i) ].
-	presentations do: [ :each | 
-		title := each hasTitleIcon ifTrue: [
-			self theme 
-					newImageIn: tabs
-					form: each titleIconValue ]
-			ifFalse: [ each titleValue ].
-		tabs 
-			addLazyPage: [ self render: each ]
-			label: title ].
-	index := 1.
-	presentations withIndexDo: [ :each :i | 
-		aCompositePresentation pane lastActivePresentation notNil and: [ 
-			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
-	tabs selectedPageIndex: index.
-	^ tabs
 ]
 
 { #category : #private }
@@ -284,6 +283,37 @@ GLMMorphicRenderer >> renderPane: aPane [
 		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		adoptPaneColor: container paneColor.
 	^ container
+]
+
+{ #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation [
+	| presentations tabs title index |
+	presentations := aCompositePresentation matchingPresentations.
+	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
+	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
+	tabs := LazyTabGroupMorph new.
+	tabs
+		vResizing: #spaceFill;
+		hResizing: #spaceFill;
+		cornerStyle: (self theme tabGroupCornerStyleIn: nil);
+		font: self theme labelFont;
+		onPageIndexChange: [ :i | 
+			aCompositePresentation pane lastActivePresentation: (aCompositePresentation matchingPresentations at: i) ].
+	presentations do: [ :each | 
+		title := each hasTitleIcon ifTrue: [
+			self theme 
+					newImageIn: tabs
+					form: each titleIconValue ]
+			ifFalse: [ each titleValue ].
+		tabs 
+			addLazyPage: [ self render: each ]
+			label: title ].
+	index := 1.
+	presentations withIndexDo: [ :each :i | 
+		aCompositePresentation pane lastActivePresentation notNil and: [ 
+			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
+	tabs selectedPageIndex: index.
+	^ tabs
 ]
 
 { #category : #'rendering browsers' }
