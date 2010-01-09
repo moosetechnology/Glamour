@@ -1,6 +1,9 @@
 Class {
 	#name : #GLMMorphicTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'window'
+	],
 	#category : #'Glamour-Test-Morphic'
 }
 
@@ -59,9 +62,14 @@ GLMMorphicTest >> send: treeMorph mouseUpWithShift: aBoolean onItem: treeNodeMor
 	treeMorph mouseUp: mouseUp onMorph: treeNodeMorph.
 ]
 
+{ #category : #'setup - tear down' }
+GLMMorphicTest >> tearDown [
+	window ifNotNil: [window delete]
+]
+
 { #category : #testing }
 GLMMorphicTest >> testAllowNil [
-	| browser presentationsChanged window detailsMorph |
+	| browser presentationsChanged detailsMorph |
 	browser := GLMTabulator new.
 	browser 
 		column: [: c | c row: #one; row: #two];
@@ -84,14 +92,13 @@ GLMMorphicTest >> testAllowNil [
 	((browser paneNamed: #one) port: #selection) value: nil.
 	detailsMorph := window submorphs last submorphs last submorphs first.
 	self assert: detailsMorph getText = 'nilc'.
-	window delete
 
 ]
 
 { #category : #testing }
 GLMMorphicTest >> testChildrenBlock [
 
-	| browser window check treeMorph mouseUp treeNodeMorph |
+	| browser check treeMorph mouseUp treeNodeMorph |
 	browser := GLMFinder new.
 	check := false.
 	browser tree
@@ -101,20 +108,18 @@ GLMMorphicTest >> testChildrenBlock [
 	treeNodeMorph := treeMorph scroller submorphs first.
 	self assert: treeMorph class = LazyMorphTreeMorph.
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
-	window delete.
 	self repeatAssert: [check] equals: true
 ]
 
 { #category : #testing }
 GLMMorphicTest >> testChildrenBlockTakesEntity [
 
-	| browser receivedEntity window |
+	| browser receivedEntity |
 	browser := GLMFinder new.
 	receivedEntity := nil.
 	browser tree
 		children: [:each :entity | receivedEntity := entity. #()].
 	window := browser openOn: ($a to: $d).
-	window delete.
 	self repeatAssert: [receivedEntity] equals: ($a to: $d).
 
 ]
@@ -122,13 +127,12 @@ GLMMorphicTest >> testChildrenBlockTakesEntity [
 { #category : #testing }
 GLMMorphicTest >> testColumnBlockTakesEntity [
 
-	| browser receivedEntity window |
+	| browser receivedEntity |
 	browser := GLMFinder new.
 	receivedEntity := nil.
 	browser table
 		column: 'Even' evaluated: [:each :entity | receivedEntity := entity. 'x'].
 	window := browser openOn: (1 to: 5).
-	window delete.
 	self repeatAssert: [receivedEntity] equals: (1 to: 5).
 
 ]
@@ -136,7 +140,7 @@ GLMMorphicTest >> testColumnBlockTakesEntity [
 { #category : #testing }
 GLMMorphicTest >> testListDoubleClick [
 
-	| browser window treeMorph treeNodeMorph lastTreeNodeMorph |
+	| browser treeMorph treeNodeMorph lastTreeNodeMorph |
 	browser := GLMFinder new.
 	browser tree.
 	window := browser openOn: ($a to: $d).
@@ -144,14 +148,13 @@ GLMMorphicTest >> testListDoubleClick [
 	treeNodeMorph := treeMorph scroller submorphs first.
 	self send: treeMorph mouseUpWithShift: false onItem: treeNodeMorph.
 	self send: treeMorph doubleClickWithShift: false onItem: treeNodeMorph.
-	window delete.
 	self assert: (browser panes first port: #strongSelection) value = $a.
 ]
 
 { #category : #testing }
 GLMMorphicTest >> testListDoubleClickWithMultipleSelection [
 
-	| browser window treeMorph treeNodeMorph lastTreeNodeMorph |
+	| browser treeMorph treeNodeMorph lastTreeNodeMorph |
 	browser := GLMFinder new.
 	browser tree beMultiple.
 	window := browser openOn: ($a to: $d).
@@ -161,13 +164,12 @@ GLMMorphicTest >> testListDoubleClickWithMultipleSelection [
 	self send: treeMorph mouseUpWithShift: false onItem: treeNodeMorph.
 	self send: treeMorph mouseUpWithShift: true onItem: lastTreeNodeMorph.
 	self send: treeMorph doubleClickWithShift: false onItem: treeNodeMorph.
-	window delete.
 	self assert: (browser panes first port: #strongSelection) value asSet = ($a to: $d) asSet.
 ]
 
 { #category : #testing }
 GLMMorphicTest >> testMultipleInitialSelection [
-	| browser firstTreeMorph secondTreeMorph window |
+	| browser firstTreeMorph secondTreeMorph |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
@@ -178,7 +180,6 @@ GLMMorphicTest >> testMultipleInitialSelection [
 		browser list ].
 	window := browser openOn: 5.
 	(browser panes first port: #selection) value: #(2 5 3).
-	window delete.
 	firstTreeMorph := window submorphs last submorphs second submorphs first submorphs first.
 	secondTreeMorph := window submorphs last submorphs last submorphs first submorphs first.
 	self assert: firstTreeMorph model selection notNil.
@@ -188,25 +189,40 @@ GLMMorphicTest >> testMultipleInitialSelection [
 ]
 
 { #category : #testing }
+GLMMorphicTest >> testMultipleSelectionWithChange [
+	| browser firstTreeMorph secondTreeMorph |
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit to: #one; showing: [:a | a list beMultiple; display: [:x | 1 to: x ]].
+	window := browser openOn: 42.
+
+	firstTreeMorph := window submorphs last submorphs first submorphs first submorphs first.
+	self assert: firstTreeMorph model roots size = 42.
+	
+	(browser pane port: #entity) value: 31.
+	secondTreeMorph := window submorphs last submorphs first submorphs first submorphs first.
+	self assert: secondTreeMorph model roots size = 31.	
+
+	self assert: firstTreeMorph ~= secondTreeMorph
+]
+
+{ #category : #testing }
 GLMMorphicTest >> testNoSelection [
-	| browser window treeMorph treeNodeMorph lastTreeNodeMorph |
+	| browser treeMorph treeNodeMorph lastTreeNodeMorph |
 	browser := GLMFinder new.
 	browser tree noSelection.
 	window := browser openOn: ($a to: $d).
 	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
 	treeNodeMorph := treeMorph scroller submorphs first.
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
-	window delete.
 	self assert: browser panes size = 1
 ]
 
 { #category : #testing }
 GLMMorphicTest >> testSpawnFinder [
-
-	| browser window check |
+	| browser check |
 	browser := GLMFinder new.
 	window := browser openOn: ($a to: $d).
-	window delete.
 	self repeatAssert: [window submorphs last class] equals: GLMPaneScroller.
 
 ]
@@ -214,10 +230,9 @@ GLMMorphicTest >> testSpawnFinder [
 { #category : #testing }
 GLMMorphicTest >> testSpawnTableLayoutBrowser [
 
-	| browser window check |
+	| browser check |
 	browser := GLMTabulator new.
 	window := browser openOn: ($a to: $d).
-	window delete.
 	self repeatAssert: [
 		window submorphs last 
 					submorphs last 
@@ -228,7 +243,7 @@ GLMMorphicTest >> testSpawnTableLayoutBrowser [
 
 { #category : #testing }
 GLMMorphicTest >> testTreeAllowDeseletion [
-	| browser window treeMorph treeNodeMorph lastTreeNodeMorph |	
+	| browser treeMorph treeNodeMorph lastTreeNodeMorph |	
 	browser := GLMFinder new.
 	browser list allowDeselection.
 	window := browser openOn: ($a to: $d).
@@ -236,13 +251,12 @@ GLMMorphicTest >> testTreeAllowDeseletion [
 	treeNodeMorph := treeMorph scroller submorphs first.
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
-	window delete.
 	self assert: (browser panes first port: #selection) value isNil
 ]
 
 { #category : #testing }
 GLMMorphicTest >> testTreeDefaultAllowDeseletion [
-	| browser window treeMorph treeNodeMorph lastTreeNodeMorph |
+	| browser treeMorph treeNodeMorph lastTreeNodeMorph |
 	browser := GLMFinder new.
 	browser tree.
 	window := browser openOn: ($a to: $d).
@@ -250,14 +264,12 @@ GLMMorphicTest >> testTreeDefaultAllowDeseletion [
 	treeNodeMorph := treeMorph scroller submorphs first.
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
-	window delete.
 	self assert: (browser panes first port: #selection) value = $a.
 ]
 
 { #category : #testing }
 GLMMorphicTest >> testTreeMultipleSelection [
-
-	| browser window treeMorph treeNodeMorph lastTreeNodeMorph |
+	| browser treeMorph treeNodeMorph lastTreeNodeMorph |
 	browser := GLMFinder new.
 	browser tree beMultiple.
 	window := browser openOn: ($a to: $d).
@@ -266,7 +278,6 @@ GLMMorphicTest >> testTreeMultipleSelection [
 	lastTreeNodeMorph := treeMorph scroller submorphs last.
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
 	self send: treeMorph mouseUpWithShift: true onItem: lastTreeNodeMorph.
-	window delete.
 	self assert: (browser panes first port: #selection) value notNil.
 	self assert: (browser panes first port: #selection) value asSet = ($a to: $d) asSet
 ]
@@ -274,7 +285,7 @@ GLMMorphicTest >> testTreeMultipleSelection [
 { #category : #testing }
 GLMMorphicTest >> testTreeMultipleSelectionWithCancellation [
 
-	| browser window treeMorph treeNodeMorph lastTreeNodeMorph |
+	| browser treeMorph treeNodeMorph lastTreeNodeMorph |
 	browser := GLMFinder new.
 	browser tree beMultiple allowDeselection.
 	window := browser openOn: ($a to: $d).
@@ -285,14 +296,13 @@ GLMMorphicTest >> testTreeMultipleSelectionWithCancellation [
 	self send: treeMorph mouseUpWithShift: true onItem: lastTreeNodeMorph.
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
-	window delete.
 	self assert: (browser panes first port: #selection) value isNil
 ]
 
 { #category : #testing }
 GLMMorphicTest >> testTreeSelection [
 
-	| browser window treeMorph treeNodeMorph |
+	| browser treeMorph treeNodeMorph |
 	browser := GLMFinder new.
 	browser tree.
 	window := browser openOn: ($a to: $d).
@@ -300,14 +310,13 @@ GLMMorphicTest >> testTreeSelection [
 	treeNodeMorph := treeMorph scroller submorphs first.
 	self assert: treeMorph class = LazyMorphTreeMorph.
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
-	window delete.
 	self assert: (browser panes first port: #selection) value = $a
 ]
 
 { #category : #testing }
 GLMMorphicTest >> testTreeSelectionCancellation [
 
-	| browser window treeMorph treeNodeMorph |
+	| browser treeMorph treeNodeMorph |
 	browser := GLMFinder new.
 	browser tree allowDeselection.
 	window := browser openOn: ($a to: $d).
@@ -315,13 +324,12 @@ GLMMorphicTest >> testTreeSelectionCancellation [
 	treeNodeMorph := treeMorph scroller submorphs first.
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
-	window delete.
 	self assert: (browser panes first port: #selection) value isNil
 ]
 
 { #category : #testing }
 GLMMorphicTest >> testTreeWithDisplay [
-	|browser treeCollection window |
+	| browser treeCollection |
 	treeCollection := { #root1->{#child1->{} . #child2->{}} . #root2 ->{} }.
 	browser := GLMTabulator new.
 	browser column: #one.
@@ -330,8 +338,7 @@ GLMMorphicTest >> testTreeWithDisplay [
 			display: [:each | each value ];
 			children: [:x | x value ] ].
 	window := browser openOn: #something -> treeCollection.
-	self assert: browser panes first presentations first displayValue == treeCollection.
-	window delete
+	self assert: browser panes first presentations first displayValue == treeCollection
 ]
 
 { #category : #private }
