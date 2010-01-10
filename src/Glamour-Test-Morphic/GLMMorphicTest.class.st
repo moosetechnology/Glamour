@@ -194,14 +194,18 @@ GLMMorphicTest >> testMultipleSelectionWithChange [
 	browser := GLMTabulator new.
 	browser column: #one.
 	browser transmit to: #one; showing: [:a | a list beMultiple; display: [:x | 1 to: x ]].
-	window := browser openOn: 42.
+	window := browser openOn: 4.
 
 	firstTreeMorph := window submorphs last submorphs first submorphs first submorphs first.
-	self assert: firstTreeMorph model roots size = 42.
+	self assert: firstTreeMorph model roots size = 4.
+	((browser paneNamed: #one) port: #selection) value: #(2 3 4).
+	self assert: ((browser paneNamed: #one) port: #selection) value = #(2 3 4) asOrderedCollection.
 	
 	(browser pane port: #entity) value: 31.
 	secondTreeMorph := window submorphs last submorphs first submorphs first submorphs first.
-	self assert: secondTreeMorph model roots size = 31.	
+	self assert: secondTreeMorph model roots size = 31.
+	((browser paneNamed: #one) port: #selection) value: #(12 13).
+	self assert: ((browser paneNamed: #one) port: #selection) value = #(12 13) asOrderedCollection.
 
 	self assert: firstTreeMorph ~= secondTreeMorph
 ]
