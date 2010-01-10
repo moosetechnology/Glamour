@@ -1,11 +1,10 @@
 Class {
 	#name : #GLMUpdateMorphicTest,
-	#superclass : #TestCase,
+	#superclass : #GLMMorphicTest,
 	#instVars : [
 		'announcer',
 		'entity',
 		'browser',
-		'window',
 		'treeMorph'
 	],
 	#category : #'Glamour-Test-Morphic'
@@ -30,11 +29,6 @@ GLMUpdateMorphicTest >> setUp [
 	window := browser openOn: entity.
 	treeMorph := window submorphs last submorphs second submorphs first submorphs first.
 
-]
-
-{ #category : #testing }
-GLMUpdateMorphicTest >> tearDown [
-	window delete
 ]
 
 { #category : #testing }
