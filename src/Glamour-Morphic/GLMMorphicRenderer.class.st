@@ -40,6 +40,19 @@ GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPrese
 	aMorphicModel when: GLMKeyStroke do: [ :ann | ann action actOn: aPresentation ].
 ]
 
+{ #category : #private }
+GLMMorphicRenderer >> moreToolbarActions: noIconActions on: aBrowser [
+	| menuMorph |
+	menuMorph := MenuMorph new.
+	noIconActions do: [ :each | 
+		menuMorph 
+				add: each title
+				target: each
+				selector: #actOn:
+				argument: aBrowser ].
+	menuMorph popUpInWorld
+]
+
 { #category : #opening }
 GLMMorphicRenderer >> open: aRenderable [
 	^ ( self windowFor: aRenderable ) openInWorld
@@ -407,9 +420,9 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 
 { #category : #private }
 GLMMorphicRenderer >> renderToolbarForBrowser: aBrowser inWindow: aWin [
-	| dock tools |
+	| dock tools buttons noIconActions |
 	dock := aWin newToolDockingBar.
-	tools := aWin newToolbar: ((aBrowser allActions select: [:each | each hasIcon]) collect: [:each |
+	buttons := (aBrowser allActions select: [:each | each hasIcon]) collect: [:each |
 		aWin
 			newButtonFor: each
 			getState: nil
@@ -417,7 +430,18 @@ GLMMorphicRenderer >> renderToolbarForBrowser: aBrowser inWindow: aWin [
 			arguments: {aBrowser}
 			getEnabled: nil
 			labelForm: each icon
-			help: each title ]).
+			help: each title ].
+	noIconActions := aBrowser allActions select: [:each | each hasTitle and: [each hasIcon not]].
+	noIconActions isEmpty ifFalse: [ 
+		buttons add: (aWin
+			newButtonFor: self
+			getState: nil
+			action: #moreToolbarActions:on:
+			arguments: {noIconActions . aBrowser}
+			getEnabled: nil
+			label: '...'
+			help: 'More actions')].
+	tools := aWin newToolbar: buttons.
 	dock addMorphBack: tools.
 	^ dock
 ]
