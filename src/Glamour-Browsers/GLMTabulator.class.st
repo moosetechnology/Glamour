@@ -79,5 +79,5 @@ GLMTabulator >> initializeScriptingDefaults [
 { #category : #rendering }
 GLMTabulator >> renderGlamorouslyOn: aRenderer [ 
 	 
-	^aRenderer renderTableLayoutBrowser: self
+	^aRenderer renderTabulator: self
 ]
