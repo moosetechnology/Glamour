@@ -275,7 +275,7 @@ GLMMorphicRenderer >> renderPane: aPane [
 	aPane whenMatchingPresentationsChanged: [ :ann | 
 		container
 			removeAllMorphs;
-			addMorph: (self render: aPane presentations)"(self renderPresentationsOf: aPane)"
+			addMorph: (self render: aPane presentations)
 			fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 			adoptPaneColor: container paneColor.
 		window fullBounds.
@@ -349,8 +349,13 @@ GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation 
 	^ tabs
 ]
 
+{ #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderTablePresentation: aPresentation [ 
+	^ self renderTreePresentation: aPresentation
+]
+
 { #category : #'rendering browsers' }
-GLMMorphicRenderer >> renderTableLayoutBrowser: aBrowser [ 
+GLMMorphicRenderer >> renderTabulator: aBrowser [ 
 	| container |
 	container := GLMMorphic emptyMorph.
 	aBrowser cell isRow 
@@ -367,11 +372,6 @@ GLMMorphicRenderer >> renderTableLayoutBrowser: aBrowser [
 				inUI: container
 				inBrowser: aBrowser ].
 	^ container
-]
-
-{ #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderTablePresentation: aPresentation [ 
-	^ self renderTreePresentation: aPresentation
 ]
 
 { #category : #'rendering presentations' }
