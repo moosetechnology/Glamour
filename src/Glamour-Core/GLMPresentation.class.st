@@ -218,6 +218,13 @@ GLMPresentation >> postTransformation [
 	^ postTransformation ifNil: [postTransformation := #yourself]
 ]
 
+{ #category : #printing }
+GLMPresentation >> printOn: aStream [
+	super printOn: aStream.
+	aStream nextPutAll: '(title=', self titleValue asString.
+	aStream nextPutAll: ' pane=', self pane printString , ')'
+]
+
 { #category : #updating }
 GLMPresentation >> registerAnnouncements [
 	self flag: 'The announcements should potentially be interested in any ports, not just in entity'.

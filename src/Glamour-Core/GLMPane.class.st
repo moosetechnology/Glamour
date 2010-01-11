@@ -210,8 +210,9 @@ GLMPane >> presentations [
 { #category : #accessing }
 GLMPane >> presentations: aCompositePresentation [
 	self notingPresentationChangeDo: [
-		self presentations resetAnnouncements.
-		aCompositePresentation pane: self.
+"		presentations pane: nil.
+		presentations resetAnnouncements.
+"		aCompositePresentation pane: self.
 		aCompositePresentation do: [:each | each pane: self].
 		presentations := aCompositePresentation ]
 ]
