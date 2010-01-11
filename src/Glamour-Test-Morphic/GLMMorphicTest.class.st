@@ -138,6 +138,34 @@ GLMMorphicTest >> testColumnBlockTakesEntity [
 ]
 
 { #category : #testing }
+GLMMorphicTest >> testInterdependentPanesShouldUpdateTheFocusTriggerPane [
+	|browser treeMorphThree treeMorphThree2 |
+	browser := GLMTabulator new.
+	browser column: #one; column: #two; column: #three.
+	browser showOn: #one; using: [
+		browser list
+			display: [:x | 1 to: x]].
+	browser showOn: #two; from: #one; using: [
+		browser list
+			display: [:x | 1 to: x*2]].
+	browser showOn: #three; from: #two; using: [
+		browser list
+			display: [:x | 1 to: x*3];
+			update: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
+	browser sendTo: #outer->#focus from: #three->#focus.
+	browser sendTo: #one->#selection from: #outer->#focus with: [:x | x + 1].
+	browser sendTo: #two->#selection from: #outer->#focus with: [:x | x + 2].
+	window := browser openOn: 5.
+	((browser paneNamed: #one) port: #selection) value: 3.
+	((browser paneNamed: #two) port: #selection) value: 6.
+	treeMorphThree := (window submorphs last submorphs at: 5) submorphs first submorphs first.
+	((browser paneNamed: #three) port: #selection) value: 12.
+	((browser paneNamed: #three) port: #focus) value: 12.
+	treeMorphThree2 := (window submorphs last submorphs at: 5) submorphs first submorphs first.
+	self assert: treeMorphThree ~= treeMorphThree2
+]
+
+{ #category : #testing }
 GLMMorphicTest >> testListDoubleClick [
 
 	| browser treeMorph treeNodeMorph lastTreeNodeMorph |

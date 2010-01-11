@@ -71,10 +71,10 @@ GLMTreeMorphicTest >> testTwoPanesMultipleSelectionWithChange [
 	treeMorphTwo := (window submorphs last submorphs at: 4) submorphs first submorphs first.
 	treeNodeMorph := treeMorphTwo scroller submorphs first.
 	self send: treeMorphTwo mouseUpOnItem: treeNodeMorph.
-	treeNodeMorph := treeMorphTwo scroller submorphs last.
+	treeNodeMorph := treeMorphTwo scroller submorphs second.
 	self send: treeMorphTwo mouseUpWithShift: true onItem: treeNodeMorph.
 
-	self assert: ((browser paneNamed: #two) port: #selection) value = #(20 21 22 23 24) asOrderedCollection.
+	self assert: ((browser paneNamed: #two) port: #selection) value = #(20 21) asOrderedCollection.
 	
 	"we select 4 in the first pane"
 	treeMorphOne := (window submorphs last submorphs at: 3) submorphs first submorphs first.
@@ -83,6 +83,7 @@ GLMTreeMorphicTest >> testTwoPanesMultipleSelectionWithChange [
 
 	"we select the first two in the second pane"
 	treeMorphTwo := (window submorphs last submorphs at: 4) submorphs first submorphs first.
+	self assert: (treeMorphTwo model roots collect: #item) = #(40 41 42 43 44).
 	treeNodeMorph := treeMorphTwo scroller submorphs first.
 	self send: treeMorphTwo mouseUpOnItem: treeNodeMorph.
 	treeNodeMorph := treeMorphTwo scroller submorphs second.
