@@ -6,7 +6,7 @@ GLMExplicitBrowser >> custom: aPresentation [
 	it is to be used within the using: block. 
 	this message is particularly useful when you want to set a browser as a presentation" 
 	 
-	scriptTransmission addPresentation: aPresentation. 
+	self lastTransmission addPresentation: aPresentation. 
 	^ aPresentation
 ]
 
@@ -15,7 +15,7 @@ GLMExplicitBrowser >> from: anOriginPortReference [
 	"send this message after showOn: to specify an origin for the Transmission. 
 	you can cascade several from: to specify additional origins" 
 	 
-	scriptTransmission 
+	self lastTransmission 
 		addActiveOrigin: (self resolveOriginPort: anOriginPortReference)
 ]
 
@@ -29,7 +29,7 @@ GLMExplicitBrowser >> passivelyFrom: anOriginPortReference [
 	"passivelyForm: is similar to from: only the origin will be a passive one. 
 	in other words, a change in the origin port will not initiate a Transmission" 
 	 
-	scriptTransmission 
+	self lastTransmission
 		addPassiveOrigin: (self resolveOriginPort: anOriginPortReference)
 ]
 
@@ -85,9 +85,10 @@ GLMExplicitBrowser >> sendToOutside: aPortName from: anOriginPortReference [
 GLMExplicitBrowser >> showOn: aDestinationPane [ 
 	"send this message when at the beginning of specifying a Transmission" 
 	 
-	scriptTransmission := (GLMBundleTransmission new) 
-		destination: (self resolveDestinationPort: aDestinationPane); 
-		yourself
+	self addTransmission: (
+		GLMBundleTransmission new
+			destination: (self resolveDestinationPort: aDestinationPane); 
+			yourself)
 ]
 
 { #category : #'*Glamour-Scripting' }
@@ -101,7 +102,5 @@ GLMExplicitBrowser >> using: aBlock [
 	the using: message takes a block as a parameter to specify the presentations that accompany the Transmission" 
 	 
 	aBlock value. 
-	scriptTransmission origins isEmpty ifTrue: [self from: #outer->#entity].
-	self addTransmission: scriptTransmission.
-	scriptTransmission := nil
+	self lastTransmission origins isEmpty ifTrue: [self from: #outer->#entity]
 ]
