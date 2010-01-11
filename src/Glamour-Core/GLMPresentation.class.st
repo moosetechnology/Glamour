@@ -20,10 +20,17 @@ Class {
 		'customValidation',
 		'shouldValidate',
 		'acceptsSelection',
-		'announcer'
+		'announcer',
+		'parentPrototype'
 	],
 	#category : #'Glamour-Core'
 }
+
+{ #category : #comparison }
+GLMPresentation >> = aPresentation [
+	^ self class = aPresentation class and: [
+		self rootPrototype == aPresentation rootPrototype ]
+]
 
 { #category : #accessing }
 GLMPresentation >> acceptsSelection [
@@ -100,6 +107,14 @@ GLMPresentation >> condition [
 GLMPresentation >> condition: anObject [ 
 	 
 	condition := anObject
+]
+
+{ #category : #copying }
+GLMPresentation >> copy [
+	| copy |
+	copy := super copy.
+	copy parentPrototype: self.
+	^ copy
 ]
 
 { #category : #'accessing validation' }
@@ -207,6 +222,16 @@ GLMPresentation >> pane: aPane [
 ]
 
 { #category : #copying }
+GLMPresentation >> parentPrototype [
+	^ parentPrototype
+]
+
+{ #category : #copying }
+GLMPresentation >> parentPrototype: anObject [
+	parentPrototype := anObject
+]
+
+{ #category : #copying }
 GLMPresentation >> postCopy [
 	super postCopy.
 	announcer := nil.
@@ -243,6 +268,14 @@ GLMPresentation >> renderGlamorouslyOn: aRenderer [
 { #category : #announcements }
 GLMPresentation >> resetAnnouncements [
 	self announcer reset
+]
+
+{ #category : #copying }
+GLMPresentation >> rootPrototype [
+	^ self parentPrototype isNil 
+		ifTrue: [ self ] 
+		ifFalse: [ self parentPrototype rootPrototype ]
+
 ]
 
 { #category : #'accessing ports' }
