@@ -99,6 +99,12 @@ GLMPane >> hasBrowser [
 ]
 
 { #category : #initialization }
+GLMPane >> initialize [
+	ports := OrderedCollection new.
+	presentations := GLMCompositePresentation new.
+]
+
+{ #category : #initialization }
 GLMPane >> initializeIn: aBrowser [ 
 	
 	self initializeNamed: self defaultName in: aBrowser
@@ -111,10 +117,9 @@ GLMPane >> initializeNamed: aString [
 
 { #category : #initialization }
 GLMPane >> initializeNamed: aString in: aBrowser [ 
+	self initialize.
 	name := aString ifNil: [ self defaultName ].
-	browser := aBrowser.
-	ports := OrderedCollection new.
-	presentations := GLMCompositePresentation new.
+	browser := aBrowser
 ]
 
 { #category : #private }
