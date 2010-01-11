@@ -6,8 +6,7 @@ Class {
 	#superclass : #GLMBrowser,
 	#instVars : [
 		'panes',
-		'transmissions',
-		'scriptTransmission'
+		'transmissions'
 	],
 	#category : #'Glamour-Core'
 }

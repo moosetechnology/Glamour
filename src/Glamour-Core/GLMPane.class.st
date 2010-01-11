@@ -187,7 +187,6 @@ GLMPane >> port: aSymbol [
 { #category : #private }
 GLMPane >> portEvent: aPortEvent [
 	self browser innerPortEvent: aPortEvent.
-	self flag: 'do: does not iterate over hte composite'.
 	self presentations withAllDo: [:each | each outerPortEvent: aPortEvent]
 ]
 
@@ -228,7 +227,8 @@ GLMPane >> printOn: aStream [
 	super printOn: aStream.
 	aStream
 		nextPut: $(;
-		print: self name;
+		nextPutAll: self identityHash printString;
+		nextPutAll: ' ', self name;
 		nextPut: $)
 ]
 
