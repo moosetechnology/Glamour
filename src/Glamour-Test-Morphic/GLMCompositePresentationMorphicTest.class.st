@@ -32,8 +32,8 @@ GLMCompositePresentationMorphicTest >> testStackedVertically [
 		a text ].
 	window := browser openOn: 42.
 	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph class == PanelMorph.
-	self assert: compositeMorph submorphs first class == GroupboxMorph.
+	self assert: compositeMorph class = PanelMorph.
+	self assert: compositeMorph submorphs first class = GroupboxMorph.
 ]
 
 { #category : #'as yet unclassified' }
