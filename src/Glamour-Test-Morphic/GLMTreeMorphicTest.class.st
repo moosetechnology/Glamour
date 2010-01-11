@@ -39,13 +39,13 @@ GLMTreeMorphicTest >> testMultipleSelectionWithChangeFromModel [
 	firstTreeMorph := window submorphs last submorphs first submorphs first submorphs first.
 	self assert: (firstTreeMorph model roots collect: #item) = #(2 3 4).
 	((browser paneNamed: #one) port: #selection) value: #(2 3).
-	self assert: ((browser paneNamed: #one) port: #selection) value = #(2 3) asOrderedCollection.
+	self assert: ((browser paneNamed: #one) port: #selection) value = #(2 3).
 	
 	(browser pane port: #entity) value: 42.
 	secondTreeMorph := window submorphs last submorphs first submorphs first submorphs first.
 	self assert: (secondTreeMorph model roots collect: #item)= #(40 41 42).
 	((browser paneNamed: #one) port: #selection) value: #(40 41).
-	self assert: ((browser paneNamed: #one) port: #selection) value = #(40 41) asOrderedCollection.
+	self assert: ((browser paneNamed: #one) port: #selection) value = #(40 41).
 
 	self assert: firstTreeMorph ~= secondTreeMorph
 ]
