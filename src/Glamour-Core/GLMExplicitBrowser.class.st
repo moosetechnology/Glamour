@@ -47,6 +47,11 @@ GLMExplicitBrowser >> innerPortEvent: aPortEvent [
 		wantedTransmissions do: [ :each | each transmitIn: aPortEvent transmissionContext copy ]]
 ]
 
+{ #category : #accessing }
+GLMExplicitBrowser >> lastTransmission [
+	^ self transmissions last
+]
+
 { #category : #events }
 GLMExplicitBrowser >> outerPortEvent: aPortEvent [  
 	super outerPortEvent: aPortEvent.	

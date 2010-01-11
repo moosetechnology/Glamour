@@ -134,7 +134,7 @@ GLMPane >> lastActivePresentation: anObject [
 
 { #category : #accessing }
 GLMPane >> matchingPresentations [
-	^ presentations select: [:each | each matches]
+	^ presentations matchingPresentations
 ]
 
 { #category : #accessing }
@@ -182,7 +182,8 @@ GLMPane >> port: aSymbol [
 { #category : #private }
 GLMPane >> portEvent: aPortEvent [
 	self browser innerPortEvent: aPortEvent.
-	self presentations do: [:each | each outerPortEvent: aPortEvent]
+	self flag: 'do: does not iterate over hte composite'.
+	self presentations withAllDo: [:each | each outerPortEvent: aPortEvent]
 ]
 
 { #category : #accessing }
@@ -204,15 +205,15 @@ GLMPane >> postCopy [
 
 { #category : #accessing }
 GLMPane >> presentations [
-	^ presentations copy
+	^ presentations
 ]
 
 { #category : #accessing }
 GLMPane >> presentations: aCompositePresentation [
 	self notingPresentationChangeDo: [
-"		presentations pane: nil.
+		presentations pane: nil.
 		presentations resetAnnouncements.
-"		aCompositePresentation pane: self.
+		aCompositePresentation pane: self.
 		aCompositePresentation do: [:each | each pane: self].
 		presentations := aCompositePresentation ]
 ]

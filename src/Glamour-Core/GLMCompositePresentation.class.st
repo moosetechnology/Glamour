@@ -89,6 +89,14 @@ GLMCompositePresentation >> pane: aPane [
 	self presentations do: [:each | each pane: aPane ]
 ]
 
+{ #category : #comparison }
+GLMCompositePresentation >> postCopy [
+	super postCopy.
+	presentations ifNotNil: [
+		presentations := presentations collect: [:each | each copy] ].
+	arrangement := arrangement copy
+]
+
 { #category : #accessing }
 GLMCompositePresentation >> presentations [
 	^ presentations ifNil: [presentations := OrderedCollection new]
@@ -119,4 +127,10 @@ GLMCompositePresentation >> select: aBlock [
 { #category : #accessing }
 GLMCompositePresentation >> size [
 	^ self presentations size
+]
+
+{ #category : #accessing }
+GLMCompositePresentation >> withAllDo: aBlock [
+	super withAllDo: aBlock.
+	self do: aBlock
 ]

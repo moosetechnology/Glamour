@@ -95,14 +95,7 @@ GLMBundleTransmission >> passiveOrigins [
 
 { #category : #accessing }
 GLMBundleTransmission >> presentations [ 
-	self flag: 'it should be GLMCompositePresentation'.
 	^presentations ifNil: [presentations := GLMCompositePresentation new]
-]
-
-{ #category : #accessing }
-GLMBundleTransmission >> presentations: aCollection [ 
-	 
-	presentations := aCollection
 ]
 
 { #category : #transmitting }
@@ -122,7 +115,7 @@ GLMBundleTransmission >> printOn: aStream [
 GLMBundleTransmission >> transmitIn: aContext [
 	self destination hasPane ifTrue: [
 		self destination pane clearIn: aContext.
-		self destination pane presentations: self presentations ].
+		self destination pane presentations: self presentations copy ].
 	"it is important for the destination to be set after the presentation, 
 	because when the presentation is a browser, we might forward the entity internally"
 	self destination receive: self in: aContext.

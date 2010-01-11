@@ -221,7 +221,8 @@ GLMPresentation >> postTransformation [
 { #category : #printing }
 GLMPresentation >> printOn: aStream [
 	super printOn: aStream.
-	aStream nextPutAll: '(title=', self titleValue asString.
+	aStream nextPutAll: '(id=', self identityHash printString.
+	aStream nextPutAll: ' title=', self titleValue asString.
 	aStream nextPutAll: ' pane=', self pane printString , ')'
 ]
 
@@ -385,4 +386,9 @@ GLMPresentation >> when: anAnnouncementClass do: aValuable [
 { #category : #announcements }
 GLMPresentation >> whenContextChanged: aBlock [
 	^ self announcer when: GLMContextChanged do: aBlock
+]
+
+{ #category : #enumeration }
+GLMPresentation >> withAllDo: aBlock [
+	^ aBlock value: self
 ]
