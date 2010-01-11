@@ -30,7 +30,12 @@ GLMExplicitBrowserCopyTest >> setUp [
 ]
 
 { #category : #tests }
-GLMExplicitBrowserCopyTest >> testCopy [
+GLMExplicitBrowserCopyTest >> testEquality [
+	self assert: copiedBrowser = browser
+]
+
+{ #category : #tests }
+GLMExplicitBrowserCopyTest >> testPanes [
 	self assert: copiedBrowser panes size = 2.
 	self assert: copiedBrowser panes first ~~ browser panes first.
 	self assert: copiedBrowser panes last ~~ browser panes last.
@@ -45,7 +50,10 @@ GLMExplicitBrowserCopyTest >> testCopy [
 	self assert: copiedBrowser panes last ports size = 2.
 	self assert: copiedBrowser panes last ports first name = #selection.
 	self assert: copiedBrowser panes last ports last name = #entity.
+]
 
+{ #category : #tests }
+GLMExplicitBrowserCopyTest >> testTrasmissions [
 	self assert: copiedBrowser transmissions size = 2.
 	self assert: copiedBrowser transmissions first ~~ browser transmissions first.
 	self assert: copiedBrowser transmissions last ~~ browser transmissions last.
@@ -55,9 +63,4 @@ GLMExplicitBrowserCopyTest >> testCopy [
 	
 	self assert: (copiedBrowser transmissions first origin pane browser == copiedBrowser).
 	self assert: copiedBrowser transmissions last origins first pane browser == copiedBrowser
-]
-
-{ #category : #tests }
-GLMExplicitBrowserCopyTest >> testEquality [
-	self assert: copiedBrowser = browser
 ]
