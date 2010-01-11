@@ -15,7 +15,7 @@ Class {
 GLMMatchingPresentationsChanged >> matchingPresentations [ 
 	"The presentations that match now." 
 	 
-	^self pane matchingPresentations
+	^ self pane matchingPresentations
 ]
 
 { #category : #accessing }
@@ -44,4 +44,10 @@ GLMMatchingPresentationsChanged >> pane: aPane [
 	"The pane on which the matching presentations changed." 
 	 
 	pane := aPane
+]
+
+{ #category : #printing }
+GLMMatchingPresentationsChanged >> printOn: aStream [
+	super printOn: aStream.
+	aStream nextPutAll: ' (pane = ', self pane printString , ')'
 ]

@@ -48,6 +48,12 @@ GLMContextChanged >> presentation: aPresentation [
 	presentation := aPresentation
 ]
 
+{ #category : #printing }
+GLMContextChanged >> printOn: aStream [
+	super printOn: aStream.
+	aStream nextPutAll: ' (presentation = ', self presentation printString , ')'
+]
+
 { #category : #accessing }
 GLMContextChanged >> property [ 
 	 
