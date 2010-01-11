@@ -82,7 +82,7 @@ GLMExplicitBrowserTest >> testJumpstartTransmission [
 	(browser pane port: #entity) value: #foo. 
 	self assert: (browser panes first port: #entity) value = #foo. 
 	self assert: browser panes first presentations size = 1. 
-	self assert: browser panes first presentations first == presentation
+	self assert: browser panes first presentations first ~= presentation
 ]
 
 { #category : #tests }
