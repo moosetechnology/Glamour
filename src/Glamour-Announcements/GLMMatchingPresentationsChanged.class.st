@@ -13,8 +13,7 @@ Class {
 
 { #category : #'accessing-convenience' }
 GLMMatchingPresentationsChanged >> matchingPresentations [ 
-	"The presentations that match now." 
-	 
+	"The presentations that match now."
 	^ self pane matchingPresentations
 ]
 
