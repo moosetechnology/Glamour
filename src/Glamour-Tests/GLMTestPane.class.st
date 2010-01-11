@@ -21,19 +21,11 @@ GLMTestPane class >> portClass [
 
 { #category : #accessing }
 GLMTestPane >> browser [
-
-	browser isNil ifTrue: [^GLMNoBrowser new].
-	^browser
+	browser isNil ifTrue: [ ^ GLMNoBrowser new ].
+	^ browser
 ]
 
 { #category : #accessing }
 GLMTestPane >> browser: aBrowser [ 
 	browser := aBrowser
-]
-
-{ #category : #accessing }
-GLMTestPane >> initialize [
-
-	ports := OrderedCollection new.
-	presentations := OrderedCollection new.
 ]
