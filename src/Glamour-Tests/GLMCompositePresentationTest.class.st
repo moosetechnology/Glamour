@@ -19,3 +19,22 @@ GLMCompositePresentationTest >> testCreation [
 	composite := GLMCompositePresentation new.
 	self assert: composite isEmpty
 ]
+
+{ #category : #'as yet unclassified' }
+GLMCompositePresentationTest >> testEquality [
+	| composite1 composite2 presentations |
+	composite1 := GLMCompositePresentation new.
+	composite2 := GLMCompositePresentation new.
+	presentations := OrderedCollection with: GLMPresentation new with: GLMPresentation new.
+	composite1 presentations: presentations.
+	composite2 presentations: presentations.
+	self assert: composite1 = composite2
+]
+
+{ #category : #'as yet unclassified' }
+GLMCompositePresentationTest >> testSimpleEquality [
+	| composite1 composite2 |
+	composite1 := GLMCompositePresentation new.
+	composite2 := GLMCompositePresentation new.
+	self assert: composite1 = composite2
+]

@@ -5,11 +5,6 @@ Class {
 }
 
 { #category : #tests }
-GLMNestedBrowserTest >> expectedFailures [
-	^ #(testEntityPropogationAnnouncements)
-]
-
-{ #category : #tests }
 GLMNestedBrowserTest >> testChangeInnerSelection [ 
 	"Tests setting the selection of an inner pane from the oustide. 
  
@@ -128,8 +123,8 @@ GLMNestedBrowserTest >> testEntityPropogationAnnouncements [
 	announcements are raised in the right order and not redundantly." 
 	 
 	| browser1 browser2 presentation announcements | 
-	browser1 := GLMExplicitBrowser new. 
-	browser2 := GLMExplicitBrowser new. 
+	browser1 := GLMExplicitBrowser new title: '1'; yourself. 
+	browser2 := GLMExplicitBrowser new title: '2'; yourself. 
 	presentation := GLMPresentation new. 
 	browser1 pane. 
 	browser1 addNewPane. 
@@ -140,18 +135,12 @@ GLMNestedBrowserTest >> testEntityPropogationAnnouncements [
 	browser1 whenContextChanged: [:ann | announcements addLast: ann]. 
 	browser2 whenContextChanged: [:ann | announcements addLast: ann]. 
 	presentation whenContextChanged: [:ann | announcements addLast: ann]. 
-	browser1 pane 
-		whenPresentationsChanged: [:ann | announcements addLast: ann]. 
-	browser1 panes first 
-		whenPresentationsChanged: [:ann | announcements addLast: ann]. 
-	browser2 panes first 
-		whenPresentationsChanged: [:ann | announcements addLast: ann]. 
-	browser1 pane 
-		whenMatchingPresentationsChanged: [:ann | announcements addLast: ann]. 
-	browser1 panes first 
-		whenMatchingPresentationsChanged: [:ann | announcements addLast: ann]. 
-	browser2 panes first 
-		whenMatchingPresentationsChanged: [:ann | announcements addLast: ann].	"Jumpstart presentation for outer browser." 
+	browser1 pane whenPresentationsChanged: [:ann | announcements addLast: ann]. 
+	browser1 panes first whenPresentationsChanged: [:ann | announcements addLast: ann]. 
+	browser2 panes first whenPresentationsChanged: [:ann | announcements addLast: ann]. 
+	browser1 pane whenMatchingPresentationsChanged: [:ann | announcements addLast: ann]. 
+	browser1 panes first whenMatchingPresentationsChanged: [:ann | announcements addLast: ann]. 
+	browser2 panes first whenMatchingPresentationsChanged: [:ann | announcements addLast: ann].	"Jumpstart presentation for outer browser." 
 	browser1 
 		addTransmission: 
 			((GLMBundleTransmission new) 
