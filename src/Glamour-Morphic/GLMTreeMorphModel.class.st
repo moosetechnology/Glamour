@@ -121,7 +121,6 @@ GLMTreeMorphModel >> explicitlySelectItem: anObject [
 GLMTreeMorphModel >> explicitlySelectMultipleItems: aCollection [ 
 	| newSelection collection|
 	aCollection isNil ifTrue: [^ self].
-	self halt.
 	collection := aCollection isCollection ifTrue: [aCollection] ifFalse: [aCollection asOrderedCollection ].
 	(self selection notNil and: [
 		self selection selectedItemOrItemsOrNil = collection asOrderedCollection ]) ifTrue: [ ^ self ].
