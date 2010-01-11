@@ -98,6 +98,12 @@ GLMCompositePresentation >> renderGlamorouslyOn: aRenderer [
 	^ self arrangement renderGlamorouslyOn: aRenderer
 ]
 
+{ #category : #announcements }
+GLMCompositePresentation >> resetAnnouncements [
+	super resetAnnouncements.
+	self presentations do: [:each | each resetAnnouncements ]
+]
+
 { #category : #accessing }
 GLMCompositePresentation >> select: aBlock [
 	^ self presentations select: aBlock

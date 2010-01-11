@@ -3,7 +3,7 @@ A GLMPresentation is the abstract class for the hierarchy of presentations. A pr
 "
 Class {
 	#name : #GLMPresentation,
-	#superclass : #Announcer,
+	#superclass : #Object,
 	#instVars : [
 		'pane',
 		'title',
@@ -19,7 +19,8 @@ Class {
 		'color',
 		'customValidation',
 		'shouldValidate',
-		'acceptsSelection'
+		'acceptsSelection',
+		'announcer'
 	],
 	#category : #'Glamour-Core'
 }
@@ -49,6 +50,16 @@ GLMPresentation >> addAction: anAction [
 { #category : #accessing }
 GLMPresentation >> allActions [ 
 	^ self actions, self dynamicActions
+]
+
+{ #category : #announcements }
+GLMPresentation >> announce: anAnnouncement [
+	^ self announcer announce: anAnnouncement
+]
+
+{ #category : #announcements }
+GLMPresentation >> announcer [
+	^ announcer ifNil: [announcer := Announcer new]
 ]
 
 { #category : #accessing }
@@ -196,9 +207,9 @@ GLMPresentation >> pane: aPane [
 ]
 
 { #category : #copying }
-GLMPresentation >> postCopy [ 
-	 
-	super postCopy
+GLMPresentation >> postCopy [
+	super postCopy.
+	announcer := nil.
 ]
 
 { #category : #accessing }
@@ -219,6 +230,11 @@ GLMPresentation >> registerAnnouncements [
 GLMPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
 	^aRenderer renderPresentation: self
+]
+
+{ #category : #announcements }
+GLMPresentation >> resetAnnouncements [
+	self announcer reset
 ]
 
 { #category : #'accessing ports' }
@@ -355,6 +371,11 @@ GLMPresentation >> validate: anObject on: aPort [
 ]
 
 { #category : #announcements }
+GLMPresentation >> when: anAnnouncementClass do: aValuable [
+	^ self announcer when: anAnnouncementClass do: aValuable 
+]
+
+{ #category : #announcements }
 GLMPresentation >> whenContextChanged: aBlock [
-	^ self when: GLMContextChanged do: aBlock
+	^ self announcer when: GLMContextChanged do: aBlock
 ]
