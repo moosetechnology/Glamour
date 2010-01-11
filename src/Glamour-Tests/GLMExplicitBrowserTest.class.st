@@ -256,7 +256,7 @@ GLMExplicitBrowserTest >> testTransmissionBundle [
 		assert: 
 			(pane3 port: #entity) value = (GLMMultiValue withAll: #(#bar #foo)). 
 	self assert: pane3 presentations size = 1. 
-	self assert: pane3 presentations first == presentation2
+	self assert: pane3 presentations first = presentation2
 ]
 
 { #category : #tests }
