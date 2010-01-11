@@ -52,6 +52,19 @@ GLMPresentationTest >> testCopyAnnouncements [
 ]
 
 { #category : #tests }
+GLMPresentationTest >> testCopyRootPrototype [
+
+	| presentation newPresentation yetAnotherPresentation |
+	presentation := GLMPresentation new.
+	newPresentation := presentation copy.
+	self assert: newPresentation rootPrototype = presentation.
+	self assert: newPresentation parentPrototype = presentation.
+	yetAnotherPresentation := newPresentation copy.
+	self assert: yetAnotherPresentation rootPrototype = presentation.
+	self assert: yetAnotherPresentation parentPrototype = newPresentation
+]
+
+{ #category : #tests }
 GLMPresentationTest >> testDisplay [ 
 	 
 	| presentation | 
@@ -64,6 +77,13 @@ GLMPresentationTest >> testDisplay [
 	self assert: presentation displayValue = #foo. 
 	presentation transformation: [:first :second | (first , second) asSymbol]. 
 	self assert: presentation displayValue = #foobar
+]
+
+{ #category : #tests }
+GLMPresentationTest >> testEquality [
+	| presentation |
+	presentation := GLMPresentation new.
+	self assert: presentation = presentation copy
 ]
 
 { #category : #tests }

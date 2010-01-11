@@ -68,8 +68,7 @@ GLMNestedBrowserTest >> testEntityPropogation [
 	presentation := GLMPresentation new. 
 	browser1 addNewPane. 
 	browser2 addNewPane.	"Jumpstart presentation for outer browser." 
-	browser1 
-		addTransmission: 
+	browser1 addTransmission: 
 			((GLMBundleTransmission new) 
 				addActiveOrigin: 
 						((GLMPresentationBoundPort new) 
@@ -79,8 +78,7 @@ GLMNestedBrowserTest >> testEntityPropogation [
 				destination: (browser1 panes first port: #entity); 
 				addPresentation: browser2; 
 				yourself).	"Jumpstart presentation for inner browser." 
-	browser2 
-		addTransmission: 
+	browser2 addTransmission: 
 			((GLMBundleTransmission new) 
 				addActiveOrigin: 
 						((GLMPresentationBoundPort new) 
@@ -102,11 +100,11 @@ GLMNestedBrowserTest >> testEntityPropogation [
 	self assert: browser1 panes size = 1. 
 	self assert: (browser1 panes first port: #entity) value = 42. 
 	self assert: browser1 panes first presentations size = 1. 
-	self assert: browser1 panes first presentations first == browser2. 
+	self assert: browser1 panes first presentations first = browser2. 
 	self assert: browser2 panes size = 1. 
 	self assert: (browser2 panes first port: #entity) value = 42. 
 	self assert: browser2 panes first presentations size = 1. 
-	self assert: browser2 panes first presentations first == presentation
+	self assert: browser2 panes first presentations first = presentation
 ]
 
 { #category : #tests }
