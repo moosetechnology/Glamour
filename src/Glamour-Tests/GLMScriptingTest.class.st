@@ -63,36 +63,6 @@ GLMScriptingTest >> testAllowNil [
 ]
 
 { #category : #tests }
-GLMScriptingTest >> testComplexFinderBrowser [ 
-	 
-	| browser | 
-	browser := GLMFinder new. 
-	browser list
-		title: 'Presentation1'; 
-		display: [:each | 1 to: each]. 
-	browser 
-		fromPrevious: #selection; 
-		passivelyFromPrevious: #highlight; 
-		using: [
-			browser list
-				title: 'Presentation2'; 
-				display: [:selection :highlight | 1 to: selection + highlight]]. 
-	browser startOn: 42. 
-	self assert: browser presentations size = 1. 
-	self assert: browser presentations first title = 'Presentation1'. 
-	self assert: browser transmissions size = 1. 
-	self assert: browser transmissions last origins size = 2. 
-	self assert: browser transmissions last presentations size = 1. 
-	self assert: browser transmissions last presentations first title = 'Presentation2'. 
-	self assert: (browser panes first port: #entity) value = 42. 
-	(browser panes first port: #highlight) value: 43. 
-	(browser panes first port: #selection) value: 41. 
-	self assert: browser panes size = 2. 
-	self assert: browser panes last presentations last displayValue size = 84. 
-	self assert: browser panes last presentations size = 2
-]
-
-{ #category : #tests }
 GLMScriptingTest >> testConditionalPresentation [ 
 	 
 	| browser | 
@@ -151,6 +121,36 @@ GLMScriptingTest >> testEntityInUpdateAction [
 	browser panes first presentations first actions first 
 		actOn: browser panes first presentations first. 
 	self assert: inputFromActionBlock = 42
+]
+
+{ #category : #tests }
+GLMScriptingTest >> testFinderWithPreviousPort [ 
+	 
+	| browser | 
+	browser := GLMFinder new. 
+	browser list
+		title: 'Presentation1'; 
+		display: [:each | 1 to: each]. 
+	browser 
+		fromPrevious: #selection; 
+		passivelyFromPrevious: #highlight; 
+		using: [
+			browser list
+				title: 'Presentation2'; 
+				display: [:selection :highlight | 1 to: selection + highlight]]. 
+	browser startOn: 42. 
+	self assert: browser presentations size = 1. 
+	self assert: browser presentations first title = 'Presentation1'. 
+	self assert: browser transmissions size = 1. 
+	self assert: browser transmissions last origins size = 2. 
+	self assert: browser transmissions last presentations size = 1. 
+	self assert: browser transmissions last presentations first title = 'Presentation2'. 
+	self assert: (browser panes first port: #entity) value = 42. 
+	(browser panes first port: #highlight) value: 43. 
+	(browser panes first port: #selection) value: 41. 
+	self assert: browser panes size = 2. 
+	self assert: browser panes last presentations last displayValue size = 84. 
+	self assert: browser panes last presentations size = 2
 ]
 
 { #category : #tests }
