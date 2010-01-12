@@ -91,3 +91,33 @@ GLMTreeMorphicTest >> testTwoPanesMultipleSelectionWithChange [
 
 	self assert: ((browser paneNamed: #two) port: #selection) value = #(40 41) asOrderedCollection 
 ]
+
+{ #category : #testing }
+GLMTreeMorphicTest >> testUpdateFromModel [
+	| browser  treeMorphOne1 treeMorphTwo1 treeMorphOne2 treeMorphTwo2 |
+	browser := GLMTabulator new.
+	browser column: #one; column: #two.
+	browser transmit to: #one; showing: [:a | a list display: [:x | (x - 3 to: x) ]].
+	browser transmit to: #two; from: #one; showing: [:a |
+		a list display: [:x | x * 10 to: (x * 10 + 2)]].
+	window := browser openOn: 4.
+
+	treeMorphOne1 := window submorphs last submorphs second submorphs first submorphs first.
+	self assert: (treeMorphOne1 model roots collect: #item) = #(1 2 3 4).
+	((browser paneNamed: #one) port: #selection) value: #2.	
+	treeMorphTwo1 := window submorphs last submorphs last submorphs first submorphs first.
+	self assert: (treeMorphTwo1 model roots collect: #item) = #(20 21 22).
+
+	browser entity: 8.
+
+	treeMorphOne2 := window submorphs last submorphs second submorphs first submorphs first.
+	self assert: (treeMorphOne2 model roots collect: #item) = #(5 6 7 8).
+	self assert: treeMorphOne1 ~= treeMorphOne2.
+
+	self assert: (window submorphs last submorphs last submorphs first submorphs) isEmpty.
+	
+	((browser paneNamed: #one) port: #selection) value: #5.	
+	treeMorphTwo2 := window submorphs last submorphs last submorphs first submorphs first.
+	self assert: (treeMorphTwo2 model roots collect: #item) = #(50 51 52).
+	self assert: treeMorphTwo1 ~= treeMorphTwo2
+]

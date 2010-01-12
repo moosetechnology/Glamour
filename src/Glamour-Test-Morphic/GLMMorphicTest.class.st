@@ -142,14 +142,10 @@ GLMMorphicTest >> testInterdependentPanesShouldUpdateTheFocusTriggerPane [
 	|browser treeMorphThree treeMorphThree2 |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two; column: #three.
-	browser showOn: #one; using: [
-		browser list
-			display: [:x | 1 to: x]].
-	browser showOn: #two; from: #one; using: [
-		browser list
-			display: [:x | 1 to: x*2]].
+	browser showOn: #one; using: [browser list display: [:x | 1 to: x]].
+	browser showOn: #two; from: #one; using: [browser list display: [:x | 1 to: x*2]].
 	browser showOn: #three; from: #two; using: [
-		browser list
+		browser list 
 			display: [:x | 1 to: x*3];
 			update: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
 	browser sendTo: #outer->#focus from: #three->#focus.
