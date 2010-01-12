@@ -102,7 +102,7 @@ GLMNestedBrowserTest >> testEntityPropogation [
 	self assert: browser1 panes first presentations size = 1. 
 	self assert: browser1 panes first presentations first = browser2. 
 	self assert: browser2 panes size = 1. 
-	self assert: (browser2 panes first port: #entity) value = 42. 
+	self assert: (browser1 panes first presentations first panes first port: #entity) value = 42. 
 	self assert: browser2 panes first presentations size = 1. 
 	self assert: browser2 panes first presentations first = presentation
 ]
