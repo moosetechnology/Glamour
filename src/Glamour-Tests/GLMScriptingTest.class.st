@@ -156,7 +156,7 @@ GLMScriptingTest >> testFinderWithPreviousPort [
 { #category : #tests }
 GLMScriptingTest >> testNestedBrowserEntity [
 	 
-	| browser innerBrowser | 
+	| browser innerBrowser realInnerBrowser | 
 	browser := GLMTabulator new. 
 	browser column: #one. 
 	innerBrowser := GLMTabulator new. 
@@ -171,15 +171,16 @@ GLMScriptingTest >> testNestedBrowserEntity [
 			(browser custom: innerBrowser)
 				display: [:x | x + 2 ]]. 
 	browser startOn: 40. 
+	realInnerBrowser := (browser paneNamed: #one) presentations first.
 	self assert: ((browser paneNamed: #one) port: #entity) value = 40. 
-	self assert: (innerBrowser pane port: #entity) value = 40.
-	self assert: ((innerBrowser paneNamed: #innerOne) port: #entity) value = 42.
+	self assert: (realInnerBrowser pane port: #entity) value = 40.
+	self assert: ((realInnerBrowser paneNamed: #innerOne) port: #entity) value = 42.
 ]
 
 { #category : #tests }
 GLMScriptingTest >> testNestedBrowserOther [
 	 
-	| browser innerBrowser | 
+	| browser innerBrowser realInnerBrowser | 
 	browser := GLMTabulator new.
 	browser column: #one; column: #two. 
 	innerBrowser := GLMTabulator new. 
@@ -194,18 +195,19 @@ GLMScriptingTest >> testNestedBrowserOther [
 			display: [:x | x + 2 ]]. 
 	browser showOn: #two; from: #one; using: [browser text].
 	browser startOn: 40. 
+	realInnerBrowser := (browser paneNamed: #one) presentations first.
 	self assert: ((browser paneNamed: #one) port: #entity) value = 40. 
-	self assert: (innerBrowser pane port: #entity) value = 40.
-	self assert: ((innerBrowser paneNamed: #innerOne) port: #entity) value = 42.
-	(innerBrowser panes first port: #selection) value: 7.
-	self assert: (innerBrowser pane port: #selection) value = 7.
+	self assert: (realInnerBrowser pane port: #entity) value = 40.
+	self assert: ((realInnerBrowser paneNamed: #innerOne) port: #entity) value = 42.
+	(realInnerBrowser panes first port: #selection) value: 7.
+	self assert: (realInnerBrowser pane port: #selection) value = 7.
 	self assert: (browser panes last port: #entity) value = 7.
 ]
 
 { #category : #tests }
 GLMScriptingTest >> testNestedBrowserWithExplicitTransmission [ 
 	 
-	| browser innerBrowser | 
+	| browser innerBrowser realInnerBrowser | 
 	browser := GLMTabulator new. 
 	browser column: #one. 
 	innerBrowser := GLMTabulator new. 
@@ -218,9 +220,9 @@ GLMScriptingTest >> testNestedBrowserWithExplicitTransmission [
 		showOn: #one; 
 		using: [browser custom: innerBrowser]. 
 	browser startOn: 42. 
+	realInnerBrowser := (browser paneNamed: #one) presentations first.
 	self assert: ((browser paneNamed: #one) port: #entity) value = 42. 
-	self 
-		assert: ((innerBrowser paneNamed: #innerOne) port: #entity) value = 42
+	self assert: ((realInnerBrowser paneNamed: #innerOne) port: #entity) value = 42
 ]
 
 { #category : #tests }
