@@ -94,7 +94,9 @@ GLMCompositePresentation >> postCopy [
 	super postCopy.
 	presentations ifNotNil: [
 		presentations := presentations collect: [:each | each copy] ].
-	arrangement := arrangement copy
+	arrangement ifNotNil: [
+		arrangement := arrangement copy.
+		arrangement composite: self ]
 ]
 
 { #category : #accessing }
