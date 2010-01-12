@@ -101,18 +101,19 @@ GLMBasicExamples >> compoundTaggedTree [
 { #category : #composite }
 GLMBasicExamples >> differentComposites [
 	"self new differentComposites openOn: (1 to: 100)"
+	<glmBrowser: 'Different Composite Arrangements' input: '(1 to: 100)'>	
 	| browser |
 	browser := GLMTabulator new.
 	browser row: [:r | 
 		r column: #tabbed; column: #accordion; column: #stackedVertically] span: 4; row: #preview.
 	browser transmit to: #tabbed; showing: [:a | 
-		a list ; text ].
+		a list title: 'List'. a text title: 'Text' ].
 	browser transmit to: #accordion; showing: [:a | 
 		a accordionArrangement.
-		a list; text ].
+		a list title: 'List'. a text title: 'Text' ].
 	browser transmit to: #stackedVertically; showing: [:a | 
 		a stackedVerticallyArrangement.
-		a list; text ].
+		a list title: 'List'. a text title: 'Text' ].
 	browser transmit to: #preview; from: #tabbed; showing: [:a | 
 		a text display: [:x | x printString, ' from tabbed' ]].
 	browser transmit to: #preview; from: #accordion; showing: [:a | 
@@ -170,6 +171,7 @@ GLMBasicExamples >> interdependentPanes [
 { #category : #'explicit selection' }
 GLMBasicExamples >> listsWithUpdatedSelection [
 	"self new listsWithUpdatedSelection openOn: 10"
+	<glmBrowser: 'Lists wiht updated selection' input: '10'>
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two; column: #three.
