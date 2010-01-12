@@ -54,20 +54,15 @@ GLMNestedBrowserTest >> testChangeInnerSelection [
 
 { #category : #tests }
 GLMNestedBrowserTest >> testEntityPropogation [ 
-	"This tests the order in which presentations and values are updated. 
- 
-	This is of importance as, in this test, we add a browser to a pane when a 
-	certain port of that pane gets updated using a BundleTransmission but this 
-	browser has a transmission from its #outer pane that refers to the same 
-	port.  In such a case we want the presentation to be set first so that it can 
-	be notified when the outer port changes." 
+	"This tests that the nested transmissions have the destination correctly set 
+	to be in the pane from the outer browser." 
 	 
-	| browser1 browser2 presentation | 
+	| browser1 browser2 presentation innerBrowser | 
 	browser1 := GLMExplicitBrowser new. 
 	browser2 := GLMExplicitBrowser new. 
 	presentation := GLMPresentation new. 
-	browser1 addNewPane. 
-	browser2 addNewPane.	"Jumpstart presentation for outer browser." 
+	browser1 addNewPane name: 'pane1'. 
+	browser2 addNewPane name: 'innerpane 1'.	"Jumpstart presentation for outer browser." 
 	browser1 addTransmission: 
 			((GLMBundleTransmission new) 
 				addActiveOrigin: 
@@ -100,11 +95,13 @@ GLMNestedBrowserTest >> testEntityPropogation [
 	self assert: browser1 panes size = 1. 
 	self assert: (browser1 panes first port: #entity) value = 42. 
 	self assert: browser1 panes first presentations size = 1. 
-	self assert: browser1 panes first presentations first = browser2. 
-	self assert: browser2 panes size = 1. 
-	self assert: (browser1 panes first presentations first panes first port: #entity) value = 42. 
-	self assert: browser2 panes first presentations size = 1. 
-	self assert: browser2 panes first presentations first = presentation
+	innerBrowser := browser1 panes first presentations first.
+	self assert: innerBrowser = browser2. 
+	self assert: innerBrowser pane == browser1 panes first.
+	self assert: innerBrowser panes size = 1.
+	self assert: (innerBrowser panes first port: #entity) value = 42. 
+	self assert: innerBrowser panes first presentations size = 1. 
+	self assert: innerBrowser panes first presentations first = presentation
 ]
 
 { #category : #tests }
@@ -124,9 +121,9 @@ GLMNestedBrowserTest >> testEntityPropogationAnnouncements [
 	browser1 := GLMExplicitBrowser new title: '1'; yourself. 
 	browser2 := GLMExplicitBrowser new title: '2'; yourself. 
 	presentation := GLMPresentation new. 
-	browser1 pane. 
-	browser1 addNewPane. 
-	browser2 addNewPane. 
+	browser1 pane name: 'browser1 parent pane'. 
+	browser1 addNewPane name: 'browser1 new pane'. 
+	browser2 addNewPane name: 'browser2 new pane'. 
 	announcements := OrderedCollection new. 
 	self assert: browser1 pane presentations size = 1. 
 	self assert: browser1 pane presentations first == browser1. 
@@ -172,9 +169,9 @@ GLMNestedBrowserTest >> testEntityPropogationAnnouncements [
 	self assert: (announcements at: 2) pane == browser1 panes first. 
 	self assert: (announcements at: 2) oldPresentations isEmpty. 
 	self assert: (announcements at: 2) presentations size = 1. 
-	self assert: (announcements at: 2) presentations first == browser2.	"3. ...and then the context." 
+	self assert: (announcements at: 2) presentations first = browser2.	"3. ...and then the context." 
 	self assert: ((announcements at: 3) isKindOf: GLMContextChanged). 
-	self assert: (announcements at: 3) presentation == browser2. 
+	self assert: (announcements at: 3) presentation = browser2. 
 	self assert: (announcements at: 3) property = #entity. 
 	self assert: (announcements at: 3) value = 42.	"4. The jumpstart transmission of the inner browser is triggered, updating the presentations..." 
 	self assert: ((announcements at: 4) isKindOf: GLMPresentationsChanged). 
@@ -205,4 +202,43 @@ GLMNestedBrowserTest >> testEntityPropogationAnnouncements [
 	self assert: (announcements at: 8) oldMatchingPresentations isEmpty. 
 	self assert: (announcements at: 8) matchingPresentations size = 1. 
 	self assert: (announcements at: 8) matchingPresentations first == browser1
+]
+
+{ #category : #tests }
+GLMNestedBrowserTest >> testInnerTransmissions [
+	"This tests that the nested transmissions have the destination correctly set 
+	to be in the pane from the outer browser." 
+	 
+	| browser1 browser2 presentation innerBrowser | 
+	browser1 := GLMExplicitBrowser new. 
+	browser2 := GLMExplicitBrowser new. 
+	presentation := GLMPresentation new. 
+	browser1 addNewPane name: 'pane1'. 
+	browser2 addNewPane name: 'innerpane 1'.	"Jumpstart presentation for outer browser." 
+	browser1 addTransmission: 
+			((GLMBundleTransmission new) 
+				addActiveOrigin: 
+						((GLMPresentationBoundPort new) 
+								presentation: browser1; 
+								name: #entity; 
+								yourself); 
+				destination: (browser1 panes first port: #entity); 
+				addPresentation: browser2; 
+				yourself).	"Jumpstart presentation for inner browser." 
+	browser2 addTransmission: 
+			((GLMBundleTransmission new) 
+				addActiveOrigin: 
+						((GLMPresentationBoundPort new) 
+								presentation: browser2; 
+								name: #entity; 
+								yourself); 
+				destination: (browser2 panes first port: #entity); 
+				addPresentation: presentation; 
+				yourself). 
+
+	(browser1 pane port: #entity) value: 42. 
+	innerBrowser := browser1 panes first presentations first.
+	self assert: innerBrowser transmissions size = 1.
+	self assert: (innerBrowser transmissions first origins first isKindOf: GLMPresentationBoundPort).
+	self assert: innerBrowser transmissions first origins first pane == browser1 panes first
 ]

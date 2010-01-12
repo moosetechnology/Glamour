@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #tests }
+GLMPaneTest >> expectedFailures [
+	^ #(testPortsInmmutability testPresentationsInmmutability)
+]
+
+{ #category : #tests }
 GLMPaneTest >> testCreation [
 	 
 	| aPane | 

@@ -5,6 +5,19 @@ Class {
 }
 
 { #category : #tests }
+GLMSimpleTransmissionTest >> testCopy [
+	| transmission port1 port2 newTransmission |
+	transmission := GLMSimpleTransmission new.
+	port1 := GLMSimplePort new.
+	port2 := GLMSimplePort new.
+	transmission destination: port2.
+	transmission origin: port1.
+	newTransmission := transmission copy.
+	self assert: newTransmission destination == transmission destination.
+	self assert: newTransmission origin == transmission origin.
+]
+
+{ #category : #tests }
 GLMSimpleTransmissionTest >> testSimple [ 
 	 
 	| pane1 pane2 transmission | 
