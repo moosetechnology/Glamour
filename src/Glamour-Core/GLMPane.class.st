@@ -148,6 +148,11 @@ GLMPane >> name [
 	^name
 ]
 
+{ #category : #accessing }
+GLMPane >> name: aString [
+	name := aString
+]
+
 { #category : #private }
 GLMPane >> notingPresentationChangeDo: aBlock [
 	| oldPresentations oldMatchingPresentations | 
@@ -194,8 +199,7 @@ GLMPane >> portEvent: aPortEvent [
 
 { #category : #accessing }
 GLMPane >> ports [
-	self flag: 'is this because we want a copy?'.
-	^ OrderedCollection withAll: ports
+	^ ports
 ]
 
 { #category : #copying }
@@ -219,8 +223,7 @@ GLMPane >> presentations: aCompositePresentation [
 	self notingPresentationChangeDo: [
 		presentations pane: nil.
 		presentations resetAnnouncements.
-		aCompositePresentation pane: self.
-		aCompositePresentation do: [:each | each pane: self].
+		aCompositePresentation withAllDo: [:each | each pane: self].
 		presentations := aCompositePresentation ]
 ]
 
