@@ -17,7 +17,7 @@ GLMExplicitBrowserCopyTest >> setUp [
 	pane2 := browser addNewPane name: 'pane2'. 
 	transmission1 := GLMSimpleTransmission new
 		origin: (pane2 port: #selection); 
-		destination: (browser pane port: #selection); 
+		destination: (GLMPresentationBoundPort new name: #selection; presentation: browser; yourself); 
 		yourself.  
 	browser addTransmission: transmission1. 
 	transmission2 := GLMBundleTransmission new
