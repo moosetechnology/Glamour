@@ -156,9 +156,11 @@ GLMPane >> notingPresentationChangeDo: aBlock [
 		^ self].
 	"this should create a context and then check for it before announcing.
 	Like this we can deal with the problem of announcing the same announcement twice"
-	oldPresentations := presentations copy. 
-	oldMatchingPresentations := self matchingPresentations copy. 
 	allowedToNotePresentationsChanged := false.
+	
+	oldPresentations := presentations presentations. 
+	oldMatchingPresentations := self matchingPresentations. 
+
 	aBlock value. 
 	presentations ~= oldPresentations ifTrue: [
 		self announce: ((GLMPresentationsChanged new) 
