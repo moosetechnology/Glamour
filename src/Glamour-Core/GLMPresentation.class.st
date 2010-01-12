@@ -11,7 +11,6 @@ Class {
 		'transformation',
 		'actions',
 		'condition',
-		'isInspectable',
 		'implicitNotNil',
 		'postTransformation',
 		'dynamicActionsBlock',
@@ -67,12 +66,6 @@ GLMPresentation >> announce: anAnnouncement [
 { #category : #announcements }
 GLMPresentation >> announcer [
 	^ announcer ifNil: [announcer := Announcer new]
-]
-
-{ #category : #accessing }
-GLMPresentation >> beInspectable [ 
-	self flag: 'reconsider this part'.
-	^isInspectable := true
 ]
 
 { #category : #accessing }
@@ -181,12 +174,6 @@ GLMPresentation >> innerPortEvent: aPortEvent [
 	  so the default behaviour is to do nothing"
 ]
 
-{ #category : #accessing }
-GLMPresentation >> isInspectable [ 
-	 
-	^isInspectable ifNil: [isInspectable := false]
-]
-
 { #category : #testing }
 GLMPresentation >> matches [ 
 	^ (self usesImplicitNotNil 
@@ -234,6 +221,7 @@ GLMPresentation >> parentPrototype: anObject [
 GLMPresentation >> postCopy [
 	super postCopy.
 	announcer := nil.
+	pane := nil.
 ]
 
 { #category : #accessing }
