@@ -104,16 +104,21 @@ GLMBasicExamples >> differentComposites [
 	| browser |
 	browser := GLMTabulator new.
 	browser row: [:r | 
-		r column: #tabbed; column: #accordion ] span: 4; row: #preview.
+		r column: #tabbed; column: #accordion; column: #stackedVertically] span: 4; row: #preview.
 	browser transmit to: #tabbed; showing: [:a | 
 		a list ; text ].
 	browser transmit to: #accordion; showing: [:a | 
 		a accordionArrangement.
 		a list; text ].
+	browser transmit to: #stackedVertically; showing: [:a | 
+		a stackedVerticallyArrangement.
+		a list; text ].
 	browser transmit to: #preview; from: #tabbed; showing: [:a | 
 		a text display: [:x | x printString, ' from tabbed' ]].
 	browser transmit to: #preview; from: #accordion; showing: [:a | 
 		a text display: [:x | x printString, ' from accordion' ]].
+	browser transmit to: #preview; from: #stackedVertically; showing: [:a | 
+		a text display: [:x | x printString, ' from stacked vertically' ]].
 	^ browser 
 ]
 
