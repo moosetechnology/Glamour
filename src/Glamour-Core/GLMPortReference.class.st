@@ -20,3 +20,14 @@ GLMPortReference >> port [
 GLMPortReference >> port: aPort [
 	port := aPort
 ]
+
+{ #category : #printing }
+GLMPortReference >> printOn: aStream [
+	super printOn: aStream.
+	aStream 
+		nextPut: Character space;
+		nextPutAll: self identityHash printString;
+		nextPutAll: ' ('.
+	port printOn: aStream.
+	aStream nextPut: $)
+]

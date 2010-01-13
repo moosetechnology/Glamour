@@ -93,6 +93,12 @@ GLMBundleTransmission >> passiveOrigins [
 		collect: [:each | each port]
 ]
 
+{ #category : #copying }
+GLMBundleTransmission >> postCopy [
+	origins := origins collect: [:each | each copy ].
+	self flag: 'should we copy presentations?'
+]
+
 { #category : #accessing }
 GLMBundleTransmission >> presentations [ 
 	^presentations ifNil: [presentations := GLMCompositePresentation new]

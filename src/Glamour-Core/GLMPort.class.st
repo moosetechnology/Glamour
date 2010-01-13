@@ -34,9 +34,11 @@ GLMPort >> name: aSymbol [
 
 { #category : #printing }
 GLMPort >> printOn: aStream [ 
-	 
+	super printOn: aStream.
 	aStream 
-		nextPutAll: 'Port (name='; 
+		nextPut: Character space;
+		nextPutAll: self identityHash printString;
+		nextPutAll: ' (name='; 
 		nextPutAll: self name printString; 
 		nextPutAll: ' value='; 
 		nextPutAll: self value printString; 
