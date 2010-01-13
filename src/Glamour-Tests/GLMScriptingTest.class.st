@@ -261,6 +261,29 @@ GLMScriptingTest >> testPublishing [
 ]
 
 { #category : #tests }
+GLMScriptingTest >> testPublishingToOutsideAndInsideFinder [
+	| innerBrowser finder realInnerBrowser | 
+	finder := GLMFinder new.
+	innerBrowser := GLMTabulator new.
+	innerBrowser column: #one; column: #two.
+	innerBrowser showOn: #one; using: [ innerBrowser list display: [:x | 1 to: 43 ] ].
+	innerBrowser showOn: #two; from: #one; using: [ innerBrowser text ].
+	innerBrowser sendToOutside: #selection from: #one -> #selection.
+	finder custom: innerBrowser.
+	
+	self assert: (innerBrowser transmissions size = 3).
+	self assert: (innerBrowser transmissions second origins first pane == innerBrowser panes first).
+	self assert: (innerBrowser transmissions second destination pane == innerBrowser panes last).
+
+	finder startOn: 43.
+
+	realInnerBrowser := innerBrowser.
+	self assert: (realInnerBrowser transmissions size = 3).
+	self assert: (realInnerBrowser transmissions second origins first pane == realInnerBrowser panes first).
+	self assert: (realInnerBrowser transmissions second destination pane == realInnerBrowser panes last).
+]
+
+{ #category : #tests }
 GLMScriptingTest >> testPublishingToOutsideFinder [
 	| innerBrowser finder | 
 	finder := GLMFinder new.
