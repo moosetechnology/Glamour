@@ -159,6 +159,11 @@ GLMPresentation >> entity: anObject [
 ]
 
 { #category : #testing }
+GLMPresentation >> hasTitle [
+	^ title notNil
+]
+
+{ #category : #testing }
 GLMPresentation >> hasTitleIcon [
 	^ self titleIcon notNil
 ]
@@ -303,9 +308,8 @@ GLMPresentation >> strongSelection: anObject [
 ]
 
 { #category : #accessing }
-GLMPresentation >> title [ 
-	 
-	^title ifNil: [title := #glamourString]
+GLMPresentation >> title [
+	^ title ifNil: [title := #glamourString]
 ]
 
 { #category : #accessing }
