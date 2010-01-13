@@ -92,11 +92,10 @@ GLMMorphicRenderer >> renderAccordionCompositePresentation: aCompositePresentati
 			titleText: title;
 			fillStyle: Color transparent "non pane color tracking".
 		expander addMorphBack: (self render: each).
-		container addMorphBack: expander ].
-	index := 1.
-	presentations withIndexDo: [ :each :i | 
-		aCompositePresentation pane lastActivePresentation notNil and: [ 
-			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
+		container addMorphBack: expander.
+		(aCompositePresentation pane lastActivePresentation notNil and: [
+			each title = aCompositePresentation pane lastActivePresentation title ]) ifTrue: [expander expanded: true]].
+	(aCompositePresentation pane lastActivePresentation isNil and: [container submorphs notEmpty]) ifTrue: [container submorphs first expanded: true].
 	^ container
 ]
 
