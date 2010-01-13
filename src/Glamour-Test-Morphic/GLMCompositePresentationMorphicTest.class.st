@@ -22,6 +22,20 @@ GLMCompositePresentationMorphicTest >> testAccordion [
 ]
 
 { #category : #'as yet unclassified' }
+GLMCompositePresentationMorphicTest >> testAccordionExpanded [
+	| browser compositeMorph |
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit to: #one; showing: [ :a | 
+		a accordionArrangement.
+		a list title: 'List'.
+		a text title: 'Text'].
+	window := browser openOn: 42.
+	compositeMorph := window submorphs last submorphs last submorphs last.
+	self assert: compositeMorph submorphs first expanded
+]
+
+{ #category : #'as yet unclassified' }
 GLMCompositePresentationMorphicTest >> testStackedVertically [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
