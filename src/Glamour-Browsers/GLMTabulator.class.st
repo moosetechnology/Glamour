@@ -62,20 +62,6 @@ GLMTabulator >> cellOrRow [
 	^cell ifNil: [cell := GLMCustomRow new browser: self]
 ]
 
-{ #category : #'scripting-private' }
-GLMTabulator >> initializeScriptingDefaults [ 
-	 
-	super initializeScriptingDefaults. 
-	self cell isNil ifTrue: [self addColumn: #pane].
-	self transmissions 
-		detect: [ :each | each originatesAt: (self pane port: #entity) ]
-		ifNone: [
-			self 
-				showOn: (self panes first port: #entity);
-				from: #outer->#entity;
-				using: [ self custom: GLMFlexiblePresentation new ] ]
-]
-
 { #category : #rendering }
 GLMTabulator >> renderGlamorouslyOn: aRenderer [ 
 	 
