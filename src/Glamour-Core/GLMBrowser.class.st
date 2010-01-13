@@ -15,16 +15,6 @@ Class {
 	#category : #'Glamour-Core'
 }
 
-{ #category : #'scripting-private' }
-GLMBrowser >> initializeScriptingDefaults [ 
-	"Initialize some default behavior if the user did not explcitly script it. 
- 
-	Subclasses can use this to create a default startup transmission or show 
-	a default pane or something like that." 
-	
-	^self
-]
-
 { #category : #accessing }
 GLMBrowser >> panes [ 
 	"Return an (ordered) collection of the panes used by this browser." 
