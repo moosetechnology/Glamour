@@ -102,6 +102,24 @@ GLMPresentationTest >> testExplicitNotNilMultipleValues [
 ]
 
 { #category : #tests }
+GLMPresentationTest >> testHasTitle [
+	| presentation |
+	presentation := GLMPresentation new.
+	self assert: presentation hasTitle not.
+	presentation title: 'something'.
+	self assert: presentation hasTitle
+]
+
+{ #category : #tests }
+GLMPresentationTest >> testHasTitleIcon [
+	| presentation |
+	presentation := GLMPresentation new.
+	self assert: presentation hasTitleIcon not.
+	presentation titleIcon: 'something'.
+	self assert: presentation hasTitleIcon
+]
+
+{ #category : #tests }
 GLMPresentationTest >> testImplicitNotNilMultipleValues [
 	| presentation | 
 	presentation := GLMPresentation new. 
@@ -193,6 +211,24 @@ GLMPresentationTest >> testToSend [
 	presentation selectionTransformation: [ :first :second | (first , second) asSymbol ].
 	presentation selection: (GLMMultiValue withAll: #(#foo #bar )).
 	self assert: presentation selection = #foobar
+]
+
+{ #category : #tests }
+GLMPresentationTest >> testUpdate [
+	| pane port presentation timesTriggered announcer col |
+	col := OrderedCollection with: 1 with: 2. 
+	pane := GLMPane named: 'test'. 
+	presentation := GLMListPresentation new.
+	pane addPresentation: presentation.
+	presentation entity: col.
+	presentation shouldValidate: true.
+	presentation update.
+	presentation selection: 2.
+	self assert: presentation selection = 2.
+	col removeLast.
+	presentation update.
+	self assert: presentation selection isNil
+
 ]
 
 { #category : #tests }
