@@ -111,12 +111,19 @@ GLMNewScriptingTest >> testSimpleTransmission [
 	| browser | 
 	browser := GLMTabulator new. 
 	browser column: #one; column: #two. 
-	browser transmit from: #one -> #port1; to: #two -> #port2.
-	self assert: browser transmissions size = 1.
+	browser transmit from: #one -> #port1; fromOutside: #outerPort; to: #two -> #port2.
+	browser transmit from: #one -> #port3; toOutside: #anotherOuterPort.
+	self assert: browser transmissions size = 2.
 	self assert: browser transmissions first browser == browser.
 	self assert: (browser transmissions first transmissionStrategy isKindOf: GLMTransmissionStrategy). 
 	self assert: browser transmissions first origins first = ((browser paneNamed: #one) port: #port1). 
+	self assert: browser transmissions first origins last = (browser pane port: #outerPort). 
 	self assert: browser transmissions first destination = ((browser paneNamed: #two) port: #port2).
+
+	self assert: browser transmissions last browser == browser.
+	self assert: (browser transmissions last transmissionStrategy isKindOf: GLMTransmissionStrategy).
+	self assert: browser transmissions last origins first = ((browser paneNamed: #one) port: #port3).
+	self assert: browser transmissions last destination = (browser pane port: #anotherOuterPort).
 
 ]
 
