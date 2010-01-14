@@ -9,7 +9,7 @@ GLMNewScriptingTest >> testBuildingNestedComposites [
 	| browser | 
 	browser := GLMTabulator new. 
 	browser column: #one. 
-	browser transmit to: #one; showing: [ :a |
+	browser send to: #one; andShow: [ :a |
 		a list.
 		a text.
 		a composite: [:another | 
@@ -27,7 +27,7 @@ GLMNewScriptingTest >> testBundleTransmission [
 	| browser transmission | 
 	browser := GLMTabulator new. 
 	browser column: #one; column: #two; column: #three. 
-	browser transmit from: #one -> #port1; from: #two -> #port2; to: #three -> #port3; showing: [ :a |
+	browser send from: #one -> #port1; from: #two -> #port2; to: #three -> #port3; andShow: [ :a |
 		a list.
 		a table ].
 	transmission := browser transmissions first.
@@ -47,8 +47,8 @@ GLMNewScriptingTest >> testBundleTransmissionWithTransformation [
 	| browser | 
 	browser := GLMTabulator new. 
 	browser column: #one; column: #two.
-	browser transmit to: #one; showing: [ :a | a text ].
-	browser transmit from: #one transformed: [:x | x + 1 ]; to: #two; showing: [ :a | a text ].
+	browser send to: #one; andShow: [ :a | a text ].
+	browser send from: #one transformed: [:x | x + 1 ]; to: #two; andShow: [ :a | a text ].
 	browser startOn: 1.
 	((browser paneNamed: #one) port: #selection) value: 41.
 	
@@ -60,7 +60,7 @@ GLMNewScriptingTest >> testNestedCompositesPaneReference [
 	| browser | 
 	browser := GLMTabulator new. 
 	browser column: #one. 
-	browser transmit to: #one; showing: [ :a |
+	browser send to: #one; andShow: [ :a |
 		a list.
 		a text.
 		a composite: [:another | 
@@ -80,11 +80,11 @@ GLMNewScriptingTest >> testSelectionValidation [
 	browser 
 		column: [:c | c row:  #one; row: #two];
 		column: #three.
-	browser transmit to: #one; showing: [:a |
+	browser send to: #one; andShow: [:a |
 		a list display: [:x | 1 to: x ]].
-	browser transmit to: #two; from: #one; showing: [:a |
+	browser send to: #two; from: #one; andShow: [:a |
 		a list beMultiple; display: [:x | 1 to: x ] ].
-	browser transmit to: #three; from: #two; showing: [:a |
+	browser send to: #three; from: #two; andShow: [:a |
 		a text ].
 	browser startOn: 42.
 	
@@ -125,7 +125,7 @@ GLMNewScriptingTest >> testStartTabulator [
 	| browser | 
 	browser := GLMTabulator new. 
 	browser column: #one. 
-	browser transmit to: #one; showing: [ :a |
+	browser send to: #one; andShow: [ :a |
 		a list.
 		a text ].
 	browser startOn: 42.
