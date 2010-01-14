@@ -15,15 +15,25 @@ GLMTransmission >> ensureBundleStrategy [
 
 { #category : #'*Glamour-Scripting' }
 GLMTransmission >> from: aPort [
-	self addActiveOrigin: (self browser resolveOriginPort: aPort)
+	^ self addActiveOrigin: (self browser resolveOriginPort: aPort)
 ]
 
 { #category : #'*Glamour-Scripting' }
 GLMTransmission >> from: aPort transformed: aBlock [
-	(self addActiveOrigin: (self browser resolveOriginPort: aPort)) transformation: aBlock
+	^ (self addActiveOrigin: (self browser resolveOriginPort: aPort)) transformation: aBlock
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMTransmission >> fromOutside: aPortSymbol [
+	^ self from: #outer->aPortSymbol
 ]
 
 { #category : #'*Glamour-Scripting' }
 GLMTransmission >> to: aPort [
-	self destination: (self browser resolveDestinationPort: aPort)
+	^ self destination: (self browser resolveDestinationPort: aPort)
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMTransmission >> toOutside: aPortSymbol [
+	^ self to: #outer->aPortSymbol
 ]
