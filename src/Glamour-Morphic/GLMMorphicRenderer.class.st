@@ -316,11 +316,15 @@ GLMMorphicRenderer >> renderStackedVerticallyCompositePresentation: aCompositePr
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation [
-	| presentations tabs title index |
+	| presentations tabs title index container |
 	presentations := aCompositePresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
 	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
+	container := self theme 
+		newGroupboxIn: GLMMorphic emptyMorph 
+		label: (self titleOrIconOrNilOf: aCompositePresentation in: container).
 	tabs := LazyTabGroupMorph new.
+	container addContentMorph: tabs.
 	tabs
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
@@ -337,7 +341,7 @@ GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation 
 		aCompositePresentation pane lastActivePresentation notNil and: [ 
 			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
 	tabs selectedPageIndex: index.
-	^ tabs
+	^ container
 ]
 
 { #category : #'rendering presentations' }
