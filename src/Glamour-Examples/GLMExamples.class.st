@@ -8,9 +8,12 @@ Class {
 GLMExamples class >> browseExamples [
 	"self browseExamples"
 	| browser pragmas |
-	pragmas := Pragma 
-		allNamed: #glmBrowser:input:
-		in: self.
+	pragmas := OrderedCollection new.
+	self withAllSubclassesDo: [:c|
+		pragmas addAll:
+			(Pragma 
+				allNamed: #glmBrowser:input:
+				in: c)].
 	browser := GLMTabulator new.
 	browser title: self name asString.
 	browser column: #titles; column: #example span: 4.
@@ -20,10 +23,10 @@ GLMExamples class >> browseExamples [
 	browser showOn: #example; from: #titles; using: [
 		browser dynamic
 			title: 'Browser';
-			display: [:each | (self new perform: each selector) startOn: (Compiler evaluate: (each argumentAt: 2) logged: false)].
+			display: [:each | (each method methodClass new perform: each selector) startOn: (Compiler evaluate: (each argumentAt: 2) logged: false)].
 		browser text 
 			title: 'Source code';
 			forSmalltalk: self;
-			display: [:each | self sourceCodeAt: each selector]].	
+			display: [:each | each method methodClass sourceCodeAt: each selector]].	
 	browser openOn: pragmas.
 ]
