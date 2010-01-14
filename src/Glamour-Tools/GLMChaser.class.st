@@ -21,7 +21,7 @@ GLMChaser >> methodSourceBrowser [
 	| browser |
 	browser := GLMTabulator new.
 	browser row: #methods; row: #source.
-	browser transmit to: #methods; showing: [ :a | 
+	browser send to: #methods; andShow: [ :a | 
 		a tree
 			title: 'Senders';
 			display: [ :each | 
@@ -30,7 +30,7 @@ GLMChaser >> methodSourceBrowser [
 				(each isKindOf: MethodReference) ifTrue: [each classSymbol, '>>', each selector ] ifFalse: [ each ]]";
 			children: [ :each | 
 				(each isKindOf: MethodReference) ifTrue: [each compiledMethod messages] ifFalse: [OrderedCollection new]]" ].
-	browser transmit from: #methods; to: #source; showing: [:a |
+	browser send from: #methods; to: #source; andShow: [:a |
 		a text
 			forSmalltalk: [:reference | reference actualClass ];
 			display: [:reference | reference sourceCode ];
