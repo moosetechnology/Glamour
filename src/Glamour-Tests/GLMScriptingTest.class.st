@@ -357,7 +357,7 @@ GLMScriptingTest >> testSimpleTransmission [
 		sendTo: #two -> #port2 
 		from: #one -> #port1. 
 	self assert: browser transmissions size = 1. 
-	self assert: (browser transmissions first transmissionStrategy isKindOf: GLMTransmissionPreValueStrategy). 
+	self assert: (browser transmissions first transmissionStrategy isKindOf: GLMTransmissionStrategy). 
 	self assert: 
 			browser transmissions first origins first
 				= ((browser paneNamed: #one) port: #port1). 
