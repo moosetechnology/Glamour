@@ -11,6 +11,11 @@ GLMCompositePresentation >> custom: aPresentation [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMCompositePresentation >> stackedArrangement [
+	^ self stackedVerticallyArrangement
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMCompositePresentation >> stackedVerticallyArrangement [
 	^ self arrangement: (GLMStackedVerticallyArrangement of: self)
 ]
