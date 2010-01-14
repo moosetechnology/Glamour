@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMBundleTransmissionStrategy,
-	#superclass : #GLMTransmissionPreValueStrategy,
+	#superclass : #GLMTransmissionStrategy,
 	#instVars : [
 		'presentations'
 	],

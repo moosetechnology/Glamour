@@ -112,7 +112,7 @@ GLMTransmission >> destination: aPort [
 
 { #category : #'initialize-release' }
 GLMTransmission >> initialize [
-	transmissionStrategy := GLMTransmissionPreValueStrategy new
+	transmissionStrategy := GLMTransmissionStrategy new
 ]
 
 { #category : #'private accessing' }

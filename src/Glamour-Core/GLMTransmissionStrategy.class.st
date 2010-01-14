@@ -1,5 +1,5 @@
 Class {
-	#name : #GLMTransmissionPreValueStrategy,
+	#name : #GLMTransmissionStrategy,
 	#superclass : #Object,
 	#instVars : [
 		'transmission'
@@ -8,36 +8,36 @@ Class {
 }
 
 { #category : #'instance creation' }
-GLMTransmissionPreValueStrategy class >> of: aTransmission [
+GLMTransmissionStrategy class >> of: aTransmission [
 	^ self new transmission: aTransmission; yourself
 ]
 
 { #category : #accessing }
-GLMTransmissionPreValueStrategy >> addPresentation: aPresentation [
+GLMTransmissionStrategy >> addPresentation: aPresentation [
 	"do nothing by default"
 ]
 
 { #category : #accessing }
-GLMTransmissionPreValueStrategy >> addPresentations: aCollection [
+GLMTransmissionStrategy >> addPresentations: aCollection [
 	"do nothing by default"
 ]
 
 { #category : #accessing }
-GLMTransmissionPreValueStrategy >> presentations [
+GLMTransmissionStrategy >> presentations [
 	^ OrderedCollection new
 ]
 
 { #category : #accessing }
-GLMTransmissionPreValueStrategy >> transmission [
+GLMTransmissionStrategy >> transmission [
 	^ transmission
 ]
 
 { #category : #accessing }
-GLMTransmissionPreValueStrategy >> transmission: anObject [
+GLMTransmissionStrategy >> transmission: anObject [
 	transmission := anObject
 ]
 
 { #category : #transmitting }
-GLMTransmissionPreValueStrategy >> transmitIn: aContext [
+GLMTransmissionStrategy >> transmitIn: aContext [
 	"by default do nothing"
 ]
