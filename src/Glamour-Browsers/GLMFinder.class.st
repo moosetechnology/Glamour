@@ -15,7 +15,8 @@ Class {
 GLMFinder >> addPaneFrom: aPort [ 
 	 
 	self panes addLast: ( GLMPane in: self ). 
-	GLMBundleTransmission new
+	GLMTransmission new
+		ensureBundleStrategy;
 		addActiveOrigin: aPort; 
 		destination: (self panes last port: #entity); 
 		addPresentations: (self presentations collect: [:each | each copy]); 
@@ -32,21 +33,18 @@ GLMFinder >> addPaneFromInner: aPort [
 	 
 	| newTransmission realTransmissions | 
 	self panes addLast: (GLMPane in: self ). 
-	(GLMBundleTransmission new) 
+	GLMTransmission new
+		ensureBundleStrategy;
 		addActiveOrigin: aPort; 
 		destination: (self panes last port: #entity); 
 		addPresentations: (self presentations collect: [:each | each copy]); 
 		transmit. 
-	realTransmissions := self transmissions 
-		collect: 
-			[:each |  
-			newTransmission := GLMBundleTransmission new. 
-			each activeOrigins 
-				do: 
-					[:eachPort | newTransmission addActiveOrigin: (aPort pane port: eachPort name)]. 
-			each passiveOrigins 
-				do: 
-					[:eachPort | newTransmission addPassiveOrigin: (aPort pane port: eachPort name)]. 
+	realTransmissions := self transmissions collect: [:each |  
+			newTransmission := GLMTransmission new ensureBundleStrategy. 
+			each activeOrigins do: [:eachPort | 
+				newTransmission addActiveOrigin: (aPort pane port: eachPort name)]. 
+			each passiveOrigins do: [:eachPort | 
+				newTransmission addPassiveOrigin: (aPort pane port: eachPort name)]. 
 			newTransmission 
 				destination: (self panes last port: #entity); 
 				addPresentations: (self presentations collect: #copy);
