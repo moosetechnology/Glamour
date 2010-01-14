@@ -29,8 +29,7 @@ GLMFinder >> initializeContextWith: aPane [
 ]
 
 { #category : #'*Glamour-Scripting' }
-GLMFinder >> passivelyFromPrevious: aPortSymbol [ 
-	 
+GLMFinder >> passivelyFromPrevious: aPortSymbol [
 	self scriptTransmission addPassiveOrigin: (GLMPort new name: aPortSymbol)
 ]
 

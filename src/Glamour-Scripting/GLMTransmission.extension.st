@@ -11,6 +11,13 @@ GLMTransmission >> from: aPort transformed: aBlock [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMTransmission >> showing: aBlock [
+	self strategyBeforeValue: (GLMTransmissionBundleStrategy of: self).
+	self origins isEmpty ifTrue: [self from: #outer->#entity].
+	aBlock value: self strategyBeforeValue presentations
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMTransmission >> to: aPort [
 	self destination: (self browser resolveDestinationPort: aPort)
 ]

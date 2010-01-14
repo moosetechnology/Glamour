@@ -35,7 +35,7 @@ GLMExplicitBrowser >> passivelyFrom: anOriginPortReference [
 
 { #category : #'*Glamour-Scripting' }
 GLMExplicitBrowser >> send [
-	^ self addTransmission: (GLMSimpleTransmission new browser: self; yourself)
+	^ self addTransmission: (GLMTransmission new browser: self; yourself)
 ]
 
 { #category : #'*Glamour-Scripting' }
@@ -44,8 +44,8 @@ GLMExplicitBrowser >> sendTo: aDesinationPortReference from: anOriginPortReferen
 	 
 	self transmissions 
 		addLast: 
-			((GLMSimpleTransmission new) 
-				origin: (self resolveOriginPort: anOriginPortReference); 
+			((GLMTransmission new) 
+				addActiveOrigin: (self resolveOriginPort: anOriginPortReference); 
 				destination: (self resolveDestinationPort: aDesinationPortReference); 
 				yourself)
 ]
@@ -56,8 +56,8 @@ GLMExplicitBrowser >> sendTo: aDesinationPortReference from: anOriginPortReferen
 	 
 	self transmissions 
 		addLast: 
-			((GLMSimpleTransmission new) 
-				origin: (self resolveOriginPort: anOriginPortReference); 
+			((GLMTransmission new) 
+				addActiveOrigin: (self resolveOriginPort: anOriginPortReference); 
 				destination: (self resolveDestinationPort: aDesinationPortReference); 
 				transformation: aBlock; 
 				yourself)
