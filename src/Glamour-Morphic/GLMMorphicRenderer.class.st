@@ -53,6 +53,30 @@ GLMMorphicRenderer >> moreToolbarActions: noIconActions on: aBrowser [
 	menuMorph popUpInWorld
 ]
 
+{ #category : #private }
+GLMMorphicRenderer >> morph: aMorph withTitleOf: aPresentation [
+	| container |
+	container := self theme 
+		newGroupboxIn: GLMMorphic emptyMorph 
+		label: (self titleOrIconOf: aPresentation in: GLMMorphic emptyMorph).
+	container addContentMorph: aMorph.
+	aMorph changeTableLayout.
+	^ container
+]
+
+{ #category : #private }
+GLMMorphicRenderer >> morph: aMorph withTitleOrNilOf: aPresentation [
+	| container |
+	(aPresentation hasTitle or: [aPresentation hasTitleIcon]) ifFalse: [^ aMorph ].
+	container := self theme 
+		newGroupboxIn: GLMMorphic emptyMorph 
+		label: (self titleOrIconOrNilOf: aPresentation in: GLMMorphic emptyMorph).
+	container contentMorph cellInset: 2.
+	container addContentMorph: aMorph.
+	aMorph changeTableLayout.
+	^ container
+]
+
 { #category : #opening }
 GLMMorphicRenderer >> open: aRenderable [
 	^ ( self windowFor: aRenderable ) openInWorld
@@ -73,23 +97,21 @@ GLMMorphicRenderer >> renderAccordionCompositePresentation: aCompositePresentati
 	| presentations container expander title index |
 	presentations := aCompositePresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
-	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
-	container := self theme 
-		newGroupboxIn: GLMMorphic emptyMorph 
-		label: (self titleOrIconOrNilOf: aCompositePresentation in: container).
+	presentations size = 1 ifTrue: [ ^ self renderWithTitleOrNil: presentations first ].
+	container := GLMMorphic emptyMorph.
+	container changeTableLayout.
 	presentations do: [ :each | 
-		expander := ExpanderMorph new
-			font: self theme menuFont;
-			titleText: (self titleOrIconOf: each in: container);
-			fillStyle: Color transparent.
-		expander addMorphBack: (self render: each).
-		container addContentMorph: expander.
+		expander := self theme 
+			newExpanderIn: container 
+			label: (self titleOrIconOf: each in: container)
+			forAll: {(self render: each)}.
+		container addMorphBack: expander.
 		(aCompositePresentation pane lastActivePresentation notNil and: [
 			each title = aCompositePresentation pane lastActivePresentation title ]) ifTrue: [
 				expander expanded: true]].
-	(aCompositePresentation pane lastActivePresentation isNil and: [container contentMorph submorphs notEmpty]) ifTrue: [
-		container contentMorph submorphs first expanded: true].
-	^ container
+	(aCompositePresentation pane lastActivePresentation isNil and: [container submorphs notEmpty]) ifTrue: [
+		container submorphs first expanded: true].
+	^ self morph: container  withTitleOrNilOf: aCompositePresentation
 ]
 
 { #category : #'rendering presentations' }
@@ -121,31 +143,23 @@ GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [
 { #category : #private }
 GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aMorph inBrowser: aBrowser [ 
 	| pane totalSpans currentSpanPosition currentOffset |
-	totalSpans := aCell children 
-		inject: 0
-		into: [ :sum :each | sum + each span ].
+	totalSpans := aCell children inject: 0 into: [ :sum :each | sum + each span ].
 	currentSpanPosition := 0.
 	currentOffset := 0.
-	aCell children keysAndValuesDo: 
-		[ :index :each | 
+	aCell children keysAndValuesDo: [ :index :each | 
 		each hasId 
 			ifTrue: [ pane := self render: (aBrowser paneNamed: each id) ]
-			ifFalse: 
-				[ self 
+			ifFalse: [ self 
 					renderCustomRow: each
 					ofPane: aPane
 					inUI: (pane := GLMMorphic emptyMorph)
 					inBrowser: aBrowser.
 				pane addPaneSplitters ].
 		pane layoutFrame: (LayoutFrame new
-				topFraction: currentSpanPosition / totalSpans
-					offset: currentOffset;
-				leftFraction: 0
-					offset: 0;
-				bottomFraction: (currentSpanPosition + each span) / totalSpans
-					offset: currentOffset + each size;
-				rightFraction: 1
-					offset: 0;
+				topFraction: currentSpanPosition / totalSpans offset: currentOffset + 2;
+				leftFraction: 0 offset: 0;
+				bottomFraction: (currentSpanPosition + each span) / totalSpans offset: currentOffset + each size - 2;
+				rightFraction: 1 offset: 0;
 				yourself).
 		aMorph addMorphBack: pane.
 		currentSpanPosition := currentSpanPosition + each span.
@@ -156,31 +170,23 @@ GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aMorph inBro
 { #category : #private }
 GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aMorph inBrowser: aBrowser [ 
 	| pane totalSpans currentSpanPosition currentOffset |
-	totalSpans := aCell children 
-		inject: 0
-		into: [ :sum :each | sum + each span ].
+	totalSpans := aCell children inject: 0 into: [ :sum :each | sum + each span ].
 	currentSpanPosition := 0.
 	currentOffset := 0.
-	aCell children keysAndValuesDo: 
-		[ :index :each | 
+	aCell children keysAndValuesDo: [ :index :each | 
 		each hasId 
 			ifTrue: [ pane := self render: (aBrowser paneNamed: each id) ]
-			ifFalse: 
-				[ self 
+			ifFalse: [ self 
 					renderCustomColumn: each
 					ofPane: aPane
 					inUI: (pane := GLMMorphic emptyMorph)
 					inBrowser: aBrowser.
 				pane addPaneSplitters ].
 		pane layoutFrame: (LayoutFrame new
-				topFraction: 0
-					offset: 0;
-				leftFraction: currentSpanPosition / totalSpans
-					offset: currentOffset;
-				bottomFraction: 1
-					offset: 0;
-				rightFraction: (currentSpanPosition + each span) / totalSpans
-					offset: currentOffset + each size;
+				topFraction: 0 offset: 0;
+				leftFraction: currentSpanPosition / totalSpans offset: currentOffset + 2;
+				bottomFraction: 1 offset: 0;
+				rightFraction: (currentSpanPosition + each span) / totalSpans offset: currentOffset + each size - 2;
 				yourself).
 		aMorph addMorphBack: pane.
 		currentSpanPosition := currentSpanPosition + each span.
@@ -296,18 +302,25 @@ GLMMorphicRenderer >> renderPane: aPane [
 GLMMorphicRenderer >> renderStackedVerticallyCompositePresentation: aCompositePresentation [
 	| presentations container item title index |
 	presentations := aCompositePresentation matchingPresentations.
-	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
-	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
-	container := self theme 
+	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].	
+	container := GLMMorphic emptyMorph.
+	container changeTableLayout.
+	presentations do: [ :each | 
+		container addMorphBack: (self renderWithTitle: each) ].
+	^ self morph: container withTitleOrNilOf: aCompositePresentation
+
+
+"	container := self theme 
 		newGroupboxIn: GLMMorphic emptyMorph 
-		label: (self titleOrIconOrNilOf: aCompositePresentation in: container).
+		label: (self titleOrIconOrNilOf: aCompositePresentation in: GLMMorphic emptyMorph).
 	presentations do: [ :each |
 		item := self theme 
 			newGroupboxIn: GLMMorphic emptyMorph 
-			label: (self titleOrIconOf: each in: container).
+			label: (self titleOrIconOrNilOf: each in: container).
 		item addContentMorph: (self render: each).
 		container addContentMorph: item ].
 	^ container
+"
 ]
 
 { #category : #'rendering presentations' }
@@ -316,11 +329,7 @@ GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation 
 	presentations := aCompositePresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
 	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
-	container := self theme 
-		newGroupboxIn: GLMMorphic emptyMorph 
-		label: (self titleOrIconOrNilOf: aCompositePresentation in: container).
 	tabs := LazyTabGroupMorph new.
-	container addContentMorph: tabs.
 	tabs
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
@@ -337,7 +346,7 @@ GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation 
 		aCompositePresentation pane lastActivePresentation notNil and: [ 
 			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
 	tabs selectedPageIndex: index.
-	^ container
+	^ self morph: tabs withTitleOrNilOf: aCompositePresentation
 ]
 
 { #category : #'rendering presentations' }
@@ -393,7 +402,7 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 	self installActionsOnUI: textModel fromPresentation: aTextPresentation.
 	aTextPresentation selectedTextBlock: [ textMorph textMorph editor selection ].
 	aTextPresentation textBlock: [ textMorph textMorph editor text ].
-	^textMorph
+	^ textMorph
 ]
 
 { #category : #private }
@@ -456,6 +465,20 @@ GLMMorphicRenderer >> renderTreePresentation: aPresentation [
 	^ container
 ]
 
+{ #category : #private }
+GLMMorphicRenderer >> renderWithTitle: aPresentation [
+	| morph |
+	morph := self render: aPresentation.
+	^ self morph: morph withTitleOf: aPresentation
+]
+
+{ #category : #private }
+GLMMorphicRenderer >> renderWithTitleOrNil: aPresentation [
+	| morph |
+	morph := self render: aPresentation.
+	^ self morph: morph withTitleOrNilOf: aPresentation
+]
+
 { #category : #opening }
 GLMMorphicRenderer >> simulate: aRenderable [
 	^ ( self windowFor: aRenderable ) 
@@ -492,7 +515,7 @@ GLMMorphicRenderer >> titleOrIconOf: aPresentation in: container [
 			self theme 
 					newImageIn: container
 					form: aPresentation titleIconValue ]
-		ifFalse: [ aPresentation titleValue ].
+		ifFalse: [ aPresentation titleValue ifNil: [''] ].
 ]
 
 { #category : #private }
