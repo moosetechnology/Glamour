@@ -106,19 +106,19 @@ GLMBasicExamples >> differentComposites [
 	browser := GLMTabulator new.
 	browser row: [:r | 
 		r column: #tabbed; column: #accordion; column: #stackedVertically] span: 4; row: #preview.
-	browser transmit to: #tabbed; showing: [:a | 
+	browser send to: #tabbed; andShow: [:a | 
 		a list title: 'List'. a text title: 'Text' ].
-	browser transmit to: #accordion; showing: [:a | 
+	browser send to: #accordion; andShow: [:a | 
 		a accordionArrangement.
 		a list title: 'List'. a text title: 'Text' ].
-	browser transmit to: #stackedVertically; showing: [:a | 
+	browser send to: #stackedVertically; andShow: [:a | 
 		a stackedVerticallyArrangement.
 		a list title: 'List'. a text title: 'Text' ].
-	browser transmit to: #preview; from: #tabbed; showing: [:a | 
+	browser send to: #preview; from: #tabbed; andShow: [:a | 
 		a text display: [:x | x printString, ' from tabbed' ]].
-	browser transmit to: #preview; from: #accordion; showing: [:a | 
+	browser send to: #preview; from: #accordion; andShow: [:a | 
 		a text display: [:x | x printString, ' from accordion' ]].
-	browser transmit to: #preview; from: #stackedVertically; showing: [:a | 
+	browser send to: #preview; from: #stackedVertically; andShow: [:a | 
 		a text display: [:x | x printString, ' from stacked vertically' ]].
 	^ browser 
 ]
@@ -517,8 +517,8 @@ GLMBasicExamples >> treeWithInitialSelection [
 		browser tree
 			title: 'second tree';
 			children: [:x | x value ]].
-	browser showOn: #two; from: #one; using: [ browser text ].
-	browser showOn: #three; from: #one->#selectionPath; using: [ browser text ].
+	browser showOn: #two; from: #one; using: [ browser text title: 'Selection preview' ].
+	browser showOn: #three; from: #one->#selectionPath; using: [ browser text title: 'Selection path preview'].
 	^ browser
 ]
 
