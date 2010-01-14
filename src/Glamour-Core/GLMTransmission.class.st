@@ -13,7 +13,7 @@ Class {
 		'destination',
 		'browser',
 		'origins',
-		'strategyBeforeValue',
+		'transmissionStrategy',
 		'transformation'
 	],
 	#category : #'Glamour-Core'
@@ -44,6 +44,16 @@ GLMTransmission >> addPassiveOrigin: aPort [
 				port: aPort; 
 				bePassive; 
 				yourself)
+]
+
+{ #category : #accessing }
+GLMTransmission >> addPresentation: aPresentation [
+	self transmissionStrategy addPresentation: aPresentation
+]
+
+{ #category : #accessing }
+GLMTransmission >> addPresentations: aCollection [
+	self transmissionStrategy addPresentations: aCollection
 ]
 
 { #category : #accessing }
@@ -102,7 +112,7 @@ GLMTransmission >> destination: aPort [
 
 { #category : #'initialize-release' }
 GLMTransmission >> initialize [
-	strategyBeforeValue := GLMTransmissionPreValueStrategy new
+	transmissionStrategy := GLMTransmissionPreValueStrategy new
 ]
 
 { #category : #'private accessing' }
@@ -134,6 +144,11 @@ GLMTransmission >> postCopy [
 	strategyBeforeValue transmission: self
 ]
 
+{ #category : #accessing }
+GLMTransmission >> presentations [
+	^ self transmissionStrategy presentations
+]
+
 { #category : #transmitting }
 GLMTransmission >> printOn: aStream [ 
 	 
@@ -149,16 +164,6 @@ GLMTransmission >> printOn: aStream [
 ]
 
 { #category : #accessing }
-GLMTransmission >> strategyBeforeValue [
-	^ strategyBeforeValue
-]
-
-{ #category : #accessing }
-GLMTransmission >> strategyBeforeValue: anObject [
-	strategyBeforeValue := anObject
-]
-
-{ #category : #accessing }
 GLMTransmission >> transformation [
 	^ transformation
 ]
@@ -169,6 +174,16 @@ GLMTransmission >> transformation: anObject [
 	transformation := anObject
 ]
 
+{ #category : #accessing }
+GLMTransmission >> transmissionStrategy [
+	^ transmissionStrategy
+]
+
+{ #category : #accessing }
+GLMTransmission >> transmissionStrategy: anObject [
+	transmissionStrategy := anObject
+]
+
 { #category : #transmitting }
 GLMTransmission >> transmit [
 	self transmitIn: GLMTransmissionContext new
@@ -176,7 +191,7 @@ GLMTransmission >> transmit [
 
 { #category : #transmitting }
 GLMTransmission >> transmitIn: aContext [
-	self strategyBeforeValue transmitIn: aContext.
+	self transmissionStrategy transmitIn: aContext.
 	self destination receive: self in: aContext.
 ]
 

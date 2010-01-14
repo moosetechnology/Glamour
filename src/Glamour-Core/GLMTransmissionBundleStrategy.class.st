@@ -7,6 +7,16 @@ Class {
 	#category : #'Glamour-Core'
 }
 
+{ #category : #'accessing-convenience' }
+GLMTransmissionBundleStrategy >> addPresentation: aPresentation [
+	self presentations add: aPresentation
+]
+
+{ #category : #'accessing-convenience' }
+GLMTransmissionBundleStrategy >> addPresentations: aCollection [
+	aCollection do: [:each | self addPresentation: each ]
+]
+
 { #category : #'initialize-release' }
 GLMTransmissionBundleStrategy >> initialize [
 	presentations := GLMCompositePresentation new

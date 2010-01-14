@@ -13,6 +13,21 @@ GLMTransmissionPreValueStrategy class >> of: aTransmission [
 ]
 
 { #category : #accessing }
+GLMTransmissionPreValueStrategy >> addPresentation: aPresentation [
+	"do nothing by default"
+]
+
+{ #category : #accessing }
+GLMTransmissionPreValueStrategy >> addPresentations: aCollection [
+	"do nothing by default"
+]
+
+{ #category : #accessing }
+GLMTransmissionPreValueStrategy >> presentations [
+	^ OrderedCollection new
+]
+
+{ #category : #accessing }
 GLMTransmissionPreValueStrategy >> transmission [
 	^ transmission
 ]
