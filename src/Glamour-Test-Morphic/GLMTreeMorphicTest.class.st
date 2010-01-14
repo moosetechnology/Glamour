@@ -9,7 +9,7 @@ GLMTreeMorphicTest >> testMultipleSelectionWithChange [
 	| browser firstTreeMorph secondTreeMorph treeNodeMorph lastTreeNodeMorph |
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser transmit to: #one; showing: [:a | a list beMultiple; display: [:x | (x - 2 to: x) ]].
+	browser send to: #one; andShow: [:a | a list beMultiple; display: [:x | (x - 2 to: x) ]].
 	window := browser openOn: 4.
 
 	firstTreeMorph := window submorphs last submorphs first submorphs first submorphs first.
@@ -33,7 +33,7 @@ GLMTreeMorphicTest >> testMultipleSelectionWithChangeFromModel [
 	| browser firstTreeMorph secondTreeMorph |
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser transmit to: #one; showing: [:a | a list beMultiple; display: [:x | (x - 2 to: x) ]].
+	browser send to: #one; andShow: [:a | a list beMultiple; display: [:x | (x - 2 to: x) ]].
 	window := browser openOn: 4.
 
 	firstTreeMorph := window submorphs last submorphs first submorphs first submorphs first.
@@ -55,11 +55,11 @@ GLMTreeMorphicTest >> testTwoPanesMultipleSelectionWithChange [
 	| browser treeMorphOne treeNodeMorph treeMorphTwo |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two; column: #three.
-	browser transmit to: #one; showing: [:a |
+	browser send to: #one; andShow: [:a |
 		a list display: [:x | 1 to: x ]].
-	browser transmit to: #two; from: #one; showing: [:a |
+	browser send to: #two; from: #one; andShow: [:a |
 		a list beMultiple; display: [:x | (x * 10) to: (x * 10 + 4) ] ].
-	browser transmit to: #three; from: #two; showing: [:a | a text ].
+	browser send to: #three; from: #two; andShow: [:a | a text ].
 	window := browser openOn: 4.
 
 	"we select 2 in the first pane"
@@ -97,8 +97,8 @@ GLMTreeMorphicTest >> testUpdateFromModel [
 	| browser  treeMorphOne1 treeMorphTwo1 treeMorphOne2 treeMorphTwo2 |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
-	browser transmit to: #one; showing: [:a | a list display: [:x | (x - 3 to: x) ]].
-	browser transmit to: #two; from: #one; showing: [:a |
+	browser send to: #one; andShow: [:a | a list display: [:x | (x - 3 to: x) ]].
+	browser send to: #two; from: #one; andShow: [:a |
 		a list display: [:x | x * 10 to: (x * 10 + 2)]].
 	window := browser openOn: 4.
 
