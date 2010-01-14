@@ -83,6 +83,28 @@ GLMCompositePresentationMorphicTest >> testTabs [
 		a text ].
 	window := browser openOn: 42.
 	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph class == LazyTabGroupMorph.
-	self assert: compositeMorph lazyPages size = 2.
+	self assert: compositeMorph class = GroupboxMorph.
+	self assert: compositeMorph submorphs size = 1.
+	self assert: compositeMorph submorphs first class = PanelMorph.
+	self assert: compositeMorph submorphs first submorphs first class = LazyTabGroupMorph.
+	self assert: compositeMorph submorphs first submorphs first lazyPages size = 2.
+]
+
+{ #category : #testing }
+GLMCompositePresentationMorphicTest >> testTabsWithTitle [
+	| browser compositeMorph |
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit to: #one; showing: [ :a | 
+		a title: 'title'.
+		a list.
+		a text ].
+	window := browser openOn: 42.
+	compositeMorph := window submorphs last submorphs last submorphs last.
+	self assert: compositeMorph class = GroupboxMorph.
+	self assert: compositeMorph submorphs size = 2.
+	self assert: compositeMorph submorphs first class = PanelMorph.
+	self assert: compositeMorph submorphs first submorphs size = 1.
+	self assert: compositeMorph submorphs first submorphs first class = LazyTabGroupMorph.
+	self assert: compositeMorph submorphs first submorphs first lazyPages size = 2.
 ]
