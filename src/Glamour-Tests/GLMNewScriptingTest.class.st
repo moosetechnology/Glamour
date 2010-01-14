@@ -33,7 +33,7 @@ GLMNewScriptingTest >> testBundleTransmission [
 	transmission := browser transmissions first.
 	self assert: browser transmissions size = 1.
 	self assert: transmission browser == browser.
-	self assert: (transmission transmissionStrategy isKindOf: GLMTransmissionBundleStrategy). 
+	self assert: (transmission transmissionStrategy isKindOf: GLMBundleTransmissionStrategy). 
 	self assert: transmission origins size = 2.
 	self assert: transmission origins first = ((browser paneNamed: #one) port: #port1). 
 	self assert: transmission origins last = ((browser paneNamed: #two) port: #port2). 
