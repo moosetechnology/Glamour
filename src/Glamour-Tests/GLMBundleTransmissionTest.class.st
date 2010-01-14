@@ -97,10 +97,10 @@ GLMBundleTransmissionTest >> testPresentations [
 	transmission addPresentation: presentation1. 
 	transmission addPresentation: presentation2. 
 	transmission addPresentation: presentation3.	"Test correct setup" 
-	self assert: transmission presentations size = 3. 
-	self assert: (transmission presentations at: 1) == presentation1. 
-	self assert: (transmission presentations at: 2) == presentation2. 
-	self assert: (transmission presentations at: 3) == presentation3
+	self assert: transmission strategyBeforeValue presentations size = 3. 
+	self assert: (transmission strategyBeforeValue presentations at: 1) == presentation1. 
+	self assert: (transmission strategyBeforeValue presentations at: 2) == presentation2. 
+	self assert: (transmission strategyBeforeValue presentations at: 3) == presentation3
 ]
 
 { #category : #tests }

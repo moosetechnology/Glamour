@@ -7,7 +7,7 @@ Class {
 { #category : #tests }
 GLMExplicitBrowserTest >> testAddTransmissionReturn [
 	| transmission |
-	transmission := GLMSimpleTransmission new.
+	transmission := GLMTransmission new.
 	self assert: (GLMExplicitBrowser new addTransmission: transmission) == transmission
 ]
 
@@ -51,13 +51,13 @@ GLMExplicitBrowserTest >> testPresentationBoundPort [
 	browser 
 		addTransmission: 
 			(transmission1 := (GLMMockSimpleTransmission new) 
-				origin: outerPort1; 
+				addActiveOrigin: outerPort1; 
 				destination: (browser panes first port: #innerPort1); 
 				yourself).	"Publishing" 
 	browser 
 		addTransmission: 
 			((transmission2 := GLMMockSimpleTransmission new) 
-				origin: (browser panes first port: #innerPort2); 
+				addActiveOrigin: (browser panes first port: #innerPort2); 
 				destination: outerPort2; 
 				yourself). 
 	(browser pane port: #outerPort1) value: 42. 
@@ -116,8 +116,8 @@ GLMExplicitBrowserTest >> testSetup [
 	
 	pane1 := browser addNewPane. 
 	pane2 := browser addNewPane. 
-	transmission := (GLMSimpleTransmission new) 
-		origin: (pane1 port: #selection); 
+	transmission := (GLMTransmission new) 
+		addActiveOrigin: (pane1 port: #selection); 
 		destination: (pane2 port: #entity); 
 		yourself.  
 	browser addTransmission: transmission. 
@@ -142,7 +142,7 @@ GLMExplicitBrowserTest >> testSimpleTransmission [
 	pane1 addPresentation: presentation1. 
 	pane2 addPresentation: presentation2. 
 	transmission := (GLMMockSimpleTransmission new) 
-		origin: (pane1 port: #selection); 
+		addActiveOrigin: (pane1 port: #selection); 
 		destination: (pane2 port: #entity); 
 		yourself. 
 	browser addTransmission: transmission. 
@@ -215,8 +215,8 @@ GLMExplicitBrowserTest >> testTriggeringConditions [
 	browser pane: GLMTestPane new. 
 	pane1 := GLMTestPane new. 
 	pane2 := GLMTestPane new. 
-	transmission := (GLMSimpleTransmission new) 
-		origin: (pane1 port: #selection); 
+	transmission := (GLMTransmission new) 
+		addActiveOrigin: (pane1 port: #selection); 
 		destination: (pane2 port: #entity); 
 		yourself. 
 	browser addPane: pane1. 

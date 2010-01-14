@@ -30,14 +30,14 @@ GLMNestedBrowserTest >> testChangeInnerSelection [
 	browser2 panes first addPresentation: list2. 
 	browser1 
 		addTransmission: 
-			((GLMSimpleTransmission new) 
-				origin: (browser1 panes first port: #selection); 
+			((GLMTransmission new) 
+				addActiveOrigin: (browser1 panes first port: #selection); 
 				destination: (browser1 panes last port: #innerSelection); 
 				yourself). 
 	browser2 
 		addTransmission: 
-			((GLMSimpleTransmission new) 
-				origin: 
+			((GLMTransmission new) 
+				addActiveOrigin: 
 						((GLMPresentationBoundPort new) 
 								presentation: browser2; 
 								name: #innerSelection; 
@@ -61,22 +61,20 @@ GLMNestedBrowserTest >> testEntityPropogation [
 	browser1 := GLMExplicitBrowser new. 
 	browser2 := GLMExplicitBrowser new. 
 	presentation := GLMPresentation new. 
+	browser1 title: 'browser1'. 
+	browser2 title: 'browser2'. 
 	browser1 addNewPane name: 'pane1'. 
 	browser2 addNewPane name: 'innerpane 1'.	"Jumpstart presentation for outer browser." 
-	browser1 addTransmission: 
-			((GLMBundleTransmission new) 
-				addActiveOrigin: 
-						((GLMPresentationBoundPort new) 
+	browser1 addTransmission: (GLMBundleTransmission new
+				addActiveOrigin: (GLMPresentationBoundPort new 
 								presentation: browser1; 
 								name: #entity; 
 								yourself); 
 				destination: (browser1 panes first port: #entity); 
 				addPresentation: browser2; 
 				yourself).	"Jumpstart presentation for inner browser." 
-	browser2 addTransmission: 
-			((GLMBundleTransmission new) 
-				addActiveOrigin: 
-						((GLMPresentationBoundPort new) 
+	browser2 addTransmission: (GLMBundleTransmission new
+				addActiveOrigin: (GLMPresentationBoundPort new
 								presentation: browser2; 
 								name: #entity; 
 								yourself); 
@@ -92,15 +90,15 @@ GLMNestedBrowserTest >> testEntityPropogation [
 	self assert: browser2 panes first presentations isEmpty. 
 	(browser1 pane port: #entity) value: 42. 
 	self assert: (browser1 pane port: #entity) value = 42. 
-	self assert: browser1 panes size = 1. 
-	self assert: (browser1 panes first port: #entity) value = 42. 
+	self assert: browser1 panes size = 1.
+	self assert: (browser1 panes first port: #entity) value = 42.
 	self assert: browser1 panes first presentations size = 1. 
 	innerBrowser := browser1 panes first presentations first.
 	self assert: innerBrowser = browser2. 
 	self assert: innerBrowser pane == browser1 panes first.
 	self assert: innerBrowser panes size = 1.
-	self assert: (innerBrowser panes first port: #entity) value = 42. 
-	self assert: innerBrowser panes first presentations size = 1. 
+	self assert: (innerBrowser panes first port: #entity) value = 42.
+	self assert: innerBrowser panes first presentations size = 1.
 	self assert: innerBrowser panes first presentations first = presentation
 ]
 

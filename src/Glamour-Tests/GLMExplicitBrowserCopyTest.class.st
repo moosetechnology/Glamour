@@ -15,8 +15,8 @@ GLMExplicitBrowserCopyTest >> setUp [
 	
 	pane1 := browser addNewPane name: 'pane1'. 
 	pane2 := browser addNewPane name: 'pane2'. 
-	transmission1 := GLMSimpleTransmission new
-		origin: (pane2 port: #selection); 
+	transmission1 := GLMTransmission new
+		addActiveOrigin: (pane2 port: #selection); 
 		destination: (GLMPresentationBoundPort new name: #selection; presentation: browser; yourself); 
 		yourself.  
 	browser addTransmission: transmission1. 
@@ -61,6 +61,6 @@ GLMExplicitBrowserCopyTest >> testTrasmissions [
 	self assert: (copiedBrowser transmissions first destination pane browser isKindOf: GLMNoBrowser).
 	self assert: copiedBrowser transmissions last destination pane browser == copiedBrowser.
 	
-	self assert: (copiedBrowser transmissions first origin pane browser == copiedBrowser).
+	self assert: (copiedBrowser transmissions first origins first pane browser == copiedBrowser).
 	self assert: copiedBrowser transmissions last origins first pane browser == copiedBrowser
 ]

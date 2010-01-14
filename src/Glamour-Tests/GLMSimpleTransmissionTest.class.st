@@ -7,24 +7,23 @@ Class {
 { #category : #tests }
 GLMSimpleTransmissionTest >> testCopy [
 	| transmission port1 port2 newTransmission |
-	transmission := GLMSimpleTransmission new.
+	transmission := GLMTransmission new.
 	port1 := GLMSimplePort new.
 	port2 := GLMSimplePort new.
 	transmission destination: port2.
-	transmission origin: port1.
+	transmission addActiveOrigin: port1.
 	newTransmission := transmission copy.
 	self assert: newTransmission destination == transmission destination.
-	self assert: newTransmission origin == transmission origin.
+	self assert: newTransmission origins first == transmission origins first.
 ]
 
 { #category : #tests }
 GLMSimpleTransmissionTest >> testSimple [ 
-	 
 	| pane1 pane2 transmission | 
 	pane1 := GLMPane named: 'test1'. 
 	pane2 := GLMPane named: 'test2'. 
-	transmission := (GLMSimpleTransmission new) 
-		origin: (pane1 port: #output); 
+	transmission := (GLMTransmission new) 
+		addActiveOrigin: (pane1 port: #output); 
 		destination: (pane2 port: #input); 
 		yourself. 
 	(pane1 port: #output) value: 42. 
@@ -36,14 +35,19 @@ GLMSimpleTransmissionTest >> testSimple [
 ]
 
 { #category : #tests }
+GLMSimpleTransmissionTest >> testSimpleStrategy [
+	self assert: GLMTransmission new strategyBeforeValue class = GLMTransmissionPreValueStrategy
+]
+
+{ #category : #tests }
 GLMSimpleTransmissionTest >> testTriggerConditions [ 
 	"Tests that the transmission is triggered only when the origin changes." 
 	
 	| transmission port1 port2 | 
-	transmission := GLMSimpleTransmission new. 
+	transmission := GLMTransmission new. 
 	port1 := GLMPort new name: #port1. 
 	port2 := GLMPort new name: #port2. 
-	transmission origin: port1. 
+	transmission addActiveOrigin: port1. 
 	transmission destination: port2. 
 	self assert: (transmission originatesAt: port1). 
 	self assert: (transmission originatesAt: port2) not. 
@@ -54,10 +58,10 @@ GLMSimpleTransmissionTest >> testTriggerConditions [
 GLMSimpleTransmissionTest >> testTriggerConditionsWithParentPort [ 
 	 
 	| transmission presentation | 
-	transmission := GLMSimpleTransmission new. 
+	transmission := GLMTransmission new. 
 	presentation := GLMPresentation new. 
 	transmission 
-		origin: 
+		addActiveOrigin: 
 			((GLMPresentationBoundPort new) 
 				presentation: presentation; 
 				name: #port1; 

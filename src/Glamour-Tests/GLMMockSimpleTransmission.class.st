@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMMockSimpleTransmission,
-	#superclass : #GLMSimpleTransmission,
+	#superclass : #AnObsoleteGLMSimpleTransmission,
 	#instVars : [
 		'wasTransmited'
 	],
@@ -15,7 +15,7 @@ GLMMockSimpleTransmission class >> new [
 
 { #category : #testing }
 GLMMockSimpleTransmission >> initialize [
-
+	super initialize.
 	wasTransmited := false
 ]
 
