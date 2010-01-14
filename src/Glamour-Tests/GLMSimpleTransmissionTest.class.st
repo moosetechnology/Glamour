@@ -36,7 +36,7 @@ GLMSimpleTransmissionTest >> testSimple [
 
 { #category : #tests }
 GLMSimpleTransmissionTest >> testSimpleStrategy [
-	self assert: GLMTransmission new strategyBeforeValue class = GLMTransmissionPreValueStrategy
+	self assert: GLMTransmission new transmissionStrategy class = GLMTransmissionPreValueStrategy
 ]
 
 { #category : #tests }

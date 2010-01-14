@@ -20,7 +20,8 @@ GLMExplicitBrowserTest >> testJumpstartTransmission [
 	browser addNewPane. 
 	browser 
 		addTransmission: 
-			((GLMBundleTransmission new)
+			(GLMTransmission new
+				ensureBundleStrategy;
 				addActiveOrigin: (browser pane port: #entity); 
 				destination: (browser panes first port: #entity); 
 				addPresentation: presentation; 
@@ -175,7 +176,8 @@ GLMExplicitBrowserTest >> testTransmissionBundle [
 	pane1 addPresentation: GLMPresentation new. 
 	pane2 addPresentation: GLMPresentation new. 
 	pane3 addPresentation: presentation1. 
-	transmission := (GLMBundleTransmission new) 
+	transmission := GLMTransmission new
+		ensureBundleStrategy;
 		addActiveOrigin: (pane1 port: #selection); 
 		addPassiveOrigin: (pane2 port: #selection); 
 		destination: (pane3 port: #entity); 

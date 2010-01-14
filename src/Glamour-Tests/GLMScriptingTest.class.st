@@ -137,8 +137,8 @@ GLMScriptingTest >> testFinderWithPreviousPort [
 	self assert: browser presentations first title = 'Presentation1'. 
 	self assert: browser transmissions size = 1. 
 	self assert: browser transmissions last origins size = 2. 
-	self assert: browser transmissions last strategyBeforeValue presentations size = 1. 
-	self assert: browser transmissions last strategyBeforeValue presentations first title = 'Presentation2'. 
+	self assert: browser transmissions last transmissionStrategy presentations size = 1. 
+	self assert: browser transmissions last transmissionStrategy presentations first title = 'Presentation2'. 
 	self assert: (browser panes first port: #entity) value = 42. 
 	(browser panes first port: #highlight) value: 43. 
 	(browser panes first port: #selection) value: 41. 
@@ -348,7 +348,6 @@ GLMScriptingTest >> testScriptingDefaults [
 
 { #category : #tests }
 GLMScriptingTest >> testSimpleTransmission [ 
-	 
 	| browser | 
 	browser := GLMTabulator new. 
 	browser 
@@ -358,7 +357,7 @@ GLMScriptingTest >> testSimpleTransmission [
 		sendTo: #two -> #port2 
 		from: #one -> #port1. 
 	self assert: browser transmissions size = 1. 
-	self assert: (browser transmissions first strategyBeforeValue isKindOf: GLMTransmissionPreValueStrategy). 
+	self assert: (browser transmissions first transmissionStrategy isKindOf: GLMTransmissionPreValueStrategy). 
 	self assert: 
 			browser transmissions first origins first
 				= ((browser paneNamed: #one) port: #port1). 

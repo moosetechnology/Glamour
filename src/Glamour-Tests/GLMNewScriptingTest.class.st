@@ -33,13 +33,13 @@ GLMNewScriptingTest >> testBundleTransmission [
 	transmission := browser transmissions first.
 	self assert: browser transmissions size = 1.
 	self assert: transmission browser == browser.
-	self assert: (transmission isKindOf: GLMBundleTransmission). 
+	self assert: (transmission transmissionStrategy isKindOf: GLMTransmissionBundleStrategy). 
 	self assert: transmission origins size = 2.
 	self assert: transmission origins first = ((browser paneNamed: #one) port: #port1). 
 	self assert: transmission origins last = ((browser paneNamed: #two) port: #port2). 
 	self assert: transmission destination = ((browser paneNamed: #three) port: #port3).
-	self assert: (transmission presentations isKindOf: GLMCompositePresentation).
-	self assert: transmission strategyBeforeValue presentations size = 2
+	self assert: (transmission transmissionStrategy presentations isKindOf: GLMCompositePresentation).
+	self assert: transmission transmissionStrategy presentations size = 2
 ]
 
 { #category : #'as yet unclassified' }
@@ -114,7 +114,7 @@ GLMNewScriptingTest >> testSimpleTransmission [
 	browser send from: #one -> #port1; to: #two -> #port2.
 	self assert: browser transmissions size = 1.
 	self assert: browser transmissions first browser == browser.
-	self assert: (browser transmissions first strategyBeforeValue isKindOf: GLMTransmissionPreValueStrategy). 
+	self assert: (browser transmissions first transmissionStrategy isKindOf: GLMTransmissionPreValueStrategy). 
 	self assert: browser transmissions first origins first = ((browser paneNamed: #one) port: #port1). 
 	self assert: browser transmissions first destination = ((browser paneNamed: #two) port: #port2).
 

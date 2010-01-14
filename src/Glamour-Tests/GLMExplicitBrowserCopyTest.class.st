@@ -20,7 +20,8 @@ GLMExplicitBrowserCopyTest >> setUp [
 		destination: (GLMPresentationBoundPort new name: #selection; presentation: browser; yourself); 
 		yourself.  
 	browser addTransmission: transmission1. 
-	transmission2 := GLMBundleTransmission new
+	transmission2 := GLMTransmission new 
+		ensureBundleStrategy;
 		addActiveOrigin: (pane1 port: #selection); 
 		destination: (pane2 port: #entity); 
 		addPresentation: (GLMPresentation new title: 'presentation1');

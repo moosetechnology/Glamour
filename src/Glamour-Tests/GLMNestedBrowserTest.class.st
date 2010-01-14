@@ -57,7 +57,7 @@ GLMNestedBrowserTest >> testEntityPropogation [
 	"This tests that the nested transmissions have the destination correctly set 
 	to be in the pane from the outer browser." 
 	 
-	| browser1 browser2 presentation innerBrowser | 
+	| browser1 browser2 presentation innerBrowser transmission1 transmission2 | 
 	browser1 := GLMExplicitBrowser new. 
 	browser2 := GLMExplicitBrowser new. 
 	presentation := GLMPresentation new. 
@@ -65,21 +65,23 @@ GLMNestedBrowserTest >> testEntityPropogation [
 	browser2 title: 'browser2'. 
 	browser1 addNewPane name: 'pane1'. 
 	browser2 addNewPane name: 'innerpane 1'.	"Jumpstart presentation for outer browser." 
-	browser1 addTransmission: (GLMBundleTransmission new
+	transmission1 := GLMTransmission new ensureBundleStrategy.
+	transmission1 transmissionStrategy addPresentation: browser2. 
+	browser1 addTransmission: (transmission1
 				addActiveOrigin: (GLMPresentationBoundPort new 
 								presentation: browser1; 
 								name: #entity; 
 								yourself); 
 				destination: (browser1 panes first port: #entity); 
-				addPresentation: browser2; 
 				yourself).	"Jumpstart presentation for inner browser." 
-	browser2 addTransmission: (GLMBundleTransmission new
+	transmission2 := GLMTransmission new ensureBundleStrategy.
+	transmission2 transmissionStrategy addPresentation: presentation. 
+	browser2 addTransmission: (transmission2
 				addActiveOrigin: (GLMPresentationBoundPort new
 								presentation: browser2; 
 								name: #entity; 
 								yourself); 
 				destination: (browser2 panes first port: #entity); 
-				addPresentation: presentation; 
 				yourself). 
 	self assert: (browser1 pane port: #entity) value isNil. 
 	self assert: browser1 panes size = 1. 
@@ -136,7 +138,8 @@ GLMNestedBrowserTest >> testEntityPropogationAnnouncements [
 	browser2 panes first whenMatchingPresentationsChanged: [:ann | announcements addLast: ann].	"Jumpstart presentation for outer browser." 
 	browser1 
 		addTransmission: 
-			((GLMBundleTransmission new) 
+			(GLMTransmission new
+				ensureBundleStrategy;
 				addActiveOrigin: 
 						((GLMPresentationBoundPort new) 
 								presentation: browser1; 
@@ -147,7 +150,8 @@ GLMNestedBrowserTest >> testEntityPropogationAnnouncements [
 				yourself).	"Jumpstart presentation for inner browser." 
 	browser2 
 		addTransmission: 
-			((GLMBundleTransmission new) 
+			(GLMTransmission new
+				ensureBundleStrategy;
 				addActiveOrigin: 
 						((GLMPresentationBoundPort new) 
 								presentation: browser2; 
@@ -214,7 +218,8 @@ GLMNestedBrowserTest >> testInnerTransmissions [
 	browser1 addNewPane name: 'pane1'. 
 	browser2 addNewPane name: 'innerpane 1'.	"Jumpstart presentation for outer browser." 
 	browser1 addTransmission: 
-			((GLMBundleTransmission new) 
+			(GLMTransmission new
+				ensureBundleStrategy;
 				addActiveOrigin: 
 						((GLMPresentationBoundPort new) 
 								presentation: browser1; 
@@ -224,7 +229,8 @@ GLMNestedBrowserTest >> testInnerTransmissions [
 				addPresentation: browser2; 
 				yourself).	"Jumpstart presentation for inner browser." 
 	browser2 addTransmission: 
-			((GLMBundleTransmission new) 
+			(GLMTransmission new
+				ensureBundleStrategy;
 				addActiveOrigin: 
 						((GLMPresentationBoundPort new) 
 								presentation: browser2; 
