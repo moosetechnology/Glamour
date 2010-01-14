@@ -86,14 +86,15 @@ GLMExplicitBrowser >> showOn: aDestinationPane [
 	"send this message when at the beginning of specifying a Transmission" 
 	 
 	self addTransmission: (
-		GLMBundleTransmission new
+		GLMTransmission new
+			ensureBundleStrategy;
 			destination: (self resolveDestinationPort: aDestinationPane); 
 			yourself)
 ]
 
 { #category : #'*Glamour-Scripting' }
 GLMExplicitBrowser >> transmit [
-	^ self addTransmission: (GLMBundleTransmission new browser: self; yourself)
+	^ self addTransmission: (GLMTransmission new ensureBundleStrategy; browser: self; yourself)
 ]
 
 { #category : #'*Glamour-Scripting' }

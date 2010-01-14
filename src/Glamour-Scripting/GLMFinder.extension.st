@@ -37,7 +37,7 @@ GLMFinder >> passivelyFromPrevious: aPortSymbol [
 GLMFinder >> scriptTransmission [ 
 	 
 	^scriptTransmission 
-		ifNil: [scriptTransmission := GLMBundleTransmission new]
+		ifNil: [scriptTransmission := GLMTransmission new ensureBundleStrategy]
 ]
 
 { #category : #'*Glamour-Scripting' }
