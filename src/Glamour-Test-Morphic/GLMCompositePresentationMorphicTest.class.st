@@ -9,7 +9,7 @@ GLMCompositePresentationMorphicTest >> testAccordion [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser send to: #one; andShow: [ :a | 
+	browser transmit to: #one; andShow: [ :a | 
 		a accordionArrangement.
 		a list title: 'List'.
 		a text title: 'Text'].
@@ -27,7 +27,7 @@ GLMCompositePresentationMorphicTest >> testAccordionExpanded [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser send to: #one; andShow: [ :a | 
+	browser transmit to: #one; andShow: [ :a | 
 		a accordionArrangement.
 		a list title: 'List'.
 		a text title: 'Text'].
@@ -42,7 +42,7 @@ GLMCompositePresentationMorphicTest >> testAccordionWithTitle [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser send to: #one; andShow: [ :a | 
+	browser transmit to: #one; andShow: [ :a | 
 		a accordionArrangement.
 		a title: 'title'.
 		a list.
@@ -62,7 +62,7 @@ GLMCompositePresentationMorphicTest >> testOneStackedVerticallyWithTitle [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser send to: #one; andShow: [ :a | 
+	browser transmit to: #one; andShow: [ :a | 
 		a stackedVerticallyArrangement.
 		a title: 'title'.
 		a list ].
@@ -83,7 +83,7 @@ GLMCompositePresentationMorphicTest >> testStackedVertically [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser send to: #one; andShow: [ :a | 
+	browser transmit to: #one; andShow: [ :a | 
 		a stackedVerticallyArrangement.
 		a list title: 'list'.
 		a text title: 'text'].
@@ -100,7 +100,7 @@ GLMCompositePresentationMorphicTest >> testStackedVerticallyWithTitle [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser send to: #one; andShow: [ :a | 
+	browser transmit to: #one; andShow: [ :a | 
 		a stackedVerticallyArrangement.
 		a title: 'title'.
 		a list title: 'list'.
@@ -122,7 +122,7 @@ GLMCompositePresentationMorphicTest >> testTabs [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser send to: #one; andShow: [ :a | 
+	browser transmit to: #one; andShow: [ :a | 
 		a list.
 		a text ].
 	window := browser openOn: 42.
@@ -136,7 +136,7 @@ GLMCompositePresentationMorphicTest >> testTabsWithTitle [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser send to: #one; andShow: [ :a | 
+	browser transmit to: #one; andShow: [ :a | 
 		a title: 'title'.
 		a list.
 		a text ].
