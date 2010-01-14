@@ -1,6 +1,13 @@
 Extension { #name : #GLMTransmission }
 
 { #category : #'*Glamour-Scripting' }
+GLMTransmission >> andShow: aBlock [
+	self ensureBundleStrategy.
+	self origins isEmpty ifTrue: [self from: #outer->#entity].
+	aBlock value: self transmissionStrategy presentations
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMTransmission >> ensureBundleStrategy [
 	self transmissionStrategy class = GLMBundleTransmissionStrategy ifFalse: [
 		self transmissionStrategy: (GLMBundleTransmissionStrategy of: self) ]
@@ -14,13 +21,6 @@ GLMTransmission >> from: aPort [
 { #category : #'*Glamour-Scripting' }
 GLMTransmission >> from: aPort transformed: aBlock [
 	(self addActiveOrigin: (self browser resolveOriginPort: aPort)) transformation: aBlock
-]
-
-{ #category : #'*Glamour-Scripting' }
-GLMTransmission >> showing: aBlock [
-	self ensureBundleStrategy.
-	self origins isEmpty ifTrue: [self from: #outer->#entity].
-	aBlock value: self transmissionStrategy presentations
 ]
 
 { #category : #'*Glamour-Scripting' }
