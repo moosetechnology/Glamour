@@ -309,7 +309,7 @@ GLMPresentation >> strongSelection: anObject [
 
 { #category : #accessing }
 GLMPresentation >> title [
-	^ title ifNil: [title := #glamourString]
+	^ title
 ]
 
 { #category : #accessing }
@@ -337,13 +337,7 @@ GLMPresentation >> titleIconValue [
 
 { #category : #'accessing values' }
 GLMPresentation >> titleValue [
-	| value |
-	^ title isNil
-		ifTrue: [
-			value := self entity glamourString.
-			value size > 16 ifTrue: [ value := (value copyFrom: 1 to: 12), ' ...' ].	
-			value ]
-		ifFalse: [ self title glamourValue: self entity ]
+	^ self title glamourValue: self entity
 ]
 
 { #category : #accessing }
