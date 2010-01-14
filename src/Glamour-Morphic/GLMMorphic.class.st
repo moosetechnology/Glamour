@@ -37,6 +37,21 @@ GLMMorphic class >> emptyMorph [
 ]
 
 { #category : #'as yet unclassified' }
+GLMMorphic class >> emptyMorphShowing: aBoolean asTitle: aTitle [
+	^ aBoolean 
+		ifTrue: [
+			GroupboxMorph new
+				label: aTitle;
+				layoutPolicy: ProportionalLayout new;
+				color: Color transparent;
+				hResizing: #spaceFill;
+				vResizing: #spaceFill;
+				borderWidth: 0;
+				yourself]
+		ifFalse: [ self emptyMorph ]
+]
+
+{ #category : #'as yet unclassified' }
 GLMMorphic class >> isAlignmentMorph: anObject [
 
 	^anObject isMemberOf: AlignmentMorph

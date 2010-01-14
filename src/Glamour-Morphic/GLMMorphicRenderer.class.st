@@ -78,24 +78,21 @@ GLMMorphicRenderer >> renderAccordionCompositePresentation: aCompositePresentati
 	container
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
-		fillStyle: Color transparent; "non pane color tracking"
+		fillStyle: Color transparent;
 		changeTableLayout;
 		cellInset: 2.
 	presentations do: [ :each | 
-		title := each hasTitleIcon ifTrue: [
-			self theme 
-					newImageIn: container
-					form: each titleIconValue ]
-			ifFalse: [ each titleValue ].
 		expander := ExpanderMorph new
 			font: self theme menuFont;
-			titleText: title;
-			fillStyle: Color transparent "non pane color tracking".
+			titleText: (self titleOrIconOf: each in: container);
+			fillStyle: Color transparent.
 		expander addMorphBack: (self render: each).
 		container addMorphBack: expander.
 		(aCompositePresentation pane lastActivePresentation notNil and: [
-			each title = aCompositePresentation pane lastActivePresentation title ]) ifTrue: [expander expanded: true]].
-	(aCompositePresentation pane lastActivePresentation isNil and: [container submorphs notEmpty]) ifTrue: [container submorphs first expanded: true].
+			each title = aCompositePresentation pane lastActivePresentation title ]) ifTrue: [
+				expander expanded: true]].
+	(aCompositePresentation pane lastActivePresentation isNil and: [container submorphs notEmpty]) ifTrue: [
+		container submorphs first expanded: true].
 	^ container
 ]
 
@@ -301,32 +298,19 @@ GLMMorphicRenderer >> renderPane: aPane [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderStackedVerticallyCompositePresentation: aCompositePresentation [
-	| presentations container expander title index |
+	| presentations container item title index |
 	presentations := aCompositePresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
 	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
-	container := PanelMorph new.
-	container
-		vResizing: #spaceFill;
-		hResizing: #spaceFill;
-		fillStyle: Color transparent; "non pane color tracking"
-		changeTableLayout;
-		cellInset: 2.
-	presentations do: [ :each | 
-		title := each hasTitleIcon ifTrue: [
-			self theme 
-					newImageIn: container
-					form: each titleIconValue ]
-			ifFalse: [ each titleValue ].
-		expander := GroupboxMorph new
-"			font: self labelFont;"
-	"		cornerStyle: aThemedMorph preferredCornerStyle;
-	"		hResizing: #spaceFill;
-			vResizing: #spaceFill;
-			label: title;
-			yourself.
-		expander addContentMorph: (self render: each).
-		container addMorphBack: expander ].
+	container := self theme 
+		newGroupboxIn: GLMMorphic emptyMorph 
+		label: (self titleOrIconOrNilOf: aCompositePresentation in: container).
+	presentations do: [ :each |
+		item := self theme 
+			newGroupboxIn: GLMMorphic emptyMorph 
+			label: (self titleOrIconOf: each in: container).
+		item addContentMorph: (self render: each).
+		container addContentMorph: item ].
 	^ container
 ]
 
@@ -345,14 +329,9 @@ GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation 
 		onPageIndexChange: [ :i | 
 			aCompositePresentation pane lastActivePresentation: (aCompositePresentation matchingPresentations at: i) ].
 	presentations do: [ :each | 
-		title := each hasTitleIcon ifTrue: [
-			self theme 
-					newImageIn: tabs
-					form: each titleIconValue ]
-			ifFalse: [ each titleValue ].
 		tabs 
 			addLazyPage: [ self render: each ]
-			label: title ].
+			label: (self titleOrIconOf: each in: tabs) ].
 	index := 1.
 	presentations withIndexDo: [ :each :i | 
 		aCompositePresentation pane lastActivePresentation notNil and: [ 
@@ -504,6 +483,29 @@ GLMMorphicRenderer >> textInputFor: treeModel [
 { #category : #factory }
 GLMMorphicRenderer >> theme [
 	^ UITheme current
+]
+
+{ #category : #private }
+GLMMorphicRenderer >> titleOrIconOf: aPresentation in: container [
+	^ aPresentation hasTitleIcon 
+		ifTrue: [
+			self theme 
+					newImageIn: container
+					form: aPresentation titleIconValue ]
+		ifFalse: [ aPresentation titleValue ].
+]
+
+{ #category : #private }
+GLMMorphicRenderer >> titleOrIconOrNilOf: aPresentation in: container [
+	^ aPresentation hasTitleIcon 
+		ifTrue: [
+			self theme 
+					newImageIn: container
+					form: aPresentation titleIconValue ]
+		ifFalse: [ 
+			aPresentation hasTitle 
+				ifTrue: [ aPresentation titleValue ]
+				ifFalse: [ nil ] ]
 ]
 
 { #category : #private }
