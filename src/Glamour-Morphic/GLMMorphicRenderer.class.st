@@ -74,25 +74,21 @@ GLMMorphicRenderer >> renderAccordionCompositePresentation: aCompositePresentati
 	presentations := aCompositePresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
 	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
-	container := PanelMorph new.
-	container
-		vResizing: #spaceFill;
-		hResizing: #spaceFill;
-		fillStyle: Color transparent;
-		changeTableLayout;
-		cellInset: 2.
+	container := self theme 
+		newGroupboxIn: GLMMorphic emptyMorph 
+		label: (self titleOrIconOrNilOf: aCompositePresentation in: container).
 	presentations do: [ :each | 
 		expander := ExpanderMorph new
 			font: self theme menuFont;
 			titleText: (self titleOrIconOf: each in: container);
 			fillStyle: Color transparent.
 		expander addMorphBack: (self render: each).
-		container addMorphBack: expander.
+		container addContentMorph: expander.
 		(aCompositePresentation pane lastActivePresentation notNil and: [
 			each title = aCompositePresentation pane lastActivePresentation title ]) ifTrue: [
 				expander expanded: true]].
-	(aCompositePresentation pane lastActivePresentation isNil and: [container submorphs notEmpty]) ifTrue: [
-		container submorphs first expanded: true].
+	(aCompositePresentation pane lastActivePresentation isNil and: [container contentMorph submorphs notEmpty]) ifTrue: [
+		container contentMorph submorphs first expanded: true].
 	^ container
 ]
 
