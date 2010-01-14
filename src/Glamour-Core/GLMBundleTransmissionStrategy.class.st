@@ -1,5 +1,5 @@
 Class {
-	#name : #GLMTransmissionBundleStrategy,
+	#name : #GLMBundleTransmissionStrategy,
 	#superclass : #GLMTransmissionPreValueStrategy,
 	#instVars : [
 		'presentations'
@@ -8,32 +8,32 @@ Class {
 }
 
 { #category : #'accessing-convenience' }
-GLMTransmissionBundleStrategy >> addPresentation: aPresentation [
+GLMBundleTransmissionStrategy >> addPresentation: aPresentation [
 	self presentations add: aPresentation
 ]
 
 { #category : #'accessing-convenience' }
-GLMTransmissionBundleStrategy >> addPresentations: aCollection [
+GLMBundleTransmissionStrategy >> addPresentations: aCollection [
 	aCollection do: [:each | self addPresentation: each ]
 ]
 
 { #category : #'initialize-release' }
-GLMTransmissionBundleStrategy >> initialize [
+GLMBundleTransmissionStrategy >> initialize [
 	presentations := GLMCompositePresentation new
 ]
 
 { #category : #accessing }
-GLMTransmissionBundleStrategy >> presentations [
+GLMBundleTransmissionStrategy >> presentations [
 	^ presentations
 ]
 
 { #category : #accessing }
-GLMTransmissionBundleStrategy >> presentations: anObject [
+GLMBundleTransmissionStrategy >> presentations: anObject [
 	presentations := anObject
 ]
 
 { #category : #transmitting }
-GLMTransmissionBundleStrategy >> transmitIn: aContext [
+GLMBundleTransmissionStrategy >> transmitIn: aContext [
 	"it is important for the destination to be set after the presentation, 
 	because when the presentation is a browser, we might forward the entity internally"
 	self transmission destination hasPane ifTrue: [
