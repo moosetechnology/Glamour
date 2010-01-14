@@ -143,6 +143,7 @@ GLMScriptingTest >> testFinderWithPreviousPort [
 	(browser panes first port: #highlight) value: 43. 
 	(browser panes first port: #selection) value: 41. 
 	self assert: browser panes size = 2. 
+	self assert: browser panes last presentations size = 2.
 	self assert: browser panes last presentations last displayValue size = 84. 
 	self assert: browser panes last presentations size = 2
 ]
