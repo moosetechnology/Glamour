@@ -11,14 +11,39 @@ Class {
 	#instVars : [
 		'context',
 		'destination',
-		'browser'
+		'browser',
+		'origins',
+		'strategyBeforeValue',
+		'transformation'
 	],
 	#category : #'Glamour-Core'
 }
 
 { #category : #accessing }
-GLMTransmission >> addActiveOrigin: aPort [
-	self subclassResponsibility 
+GLMTransmission >> activeOrigins [ 
+	 
+	^(self originReferences select: [:each | each isActive]) 
+		collect: [:each | each port]
+]
+
+{ #category : #accessing }
+GLMTransmission >> addActiveOrigin: aPort [ 
+	^ self originReferences 
+		add: 
+			((GLMOriginPortReference new) 
+				port: aPort; 
+				beActive; 
+				yourself)
+]
+
+{ #category : #accessing }
+GLMTransmission >> addPassiveOrigin: aPort [
+	^ self originReferences 
+		add: 
+			((GLMOriginPortReference new) 
+				port: aPort; 
+				bePassive; 
+				yourself)
 ]
 
 { #category : #accessing }
@@ -41,9 +66,15 @@ GLMTransmission >> changePortsAccordingToPaneMapping: newPanesMapping [
 
 { #category : #copying }
 GLMTransmission >> changePortsAccordingToPaneMapping: newPanesMapping fromOldBrowser: aBrowser toNewBrowser: anotherBrowser [
+	| newOrigins newPort |
+"	super changePortsAccordingToPaneMapping: newPanesMapping fromOldBrowser: aBrowser toNewBrowser: anotherBrowser.
+"
 	"newPanesMapping is a dictionary with 
 	keys given by old panes and values by new panes"
-	self destination: (self destination copyAccordingToPaneMapping: newPanesMapping inNewBrowser: anotherBrowser)
+	self destination: (self destination copyAccordingToPaneMapping: newPanesMapping inNewBrowser: anotherBrowser).
+	self originReferences do: [:each | 
+		newPort := each port copyAccordingToPaneMapping: newPanesMapping inNewBrowser: anotherBrowser.
+		each port: newPort ]
 ]
 
 { #category : #transmitting }
@@ -69,10 +100,73 @@ GLMTransmission >> destination: aPort [
 	destination := aPort
 ]
 
+{ #category : #'initialize-release' }
+GLMTransmission >> initialize [
+	strategyBeforeValue := GLMTransmissionPreValueStrategy new
+]
+
+{ #category : #'private accessing' }
+GLMTransmission >> originReferences [
+	^ origins ifNil: [origins := OrderedCollection new]
+]
+
 { #category : #testing }
-GLMTransmission >> originatesAt: aPort [ 
+GLMTransmission >> originatesAt: aPort [
+	^ self activeOrigins includes: aPort
+]
+
+{ #category : #accessing }
+GLMTransmission >> origins [
+	^ self originReferences collect: [:each | each port]
+]
+
+{ #category : #accessing }
+GLMTransmission >> passiveOrigins [ 
 	 
-	^false
+	^(self originReferences select: [:each | each isPassive]) 
+		collect: [:each | each port]
+]
+
+{ #category : #copying }
+GLMTransmission >> postCopy [
+	origins := origins collect: [:each | each copy ].
+	strategyBeforeValue := strategyBeforeValue copy.
+	strategyBeforeValue transmission: self
+]
+
+{ #category : #transmitting }
+GLMTransmission >> printOn: aStream [ 
+	 
+	aStream 
+		nextPutAll: self class name;
+		nextPutAll: ' (origins='; 
+		nextPutAll: self origins first printString; 
+		nextPutAll: ' destination='; 
+		nextPutAll: self destination printString; 
+		nextPut: $)
+	 
+	
+]
+
+{ #category : #accessing }
+GLMTransmission >> strategyBeforeValue [
+	^ strategyBeforeValue
+]
+
+{ #category : #accessing }
+GLMTransmission >> strategyBeforeValue: anObject [
+	strategyBeforeValue := anObject
+]
+
+{ #category : #accessing }
+GLMTransmission >> transformation [
+	^ transformation
+]
+
+{ #category : #accessing }
+GLMTransmission >> transformation: anObject [ 
+	 
+	transformation := anObject
 ]
 
 { #category : #transmitting }
@@ -82,11 +176,17 @@ GLMTransmission >> transmit [
 
 { #category : #transmitting }
 GLMTransmission >> transmitIn: aContext [
-	self subclassResponsibility
+	self strategyBeforeValue transmitIn: aContext.
+	self destination receive: self in: aContext.
 ]
 
 { #category : #transmitting }
-GLMTransmission >> value [ 
-	 
-	self subclassResponsibility
+GLMTransmission >> value [
+	| originalValue |
+	originalValue := self originReferences size = 1 
+		ifTrue: [ self originReferences first value ] 
+		ifFalse: [ GLMMultiValue withAll: (self originReferences collect: [:each | each value]) ].
+	^ self transformation isNil 
+		ifTrue: [ originalValue ] 
+		ifFalse: [ self transformation glamourValue: originalValue ]
 ]
