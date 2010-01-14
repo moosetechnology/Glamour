@@ -2,8 +2,8 @@ Extension { #name : #GLMTransmission }
 
 { #category : #'*Glamour-Scripting' }
 GLMTransmission >> ensureBundleStrategy [
-	self transmissionStrategy class = GLMTransmissionBundleStrategy ifFalse: [
-		self transmissionStrategy: (GLMTransmissionBundleStrategy of: self) ]
+	self transmissionStrategy class = GLMBundleTransmissionStrategy ifFalse: [
+		self transmissionStrategy: (GLMBundleTransmissionStrategy of: self) ]
 ]
 
 { #category : #'*Glamour-Scripting' }

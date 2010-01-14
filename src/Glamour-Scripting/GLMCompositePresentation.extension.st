@@ -21,6 +21,11 @@ GLMCompositePresentation >> stackedVerticallyArrangement [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMCompositePresentation >> tabbedArrangement [
+	^ self arrangement: GLMTabbedArrangement new
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMCompositePresentation >> verticallyStackedArrangement [
 	^ self stackedVerticallyArrangement
 ]
