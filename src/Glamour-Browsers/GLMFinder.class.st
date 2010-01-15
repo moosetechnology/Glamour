@@ -5,8 +5,7 @@ Class {
 		'panes',
 		'presentations',
 		'transmissions',
-		'scriptTransmission',
-		'context'
+		'scriptTransmission'
 	],
 	#category : #'Glamour-Browsers'
 }
