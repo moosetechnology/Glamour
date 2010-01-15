@@ -12,6 +12,11 @@ GLMBrowserTemplate class >> openOn: anEntity [
 	^ self new openOn: anEntity
 ]
 
+{ #category : #opening }
+GLMBrowserTemplate class >> startOn: anEntity [
+	^ self new startOn: anEntity
+]
+
 { #category : #accessing }
 GLMBrowserTemplate >> browser [
 	^ browser ifNil: [self buildBrowser. browser]
@@ -25,4 +30,9 @@ GLMBrowserTemplate >> buildBrowser [
 { #category : #opening }
 GLMBrowserTemplate >> openOn: anEntity [
 	^ self browser openOn: anEntity
+]
+
+{ #category : #opening }
+GLMBrowserTemplate >> startOn: anEntity [
+	^ self browser startOn: anEntity
 ]
