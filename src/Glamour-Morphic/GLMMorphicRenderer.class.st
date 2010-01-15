@@ -41,6 +41,25 @@ GLMMorphicRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPrese
 ]
 
 { #category : #private }
+GLMMorphicRenderer >> menuIn: aMenuMorph for: aPresentation [
+	| subMenus targetMenuMorph subMenu |
+	subMenus := Dictionary new.
+	(aPresentation allActions select: [:action | action hasTitle ]) do: [ :action |
+		targetMenuMorph := action category notNil 
+			ifTrue: [ subMenus at: action category ifAbsentPut: [ 
+					subMenu :=  MenuMorph new.
+					aMenuMorph add: action category subMenu: subMenu.
+					subMenu ] ]
+			ifFalse: [ aMenuMorph ].
+		targetMenuMorph 
+			add: action title
+			target: action
+			selector: #actOn:
+			argument: aPresentation ].
+	^ aMenuMorph
+]
+
+{ #category : #private }
 GLMMorphicRenderer >> moreToolbarActions: noIconActions on: aBrowser [
 	| menuMorph |
 	menuMorph := MenuMorph new.
@@ -50,7 +69,7 @@ GLMMorphicRenderer >> moreToolbarActions: noIconActions on: aBrowser [
 				target: each
 				selector: #actOn:
 				argument: aBrowser ].
-	menuMorph popUpInWorld
+	^ menuMorph
 ]
 
 { #category : #private }
@@ -452,17 +471,16 @@ GLMMorphicRenderer >> renderToolbarForBrowser: aBrowser inWindow: aWin [
 			labelForm: each icon
 			help: each title ].
 	noIconActions := aBrowser allActions select: [:each | each hasTitle and: [each hasIcon not]].
-	noIconActions isEmpty ifFalse: [ 
-		buttons add: (aWin
-			newButtonFor: self
-			getState: nil
-			action: #moreToolbarActions:on:
-			arguments: {noIconActions . aBrowser}
-			getEnabled: nil
-			label: '...'
-			help: 'More actions')].
 	tools := aWin newToolbar: buttons.
-	dock addMorphBack: tools.
+	noIconActions isEmpty ifFalse: [ 
+		dock 
+			add: 'Menu' translated
+			font: aWin theme menuBarFont
+			icon: nil
+			help: 'Browser actions' translated
+			subMenu: (self menuIn: MenuMorph new for: aBrowser).
+		dock addMorphBack: tools ]
+		ifTrue: [ dock addAllMorphs: buttons ].
 	^ dock
 ]
 
