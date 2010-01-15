@@ -62,11 +62,14 @@ GLMCompositePresentationMorphicTest >> testFinder [
 	| finder |
 	finder := GLMFinder new.
 	finder show: [:a |
+		a title: 'something'.
 		a stackedArrangement.
 		a list.
 		a text].
 	self assert: finder presentations size = 2.
-	self assert: (finder presentations arrangement isKindOf: GLMStackedVerticallyArrangement)
+	self assert: (finder presentations arrangement isKindOf: GLMStackedVerticallyArrangement).
+	window := finder openOn: (1 to: 42).
+	self assert: (window submorphs last submorphs first submorphs first submorphs first isKindOf: GroupboxMorph) 
 ]
 
 { #category : #testing }
