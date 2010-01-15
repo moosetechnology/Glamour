@@ -147,6 +147,11 @@ GLMTransmission >> presentations [
 	^ self transmissionStrategy presentations
 ]
 
+{ #category : #accessing }
+GLMTransmission >> presentations: aCompositePresentation [
+	self transmissionStrategy presentations: aCompositePresentation
+]
+
 { #category : #transmitting }
 GLMTransmission >> printOn: aStream [ 
 	 
