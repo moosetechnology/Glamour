@@ -328,7 +328,8 @@ GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation 
 	| presentations tabs title index container |
 	presentations := aCompositePresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
-	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
+	presentations size = 1 ifTrue: [ 
+		^ self morph: (self render: presentations first) withTitleOrNilOf: aCompositePresentation ].
 	tabs := LazyTabGroupMorph new.
 	tabs
 		vResizing: #spaceFill;
@@ -346,7 +347,7 @@ GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation 
 		aCompositePresentation pane lastActivePresentation notNil and: [ 
 			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
 	tabs selectedPageIndex: index.
-	^ self morph: tabs withTitleOrNilOf: aCompositePresentation
+	^ self morph: tabs withTitleOf: aCompositePresentation
 ]
 
 { #category : #'rendering presentations' }
