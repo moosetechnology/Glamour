@@ -19,10 +19,6 @@ GLMBrowser >> defaultRenderer [
 ]
 
 { #category : #'*glamour-scripting' }
-GLMBrowser >> initializeContextWith: aPane [
-]
-
-{ #category : #'*glamour-scripting' }
 GLMBrowser >> initializeScriptingDefaults [ 
 	"Initialize some default behavior if the user did not explcitly script it. 
  
