@@ -18,7 +18,7 @@ GLMFinder >> addPaneFrom: aPort [
 		ensureBundleStrategy;
 		addActiveOrigin: aPort; 
 		destination: (self panes last port: #entity); 
-		addPresentations: (self presentations collect: [:each | each copy]); 
+		presentations: (self presentations copy); 
 		transmit.
 	self announce: 
 			(GLMPaneAdded 
@@ -37,7 +37,7 @@ GLMFinder >> addPaneFromInner: aPort [
 		ensureBundleStrategy;
 		addActiveOrigin: aPort; 
 		destination: (self panes last port: #entity); 
-		addPresentations: (self presentations collect: [:each | each copy]); 
+		presentations: (self presentations copy); 
 		transmit. 
 	realTransmissions := self transmissions collect: [:each |  
 			newTransmission := GLMTransmission new ensureBundleStrategy. 
