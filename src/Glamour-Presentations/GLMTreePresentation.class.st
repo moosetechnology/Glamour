@@ -17,12 +17,7 @@ GLMTreePresentation >> allDisplayedDo: aBlock [
 
 { #category : #accessing }
 GLMTreePresentation >> allExpanded [
-	^ allExpanded ifNil: [false]
-]
-
-{ #category : #accessing }
-GLMTreePresentation >> allExpanded: anObject [
-	allExpanded := anObject
+	self shouldAllExpand: true
 ]
 
 { #category : #accessing }
@@ -58,17 +53,27 @@ GLMTreePresentation >> renderGlamorouslyOn: aRenderer [
 
 { #category : #accessing }
 GLMTreePresentation >> rootsExpanded [
+	self shouldRootsExpand: true
+]
+
+{ #category : #accessing }
+GLMTreePresentation >> shouldAllExpand [
+	^ allExpanded ifNil: [false]
+]
+
+{ #category : #accessing }
+GLMTreePresentation >> shouldAllExpand: anObject [
+	allExpanded := anObject
+]
+
+{ #category : #accessing }
+GLMTreePresentation >> shouldRootsExpand [
 	^ rootsExpanded ifNil: [false]
 ]
 
 { #category : #accessing }
-GLMTreePresentation >> rootsExpanded: anObject [
+GLMTreePresentation >> shouldRootsExpand: anObject [
 	rootsExpanded := anObject
-]
-
-{ #category : #accessing }
-GLMTreePresentation >> withAllExpanded [
-	self allExpanded: true
 ]
 
 { #category : #validation }
@@ -76,9 +81,4 @@ GLMTreePresentation >> withChildrenOf: anObject do: aBlock [
 	aBlock value: anObject.
 	(self childrenValueOf: anObject) do: [ :each |
 		self withChildrenOf: each do: aBlock ]
-]
-
-{ #category : #accessing }
-GLMTreePresentation >> withRootsExpanded [
-	self rootsExpanded: true
 ]
