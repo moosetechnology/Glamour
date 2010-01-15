@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMMockSimpleTransmission,
-	#superclass : #AnObsoleteGLMSimpleTransmission,
+	#superclass : #GLMTransmission,
 	#instVars : [
 		'wasTransmited'
 	],
