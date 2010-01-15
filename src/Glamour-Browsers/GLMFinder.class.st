@@ -13,8 +13,8 @@ Class {
 
 { #category : #private }
 GLMFinder >> addPaneFrom: aPort [ 
-	 
-	self panes addLast: ( GLMPane in: self ). 
+	| lastActivePresentation |
+	self panes addLast: (GLMPane in: self).
 	GLMTransmission new
 		ensureBundleStrategy;
 		addActiveOrigin: aPort; 
@@ -30,9 +30,10 @@ GLMFinder >> addPaneFrom: aPort [
 
 { #category : #private }
 GLMFinder >> addPaneFromInner: aPort [ 
-	 
-	| newTransmission realTransmissions | 
-	self panes addLast: (GLMPane in: self ). 
+	| newTransmission realTransmissions lastActivePresentation |
+	"the lastActivePresentation is needed for knowing what presentation to show by default"
+	self panes isEmpty ifFalse: [lastActivePresentation := self panes last lastActivePresentation ].
+	self panes addLast: ( (GLMPane in: self) lastActivePresentation: lastActivePresentation; yourself).
 	GLMTransmission new
 		ensureBundleStrategy;
 		addActiveOrigin: aPort; 
