@@ -494,6 +494,29 @@ GLMBasicExamples >> treeWithAmountFiltering [
 	^ browser 
 ]
 
+{ #category : #'actions examples' }
+GLMBasicExamples >> treeWithExpansion [
+	<glmBrowser: 'Tree with expansion' input: '#(($a $b $c $d) ($e $f) ($g $h $i $j ($l $m $n)))'>
+	"self new treeWithExpansion openOn: #(($a $b $c $d) ($e $f) ($g $h $i $j ($l $m $n)))"
+	|browser |
+	browser := GLMTabulator new.
+	browser column: #one; column: #two.
+	browser showOn: #one; using: [
+		browser tree
+			title: 'No expansion';
+			children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ].
+		browser tree
+			title: 'Roots expanded';
+			withRootsExpanded;
+			children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ].
+		browser tree
+			title: 'All expanded';
+			withAllExpanded;
+			children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ] ].
+	browser showOn: #two; from: #one; using: [ browser text ].
+	^ browser
+]
+
 { #category : #'explicit selection' }
 GLMBasicExamples >> treeWithInitialSelection [
 	"
