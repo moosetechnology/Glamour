@@ -58,6 +58,18 @@ GLMCompositePresentationMorphicTest >> testAccordionWithTitle [
 ]
 
 { #category : #testing }
+GLMCompositePresentationMorphicTest >> testFinder [
+	| finder |
+	finder := GLMFinder new.
+	finder show: [:a |
+		a stackedArrangement.
+		a list.
+		a text].
+	self assert: finder presentations size = 2.
+	self assert: (finder presentations arrangement isKindOf: GLMStackedVerticallyArrangement)
+]
+
+{ #category : #testing }
 GLMCompositePresentationMorphicTest >> testOneStackedVerticallyWithTitle [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
