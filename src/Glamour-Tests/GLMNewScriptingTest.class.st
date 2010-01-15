@@ -56,6 +56,16 @@ GLMNewScriptingTest >> testBundleTransmissionWithTransformation [
 ]
 
 { #category : #'as yet unclassified' }
+GLMNewScriptingTest >> testEntity [
+	| browser | 
+	browser := GLMTabulator new. 
+	browser column: #one. 
+	browser transmit to: #one; andShow: [ :a | a list ].
+	browser startOn: ($a to: $d).
+	self assert: ((browser paneNamed: #one) port: #entity) value = ($a to: $d)
+]
+
+{ #category : #'as yet unclassified' }
 GLMNewScriptingTest >> testNestedCompositesPaneReference [
 	| browser | 
 	browser := GLMTabulator new. 
