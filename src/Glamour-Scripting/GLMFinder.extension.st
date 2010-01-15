@@ -26,11 +26,6 @@ GLMFinder >> scriptTransmission [
 ]
 
 { #category : #'*Glamour-Scripting' }
-GLMFinder >> show [
-	^ self presentations
-]
-
-{ #category : #'*Glamour-Scripting' }
 GLMFinder >> show: aBlock [
 	^ aBlock value: self presentations
 ]
