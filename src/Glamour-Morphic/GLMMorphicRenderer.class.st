@@ -347,7 +347,7 @@ GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation 
 		aCompositePresentation pane lastActivePresentation notNil and: [ 
 			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
 	tabs selectedPageIndex: index.
-	^ self morph: tabs withTitleOf: aCompositePresentation
+	^ self morph: tabs withTitleOrNilOf: aCompositePresentation
 ]
 
 { #category : #'rendering presentations' }
