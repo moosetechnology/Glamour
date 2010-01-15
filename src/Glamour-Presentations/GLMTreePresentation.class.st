@@ -2,7 +2,9 @@ Class {
 	#name : #GLMTreePresentation,
 	#superclass : #GLMListingPresentation,
 	#instVars : [
-		'children'
+		'children',
+		'rootsExpanded',
+		'allExpanded'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -11,6 +13,16 @@ Class {
 GLMTreePresentation >> allDisplayedDo: aBlock [
 	self displayValue do: [ :eachRoot | 
 		self withChildrenOf: eachRoot do: aBlock ]
+]
+
+{ #category : #accessing }
+GLMTreePresentation >> allExpanded [
+	^ allExpanded ifNil: [false]
+]
+
+{ #category : #accessing }
+GLMTreePresentation >> allExpanded: anObject [
+	allExpanded := anObject
 ]
 
 { #category : #accessing }
@@ -44,9 +56,29 @@ GLMTreePresentation >> renderGlamorouslyOn: aRenderer [
 	^ aRenderer renderTreePresentation: self
 ]
 
+{ #category : #accessing }
+GLMTreePresentation >> rootsExpanded [
+	^ rootsExpanded ifNil: [false]
+]
+
+{ #category : #accessing }
+GLMTreePresentation >> rootsExpanded: anObject [
+	rootsExpanded := anObject
+]
+
+{ #category : #accessing }
+GLMTreePresentation >> withAllExpanded [
+	self allExpanded: true
+]
+
 { #category : #validation }
 GLMTreePresentation >> withChildrenOf: anObject do: aBlock [
 	aBlock value: anObject.
 	(self childrenValueOf: anObject) do: [ :each |
 		self withChildrenOf: each do: aBlock ]
+]
+
+{ #category : #accessing }
+GLMTreePresentation >> withRootsExpanded [
+	self rootsExpanded: true
 ]
