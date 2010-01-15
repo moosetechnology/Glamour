@@ -46,11 +46,13 @@ GLMBasicExamples >> allowNil [
 
 { #category : #'actions examples' }
 GLMBasicExamples >> browserWithToolbar [
+	<glmBrowser: 'Finder with Toolbar' input: '$z'>
 	"self new browserWithToolbar openOn: $z"
 
 	| finder |
 	finder := GLMFinder new.
-	finder act: [:f | f inspect] icon: MenuIcons smallFindIcon entitled: 'Inspect'.
+	finder act: [:f | f inspect] icon: MenuIcons smallFindIcon entitled: 'Inspect with icon'.
+	finder act: [:f | f inspect] entitled: 'Inspect without icon'.
 	finder list
 			title: 'List';
 			display: [:each | $a to: each];
