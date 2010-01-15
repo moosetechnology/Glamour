@@ -13,7 +13,6 @@ GLMChaser >> buildBrowser [
 	browser := GLMFinder new.
 	browser title: [:each | 'Chasing Browser of #', each].
 	browser show: [:a |
-		a title: [ :each | each printString ].
 		a custom: self methodSourceBrowser.
 	].
 	^ browser
