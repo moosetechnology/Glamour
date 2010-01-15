@@ -77,8 +77,6 @@ GLMTransmission >> changePortsAccordingToPaneMapping: newPanesMapping [
 { #category : #copying }
 GLMTransmission >> changePortsAccordingToPaneMapping: newPanesMapping fromOldBrowser: aBrowser toNewBrowser: anotherBrowser [
 	| newOrigins newPort |
-"	super changePortsAccordingToPaneMapping: newPanesMapping fromOldBrowser: aBrowser toNewBrowser: anotherBrowser.
-"
 	"newPanesMapping is a dictionary with 
 	keys given by old panes and values by new panes"
 	self destination: (self destination copyAccordingToPaneMapping: newPanesMapping inNewBrowser: anotherBrowser).
@@ -140,8 +138,8 @@ GLMTransmission >> passiveOrigins [
 { #category : #copying }
 GLMTransmission >> postCopy [
 	origins := origins collect: [:each | each copy ].
-	strategyBeforeValue := strategyBeforeValue copy.
-	strategyBeforeValue transmission: self
+	transmissionStrategy := transmissionStrategy copy.
+	transmissionStrategy transmission: self
 ]
 
 { #category : #accessing }
