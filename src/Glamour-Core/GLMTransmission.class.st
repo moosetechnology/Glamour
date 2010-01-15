@@ -200,7 +200,7 @@ GLMTransmission >> value [
 	| originalValue |
 	originalValue := self originReferences size = 1 
 		ifTrue: [ self originReferences first value ] 
-		ifFalse: [ (self originReferences collect: [:each | each value]) asGlamorousMultiValue ].
+		ifFalse: [GLMMultiValue withAll: (self originReferences collect: [:each | each value]) ].
 	^ self transformation isNil 
 		ifTrue: [ originalValue ] 
 		ifFalse: [ self transformation glamourValue: originalValue ]
