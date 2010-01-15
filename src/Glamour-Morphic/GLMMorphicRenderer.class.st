@@ -231,7 +231,39 @@ GLMMorphicRenderer >> renderFinder: aBrowser [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderListPresentation: aListPresentation [ 
-	^ self renderTreePresentation: aListPresentation
+	^ self renderListingPresentation: aListPresentation
+]
+
+{ #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderListingPresentation: aPresentation [ 
+	| treeMorph treeModel textInput container amountFilteringButton |
+	treeModel := GLMTreeMorphModel new glamourPresentation: aPresentation.
+	container := GLMMorphic emptyMorph.
+	treeMorph := self treeMorphFor: treeModel and: aPresentation.
+	aPresentation allowsInput ifTrue: [
+		textInput := self textInputFor: treeModel.
+		treeMorph layoutFrame bottomOffset: -24.
+		container addMorphBack: textInput ].
+	aPresentation limitsAmount ifTrue: [
+		amountFilteringButton := self amountFilteringButtonFor: treeModel.
+		treeMorph layoutFrame topOffset: 24.
+		container addMorphBack: amountFilteringButton ].
+	container addMorphBack: treeMorph.
+	self installActionsOnUI: treeModel fromPresentation: aPresentation.
+
+	treeModel announcer on: GLMTreeMorphSelectionChanged do: [ :ann | 
+		aPresentation selection: ann selectionValue.
+		aPresentation selectionPath: ann selectionPathValue ].
+	treeModel announcer on: GLMTreeMorphStrongSelectionChanged do: [ :ann | 
+		aPresentation strongSelection: ann strongSelectionValue ].
+		
+	aPresentation when: GLMContextChanged do: [ :ann | 
+			ann property = #selection ifTrue: [ treeMorph model explicitSelection: ann value ] ].
+
+	aPresentation when: GLMPresentationUpdated do: [:ann |
+		treeMorph model updateRoots].
+
+	^ container
 ]
 
 { #category : #'rendering presentations' }
@@ -352,7 +384,7 @@ GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation 
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTablePresentation: aPresentation [ 
-	^ self renderTreePresentation: aPresentation
+	^ self renderListingPresentation: aPresentation
 ]
 
 { #category : #'rendering browsers' }
@@ -436,33 +468,10 @@ GLMMorphicRenderer >> renderToolbarForBrowser: aBrowser inWindow: aWin [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTreePresentation: aPresentation [ 
-	| treeMorph treeModel textInput container amountFilteringButton |
-	treeModel := GLMTreeMorphModel new glamourPresentation: aPresentation.
-	container := GLMMorphic emptyMorph.
-	treeMorph := self treeMorphFor: treeModel and: aPresentation.
-	aPresentation allowsInput ifTrue: [
-		textInput := self textInputFor: treeModel.
-		treeMorph layoutFrame bottomOffset: -24.
-		container addMorphBack: textInput ].
-	aPresentation limitsAmount ifTrue: [
-		amountFilteringButton := self amountFilteringButtonFor: treeModel.
-		treeMorph layoutFrame topOffset: 24.
-		container addMorphBack: amountFilteringButton ].
-	container addMorphBack: treeMorph.
-	self installActionsOnUI: treeModel fromPresentation: aPresentation.
-
-	treeModel announcer on: GLMTreeMorphSelectionChanged do: [ :ann | 
-		aPresentation selection: ann selectionValue.
-		aPresentation selectionPath: ann selectionPathValue ].
-	treeModel announcer on: GLMTreeMorphStrongSelectionChanged do: [ :ann | 
-		aPresentation strongSelection: ann strongSelectionValue ].
-		
-	aPresentation when: GLMContextChanged do: [ :ann | 
-			ann property = #selection ifTrue: [ treeMorph model explicitSelection: ann value ] ].
-
-	aPresentation when: GLMPresentationUpdated do: [:ann |
-		treeMorph model updateRoots].
-
+	| container |
+	container := self renderListingPresentation: aPresentation.
+	aPresentation allExpanded ifTrue: [container submorphs first expandAll ].
+	aPresentation rootsExpanded ifTrue: [container submorphs first expandRoots ].
 	^ container
 ]
 
