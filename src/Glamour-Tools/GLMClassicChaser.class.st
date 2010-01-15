@@ -1,3 +1,6 @@
+"
+self openOn: #browse
+"
 Class {
 	#name : #GLMClassicChaser,
 	#superclass : #GLMBrowserTemplate,
