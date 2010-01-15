@@ -507,11 +507,11 @@ GLMBasicExamples >> treeWithExpansion [
 			children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ].
 		browser tree
 			title: 'Roots expanded';
-			withRootsExpanded;
+			rootsExpanded;
 			children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ].
 		browser tree
 			title: 'All expanded';
-			withAllExpanded;
+			allExpanded;
 			children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ] ].
 	browser showOn: #two; from: #one; using: [ browser text ].
 	^ browser
