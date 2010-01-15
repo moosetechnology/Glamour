@@ -10,8 +10,7 @@ GLMFinder >> custom: aPresentation [
 ]
 
 { #category : #'*Glamour-Scripting' }
-GLMFinder >> fromPrevious: aPortSymbol [ 
-	 
+GLMFinder >> fromPrevious: aPortSymbol [
 	self scriptTransmission addActiveOrigin: (GLMPort new name: aPortSymbol)
 ]
 
@@ -21,10 +20,19 @@ GLMFinder >> passivelyFromPrevious: aPortSymbol [
 ]
 
 { #category : #'*Glamour-Scripting' }
-GLMFinder >> scriptTransmission [ 
-	 
-	^scriptTransmission 
+GLMFinder >> scriptTransmission [
+	^ scriptTransmission 
 		ifNil: [scriptTransmission := GLMTransmission new ensureBundleStrategy]
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMFinder >> show [
+	^ self presentations
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMFinder >> show: aBlock [
+	^ aBlock value: self presentations
 ]
 
 { #category : #'*Glamour-Scripting' }
