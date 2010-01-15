@@ -470,8 +470,8 @@ GLMMorphicRenderer >> renderToolbarForBrowser: aBrowser inWindow: aWin [
 GLMMorphicRenderer >> renderTreePresentation: aPresentation [ 
 	| container |
 	container := self renderListingPresentation: aPresentation.
-	aPresentation allExpanded ifTrue: [container submorphs first expandAll ].
-	aPresentation rootsExpanded ifTrue: [container submorphs first expandRoots ].
+	aPresentation shouldAllExpand ifTrue: [container submorphs first expandAll ].
+	aPresentation shouldRootsExpand ifTrue: [container submorphs first expandRoots ].
 	^ container
 ]
 
