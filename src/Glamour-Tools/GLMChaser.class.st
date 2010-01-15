@@ -9,10 +9,13 @@ Class {
 
 { #category : #building }
 GLMChaser >> buildBrowser [
-	"self openOn: #buildBrowser"
+	"self openOn: #browser"
 	browser := GLMFinder new.
 	browser title: [:each | 'Chasing Browser of #', each].
-	browser custom: self methodSourceBrowser.
+	browser show: [:a |
+		a title: [ :each | each printString ].
+		a custom: self methodSourceBrowser.
+	].
 	^ browser
 ]
 
