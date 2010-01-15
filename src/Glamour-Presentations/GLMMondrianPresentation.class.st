@@ -32,14 +32,10 @@ GLMMondrianPresentation >> renderGlamorouslyOn: aRenderer [
 ]
 
 { #category : #accessing }
-GLMMondrianPresentation >> renderOn: aView [ 
-	 
-	self painting 
-		glamourValue: 
-			((self entity isKindOf: GLMMultiValue) 
+GLMMondrianPresentation >> renderOn: aView [
+	self flag: 'find a smarter solution that does not depend on isKindOf:'.
+	self painting glamourValue: (
+		(self entity isKindOf: GLMMultiValue) 
 				ifTrue: [(GLMMultiValue with: aView) , self entity] 
-				ifFalse: 
-					[GLMMultiValue 
-						with: aView 
-						with: self entity])
+				ifFalse: [GLMMultiValue with: aView with: self entity])
 ]
