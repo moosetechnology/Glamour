@@ -12,44 +12,15 @@ GLMMetacelloBrowser >> buildBrowser [
 	browser := GLMTabulator new.
 	browser title: 'Metacello Browser'.
 	browser column: #configs; column: #versions; column: #packages span: 2.
-	browser showOn: #configs; using: [
-		browser list
-			act: [:list  | list selection browse ] entitled: 'Browse implementation';
-			act: [:list  | list selection project inspect] entitled: 'Inspect' ].
-	browser showOn: #versions; from: #configs; using: [
-		browser list
-			title: 'Versions';
-			display: [:config | config project versions ];
-			format: [:each | each versionNumber asString ];
-			act: [:list  | list selection inspect] entitled: 'Inspect'.
-		browser mondrian
-			title: 'Imports';
-			painting: [:view :config | self viewVersionMapOf: config on: view]].
-	browser showOn: #packages; from: #versions; using: [
-		browser list
-			title: 'Items';
-			display: [:version | version spec packages packageSpecsInLoadOrder];
-			format: [:packageSpec | ((packageSpec isKindOf: MetacelloPackageSpec) and: [
-					self packageSpecNeedsSaving: packageSpec])
-				ifTrue: [Text string: packageSpec name attribute: TextColor blue] ifFalse: [packageSpec name]] ;
-			act: [:list  | list selection inspect] entitled: 'Inspect'.
- 		browser mondrian
-			title: 'Dependencies';
-			painting: [:view :version | self viewDependenciesOf: version on: view].
-		browser list
-			title: 'Newer in repository?';
-			display: [:version | version spec packages packageSpecsInLoadOrder];
-			format: [:packageSpec | ((packageSpec isKindOf: MetacelloPackageSpec) and: [
-					self packageSpecHasNewerVersions: packageSpec])
-				ifTrue: [Text string: packageSpec name attribute: TextColor red] ifFalse: [packageSpec name]];
-			act: [:list  | list selection inspect] entitled: 'Inspect'
-	].
+	self toConfigsAndShow.
+	self toVersionsFromConfigsAndShow.
+	self toPackagesFromVersionsAndShow.
 	^ browser 
 ]
 
 { #category : #opening }
 GLMMetacelloBrowser >> entity [ 
-	^ (Object subclasses select: [:each | each isMetacelloConfig ]) sort: [:a :b | a name < b name]
+	^ (Object subclasses select: [:each | (each class canUnderstand: #isMetacelloConfig) and: [each isMetacelloConfig ] ]) sort: [:a :b | a name < b name]
 ]
 
 { #category : #private }
@@ -66,6 +37,61 @@ GLMMetacelloBrowser >> packageSpecNeedsSaving: aPackageSpec [
 	copy := aPackageSpec workingCopy.
 	copy isNil ifTrue: [^ false ].
 	^ copy needsSaving
+]
+
+{ #category : #private }
+GLMMetacelloBrowser >> shortNameOf: config [
+	"self new shortNameOf: ConfigurationOfAlien"
+	^ (config name beginsWith: 'ConfigurationOf') 
+		ifTrue: [config name copyFrom: 'ConfigurationOf' size + 1 to: config name size ] 
+		ifFalse: [config name]
+]
+
+{ #category : #building }
+GLMMetacelloBrowser >> toConfigsAndShow [
+	browser transmit to: #configs; andShow: [ :a |
+		a title: 'Configurations'.
+		a list
+			act: [:list  | list selection browse ] entitled: 'Browse implementation';
+			act: [:list  | list selection project inspect] entitled: 'Inspect' ]
+]
+
+{ #category : #building }
+GLMMetacelloBrowser >> toPackagesFromVersionsAndShow [
+	browser transmit to: #packages; from: #versions; andShow: [ :a |
+		a title: [:version | version name ].
+		a list
+			title: 'Items';
+			display: [:version | version spec packages packageSpecsInLoadOrder];
+			format: [:packageSpec | ((packageSpec isKindOf: MetacelloPackageSpec) and: [
+					self packageSpecNeedsSaving: packageSpec])
+				ifTrue: [Text string: packageSpec name attribute: TextColor blue] ifFalse: [packageSpec name]] ;
+			act: [:list  | list selection inspect] entitled: 'Inspect'.
+ 		a mondrian
+			title: 'Dependencies';
+			painting: [:view :version | self viewDependenciesOf: version on: view].
+		a list
+			title: 'Newer in repository?';
+			display: [:version | version spec packages packageSpecsInLoadOrder];
+			format: [:packageSpec | ((packageSpec isKindOf: MetacelloPackageSpec) and: [
+					self packageSpecHasNewerVersions: packageSpec])
+				ifTrue: [Text string: packageSpec name attribute: TextColor red] ifFalse: [packageSpec name]];
+			act: [:list  | list selection inspect] entitled: 'Inspect'
+	]
+]
+
+{ #category : #building }
+GLMMetacelloBrowser >> toVersionsFromConfigsAndShow. [
+	browser transmit to: #versions; from: #configs; andShow: [ :a |
+		a title: [:config | self shortNameOf: config ].
+		a list
+			title: 'Versions';
+			display: [:config | config project versions ];
+			format: [:each | each versionNumber asString ];
+			act: [:list  | list selection inspect] entitled: 'Inspect'.
+		a mondrian
+			title: 'Imports';
+			painting: [:view :config | self viewVersionMapOf: config on: view]]
 ]
 
 { #category : #private }
