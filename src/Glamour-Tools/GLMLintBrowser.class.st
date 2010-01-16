@@ -7,13 +7,13 @@ Class {
 	#category : #'Glamour-Tools'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 GLMLintBrowser >> buildBrowser [
 	browser := GLMTabulator new.
 	browser title: 'Lint Browser'.
 	browser column: #groups; column: #rules; column: #results.
-	browser showOn: #groups; using: [
-		browser list
+	browser transmit from: #outer->#entity transformed: [:classOrCollection | classOrCollection isCollection ifFalse: [{ classOrCollection }] ifTrue: [ classOrCollection ]]; to: #groups; andShow: [ :a |
+ 		a list
 			display: [:dic | RBCompositeLintRule lintChecks rules];
 			allowNil;
 			format: #name ].
@@ -21,10 +21,10 @@ GLMLintBrowser >> buildBrowser [
 		browser list
 			display: [:group | group rules];
 			format: #name ].
-	browser showOn: #results; from: #rules; from: #outer->#entity; using: [
-		browser list
+	browser transmit to: #results; from: #rules; from: #outer->#entity transformed: [:classOrCollection | classOrCollection isCollection ifFalse: [{ classOrCollection }] ifTrue: [ classOrCollection ]]; andShow: [ :a |
+		a list
 			display: [:rule :tuple | self getLintResult:
-					(self runRule: rule forClass: tuple) result] ].
+					(self runRule: rule forClasses: tuple) result] ].
 			"tuple = {class. selector} from the browser. We select the class"
 	browser sendToOutside: #faultyMethod from: #results->#selection.
 	^ browser
@@ -35,16 +35,14 @@ GLMLintBrowser >> getLintResult: anEnvironment [
 
 	| results stream |
 	results := OrderedCollection new.
-	anEnvironment classesAndSelectorsDo: [:class :sel |
-			results add: sel].
+	anEnvironment classesAndSelectorsDo: [:class :sel | results add: sel].
 	^ results
 ]
 
 { #category : #private }
-GLMLintBrowser >> runRule: aRule forClass: aClass [
+GLMLintBrowser >> runRule: aRule forClasses: aClassesCollection [
 
 	| environment |
-	environment := BrowserEnvironment new
- 		forClasses: { aClass }.
+	environment := BrowserEnvironment new forClasses: aClassesCollection.
 	^ SmalllintChecker runRule: aRule onEnvironment: environment
 ]
