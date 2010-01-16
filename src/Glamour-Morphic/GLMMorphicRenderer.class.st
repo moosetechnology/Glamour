@@ -101,16 +101,6 @@ GLMMorphicRenderer >> open: aRenderable [
 	^ ( self windowFor: aRenderable ) openInWorld
 ]
 
-{ #category : #accessing }
-GLMMorphicRenderer >> postBuildActions [
-	^ postBuildActions ifNil: [postBuildActions := OrderedCollection new]
-]
-
-{ #category : #accessing }
-GLMMorphicRenderer >> postBuildActions: anObject [
-	postBuildActions := anObject
-]
-
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderAccordionCompositePresentation: aCompositePresentation [
 	| presentations container expander title index |
@@ -314,8 +304,6 @@ GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [
 	canvas announcer
 			when: MOFigureSelection
 			do: [ :ann | aMondrianPresentation selection: ann element model ].
-	self postBuildActions add: [:window | 
-		view setDefaultHandlerForWindow: window ].
 	canvasScrollPane := ScrollPane new.
 	canvasScrollPane scroller addMorph: canvas.	
 	canvasScrollPane
@@ -626,7 +614,5 @@ GLMMorphicRenderer >> windowFor: aRenderable [
 				offsets: (0 @ offset corner: 0 @ 0)).
 	(self theme isKindOf: UIThemeWatery) ifFalse: 
 		[ aRenderable colorValue ifNotNil: [ window paneColor: aRenderable colorValue ] ].
-	self postBuildActions do: [:each |
-		each value: window ].
 	^ window
 ]
