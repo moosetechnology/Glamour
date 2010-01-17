@@ -20,7 +20,8 @@ GLMMetacelloBrowser >> buildBrowser [
 
 { #category : #opening }
 GLMMetacelloBrowser >> entity [ 
-	^ (Object subclasses select: [:each | (each class canUnderstand: #isMetacelloConfig) and: [each isMetacelloConfig ] ]) sort: [:a :b | a name < b name]
+	^ (Object subclasses select: [:each | (each class canUnderstand: #isMetacelloConfig) and: [
+			each isMetacelloConfig ] ]) sort: [:a :b | a name < b name]
 ]
 
 { #category : #private }
@@ -75,6 +76,11 @@ GLMMetacelloBrowser >> toPackagesFromVersionsAndShow [
  		a mondrian
 			title: 'Dependencies';
 			painting: [:view :version | self viewDependenciesOf: version on: view].
+		a text 
+			title: 'Script';
+			forSmalltalk;
+			display: [:version |
+				version spec printString ].
 		a list
 			title: 'Newer in repository?';
 			display: [:version | version spec packages packageSpecsInLoadOrder];
