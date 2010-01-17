@@ -103,12 +103,19 @@ GLMCodeBrowser >> onInstVarsFromClasses [
 
 { #category : #building }
 GLMCodeBrowser >> onMethodsFromClasses [
-	browser showOn: #methods; from: #classes; using: [ 
-		browser list
-				display: [ :class | class instanceAndMetaMethods ];
+	browser transmit to: #methods; from: #classes; andShow: [ :a | 
+		a accordionArrangement.
+		a list
+				title: 'Instance';
+				display: [ :class | class methods ];
 				tags: [ :each | 
-					{each glmCategory name.
-					each glmBehavior isMetaSide ifTrue: ['META'] ifFalse: ['INST']} ] ]
+					{each glmCategory name} ].
+		a list
+				title: 'Meta';
+				display: [ :class | class metaSide methods ];
+				tags: [ :each | 
+					{each glmCategory name} ].
+		 ]
 ]
 
 { #category : #building }
