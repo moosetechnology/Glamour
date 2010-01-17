@@ -2,7 +2,6 @@ Class {
 	#name : #GLMTreeMorphNodeModel,
 	#superclass : #MorphTreeNodeModel,
 	#instVars : [
-		'parentNode',
 		'contents',
 		'containerTree',
 		'onSelection'

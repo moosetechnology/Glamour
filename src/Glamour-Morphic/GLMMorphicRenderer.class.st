@@ -583,7 +583,7 @@ GLMMorphicRenderer >> treeMorphFor: treeModel and: aPresentation [
 			yourself)].
 	treeMorph
 		on: treeModel
-		list: #roots
+		nodeListSelector: #roots
 		multiSelection: aPresentation isMultiple
 		columns: columns.
 	treeMorph vShowScrollBar.
