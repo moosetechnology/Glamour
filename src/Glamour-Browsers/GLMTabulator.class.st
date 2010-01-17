@@ -2,8 +2,7 @@ Class {
 	#name : #GLMTabulator,
 	#superclass : #GLMExplicitBrowser,
 	#instVars : [
-		'cell',
-		'context'
+		'cell'
 	],
 	#category : #'Glamour-Browsers'
 }

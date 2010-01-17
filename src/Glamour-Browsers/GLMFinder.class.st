@@ -2,10 +2,7 @@ Class {
 	#name : #GLMFinder,
 	#superclass : #GLMImplicitBrowser,
 	#instVars : [
-		'panes',
-		'presentations',
-		'transmissions',
-		'scriptTransmission'
+		'transmissions'
 	],
 	#category : #'Glamour-Browsers'
 }
@@ -59,17 +56,6 @@ GLMFinder >> addPaneFromInner: aPort [
 				inBrowser: self)
 ]
 
-{ #category : #accessing }
-GLMFinder >> addPresentation: aPresentation [
-	self presentations add: aPresentation
-]
-
-{ #category : #accessing }
-GLMFinder >> addTransmission: aTransmission [ 
-	 
-	self transmissions addLast: aTransmission
-]
-
 { #category : #events }
 GLMFinder >> innerPortEvent: aPortEvent [ 
 	 
@@ -89,18 +75,6 @@ GLMFinder >> outerPortEvent: aPortEvent [
 	aPortEvent port name = #entity ifFalse: [^self]. 
 	panes := nil. 
 	self addPaneFrom: aPortEvent port
-]
-
-{ #category : #accessing }
-GLMFinder >> panes [ 
-	 
-	^panes ifNil: [panes := OrderedCollection new]
-]
-
-{ #category : #accessing }
-GLMFinder >> presentations [ 
-	 
-	^presentations ifNil: [presentations := GLMCompositePresentation new]
 ]
 
 { #category : #rendering }
