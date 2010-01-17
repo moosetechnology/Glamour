@@ -6,8 +6,8 @@ Class {
 
 { #category : #'as yet unclassified' }
 GLMOBCommandAdaptor >> actionsFrom: aCollectionOfOBCommandClasses on: aTarget for: aRequestor [
-	| command |
 	^ (aCollectionOfOBCommandClasses "select: [ :each | each isActive ]") collect: [ :each |
+		| command |
 		command := each on: aTarget for: aRequestor.
 		GLMAction new
 			icon: command icon;

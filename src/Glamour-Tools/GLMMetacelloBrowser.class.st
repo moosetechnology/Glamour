@@ -56,10 +56,10 @@ GLMMetacelloBrowser >> toConfigsAndShow [
 			act: [:list  | list selection browse ] entitled: 'Browse implementation';
 			act: [:list  | list selection project inspect] entitled: 'Inspect';
 			actions: [:list | 
-				GLMOBCommandAdaptor new 
+				(GLMOBCommandAdaptor new 
 					actionsFrom: OBCmdMetacello subclasses 
 					on: list selection 
-					for: nil ] ]
+					for: nil ) do: [:each | each category: 'OB Commands'] ] ]
 ]
 
 { #category : #building }
