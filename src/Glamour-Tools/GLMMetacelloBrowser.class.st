@@ -87,7 +87,10 @@ GLMMetacelloBrowser >> toVersionsFromConfigsAndShow. [
 		a list
 			title: 'Versions';
 			display: [:config | config project versions ];
-			format: [:each | each versionNumber asString ];
+			format: [:each | 
+				([each isPossibleBaseline not] on: Error do: [true])
+					ifTrue: [Text string: each versionNumber asString attribute: TextColor gray] 
+					ifFalse: [each versionNumber asString] ];
 			act: [:list  | list selection inspect] entitled: 'Inspect'.
 		a mondrian
 			title: 'Imports';
