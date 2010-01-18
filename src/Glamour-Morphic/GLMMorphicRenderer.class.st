@@ -120,7 +120,7 @@ GLMMorphicRenderer >> renderAccordionCompositePresentation: aCompositePresentati
 				expander expanded: true]].
 	(aCompositePresentation pane lastActivePresentation isNil and: [container submorphs notEmpty]) ifTrue: [
 		container submorphs first expanded: true].
-	^ self morph: container  withTitleOrNilOf: aCompositePresentation
+	^ self morph: container withTitleOrNilOf: aCompositePresentation
 ]
 
 { #category : #'rendering browsers' }
@@ -141,6 +141,10 @@ GLMMorphicRenderer >> renderAccumulator: aBrowser [
 		tabs 
 			addLazyPage: [ self render: each ]
 			label: (self titleOrIconOf: each presentations in: tabs) ].
+	aBrowser 
+		when: GLMPaneAdded
+		do: [ :ann | tabs addLazyPage: (self render: ann pane) label: (self titleOrIconOf: ann pane presentations in: tabs) ].
+	tabs selectedPageIndex: 1.
 	^ tabs
 ]
 
@@ -390,7 +394,9 @@ GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation 
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
 	presentations size = 1 ifTrue: [ 
 		^ self morph: (self render: presentations first) withTitleOrNilOf: aCompositePresentation ].
-	tabs := LazyTabGroupMorph new.
+"	presentations size = 1 ifTrue: [ 
+		^ self render: presentations first].
+"	tabs := LazyTabGroupMorph new.
 	tabs
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
