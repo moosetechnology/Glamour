@@ -123,6 +123,27 @@ GLMMorphicRenderer >> renderAccordionCompositePresentation: aCompositePresentati
 	^ self morph: container  withTitleOrNilOf: aCompositePresentation
 ]
 
+{ #category : #'rendering browsers' }
+GLMMorphicRenderer >> renderAccumulator: aBrowser [ 
+	| tabs |
+	aBrowser panes isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
+"	presentations size = 1 ifTrue: [ 
+		^ self morph: (self render: presentations first) withTitleOrNilOf: aCompositePresentation ].
+"	tabs := LazyTabGroupMorph new.
+	tabs
+		vResizing: #spaceFill;
+		hResizing: #spaceFill;
+		cornerStyle: (self theme tabGroupCornerStyleIn: nil);
+		font: self theme labelFont;
+		onPageIndexChange: [ :i | 
+			"aCompositePresentation pane lastActivePresentation: (aCompositePresentation matchingPresentations at: i)" ].
+	aBrowser panes do: [ :each | 
+		tabs 
+			addLazyPage: [ self render: each ]
+			label: (self titleOrIconOf: each presentations in: tabs) ].
+	^ tabs
+]
+
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [ 
 	| items list toShow container button buttonModel |
