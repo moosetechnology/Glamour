@@ -327,7 +327,8 @@ GLMMorphicRenderer >> renderMagrittePresentation: anAsMorphPresentation [
 GLMMorphicRenderer >> renderMondrianPresentation: aPresentation [
 	| canvas view canvasScrollPane newCanvas newView |
 	view := MOViewRenderer new.
-	aPresentation renderOn: view. 
+	view root interaction menu: [ :x | self menuIn: MenuMorph new for: aPresentation ].
+	aPresentation renderOn: view.
 	canvas := MOCanvas new.
 	canvas root: view root.
 	canvas initializeHanders.
@@ -337,6 +338,7 @@ GLMMorphicRenderer >> renderMondrianPresentation: aPresentation [
 	aPresentation when: GLMPresentationUpdated do: [:ann |
 		newCanvas := MOCanvas new.
 		newView := MOViewRenderer new.
+		newView root interaction menu: [ :x | self menuIn: MenuMorph new for: aPresentation ].
 		aPresentation renderOn: newView. 
 		newCanvas root: newView root.
 		newCanvas initializeHanders.
