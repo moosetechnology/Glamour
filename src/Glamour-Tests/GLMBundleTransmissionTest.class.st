@@ -71,16 +71,8 @@ GLMBundleTransmissionTest >> testPresentations [
 	 
 	| transmission presentation1 presentation2 presentation3 | 
 	transmission := GLMTransmission new ensureBundleStrategy. 
-	transmission 
-		addActiveOrigin: 
-			((GLMSimplePort new) 
-				name: #port1; 
-				value: 1). 
-	transmission 
-		addPassiveOrigin: 
-			((GLMSimplePort new) 
-				name: #port2; 
-				value: 2). 
+	transmission addActiveOrigin: (GLMSimplePort new name: #port1; value: 1). 
+	transmission addPassiveOrigin: (GLMSimplePort new name: #port2; value: 2). 
 	transmission destination: (GLMSimplePort new name: #port3). 
 	presentation1 := GLMPresentation new title: 'presentation1'. 
 	presentation2 := GLMPresentation new title: 'presentation2'. 

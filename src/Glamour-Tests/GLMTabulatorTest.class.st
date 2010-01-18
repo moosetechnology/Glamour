@@ -1,11 +1,11 @@
 Class {
-	#name : #GLMTableLayoutTest,
+	#name : #GLMTabulatorTest,
 	#superclass : #TestCase,
 	#category : #'Glamour-Tests'
 }
 
 { #category : #tests }
-GLMTableLayoutTest >> testComplex [ 
+GLMTabulatorTest >> testComplex [ 
 	 
 	| layout | 
 	layout := GLMTabulator new. 
@@ -27,7 +27,7 @@ GLMTableLayoutTest >> testComplex [
 ]
 
 { #category : #tests }
-GLMTableLayoutTest >> testOneSimpleColumnAndOneNested [ 
+GLMTabulatorTest >> testOneSimpleColumnAndOneNested [ 
 	 
 	| layout | 
 	layout := GLMTabulator new. 
@@ -43,7 +43,7 @@ GLMTableLayoutTest >> testOneSimpleColumnAndOneNested [
 ]
 
 { #category : #tests }
-GLMTableLayoutTest >> testOneSimpleRowAndOneNested [ 
+GLMTabulatorTest >> testOneSimpleRowAndOneNested [ 
 	 
 	| layout | 
 	layout := GLMTabulator new. 
@@ -59,7 +59,7 @@ GLMTableLayoutTest >> testOneSimpleRowAndOneNested [
 ]
 
 { #category : #tests }
-GLMTableLayoutTest >> testSimpleColumns [ 
+GLMTabulatorTest >> testSimpleColumns [ 
 	 
 	| layout | 
 	layout := GLMTabulator new. 
@@ -69,7 +69,7 @@ GLMTableLayoutTest >> testSimpleColumns [
 ]
 
 { #category : #tests }
-GLMTableLayoutTest >> testSimpleRows [ 
+GLMTabulatorTest >> testSimpleRows [ 
 	 
 	| layout | 
 	layout := GLMTabulator new. 
