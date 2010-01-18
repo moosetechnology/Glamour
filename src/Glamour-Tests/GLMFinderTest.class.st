@@ -6,7 +6,6 @@ Class {
 
 { #category : #tests }
 GLMFinderTest >> testPaneCreation [ 
-	 
 	| browser | 
 	browser := GLMFinder new. 
 	browser addPresentation: (GLMPresentation new title: 'presentation1'). 
@@ -16,22 +15,15 @@ GLMFinderTest >> testPaneCreation [
 	self assert: browser panes first browser == browser. 
 	self assert: (browser panes first port: #entity) value = #value1. 
 	self assert: browser panes first presentations size = 1. 
-	self 
-		assert: browser panes first presentations first title = 'presentation1'. 
-	self 
-		assert: 
-			browser panes first presentations first ~~ browser presentations first.	"First pane selection changed." 
+	self assert: browser panes first presentations first title = 'presentation1'. 
+	self assert: browser panes first presentations first ~~ browser presentations first.	"First pane selection changed." 
 	(browser panes first port: #selection) value: #value2. 
 	self assert: browser panes size = 2. 
 	self assert: browser panes last browser == browser. 
 	self assert: (browser panes last port: #entity) value = #value2. 
-	self 
-		assert: browser panes last presentations first title = 'presentation1'. 
-	self 
-		assert: 
-			browser panes last presentations first ~~ browser presentations first. 
-	self 
-		assert: 
+	self assert: browser panes last presentations first title = 'presentation1'. 
+	self assert: browser panes last presentations first ~~ browser presentations first. 
+	self assert: 
 			browser panes last presentations first 
 				~~ browser panes first presentations first.	"Second pane selection changed." 
 	(browser panes last port: #selection) value: #value3. 
