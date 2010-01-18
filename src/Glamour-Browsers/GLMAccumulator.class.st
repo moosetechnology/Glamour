@@ -41,7 +41,7 @@ GLMAccumulator >> innerPortEvent: aPortEvent [
 
 { #category : #events }
 GLMAccumulator >> outerPortEvent: aPortEvent [ 
-	 
+ 	super outerPortEvent: aPortEvent.
 	aPortEvent port name = #entity ifFalse: [^self].
 	self addPaneFrom: aPortEvent port
 ]

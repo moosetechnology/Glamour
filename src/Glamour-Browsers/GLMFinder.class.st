@@ -1,9 +1,6 @@
 Class {
 	#name : #GLMFinder,
 	#superclass : #GLMImplicitBrowser,
-	#instVars : [
-		'transmissions'
-	],
 	#category : #'Glamour-Browsers'
 }
 
@@ -81,10 +78,4 @@ GLMFinder >> outerPortEvent: aPortEvent [
 GLMFinder >> renderGlamorouslyOn: aRenderer [ 
 	 
 	^aRenderer renderFinder: self
-]
-
-{ #category : #accessing }
-GLMFinder >> transmissions [ 
-	 
-	^transmissions ifNil: [transmissions := OrderedCollection new]
 ]
