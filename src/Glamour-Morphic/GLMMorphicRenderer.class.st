@@ -106,7 +106,7 @@ GLMMorphicRenderer >> renderAccordionCompositePresentation: aCompositePresentati
 	| presentations container expander title index |
 	presentations := aCompositePresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
-	presentations size = 1 ifTrue: [ ^ self renderWithTitleOrNil: presentations first ].
+	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
 	container := GLMMorphic emptyMorph.
 	container changeTableLayout.
 	presentations do: [ :each | 
@@ -120,7 +120,7 @@ GLMMorphicRenderer >> renderAccordionCompositePresentation: aCompositePresentati
 				expander expanded: true]].
 	(aCompositePresentation pane lastActivePresentation isNil and: [container submorphs notEmpty]) ifTrue: [
 		container submorphs first expanded: true].
-	^ self morph: container withTitleOrNilOf: aCompositePresentation
+	^ container
 ]
 
 { #category : #'rendering browsers' }
@@ -139,7 +139,7 @@ GLMMorphicRenderer >> renderAccumulator: aBrowser [
 			"aCompositePresentation pane lastActivePresentation: (aCompositePresentation matchingPresentations at: i)" ].
 	aBrowser panes do: [ :each | 
 		tabs 
-			addLazyPage: [ self render: each ]
+			addLazyPage: [ self renderPaneWithoutTitle: each ]
 			label: (self titleOrIconOf: each presentations in: tabs) ].
 	aBrowser 
 		when: GLMPaneSelected
@@ -148,7 +148,7 @@ GLMMorphicRenderer >> renderAccumulator: aBrowser [
 	aBrowser 
 		when: GLMPaneAdded
 		do: [ :ann | 
-			tabs addLazyPage: (self render: ann pane) label: (self titleOrIconOf: ann pane presentations in: tabs).
+			tabs addLazyPage: (self renderPaneWithoutTitle: ann pane) label: (self titleOrIconOf: ann pane presentations in: tabs).
 			tabs selectedPageIndex: tabs lazyPages size ].
 	tabs selectedPageIndex: tabs lazyPages size.
 	^ tabs
@@ -356,6 +356,25 @@ GLMMorphicRenderer >> renderPane: aPane [
 	aPane whenMatchingPresentationsChanged: [ :ann | 
 		container
 			removeAllMorphs;
+			addMorph: (self renderWithTitleOrNil: aPane presentations)
+			fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
+			adoptPaneColor: container paneColor.
+		window fullBounds.
+		window refreshHorizontalScollbars ].
+	container
+		addMorph: (self renderWithTitleOrNil: aPane presentations)
+		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
+		adoptPaneColor: container paneColor.
+	^ container
+]
+
+{ #category : #rendering }
+GLMMorphicRenderer >> renderPaneWithoutTitle: aPane [ 
+	| container |
+	container := GLMMorphic emptyMorph.
+	aPane whenMatchingPresentationsChanged: [ :ann | 
+		container
+			removeAllMorphs;
 			addMorph: (self render: aPane presentations)
 			fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 			adoptPaneColor: container paneColor.
@@ -377,20 +396,7 @@ GLMMorphicRenderer >> renderStackedVerticallyCompositePresentation: aCompositePr
 	container changeTableLayout.
 	presentations do: [ :each | 
 		container addMorphBack: (self renderWithTitle: each) ].
-	^ self morph: container withTitleOrNilOf: aCompositePresentation
-
-
-"	container := self theme 
-		newGroupboxIn: GLMMorphic emptyMorph 
-		label: (self titleOrIconOrNilOf: aCompositePresentation in: GLMMorphic emptyMorph).
-	presentations do: [ :each |
-		item := self theme 
-			newGroupboxIn: GLMMorphic emptyMorph 
-			label: (self titleOrIconOrNilOf: each in: container).
-		item addContentMorph: (self render: each).
-		container addContentMorph: item ].
 	^ container
-"
 ]
 
 { #category : #'rendering presentations' }
@@ -399,7 +405,7 @@ GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation 
 	presentations := aCompositePresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
 	presentations size = 1 ifTrue: [ 
-		^ self morph: (self render: presentations first) withTitleOrNilOf: aCompositePresentation ].
+		^ self render: presentations first ].
 "	presentations size = 1 ifTrue: [ 
 		^ self render: presentations first].
 "	tabs := LazyTabGroupMorph new.
@@ -419,7 +425,7 @@ GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation 
 		aCompositePresentation pane lastActivePresentation notNil and: [ 
 			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
 	tabs selectedPageIndex: index.
-	^ self morph: tabs withTitleOrNilOf: aCompositePresentation
+	^ tabs
 ]
 
 { #category : #'rendering presentations' }
