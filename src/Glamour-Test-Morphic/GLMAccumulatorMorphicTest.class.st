@@ -39,6 +39,22 @@ GLMAccumulatorMorphicTest >> testPaneCreation [
 ]
 
 { #category : #'as yet unclassified' }
+GLMAccumulatorMorphicTest >> testSelectedTab [
+	| browser tabs firstTreeMorph firstTabLabel |
+	browser := GLMAccumulator new.
+	browser show: [:a | 
+		a title: [:x | x asString ].
+		a list display: [:x | $a to: x ]].
+	window := browser openOn: $d.
+	tabs := window submorphs last.
+	self assert: tabs selectedPageIndex = 1.
+	browser entity: $c.
+	self assert: tabs selectedPageIndex = 2.
+	browser entity: $d.
+	self assert: tabs selectedPageIndex = 1
+]
+
+{ #category : #'as yet unclassified' }
 GLMAccumulatorMorphicTest >> testTabTitle [
 	| browser tabs firstTreeMorph firstTabLabel |
 	browser := GLMAccumulator new.
