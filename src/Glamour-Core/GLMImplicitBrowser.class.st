@@ -18,12 +18,6 @@ GLMImplicitBrowser >> addPresentation: aPresentation [
 ]
 
 { #category : #accessing }
-GLMImplicitBrowser >> addTransmission: aTransmission [ 
-	 
-	self transmissions addLast: aTransmission
-]
-
-{ #category : #accessing }
 GLMImplicitBrowser >> panes [ 
 	 
 	^panes ifNil: [panes := OrderedCollection new]

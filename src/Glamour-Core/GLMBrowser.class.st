@@ -12,12 +12,68 @@ Class {
 	#superclass : #GLMPresentation,
 	#traits : 'GLMTPresentationBuilder',
 	#classTraits : 'GLMTPresentationBuilder classTrait',
+	#instVars : [
+		'transmissions'
+	],
 	#category : #'Glamour-Core'
 }
+
+{ #category : #accessing }
+GLMBrowser >> addTransmission: aTransmission [ 
+	^ self transmissions addLast: aTransmission
+]
+
+{ #category : #events }
+GLMBrowser >> outerPortEvent: aPortEvent [  
+	super outerPortEvent: aPortEvent.	
+	aPortEvent hasChanged ifTrue: [
+		(self transmissions select: [:each | 
+			(each originatesAt: aPortEvent port) and: [
+				( aPortEvent transmissionContext includesPort: each destination) not ]]) 
+			do: [:each | each transmitIn: aPortEvent transmissionContext copy ]]
+]
 
 { #category : #accessing }
 GLMBrowser >> panes [ 
 	"Return an (ordered) collection of the panes used by this browser." 
 	 
 	self subclassResponsibility
+]
+
+{ #category : #'scripting-private' }
+GLMBrowser >> resolveDestinationPort: aPortReference [ 
+	 
+	^self resolvePort: aPortReference defaultPortName: #entity
+]
+
+{ #category : #'scripting-private' }
+GLMBrowser >> resolveOriginPort: aPortReference [ 
+	 
+	^self resolvePort: aPortReference defaultPortName: #selection
+]
+
+{ #category : #'scripting-private' }
+GLMBrowser >> resolvePort: aPortReference defaultPortName: aSymbol [ 
+	 
+	| tmp | 
+	tmp := aPortReference. 
+	(tmp isKindOf: GLMPane) ifTrue: [tmp := tmp port: aSymbol]. 
+	(tmp isKindOf: GLMPort) ifTrue: [^tmp]. 
+	tmp isSymbol ifTrue: [tmp := tmp -> aSymbol]. 
+	(tmp isKindOf: Association) 
+		ifTrue: 
+			[^tmp key = #outer 
+				ifTrue: 
+					[(GLMPresentationBoundPort new) 
+						presentation: self; 
+						name: tmp value; 
+						yourself] 
+				ifFalse: [(self paneNamed: tmp key) port: tmp value]]. 
+	self error: 'Unknown port reference.'
+]
+
+{ #category : #accessing }
+GLMBrowser >> transmissions [ 
+	 
+	^transmissions ifNil: [transmissions := OrderedCollection new]
 ]

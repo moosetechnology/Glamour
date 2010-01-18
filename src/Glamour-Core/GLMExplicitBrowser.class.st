@@ -5,8 +5,7 @@ Class {
 	#name : #GLMExplicitBrowser,
 	#superclass : #GLMBrowser,
 	#instVars : [
-		'panes',
-		'transmissions'
+		'panes'
 	],
 	#category : #'Glamour-Core'
 }
@@ -51,16 +50,6 @@ GLMExplicitBrowser >> lastTransmission [
 	^ self transmissions last
 ]
 
-{ #category : #events }
-GLMExplicitBrowser >> outerPortEvent: aPortEvent [  
-	super outerPortEvent: aPortEvent.	
-	aPortEvent hasChanged ifTrue: [
-		(self transmissions select: [:each | 
-			(each originatesAt: aPortEvent port) and: [
-				( aPortEvent transmissionContext includesPort: each destination) not ]]) 
-			do: [:each | each transmitIn: aPortEvent transmissionContext copy ]]
-]
-
 { #category : #accessing }
 GLMExplicitBrowser >> paneNamed: aSymbol [ 
 	 
@@ -93,44 +82,6 @@ GLMExplicitBrowser >> postCopy [
 		newTransmission changePortsAccordingToPaneMapping: newPanesMapping fromOldBrowser: nil toNewBrowser: self.
 		newTransmission ].
 	panes := newPanes
-]
-
-{ #category : #'scripting-private' }
-GLMExplicitBrowser >> resolveDestinationPort: aPortReference [ 
-	 
-	^self resolvePort: aPortReference defaultPortName: #entity
-]
-
-{ #category : #'scripting-private' }
-GLMExplicitBrowser >> resolveOriginPort: aPortReference [ 
-	 
-	^self resolvePort: aPortReference defaultPortName: #selection
-]
-
-{ #category : #'scripting-private' }
-GLMExplicitBrowser >> resolvePort: aPortReference defaultPortName: aSymbol [ 
-	 
-	| tmp | 
-	tmp := aPortReference. 
-	(tmp isKindOf: GLMPane) ifTrue: [tmp := tmp port: aSymbol]. 
-	(tmp isKindOf: GLMPort) ifTrue: [^tmp]. 
-	tmp isSymbol ifTrue: [tmp := tmp -> aSymbol]. 
-	(tmp isKindOf: Association) 
-		ifTrue: 
-			[^tmp key = #outer 
-				ifTrue: 
-					[(GLMPresentationBoundPort new) 
-						presentation: self; 
-						name: tmp value; 
-						yourself] 
-				ifFalse: [(self paneNamed: tmp key) port: tmp value]]. 
-	self error: 'Unknown port reference.'
-]
-
-{ #category : #accessing }
-GLMExplicitBrowser >> transmissions [ 
-	 
-	^transmissions ifNil: [transmissions := OrderedCollection new]
 ]
 
 { #category : #accessing }
