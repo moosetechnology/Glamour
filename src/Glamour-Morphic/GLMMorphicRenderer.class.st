@@ -635,7 +635,7 @@ GLMMorphicRenderer >> windowFor: aRenderable [
 	window := GLMSystemWindow new.
 	window
 		model: aRenderable;
-		setLabel: aRenderable titleValue.
+		setLabel: (aRenderable titleValue ifNil: ['Glamorous Browser']).
 	aRenderable allActions notEmpty ifTrue: 
 		[ dock := self 
 			renderToolbarForBrowser: aRenderable
