@@ -61,3 +61,8 @@ GLMBrowser >> startOn: anObject [
 	self initializeScriptingDefaults. 
 	self entity: anObject
 ]
+
+{ #category : #'*glamour-scripting' }
+GLMBrowser >> transmit [
+	^ self addTransmission: (GLMTransmission new browser: self; yourself)
+]

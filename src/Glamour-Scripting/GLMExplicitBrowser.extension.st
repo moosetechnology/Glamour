@@ -87,11 +87,6 @@ GLMExplicitBrowser >> showOn: aDestinationPane [
 			yourself)
 ]
 
-{ #category : #'*Glamour-Scripting' }
-GLMExplicitBrowser >> transmit [
-	^ self addTransmission: (GLMTransmission new browser: self; yourself)
-]
-
 { #category : #'*Glamour-Scripting-deprecated' }
 GLMExplicitBrowser >> using: aBlock [ 
 	"this message should be sent after showOn: and a sequence of from: messages. 
