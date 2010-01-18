@@ -5,6 +5,21 @@ Class {
 }
 
 { #category : #testing }
+GLMAccumulatorTest >> testCopy [
+	| accumulator presentation copiedAccumulator |
+	accumulator := GLMAccumulator new.
+	presentation := GLMPresentation new.
+	accumulator addPresentation: presentation.
+	accumulator transmit fromOutside: #selection; toOutside: #otherPort.
+	copiedAccumulator := accumulator copy.
+	self assert: copiedAccumulator transmissions size = 1.
+	self assert: copiedAccumulator transmissions first ~~ accumulator transmissions first.
+	self assert: copiedAccumulator transmissions first destination pane == copiedAccumulator pane.
+	self assert: copiedAccumulator transmissions first origins first pane ~~ accumulator pane.
+	self assert: copiedAccumulator transmissions first origins first pane == copiedAccumulator pane
+]
+
+{ #category : #testing }
 GLMAccumulatorTest >> testCustomTransmissions [
 	| accumulator presentation annoumcementsCount |
 	accumulator := GLMAccumulator new.
@@ -98,4 +113,38 @@ GLMAccumulatorTest >> testPublishToOutside [
 	accumulator startOn: 41.
 	(accumulator panes first port: #selection) value: 42.
 	self assert: (accumulator pane port: #selection) value = 42
+]
+
+{ #category : #testing }
+GLMAccumulatorTest >> testPublishToOutsideWhenEmbedded [
+	| browser accumulator actualAccumulator |
+	browser := GLMTabulator new.
+	accumulator := GLMAccumulator new.
+	accumulator addPresentation: GLMPresentation new.
+	accumulator addTransmission: (GLMTransmission new
+			addActiveOrigin: (GLMPresentationBoundPort new
+								presentation: accumulator; 
+								name: #selection; 
+								yourself);
+			destination: (GLMPresentationBoundPort new
+								presentation: accumulator; 
+								name: #anotherPort; 
+								yourself);
+			yourself).
+	browser addColumn: #one.
+	browser addTransmission: (GLMTransmission new 
+			ensureNoOverrideBundleStrategy;
+			addActiveOrigin: (GLMPresentationBoundPort new
+								presentation: browser; 
+								name: #entity; 
+								yourself);
+			destination: ((browser paneNamed: #one) port: #entity);
+			addPresentation: accumulator;
+			yourself).
+	browser startOn: 41.
+	actualAccumulator := browser panes first presentations first.
+	(actualAccumulator panes first port: #selection) value: 42.
+	self assert: (actualAccumulator pane port: #selection) value = 42.
+	self assert: (actualAccumulator pane port: #anotherPort) value notNil.
+	self assert: (actualAccumulator pane port: #anotherPort) value = 42
 ]
