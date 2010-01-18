@@ -324,17 +324,26 @@ GLMMorphicRenderer >> renderMagrittePresentation: anAsMorphPresentation [
 ]
 
 { #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderMondrianPresentation: aMondrianPresentation [ 
-	 
-	| canvas view canvasScrollPane | 
+GLMMorphicRenderer >> renderMondrianPresentation: aPresentation [
+	| canvas view canvasScrollPane newCanvas newView |
 	view := MOViewRenderer new.
-	aMondrianPresentation renderOn: view. 
+	aPresentation renderOn: view. 
 	canvas := MOCanvas new.
 	canvas root: view root.
 	canvas initializeHanders.
 	canvas announcer
 			when: MOFigureSelection
-			do: [ :ann | aMondrianPresentation selection: ann element model ].
+			do: [ :ann | aPresentation selection: ann element model ].
+	aPresentation when: GLMPresentationUpdated do: [:ann |
+		self haltOnce.
+		newCanvas := MOCanvas new.
+		newView := MOViewRenderer new.
+		aPresentation renderOn: newView. 
+		newCanvas root: view root.
+		newCanvas initializeHanders.
+		canvasScrollPane scroller removeAllMorphs.
+		canvasScrollPane scroller addMorph: newCanvas.
+		canvasScrollPane changed ].
 	canvasScrollPane := ScrollPane new.
 	canvasScrollPane scroller addMorph: canvas.	
 	canvasScrollPane
@@ -481,6 +490,9 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 	self installActionsOnUI: textModel fromPresentation: aTextPresentation.
 	aTextPresentation selectedTextBlock: [ textMorph textMorph editor selection ].
 	aTextPresentation textBlock: [ textMorph textMorph editor text ].
+	aTextPresentation when: GLMPresentationUpdated do: [:ann |
+		textModel text: aTextPresentation formatedDisplayValue haltOnce.
+		textModel changed: #text ].
 	^ textMorph
 ]
 
