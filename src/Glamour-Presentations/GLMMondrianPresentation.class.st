@@ -36,6 +36,6 @@ GLMMondrianPresentation >> renderOn: aView [
 	self flag: 'find a smarter solution that does not depend on isKindOf:'.
 	self painting glamourValue: (
 		(self entity isKindOf: GLMMultiValue) 
-				ifTrue: [(GLMMultiValue with: aView) , self entity with: self] 
+				ifTrue: [(GLMMultiValue with: aView) , self entity , (GLMMultiValue with: self)] 
 				ifFalse: [GLMMultiValue with: aView with: self entity with: self])
 ]
