@@ -1,0 +1,26 @@
+Class {
+	#name : #GLMAccumulatorMorphicTest,
+	#superclass : #GLMMorphicTest,
+	#category : #'Glamour-Test-Morphic'
+}
+
+{ #category : #'as yet unclassified' }
+GLMAccumulatorMorphicTest >> testCreation [
+	| browser |
+	browser := GLMAccumulator new.
+	browser show: [:a | a list display: [:x | $a to: x ]].
+	window := browser openOn: $d.
+	self assert: window submorphs last class = LazyTabGroupMorph.
+]
+
+{ #category : #'as yet unclassified' }
+GLMAccumulatorMorphicTest >> testListInside [
+	| browser tabs firstTreeMorph |
+	browser := GLMAccumulator new.
+	browser show: [:a | a list display: [:x | $a to: x ]].
+	window := browser openOn: $d.
+	tabs := window submorphs last.
+	self assert: (tabs pageAt: 1) submorphs first submorphs first class = LazyMorphTreeMorph.
+	firstTreeMorph := (tabs pageAt: 1) submorphs first submorphs first.
+	self assert: ((firstTreeMorph roots collect: #complexContents) collect: #item) = ($a to: $d) asArray
+]
