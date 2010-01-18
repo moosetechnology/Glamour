@@ -8,12 +8,6 @@ GLMTransmission >> andShow: aBlock [
 ]
 
 { #category : #'*Glamour-Scripting' }
-GLMTransmission >> ensureBundleStrategy [
-	self transmissionStrategy class = GLMBundleTransmissionStrategy ifFalse: [
-		self transmissionStrategy: (GLMBundleTransmissionStrategy of: self) ]
-]
-
-{ #category : #'*Glamour-Scripting' }
 GLMTransmission >> from: aPort [
 	^ self addActiveOrigin: (self browser resolveOriginPort: aPort)
 ]
