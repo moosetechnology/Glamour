@@ -142,9 +142,15 @@ GLMMorphicRenderer >> renderAccumulator: aBrowser [
 			addLazyPage: [ self render: each ]
 			label: (self titleOrIconOf: each presentations in: tabs) ].
 	aBrowser 
+		when: GLMPaneSelected
+		do: [ :ann | 
+			tabs selectedPageIndex: ann position ].
+	aBrowser 
 		when: GLMPaneAdded
-		do: [ :ann | tabs addLazyPage: (self render: ann pane) label: (self titleOrIconOf: ann pane presentations in: tabs) ].
-	tabs selectedPageIndex: 1.
+		do: [ :ann | 
+			tabs addLazyPage: (self render: ann pane) label: (self titleOrIconOf: ann pane presentations in: tabs).
+			tabs selectedPageIndex: tabs lazyPages size ].
+	tabs selectedPageIndex: tabs lazyPages size.
 	^ tabs
 ]
 
