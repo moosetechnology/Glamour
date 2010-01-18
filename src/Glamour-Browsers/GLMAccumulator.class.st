@@ -10,7 +10,14 @@ Class {
 { #category : #private }
 GLMAccumulator >> addPaneFrom: aPort [ 
 	| lastActivePresentation |
-	(self panes anySatisfy: [:each | (each port: #entity) value = aPort value]) ifTrue: [^ self]. 
+	self panes withIndexDo: [:each :i | 
+		(each port: #entity) value = aPort value ifTrue: [
+			self announce: 
+				(GLMPaneSelected 
+					pane: each 
+					atPosition: i
+					inBrowser: self).
+			^ self ]]. 
 	self panes addLast: (GLMPane in: self).
 	GLMTransmission new
 		ensureBundleStrategy;
