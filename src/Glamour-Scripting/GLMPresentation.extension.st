@@ -92,17 +92,6 @@ GLMPresentation >> noSelection [
 ]
 
 { #category : #'*Glamour-Scripting' }
-GLMPresentation >> on: aCharacter do: aBlock [
-	
-	self
-		addAction:
-			((GLMAction new)
-				action: aBlock;
-				shortcut: aCharacter;
-				yourself)
-]
-
-{ #category : #'*Glamour-Scripting' }
 GLMPresentation >> send: aBlock [ 
 	self selectionTransformation: aBlock
 ]

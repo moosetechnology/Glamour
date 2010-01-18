@@ -8,6 +8,13 @@ GLMTransmission >> andShow: aBlock [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMTransmission >> andShowWithoutOverride: aBlock [
+	self ensureNoOverrideBundleStrategy.
+	self origins isEmpty ifTrue: [self from: #outer->#entity].
+	aBlock value: self transmissionStrategy presentations
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMTransmission >> from: aPort [
 	^ self addActiveOrigin: (self browser resolveOriginPort: aPort)
 ]
