@@ -491,7 +491,7 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 	aTextPresentation selectedTextBlock: [ textMorph textMorph editor selection ].
 	aTextPresentation textBlock: [ textMorph textMorph editor text ].
 	aTextPresentation when: GLMPresentationUpdated do: [:ann |
-		textModel text: aTextPresentation formatedDisplayValue haltOnce.
+		textModel text: aTextPresentation formatedDisplayValue.
 		textModel changed: #text ].
 	^ textMorph
 ]
