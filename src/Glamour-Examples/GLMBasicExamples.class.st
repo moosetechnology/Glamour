@@ -9,6 +9,7 @@ Class {
 
 { #category : #others }
 GLMBasicExamples >> accumulator [
+	<glmBrowser: 'Accumulator' input: '42'>
 	"self new accumulator openOn: 42"
 	| browser acc |
 	browser := GLMTabulator new.
