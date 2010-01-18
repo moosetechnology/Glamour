@@ -108,6 +108,18 @@ GLMTransmission >> destination: aPort [
 	destination := aPort
 ]
 
+{ #category : #accessing }
+GLMTransmission >> ensureBundleStrategy [
+	self transmissionStrategy class = GLMBundleTransmissionStrategy ifFalse: [
+		self transmissionStrategy: (GLMBundleTransmissionStrategy of: self) ]
+]
+
+{ #category : #accessing }
+GLMTransmission >> ensureNoOverrideBundleStrategy [
+	self transmissionStrategy class = GLMNoOverrideBundleTransmissionStrategy ifFalse: [
+		self transmissionStrategy: (GLMNoOverrideBundleTransmissionStrategy of: self) ]
+]
+
 { #category : #'initialize-release' }
 GLMTransmission >> initialize [
 	transmissionStrategy := GLMTransmissionStrategy new
