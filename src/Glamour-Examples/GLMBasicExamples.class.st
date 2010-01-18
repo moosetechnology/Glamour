@@ -7,6 +7,28 @@ Class {
 	#category : #'Glamour-Examples'
 }
 
+{ #category : #others }
+GLMBasicExamples >> accumulator [
+	"self new accumulator openOn: 42"
+	| browser acc |
+	browser := GLMTabulator new.
+	acc := GLMAccumulator new.
+	acc show: [:a | 
+		a title: [:x | x asString]. 
+		a list display: [:x | 1 to: x ].
+		a text display: [:x | 'This is an editor on ', x printString ].
+		].
+	browser column: [:c | c row: #one span: 4; row: #two]; column: #three.
+	browser transmit to: #one; andShow: [:a | 
+		a list display: [:x | x to: 10 * x]].
+	browser transmit to: #two; from: #one; andShow: [:a |
+		a text display: [:x | 'You have selected ', x printString, '. Double cick to open to the right']].
+	browser transmit to: #three; from: #one->#strongSelection; andShowWithoutOverride: [:a |
+		a custom: acc ].
+	^ browser
+	
+]
+
 { #category : #private }
 GLMBasicExamples >> actionsFor: aPresentation [ 
 	|actions|
