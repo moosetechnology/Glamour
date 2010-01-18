@@ -216,27 +216,6 @@ GLMBasicExamples >> listsWithUpdatedSelection [
 	^ browser
 ]
 
-{ #category : #updating }
-GLMBasicExamples >> mondrianExplicitUpdate [
-	"|collection|
-	collection := GLMAnnouncingCollection new.
-	collection add: 1; add: 2; add: 3.
-	self new updatableBrowser openOn: collection.
-	collection inspect"
-	
-	| browser |
-	browser := GLMTabulator new.
-	browser column: #one; column: #two.
-	browser 
-		showOn: #one;
-		using: [ browser list 
-							shouldValidate: true;
-							updateYourselfOn: GLMItemAdded from: #yourself;
-							updateYourselfOn: GLMItemRemoved from: #yourself ].
-	browser showOn: #two; from: #one; using: [browser list ].
-	^browser
-]
-
 { #category : #others }
 GLMBasicExamples >> morphIcons [
 	<glmBrowser: 'OBMorphicIcons Browser' input: 'OBMorphicIcons selectors select: [:each | (OBMorphicIcons new perform: each) isForm ]'>
@@ -621,7 +600,7 @@ GLMBasicExamples >> updatableBrowser [
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
 	browser transmit to: #one; andShow: [ :a |
-		a title: 'Updated'.
+		a title: 'Updated automatically'.
 		a stackedArrangement.
 		a list title: 'List';
 			shouldValidate: true;
@@ -633,6 +612,18 @@ GLMBasicExamples >> updatableBrowser [
 		a mondrian title: 'Mondrian';
 			updateYourselfOn: GLMItemAdded from: #yourself;
 			updateYourselfOn: GLMItemRemoved from: #yourself;
+			painting: [:view :entity | 
+				view shape label.
+				view nodes: entity ] ].
+	browser transmit to: #two; andShow: [ :a |
+		a title: 'Updated via menu'.
+		a stackedArrangement.
+		a list title: 'List';
+			shouldValidate: true;
+			act: [:p | p update] entitled: 'Update'.
+		a text title: 'Text'; act: [:p | p update] entitled: 'Update'.
+		a mondrian title: 'Mondrian';
+			act: [:p | p update] entitled: 'Update';
 			painting: [:view :entity | 
 				view shape label.
 				view nodes: entity ] ].
