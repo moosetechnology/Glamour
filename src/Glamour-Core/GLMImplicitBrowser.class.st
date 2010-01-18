@@ -5,7 +5,6 @@ Class {
 	#name : #GLMImplicitBrowser,
 	#superclass : #GLMBrowser,
 	#instVars : [
-		'panes',
 		'presentations',
 		'scriptTransmission'
 	],
@@ -15,12 +14,6 @@ Class {
 { #category : #accessing }
 GLMImplicitBrowser >> addPresentation: aPresentation [
 	self presentations add: aPresentation
-]
-
-{ #category : #accessing }
-GLMImplicitBrowser >> panes [ 
-	 
-	^panes ifNil: [panes := OrderedCollection new]
 ]
 
 { #category : #accessing }

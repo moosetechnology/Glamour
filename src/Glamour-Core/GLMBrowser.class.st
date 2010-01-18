@@ -13,7 +13,8 @@ Class {
 	#traits : 'GLMTPresentationBuilder',
 	#classTraits : 'GLMTPresentationBuilder classTrait',
 	#instVars : [
-		'transmissions'
+		'transmissions',
+		'panes'
 	],
 	#category : #'Glamour-Core'
 }
@@ -35,9 +36,33 @@ GLMBrowser >> outerPortEvent: aPortEvent [
 
 { #category : #accessing }
 GLMBrowser >> panes [ 
-	"Return an (ordered) collection of the panes used by this browser." 
 	 
-	self subclassResponsibility
+	^panes ifNil: [panes := OrderedCollection new]
+]
+
+{ #category : #copying }
+GLMBrowser >> postCopy [
+	| newPane newPanes newPanesMapping newTransmission oldPane |
+	super postCopy.
+	"needed for setting the right panes for the new transmissions"
+	newPanesMapping := Dictionary new. 
+	newPanes := OrderedCollection new.
+	self panes do: [:each | 
+		newPane := each copy.
+		newPane browser: self.
+		newPanes addLast: newPane.
+		newPanesMapping at: each put: newPane ].
+	oldPane := self pane.
+	pane := nil.
+	newPanesMapping at: oldPane ifAbsentPut: [ self pane ].
+	transmissions := self transmissions collect: [ :each | 
+		newTransmission := each copy.
+		newTransmission 
+			changePortsAccordingToPaneMapping: newPanesMapping 
+			fromOldBrowser: nil
+			toNewBrowser: self.
+		newTransmission ].
+	panes := newPanes
 ]
 
 { #category : #'scripting-private' }

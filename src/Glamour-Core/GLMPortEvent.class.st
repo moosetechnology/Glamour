@@ -12,7 +12,6 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'port',
-		'transmission',
 		'oldValue',
 		'transmissionContext'
 	],
@@ -72,12 +71,6 @@ GLMPortEvent >> port [
 GLMPortEvent >> portName [ 
 	 
 	^self port name
-]
-
-{ #category : #accessing }
-GLMPortEvent >> transmission [ 
-	 
-	^transmission
 ]
 
 { #category : #accessing }
