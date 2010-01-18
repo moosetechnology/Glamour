@@ -26,8 +26,8 @@ GLMMondrianPresentation >> painting: anObject [
 ]
 
 { #category : #rendering }
-GLMMondrianPresentation >> renderGlamorouslyOn: aRenderer [ 
-	 
+GLMMondrianPresentation >> renderGlamorouslyOn: aRenderer [
+	self registerAnnouncements.
 	^aRenderer renderMondrianPresentation: self
 ]
 
@@ -36,6 +36,6 @@ GLMMondrianPresentation >> renderOn: aView [
 	self flag: 'find a smarter solution that does not depend on isKindOf:'.
 	self painting glamourValue: (
 		(self entity isKindOf: GLMMultiValue) 
-				ifTrue: [(GLMMultiValue with: aView) , self entity] 
-				ifFalse: [GLMMultiValue with: aView with: self entity])
+				ifTrue: [(GLMMultiValue with: aView) , self entity with: self] 
+				ifFalse: [GLMMultiValue with: aView with: self entity with: self])
 ]

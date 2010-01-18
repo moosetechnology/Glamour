@@ -6,5 +6,6 @@ Class {
 
 { #category : #rendering }
 GLMDiffPresentation >> renderGlamorouslyOn: aRenderer [ 
-	^aRenderer renderDiffPresentation: self
+	self registerAnnouncements.
+	^ aRenderer renderDiffPresentation: self
 ]

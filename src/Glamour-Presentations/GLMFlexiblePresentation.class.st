@@ -19,6 +19,6 @@ GLMFlexiblePresentation >> currentPresentation [
 
 { #category : #rendering }
 GLMFlexiblePresentation >> renderGlamorouslyOn: aRenderer [ 
-	 
+	self registerAnnouncements. 
 	^self currentPresentation renderGlamorouslyOn: aRenderer
 ]

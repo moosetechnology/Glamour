@@ -16,5 +16,6 @@ GLMDynamicPresentation >> currentPresentation [
 
 { #category : #'as yet unclassified' }
 GLMDynamicPresentation >> renderGlamorouslyOn: aRenderer [ 
+	self registerAnnouncements.
 	^ self currentPresentation renderGlamorouslyOn: aRenderer
 ]

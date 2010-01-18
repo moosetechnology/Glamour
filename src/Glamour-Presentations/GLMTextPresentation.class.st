@@ -50,8 +50,8 @@ GLMTextPresentation >> highlightSmalltalkContext [
 
 { #category : #rendering }
 GLMTextPresentation >> renderGlamorouslyOn: aRenderer [ 
-	 
-	^aRenderer renderTextPresentation: self
+	self registerAnnouncements.
+	^ aRenderer renderTextPresentation: self
 ]
 
 { #category : #accessing }
