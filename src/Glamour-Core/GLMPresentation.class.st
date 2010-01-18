@@ -188,6 +188,11 @@ GLMPresentation >> matches [
 			(self condition glamourValue: self entity) = true]
 ]
 
+{ #category : #announcements }
+GLMPresentation >> on: anAnnouncementClass do: aValuable [
+	^ self when: anAnnouncementClass do: aValuable 
+]
+
 { #category : #events }
 GLMPresentation >> outerPortEvent: aPortEvent [
 	self announce: (GLMContextChanged new
