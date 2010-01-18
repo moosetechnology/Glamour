@@ -216,6 +216,27 @@ GLMBasicExamples >> listsWithUpdatedSelection [
 	^ browser
 ]
 
+{ #category : #updating }
+GLMBasicExamples >> mondrianExplicitUpdate [
+	"|collection|
+	collection := GLMAnnouncingCollection new.
+	collection add: 1; add: 2; add: 3.
+	self new updatableBrowser openOn: collection.
+	collection inspect"
+	
+	| browser |
+	browser := GLMTabulator new.
+	browser column: #one; column: #two.
+	browser 
+		showOn: #one;
+		using: [ browser list 
+							shouldValidate: true;
+							updateYourselfOn: GLMItemAdded from: #yourself;
+							updateYourselfOn: GLMItemRemoved from: #yourself ].
+	browser showOn: #two; from: #one; using: [browser list ].
+	^browser
+]
+
 { #category : #others }
 GLMBasicExamples >> morphIcons [
 	<glmBrowser: 'OBMorphicIcons Browser' input: 'OBMorphicIcons selectors select: [:each | (OBMorphicIcons new perform: each) isForm ]'>
@@ -587,9 +608,10 @@ GLMBasicExamples >> treeWithMenu [
 	^ browser
 ]
 
-{ #category : #'actions examples' }
+{ #category : #updating }
 GLMBasicExamples >> updatableBrowser [
-	"|collection|
+	"
+	|collection|
 	collection := GLMAnnouncingCollection new.
 	collection add: 1; add: 2; add: 3.
 	self new updatableBrowser openOn: collection.
@@ -598,14 +620,24 @@ GLMBasicExamples >> updatableBrowser [
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
-	browser 
-		showOn: #one;
-		using: [ browser list 
-							shouldValidate: true;
-							updateYourselfOn: GLMItemAdded from: #yourself;
-							updateYourselfOn: GLMItemRemoved from: #yourself ].
+	browser transmit to: #one; andShow: [ :a |
+		a title: 'Updated'.
+		a stackedArrangement.
+		a list title: 'List';
+			shouldValidate: true;
+			updateYourselfOn: GLMItemAdded from: #yourself;
+			updateYourselfOn: GLMItemRemoved from: #yourself.
+		a text title: 'Text';
+			updateYourselfOn: GLMItemAdded from: #yourself;
+			updateYourselfOn: GLMItemRemoved from: #yourself .
+		a mondrian title: 'Mondrian';
+			updateYourselfOn: GLMItemAdded from: #yourself;
+			updateYourselfOn: GLMItemRemoved from: #yourself;
+			painting: [:view :entity | 
+				view shape label.
+				view nodes: entity ] ].
 	browser showOn: #two; from: #one; using: [browser list ].
-	^browser
+	^ browser
 ]
 
 { #category : #text }

@@ -50,6 +50,11 @@ GLMAnnouncingCollection >> isCollection [
 ]
 
 { #category : #initialization }
+GLMAnnouncingCollection >> printString [
+	^ collection printString 
+]
+
+{ #category : #initialization }
 GLMAnnouncingCollection >> remove: anObject [
 
 	collection remove: anObject.
