@@ -5,6 +5,18 @@ Class {
 }
 
 { #category : #testing }
+GLMAccumulatorTest >> testCustomTransmissions [
+	| accumulator presentation annoumcementsCount |
+	accumulator := GLMAccumulator new.
+	presentation := GLMPresentation new.
+	accumulator addPresentation: presentation.
+	accumulator transmit fromOutside: #selection; toOutside: #otherPort.
+	accumulator startOn: 41.
+	(accumulator panes first port: #selection) value: 42.
+	self assert: (accumulator pane port: #otherPort) value = 42.
+]
+
+{ #category : #testing }
 GLMAccumulatorTest >> testNoDuplicatePaneCreation [
 	| accumulator presentation |
 	accumulator := GLMAccumulator new.
@@ -75,4 +87,15 @@ GLMAccumulatorTest >> testPaneSelectedAnnouncement [
 	self assert: annoumcementsCount = 0.
 	1 to: 42 do: [ :i | accumulator entity: i ].
 	self assert: annoumcementsCount = 42
+]
+
+{ #category : #testing }
+GLMAccumulatorTest >> testPublishToOutside [
+	| accumulator presentation annoumcementsCount |
+	accumulator := GLMAccumulator new.
+	presentation := GLMPresentation new.
+	accumulator addPresentation: presentation.
+	accumulator startOn: 41.
+	(accumulator panes first port: #selection) value: 42.
+	self assert: (accumulator pane port: #selection) value = 42
 ]
