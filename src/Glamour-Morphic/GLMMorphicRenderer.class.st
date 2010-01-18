@@ -335,15 +335,13 @@ GLMMorphicRenderer >> renderMondrianPresentation: aPresentation [
 			when: MOFigureSelection
 			do: [ :ann | aPresentation selection: ann element model ].
 	aPresentation when: GLMPresentationUpdated do: [:ann |
-		self haltOnce.
 		newCanvas := MOCanvas new.
 		newView := MOViewRenderer new.
 		aPresentation renderOn: newView. 
-		newCanvas root: view root.
+		newCanvas root: newView root.
 		newCanvas initializeHanders.
-		canvasScrollPane scroller removeAllMorphs.
-		canvasScrollPane scroller addMorph: newCanvas.
-		canvasScrollPane changed ].
+		canvasScrollPane scroller removeMorph: canvasScrollPane scroller submorphs first.
+		canvasScrollPane scroller addMorph: newCanvas ].
 	canvasScrollPane := ScrollPane new.
 	canvasScrollPane scroller addMorph: canvas.	
 	canvasScrollPane
