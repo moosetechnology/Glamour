@@ -632,6 +632,7 @@ GLMMorphicRenderer >> treeMorphFor: treeModel and: aPresentation [
 			actionSelector: nil 
 			arguments: #(); 
 			yourself)].
+	treeModel defaultPageSize: aPresentation amountToShow.
 	treeMorph
 		preferedPaneColor: Color white;	
 		model: treeModel;
@@ -640,7 +641,7 @@ GLMMorphicRenderer >> treeMorphFor: treeModel and: aPresentation [
 	aPresentation isMultiple 
 		ifTrue: [treeMorph beMultiple] 
 		ifFalse: [treeMorph beSingle].
-	treeModel defaultPageSize: aPresentation amountToShow.
+	treeModel pageSize: aPresentation amountToShow.
 	treeMorph vShowScrollBar.
 	^ treeMorph buildContents
 ]
