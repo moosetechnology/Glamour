@@ -22,10 +22,11 @@ GLMBasicExamples >> accumulator [
 	browser column: [:c | c row: #one span: 4; row: #two]; column: #three.
 	browser transmit to: #one; andShow: [:a | 
 		a list display: [:x | x to: 10 * x]].
-	browser transmit to: #two; from: #one; andShow: [:a |
+	browser transmit from: #one; to: #two; andShow: [:a |
 		a text display: [:x | 'You have selected ', x printString, '. Double cick to open to the right']].
-	browser transmit to: #three; from: #one->#strongSelection; andShowWithoutOverride: [:a |
+	browser transmit from: #one->#strongSelection; to: #three; andShowWithoutOverride: [:a |
 		a custom: acc ].
+	browser transmit from: #one; to: #three->#entityToSelect.
 	^ browser
 	
 ]
