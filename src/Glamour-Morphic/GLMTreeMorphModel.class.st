@@ -14,7 +14,8 @@ Class {
 		'tagsToFilterBy',
 		'announcer',
 		'inputText',
-		'amountToFilterBy'
+		'amountToFilterBy',
+		'defaultPageSize'
 	],
 	#category : #'Glamour-Morphic'
 }
@@ -31,7 +32,7 @@ GLMTreeMorphModel >> allMenuActions [
 
 { #category : #accessing }
 GLMTreeMorphModel >> amountToFilterBy [
-	^ amountToFilterBy ifNil: [self glamourPresentation amountToShow]
+	^ nil "amountToFilterBy ifNil: [self glamourPresentation amountToShow]"
 ]
 
 { #category : #accessing }
@@ -58,6 +59,16 @@ GLMTreeMorphModel >> childrenBlock [
 { #category : #accessing }
 GLMTreeMorphModel >> childrenBlock: aBlock [
 	childrenBlock := aBlock 
+]
+
+{ #category : #accessing }
+GLMTreeMorphModel >> defaultPageSize [
+	^ defaultPageSize
+]
+
+{ #category : #accessing }
+GLMTreeMorphModel >> defaultPageSize: anInteger [
+	defaultPageSize := anInteger
 ]
 
 { #category : #accessing }

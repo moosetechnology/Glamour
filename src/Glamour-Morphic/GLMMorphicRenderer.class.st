@@ -284,10 +284,11 @@ GLMMorphicRenderer >> renderListingPresentation: aPresentation [
 		textInput := self textInputFor: treeModel.
 		treeMorph layoutFrame bottomOffset: -24.
 		container addMorphBack: textInput ].
-	aPresentation limitsAmount ifTrue: [
+"	aPresentation limitsAmount ifTrue: [
+		treeModel defaultPageSize: aPresentation amountToShow.
 		amountFilteringButton := self amountFilteringButtonFor: treeModel.
 		treeMorph layoutFrame topOffset: 24.
-		container addMorphBack: amountFilteringButton ].
+		container addMorphBack: amountFilteringButton ]."
 	container addMorphBack: treeMorph.
 	self installActionsOnUI: treeModel fromPresentation: aPresentation.
 
@@ -633,10 +634,14 @@ GLMMorphicRenderer >> treeMorphFor: treeModel and: aPresentation [
 			arguments: #(); 
 			yourself)].
 	treeMorph
+		preferedPaneColor: Color white;	
 		model: treeModel;
 		nodeListSelector: #roots;
-		multiSelection: aPresentation isMultiple;
 		columns: columns.
+	aPresentation isMultiple 
+		ifTrue: [treeMorph beMultiple] 
+		ifFalse: [treeMorph beSingle].
+	treeModel defaultPageSize: aPresentation amountToShow.
 	treeMorph vShowScrollBar.
 	^ treeMorph buildContents
 ]
