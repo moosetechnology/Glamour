@@ -508,14 +508,14 @@ GLMBasicExamples >> threeInterdependentPanes [
 
 { #category : #others }
 GLMBasicExamples >> treeWithAmountFiltering [
-	"self new treeWithAmountFiltering openOn: (1 to: 1000)"
+	"self new treeWithAmountFiltering openOn: (1 to: 100)"
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #one.
 	browser showOn: #one; using: [
 		browser tree
-			tags: [:each | {each even printString} ];
-			showOnly: 50].
+			tags: [ :each | {each even printString} ];
+			showOnly: 10 ].
 	^ browser 
 ]
 
@@ -593,17 +593,18 @@ GLMBasicExamples >> updatableBrowser [
 	|collection|
 	collection := GLMAnnouncingCollection new.
 	collection add: 1; add: 2; add: 3.
-	self new updatableBrowser openOn: collection.
-	collection inspect"
+	self new updatableBrowser openOn: collection."
 	
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
+	browser act: [:b | b entity add: (browser entity size + 1) ] entitled: 'Add an item in the collection'.
+	browser act: [:b | b entity add: (browser entity size + 1) ] entitled: 'Remove last item from the collection'.
 	browser transmit to: #one; andShow: [ :a |
 		a title: 'Updated automatically'.
 		a stackedArrangement.
 		a list title: 'List';
-			shouldValidate: true;
+"			shouldValidate: true;"
 			updateYourselfOn: GLMItemAdded from: #yourself;
 			updateYourselfOn: GLMItemRemoved from: #yourself.
 		a text title: 'Text';

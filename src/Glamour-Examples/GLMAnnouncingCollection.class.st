@@ -62,6 +62,18 @@ GLMAnnouncingCollection >> remove: anObject [
 ]
 
 { #category : #initialization }
+GLMAnnouncingCollection >> removeLast [
+
+	collection removeLast.
+	self announce: GLMItemRemoved
+]
+
+{ #category : #initialization }
+GLMAnnouncingCollection >> size [
+	^ collection size
+]
+
+{ #category : #initialization }
 GLMAnnouncingCollection >> withIndexDo: aBlock [
 
 	^collection withIndexDo: aBlock
