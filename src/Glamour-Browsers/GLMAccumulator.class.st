@@ -1,9 +1,20 @@
+"
+An GLMAccumulator is an implicit type of browser that has the following behavior:
+- each input entity has associated a pane without any relationship with the other panes
+- based on the input entity if there already exists a pane associated, it is selected via GLMPaneSelected
+- if there isnt a pane, a new pane is created
+- based on entityToSelect, the associated pane is searched and potentially selected
+
+Input ports:
+- entity
+- entityToSelect
+
+Output ports:
+- selection
+"
 Class {
 	#name : #GLMAccumulator,
 	#superclass : #GLMImplicitBrowser,
-	#instVars : [
-		'cell'
-	],
 	#category : #'Glamour-Browsers'
 }
 
@@ -32,6 +43,11 @@ GLMAccumulator >> addPaneFrom: aPort [
 				inBrowser: self)
 ]
 
+{ #category : #'accessing ports' }
+GLMAccumulator >> entityToSelect: anObject [
+	^ (self pane port: #entityToSelect) value: anObject 
+]
+
 { #category : #events }
 GLMAccumulator >> innerPortEvent: aPortEvent [ 
 	aPortEvent portName = #entity ifFalse: [
@@ -42,8 +58,10 @@ GLMAccumulator >> innerPortEvent: aPortEvent [
 { #category : #events }
 GLMAccumulator >> outerPortEvent: aPortEvent [ 
  	super outerPortEvent: aPortEvent.
-	aPortEvent port name = #entity ifFalse: [^self].
-	self addPaneFrom: aPortEvent port
+	aPortEvent port name = #entityToSelect ifTrue: [
+		self tryToSelectPaneFrom: aPortEvent port ].	
+	aPortEvent port name = #entity ifTrue: [
+		self addPaneFrom: aPortEvent port ]
 ]
 
 { #category : #private }
@@ -56,4 +74,16 @@ GLMAccumulator >> removePaneIndex: i [
 { #category : #rendering }
 GLMAccumulator >> renderGlamorouslyOn: aRenderer [
 	^ aRenderer renderAccumulator: self
+]
+
+{ #category : #private }
+GLMAccumulator >> tryToSelectPaneFrom: aPort [
+	self panes withIndexDo: [:each :i | 
+		(each port: #entity) value = aPort value ifTrue: [
+			self announce: 
+				(GLMPaneSelected 
+					pane: each 
+					atPosition: i
+					inBrowser: self).
+			^ self ] ]
 ]
