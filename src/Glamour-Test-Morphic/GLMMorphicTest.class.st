@@ -155,8 +155,15 @@ GLMMorphicTest >> testInterdependentPanesShouldUpdateTheFocusTriggerPane [
 	((browser paneNamed: #one) port: #selection) value: 3.
 	((browser paneNamed: #two) port: #selection) value: 6.
 	treeMorphThree := (window submorphs last submorphs at: 5) submorphs first submorphs first.
-	((browser paneNamed: #three) port: #selection) value: 12.
-	((browser paneNamed: #three) port: #focus) value: 12.
+	((browser paneNamed: #three) port: #selection) value: 11.
+	((browser paneNamed: #three) port: #focus) value: 1.
+
+	((browser paneNamed: #one) port: #selection) value: 2.
+	((browser paneNamed: #one) port: #entity) value: 5.
+	((browser paneNamed: #two) port: #entity) value: 4.
+	((browser paneNamed: #two) port: #selection) value: 3.
+	((browser paneNamed: #three) port: #entity) value: 9.
+	((browser paneNamed: #two) port: #selection) isNil.
 	treeMorphThree2 := (window submorphs last submorphs at: 5) submorphs first submorphs first.
 	self assert: treeMorphThree ~= treeMorphThree2
 ]
