@@ -16,8 +16,8 @@ GLMBasicExamples >> accumulator [
 	acc := GLMAccumulator new.
 	acc show: [:a | 
 		a title: [:x | x asString]. 
-		a list display: [:x | 1 to: x ].
-		a text display: [:x | 'This is an editor on ', x printString ].
+		a list title: 'List'; display: [:x | 1 to: x ].
+		a text title: 'Text'; display: [:x | 'This is an editor on ', x printString ].
 		].
 	browser column: [:c | c row: #one span: 4; row: #two]; column: #three.
 	browser transmit to: #one; andShow: [:a | 
