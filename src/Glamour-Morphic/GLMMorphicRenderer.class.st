@@ -608,13 +608,12 @@ GLMMorphicRenderer >> treeMorphFor: treeModel and: aPresentation [
 		doubleClickSelector: #onDoubleClick;
 		getMenuSelector: #menu:shifted:;
 		keystrokeActionSelector: #keyStroke:from:;
-		cornerStyle: #square;
+		cornerStyle: treeMorph preferredCornerStyle;
 		borderStyle: (BorderStyle inset width: 1);
 		autoDeselect: aPresentation allowsDeselection;
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
-		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
-		yourself.
+		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1)).
 	columns := OrderedCollection with: (MorphTreeColumn new rowMorphGetSelector: #elementColumn).
 	self flag: 'Please refactor this part'.
 	aPresentation columns notEmpty ifTrue: [
