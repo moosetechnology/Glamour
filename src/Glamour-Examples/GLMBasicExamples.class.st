@@ -604,7 +604,7 @@ GLMBasicExamples >> updatableBrowser [
 		a title: 'Updated automatically'.
 		a stackedArrangement.
 		a list title: 'List';
-"			shouldValidate: true;"
+			shouldValidate: true;
 			updateYourselfOn: GLMItemAdded from: #yourself;
 			updateYourselfOn: GLMItemRemoved from: #yourself.
 		a text title: 'Text';
@@ -628,7 +628,6 @@ GLMBasicExamples >> updatableBrowser [
 			painting: [:view :entity | 
 				view shape label.
 				view nodes: entity ] ].
-	browser showOn: #two; from: #one; using: [browser list ].
 	^ browser
 ]
 
