@@ -92,16 +92,21 @@ GLMAccumulatorTest >> testPaneRemovedAnnouncement [
 
 { #category : #testing }
 GLMAccumulatorTest >> testPaneSelectedAnnouncement [
-	| accumulator presentation annoumcementsCount |
+	| accumulator presentation annoumcementsCount otherAnnoumcementsCount |
 	accumulator := GLMAccumulator new.
 	presentation := GLMPresentation new.
 	accumulator addPresentation: presentation.
 	annoumcementsCount := 0.
+	otherAnnoumcementsCount := 0.
+	1 to: 42 do: [ :i | accumulator entity: i ].
 	accumulator on: GLMPaneSelected do: [:ann | annoumcementsCount := annoumcementsCount + 1].
-	1 to: 42 do: [ :i | accumulator entity: i ].
+	accumulator on: GLMPaneAdded do: [:ann | otherAnnoumcementsCount := otherAnnoumcementsCount + 1].
+	accumulator on: GLMPaneRemoved do: [:ann | otherAnnoumcementsCount := otherAnnoumcementsCount + 1].
 	self assert: annoumcementsCount = 0.
-	1 to: 42 do: [ :i | accumulator entity: i ].
-	self assert: annoumcementsCount = 42
+	self assert: otherAnnoumcementsCount = 0.
+	1 to: 42 do: [ :i | accumulator entityToSelect: i ].
+	self assert: annoumcementsCount = 42.
+	self assert: otherAnnoumcementsCount = 0.
 ]
 
 { #category : #testing }
