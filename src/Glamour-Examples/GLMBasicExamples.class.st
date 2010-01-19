@@ -405,13 +405,15 @@ GLMBasicExamples >> singleInitialSelection [
 GLMBasicExamples >> starBrowser [
 	"self new starBrowser openOn: { Boolean. String. #asString. #printString }"
 
-	| browser |
+	| browser accumulator |
 	browser := GLMTabulator new.
 	browser title: 'StarBrowser Light'.
 	browser column: #tree; column: #browser span: 4.
 	browser showOn: #tree; using: [ browser list ].
-	browser showOn: #browser; from: #tree; using: [
-		browser morph
+	accumulator := GLMAccumulator new.
+	accumulator show: [ :a |
+		a title: [:object | object printString ].
+		a morph
 			display: [ :object |
 				| model |
 				" create omnibrowser model "
@@ -424,6 +426,8 @@ GLMBasicExamples >> starBrowser [
 					layoutPolicy: ProportionalLayout new;
 					addAllMorphs: (OBMorphBuilder build: model) paneMorphs;
 					yourself ] ].
+	browser transmit to: #browser; from: #tree->#strongSelection; andShowWithoutOverride: [ :a |
+		a custom: accumulator ].
 	^ browser 
 ]
 
