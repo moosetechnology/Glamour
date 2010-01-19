@@ -599,7 +599,7 @@ GLMBasicExamples >> updatableBrowser [
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
 	browser act: [:b | b entity add: (browser entity size + 1) ] entitled: 'Add an item in the collection'.
-	browser act: [:b | b entity add: (browser entity size + 1) ] entitled: 'Remove last item from the collection'.
+	browser act: [:b | b entity removeLast ] entitled: 'Remove last item from the collection'.
 	browser transmit to: #one; andShow: [ :a |
 		a title: 'Updated automatically'.
 		a stackedArrangement.
