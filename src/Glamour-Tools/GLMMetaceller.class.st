@@ -2,13 +2,13 @@
 self open
 "
 Class {
-	#name : #GLMMetacelloBrowser,
+	#name : #GLMMetaceller,
 	#superclass : #GLMGlobalBrowserTemplate,
 	#category : #'Glamour-Tools'
 }
 
 { #category : #building }
-GLMMetacelloBrowser >> buildBrowser [
+GLMMetaceller >> buildBrowser [
 	browser := GLMTabulator new.
 	browser title: 'Metacello Browser'.
 	browser column: #configs; column: #versions; column: #packages span: 2.
@@ -19,13 +19,13 @@ GLMMetacelloBrowser >> buildBrowser [
 ]
 
 { #category : #opening }
-GLMMetacelloBrowser >> entity [ 
+GLMMetaceller >> entity [ 
 	^ (Object subclasses select: [:each | (each class canUnderstand: #isMetacelloConfig) and: [
 			each isMetacelloConfig ] ]) sort: [:a :b | a name < b name]
 ]
 
 { #category : #private }
-GLMMetacelloBrowser >> packageSpecHasNewerVersions: aPackageSpec [
+GLMMetaceller >> packageSpecHasNewerVersions: aPackageSpec [
 	| copy |
 	copy := aPackageSpec workingCopy.
 	copy isNil ifTrue: [^ false ].
@@ -33,7 +33,7 @@ GLMMetacelloBrowser >> packageSpecHasNewerVersions: aPackageSpec [
 ]
 
 { #category : #private }
-GLMMetacelloBrowser >> packageSpecNeedsSaving: aPackageSpec [
+GLMMetaceller >> packageSpecNeedsSaving: aPackageSpec [
 	| copy |
 	copy := aPackageSpec workingCopy.
 	copy isNil ifTrue: [^ false ].
@@ -41,15 +41,31 @@ GLMMetacelloBrowser >> packageSpecNeedsSaving: aPackageSpec [
 ]
 
 { #category : #private }
-GLMMetacelloBrowser >> shortNameOf: config [
+GLMMetaceller >> packagesAndGroupsOf: version [
+	| packageMap |
+	packageMap := Dictionary new.
+	version groups do: [:eachGroup |
+		(version packagesForSpecNamed: eachGroup name) do: [:eachPackage |
+			packageMap at: eachPackage ifAbsentPut: [OrderedCollection new].
+			(packageMap at: eachPackage) add: eachGroup name ] ].
+	^ packageMap
+]
+
+{ #category : #private }
+GLMMetaceller >> shortNameOf: config [
 	"self new shortNameOf: ConfigurationOfAlien"
 	^ (config name beginsWith: 'ConfigurationOf') 
 		ifTrue: [config name copyFrom: 'ConfigurationOf' size + 1 to: config name size ] 
 		ifFalse: [config name]
 ]
 
+{ #category : #private }
+GLMMetaceller >> tagsOf: packageSpec in: version [
+	^ (self packagesAndGroupsOf: version) at: packageSpec ifAbsent: [OrderedCollection new]
+]
+
 { #category : #building }
-GLMMetacelloBrowser >> toConfigsAndShow [
+GLMMetaceller >> toConfigsAndShow [
 	browser transmit to: #configs; andShow: [ :a |
 		a title: 'Configurations'.
 		a list
@@ -63,7 +79,7 @@ GLMMetacelloBrowser >> toConfigsAndShow [
 ]
 
 { #category : #building }
-GLMMetacelloBrowser >> toPackagesFromVersionsAndShow [
+GLMMetaceller >> toPackagesFromVersionsAndShow [
 	browser transmit to: #packages; from: #versions; andShow: [ :a |
 		a title: [:version | version name ].
 		a list
@@ -72,6 +88,8 @@ GLMMetacelloBrowser >> toPackagesFromVersionsAndShow [
 			format: [:packageSpec | ((packageSpec isKindOf: MetacelloPackageSpec) and: [
 					self packageSpecNeedsSaving: packageSpec])
 				ifTrue: [Text string: packageSpec name attribute: TextColor blue] ifFalse: [packageSpec name]] ;
+			tags: [:packageSpec :version | 
+				self tagsOf: packageSpec in: version  ]; 
 			act: [:list  | list selection inspect] entitled: 'Inspect'.
  		a mondrian
 			title: 'Dependencies';
@@ -92,7 +110,7 @@ GLMMetacelloBrowser >> toPackagesFromVersionsAndShow [
 ]
 
 { #category : #building }
-GLMMetacelloBrowser >> toVersionsFromConfigsAndShow. [
+GLMMetaceller >> toVersionsFromConfigsAndShow. [
 	browser transmit to: #versions; from: #configs; andShow: [ :a |
 		a title: [:config | self shortNameOf: config ].
 		a list
@@ -109,7 +127,7 @@ GLMMetacelloBrowser >> toVersionsFromConfigsAndShow. [
 ]
 
 { #category : #private }
-GLMMetacelloBrowser >> viewDependenciesOf: version on: view [
+GLMMetaceller >> viewDependenciesOf: version on: view [
 	| all | 
 	all := Dictionary new.
 	version packages do: [:each | all at: each name put: each].
@@ -123,7 +141,7 @@ GLMMetacelloBrowser >> viewDependenciesOf: version on: view [
 ]
 
 { #category : #private }
-GLMMetacelloBrowser >> viewVersionMapOf: configClass on: view [
+GLMMetaceller >> viewVersionMapOf: configClass on: view [
 
 	| prag1 prag2 nodes edges version imported |
 	prag1 := Pragma allNamed: #version:imports: in: configClass.
