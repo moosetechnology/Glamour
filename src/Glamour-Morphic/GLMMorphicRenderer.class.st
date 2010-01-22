@@ -632,8 +632,7 @@ GLMMorphicRenderer >> treeMorphFor: treeModel and: aPresentation [
 			actionSelector: nil 
 			arguments: #(); 
 			yourself)].
-"	treeModel defaultPageSize: aPresentation amountToShow.
-"	treeMorph
+	treeMorph
 		preferedPaneColor: Color white;	
 		model: treeModel;
 		nodeListSelector: #roots;
