@@ -513,6 +513,7 @@ GLMBasicExamples >> threeInterdependentPanes [
 
 { #category : #others }
 GLMBasicExamples >> treeWithAmountFiltering [
+	<glmBrowser: 'Smart lists' input: '(1 to: 10000)'>
 	"self new treeWithAmountFiltering openOn: (1 to: 10000)"
 	| browser |
 	browser := GLMTabulator new.
