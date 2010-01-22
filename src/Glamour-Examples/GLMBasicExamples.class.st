@@ -513,14 +513,14 @@ GLMBasicExamples >> threeInterdependentPanes [
 
 { #category : #others }
 GLMBasicExamples >> treeWithAmountFiltering [
-	"self new treeWithAmountFiltering openOn: (1 to: 100)"
+	"self new treeWithAmountFiltering openOn: (1 to: 10000)"
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #one.
 	browser showOn: #one; using: [
 		browser tree
 			tags: [ :each | {each even printString} ];
-			showOnly: 10 ].
+			showOnly: 50 ].
 	^ browser 
 ]
 
