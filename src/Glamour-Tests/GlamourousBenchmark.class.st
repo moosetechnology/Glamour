@@ -9,19 +9,6 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GlamourousBenchmark >> actionsFor: aPresentation [ 
-	|actions|
-	aPresentation isMultiple 
-							ifTrue: [actions := (aPresentation selection) ifNil: [OrderedCollection new]]
-							ifFalse: [actions := OrderedCollection with: aPresentation selection ].
-	^ actions collect: [:i |
-					(GLMAction new) 
-						action: [:each | Transcript show: 'Menu - Item', i printString; cr]; 
-						title: 'Menu - Item', i printString; 
-						yourself ]
-]
-
-{ #category : #'as yet unclassified' }
 GlamourousBenchmark >> defaultBrowser [ 
 	| browser |
 	browser := GLMTabulator new.
@@ -29,13 +16,13 @@ GlamourousBenchmark >> defaultBrowser [
 
 	browser showOn: #one; using: [
 		browser list
-			display: [:x | 1 to: x * 3]].
+			display: [:x | 1 to: x * 3] ].
 	browser showOn: #two; from: #one; using: [
 		browser list
-			display: [:x | 1 to: x * 3]].
+			display: [:x | 1 to: x * 3] ].
 	browser showOn: #one; from: #two; using: [
 		browser list
-			display: [:x | 1 to: x * 3]].
+			display: [:x | 1 to: x * 3] ].
 
 	^ browser
 ]
@@ -49,7 +36,8 @@ GlamourousBenchmark >> defaultFinderBrowser [
 	finder := GLMFinder new.
 	finder list
 		title: 'title';
-		display: [:each | 1 to: each ].
+		display: [:each | 1 to: each ];
+		showOnly: 50.
 
 	^ finder
 ]
@@ -103,4 +91,41 @@ GlamourousBenchmark >> measureSelectionTimeInFinderForSize: size [
 		
 	window delete.
 	^ {size . time}
+]
+
+{ #category : #'as yet unclassified' }
+GlamourousBenchmark >> showOnlyBrowser [ 
+	| browser |
+	browser := GLMTabulator new.
+	browser column: #one; column: #two.
+
+	browser showOn: #one; using: [
+		browser list
+			display: [:x | 1 to: x * 3];
+			showOnly: 50].
+	browser showOn: #two; from: #one; using: [
+		browser list
+			display: [:x | 1 to: x * 3];
+			showOnly: 50].
+	browser showOn: #one; from: #two; using: [
+		browser list
+			display: [:x | 1 to: x * 3];
+			showOnly: 50].
+
+	^ browser
+]
+
+{ #category : #'as yet unclassified' }
+GlamourousBenchmark >> showOnlyFinderBrowser [ 
+	"
+	self new showOnlyFinderBrowser openOn: 10
+	"
+	| finder |
+	finder := GLMFinder new.
+	finder list
+		title: 'title';
+		display: [:each | 1 to: each ];
+		showOnly: 50.
+
+	^ finder
 ]
