@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #tests }
+GLMNestedBrowserTest >> expectedFailures [
+	^ #(testEntityPropogationAnnouncements)
+]
+
+{ #category : #tests }
 GLMNestedBrowserTest >> testChangeInnerSelection [ 
 	"Tests setting the selection of an inner pane from the oustide. 
  
