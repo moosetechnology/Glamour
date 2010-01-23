@@ -9,7 +9,7 @@ Class {
 
 { #category : #testing }
 GLMMorphicTest >> expectedFailures [
-	^ #(testChildrenBlock testChildrenBlockTakesEntity testColumnBlockTakesEntity)
+	^ #(testChildrenBlock testChildrenBlockTakesEntity testColumnBlockTakesEntity testInterdependentPanesShouldUpdateTheFocusTriggerPane)
 ]
 
 { #category : #private }
