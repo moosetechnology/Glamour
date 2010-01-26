@@ -494,6 +494,9 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 	aTextPresentation when: GLMPresentationUpdated do: [:ann |
 		textModel text: aTextPresentation formatedDisplayValue.
 		textModel changed: #text ].
+	aTextPresentation when: GLMContextChanged do: [ :ann | 
+		ann property = #selectionInterval ifTrue: [ textMorph selectFrom: ann value first to: ann value last ] ].
+
 	^ textMorph
 ]
 
