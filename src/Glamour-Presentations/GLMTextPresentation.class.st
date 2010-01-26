@@ -77,6 +77,11 @@ GLMTextPresentation >> selectedTextBlock: anObject [
 ]
 
 { #category : #accessing }
+GLMTextPresentation >> selectionInterval: anInterval [
+	(self pane port: #selectionInterval) value: anInterval
+]
+
+{ #category : #accessing }
 GLMTextPresentation >> text [
 	^ (self pane port: #text) value isNil 
 		ifTrue: [self textBlock value]
