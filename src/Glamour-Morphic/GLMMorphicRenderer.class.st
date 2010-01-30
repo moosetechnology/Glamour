@@ -284,11 +284,6 @@ GLMMorphicRenderer >> renderListingPresentation: aPresentation [
 		textInput := self textInputFor: treeModel.
 		treeMorph layoutFrame bottomOffset: -24.
 		container addMorphBack: textInput ].
-"	aPresentation limitsAmount ifTrue: [
-		treeModel defaultPageSize: aPresentation amountToShow.
-		amountFilteringButton := self amountFilteringButtonFor: treeModel.
-		treeMorph layoutFrame topOffset: 24.
-		container addMorphBack: amountFilteringButton ]."
 	container addMorphBack: treeMorph.
 	self installActionsOnUI: treeModel fromPresentation: aPresentation.
 
