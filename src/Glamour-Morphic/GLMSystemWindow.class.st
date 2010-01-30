@@ -19,6 +19,12 @@ GLMSystemWindow >> buildWindowMenu [
 						yourself ] ]
 ]
 
+{ #category : #'as yet unclassified' }
+GLMSystemWindow >> delete [
+	self flag: 'at this moment, the glamour presentations should unregisterAnnouncements'.
+	super delete
+]
+
 { #category : #building }
 GLMSystemWindow >> extent: aPoint [ 
 	super extent: aPoint.
