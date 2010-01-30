@@ -20,7 +20,8 @@ Class {
 		'shouldValidate',
 		'acceptsSelection',
 		'announcer',
-		'parentPrototype'
+		'parentPrototype',
+		'registeredAnnouncers'
 	],
 	#category : #'Glamour-Core'
 }
@@ -250,10 +251,22 @@ GLMPresentation >> printOn: aStream [
 
 { #category : #updating }
 GLMPresentation >> registerAnnouncements [
+	| registeredAnnouncers |
 	self flag: 'The announcements should potentially be interested in any ports, not just in entity'.
 	updateAnnouncementsToBlocks keysAndValuesDo: [ :key :value |
 		value do: [ :eachValue | 
-			(eachValue glamourValue: self entity) on: key do: [ :announcement | self update ]]]
+			| announcerObject |
+			announcerObject := (eachValue glamourValue: self entity).
+			announcerObject notNil ifTrue: [
+				announcerObject on: key do: [ :announcement | self update ].
+				"we remember the announcer object to be able to 
+				unregister from it when the presentation goes away"
+				self registeredAnnouncers add: announcerObject ]]]
+]
+
+{ #category : #updating }
+GLMPresentation >> registeredAnnouncers [
+	^ registeredAnnouncers ifNil: [registeredAnnouncers := OrderedCollection new]
 ]
 
 { #category : #rendering }
@@ -263,7 +276,7 @@ GLMPresentation >> renderGlamorouslyOn: aRenderer [
 ]
 
 { #category : #announcements }
-GLMPresentation >> resetAnnouncements [
+GLMPresentation >> resetAnnouncer [
 	self announcer reset
 ]
 
@@ -355,6 +368,12 @@ GLMPresentation >> transformation [
 GLMPresentation >> transformation: aBlock [ 
 	 
 	transformation := aBlock
+]
+
+{ #category : #updating }
+GLMPresentation >> unregisterAnnouncements [
+	"this method should be called every time the presentation is not needed"
+	self registeredAnnouncers do: [ :each | each unsubscribe: self ]
 ]
 
 { #category : #updating }

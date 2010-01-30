@@ -222,7 +222,7 @@ GLMPane >> presentations [
 GLMPane >> presentations: aCompositePresentation [
 	self notingPresentationChangeDo: [
 		presentations pane: nil.
-		presentations resetAnnouncements.
+		presentations resetAnnouncer.
 		aCompositePresentation withAllDo: [:each | each pane: self].
 		presentations := aCompositePresentation ]
 ]

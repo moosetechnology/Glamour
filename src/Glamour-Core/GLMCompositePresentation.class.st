@@ -117,9 +117,9 @@ GLMCompositePresentation >> renderGlamorouslyOn: aRenderer [
 ]
 
 { #category : #announcements }
-GLMCompositePresentation >> resetAnnouncements [
-	super resetAnnouncements.
-	self presentations do: [:each | each resetAnnouncements ]
+GLMCompositePresentation >> resetAnnouncer [
+	super resetAnnouncer.
+	self presentations do: [:each | each resetAnnouncer ]
 ]
 
 { #category : #accessing }
