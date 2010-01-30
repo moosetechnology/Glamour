@@ -216,6 +216,19 @@ GLMPresentationTest >> testToSend [
 ]
 
 { #category : #tests }
+GLMPresentationTest >> testUnregisterAnnouncements [
+	| announcer presentation |
+	announcer := Announcer new.
+	presentation := GLMPresentation new.
+	presentation updateYourselfOn: TestAnnouncement from: [ announcer ].
+	presentation registerAnnouncements.
+	self assert: (announcer instVarNamed: 'subscriptions') size = 1.
+	presentation unregisterAnnouncements.
+	self assert: (announcer instVarNamed: 'subscriptions') isEmpty.
+
+]
+
+{ #category : #tests }
 GLMPresentationTest >> testUpdate [
 	| pane port presentation timesTriggered announcer col |
 	col := OrderedCollection with: 1 with: 2. 
