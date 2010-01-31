@@ -138,6 +138,38 @@ GLMNewScriptingTest >> testSimpleTransmission [
 ]
 
 { #category : #'as yet unclassified' }
+GLMNewScriptingTest >> testSimpleTransmissionWithCondition [
+	| browser | 
+	browser := GLMTabulator new. 
+	browser column: #one; column: #two. 
+	browser transmit from: #one -> #port1; fromOutside: #entity; to: #two -> #port2; when: [:one :outer | 
+		one notNil and: [outer notNil and: [one + outer = 42]]].
+	browser startOn: 2.
+	self assert: ((browser paneNamed: #two) port: #port2) value isNil.
+	((browser paneNamed: #one) port: #port1) value: 39.
+	self assert: ((browser paneNamed: #two) port: #port2) value isNil.
+	((browser paneNamed: #one) port: #port1) value: 40.
+	self assert: ((browser paneNamed: #two) port: #port2) value notNil
+]
+
+{ #category : #'as yet unclassified' }
+GLMNewScriptingTest >> testSimpleTransmissionWithTransformation [
+	| browser | 
+	browser := GLMTabulator new. 
+	browser column: #one; column: #two. 
+	browser transmit 
+		from: #one -> #port1; 
+		fromOutside: #entity; 
+		to: #two -> #port2; 
+		when: [:one :outer | one notNil and: [outer notNil]];
+		transformed: [:one :outer | one + outer].
+	browser startOn: 2.
+	self assert: ((browser paneNamed: #two) port: #port2) value isNil.
+	((browser paneNamed: #one) port: #port1) value: 40.
+	self assert: ((browser paneNamed: #two) port: #port2) value = 42
+]
+
+{ #category : #'as yet unclassified' }
 GLMNewScriptingTest >> testStartTabulator [
 	| browser | 
 	browser := GLMTabulator new. 
