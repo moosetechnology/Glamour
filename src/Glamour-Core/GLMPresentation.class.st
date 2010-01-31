@@ -258,8 +258,9 @@ GLMPresentation >> registerAnnouncements [
 			| announcerObject |
 			announcerObject := (eachValue glamourValue: self entity).
 			announcerObject notNil ifTrue: [
-				announcerObject on: key do: [ :announcement | self update ].
-				"we remember the announcer object to be able to 
+				announcerObject on: key send: #update to: self.
+"				announcerObject on: key do: [ :announcement | self update ].
+"				"we remember the announcer object to be able to 
 				unregister from it when the presentation goes away"
 				self registeredAnnouncers add: announcerObject ]]]
 ]

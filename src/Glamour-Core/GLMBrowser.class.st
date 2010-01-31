@@ -71,6 +71,12 @@ GLMBrowser >> postCopy [
 ]
 
 { #category : #accessing }
+GLMBrowser >> removeLastPane [
+	self panes last unregisterFromAllAnnouncements.
+	self panes removeLast
+]
+
+{ #category : #accessing }
 GLMBrowser >> removePane: aPane [
 	aPane unregisterFromAllAnnouncements.
 	self panes remove: aPane
