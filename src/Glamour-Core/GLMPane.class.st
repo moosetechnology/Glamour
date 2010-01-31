@@ -243,6 +243,11 @@ GLMPane >> renderGlamorouslyOn: aRenderer [
 	^aRenderer renderPane: self
 ]
 
+{ #category : #updating }
+GLMPane >> unregisterFromAllAnnouncements [
+	self presentations unregisterFromAllAnnouncements
+]
+
 { #category : #announcements }
 GLMPane >> whenMatchingPresentationsChanged: aBlock [ 
 	 

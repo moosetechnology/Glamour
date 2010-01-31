@@ -371,7 +371,7 @@ GLMPresentation >> transformation: aBlock [
 ]
 
 { #category : #updating }
-GLMPresentation >> unregisterAnnouncements [
+GLMPresentation >> unregisterFromAllAnnouncements [
 	"this method should be called every time the presentation is not needed"
 	self registeredAnnouncers do: [ :each | each unsubscribe: self ]
 ]

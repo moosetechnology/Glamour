@@ -133,9 +133,9 @@ GLMCompositePresentation >> size [
 ]
 
 { #category : #announcements }
-GLMCompositePresentation >> unregisterAnnouncements [
-	super unregisterAnnouncements.
-	self presentations do: [:each | each unregisterAnnouncements ]
+GLMCompositePresentation >> unregisterFromAllAnnouncements [
+	super unregisterFromAllAnnouncements.
+	self presentations do: [:each | each unregisterFromAllAnnouncements ]
 ]
 
 { #category : #accessing }

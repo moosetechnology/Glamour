@@ -20,6 +20,11 @@ Class {
 }
 
 { #category : #accessing }
+GLMBrowser >> addPane: aPane [
+	self panes add: aPane
+]
+
+{ #category : #accessing }
 GLMBrowser >> addTransmission: aTransmission [ 
 	^ self transmissions addLast: aTransmission
 ]
@@ -65,6 +70,12 @@ GLMBrowser >> postCopy [
 	panes := newPanes
 ]
 
+{ #category : #accessing }
+GLMBrowser >> removePane: aPane [
+	aPane unregisterFromAllAnnouncements.
+	self panes remove: aPane
+]
+
 { #category : #'scripting-private' }
 GLMBrowser >> resolveDestinationPort: aPortReference [ 
 	 
@@ -104,8 +115,8 @@ GLMBrowser >> transmissions [
 ]
 
 { #category : #updating }
-GLMBrowser >> unregisterAnnouncements [
-	super unregisterAnnouncements.
+GLMBrowser >> unregisterFromAllAnnouncements [
+	super unregisterFromAllAnnouncements.
 	self panes do: [:each | 
-		each presentations unregisterAnnouncements ]
+		each presentations unregisterFromAllAnnouncements ]
 ]
