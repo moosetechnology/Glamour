@@ -223,7 +223,7 @@ GLMPresentationTest >> testUnregisterAnnouncements [
 	presentation updateYourselfOn: TestAnnouncement from: [ announcer ].
 	presentation registerAnnouncements.
 	self assert: (announcer instVarNamed: 'subscriptions') size = 1.
-	presentation unregisterAnnouncements.
+	presentation unregisterFromAllAnnouncements.
 	self assert: (announcer instVarNamed: 'subscriptions') isEmpty.
 
 ]
