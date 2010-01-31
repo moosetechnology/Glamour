@@ -102,3 +102,10 @@ GLMBrowser >> transmissions [
 	 
 	^transmissions ifNil: [transmissions := OrderedCollection new]
 ]
+
+{ #category : #updating }
+GLMBrowser >> unregisterAnnouncements [
+	super unregisterAnnouncements.
+	self panes do: [:each | 
+		each presentations unregisterAnnouncements ]
+]

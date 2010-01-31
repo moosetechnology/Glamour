@@ -132,6 +132,12 @@ GLMCompositePresentation >> size [
 	^ self presentations size
 ]
 
+{ #category : #announcements }
+GLMCompositePresentation >> unregisterAnnouncements [
+	super unregisterAnnouncements.
+	self presentations do: [:each | each unregisterAnnouncements ]
+]
+
 { #category : #accessing }
 GLMCompositePresentation >> withAllDo: aBlock [
 	super withAllDo: aBlock.
