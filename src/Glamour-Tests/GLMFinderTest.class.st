@@ -66,3 +66,26 @@ GLMFinderTest >> testPortPublishing [
 	self assert: (browser pane port: #selection) value = #value3. 
 	self assert: (browser pane port: #hover) value = #value4
 ]
+
+{ #category : #tests }
+GLMFinderTest >> testUnregisterAnnouncementsWhenRemovingPane [
+	| announcer presentation browser pane |
+	announcer := Announcer new.
+	browser := GLMFinder new.
+	presentation := GLMPresentation new.
+	presentation title: [:entity | entity].
+	browser addPresentation: presentation.
+	presentation updateYourselfOn: TestAnnouncement from: [ announcer ].
+	browser entity: #value1.
+	browser panes first presentations first registerAnnouncements.
+	self assert: ((announcer instVarNamed: 'subscriptions') at: TestAnnouncement) size = 1.
+	self assert: ((announcer instVarNamed: 'subscriptions') at: TestAnnouncement) first receiver = browser panes first presentations first.
+	self assert: ((announcer instVarNamed: 'subscriptions') at: TestAnnouncement) first receiver == browser panes first presentations first.
+	(browser panes first port: #selection) value: #value2.
+	browser panes last presentations first registerAnnouncements.
+	self assert: ((announcer instVarNamed: 'subscriptions') at: TestAnnouncement) size = 2.
+	self assert: ((announcer instVarNamed: 'subscriptions') at: TestAnnouncement) last receiver = browser panes last presentations first.
+	self assert: ((announcer instVarNamed: 'subscriptions') at: TestAnnouncement) last receiver == browser panes last presentations first.
+	(browser panes first port: #selection) value: #value3.
+	self assert: ((announcer instVarNamed: 'subscriptions') at: TestAnnouncement) size = 1.
+]

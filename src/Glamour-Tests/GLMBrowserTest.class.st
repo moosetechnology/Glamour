@@ -20,7 +20,7 @@ GLMBrowserTest >> testUnregisterAnnouncements [
 	pane := GLMPane new.
 	presentation := GLMPresentation new.
 	pane addPresentation: presentation.
-	browser panes add: pane.
+	browser addPane: pane.
 	presentation updateYourselfOn: TestAnnouncement from: [ announcer ].
 	presentation registerAnnouncements.
 	self assert: (announcer instVarNamed: 'subscriptions') size = 1.
