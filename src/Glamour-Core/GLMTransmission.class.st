@@ -14,7 +14,8 @@ Class {
 		'browser',
 		'origins',
 		'transmissionStrategy',
-		'transformation'
+		'transformation',
+		'condition'
 	],
 	#category : #'Glamour-Core'
 }
@@ -85,6 +86,16 @@ GLMTransmission >> changePortsAccordingToPaneMapping: newPanesMapping fromOldBro
 		each port: newPort ]
 ]
 
+{ #category : #accessing }
+GLMTransmission >> condition [
+	^ condition
+]
+
+{ #category : #accessing }
+GLMTransmission >> condition: anObject [
+	condition := anObject
+]
+
 { #category : #transmitting }
 GLMTransmission >> context [
 	 context ifNil: [context := OrderedCollection new].
@@ -122,7 +133,17 @@ GLMTransmission >> ensureNoOverrideBundleStrategy [
 
 { #category : #'initialize-release' }
 GLMTransmission >> initialize [
-	transmissionStrategy := GLMTransmissionStrategy new
+	transmissionStrategy := GLMTransmissionStrategy new.
+	condition := true.
+]
+
+{ #category : #testing }
+GLMTransmission >> meetsCondition [
+	| originValues |
+	originValues := self originReferences size = 1 
+		ifTrue: [ self originReferences first value ] 
+		ifFalse: [ GLMMultiValue withAll: (self originReferences collect: [:each | each value]) ].
+	^ self condition glamourValue: originValues
 ]
 
 { #category : #'private accessing' }
@@ -132,7 +153,7 @@ GLMTransmission >> originReferences [
 
 { #category : #testing }
 GLMTransmission >> originatesAt: aPort [
-	^ self activeOrigins includes: aPort
+	^ (self activeOrigins includes: aPort) and: [self meetsCondition]
 ]
 
 { #category : #accessing }
@@ -215,7 +236,7 @@ GLMTransmission >> value [
 	| originalValue |
 	originalValue := self originReferences size = 1 
 		ifTrue: [ self originReferences first value ] 
-		ifFalse: [GLMMultiValue withAll: (self originReferences collect: [:each | each value]) ].
+		ifFalse: [ GLMMultiValue withAll: (self originReferences collect: [:each | each value]) ].
 	^ self transformation isNil 
 		ifTrue: [ originalValue ] 
 		ifFalse: [ self transformation glamourValue: originalValue ]
