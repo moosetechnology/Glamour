@@ -21,7 +21,7 @@ GLMSystemWindow >> buildWindowMenu [
 
 { #category : #'as yet unclassified' }
 GLMSystemWindow >> delete [
-	self model unregisterAnnouncements.
+	self model unregisterFromAllAnnouncements.
 	super delete
 ]
 
