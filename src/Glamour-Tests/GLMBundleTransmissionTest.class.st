@@ -130,8 +130,8 @@ GLMBundleTransmissionTest >> testTriggerConditions [
 	 
 	| transmission port1 port2 | 
 	transmission := GLMTransmission new. 
-	port1 := GLMPort new name: #port1. 
-	port2 := GLMPort new name: #port2. 
+	port1 := GLMSimplePort new name: #port1. 
+	port2 := GLMSimplePort new name: #port2. 
 	transmission addActiveOrigin: port1. 
 	transmission addPassiveOrigin: port2. 
 	transmission destination: (GLMPort new name: #port3). 
