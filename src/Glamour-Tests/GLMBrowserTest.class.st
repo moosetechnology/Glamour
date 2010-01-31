@@ -11,3 +11,20 @@ GLMBrowserTest >> testNoComposite [
 	self assert: browser pane presentations size = 1.
 	self assert: browser pane presentations first = browser.
 ]
+
+{ #category : #'as yet unclassified' }
+GLMBrowserTest >> testUnregisterAnnouncements [
+	| announcer presentation browser pane |
+	announcer := Announcer new.
+	browser := GLMBrowser new.
+	pane := GLMPane new.
+	presentation := GLMPresentation new.
+	pane addPresentation: presentation.
+	browser panes add: pane.
+	presentation updateYourselfOn: TestAnnouncement from: [ announcer ].
+	presentation registerAnnouncements.
+	self assert: (announcer instVarNamed: 'subscriptions') size = 1.
+	browser unregisterAnnouncements.
+	self assert: (announcer instVarNamed: 'subscriptions') isEmpty.
+
+]
