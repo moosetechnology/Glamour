@@ -21,7 +21,7 @@ GLMSystemWindow >> buildWindowMenu [
 
 { #category : #'as yet unclassified' }
 GLMSystemWindow >> delete [
-	self flag: 'at this moment, the glamour presentations should unregisterAnnouncements'.
+	self model unregisterAnnouncements.
 	super delete
 ]
 
