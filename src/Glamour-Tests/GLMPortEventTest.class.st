@@ -29,7 +29,7 @@ GLMPortEventTest >> testCreationWithTransmissionContext [
 ]
 
 { #category : #testing }
-GLMPortEventTest >> testInterdependentPanes [
+GLMPortEventTest >> testInterdependentPanesCycleBreak [
 	|browser outerCount oneCount |
 	outerCount := 0.
 	oneCount := 0.
@@ -57,7 +57,7 @@ GLMPortEventTest >> testInterdependentPanes [
 ]
 
 { #category : #testing }
-GLMPortEventTest >> testInterdependentPanes2 [
+GLMPortEventTest >> testInterdependentPanesProperPorts [
 	|browser |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two; column: #three.
