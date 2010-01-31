@@ -38,3 +38,13 @@ GLMTransmission >> to: aPort [
 GLMTransmission >> toOutside: aPortSymbol [
 	^ self to: #outer->aPortSymbol
 ]
+
+{ #category : #'*Glamour-Scripting' }
+GLMTransmission >> transformed: aBlock [
+	self transformation: aBlock
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMTransmission >> when: aBlock [
+	self condition: aBlock
+]
