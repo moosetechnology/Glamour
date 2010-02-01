@@ -453,6 +453,22 @@ GLMBasicExamples >> staticAndDynamicMenu [
 	^ finder
 ]
 
+{ #category : #'actions examples' }
+GLMBasicExamples >> tableWithIcons [
+	<glmBrowser: 'Table with Icons' input: '($A to: $z)'>
+	"self new tableWithIcons openOn: ($A to: $z)"
+	|browser |
+	browser := GLMTabulator new.
+	browser column: #one; column: #two.
+	browser showOn: #one; using: [
+		browser table
+			column: 'ASCII' evaluated: [ :each | each asInteger printString ];
+			act: [:tree | tree inspect ] on: $i entitled: 'Inspect';
+			icon: [:x | MenuIcons helpIcon ]].
+	browser showOn: #two; from: #one; using: [ browser text ].
+	^ browser
+]
+
 { #category : #others }
 GLMBasicExamples >> taggedTree [
 	<glmBrowser: 'Tagged Tree' input: '#(1 2 3 4 5)'>
@@ -581,7 +597,6 @@ GLMBasicExamples >> treeWithMenu [
 	<glmBrowser: 'Tree with Menu' input: '#(($a $b $c $d) ($e $f) ($g $h $i $j $l))'>
 	"self new treeWithMenu openOn: #(($a $b $c $d) ($e $f) ($g $h $i $j $l))"
 	|browser |
-
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
