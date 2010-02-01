@@ -92,6 +92,11 @@ GLMPresentation >> noSelection [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMPresentation >> noTitle [
+	title := nil
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMPresentation >> send: aBlock [ 
 	self selectionTransformation: aBlock
 ]
