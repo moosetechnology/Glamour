@@ -415,10 +415,8 @@ GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation 
 	presentations := aCompositePresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
 	presentations size = 1 ifTrue: [ 
-		^ self render: presentations first ].
-"	presentations size = 1 ifTrue: [ 
-		^ self render: presentations first].
-"	tabs := LazyTabGroupMorph new.
+		^ self renderWithTitleOrNil: presentations first ].
+	tabs := LazyTabGroupMorph new.
 	tabs
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
