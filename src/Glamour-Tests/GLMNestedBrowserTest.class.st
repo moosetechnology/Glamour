@@ -6,7 +6,7 @@ Class {
 
 { #category : #tests }
 GLMNestedBrowserTest >> expectedFailures [
-	^ #()
+	^ #(testEntityPropogationAnnouncements)
 ]
 
 { #category : #tests }
