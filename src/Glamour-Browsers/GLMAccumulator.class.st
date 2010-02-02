@@ -4,6 +4,7 @@ An GLMAccumulator is an implicit type of browser that has the following behavior
 - based on the input entity if there already exists a pane associated, it is selected via GLMPaneSelected
 - if there isnt a pane, a new pane is created
 - based on entityToSelect, the associated pane is searched and potentially selected
+- when a pane is selected in the user interface, the activeEntity is populated with the entity behind the selected pane
 
 Input ports:
 - entity
@@ -11,12 +12,23 @@ Input ports:
 
 Output ports:
 - selection
+- activeEntity
 "
 Class {
 	#name : #GLMAccumulator,
 	#superclass : #GLMImplicitBrowser,
 	#category : #'Glamour-Browsers'
 }
+
+{ #category : #'accessing ports' }
+GLMAccumulator >> activeEntity [
+	^ (self pane port: #activeEntity) value
+]
+
+{ #category : #'accessing ports' }
+GLMAccumulator >> activeEntity: anObject [
+	^ (self pane port: #activeEntity) value: anObject 
+]
 
 { #category : #private }
 GLMAccumulator >> addPaneFrom: aPort [ 
@@ -34,6 +46,11 @@ GLMAccumulator >> addPaneFrom: aPort [
 				pane: self panes last 
 				atPosition: self panes size 
 				inBrowser: self)
+]
+
+{ #category : #'accessing ports' }
+GLMAccumulator >> entityToSelect [
+	^ (self pane port: #entityToSelect) value
 ]
 
 { #category : #'accessing ports' }
