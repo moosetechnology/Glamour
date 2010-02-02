@@ -136,7 +136,7 @@ GLMMorphicRenderer >> renderAccumulator: aBrowser [
 		cornerStyle: (self theme tabGroupCornerStyleIn: nil);
 		font: self theme labelFont;
 		onPageIndexChange: [ :i | 
-			"aCompositePresentation pane lastActivePresentation: (aCompositePresentation matchingPresentations at: i)" ].
+			aBrowser activeEntity: ((aBrowser panes at: i) port: #entity) value ].
 	aBrowser panes do: [ :each | 
 		tabs 
 			addLazyPage: [ self renderPaneWithoutTitle: each ]
