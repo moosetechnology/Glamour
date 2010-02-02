@@ -4,7 +4,21 @@ Class {
 	#category : #'Glamour-Test-Morphic'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
+GLMAccumulatorMorphicTest >> testActiveEntity [
+	| browser tabs |
+	browser := GLMAccumulator new.
+	browser show: [:a | a list display: [:x | $a to: x ]].
+	browser entity: $d.
+	browser entity: $e.
+	window := browser openOn: $d.
+	tabs := window submorphs last.
+	tabs selectedPageIndex: 1.
+	tabs update: #selectedIndex.
+	self assert: browser activeEntity = $d.
+]
+
+{ #category : #testing }
 GLMAccumulatorMorphicTest >> testCreation [
 	| browser |
 	browser := GLMAccumulator new.
@@ -13,7 +27,7 @@ GLMAccumulatorMorphicTest >> testCreation [
 	self assert: window submorphs last class = LazyTabGroupMorph.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GLMAccumulatorMorphicTest >> testListInside [
 	| browser tabs firstTreeMorph |
 	browser := GLMAccumulator new.
@@ -25,7 +39,7 @@ GLMAccumulatorMorphicTest >> testListInside [
 	self assert: ((firstTreeMorph roots collect: #complexContents) collect: #item) = ($a to: $d) asArray
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GLMAccumulatorMorphicTest >> testPaneCreation [
 	| browser tabs firstTreeMorph |
 	browser := GLMAccumulator new.
@@ -38,7 +52,7 @@ GLMAccumulatorMorphicTest >> testPaneCreation [
 	self assert: tabs lazyPages size = 2
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GLMAccumulatorMorphicTest >> testSelectedTab [
 	| browser tabs firstTreeMorph firstTabLabel |
 	browser := GLMAccumulator new.
@@ -54,7 +68,7 @@ GLMAccumulatorMorphicTest >> testSelectedTab [
 	self assert: tabs selectedPageIndex = 1
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GLMAccumulatorMorphicTest >> testTabTitle [
 	| browser tabs firstTreeMorph firstTabLabel |
 	browser := GLMAccumulator new.
