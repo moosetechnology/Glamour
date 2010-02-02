@@ -85,14 +85,14 @@ GLMMorphicRenderer >> morph: aMorph withTitleOf: aPresentation [
 
 { #category : #private }
 GLMMorphicRenderer >> morph: aMorph withTitleOrNilOf: aPresentation [
-	| container |
+	| container empty |
 	(aPresentation hasTitle or: [aPresentation hasTitleIcon]) ifFalse: [^ aMorph ].
+	empty := GLMMorphic emptyMorph.
 	container := self theme 
-		newGroupboxIn: GLMMorphic emptyMorph 
-		label: (self titleOrIconOrNilOf: aPresentation in: GLMMorphic emptyMorph).
+		newGroupboxIn: empty
+		label: (self titleOrIconOrNilOf: aPresentation in: empty).
 	container contentMorph cellInset: 2.
 	container addContentMorph: aMorph.
-	aMorph changeTableLayout.
 	^ container
 ]
 
