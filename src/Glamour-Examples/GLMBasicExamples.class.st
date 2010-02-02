@@ -27,6 +27,7 @@ GLMBasicExamples >> accumulator [
 	browser transmit from: #one->#strongSelection; to: #three; andShowWithoutOverride: [:a |
 		a custom: acc ].
 	browser transmit from: #one; to: #three->#entityToSelect.
+	browser transmit from: #three->#activeEntity; to: #one->#selection.
 	^ browser
 	
 ]
