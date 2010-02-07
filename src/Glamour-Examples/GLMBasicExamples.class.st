@@ -353,16 +353,20 @@ GLMBasicExamples >> simpleMondrianPainting [
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
-		browser mondrian painting: [:view :number | 
+		browser mondrian 
+			title: 'Numbers in Mondrian tree';
+			painting: [:view :number | 
 			view shape label.
 			view nodes: (1 to: number).
 			view edgesFrom: [:x | x // 3 ].
 			view horizontalTreeLayout ]].
 	browser showOn: #two; from: #one; using: [
-		browser mondrian painting: [:view :number |
-			view shape rectangle width: 20; text: #printString; withoutBorder.
-			view nodes: (1 to: number).
-			view gridLayout ]].
+		browser mondrian 
+			title: 'Numbers in Mondrian list';
+			painting: [:view :number |
+				view shape rectangle width: 20; text: #printString; withoutBorder.
+				view nodes: (1 to: number).
+				view gridLayout ]].
 	^ browser
 ]
 
