@@ -216,7 +216,7 @@ ConfigurationOfGlamour >> version20beta2: spec [
 		spec blessing: #stable.
 		spec author: 'tg'.
 		spec timestamp: '12/18/2009 19:13'.
-		spec project: 'Mondrian for Glamour' with: '2.0-beta.11'.
+		spec project: 'Mondrian for Glamour' with: '2.0-beta.1'.
 		spec 
 			package: 'Morphic-MorphTreeWidget' with: 'Morphic-MorphTreeWidget-AlainPlantec.39';
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-tg.11';
