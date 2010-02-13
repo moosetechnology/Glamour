@@ -345,6 +345,9 @@ GLMMorphicRenderer >> renderMondrianPresentation: aPresentation [
 		newCanvas initializeHanders.
 		canvasScrollPane scroller removeMorph: canvasScrollPane scroller submorphs first.
 		canvasScrollPane scroller addMorph: newCanvas ].
+	aPresentation when: GLMContextChanged do: [ :ann | 
+			ann property = #selection ifTrue: [ 
+				canvas selected: (canvas root deepFindNodeWithEntity: ann value) ] ].
 	canvasScrollPane := ScrollPane new.
 	canvasScrollPane scroller addMorph: canvas.	
 	canvasScrollPane
