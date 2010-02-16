@@ -294,6 +294,7 @@ ConfigurationOfGlamour >> version20beta4: spec [
 	<version: '2.0-beta.4' imports: #('2.0-beta.4-baseline')>
 
 	spec for: #common do: [
+		spec blessing: #beta.
 		spec author: 'tg'.
 		spec timestamp: '2/16/2010 12:58'.
 		spec project: 'Mondrian for Glamour' with: '2.0-beta.5'.
