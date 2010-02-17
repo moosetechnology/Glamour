@@ -277,6 +277,7 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderListingPresentation: aPresentation [ 
 	| treeMorph treeModel textInput container amountFilteringButton |
+	
 	treeModel := GLMTreeMorphModel new glamourPresentation: aPresentation.
 	container := GLMMorphic emptyMorph.
 	treeMorph := self treeMorphFor: treeModel and: aPresentation.
@@ -284,25 +285,24 @@ GLMMorphicRenderer >> renderListingPresentation: aPresentation [
 		textInput := self textInputFor: treeModel.
 		treeMorph layoutFrame bottomOffset: -24.
 		container addMorphBack: textInput ].
-"	aPresentation limitsAmount ifTrue: [
-		treeModel defaultPageSize: aPresentation amountToShow.
-		amountFilteringButton := self amountFilteringButtonFor: treeModel.
-		treeMorph layoutFrame topOffset: 24.
-		container addMorphBack: amountFilteringButton ]."
 	container addMorphBack: treeMorph.
 	self installActionsOnUI: treeModel fromPresentation: aPresentation.
 
+	"When the morph changes, we want to update the glamour model"
 	treeModel announcer on: GLMTreeMorphSelectionChanged do: [ :ann | 
-		aPresentation selection: ann selectionValue.
-		aPresentation selectionPath: ann selectionPathValue ].
+		aPresentation announcer suspendAllWhile: [
+			aPresentation selection: ann selectionValue.
+			aPresentation selectionPath: ann selectionPathValue] ].
 	treeModel announcer on: GLMTreeMorphStrongSelectionChanged do: [ :ann | 
 		aPresentation strongSelection: ann strongSelectionValue ].
-		
+	
+	"When the glamour model changes, we want to update the morph"
 	aPresentation when: GLMContextChanged do: [ :ann | 
-			ann property = #selection ifTrue: [ treeMorph model explicitSelection: ann value ] ].
-
-	aPresentation when: GLMPresentationUpdated do: [:ann |
-		treeMorph model updateRoots].
+			ann property = #selection ifTrue: [ 
+				treeModel announcer suspendAllWhile: [
+					treeMorph model explicitSelection: ann value ] ] ].
+	aPresentation when: GLMPresentationUpdated do: [ :ann |
+		treeMorph model updateRoots ].
 
 	^ container
 ]

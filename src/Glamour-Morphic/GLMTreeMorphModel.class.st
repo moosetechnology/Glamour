@@ -47,7 +47,7 @@ GLMTreeMorphModel >> announce: anAnnouncement [
 
 { #category : #accessing }
 GLMTreeMorphModel >> announcer [
-	^ announcer ifNil: [announcer := Announcer new]
+	^ announcer ifNil: [announcer := GLMAnnouncer new]
 ]
 
 { #category : #accessing }
