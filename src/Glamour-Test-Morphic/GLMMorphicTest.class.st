@@ -216,7 +216,18 @@ GLMMorphicTest >> testMultipleInitialSelection [
 	self assert: firstTreeMorph model selection notNil.
 	self assert: firstTreeMorph model selection selectedItemOrItemsOrNil size = 3.
 	self assert: secondTreeMorph model selection isNil.
-	self assert: (secondTreeMorph model roots collect: #item) = firstTreeMorph model selection selectedItemOrItemsOrNil
+	self assert: (secondTreeMorph model roots collect: #item) asSet = firstTreeMorph model selection selectedItemOrItemsOrNil asSet
+]
+
+{ #category : #testing }
+GLMMorphicTest >> testMultiplePresentationsValidation [
+	| browser |
+	browser := GLMFinder new.
+	browser list.
+	browser text.
+	window := browser openOn: ($a to: $d).
+	(browser panes first port: #selection) value: $z.
+	self assert: (browser panes first port: #selection) value = $z
 ]
 
 { #category : #testing }
