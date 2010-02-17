@@ -73,6 +73,16 @@ GLMPortEvent >> portName [
 	^self port name
 ]
 
+{ #category : #printing }
+GLMPortEvent >> printOn: aStream [
+	super printOn: aStream.
+	aStream 
+		nextPutAll: '(port='.
+	self port printOn: aStream.
+	aStream nextPutAll: ' oldValue='; nextPutAll: self oldValue printString; nextPut: $)
+		
+]
+
 { #category : #accessing }
 GLMPortEvent >> transmissionContext [
 	^ transmissionContext

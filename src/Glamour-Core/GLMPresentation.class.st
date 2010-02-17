@@ -66,7 +66,7 @@ GLMPresentation >> announce: anAnnouncement [
 
 { #category : #announcements }
 GLMPresentation >> announcer [
-	^ announcer ifNil: [announcer := Announcer new]
+	^ announcer ifNil: [announcer := GLMAnnouncer new]
 ]
 
 { #category : #accessing }
