@@ -79,7 +79,6 @@ GLMMorphicRenderer >> morph: aMorph withTitleOf: aPresentation [
 		newGroupboxIn: GLMMorphic emptyMorph 
 		label: (self titleOrIconOf: aPresentation in: GLMMorphic emptyMorph).
 	container addContentMorph: aMorph.
-	aMorph changeTableLayout.
 	^ container
 ]
 
