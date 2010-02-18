@@ -26,7 +26,9 @@ GLMAnnouncer >> suspendAll [
 
 { #category : #'as yet unclassified' }
 GLMAnnouncer >> suspendAllWhile: aBlock [
+	| previousSuspensionState |
+	previousSuspensionState := suspendAll.
 	suspendAll := true.
 	aBlock value.
-	suspendAll := false.
+	suspendAll := previousSuspensionState.
 ]
