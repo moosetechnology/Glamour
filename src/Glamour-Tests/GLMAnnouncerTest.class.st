@@ -13,6 +13,20 @@ GLMAnnouncerTest >> setUp [
 ]
 
 { #category : #'as yet unclassified' }
+GLMAnnouncerTest >> testNestedSuspendAllWhile [
+	| announcement |
+	announcer
+		subscribe: TestAnnouncement
+		do: [ :ann | announcement := ann ].
+	
+	announcement := nil.
+	announcer suspendAllWhile: [
+		announcer suspendAllWhile: [ ].
+		announcer announce: TestAnnouncement ].
+	self assert: announcement isNil
+]
+
+{ #category : #'as yet unclassified' }
 GLMAnnouncerTest >> testSuspendAllWhile [
 	| announcement instance |
 	announcer
