@@ -134,14 +134,11 @@ GLMBasicExamples >> differentComposites [
 	browser row: [:r | 
 		r column: #tabbed; column: #accordion; column: #stackedVertically] span: 4; row: #preview.
 	browser transmit to: #tabbed; andShow: [:a | 
-		a title: 'Tabs'.
 		a list title: 'List'. a text title: 'Text' ].
 	browser transmit to: #accordion; andShow: [:a | 
 		a accordionArrangement.
-		a title: 'Accordion'.
 		a list title: 'List'. a text title: 'Text' ].
 	browser transmit to: #stackedVertically; andShow: [:a | 
-		a title: 'Stack'.
 		a stackedVerticallyArrangement.
 		a list title: 'List'. a text title: 'Text' ].
 	browser transmit to: #preview; from: #tabbed; andShow: [:a | 
@@ -201,7 +198,7 @@ GLMBasicExamples >> interdependentPanes [
 { #category : #'explicit selection' }
 GLMBasicExamples >> listsWithUpdatedSelection [
 	"self new listsWithUpdatedSelection openOn: 10"
-	<glmBrowser: 'Lists with updated selection' input: '10'>
+	<glmBrowser: 'Lists wiht updated selection' input: '10'>
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two; column: #three.

@@ -7,7 +7,7 @@ Class {
 { #category : #accessing }
 GLMSTBrowserExample >> browser [
 	"
-	self new browser openOn: (BrowserEnvironment new forPackageNamed: 'Glamour')
+	self new browser openOn: (BrowserEnvironment new forPackageNames: #('Glamour'))
 	"
 
 	| browser |
@@ -76,9 +76,11 @@ GLMSTBrowserExample >> protocolsOn: browser [
 GLMSTBrowserExample >> selectorsOn: browser [
 	browser showOn: #selector; from: #outer -> #entity; from: #class; from: #protocol; using: [
 		browser list
+			useExplicitNotNil;
 			when: [ :environment :class :protocol | class notNil and: [ protocol notNil ] ];
 			display: [ :environment :class :protocol | (environment selectorsFor: protocol in: class) asOrderedCollection ].
 		browser list
+			useExplicitNotNil;
 			when: [ :environment :class :protocol | class notNil and: [ protocol isNil ] ];
 			display: [ :environment :class :protocol | (environment selectorsForClass: class) asOrderedCollection ] ]
 ]
@@ -88,21 +90,25 @@ GLMSTBrowserExample >> sourceOn: browser [
 	browser showOn: #source; from: #category; from: #class; from: #selector; using: [
 		browser text
 			title: 'Source';
+			useExplicitNotNil;
 			when: [ :category :class :selector | class notNil and: [ selector notNil ] ];
 			display: [ :category :class :selector | class sourceCodeAt: selector ifAbsent: [ String new ] ].
 		browser text
 			title: 'Source';
+			useExplicitNotNil;
 			when: [ :category :class :selector | class notNil and: [ selector isNil ] ];
 			display: [ :category :class :selector | class definition ].
 		browser mondrian
 			title: 'Complexity';
+			useExplicitNotNil;
 			painting: [ :view :category :class :selector |
 				view nodeShape 
 					height: [ :model | model linesOfCode min: 50 max: 5 ];
 					width: [ :model | model instVarNames size + 5 ];
 					fillColor: [ :model | model = class ifTrue: [ Color red ] ifFalse: [ Color white ] ].
-				view nodes: ((Smalltalk organization listAtCategoryNamed: category)
-					collect: [ :each | Smalltalk classNamed: each ]).
+				view nodes: (((Smalltalk organization listAtCategoryNamed: category)
+					collect: [ :each | Smalltalk classNamed: each ])
+					reject: [ :each | each isTrait ]).
 				view edgesFrom: [ :each | each superclass ].
 				view treeLayout ];
 			when: [ :category :class :selector | category notNil ] ]
