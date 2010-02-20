@@ -433,12 +433,12 @@ GLMScriptingTest >> testThreePanesTransmissions [
 		column: #one; 
 		column: #two; 
 		column: #three. 
-	browser 
-		showOn: #three; 
+	browser transmit
+		to: #three; 
 		from: #one; 
 		passivelyFrom: #two; 
-		using: 
-				[browser text 
+		andShow: [:a | 
+			a text 
 						display: 
 							[:x :y |  
 							one := x. 
