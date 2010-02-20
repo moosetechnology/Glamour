@@ -8,10 +8,16 @@ GLMTransmission >> andShow: aBlock [
 ]
 
 { #category : #'*Glamour-Scripting' }
-GLMTransmission >> andShowWithoutOverride: aBlock [
+GLMTransmission >> andShowIfNone: aBlock [
 	self ensureNoOverrideBundleStrategy.
 	self origins isEmpty ifTrue: [self from: #outer->#entity].
 	aBlock value: self transmissionStrategy presentations
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMTransmission >> andShowWithoutOverride: aBlock [
+	self deprecated: 'Please use andShowIfNone: instead'.
+	^ self andShowIfNone: aBlock
 ]
 
 { #category : #'*Glamour-Scripting' }
