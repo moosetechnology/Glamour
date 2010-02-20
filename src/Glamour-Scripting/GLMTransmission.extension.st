@@ -36,6 +36,11 @@ GLMTransmission >> fromOutside: aPortSymbol [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMTransmission >> passivelyFrom: aPort [
+	^ self addPassiveOrigin: (self browser resolveOriginPort: aPort)
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMTransmission >> to: aPort [
 	^ self destination: (self browser resolveDestinationPort: aPort)
 ]
