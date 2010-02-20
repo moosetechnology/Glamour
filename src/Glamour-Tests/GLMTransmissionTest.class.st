@@ -39,7 +39,7 @@ GLMTransmissionTest >> testCopy [
 
 { #category : #tests }
 GLMTransmissionTest >> testDefaultStrategy [
-	self assert: GLMTransmission new transmissionStrategy class = GLMTransmissionStrategy
+	self assert: GLMTransmission new transmissionStrategy class = GLMNoStrategy
 ]
 
 { #category : #tests }
