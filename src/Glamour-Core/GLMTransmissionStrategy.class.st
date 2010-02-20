@@ -1,3 +1,6 @@
+"
+The classes from this hierarchy define strategies for what should happen after the value have been set to the destination port.
+"
 Class {
 	#name : #GLMTransmissionStrategy,
 	#superclass : #Object,
@@ -39,5 +42,6 @@ GLMTransmissionStrategy >> transmission: anObject [
 
 { #category : #transmitting }
 GLMTransmissionStrategy >> transmitIn: aContext [
-	"by default do nothing"
+	"override this method to add the desired semantics"
+	self subclassResponsibility
 ]

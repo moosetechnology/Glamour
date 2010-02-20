@@ -1,9 +1,9 @@
 "
-A GLMTransmission models the connection between pane ports. Whenever a port changes the value, the corresponding transmissions are triggered by the browser.
+A GLMTransmission models the connection between multiple origin ports and one destination port. Whenever an origin port changes the value, the corresponding transmissions are triggered by the browser.
 
-The subclasses add different semantics to this connection.
+The result of triggering a transmission is the setting of the value in the destination port. The transmissionStrategy can add further different semantics to this behavior.
 
-A transmission takes place in a context. The context is started every time a new value is set from outside. Afterwards, the context is preserved internally. This is important for braking possible loops of propagation of transmissions.
+A transmission takes place in a context. The context is started every time a new value is set from outside. Afterwards, the context is preserved internally. This is important for braking possible loops of transmission propagation.
 "
 Class {
 	#name : #GLMTransmission,
@@ -121,19 +121,19 @@ GLMTransmission >> destination: aPort [
 
 { #category : #accessing }
 GLMTransmission >> ensureBundleStrategy [
-	self transmissionStrategy class = GLMBundleTransmissionStrategy ifFalse: [
-		self transmissionStrategy: (GLMBundleTransmissionStrategy of: self) ]
+	self transmissionStrategy class = GLMReplacePresentationsStrategy ifFalse: [
+		self transmissionStrategy: (GLMReplacePresentationsStrategy of: self) ]
 ]
 
 { #category : #accessing }
 GLMTransmission >> ensureNoOverrideBundleStrategy [
-	self transmissionStrategy class = GLMNoOverrideBundleTransmissionStrategy ifFalse: [
-		self transmissionStrategy: (GLMNoOverrideBundleTransmissionStrategy of: self) ]
+	self transmissionStrategy class = GLMPresentIfNoneStrategy ifFalse: [
+		self transmissionStrategy: (GLMPresentIfNoneStrategy of: self) ]
 ]
 
 { #category : #'initialize-release' }
 GLMTransmission >> initialize [
-	transmissionStrategy := GLMTransmissionStrategy new.
+	transmissionStrategy := GLMNoStrategy new.
 	condition := true.
 ]
 
