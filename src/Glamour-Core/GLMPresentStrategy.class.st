@@ -1,3 +1,6 @@
+"
+The abstract strategy that deals with setting of presenations on the pane of the destination port.
+"
 Class {
 	#name : #GLMPresentStrategy,
 	#superclass : #GLMTransmissionStrategy,
