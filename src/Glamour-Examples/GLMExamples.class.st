@@ -8,14 +8,14 @@ Class {
 GLMExamples class >> browseExamples [
 	"self browseExamples"
 	| browser pragmas |
-	pragmas := Pragma 
-		allNamed: #glmBrowser:input:
-		in: self.
+	pragmas := Pragma allNamed: #glmBrowser:input: in: self.
 	browser := GLMTabulator new.
-	browser title: self name asString.
+	browser title: self title.
 	browser column: #titles; column: #example span: 4.
 	browser showOn: #titles; using: [
 		browser list
+			display: [:list | list asSortedCollection: [:a :b | 
+				(a argumentAt: 1) < (b argumentAt: 1)] ];
 			format: [:each | each argumentAt: 1]].
 	browser showOn: #example; from: #titles; using: [
 		browser dynamic
@@ -25,10 +25,15 @@ GLMExamples class >> browseExamples [
 			title: 'Source code';
 			forSmalltalk: self;
 			display: [:each | self sourceCodeAt: each selector]].	
-	browser openOn: pragmas.
+	^ browser openOn: pragmas.
 ]
 
 { #category : #'as yet unclassified' }
 GLMExamples class >> open [
-	self browseExamples
+	^ self browseExamples
+]
+
+{ #category : #'as yet unclassified' }
+GLMExamples class >> title [
+	^ 'Examples'
 ]

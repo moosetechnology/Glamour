@@ -7,6 +7,11 @@ Class {
 	#category : #'Glamour-Examples'
 }
 
+{ #category : #'as yet unclassified' }
+GLMBasicExamples class >> title [ 
+	^ 'Basic Examples'
+]
+
 { #category : #others }
 GLMBasicExamples >> accumulator [
 	<glmBrowser: 'Accumulator' input: '42'>
@@ -47,7 +52,7 @@ GLMBasicExamples >> actionsFor: aPresentation [
 
 { #category : #others }
 GLMBasicExamples >> allowNil [
-	<glmBrowser: 'Allowing Nil' input: '42'>
+	<glmBrowser: 'Allowing nil' input: '42'>
 	"self new allowNil openOn: 42"
 	| browser | 
 	browser := GLMTabulator new.
@@ -71,7 +76,7 @@ GLMBasicExamples >> allowNil [
 
 { #category : #'actions examples' }
 GLMBasicExamples >> browserWithToolbar [
-	<glmBrowser: 'Finder with Toolbar' input: '$z'>
+	<glmBrowser: 'Toolbar' input: '$z'>
 	"self new browserWithToolbar openOn: $z"
 
 	| finder |
@@ -87,7 +92,7 @@ GLMBasicExamples >> browserWithToolbar [
 
 { #category : #others }
 GLMBasicExamples >> compoundTaggedTree [
-	<glmBrowser: 'Compound Tagged Tree' input: '#(window help home)'>
+	<glmBrowser: 'Tags' input: '#(window help home)'>
 	"self new compoundTaggedTree openOn: #(window help home)"
 	|browser |
 
@@ -128,7 +133,7 @@ GLMBasicExamples >> compoundTaggedTree [
 { #category : #composite }
 GLMBasicExamples >> differentComposites [
 	"self new differentComposites openOn: (1 to: 100)"
-	<glmBrowser: 'Different Composite Arrangements' input: '(1 to: 100)'>	
+	<glmBrowser: 'Composite arrangements' input: '(1 to: 100)'>	
 	| browser |
 	browser := GLMTabulator new.
 	browser row: [:r | 
@@ -155,7 +160,7 @@ GLMBasicExamples >> differentComposites [
 
 { #category : #others }
 GLMBasicExamples >> doubleClick [
-	<glmBrowser: 'Double Click' input: '100'>
+	<glmBrowser: 'Double click' input: '100'>
 	"self new doubleClick openOn: 100"
 	| browser |
 	browser := GLMTabulator new.
@@ -180,7 +185,7 @@ GLMBasicExamples >> fixSizePanes [
 
 { #category : #others }
 GLMBasicExamples >> interdependentPanes [
-	<glmBrowser: 'Inter-dependent Panes' input: '5'>
+	<glmBrowser: 'Two inter-dependent panes' input: '5'>
 	"self new interdependentPanes openOn: 5"
 	|browser |
 
@@ -201,7 +206,7 @@ GLMBasicExamples >> interdependentPanes [
 { #category : #'explicit selection' }
 GLMBasicExamples >> listsWithUpdatedSelection [
 	"self new listsWithUpdatedSelection openOn: 10"
-	<glmBrowser: 'Lists with updated selection' input: '10'>
+	<glmBrowser: 'Updated selection' input: '10'>
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two; column: #three.
@@ -223,7 +228,7 @@ GLMBasicExamples >> listsWithUpdatedSelection [
 
 { #category : #others }
 GLMBasicExamples >> morphIcons [
-	<glmBrowser: 'OBMorphicIcons Browser' input: 'OBMorphicIcons selectors select: [:each | (OBMorphicIcons new perform: each) isForm ]'>
+	<glmBrowser: 'Morph icons' input: 'OBMorphicIcons selectors select: [:each | (OBMorphicIcons new perform: each) isForm ]'>
 	"self new morphIcons openOn: (OBMorphicIcons selectors select: [:each | (OBMorphicIcons new perform: each) isForm ])"
 	| browser |
 	browser := GLMTabulator new.
@@ -261,7 +266,7 @@ GLMBasicExamples >> multiInitialSelection [
 
 { #category : #'searching and filtering' }
 GLMBasicExamples >> multipleFinderWithFilter [
-	<glmBrowser: 'Multiple List with Menu and Search' input: '$a to: $z'>
+	<glmBrowser: 'Filter' input: '$a to: $z'>
 	"self new multipleFinderWithFilter openOn: ($a to: $z)"
 
 	| finder |	
@@ -280,7 +285,7 @@ GLMBasicExamples >> multipleFinderWithFilter [
 
 { #category : #'searching and filtering' }
 GLMBasicExamples >> multipleFinderWithFilterAndSearch [
-	<glmBrowser: 'Multiple List with Menu and Search' input: '$a to: $z'>
+	<glmBrowser: 'Search' input: '$a to: $z'>
 	"self new multipleFinderWithFilterAndSearch openOn: (1 to: 100)"
 
 	| finder |	
@@ -304,7 +309,7 @@ GLMBasicExamples >> multipleFinderWithFilterAndSearch [
 
 { #category : #'tabs examples' }
 GLMBasicExamples >> multipleTabs [
-	<glmBrowser: 'Multiple Tabs' input: '1'>
+	<glmBrowser: 'Tabs' input: '1'>
 	"self new multipleTabs openOn: 1"
 	
 	| finder |
@@ -323,6 +328,7 @@ GLMBasicExamples >> multipleTabs [
 
 { #category : #actionlist }
 GLMBasicExamples >> simpleActionList [
+	<glmBrowser: 'Action list' input: '#(1 2 3)'>	
 	"self new simpleActionList openOn: #(1 2 3)"
 	| browser |
 	browser := GLMTabulator new.
@@ -336,7 +342,7 @@ GLMBasicExamples >> simpleActionList [
 
 { #category : #'actions examples' }
 GLMBasicExamples >> simpleFinderWithMenu [
-	<glmBrowser: 'Finder with Menu' input: '$z'>
+	<glmBrowser: 'Browser menu' input: '$z'>
 	"self new simpleFinderWithMenu openOn: $z"
 
 	| finder |
@@ -350,7 +356,7 @@ GLMBasicExamples >> simpleFinderWithMenu [
 
 { #category : #others }
 GLMBasicExamples >> simpleMondrianPainting [
-	<glmBrowser: 'Simple Mondrian Painting' input: '100'>
+	<glmBrowser: 'Mondrian painting' input: '100'>
 	"self new simpleMondrianPainting openOn: 100"
 	| browser |
 	browser := GLMTabulator new.
@@ -375,7 +381,7 @@ GLMBasicExamples >> simpleMondrianPainting [
 
 { #category : #table }
 GLMBasicExamples >> simpleTable [
-	<glmBrowser: 'Simple Table in Finder' input: '100'>
+	<glmBrowser: 'Simple table' input: '100'>
 	"self new simpleTable openOn: 1000"
 	| finder |	
 	finder := GLMFinder new.
@@ -442,7 +448,7 @@ GLMBasicExamples >> starBrowser [
 
 { #category : #'actions examples' }
 GLMBasicExamples >> staticAndDynamicMenu [
-	<glmBrowser: 'Static and Dynamic Menu' input: '$z'>
+	<glmBrowser: 'Menus' input: '$z'>
 	"self new staticAndDynamicMenu openOn: $z"
 
 	| finder |
@@ -463,7 +469,7 @@ GLMBasicExamples >> staticAndDynamicMenu [
 
 { #category : #'actions examples' }
 GLMBasicExamples >> tableWithIcons [
-	<glmBrowser: 'Table with Icons' input: '($A to: $z)'>
+	<glmBrowser: 'Icons' input: '($A to: $z)'>
 	"self new tableWithIcons openOn: ($A to: $z)"
 	|browser |
 	browser := GLMTabulator new.
@@ -479,7 +485,6 @@ GLMBasicExamples >> tableWithIcons [
 
 { #category : #others }
 GLMBasicExamples >> taggedTree [
-	<glmBrowser: 'Tagged Tree' input: '#(1 2 3 4 5)'>
 	"self new taggedTree openOn: #(1 2 3 4 5)"
 	|browser |
 
@@ -513,7 +518,7 @@ GLMBasicExamples >> textPortsExamples [
 
 { #category : #others }
 GLMBasicExamples >> threeInterdependentPanes [
-	<glmBrowser: 'Inter-dependent Panes' input: '5'>
+	<glmBrowser: 'Three inter-dependent panes' input: '5'>
 	"self new threeInterdependentPanes openOn: 5"
 	|browser |
 
@@ -602,7 +607,7 @@ GLMBasicExamples >> treeWithInitialSelection [
 
 { #category : #'actions examples' }
 GLMBasicExamples >> treeWithMenu [
-	<glmBrowser: 'Tree with Menu' input: '#(($a $b $c $d) ($e $f) ($g $h $i $j $l))'>
+	<glmBrowser: 'Tree with menu' input: '#(($a $b $c $d) ($e $f) ($g $h $i $j $l))'>
 	"self new treeWithMenu openOn: #(($a $b $c $d) ($e $f) ($g $h $i $j $l))"
 	|browser |
 	browser := GLMTabulator new.
@@ -662,7 +667,7 @@ GLMBasicExamples >> updatableBrowser [
 
 { #category : #text }
 GLMBasicExamples >> updateAction [
-	<glmBrowser: 'Update Action' input: 'String withAll: ''Select a piece of text and open on the next pane via the contextual menu or by pressing Modifier+o. Otherwise just open the complete copy of the current text on the next pane via the menu or by pressing Modifier+l.'''>
+	<glmBrowser: 'Update action' input: 'String withAll: ''Select a piece of text and open on the next pane via the contextual menu or by pressing Modifier+o. Otherwise just open the complete copy of the current text on the next pane via the menu or by pressing Modifier+l.'''>
 	"self new updateAction openOn: 'Select a piece of text and open on the next pane'"
 	| browser |
 	browser := GLMFinder new.
