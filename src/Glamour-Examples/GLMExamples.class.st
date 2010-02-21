@@ -27,3 +27,8 @@ GLMExamples class >> browseExamples [
 			display: [:each | self sourceCodeAt: each selector]].	
 	browser openOn: pragmas.
 ]
+
+{ #category : #'as yet unclassified' }
+GLMExamples class >> open [
+	self browseExamples
+]
