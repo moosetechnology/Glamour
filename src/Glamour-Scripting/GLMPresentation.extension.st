@@ -97,6 +97,34 @@ GLMPresentation >> noTitle [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMPresentation >> populate: aPortSymbol on: aCharacter entitled: aString with: aBlock [ 
+	 
+	self 
+		addAction: 
+			((GLMAction new) 
+				action: 
+						((GLMPortUpdater new) 
+								portSymbol: aPortSymbol; 
+								valueBlock: aBlock; 
+								yourself); 
+				shortcut: aCharacter; 
+				title: aString;
+				yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMPresentation >> populate: aPortSymbol on: aCharacter with: aBlock [
+	self addAction: 
+			((GLMAction new) 
+				action: ((GLMPortUpdater new) 
+								portSymbol: aPortSymbol; 
+								valueBlock: aBlock; 
+								yourself); 
+				shortcut: aCharacter; 
+				yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMPresentation >> send: aBlock [ 
 	self selectionTransformation: aBlock
 ]
@@ -115,34 +143,6 @@ GLMPresentation >> update: aPortSymbol on: aCharacter entitled: aString categori
 				shortcut: aCharacter; 
 				title: aString;
 				category: anotherString;
-				yourself)
-]
-
-{ #category : #'*Glamour-Scripting' }
-GLMPresentation >> update: aPortSymbol on: aCharacter entitled: aString with: aBlock [ 
-	 
-	self 
-		addAction: 
-			((GLMAction new) 
-				action: 
-						((GLMPortUpdater new) 
-								portSymbol: aPortSymbol; 
-								valueBlock: aBlock; 
-								yourself); 
-				shortcut: aCharacter; 
-				title: aString;
-				yourself)
-]
-
-{ #category : #'*Glamour-Scripting' }
-GLMPresentation >> update: aPortSymbol on: aCharacter with: aBlock [
-	self addAction: 
-			((GLMAction new) 
-				action: ((GLMPortUpdater new) 
-								portSymbol: aPortSymbol; 
-								valueBlock: aBlock; 
-								yourself); 
-				shortcut: aCharacter; 
 				yourself)
 ]
 

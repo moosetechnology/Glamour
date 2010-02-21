@@ -16,7 +16,7 @@ Glamorous class >> editor [
 	browser showOn: #source; using: [
 		browser text
 			forSmalltalk;
-			update: #selection on: $o entitled: 'Open (o)' with: [:text | text text]].
+			populate: #selection on: $o entitled: 'Open (o)' with: [:text | text text]].
 	browser showOn: #browser; from: #source; using: [
 		browser dynamic
 			display: [:source | 
