@@ -386,9 +386,9 @@ GLMBasicExamples >> simpleTable [
 	| finder |	
 	finder := GLMFinder new.
 	finder table
-			title: 'Number';
 			display: [ :x | 1 to: x ]; 
 			actions: [ :list | self actionsFor: list ];
+			column: 'Number' evaluated: #asString;
 			column: 'Even' evaluated: [ :each | each even asString ];
 			column: 'Odd' evaluated: [ :each | each odd asString ].
 	^ finder
@@ -476,6 +476,7 @@ GLMBasicExamples >> tableWithIcons [
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser table
+			column: 'Character' evaluated: [ :each | each asString ];
 			column: 'ASCII' evaluated: [ :each | each asInteger printString ];
 			act: [:tree | tree inspect ] on: $i entitled: 'Inspect';
 			icon: [:x | MenuIcons helpIcon ]].
