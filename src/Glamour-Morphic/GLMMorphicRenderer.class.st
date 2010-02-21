@@ -617,24 +617,19 @@ GLMMorphicRenderer >> treeMorphFor: treeModel and: aPresentation [
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1)).
-	columns := OrderedCollection with: (MorphTreeColumn new rowMorphGetSelector: #elementColumn).
-	self flag: 'Please refactor this part'.
-	aPresentation columns notEmpty ifTrue: [
-		columns last 
-			headerButtonLabel: aPresentation title 
-			font: Preferences standardMenuFont 
-			target: nil 
-			actionSelector: nil 
-			arguments: #()].
-	aPresentation columns do: [:each | 
-		columns add: (GLMMorphTreeColumn new 
-			glamourColumn: each; 
-			headerButtonLabel: each title 
-			font: Preferences standardMenuFont 
-			target: nil 
-			actionSelector: nil 
-			arguments: #(); 
-			yourself)].
+	columns := aPresentation columns isEmpty 
+		ifTrue: [ OrderedCollection with: (MorphTreeColumn new rowMorphGetSelector: #elementColumn)]
+		ifFalse: [
+			aPresentation columns collect: [:each | 
+				GLMMorphTreeColumn new 
+					glamourColumn: each; 
+					headerButtonLabel: each title 
+					font: Preferences standardMenuFont 
+					target: nil 
+					actionSelector: nil 
+					arguments: #(); 
+					yourself ].
+		].
 	treeMorph
 		preferedPaneColor: Color white;	
 		model: treeModel;
