@@ -109,7 +109,7 @@ GLMScriptingTest >> testEntityInUpdateAction [
 		showOn: #one; 
 		using: 
 				[browser text 
-						update: #foo 
+						populate: #foo 
 						on: $m 
 						with: [:list :input | inputFromActionBlock := input]]. 
 	browser startOn: 42. 
@@ -517,7 +517,7 @@ GLMScriptingTest >> testUpdateAction [
 	browser := GLMTabulator new. 
 	browser column: #one; column: #two. 
 	browser showOn: #one; using: [
-		browser list update: #foo on: $m with: [:list :input | 42]]. 
+		browser list populate: #foo on: $m with: [:list :input | 42]]. 
 	browser showOn: #two; from: #one -> #foo; using: [browser text]. 
 	browser startOn: #(1 2 3). 
 	self assert: browser panes first presentations size = 1. 

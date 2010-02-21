@@ -44,7 +44,7 @@ GLMPortEventTest >> testInterdependentPanesCycleBreak [
 	browser showOn: #three; from: #two; using: [
 		browser list
 			display: [:x | 1 to: x*3];
-			update: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
+			populate: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
 	browser sendTo: #outer->#focus from: #three->#focus with: [:x | outerCount := outerCount + 1].
 	browser sendTo: #one->#selection from: #outer->#focus with: [:x | oneCount := oneCount + 1].
 	browser startOn: 5.
@@ -70,7 +70,7 @@ GLMPortEventTest >> testInterdependentPanesProperPorts [
 	browser showOn: #three; from: #two; using: [
 		browser list
 			display: [:x | 1 to: x*3];
-			update: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
+			populate: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
 	browser sendTo: #outer->#focus from: #three->#focus.
 	browser sendTo: #one->#selection from: #outer->#focus with: [:x | x + 1].
 	browser sendTo: #two->#selection from: #outer->#focus with: [:x | x + 2].
