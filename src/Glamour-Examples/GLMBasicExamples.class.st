@@ -533,7 +533,7 @@ GLMBasicExamples >> threeInterdependentPanes [
 	browser showOn: #three; from: #two; using: [
 		browser tree
 			display: [:x | 1 to: x*3];
-			update: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
+			populate: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
 	browser sendTo: #outer->#focus from: #three->#focus with: [:x | x ].
 	browser sendTo: #one->#selection from: #outer->#focus with: [:x | x ].
 	browser sendTo: #two->#selection from: #outer->#focus with: [:x | x ].
@@ -672,7 +672,7 @@ GLMBasicExamples >> updateAction [
 	| browser |
 	browser := GLMFinder new.
 	browser text
-		update: #selection on: $o entitled: 'Open selection on next pane' with: [:text | text selectedText ];
-		update: #selection on: $l entitled: 'Open complete text on next pane' with: [:text | text text ].
+		populate: #selection on: $o entitled: 'Open selection on next pane' with: [:text | text selectedText ];
+		populate: #selection on: $l entitled: 'Open complete text on next pane' with: [:text | text text ].
 	^ browser 
 ]

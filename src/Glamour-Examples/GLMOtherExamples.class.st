@@ -58,7 +58,7 @@ GLMOtherExamples >> mondrianEasel [
 	browser showOn: #script; using: [
 		browser text
 			display: 'view';
-			update: #selection on: $o entitled: 'Generate View' with: [:text | text text ] ].
+			populate: #selection on: $o entitled: 'Generate View' with: [:text | text text ] ].
 	browser showOn: #painting; from: #script; using: [
 		browser dynamic
 			display: [:script | 
