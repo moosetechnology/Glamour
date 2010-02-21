@@ -7,27 +7,22 @@ Class {
 	#category : #'Glamour-Presentations'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMTablePresentation >> addColumn: aColumn [
 	self columns add: aColumn
 ]
 
-{ #category : #'as yet unclassified' }
-GLMTablePresentation >> column: aBlockOrString evaluated: aBlock [
-	self addColumn: (GLMTableColumn new title: aBlockOrString; computation: aBlock)
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 GLMTablePresentation >> column: aGlamourColumn valueFor: anObject [
 	^ aGlamourColumn computation glamourValue: (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMTablePresentation >> columns [
 	^ columns ifNil: [ columns := OrderedCollection new ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMTablePresentation >> columns: aCollection [
 	columns := aCollection 
 ]
