@@ -239,7 +239,14 @@ GLMPresentationTest >> testUnregisterAnnouncementsWhenEntityChanges [
 	presentation registerAnnouncements.
 	self assert: (announcer1 instVarNamed: 'subscriptions') size = 1.
 	presentation entity: 2.
-	self assert: (announcer1 instVarNamed: 'subscriptions') isEmpty
+	self assert: (announcer1 instVarNamed: 'subscriptions') isEmpty.
+	presentation registerAnnouncements.
+	self assert: (announcer1 instVarNamed: 'subscriptions') size = 1.
+	presentation entity: nil.
+	self assert: (announcer1 instVarNamed: 'subscriptions') isEmpty.
+
+
+	
 ]
 
 { #category : #tests }
