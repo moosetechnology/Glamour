@@ -538,7 +538,7 @@ GLMScriptingTest >> testUpdateYourselfOn [
 	browser column: #one.
 	browser showOn: #one; using: [
 		presentation := browser list 
-			updateYourselfOn: TestAnnouncement from: [ announcer ];
+			updateOn: TestAnnouncement from: [ announcer ];
 			shouldValidate: true ].
 	browser startOn: entity.
 	presentation registerAnnouncements.

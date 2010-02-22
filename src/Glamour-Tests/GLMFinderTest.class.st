@@ -75,7 +75,7 @@ GLMFinderTest >> testUnregisterAnnouncementsWhenRemovingPane [
 	presentation := GLMPresentation new.
 	presentation title: [:entity | entity].
 	browser addPresentation: presentation.
-	presentation updateYourselfOn: TestAnnouncement from: [ announcer ].
+	presentation updateOn: TestAnnouncement from: [ announcer ].
 	browser entity: #value1.
 	browser panes first presentations first registerAnnouncements.
 	self assert: ((announcer instVarNamed: 'subscriptions') at: TestAnnouncement) size = 1.

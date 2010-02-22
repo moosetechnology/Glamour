@@ -21,7 +21,7 @@ GLMBrowserTest >> testUnregisterAnnouncements [
 	presentation := GLMPresentation new.
 	pane addPresentation: presentation.
 	browser addPane: pane.
-	presentation updateYourselfOn: TestAnnouncement from: [ announcer ].
+	presentation updateOn: TestAnnouncement from: [ announcer ].
 	presentation registerAnnouncements.
 	self assert: (announcer instVarNamed: 'subscriptions') size = 1.
 	browser unregisterFromAllAnnouncements.
@@ -38,7 +38,7 @@ GLMBrowserTest >> testUnregisterAnnouncementsWhenRemovingPane [
 	presentation := GLMPresentation new.
 	pane addPresentation: presentation.
 	browser addPane: pane.
-	presentation updateYourselfOn: TestAnnouncement from: [ announcer ].
+	presentation updateOn: TestAnnouncement from: [ announcer ].
 	presentation registerAnnouncements.
 	self assert: (announcer instVarNamed: 'subscriptions') size = 1.
 	browser removePane: pane.

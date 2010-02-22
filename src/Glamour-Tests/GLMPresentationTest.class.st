@@ -220,7 +220,7 @@ GLMPresentationTest >> testUnregisterAnnouncements [
 	| announcer presentation |
 	announcer := Announcer new.
 	presentation := GLMPresentation new.
-	presentation updateYourselfOn: TestAnnouncement from: [ announcer ].
+	presentation updateOn: TestAnnouncement from: [ announcer ].
 	presentation registerAnnouncements.
 	self assert: (announcer instVarNamed: 'subscriptions') size = 1.
 	presentation unregisterFromAllAnnouncements.
@@ -247,14 +247,40 @@ GLMPresentationTest >> testUpdate [
 ]
 
 { #category : #tests }
-GLMPresentationTest >> testUpdateYourselfOnPortsUpdate [
+GLMPresentationTest >> testUpdateConditionallyTriggered [
+	| pane port presentation timesTriggered announcer | 
+	pane := GLMPane named: 'test'. 
+	(pane port: #entity) value: 40.
+	presentation := GLMPresentation new.
+	announcer := Announcer new.
+	pane addPresentation: presentation.
+	timesTriggered := 0.
+	presentation when: GLMPresentationUpdated do: [:announcement | 
+		timesTriggered := timesTriggered + 1].
+
+	presentation 
+		updateOn: TestAnnouncement 
+		from: [:x | announcer ]
+		when: [ :ann :entity | ann parameter + entity = 42].
+	presentation registerAnnouncements.
+	
+	announcer announce: (TestAnnouncement new parameter: 0).
+	self assert: timesTriggered = 0.
+
+	announcer announce: (TestAnnouncement new parameter: 2).
+	self assert: timesTriggered = 1
+
+]
+
+{ #category : #tests }
+GLMPresentationTest >> testUpdateOnPortsUpdate [
 	| pane port presentation timesTriggered announcer col |
 	col := OrderedCollection with: 1 with: 2. 
 	pane := GLMPane named: 'test'. 
 	presentation := GLMListPresentation new.
 	announcer := Announcer new.
 	pane addPresentation: presentation.
-	presentation updateYourselfOn: TestAnnouncement from: [ announcer ].
+	presentation updateOn: TestAnnouncement from: [ announcer ].
 	presentation entity: col.
 	presentation shouldValidate: true.
 	presentation registerAnnouncements.
@@ -267,7 +293,7 @@ GLMPresentationTest >> testUpdateYourselfOnPortsUpdate [
 ]
 
 { #category : #tests }
-GLMPresentationTest >> testUpdateYourselfOnTriggered [
+GLMPresentationTest >> testUpdateOnTriggered [
 	| pane port presentation timesTriggered announcer | 
 	pane := GLMPane named: 'test'. 
 	presentation := GLMPresentation new.
@@ -276,7 +302,7 @@ GLMPresentationTest >> testUpdateYourselfOnTriggered [
 	timesTriggered := 0.
 	presentation when: GLMPresentationUpdated do: [:announcement | timesTriggered := timesTriggered + 1].
 
-	presentation updateYourselfOn: TestAnnouncement from: #yourself.
+	presentation updateOn: TestAnnouncement from: #yourself.
 	presentation entity: announcer.
 	presentation registerAnnouncements.
 	
