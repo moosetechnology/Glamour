@@ -254,13 +254,15 @@ GLMPresentation >> registerAnnouncements [
 	| registeredAnnouncers |
 	self flag: 'The announcements should potentially be interested in any ports, not just in entity'.
 	updateAnnouncementsToBlocks keysAndValuesDo: [ :key :value |
-		value do: [ :eachValue | 
+		value do: [ :each | 
 			| announcerObject |
-			announcerObject := (eachValue glamourValue: self entity).
+			announcerObject := (each key glamourValue: self entity).
 			announcerObject notNil ifTrue: [
-				announcerObject on: key send: #update to: self.
-"				announcerObject on: key do: [ :announcement | self update ].
-"				"we remember the announcer object to be able to 
+				announcerObject on: key do: [ :announcement | 
+					| announcementAllowedToTrigger |
+					announcementAllowedToTrigger := each value glamourValue: (announcement asGlamorousMultiValue, self entity asGlamorousMultiValue).
+					announcementAllowedToTrigger ifTrue: [ self update ] ].
+				"we remember the announcer object to be able to 
 				unregister from it when the presentation goes away"
 				self registeredAnnouncers add: announcerObject ]]]
 ]
@@ -397,9 +399,14 @@ GLMPresentation >> update: aPortSymbol on: aCharacter with: aBlock [
 ]
 
 { #category : #updating }
-GLMPresentation >> updateYourselfOn: anAnnouncement from: aBlockOrSymbol [ 
-	(updateAnnouncementsToBlocks at: anAnnouncement ifAbsentPut: [ OrderedCollection new] ) add: aBlockOrSymbol
+GLMPresentation >> updateOn: anAnnouncement from: aBlockOrSymbol [ 
+	(updateAnnouncementsToBlocks at: anAnnouncement ifAbsentPut: [ OrderedCollection new] ) add: aBlockOrSymbol -> true
 	
+]
+
+{ #category : #updating }
+GLMPresentation >> updateOn: anAnnouncement from: aBlockOrSymbol when: aConditionBlock [
+	(updateAnnouncementsToBlocks at: anAnnouncement ifAbsentPut: [ OrderedCollection new ] ) add: aBlockOrSymbol -> aConditionBlock
 ]
 
 { #category : #accessing }
