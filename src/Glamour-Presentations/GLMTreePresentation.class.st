@@ -47,7 +47,8 @@ GLMTreePresentation >> defaultValidate: anObject on: aPort [
 ]
 
 { #category : #rendering }
-GLMTreePresentation >> renderGlamorouslyOn: aRenderer [
+GLMTreePresentation >> renderGlamorouslyOn: aRenderer [	
+	self registerAnnouncements.
 	^ aRenderer renderTreePresentation: self
 ]
 
