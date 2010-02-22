@@ -23,7 +23,7 @@ GLMUpdateMorphicTest >> setUp [
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser list 
-			updateYourselfOn: TestAnnouncement from: [ announcer ];
+			updateOn: TestAnnouncement from: [ announcer ];
 			shouldValidate: true ].
 	browser showOn: #two; from: #one; using: [browser text].
 	window := browser openOn: entity.
