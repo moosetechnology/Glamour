@@ -229,6 +229,20 @@ GLMPresentationTest >> testUnregisterAnnouncements [
 ]
 
 { #category : #tests }
+GLMPresentationTest >> testUnregisterAnnouncementsWhenEntityChanges [
+	| announcer1 announcer2 presentation |
+	announcer1 := Announcer new.
+	announcer2 := Announcer new.
+	presentation := GLMPresentation new.
+	presentation updateOn: TestAnnouncement from: [ announcer1 ].
+	presentation entity: 1.
+	presentation registerAnnouncements.
+	self assert: (announcer1 instVarNamed: 'subscriptions') size = 1.
+	presentation entity: 2.
+	self assert: (announcer1 instVarNamed: 'subscriptions') isEmpty
+]
+
+{ #category : #tests }
 GLMPresentationTest >> testUpdate [
 	| pane port presentation timesTriggered announcer col |
 	col := OrderedCollection with: 1 with: 2. 
