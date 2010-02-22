@@ -640,14 +640,14 @@ GLMBasicExamples >> updatableBrowser [
 		a stackedArrangement.
 		a list title: 'List';
 			shouldValidate: true;
-			updateYourselfOn: GLMItemAdded from: #yourself;
-			updateYourselfOn: GLMItemRemoved from: #yourself.
+			updateOn: GLMItemAdded from: #yourself;
+			updateOn: GLMItemRemoved from: #yourself.
 		a text title: 'Text';
-			updateYourselfOn: GLMItemAdded from: #yourself;
-			updateYourselfOn: GLMItemRemoved from: #yourself .
+			updateOn: GLMItemAdded from: #yourself;
+			updateOn: GLMItemRemoved from: #yourself .
 		a mondrian title: 'Mondrian';
-			updateYourselfOn: GLMItemAdded from: #yourself;
-			updateYourselfOn: GLMItemRemoved from: #yourself;
+			updateOn: GLMItemAdded from: #yourself;
+			updateOn: GLMItemRemoved from: #yourself;
 			painting: [:view :entity | 
 				view shape label.
 				view nodes: entity ] ].
