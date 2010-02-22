@@ -193,6 +193,9 @@ GLMPane >> port: aSymbol [
 
 { #category : #private }
 GLMPane >> portEvent: aPortEvent [
+	aPortEvent portName = #entity ifTrue: [
+		self unregisterFromAllAnnouncements.
+	].
 	self browser innerPortEvent: aPortEvent.
 	self presentations withAllDo: [:each | each outerPortEvent: aPortEvent]
 ]

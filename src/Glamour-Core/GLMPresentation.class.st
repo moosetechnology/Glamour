@@ -251,7 +251,6 @@ GLMPresentation >> printOn: aStream [
 
 { #category : #updating }
 GLMPresentation >> registerAnnouncements [
-	| registeredAnnouncers |
 	self flag: 'The announcements should potentially be interested in any ports, not just in entity'.
 	updateAnnouncementsToBlocks keysAndValuesDo: [ :key :value |
 		value do: [ :each | 
