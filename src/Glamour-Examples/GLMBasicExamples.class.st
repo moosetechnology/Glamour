@@ -436,8 +436,7 @@ GLMBasicExamples >> starBrowser [
 					ifTrue: [ OBHierarchyBrowser onClass: object ]
 					ifFalse: [ OBImplementorsBrowser root: (OBSelectorNode on: object) ].
 				" create omnibrowser morph, but get rid of window "
-				RectangleMorph new
-					borderWidth: 0;
+				PanelMorph new
 					layoutPolicy: ProportionalLayout new;
 					addAllMorphs: (OBMorphBuilder build: model) paneMorphs;
 					yourself ] ].
