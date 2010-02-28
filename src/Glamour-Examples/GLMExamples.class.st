@@ -20,7 +20,8 @@ GLMExamples class >> browseExamples [
 	browser showOn: #example; from: #titles; using: [
 		browser dynamic
 			title: 'Browser';
-			display: [:each | (self new perform: each selector) startOn: (Compiler evaluate: (each argumentAt: 2) logged: false)].
+			presentation: [ :some :each | 
+				some custom: ((self new perform: each selector) startOn: (Compiler evaluate: (each argumentAt: 2) logged: false))].
 		browser text 
 			title: 'Source code';
 			forSmalltalk: self;
