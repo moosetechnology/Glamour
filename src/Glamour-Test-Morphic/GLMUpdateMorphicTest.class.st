@@ -13,18 +13,12 @@ Class {
 }
 
 { #category : #testing }
-GLMUpdateMorphicTest >> expectedFailures [
-	^ #(testInvalidateSelection)
-]
-
-{ #category : #testing }
 GLMUpdateMorphicTest >> setUp [
 	announcer := Announcer new.
 	entity := OrderedCollection with: 1 with: 2 with: 3.
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
 	browser transmit to: #one; andShow: [ :a |
-		a verticallyStackedArrangement.
 		a list 
 			updateOn: TestAnnouncement from: [ announcer ];
 			shouldValidate: true.
@@ -37,9 +31,9 @@ GLMUpdateMorphicTest >> setUp [
 			shouldValidate: true ].
 	browser showOn: #two; from: #one; using: [browser text].
 	window := browser openOn: entity.
-	listMorph := window submorphs last submorphs second submorphs first submorphs first submorphs first submorphs first submorphs first.
-	treeMorph := window submorphs last submorphs second submorphs first submorphs second submorphs first submorphs first submorphs first.
-	tableMorph := window submorphs last submorphs second submorphs first submorphs last submorphs first submorphs first submorphs first.
+	listMorph := (window submorphs last submorphs second submorphs first pageAt: 1) submorphs first.
+	treeMorph := (window submorphs last submorphs second submorphs first pageAt: 2) submorphs first.
+	tableMorph := (window submorphs last submorphs second submorphs first pageAt: 3) submorphs first.
 ]
 
 { #category : #testing }
@@ -53,27 +47,12 @@ GLMUpdateMorphicTest >> testAdd [
 ]
 
 { #category : #testing }
-GLMUpdateMorphicTest >> testAnnouncerUnregistration [
-	| subscription |
-	subscription := announcer instVarNamed: 'subscriptions'.
-	self assert: (subscription at: TestAnnouncement) size = 3.
-	browser entity: #($a $b).
-	self assert: (subscription at: TestAnnouncement) size = 3.
-	browser entity: #($d).
-	self assert: (subscription at: TestAnnouncement) size = 3.
-	browser entity: #().
-	self assert: (subscription at: TestAnnouncement) size = 3.
-	browser unregisterFromAllAnnouncements.
-	self deny: (subscription includesKey: TestAnnouncement)
-]
-
-{ #category : #testing }
 GLMUpdateMorphicTest >> testInvalidateSelection [
 	(browser panes first port: #selection) value: 3.
 	entity removeLast.
 	announcer announce: TestAnnouncement.
 	self assert: (browser panes first port: #selection) value isNil.
-	self assert: treeMorph model selection selectedItemOrItemsOrNil isNil
+	self assert: listMorph model selection isNil
 ]
 
 { #category : #testing }

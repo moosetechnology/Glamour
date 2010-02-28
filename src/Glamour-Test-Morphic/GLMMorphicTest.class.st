@@ -9,7 +9,7 @@ Class {
 
 { #category : #testing }
 GLMMorphicTest >> expectedFailures [
-	^ #(testChildrenBlock testChildrenBlockTakesEntity testColumnBlockTakesEntity testInterdependentPanesShouldUpdateTheFocusTriggerPane)
+	^ #(testChildrenBlock testChildrenBlockTakesEntity testColumnBlockTakesEntity "testInterdependentPanesShouldUpdateTheFocusTriggerPane")
 ]
 
 { #category : #private }
@@ -141,29 +141,33 @@ GLMMorphicTest >> testColumnBlockTakesEntity [
 GLMMorphicTest >> testInterdependentPanesShouldUpdateTheFocusTriggerPane [
 	|browser treeMorphThree treeMorphThree2 |
 	browser := GLMTabulator new.
-	browser column: #one; column: #two; column: #three.
+	browser column: #one; column: #two; column: #three"; column: #four".
 	browser showOn: #one; using: [browser list display: [:x | 1 to: x]].
 	browser showOn: #two; from: #one; using: [browser list display: [:x | 1 to: x*2]].
 	browser showOn: #three; from: #two; using: [
 		browser list 
 			display: [:x | 1 to: x*3];
 			populate: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
+"	browser showOn: #four; from: #three; using: [browser text allowNil]."
 	browser sendTo: #outer->#focus from: #three->#focus.
 	browser sendTo: #one->#selection from: #outer->#focus with: [:x | x + 1].
 	browser sendTo: #two->#selection from: #outer->#focus with: [:x | x + 2].
 	window := browser openOn: 5.
 	((browser paneNamed: #one) port: #selection) value: 3.
 	((browser paneNamed: #two) port: #selection) value: 6.
+
 	treeMorphThree := (window submorphs last submorphs at: 5) submorphs first submorphs first.
-	((browser paneNamed: #three) port: #selection) value: 11.
+
+	((browser paneNamed: #three) port: #selection) value: 2.
 	((browser paneNamed: #three) port: #focus) value: 1.
 
-	((browser paneNamed: #one) port: #selection) value: 2.
-	((browser paneNamed: #one) port: #entity) value: 5.
-	((browser paneNamed: #two) port: #entity) value: 4.
-	((browser paneNamed: #two) port: #selection) value: 3.
-	((browser paneNamed: #three) port: #entity) value: 9.
-	((browser paneNamed: #two) port: #selection) isNil.
+	self assert: ((browser paneNamed: #one) port: #entity) value = 5.
+	self assert: ((browser paneNamed: #one) port: #selection) value = 2.
+	self assert: ((browser paneNamed: #two) port: #entity) value = 2.
+	self assert: ((browser paneNamed: #two) port: #selection) value = 3.
+	self assert: ((browser paneNamed: #three) port: #entity) value = 3.
+	self assert: ((browser paneNamed: #three) port: #selection) value isNil.
+
 	treeMorphThree2 := (window submorphs last submorphs at: 5) submorphs first submorphs first.
 	self assert: treeMorphThree ~= treeMorphThree2
 ]
