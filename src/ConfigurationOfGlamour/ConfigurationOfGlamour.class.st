@@ -194,6 +194,18 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Test-Morphic' with: [spec requires: #('Glamour-Morphic')];
 			package: 'Glamour-Examples' ;
 			package: 'Glamour-Tools' .
+		spec group: 'Core' with: #(
+						'Glamour-Announcements'
+						'Glamour-Helpers'
+						'Glamour-Core'
+						'Glamour-Presentations'
+						'Glamour-Browsers'
+						'Glamour-Scripting'
+						'Glamour-Examples'
+						'Glamour-Tools').
+		spec group: 'Extras' with: #(
+						'Glamour-Morphic'
+						'Mondrian for Glamour').
 		spec group: 'Tests' with: #(
 						'Glamour-Tests'
 						'Glamour-Examples'
