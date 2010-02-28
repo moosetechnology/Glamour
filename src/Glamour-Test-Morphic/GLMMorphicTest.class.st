@@ -7,11 +7,6 @@ Class {
 	#category : #'Glamour-Test-Morphic'
 }
 
-{ #category : #testing }
-GLMMorphicTest >> expectedFailures [
-	^ #(testChildrenBlock testChildrenBlockTakesEntity testColumnBlockTakesEntity "testInterdependentPanesShouldUpdateTheFocusTriggerPane")
-]
-
 { #category : #private }
 GLMMorphicTest >> repeatAssert: aBlock equals: aResult [
 
@@ -104,11 +99,13 @@ GLMMorphicTest >> testChildrenBlock [
 	browser tree
 		children: [:each | check := true. #()].
 	window := browser openOn: ($a to: $d).
+	World doOneCycle.
 	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
 	treeNodeMorph := treeMorph scroller submorphs first.
 	self assert: treeMorph class = LazyMorphTreeMorph.
 	self send: treeMorph mouseUpOnItem: treeNodeMorph.
 	self repeatAssert: [check] equals: true
+	
 ]
 
 { #category : #testing }
@@ -120,6 +117,7 @@ GLMMorphicTest >> testChildrenBlockTakesEntity [
 	browser tree
 		children: [:each :entity | receivedEntity := entity. #()].
 	window := browser openOn: ($a to: $d).
+	World doOneCycle.
 	self repeatAssert: [receivedEntity] equals: ($a to: $d).
 
 ]
@@ -133,6 +131,7 @@ GLMMorphicTest >> testColumnBlockTakesEntity [
 	browser table
 		column: 'Even' evaluated: [:each :entity | receivedEntity := entity. 'x'].
 	window := browser openOn: (1 to: 5).
+	World doOneCycle.
 	self repeatAssert: [receivedEntity] equals: (1 to: 5).
 
 ]
