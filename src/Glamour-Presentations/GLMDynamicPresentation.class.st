@@ -6,15 +6,41 @@ A usage for this behavior is the Glamorous Editor, which takes the text as input
 Class {
 	#name : #GLMDynamicPresentation,
 	#superclass : #GLMPresentation,
+	#instVars : [
+		'presentationTransformation'
+	],
 	#category : #'Glamour-Presentations'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMDynamicPresentation >> currentPresentation [ 
-	^ self displayValue pane: self pane
+	| currentPresentation composite |
+	composite := GLMCompositePresentation new.
+	self presentationTransformation glamourValue: (
+			composite asGlamorousMultiValue, 
+			self displayValue asGlamorousMultiValue).
+	composite pane: self pane.
+	^ composite
+"	^ self displayValue pane: self pane"
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'initialize-release' }
+GLMDynamicPresentation >> initialize [ 
+	super initialize.
+	presentationTransformation := [ :aComposite :each | aComposite add: each ]
+]
+
+{ #category : #accessing }
+GLMDynamicPresentation >> presentationTransformation [
+	^ presentationTransformation
+]
+
+{ #category : #accessing }
+GLMDynamicPresentation >> presentationTransformation: anObject [
+	presentationTransformation := anObject
+]
+
+{ #category : #rendering }
 GLMDynamicPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
 	^ self currentPresentation renderGlamorouslyOn: aRenderer
