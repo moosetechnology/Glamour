@@ -23,6 +23,6 @@ GLMFlexiblePresentationTest >> testDynamic [
 	browser showOn: #one; using: [
 		browser custom: (GLMDynamicPresentation new display: [childBrowser]) ].
 	browser startOn: 42.
-	self assert: browser panes first presentations first currentPresentation == childBrowser.
+	self assert: browser panes first presentations first currentPresentation first == childBrowser.
 	self assert: childBrowser pane == browser panes first 
 ]
