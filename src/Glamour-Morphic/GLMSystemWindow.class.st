@@ -34,7 +34,9 @@ GLMSystemWindow >> extent: aPoint [
 
 { #category : #building }
 GLMSystemWindow >> refreshHorizontalScollbars [
-	self allMorphsDo: 
+	self flag: 'this was somehow needed when the magritte form was embedded in a scroll pane'
+"	self allMorphsDo: 
 		[ :morph | 
-		(morph isKindOf: GLMScrollPaneForHResize) ifTrue: [ morph scroller submorphs anyOne width: morph scroller width - 20 ] ]
+		(morph isKindOf: GLMScrollPaneForHResize) ifTrue: [ 
+			morph scroller submorphs anyOne width: morph scroller width - 20 ] ]"
 ]

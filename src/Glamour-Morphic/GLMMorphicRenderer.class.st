@@ -317,10 +317,14 @@ GLMMorphicRenderer >> renderMagrittePresentation: anAsMorphPresentation [
 		morph.
 	scrollPane := GLMScrollPaneForHResize new.
 	scrollPane scroller
-		addMorph: magritteMorph;
-		layoutChanged.
-	magritteMorph width: scrollPane width.
-	^ scrollPane
+		addMorph: magritteMorph
+		";
+		vResizing: #spaceFill;
+		hResizing: #spaceFill;
+		layoutChanged".
+	scrollPane layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ 25 corner: 0 @ 0)).
+
+	^ magritteMorph
 ]
 
 { #category : #'rendering presentations' }
@@ -350,7 +354,6 @@ GLMMorphicRenderer >> renderMondrianPresentation: aPresentation [
 	canvasScrollPane := ScrollPane new.
 	canvasScrollPane scroller addMorph: canvas.	
 	canvasScrollPane
-		color: Color white;
 		vResizing: #spaceFill;
 		hResizing: #spaceFill.
 	^ canvasScrollPane
