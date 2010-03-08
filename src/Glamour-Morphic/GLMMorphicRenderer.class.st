@@ -354,6 +354,7 @@ GLMMorphicRenderer >> renderMondrianPresentation: aPresentation [
 	canvasScrollPane := ScrollPane new.
 	canvasScrollPane scroller addMorph: canvas.	
 	canvasScrollPane
+		color: Color white;
 		vResizing: #spaceFill;
 		hResizing: #spaceFill.
 	^ canvasScrollPane
