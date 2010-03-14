@@ -1,29 +1,14 @@
 Class {
 	#name : #GLMTextPresentation,
-	#superclass : #GLMFormatedPresentation,
+	#superclass : #GLMTextualPresentation,
 	#instVars : [
-		'selectedText',
-		'cursorPosition',
 		'selectedTextBlock',
 		'highlightSmalltalk',
 		'highlightSmalltalkContext',
-		'textBlock',
-		'text'
+		'textBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
-
-{ #category : #accessing }
-GLMTextPresentation >> cursorPosition [ 
-	 
-	^cursorPosition
-]
-
-{ #category : #accessing }
-GLMTextPresentation >> cursorPosition: anObject [ 
-	 
-	cursorPosition := anObject
-]
 
 { #category : #accessing }
 GLMTextPresentation >> forSmalltalk [
@@ -57,18 +42,6 @@ GLMTextPresentation >> renderGlamorouslyOn: aRenderer [
 ]
 
 { #category : #accessing }
-GLMTextPresentation >> selectedText [
-	^ (self pane port: #selectedText) value isNil 
-		ifTrue: [self selectedTextBlock value]
-		ifFalse: [(self pane port: #selectedText) value]
-]
-
-{ #category : #accessing }
-GLMTextPresentation >> selectedText: anObject [	 
-	(self pane port: #selectedText) value: anObject copy
-]
-
-{ #category : #accessing }
 GLMTextPresentation >> selectedTextBlock [
 	^ selectedTextBlock ifNil: [ [''] ]
 ]
@@ -81,18 +54,6 @@ GLMTextPresentation >> selectedTextBlock: anObject [
 { #category : #accessing }
 GLMTextPresentation >> selectionInterval: anInterval [
 	(self pane port: #selectionInterval) value: anInterval
-]
-
-{ #category : #accessing }
-GLMTextPresentation >> text [
-	^ (self pane port: #text) value isNil 
-		ifTrue: [self textBlock value]
-		ifFalse: [(self pane port: #text) value]
-]
-
-{ #category : #accessing }
-GLMTextPresentation >> text: aString [
-	(self pane port: #text) value: aString copy
 ]
 
 { #category : #accessing }
