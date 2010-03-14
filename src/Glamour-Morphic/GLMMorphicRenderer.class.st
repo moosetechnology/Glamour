@@ -269,6 +269,15 @@ GLMMorphicRenderer >> renderFinder: aBrowser [
 ]
 
 { #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderInputPresentation: aPresentation [ 
+	
+	| morph |
+	self flag: 'hook the cuis editor'.
+	morph := GLMMorphic emptyMorph.
+	^ morph
+]
+
+{ #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderListPresentation: aListPresentation [ 
 	^ self renderListingPresentation: aListPresentation
 ]
