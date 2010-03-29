@@ -188,21 +188,26 @@ GLMMorphicRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aMorph inBro
 	aCell children keysAndValuesDo: [ :index :each | 
 		each hasId 
 			ifTrue: [ pane := self render: (aBrowser paneNamed: each id) ]
-			ifFalse: [ self 
+			ifFalse: [ 
+				self 
 					renderCustomRow: each
 					ofPane: aPane
 					inUI: (pane := GLMMorphic emptyMorph)
 					inBrowser: aBrowser.
 				pane addPaneSplitters ].
 		pane layoutFrame: (LayoutFrame new
-				topFraction: currentSpanPosition / totalSpans offset: currentOffset + 2;
-				leftFraction: 0 offset: 0;
-				bottomFraction: (currentSpanPosition + each span) / totalSpans offset: currentOffset + each size - 2;
-				rightFraction: 1 offset: 0;
-				yourself).
+					topFraction: currentSpanPosition / totalSpans offset: currentOffset + 2;
+					leftFraction: 0 offset: 0;
+					bottomFraction: (currentSpanPosition + each span) / totalSpans offset: currentOffset + each size - 2;
+					rightFraction: 1 offset: 0;
+					yourself).
 		aMorph addMorphBack: pane.
 		currentSpanPosition := currentSpanPosition + each span.
 		currentOffset := currentOffset + each size ].
+	(aCell children last size > 0) ifTrue: [
+		(aMorph submorphs atLast: 2) layoutFrame bottomOffset: (aMorph submorphs atLast: 2) layoutFrame bottomOffset - aCell children last size. 
+		aMorph submorphs last layoutFrame topOffset: aMorph submorphs last layoutFrame topOffset - aCell children last size. 
+		aMorph submorphs last layoutFrame bottomOffset: aMorph submorphs last layoutFrame bottomOffset - aCell children last size.].
 	aMorph addPaneSplitters
 ]
 
@@ -230,6 +235,10 @@ GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aMorph inBrowse
 		aMorph addMorphBack: pane.
 		currentSpanPosition := currentSpanPosition + each span.
 		currentOffset := currentOffset + each size ].
+	(aCell children last size > 0) ifTrue: [
+		(aMorph submorphs atLast: 2) layoutFrame rightOffset: (aMorph submorphs atLast: 2) layoutFrame rightOffset - aCell children last size. 
+		aMorph submorphs last layoutFrame leftOffset: aMorph submorphs last layoutFrame leftOffset - aCell children last size. 
+		aMorph submorphs last layoutFrame rightOffset: aMorph submorphs last layoutFrame rightOffset - aCell children last size.].
 	aMorph addPaneSplitters
 ]
 
