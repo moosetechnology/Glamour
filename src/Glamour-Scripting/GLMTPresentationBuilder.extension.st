@@ -29,6 +29,11 @@ GLMTPresentationBuilder >> finder [
 ]
 
 { #category : #'*glamour-scripting-presentations' }
+GLMTPresentationBuilder >> label [
+	^ self custom: GLMLabelPresentation new
+]
+
+{ #category : #'*glamour-scripting-presentations' }
 GLMTPresentationBuilder >> list [ 
 	^ self custom: GLMListPresentation new
 ]
