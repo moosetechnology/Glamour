@@ -287,6 +287,17 @@ GLMMorphicRenderer >> renderInputPresentation: aPresentation [
 ]
 
 { #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderLabelPresentation: aLabelPresentation [ 
+	| morph |  
+	morph := (LabelMorph contents: aLabelPresentation formatedDisplayValue) 
+			layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
+			vResizing: #spaceFill;
+			hResizing: #spaceFill;
+			yourself.
+	^morph
+]
+
+{ #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderListPresentation: aListPresentation [ 
 	^ self renderListingPresentation: aListPresentation
 ]
