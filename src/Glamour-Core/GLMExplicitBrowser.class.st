@@ -15,15 +15,7 @@ GLMExplicitBrowser >> addNewPane [
 
 { #category : #accessing }
 GLMExplicitBrowser >> addNewPaneNamed: aString [
-	
-	^self panes addLast: (GLMPane named: aString in: self)
-]
-
-{ #category : #accessing }
-GLMExplicitBrowser >> addPane: aPane [ 
-	 
-	aPane browser: self. 
-	self panes addLast: aPane
+	^ self addPane: (GLMPane named: aString in: self)
 ]
 
 { #category : #accessing }

@@ -14,19 +14,66 @@ Class {
 	#classTraits : 'GLMTPresentationBuilder classTrait',
 	#instVars : [
 		'transmissions',
-		'panes'
+		'panes',
+		'statusPane'
 	],
 	#category : #'Glamour-Core'
 }
 
+{ #category : #'as yet unclassified' }
+GLMBrowser class >> defaultStatusbarPane [
+	^ #'_statusbar'
+]
+
+{ #category : #accessing }
+GLMBrowser >> addDefaultStatusbarTransmissionFrom: aPane [
+	| defaultTransmission |
+	defaultTransmission := GLMTransmission new
+		ensureBundleStrategy;
+		addActiveOrigin: (aPane port: #status); 
+		destination: (self statusbarPane port: #entity); 
+		addPresentation: self statusbarPresentation; 
+		yourself.
+	self addTransmission: defaultTransmission.
+]
+
 { #category : #accessing }
 GLMBrowser >> addPane: aPane [
-	self panes add: aPane
+	aPane browser: self.
+	self panes add: aPane.
+	self hasStatusbar ifTrue: [
+		self addDefaultStatusbarTransmissionFrom: aPane ].
+	^ aPane
+]
+
+{ #category : #accessing }
+GLMBrowser >> addStatusbar [
+	self hasStatusbar: true
+	
 ]
 
 { #category : #accessing }
 GLMBrowser >> addTransmission: aTransmission [ 
 	^ self transmissions addLast: aTransmission
+]
+
+{ #category : #accessing }
+GLMBrowser >> hasStatusbar [
+	^ statusPane notNil
+]
+
+{ #category : #accessing }
+GLMBrowser >> hasStatusbar: aBoolean [
+	aBoolean ifTrue: [
+		statusPane := self addPane: (GLMPane new name: self class defaultStatusbarPane) ]
+	
+]
+
+{ #category : #'initialize-release' }
+GLMBrowser >> initialize [
+	panes := OrderedCollection new.
+	transmissions := OrderedCollection new.
+	statusPane := nil.
 ]
 
 { #category : #events }
@@ -40,9 +87,8 @@ GLMBrowser >> outerPortEvent: aPortEvent [
 ]
 
 { #category : #accessing }
-GLMBrowser >> panes [ 
-	 
-	^panes ifNil: [panes := OrderedCollection new]
+GLMBrowser >> panes [
+	^ panes ifNil: [	panes := OrderedCollection new ]
 ]
 
 { #category : #copying }
@@ -115,9 +161,18 @@ GLMBrowser >> resolvePort: aPortReference defaultPortName: aSymbol [
 ]
 
 { #category : #accessing }
+GLMBrowser >> statusbarPane [
+	^ statusPane
+]
+
+{ #category : #accessing }
+GLMBrowser >> statusbarPresentation [
+	^ GLMLabelPresentation new
+]
+
+{ #category : #accessing }
 GLMBrowser >> transmissions [ 
-	 
-	^transmissions ifNil: [transmissions := OrderedCollection new]
+	^ transmissions
 ]
 
 { #category : #updating }
