@@ -5,6 +5,14 @@ Class {
 }
 
 { #category : #tests }
+GLMFinderTest >> testEmptyPanes [
+	| browser | 
+	browser := GLMFinder new. 
+	self assert: browser panes isEmpty. 
+	self assert: browser transmissions isEmpty.
+]
+
+{ #category : #tests }
 GLMFinderTest >> testPaneCreation [ 
 	| browser | 
 	browser := GLMFinder new. 
