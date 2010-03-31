@@ -288,7 +288,7 @@ GLMMorphicRenderer >> renderInputPresentation: aPresentation [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderLabelPresentation: aLabelPresentation [ 
-	| morph |  
+	| morph | 
 	morph := (LabelMorph contents: aLabelPresentation formatedDisplayValue) 
 			layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 			vResizing: #spaceFill;
@@ -678,13 +678,15 @@ GLMMorphicRenderer >> treeMorphFor: treeModel and: aPresentation [
 
 { #category : #opening }
 GLMMorphicRenderer >> windowFor: aRenderable [ 
-	| dock offset |
+	| dock offset bottomOffset |
 	window := GLMSystemWindow new.
 	window
 		model: aRenderable;
 		setLabel: (aRenderable titleValue ifNil: ['Glamorous Browser']).
-	aRenderable allActions notEmpty ifTrue: 
-		[ dock := self 
+	offset := 0.
+	bottomOffset := 0.
+	aRenderable allActions notEmpty ifTrue: [
+		dock := self 
 			renderToolbarForBrowser: aRenderable
 			inWindow: window.
 		offset := dock minExtent y.
@@ -693,11 +695,19 @@ GLMMorphicRenderer >> windowFor: aRenderable [
 			fullFrame: (LayoutFrame 
 					fractions: (0 @ 0 corner: 1 @ 0)
 					offsets: (0 @ 0 corner: 0 @ offset)) ].
+	aRenderable hasStatusbar ifTrue: [
+		bottomOffset := 0 - (LabelMorph new height).
+		window 
+				addMorph: (self renderPaneWithoutTitle: aRenderable statusbarPane)
+				fullFrame: (LayoutFrame 
+					fractions: (0 @ 1 corner: 1 @ 1)
+					offsets: (0 @ bottomOffset corner: 0 @ 0)) 
+		].
 	window 
 		addMorph: (self render: aRenderable)
 		fullFrame: (LayoutFrame 
 				fractions: (0 @ 0 corner: 1 @ 1)
-				offsets: (0 @ offset corner: 0 @ 0)).
+				offsets: (0 @ offset corner: 0 @ bottomOffset)).
 	(self theme isKindOf: UIThemeWatery) ifFalse: 
 		[ aRenderable colorValue ifNotNil: [ window paneColor: aRenderable colorValue ] ].
 	^ window
