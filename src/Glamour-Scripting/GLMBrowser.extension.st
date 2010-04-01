@@ -66,3 +66,8 @@ GLMBrowser >> startOn: anObject [
 GLMBrowser >> transmit [
 	^ self addTransmission: (GLMTransmission new browser: self; yourself)
 ]
+
+{ #category : #'*glamour-scripting' }
+GLMBrowser class >> withStatusbar [
+	^ self new addStatusbar
+]
