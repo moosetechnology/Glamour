@@ -34,6 +34,8 @@ GLMPresentation >> = aPresentation [
 
 { #category : #accessing }
 GLMPresentation >> acceptsSelection [
+	"this flag is used to specify whether the presentation
+	is allowed to populate the selection port or not"
 	^ acceptsSelection ifNil: [acceptsSelection := true]
 ]
 
@@ -298,7 +300,7 @@ GLMPresentation >> selection [
 { #category : #'accessing ports' }
 GLMPresentation >> selection: anObject [ 
 	self acceptsSelection ifFalse: [^ self].
-	self flag: 'perhaps it would be better to provide 2 ports: a transformed one and a normal one'.
+	self flag: 'perhaps it would be better to provide 2 ports: a transformed one and a normal onewsho'.
 	(self pane port: #selection) value: (self postTransformation glamourValue: anObject)
 ]
 
@@ -315,6 +317,12 @@ GLMPresentation >> shouldValidate [
 { #category : #'accessing validation' }
 GLMPresentation >> shouldValidate: aBoolean [
 	shouldValidate := aBoolean 
+]
+
+{ #category : #'accessing ports' }
+GLMPresentation >> status: anObject [ 
+	self flag: 'what kind of transformation should we want here?'.
+	(self pane port: #status) value: (self postTransformation glamourValue: anObject)
 ]
 
 { #category : #'accessing ports' }

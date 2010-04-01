@@ -20,7 +20,7 @@ Class {
 	#category : #'Glamour-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #constants }
 GLMBrowser class >> defaultStatusbarPane [
 	^ #'_statusbar'
 ]
