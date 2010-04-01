@@ -39,3 +39,13 @@ GLMMondrianPresentation >> renderOn: aView [
 				ifTrue: [(GLMMultiValue with: aView) , self entity , (GLMMultiValue with: self)] 
 				ifFalse: [GLMMultiValue with: aView with: self entity with: self])
 ]
+
+{ #category : #accessing }
+GLMMondrianPresentation >> view [
+	^ view ifNil: [view := MOViewRenderer new]
+]
+
+{ #category : #accessing }
+GLMMondrianPresentation >> view: anObject [
+	view := anObject
+]
