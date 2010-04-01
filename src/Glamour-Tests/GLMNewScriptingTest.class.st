@@ -185,8 +185,7 @@ GLMNewScriptingTest >> testStartTabulator [
 { #category : #'as yet unclassified' }
 GLMNewScriptingTest >> testStatusbar [
 	| browser |
-	browser := GLMTabulator new.
-	browser addStatusbar.
+	browser := GLMTabulator withStatusbar.
 	browser row: #one.
 	browser transmit to: #one; andShow: [:a | a list display: #(1 2 3)].
 	self assert: (browser transmissions size = 2).
