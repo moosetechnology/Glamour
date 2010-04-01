@@ -2,12 +2,12 @@
 This is the class responsible for the binding to Morphic.
 
 | browser |
-browser := GLMTableLayoutBrowser new.
+browser := GLMTabulator new.
 browser column: #one; column: #two.
 
-browser showOn: #one; using: [browser list.].
-browser showOn: #two; from: #one; using: [
-	browser text.].
+browser transmit to: #one; andShow: [:a | a list.].
+browser transmit to: #two; from: #one; andShow: [ :a |
+	a text.].
 browser openOn: #(a b c d)
 "
 Class {
@@ -368,6 +368,12 @@ GLMMorphicRenderer >> renderMondrianPresentation: aPresentation [
 	canvas announcer
 			when: MOFigureSelection
 			do: [ :ann | aPresentation selection: ann element model ].
+	canvas announcer
+			when: MOMouseEnter
+			do: [ :ann | aPresentation status: ann element model ].
+	canvas announcer
+			when: MOMouseLeave
+			do: [ :ann | aPresentation status: nil ].
 	aPresentation when: GLMPresentationUpdated do: [:ann |
 		newCanvas := MOCanvas new.
 		newView := MOViewRenderer new.
@@ -696,19 +702,18 @@ GLMMorphicRenderer >> windowFor: aRenderable [
 					fractions: (0 @ 0 corner: 1 @ 0)
 					offsets: (0 @ 0 corner: 0 @ offset)) ].
 	aRenderable hasStatusbar ifTrue: [
-		bottomOffset := 0 - (LabelMorph new height).
+		bottomOffset := -20.
 		window 
 				addMorph: (self renderPaneWithoutTitle: aRenderable statusbarPane)
 				fullFrame: (LayoutFrame 
 					fractions: (0 @ 1 corner: 1 @ 1)
-					offsets: (0 @ bottomOffset corner: 0 @ 0)) 
-		].
+					offsets: (2 @ bottomOffset corner: -2 @ 0)) ].
 	window 
 		addMorph: (self render: aRenderable)
 		fullFrame: (LayoutFrame 
 				fractions: (0 @ 0 corner: 1 @ 1)
 				offsets: (0 @ offset corner: 0 @ bottomOffset)).
-	(self theme isKindOf: UIThemeWatery) ifFalse: 
-		[ aRenderable colorValue ifNotNil: [ window paneColor: aRenderable colorValue ] ].
+	(self theme isKindOf: UIThemeWatery) ifFalse: [
+		aRenderable colorValue ifNotNil: [ window paneColor: aRenderable colorValue ] ].
 	^ window
 ]
