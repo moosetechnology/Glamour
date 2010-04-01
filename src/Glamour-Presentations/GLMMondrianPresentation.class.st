@@ -8,7 +8,8 @@ Class {
 	#name : #GLMMondrianPresentation,
 	#superclass : #GLMPresentation,
 	#instVars : [
-		'painting'
+		'painting',
+		'view'
 	],
 	#category : #'Glamour-Presentations'
 }
