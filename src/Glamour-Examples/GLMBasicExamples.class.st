@@ -174,6 +174,7 @@ GLMBasicExamples >> doubleClick [
 
 { #category : #others }
 GLMBasicExamples >> fixSizePanes [
+	<glmBrowser: 'Fix size pane' input: '5'>
 	"self new fixSizePanes openOn: 1"
 	| browser |
 	browser := GLMTabulator new.
@@ -223,6 +224,31 @@ GLMBasicExamples >> listsWithUpdatedSelection [
 	browser sendTo: #two->#selection from: #one with: [:x | x + 2].
 	browser sendTo: #one->#selection from: #two with: [:x | x - 2].
 	browser sendTo: #three->#selection from: #two with: [:x | (1 to: (x - 2)) ].
+	^ browser
+]
+
+{ #category : #others }
+GLMBasicExamples >> mondrianPainting [
+	<glmBrowser: 'Mondrian painting' input: '100'>
+	"self new mondrianPainting openOn: 100"
+	| browser |
+	browser := GLMTabulator withStatusbar.
+	browser column: #one; column: #two.
+	browser showOn: #one; using: [
+		browser mondrian 
+			title: 'Numbers in Mondrian tree';
+			painting: [:view :number | 
+			view shape label.
+			view nodes: (1 to: number).
+			view edgesFrom: [:x | x // 3 ].
+			view horizontalTreeLayout ]].
+	browser showOn: #two; from: #one; using: [
+		browser mondrian 
+			title: 'Numbers in Mondrian list';
+			painting: [:view :number |
+				view shape rectangle width: 20; text: #printString; withoutBorder.
+				view nodes: (1 to: number).
+				view gridLayout ]].
 	^ browser
 ]
 
@@ -352,31 +378,6 @@ GLMBasicExamples >> simpleFinderWithMenu [
 			display: [:each | $a to: each];
 			actions: [:list | self actionsFor: list ].
 	^ finder
-]
-
-{ #category : #others }
-GLMBasicExamples >> simpleMondrianPainting [
-	<glmBrowser: 'Mondrian painting' input: '100'>
-	"self new simpleMondrianPainting openOn: 100"
-	| browser |
-	browser := GLMTabulator new.
-	browser column: #one; column: #two.
-	browser showOn: #one; using: [
-		browser mondrian 
-			title: 'Numbers in Mondrian tree';
-			painting: [:view :number | 
-			view shape label.
-			view nodes: (1 to: number).
-			view edgesFrom: [:x | x // 3 ].
-			view horizontalTreeLayout ]].
-	browser showOn: #two; from: #one; using: [
-		browser mondrian 
-			title: 'Numbers in Mondrian list';
-			painting: [:view :number |
-				view shape rectangle width: 20; text: #printString; withoutBorder.
-				view nodes: (1 to: number).
-				view gridLayout ]].
-	^ browser
 ]
 
 { #category : #table }
