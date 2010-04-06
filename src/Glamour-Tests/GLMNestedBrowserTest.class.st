@@ -6,7 +6,7 @@ Class {
 
 { #category : #tests }
 GLMNestedBrowserTest >> expectedFailures [
-	^ #(testEntityPropogationAnnouncements)
+	^ #("testEntityPropogationAnnouncements")
 ]
 
 { #category : #tests }
@@ -188,21 +188,17 @@ GLMNestedBrowserTest >> testEntityPropogationAnnouncements [
 	self assert: (announcements at: 5) presentation == presentation. 
 	self assert: (announcements at: 5) property = #entity. 
 	self assert: (announcements at: 5) value = 42.	"6. Due to the context change of 5, the innermost presentation now matches." 
-	self 
-		assert: ((announcements at: 6) isKindOf: GLMMatchingPresentationsChanged). 
+	self assert: ((announcements at: 6) isKindOf: GLMMatchingPresentationsChanged). 
 	self assert: (announcements at: 6) pane == browser2 panes first. 
 	self assert: (announcements at: 6) oldMatchingPresentations isEmpty. 
 	self assert: (announcements at: 6) matchingPresentations size = 1. 
-	self 
-		assert: (announcements at: 6) matchingPresentations first == presentation.	"7. Due to the context change of 3, the inner browser now matches." 
-	self 
-		assert: ((announcements at: 7) isKindOf: GLMMatchingPresentationsChanged). 
+	self assert: (announcements at: 6) matchingPresentations first == presentation.	"7. Due to the context change of 3, the inner browser now matches." 
+	self assert: ((announcements at: 7) isKindOf: GLMMatchingPresentationsChanged). 
 	self assert: (announcements at: 7) pane == browser1 panes first. 
 	self assert: (announcements at: 7) oldMatchingPresentations isEmpty. 
 	self assert: (announcements at: 7) matchingPresentations size = 1. 
 	self assert: (announcements at: 7) matchingPresentations first == browser2.	"8. Due to the context change of 1, the outer browser now matches." 
-	self 
-		assert: ((announcements at: 8) isKindOf: GLMMatchingPresentationsChanged). 
+	self assert: ((announcements at: 8) isKindOf: GLMMatchingPresentationsChanged). 
 	self assert: (announcements at: 8) pane == browser1 pane. 
 	self assert: (announcements at: 8) oldMatchingPresentations isEmpty. 
 	self assert: (announcements at: 8) matchingPresentations size = 1. 
