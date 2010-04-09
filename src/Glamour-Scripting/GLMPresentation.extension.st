@@ -147,6 +147,18 @@ GLMPresentation >> update: aPortSymbol on: aCharacter entitled: aString categori
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMPresentation >> update: aPortSymbol on: aCharacter entitled: aString with: aBlock [
+	self deprecated: 'Please use populate: aPortSymbol on: aCharacter entitled: aString with: aBlock	'.
+	^ self populate: aPortSymbol on: aCharacter entitled: aString with: aBlock	
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMPresentation >> update: aPortSymbol on: aCharacter with: aBlock [
+	self deprecated: 'please use populate: aPortSymbol on: aCharacter with: aBlock'.
+	^ self populate: aPortSymbol on: aCharacter with: aBlock
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMPresentation >> when: aBlock [ 
 	 
 	self condition: aBlock
