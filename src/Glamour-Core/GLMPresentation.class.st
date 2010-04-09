@@ -393,18 +393,6 @@ GLMPresentation >> update [
 	self announce: GLMPresentationUpdated
 ]
 
-{ #category : #'as yet unclassified' }
-GLMPresentation >> update: aPortSymbol on: aCharacter entitled: aString with: aBlock [
-	self deprecated: 'Please use populate: aPortSymbol on: aCharacter entitled: aString with: aBlock	'.
-	^ self populate: aPortSymbol on: aCharacter entitled: aString with: aBlock	
-]
-
-{ #category : #'as yet unclassified' }
-GLMPresentation >> update: aPortSymbol on: aCharacter with: aBlock [
-	self deprecated: 'please use populate: aPortSymbol on: aCharacter with: aBlock'.
-	^ self populate: aPortSymbol on: aCharacter with: aBlock
-]
-
 { #category : #updating }
 GLMPresentation >> updateOn: anAnnouncement from: aBlockOrSymbol [ 
 	(updateAnnouncementsToBlocks at: anAnnouncement ifAbsentPut: [ OrderedCollection new] ) add: aBlockOrSymbol -> true
