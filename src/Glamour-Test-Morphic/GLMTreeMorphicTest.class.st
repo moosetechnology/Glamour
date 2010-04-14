@@ -104,7 +104,7 @@ GLMTreeMorphicTest >> testUpdateFromModel [
 
 	treeMorphOne1 := window submorphs last submorphs second submorphs first submorphs first.
 	self assert: (treeMorphOne1 model roots collect: #item) = #(1 2 3 4).
-	((browser paneNamed: #one) port: #selection) value: #2.	
+	((browser paneNamed: #one) port: #selection) value: #'2'.	
 	treeMorphTwo1 := window submorphs last submorphs last submorphs first submorphs first.
 	self assert: (treeMorphTwo1 model roots collect: #item) = #(20 21 22).
 
@@ -116,7 +116,7 @@ GLMTreeMorphicTest >> testUpdateFromModel [
 
 	self assert: (window submorphs last submorphs last submorphs first submorphs) isEmpty.
 	
-	((browser paneNamed: #one) port: #selection) value: #5.	
+	((browser paneNamed: #one) port: #selection) value: #'5'.	
 	treeMorphTwo2 := window submorphs last submorphs last submorphs first submorphs first.
 	self assert: (treeMorphTwo2 model roots collect: #item) = #(50 51 52).
 	self assert: treeMorphTwo1 ~= treeMorphTwo2
