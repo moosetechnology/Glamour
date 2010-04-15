@@ -227,8 +227,9 @@ GLMTransmission >> transmit [
 
 { #category : #transmitting }
 GLMTransmission >> transmitIn: aContext [
-	self transmissionStrategy transmitIn: aContext.
-	self destination receive: self in: aContext.
+	self destination pane notingPresentationChangeDo: [
+		self transmissionStrategy transmitIn: aContext.
+		self destination receive: self in: aContext ]
 ]
 
 { #category : #transmitting }
