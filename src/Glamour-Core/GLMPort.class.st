@@ -32,6 +32,11 @@ GLMPort >> name: aSymbol [
 	name := aSymbol
 ]
 
+{ #category : #validation }
+GLMPort >> notingPresentationChangeDo: aBlock [
+	aBlock value
+]
+
 { #category : #printing }
 GLMPort >> printOn: aStream [ 
 	super printOn: aStream.

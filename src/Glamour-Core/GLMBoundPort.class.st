@@ -30,6 +30,11 @@ GLMBoundPort >> hash [
 	^super hash
 ]
 
+{ #category : #validation }
+GLMBoundPort >> notingPresentationChangeDo: aBlock [
+	self pane notingPresentationChangeDo: aBlock
+]
+
 { #category : #accessing }
 GLMBoundPort >> pane [ 
 	 
