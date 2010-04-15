@@ -42,7 +42,7 @@ GLMBrowserTest >> testSimplePropagation [
 				yourself).
 	announcements := OrderedCollection new. 
 	browser whenContextChanged: [:ann | announcements addLast: ann].
-	browser pane whenPresentationsChanged: [:ann | announcements addLast: ann].
+	browser pane whenPresentationsChanged: [:ann |announcements addLast: ann].
 	browser pane whenMatchingPresentationsChanged: [:ann | announcements addLast: ann].
 "	browser panes first whenContextChanged: [:ann | announcements addLast: ann].
 "	browser panes first whenPresentationsChanged: [:ann | announcements addLast: ann].

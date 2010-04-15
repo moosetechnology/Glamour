@@ -122,7 +122,7 @@ GLMNestedBrowserTest >> testEntityPropogationAnnouncements [
 	This is a sister test to testEntityPropogation that ensures that the 
 	announcements are raised in the right order and not redundantly." 
 	 
-	| browser1 browser2 presentation announcements | 
+	| browser1 browser2 presentation announcements realBrowser2 realPresentation | 
 	browser1 := GLMExplicitBrowser new title: '1'; yourself. 
 	browser2 := GLMExplicitBrowser new title: '2'; yourself. 
 	presentation := GLMPresentation new. 
@@ -133,14 +133,18 @@ GLMNestedBrowserTest >> testEntityPropogationAnnouncements [
 	self assert: browser1 pane presentations size = 1. 
 	self assert: browser1 pane presentations first == browser1. 
 	browser1 whenContextChanged: [:ann | announcements addLast: ann]. 
-	browser2 whenContextChanged: [:ann | announcements addLast: ann]. 
-	presentation whenContextChanged: [:ann | announcements addLast: ann]. 
 	browser1 pane whenPresentationsChanged: [:ann | announcements addLast: ann]. 
-	browser1 panes first whenPresentationsChanged: [:ann | announcements addLast: ann]. 
-	browser2 panes first whenPresentationsChanged: [:ann | announcements addLast: ann]. 
+	browser1 panes first whenPresentationsChanged: [:outerAnn | 
+		announcements addLast: outerAnn.
+		realBrowser2 := outerAnn pane presentations first.
+		realBrowser2 whenContextChanged: [:ann | announcements addLast: ann].
+		realBrowser2 panes first whenPresentationsChanged: [:ann | 
+			announcements addLast: ann.
+			realPresentation := ann pane presentations first.
+			realPresentation whenContextChanged: [:ann2 | announcements addLast: ann2]].
+		realBrowser2 panes first whenMatchingPresentationsChanged: [:ann | announcements addLast: ann] ]. 
 	browser1 pane whenMatchingPresentationsChanged: [:ann | announcements addLast: ann]. 
 	browser1 panes first whenMatchingPresentationsChanged: [:ann | announcements addLast: ann]. 
-	browser2 panes first whenMatchingPresentationsChanged: [:ann | announcements addLast: ann].	"Jumpstart presentation for outer browser." 
 	browser1 addTransmission: 
 			(GLMTransmission new
 				ensureBundleStrategy;
