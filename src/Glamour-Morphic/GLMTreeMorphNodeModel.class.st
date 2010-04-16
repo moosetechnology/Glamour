@@ -127,6 +127,7 @@ GLMTreeMorphNodeModel >> parentNode: aNode [
 
 { #category : #accessing }
 GLMTreeMorphNodeModel >> path [
+	"returns the list of nodes to the root"
 	^ self pathIn: OrderedCollection new.
 ]
 
