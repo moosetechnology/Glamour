@@ -53,12 +53,16 @@ GLMUpdateMorphicTest >> testAnnouncerUnregistration [
 	subscription := announcer instVarNamed: 'subscriptions'.
 	self assert: (subscription at: TestAnnouncement) size = 3.
 	browser entity: #($a $b).
+	subscription := announcer instVarNamed: 'subscriptions'.
 	self assert: (subscription at: TestAnnouncement) size = 3.
 	browser entity: #($d).
+	subscription := announcer instVarNamed: 'subscriptions'.
 	self assert: (subscription at: TestAnnouncement) size = 3.
 	browser entity: #().
+	subscription := announcer instVarNamed: 'subscriptions'.
 	self assert: (subscription at: TestAnnouncement) size = 3.
 	browser unregisterFromAllAnnouncements.
+	subscription := announcer instVarNamed: 'subscriptions'.
 	self deny: (subscription includesKey: TestAnnouncement)
 ]
 
