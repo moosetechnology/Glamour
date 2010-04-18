@@ -50,6 +50,12 @@ GLMListingPresentation >> childrenValueOf: anObject [
 ]
 
 { #category : #accessing }
+GLMListingPresentation >> childrenValueOf: anObject atLevel: anInteger [
+	self flag: 'this is rather hackish, but needed to treat list and tree in the same way.'.
+	^ OrderedCollection new
+]
+
+{ #category : #accessing }
 GLMListingPresentation >> columns [
 	self flag: 'this is rather hackish, but needed to treat list and tree in the same way.'.
 	^ OrderedCollection new

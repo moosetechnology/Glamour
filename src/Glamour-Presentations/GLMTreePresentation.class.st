@@ -37,6 +37,14 @@ GLMTreePresentation >> childrenValueOf: anObject [
 	^ self children glamourValue: (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue)
 ]
 
+{ #category : #accessing }
+GLMTreePresentation >> childrenValueOf: anObject atLevel: anInteger [
+	^ self children glamourValue: (
+		anObject asGlamorousMultiValue, 
+		self entity asGlamorousMultiValue,
+		anInteger asGlamorousMultiValue)
+]
+
 { #category : #validation }
 GLMTreePresentation >> defaultValidate: anObject on: aPort [
 	"we only allow objects that are in the display value"
