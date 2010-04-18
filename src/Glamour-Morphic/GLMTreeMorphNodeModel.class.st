@@ -24,7 +24,7 @@ GLMTreeMorphNodeModel >> buttonForTag: each filter: filter [
 
 { #category : #accessing }
 GLMTreeMorphNodeModel >> childrenItems [
-	^ (self containerTree glamourPresentation childrenValueOf: self item) ifNil: [OrderedCollection new]
+	^ (self containerTree glamourPresentation childrenValueOf: self item atLevel: self path size) ifNil: [OrderedCollection new]
 ]
 
 { #category : #accessing }
