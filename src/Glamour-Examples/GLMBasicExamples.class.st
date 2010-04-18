@@ -579,6 +579,27 @@ GLMBasicExamples >> treeWithAmountFiltering [
 	^ browser 
 ]
 
+{ #category : #'explicit selection' }
+GLMBasicExamples >> treeWithChildrenByLevel [
+	<glmBrowser: 'Tree with children by level' input: '(1 to: 5)'>
+	"
+		self new treeWithChildrenByLevel openOn: #(1 2 3 4 5)
+	"
+	|browser |
+
+	browser := GLMTabulator new.
+	browser column: #one; column: [:c | c row: #two; row: #three].
+	browser showOn: #one; using: [
+		browser tree
+			title: 'Tree';
+			children: [:item :x :level | 
+				level > 1 ifTrue: [#()] ifFalse: [1 to: item ] ]].
+	browser showOn: #two; from: #one; using: [ browser text title: 'Selection preview' ].
+	browser showOn: #three; from: #one->#selectionPath; using: [
+		browser text title: 'Selection path preview'].
+	^ browser
+]
+
 { #category : #'actions examples' }
 GLMBasicExamples >> treeWithExpansion [
 	<glmBrowser: 'Tree with expansion' input: '#(($a $b $c $d) ($e $f) ($g $h $i $j ($l $m $n)))'>
