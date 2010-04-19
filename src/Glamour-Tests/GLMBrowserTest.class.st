@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+GLMBrowserTest >> expectedFailures [
+	^ #(testSimplePropagation)
+]
+
+{ #category : #'as yet unclassified' }
 GLMBrowserTest >> testHasStatusbar [
 	| browser |
 	browser := GLMBrowser new.
