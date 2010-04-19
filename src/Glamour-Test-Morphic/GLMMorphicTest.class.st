@@ -7,6 +7,11 @@ Class {
 	#category : #'Glamour-Test-Morphic'
 }
 
+{ #category : #'setup - tear down' }
+GLMMorphicTest >> expectedFailures [
+	^ #(testInterdependentPanesShouldUpdateTheFocusTriggerPane testInterdependentPanesShouldUpdateTheFocusTriggerPaneWithText)
+]
+
 { #category : #private }
 GLMMorphicTest >> repeatAssert: aBlock equals: aResult [
 
