@@ -20,10 +20,3 @@ GLMListPresentation >> renderGlamorouslyOn: aRenderer [
 	self registerAnnouncements.
 	^ aRenderer renderListPresentation: self
 ]
-
-{ #category : #rendering }
-GLMListPresentation >> update [
-	self flag: 'this method should be removed'.
-"	(self entity includes: self selection) ifFalse: [self selection: nil].
-"	super update
-]
