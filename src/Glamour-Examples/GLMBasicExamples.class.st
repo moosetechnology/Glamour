@@ -389,7 +389,7 @@ GLMBasicExamples >> simpleTable [
 	finder table
 			display: [ :x | 1 to: x ]; 
 			actions: [ :list | self actionsFor: list ];
-			column: 'Number' evaluated: #asString;
+			column: [:x | 'Numbers from 1 to ', x asString] evaluated: #asString;
 			column: 'Even' evaluated: [ :each | each even asString ];
 			column: 'Odd' evaluated: [ :each | each odd asString ].
 	^ finder
