@@ -663,7 +663,7 @@ GLMMorphicRenderer >> treeMorphFor: treeModel and: aPresentation [
 			aPresentation columns collect: [:each | 
 				GLMMorphTreeColumn new 
 					glamourColumn: each; 
-					headerButtonLabel: each title 
+					headerButtonLabel: (aPresentation titleValueOfColumn: each) 
 					font: Preferences standardMenuFont 
 					target: nil 
 					actionSelector: nil 
