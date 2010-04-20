@@ -14,7 +14,9 @@ GLMTablePresentation >> addColumn: aColumn [
 
 { #category : #private }
 GLMTablePresentation >> column: aGlamourColumn valueFor: anObject [
-	^ aGlamourColumn computation glamourValue: (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue)
+	^ aGlamourColumn computation glamourValue: 
+		(anObject asGlamorousMultiValue,
+		 self entity asGlamorousMultiValue)
 ]
 
 { #category : #accessing }
@@ -31,4 +33,9 @@ GLMTablePresentation >> columns: aCollection [
 GLMTablePresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
 	^ aRenderer renderTablePresentation: self
+]
+
+{ #category : #private }
+GLMTablePresentation >> titleValueOfColumn: aColumn [
+	^ aColumn title glamourValue: self entity
 ]
