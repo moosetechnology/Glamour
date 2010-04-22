@@ -12,7 +12,7 @@ SGLPierBrowser class >> initialize [
 { #category : #accessing }
 SGLPierBrowser >> browser [
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser column: [:c | c row: #navigation; row: #map ];
 			column: #editor span: 4.
 	browser showOn: #navigation; using: [

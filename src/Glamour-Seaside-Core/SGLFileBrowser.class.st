@@ -12,7 +12,7 @@ SGLFileBrowser class >> initialize [
 { #category : #accessing }
 SGLFileBrowser >> browser [
 	| browser |
-	browser := GLMTableLayoutBrowser new.
+	browser := GLMTabulator new.
 	browser 
 		column: #folders;
 		column: [ :column | column row: #files span: 2; row: #summary ] span: 2.

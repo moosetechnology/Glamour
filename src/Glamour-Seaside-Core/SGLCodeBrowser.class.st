@@ -12,7 +12,7 @@ SGLCodeBrowser class >> initialize [
 { #category : #accessing }
 SGLCodeBrowser >> browser [
 	| browser |
-	browser := GLMTableLayoutBrowser new.   
+	browser := GLMTabulator new.   
 
 	browser row: [ :row | row column: #classes; column: #selectors ].
 	browser row: #source.
