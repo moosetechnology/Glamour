@@ -217,13 +217,6 @@ SGLRenderer >> renderPaneTabs: aPane tabs: aCollection [
 ]
 
 { #category : #widgets }
-SGLRenderer >> renderTableLayoutBrowser: aBrowser [
-	aBrowser cell isRow
-		ifTrue: [ self renderTableLayoutBrowserRow: aBrowser cell ]
-		ifFalse: [ self renderTableLayoutBrowserColumn: aBrowser cell ]
-]
-
-{ #category : #widgets }
 SGLRenderer >> renderTableLayoutBrowserColumn: aCell [
 	html div class: 'sgl-table'; class: 'sgl-table-vbox'; with: [
 		aCell children 
@@ -255,6 +248,13 @@ SGLRenderer >> renderTableLayoutBrowserRow: aCell [
 					ifFalse: [ 
 						tag with: [ self renderTableLayoutBrowserColumn: each ] ] ]
 			separatedBy: [ html div class: 'sgl-table-split' ] ]
+]
+
+{ #category : #widgets }
+SGLRenderer >> renderTabulator: aBrowser [
+	aBrowser cell isRow
+		ifTrue: [ self renderTableLayoutBrowserRow: aBrowser cell ]
+		ifFalse: [ self renderTableLayoutBrowserColumn: aBrowser cell ]
 ]
 
 { #category : #presentation }
