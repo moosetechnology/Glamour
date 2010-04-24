@@ -359,7 +359,7 @@ GLMMorphicRenderer >> renderMagrittePresentation: anAsMorphPresentation [
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderMondrianPresentation: aPresentation [
 	| canvas view canvasScrollPane newCanvas newView |
-	view := MOViewRenderer new.
+	view := aPresentation view.
 	view root interaction menu: [ :x | self menuIn: MenuMorph new for: aPresentation ].
 	aPresentation renderOn: view.
 	canvas := MOCanvas new.
