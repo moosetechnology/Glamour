@@ -685,7 +685,7 @@ GLMMorphicRenderer >> treeMorphFor: treeModel and: aPresentation [
 
 { #category : #opening }
 GLMMorphicRenderer >> windowFor: aRenderable [ 
-	| dock offset bottomOffset |
+	| dock offset bottomOffset statusbarMorph |
 	window := GLMSystemWindow new.
 	window
 		model: aRenderable;
@@ -703,9 +703,10 @@ GLMMorphicRenderer >> windowFor: aRenderable [
 					fractions: (0 @ 0 corner: 1 @ 0)
 					offsets: (0 @ 0 corner: 0 @ offset)) ].
 	aRenderable hasStatusbar ifTrue: [
-		bottomOffset := -20.
+		statusbarMorph := self renderPaneWithoutTitle: aRenderable statusbarPane.
+		bottomOffset := 0 - ((LabelMorph contents: 'XXX') minHeight).
 		window 
-				addMorph: (self renderPaneWithoutTitle: aRenderable statusbarPane)
+				addMorph: statusbarMorph
 				fullFrame: (LayoutFrame 
 					fractions: (0 @ 1 corner: 1 @ 1)
 					offsets: (2 @ bottomOffset corner: -2 @ 0)) ].
