@@ -1,5 +1,7 @@
 "
 A GLMPresentation is the abstract class for the hierarchy of presentations. A presentation specifies how the pane is going to be displayed. It typically reads at least the #entity port of a pane and populates at least the #selection port.
+
+updateActions holds a collection of GLMUpdateAction that are used to update the presentation via announcements
 "
 Class {
 	#name : #GLMPresentation,
@@ -21,7 +23,9 @@ Class {
 		'acceptsSelection',
 		'announcer',
 		'parentPrototype',
-		'registeredAnnouncers'
+		'registeredAnnouncers',
+		'updateAnnouncementsToAllBlocks',
+		'updateActions'
 	],
 	#category : #'Glamour-Core'
 }
@@ -173,7 +177,8 @@ GLMPresentation >> hasTitleIcon [
 
 { #category : #'initialize-release' }
 GLMPresentation >> initialize [
-	updateAnnouncementsToBlocks := Dictionary new
+	super initialize.	
+	updateActions := OrderedCollection new
 ]
 
 { #category : #events }
@@ -235,6 +240,11 @@ GLMPresentation >> postCopy [
 	super postCopy.
 	announcer := nil.
 	pane := nil.
+	updateActions := updateActions collect: [:each | 
+		each copy 
+			presentation: self;
+			yourself
+		]
 ]
 
 { #category : #accessing }
@@ -254,18 +264,7 @@ GLMPresentation >> printOn: aStream [
 { #category : #updating }
 GLMPresentation >> registerAnnouncements [
 	self flag: 'The announcements should potentially be interested in any ports, not just in entity'.
-	updateAnnouncementsToBlocks keysAndValuesDo: [ :key :value |
-		value do: [ :each | 
-			| announcerObject |
-			announcerObject := (each key glamourValue: self entity).
-			announcerObject notNil ifTrue: [
-				announcerObject on: key do: [ :announcement | 
-					| announcementAllowedToTrigger |
-					announcementAllowedToTrigger := each value glamourValue: (announcement asGlamorousMultiValue, self entity asGlamorousMultiValue).
-					announcementAllowedToTrigger ifTrue: [ self update ] ].
-				"we remember the announcer object to be able to 
-				unregister from it when the presentation goes away"
-				self registeredAnnouncers add: announcerObject ]]]
+	updateActions do: [:each | each registerInPresentation ].
 ]
 
 { #category : #updating }
@@ -383,7 +382,7 @@ GLMPresentation >> transformation: aBlock [
 { #category : #updating }
 GLMPresentation >> unregisterFromAllAnnouncements [
 	"this method should be called every time the presentation is not needed"
-	self registeredAnnouncers do: [ :each | each unsubscribe: self ]
+	updateActions do: [ :each | each unregisterFromAllAnnouncements ]
 ]
 
 { #category : #updating }
@@ -395,13 +394,37 @@ GLMPresentation >> update [
 
 { #category : #updating }
 GLMPresentation >> updateOn: anAnnouncement from: aBlockOrSymbol [ 
-	(updateAnnouncementsToBlocks at: anAnnouncement ifAbsentPut: [ OrderedCollection new] ) add: aBlockOrSymbol -> true
-	
+	updateActions add: (GLMSingleUpdateAction new 
+		presentation: self;
+		announcement: anAnnouncement; 
+		transformation: aBlockOrSymbol;
+		yourself)
+
+"	(updateAnnouncementsToBlocks at: anAnnouncement ifAbsentPut: [ OrderedCollection new] ) add: aBlockOrSymbol -> true
+"	
 ]
 
 { #category : #updating }
 GLMPresentation >> updateOn: anAnnouncement from: aBlockOrSymbol when: aConditionBlock [
-	(updateAnnouncementsToBlocks at: anAnnouncement ifAbsentPut: [ OrderedCollection new ] ) add: aBlockOrSymbol -> aConditionBlock
+	updateActions add: (GLMSingleUpdateAction new
+		presentation: self; 
+		announcement: anAnnouncement; 
+		transformation: aBlockOrSymbol;
+		condition: aConditionBlock;
+		yourself)
+
+"	(updateAnnouncementsToBlocks at: anAnnouncement ifAbsentPut: [ OrderedCollection new ] ) add: aBlockOrSymbol -> aConditionBlock"
+]
+
+{ #category : #updating }
+GLMPresentation >> updateOn: anAnnouncement fromAll: aBlockOrSymbol [ 
+	updateActions add: (GLMMultipleUpdateAction new
+		presentation: self; 
+		announcement: anAnnouncement; 
+		transformation: aBlockOrSymbol;
+		yourself)
+"	(updateAnnouncementsToAllBlocks at: anAnnouncement ifAbsentPut: [ OrderedCollection new] ) add: aBlockOrSymbol -> true
+	"
 ]
 
 { #category : #accessing }
