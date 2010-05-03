@@ -16,7 +16,6 @@ Class {
 		'implicitNotNil',
 		'postTransformation',
 		'dynamicActionsBlock',
-		'updateAnnouncementsToBlocks',
 		'color',
 		'customValidation',
 		'shouldValidate',
@@ -24,7 +23,6 @@ Class {
 		'announcer',
 		'parentPrototype',
 		'registeredAnnouncers',
-		'updateAnnouncementsToAllBlocks',
 		'updateActions'
 	],
 	#category : #'Glamour-Core'
@@ -399,9 +397,6 @@ GLMPresentation >> updateOn: anAnnouncement from: aBlockOrSymbol [
 		announcement: anAnnouncement; 
 		transformation: aBlockOrSymbol;
 		yourself)
-
-"	(updateAnnouncementsToBlocks at: anAnnouncement ifAbsentPut: [ OrderedCollection new] ) add: aBlockOrSymbol -> true
-"	
 ]
 
 { #category : #updating }
@@ -412,8 +407,6 @@ GLMPresentation >> updateOn: anAnnouncement from: aBlockOrSymbol when: aConditio
 		transformation: aBlockOrSymbol;
 		condition: aConditionBlock;
 		yourself)
-
-"	(updateAnnouncementsToBlocks at: anAnnouncement ifAbsentPut: [ OrderedCollection new ] ) add: aBlockOrSymbol -> aConditionBlock"
 ]
 
 { #category : #updating }
@@ -423,8 +416,6 @@ GLMPresentation >> updateOn: anAnnouncement fromAll: aBlockOrSymbol [
 		announcement: anAnnouncement; 
 		transformation: aBlockOrSymbol;
 		yourself)
-"	(updateAnnouncementsToAllBlocks at: anAnnouncement ifAbsentPut: [ OrderedCollection new] ) add: aBlockOrSymbol -> true
-	"
 ]
 
 { #category : #accessing }
