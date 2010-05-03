@@ -289,6 +289,29 @@ GLMPresentationTest >> testUpdateConditionallyTriggered [
 ]
 
 { #category : #tests }
+GLMPresentationTest >> testUpdateOnFromAllPortsUpdate [
+	| pane presentation announcers col updated |
+	col := (1 to: 4) asOrderedCollection. 
+	pane := GLMPane named: 'test'. 
+	presentation := GLMListPresentation new.
+	announcers := col collect: [:each | Announcer new].
+	pane addPresentation: presentation.
+	presentation updateOn: TestAnnouncement fromAll: [ announcers ].
+	presentation when: GLMPresentationUpdated do: [:a | updated := true ].
+	presentation entity: col.
+	presentation shouldValidate: true.
+	presentation registerAnnouncements.
+
+	updated := false.
+	announcers last announce: TestAnnouncement.
+	self assert: updated.
+	updated := false.
+	announcers last announce: TestAnnouncement.
+	self assert: updated.
+
+]
+
+{ #category : #tests }
 GLMPresentationTest >> testUpdateOnPortsUpdate [
 	| pane port presentation timesTriggered announcer col |
 	col := OrderedCollection with: 1 with: 2. 
