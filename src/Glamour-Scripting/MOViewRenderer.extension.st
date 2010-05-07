@@ -9,5 +9,5 @@ MOViewRenderer >> openWithStatusbar [
 	browser column: #painting.
 	browser transmit to: #painting; andShow: [ :a | 
 		a mondrian view: self ].
-	browser openOn: self
+	^ browser openOn: self
 ]
