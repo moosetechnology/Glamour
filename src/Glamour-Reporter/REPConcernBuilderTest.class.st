@@ -7,7 +7,7 @@ Class {
 { #category : #'as yet unclassified' }
 REPConcernBuilderTest >> testBasicQueryCreation [
 	| spec |
-	spec := REPConcernBuilder on: 42.
+	spec := REPConcernSpecification on: 42.
 	spec query: 'Label' meaning: 'Explanation' as: [:x | x + 1].
 	self assert: spec root children size = 1.
 	self assert: spec root children first label = 'Label'.
@@ -19,7 +19,7 @@ REPConcernBuilderTest >> testBasicQueryCreation [
 REPConcernBuilderTest >> testComposition [
 	| spec |
 
-	spec := REPConcernBuilder on: 42.
+	spec := REPConcernSpecification on: 42.
 
 	spec composite: 'One' with: [
 		spec concern: (REPConcern new)].
@@ -35,5 +35,5 @@ REPConcernBuilderTest >> testComposition [
 
 { #category : #'as yet unclassified' }
 REPConcernBuilderTest >> testRoot [
-	self assert: (REPConcernBuilder on: 42) root model = 42
+	self assert: (REPConcernSpecification on: 42) root model = 42
 ]

@@ -1,5 +1,5 @@
 Class {
-	#name : #REPConcernBuilder,
+	#name : #REPConcernSpecification,
 	#superclass : #Object,
 	#instVars : [
 		'root',
@@ -9,14 +9,14 @@ Class {
 }
 
 { #category : #'instance creation' }
-REPConcernBuilder class >> on: aModel [
+REPConcernSpecification class >> on: aModel [
 	^ self new 
 			model: aModel;
 			yourself
 ]
 
 { #category : #'concern building' }
-REPConcernBuilder >> composite: aString with: aBlock [ 
+REPConcernSpecification >> composite: aString with: aBlock [ 
 	| state |
 	state := self shallowCopy.
 	self root: (self concern: (REPCompositeConcern on: self model)).
@@ -24,38 +24,38 @@ REPConcernBuilder >> composite: aString with: aBlock [
 ]
 
 { #category : #'concern building' }
-REPConcernBuilder >> concern: aConcern [
+REPConcernSpecification >> concern: aConcern [
 	^ self root addChild: (aConcern model: self model)
 ]
 
 { #category : #'initialize-release' }
-REPConcernBuilder >> initialize [
+REPConcernSpecification >> initialize [
 	root := REPCompositeConcern new
 ]
 
 { #category : #accessing }
-REPConcernBuilder >> label: aString [ 
+REPConcernSpecification >> label: aString [ 
 	self root label: aString
 ]
 
 { #category : #accessing }
-REPConcernBuilder >> model [
+REPConcernSpecification >> model [
 	^ model
 ]
 
 { #category : #accessing }
-REPConcernBuilder >> model: anObject [
+REPConcernSpecification >> model: anObject [
 	model := anObject.
 	self root withAllChildrenDo: [:each | each model: anObject ]
 ]
 
 { #category : #opening }
-REPConcernBuilder >> open [ 
+REPConcernSpecification >> open [ 
 	^ REPConcernBrowser openOn: self root 
 ]
 
 { #category : #'concern building' }
-REPConcernBuilder >> query: aLabelString meaning: aMeaningString as: aBlock [
+REPConcernSpecification >> query: aLabelString meaning: aMeaningString as: aBlock [
 	^ self root addChild: 
 		((REPQueryConcern on: self model)
 			computation: aBlock;
@@ -65,11 +65,11 @@ REPConcernBuilder >> query: aLabelString meaning: aMeaningString as: aBlock [
 ]
 
 { #category : #accessing }
-REPConcernBuilder >> root [
+REPConcernSpecification >> root [
 	^ root
 ]
 
 { #category : #accessing }
-REPConcernBuilder >> root: anObject [
+REPConcernSpecification >> root: anObject [
 	root := anObject
 ]
