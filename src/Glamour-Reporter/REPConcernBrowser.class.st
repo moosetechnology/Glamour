@@ -1,0 +1,31 @@
+Class {
+	#name : #REPConcernBrowser,
+	#superclass : #GLMBrowserTemplate,
+	#instVars : [
+		'root'
+	],
+	#category : #'Glamour-Reporter'
+}
+
+{ #category : #'as yet unclassified' }
+REPConcernBrowser class >> openOn: aConcern [
+	^ self new openOn: aConcern
+]
+
+{ #category : #'as yet unclassified' }
+REPConcernBrowser >> buildBrowser [
+	browser := GLMTabulator new.
+	browser title: [ :concern | concern label ].
+	browser column: #list; column: #results span: 5.
+	browser transmit to: #list; andShow: [:a |
+		a tree 
+			title: 'Index';
+			display: [ :concern | concern children ];
+			children: #children;
+			format: #label ].
+	browser transmit to: #results; from: #list; andShow: [:a |
+		a dynamic
+			title: #label;
+			display: [:each | each browser noTitle ] ].
+	^ browser 
+]
