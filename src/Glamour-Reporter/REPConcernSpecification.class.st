@@ -16,12 +16,20 @@ REPConcernSpecification class >> on: aModel [
 ]
 
 { #category : #'concern building' }
-REPConcernSpecification >> composite: aString with: aBlock [ 
+REPConcernSpecification >> composite: aString meaning: anExplanationString with: aBlock [ 
 	| state |
 	state := self shallowCopy.
 	self root: (self concern: ((
-		REPCompositeConcern on: self model) label: aString; yourself)).
+		REPCompositeConcern on: self model) 
+			label: aString; 
+			explanation: anExplanationString;
+			yourself)).
 	aBlock ensure: [ self copyFrom: state ]
+]
+
+{ #category : #'concern building' }
+REPConcernSpecification >> composite: aString with: aBlock [ 
+	^ self composite: aString meaning: aString with: aBlock
 ]
 
 { #category : #'concern building' }

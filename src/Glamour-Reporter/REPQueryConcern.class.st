@@ -1,6 +1,9 @@
 Class {
 	#name : #REPQueryConcern,
 	#superclass : #REPConcern,
+	#instVars : [
+		'result'
+	],
 	#category : #'Glamour-Reporter'
 }
 
@@ -10,6 +13,16 @@ REPQueryConcern >> browser [
 ]
 
 { #category : #accessing }
+REPQueryConcern >> computeResult [ 
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 REPQueryConcern >> result [ 
-	^ self check 
+	^ result ifNil: [ result := self computeResult ]
+]
+
+{ #category : #accessing }
+REPQueryConcern >> statusValue [ 
+	^ self result notNil and: [ self result isEmpty ]
 ]

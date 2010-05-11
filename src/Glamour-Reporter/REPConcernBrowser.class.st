@@ -14,9 +14,10 @@ REPConcernBrowser class >> openOn: aConcern [
 
 { #category : #'as yet unclassified' }
 REPConcernBrowser >> buildBrowser [
-	browser := GLMTabulator new.
+	browser := GLMTabulator withStatusbar.
 	browser title: [ :concern | concern label ].
-	browser column: #list; column: #results span: 5.
+	browser column: [: c | 
+		c row: #list span: 4; row: #explanation ]; column: #results span: 5.
 	browser transmit to: #list; andShow: [:a |
 		a tree 
 			title: 'Index';
@@ -27,5 +28,8 @@ REPConcernBrowser >> buildBrowser [
 		a dynamic
 			title: #label;
 			display: [:each | each browser noTitle ] ].
+	browser transmit to: #explanation; from: #list; andShow: [:a |
+		a text 
+			display: #explanation ].
 	^ browser 
 ]
