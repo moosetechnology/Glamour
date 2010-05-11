@@ -30,7 +30,16 @@ REPConcernBuilderTest >> testComposition [
 	self assert: spec root children size = 2.
 	self assert: spec root children first children size = 1.
 	self assert: spec root children last children size = 2.
+	self assert: spec root children first label = 'One'
 
+]
+
+{ #category : #'as yet unclassified' }
+REPConcernBuilderTest >> testCustomConcern [
+	| spec |
+	spec := REPConcernSpecification on: 42.
+	spec concern: REPConcern new.
+	self assert: spec root children first model = 42
 ]
 
 { #category : #'as yet unclassified' }

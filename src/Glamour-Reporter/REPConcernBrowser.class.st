@@ -22,7 +22,7 @@ REPConcernBrowser >> buildBrowser [
 			title: 'Index';
 			display: [ :concern | concern children ];
 			children: #children;
-			format: #label ].
+			format: [ :concern | concern status label ]].
 	browser transmit to: #results; from: #list; andShow: [:a |
 		a dynamic
 			title: #label;

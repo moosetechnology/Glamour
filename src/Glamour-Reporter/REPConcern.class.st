@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'model',
 		'label',
-		'explanation'
+		'explanation',
+		'condition',
+		'computation'
 	],
 	#category : #'Glamour-Reporter'
 }
@@ -34,6 +36,26 @@ REPConcern >> children [
 ]
 
 { #category : #accessing }
+REPConcern >> computation [
+	^ computation
+]
+
+{ #category : #accessing }
+REPConcern >> computation: anObject [
+	computation := anObject
+]
+
+{ #category : #accessing }
+REPConcern >> condition [
+	^ condition
+]
+
+{ #category : #accessing }
+REPConcern >> condition: anObject [
+	condition := anObject
+]
+
+{ #category : #accessing }
 REPConcern >> explanation [
 	^ explanation
 ]
@@ -46,7 +68,13 @@ REPConcern >> explanation: anObject [
 { #category : #'initialize-release' }
 REPConcern >> initialize [ 
 	label := explanation := self class name.
-	
+	condition := [nil] "the status is undefined by default".
+	computation := [#()].
+]
+
+{ #category : #testing }
+REPConcern >> isComposite [
+	^ false
 ]
 
 { #category : #accessing }
@@ -67,6 +95,26 @@ REPConcern >> model [
 { #category : #accessing }
 REPConcern >> model: anObject [
 	model := anObject
+]
+
+{ #category : #accessing }
+REPConcern >> result [ 
+	^ self computation glamourValue: self model asGlamorousMultiValue 
+]
+
+{ #category : #accessing }
+REPConcern >> status [
+	^ (REPConcernStatus new)
+		concern: self;
+		value: self statusValue;
+		yourself
+]
+
+{ #category : #accessing }
+REPConcern >> statusValue [
+	^ self condition 
+		glamourValue: self result asGlamorousMultiValue , 
+		self model asGlamorousMultiValue
 ]
 
 { #category : #accessing }

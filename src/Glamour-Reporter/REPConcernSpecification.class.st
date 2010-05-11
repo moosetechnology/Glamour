@@ -19,13 +19,14 @@ REPConcernSpecification class >> on: aModel [
 REPConcernSpecification >> composite: aString with: aBlock [ 
 	| state |
 	state := self shallowCopy.
-	self root: (self concern: (REPCompositeConcern on: self model)).
+	self root: (self concern: ((
+		REPCompositeConcern on: self model) label: aString; yourself)).
 	aBlock ensure: [ self copyFrom: state ]
 ]
 
 { #category : #'concern building' }
 REPConcernSpecification >> concern: aConcern [
-	^ self root addChild: (aConcern model: self model)
+	^ self root addChild: (aConcern model: self model; yourself)
 ]
 
 { #category : #'initialize-release' }
