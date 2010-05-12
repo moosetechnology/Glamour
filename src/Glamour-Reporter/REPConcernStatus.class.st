@@ -10,7 +10,7 @@ Class {
 
 { #category : #accessing }
 REPConcernStatus >> color [ 
-	self value = true ifTrue: [ ^ TextColor  new color: Color green darker ].
+	self value = true ifTrue: [ ^ TextColor  new color: Color green muchDarker ].
 	self value = false ifTrue: [ ^ TextColor  new color: Color red darker ].
 	^ TextColor black
 ]

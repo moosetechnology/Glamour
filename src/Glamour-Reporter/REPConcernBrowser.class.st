@@ -17,7 +17,7 @@ REPConcernBrowser >> buildBrowser [
 	browser := GLMTabulator withStatusbar.
 	browser title: [ :concern | concern label ].
 	browser column: [: c | 
-		c row: #list span: 4; row: #explanation ]; column: #results span: 5.
+		c row: #list span: 4; row: #explanation ]; column: #results span: 4.
 	browser transmit to: #list; andShow: [:a |
 		a tree 
 			title: 'Index';
