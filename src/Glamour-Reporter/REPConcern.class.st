@@ -5,8 +5,7 @@ Class {
 		'model',
 		'label',
 		'explanation',
-		'condition',
-		'computation'
+		'condition'
 	],
 	#category : #'Glamour-Reporter'
 }
@@ -36,16 +35,6 @@ REPConcern >> children [
 ]
 
 { #category : #accessing }
-REPConcern >> computation [
-	^ computation
-]
-
-{ #category : #accessing }
-REPConcern >> computation: anObject [
-	computation := anObject
-]
-
-{ #category : #accessing }
 REPConcern >> condition [
 	^ condition
 ]
@@ -69,7 +58,6 @@ REPConcern >> explanation: anObject [
 REPConcern >> initialize [ 
 	label := explanation := self class name.
 	condition := [nil] "the status is undefined by default".
-	computation := [#()].
 ]
 
 { #category : #testing }
@@ -99,7 +87,7 @@ REPConcern >> model: anObject [
 
 { #category : #accessing }
 REPConcern >> result [ 
-	^ self computation glamourValue: self model asGlamorousMultiValue 
+	^ self subclassResponsibility
 ]
 
 { #category : #accessing }

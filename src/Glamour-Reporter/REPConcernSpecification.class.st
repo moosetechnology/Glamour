@@ -66,7 +66,7 @@ REPConcernSpecification >> open [
 { #category : #'concern building' }
 REPConcernSpecification >> query: aLabelString meaning: aMeaningString as: aBlock [
 	^ self root addChild: 
-		((REPQueryConcern on: self model)
+		((REPCustomQueryConcern on: self model)
 			computation: aBlock;
 			label: aLabelString;
 			explanation: aMeaningString;

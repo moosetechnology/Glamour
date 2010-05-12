@@ -12,7 +12,8 @@ REPConcernBuilderTest >> testBasicQueryCreation [
 	self assert: spec root children size = 1.
 	self assert: spec root children first label = 'Label'.
 	self assert: spec root children first explanation = 'Explanation'.
-	self assert: spec root children first model = 42
+	self assert: spec root children first model = 42.
+	self assert: spec root children first result = 43
 ]
 
 { #category : #'as yet unclassified' }

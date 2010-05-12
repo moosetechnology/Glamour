@@ -1,25 +1,12 @@
 Class {
 	#name : #REPQueryConcern,
-	#superclass : #REPConcern,
-	#instVars : [
-		'result'
-	],
+	#superclass : #REPComputedConcern,
 	#category : #'Glamour-Reporter'
 }
 
 { #category : #accessing }
 REPQueryConcern >> browser [
 	^ (MooseFinder startOn: self result) noTitle
-]
-
-{ #category : #accessing }
-REPQueryConcern >> computeResult [ 
-	self subclassResponsibility
-]
-
-{ #category : #accessing }
-REPQueryConcern >> result [ 
-	^ result ifNil: [ result := self computeResult ]
 ]
 
 { #category : #accessing }
