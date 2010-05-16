@@ -1,7 +1,7 @@
 Class {
 	#name : #REPConcernBuilderTest,
 	#superclass : #TestCase,
-	#category : #'Glamour-Reporter'
+	#category : #'Glamour-Reporter-Tests'
 }
 
 { #category : #'as yet unclassified' }
