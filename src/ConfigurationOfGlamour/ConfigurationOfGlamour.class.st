@@ -186,7 +186,7 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Announcements' ;
 			package: 'Glamour-Helpers' ;
 			package: 'Glamour-Core' ;
-			package: 'Glamour-Presentations' with: [spec requires: #('Magritte-Morph')];
+			package: 'Glamour-Presentations'" with: [spec requires: #('Magritte-Morph')]";
 			package: 'Glamour-Browsers' ;
 			package: 'Glamour-Scripting' ;
 			package: 'Glamour-Tests' ;
@@ -218,8 +218,7 @@ ConfigurationOfGlamour >> default: spec [
 		spec group: 'Tests' with: #(
 						'Glamour-Tests'
 						'Glamour-Examples'
-						'Glamour-Test-Morphic'
-						'Magritte-Tests'). 
+						'Glamour-Test-Morphic'). 
 		spec
 			project: 'Mondrian for Glamour' with: [
 				spec
