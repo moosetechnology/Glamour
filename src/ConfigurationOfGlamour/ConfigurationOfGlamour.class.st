@@ -195,13 +195,13 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Examples' ;
 			package: 'Glamour-Tools';
 			package: 'Magritte-Model' with: [
-				spec repository: 'http://www.squeaksource.com/magritte2'.
+				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
 				spec requires: 'Grease'];
 			package: 'Magritte-Tests' with: [
-				spec repository: 'http://www.squeaksource.com/magritte2'.
+				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
 				spec requires: 'Magritte-Model'];
 			package: 'Magritte-Morph' with: [
-				spec repository: 'http://www.squeaksource.com/magritte2'.
+				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
 				spec requires: #('Magritte-Model')].
 		spec group: 'Core' with: #(
 						'Glamour-Announcements'
