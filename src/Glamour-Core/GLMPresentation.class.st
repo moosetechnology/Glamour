@@ -5,7 +5,7 @@ updateActions holds a collection of GLMUpdateAction that are used to update the 
 "
 Class {
 	#name : #GLMPresentation,
-	#superclass : #Object,
+	#superclass : #GLMLoggedObject,
 	#instVars : [
 		'pane',
 		'title',
@@ -20,7 +20,6 @@ Class {
 		'customValidation',
 		'shouldValidate',
 		'acceptsSelection',
-		'announcer',
 		'parentPrototype',
 		'registeredAnnouncers',
 		'updateActions'
@@ -61,16 +60,6 @@ GLMPresentation >> addAction: anAction [
 { #category : #accessing }
 GLMPresentation >> allActions [ 
 	^ self actions, self dynamicActions
-]
-
-{ #category : #announcements }
-GLMPresentation >> announce: anAnnouncement [
-	^ self announcer announce: anAnnouncement
-]
-
-{ #category : #announcements }
-GLMPresentation >> announcer [
-	^ announcer ifNil: [announcer := GLMAnnouncer new]
 ]
 
 { #category : #accessing }
@@ -194,11 +183,6 @@ GLMPresentation >> matches [
 			(self condition glamourValue: self entity) = true]
 ]
 
-{ #category : #announcements }
-GLMPresentation >> on: anAnnouncementClass do: aValuable [
-	^ self when: anAnnouncementClass do: aValuable 
-]
-
 { #category : #events }
 GLMPresentation >> outerPortEvent: aPortEvent [
 	self announce: (GLMContextChanged new
@@ -236,7 +220,7 @@ GLMPresentation >> parentPrototype: anObject [
 { #category : #copying }
 GLMPresentation >> postCopy [
 	super postCopy.
-	announcer := nil.
+	self resetAnnouncer.
 	pane := nil.
 	updateActions := updateActions collect: [:each | 
 		each copy 
@@ -274,11 +258,6 @@ GLMPresentation >> registeredAnnouncers [
 GLMPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
 	^aRenderer renderPresentation: self
-]
-
-{ #category : #announcements }
-GLMPresentation >> resetAnnouncer [
-	self announcer reset
 ]
 
 { #category : #copying }
@@ -449,13 +428,8 @@ GLMPresentation >> validate: anObject on: aPort [
 ]
 
 { #category : #announcements }
-GLMPresentation >> when: anAnnouncementClass do: aValuable [
-	^ self announcer when: anAnnouncementClass do: aValuable 
-]
-
-{ #category : #announcements }
 GLMPresentation >> whenContextChanged: aBlock [
-	^ self announcer when: GLMContextChanged do: aBlock
+	^ self when: GLMContextChanged do: aBlock
 ]
 
 { #category : #enumeration }

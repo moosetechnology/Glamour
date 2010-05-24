@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMNoBrowser,
-	#superclass : #Object,
+	#superclass : #GLMLoggedObject,
 	#classInstVars : [
 		'uniqueInstance'
 	],
@@ -16,7 +16,7 @@ GLMNoBrowser class >> initialize [
 { #category : #'as yet unclassified' }
 GLMNoBrowser class >> initializeUniqueInstance [
 
-	uniqueInstance := self basicNew
+	uniqueInstance := self basicNew initialize
 ]
 
 { #category : #'as yet unclassified' }

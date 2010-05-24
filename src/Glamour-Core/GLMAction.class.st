@@ -5,7 +5,7 @@ Instances of Action are stored and maintained by Presentations. The exact repres
 "
 Class {
 	#name : #GLMAction,
-	#superclass : #Object,
+	#superclass : #GLMLoggedObject,
 	#instVars : [
 		'action',
 		'title',

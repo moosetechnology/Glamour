@@ -10,7 +10,7 @@ Instance Variables
 "
 Class {
 	#name : #GLMPane,
-	#superclass : #Announcer,
+	#superclass : #GLMLoggedObject,
 	#instVars : [
 		'browser',
 		'name',
@@ -97,8 +97,9 @@ GLMPane >> hasBrowser [
 
 { #category : #initialization }
 GLMPane >> initialize [
+	super initialize.
 	ports := OrderedCollection new.
-	presentations := GLMCompositePresentation new.
+	presentations := GLMCompositePresentation new
 ]
 
 { #category : #initialization }

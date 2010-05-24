@@ -7,7 +7,7 @@ A transmission takes place in a context. The context is started every time a new
 "
 Class {
 	#name : #GLMTransmission,
-	#superclass : #Object,
+	#superclass : #GLMLoggedObject,
 	#instVars : [
 		'context',
 		'destination',
@@ -133,8 +133,9 @@ GLMTransmission >> ensureNoOverrideBundleStrategy [
 
 { #category : #'initialize-release' }
 GLMTransmission >> initialize [
+	super initialize.
 	transmissionStrategy := GLMNoStrategy new.
-	condition := true.
+	condition := true
 ]
 
 { #category : #testing }

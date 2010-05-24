@@ -43,6 +43,7 @@ GLMUpdateAction >> condition: anObject [
 
 { #category : #'initialize-release' }
 GLMUpdateAction >> initialize [
+	super initialize.
 	condition := true
 ]
 

@@ -9,7 +9,7 @@ Instance Variables
 "
 Class {
 	#name : #GLMPortEvent,
-	#superclass : #Object,
+	#superclass : #GLMLoggedObject,
 	#instVars : [
 		'port',
 		'oldValue',

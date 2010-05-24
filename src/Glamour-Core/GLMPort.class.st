@@ -3,7 +3,7 @@ GLMPort represents the abstract port. Any port has a name. Subclasses can provid
 "
 Class {
 	#name : #GLMPort,
-	#superclass : #Object,
+	#superclass : #GLMLoggedObject,
 	#instVars : [
 		'name'
 	],
