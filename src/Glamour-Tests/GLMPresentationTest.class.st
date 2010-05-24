@@ -40,10 +40,10 @@ GLMPresentationTest >> testCopyAnnouncements [
 	| presentation newPresentation |
 	presentation := GLMPresentation new.
 	presentation when: GLMContextChanged do: [:ann | self fail ].
-	self assert: (presentation announcer instVarNamed: #subscriptions) size = 1.
+	self assert: (presentation instVarNamed: #subscriptions) size = 1.
 	newPresentation := presentation copy.
 	newPresentation announce: GLMContextChanged.
-	self assert: (newPresentation announcer instVarNamed: #subscriptions) isNil
+	self assert: (newPresentation instVarNamed: #subscriptions) isNil
 ]
 
 { #category : #tests }

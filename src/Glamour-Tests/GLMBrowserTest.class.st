@@ -5,11 +5,6 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMBrowserTest >> expectedFailures [
-	^ #(testSimplePropagation)
-]
-
-{ #category : #'as yet unclassified' }
 GLMBrowserTest >> testHasStatusbar [
 	| browser |
 	browser := GLMBrowser new.
@@ -26,34 +21,6 @@ GLMBrowserTest >> testNoComposite [
 	browser := GLMBrowser new.
 	self assert: browser pane presentations size = 1.
 	self assert: browser pane presentations first = browser.
-]
-
-{ #category : #'as yet unclassified' }
-GLMBrowserTest >> testSimplePropagation [
-	| browser announcements pane |
-	browser := GLMBrowser new.
-	pane := GLMPane named: 'pane1'.
-	browser addPane: pane.
-	browser addTransmission: 
-			(GLMTransmission new
-				ensureBundleStrategy;
-				addActiveOrigin: 
-						(GLMPresentationBoundPort new
-								presentation: browser;
-								name: #entity; 
-								yourself); 
-				destination: (browser panes first port: #entity); 
-				addPresentation: GLMPresentation new; 
-				yourself).
-	announcements := OrderedCollection new. 
-	browser whenContextChanged: [:ann | announcements addLast: ann].
-	browser pane whenPresentationsChanged: [:ann |announcements addLast: ann].
-	browser pane whenMatchingPresentationsChanged: [:ann | announcements addLast: ann].
-"	browser panes first whenContextChanged: [:ann | announcements addLast: ann].
-"	browser panes first whenPresentationsChanged: [:ann | announcements addLast: ann].
-	browser panes first whenMatchingPresentationsChanged: [:ann | announcements addLast: ann].
-	browser startOn: 42.
-	self assert: announcements size = 5
 ]
 
 { #category : #'as yet unclassified' }
