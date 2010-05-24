@@ -20,6 +20,16 @@ GLMAnnouncer >> announce: anAnnouncement [
 ]
 
 { #category : #'as yet unclassified' }
+GLMAnnouncer >> announcer [ 
+	^ self
+]
+
+{ #category : #'as yet unclassified' }
+GLMAnnouncer >> resetAnnouncer [
+	self reset
+]
+
+{ #category : #'as yet unclassified' }
 GLMAnnouncer >> suspendAll [
 	^ suspendAll ifNil: [ suspendAll := false ].
 ]
