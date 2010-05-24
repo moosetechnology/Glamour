@@ -404,7 +404,7 @@ GLMMorphicRenderer >> renderMorphPresentation: aMorphPresentation [
 GLMMorphicRenderer >> renderPane: aPane [ 
 	| container |
 	container := GLMMorphic emptyMorph.
-	aPane whenMatchingPresentationsChanged: [ :ann | 
+	aPane when: GLMMatchingPresentationsChanged do: [ :ann | 
 		container
 			removeAllMorphs;
 			addMorph: (self renderWithTitleOrNil: aPane presentations)
@@ -423,7 +423,7 @@ GLMMorphicRenderer >> renderPane: aPane [
 GLMMorphicRenderer >> renderPaneWithoutTitle: aPane [ 
 	| container |
 	container := GLMMorphic emptyMorph.
-	aPane whenMatchingPresentationsChanged: [ :ann | 
+	aPane when: GLMMatchingPresentationsChanged do: [ :ann | 
 		container
 			removeAllMorphs;
 			addMorph: (self render: aPane presentations)
