@@ -19,6 +19,11 @@ GLMTPresentationBuilder >> diff [
 ]
 
 { #category : #'*glamour-scripting-presentations' }
+GLMTPresentationBuilder >> dropDownList [
+	^ self custom: GLMDropDownListPresentation new
+]
+
+{ #category : #'*glamour-scripting-presentations' }
 GLMTPresentationBuilder >> dynamic [
 	^ self custom: GLMDynamicPresentation new
 ]
