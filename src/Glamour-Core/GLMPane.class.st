@@ -52,10 +52,18 @@ GLMPane >> addPresentation: aPresentation [
 ]
 
 { #category : #accessing }
+GLMPane >> addPresentationSilently: each [
+	^ presentations
+		add:
+			(each
+				pane: self;
+				yourself)
+]
+
+{ #category : #accessing }
 GLMPane >> addPresentations: aCollection [
-	self notingPresentationChangeDo: [
-		aCollection do: [ :each |  
-			presentations add: (each pane: self; yourself) ] ]
+	self notingPresentationChangeDo: [ 
+		aCollection do: [ :each | self addPresentationSilently: each ] ]
 ]
 
 { #category : #converting }
@@ -79,7 +87,7 @@ GLMPane >> browser: aBrowser [
 GLMPane >> clearIn: aContext [ 
 
 	self notingPresentationChangeDo: [
-		presentations := GLMCompositePresentation new.
+		self presentations clear.
 		self ports do: [:each | each value: nil in: aContext ]]
 ]
 
@@ -99,7 +107,7 @@ GLMPane >> hasBrowser [
 GLMPane >> initialize [
 	super initialize.
 	ports := OrderedCollection new.
-	presentations := GLMCompositePresentation new
+	presentations := GLMCompositePresentation new pane: self; yourself
 ]
 
 { #category : #initialization }

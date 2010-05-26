@@ -52,6 +52,12 @@ GLMCompositePresentation >> at: aNumber [
 ]
 
 { #category : #accessing }
+GLMCompositePresentation >> clear [
+	arrangement := nil.
+	presentations := nil
+]
+
+{ #category : #accessing }
 GLMCompositePresentation >> collect: aBlock [
 	^ self copy presentations: (self presentations collect: aBlock ); yourself
 ]
