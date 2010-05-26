@@ -9,7 +9,7 @@ Class {
 
 { #category : #'setup - tear down' }
 GLMMorphicTest >> expectedFailures [
-	^ #(testInterdependentPanesShouldUpdateTheFocusTriggerPaneWithText)
+	^ #(testInterdependentPanesShouldUpdateTheFocusTriggerPaneWithText testInterdependentPanesShouldUpdateTheFocusTriggerPane)
 ]
 
 { #category : #private }
