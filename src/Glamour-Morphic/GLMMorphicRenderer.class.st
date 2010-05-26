@@ -258,6 +258,25 @@ GLMMorphicRenderer >> renderDiffPresentation: aDiffPresentation [
 "	^textMorph
 ]
 
+{ #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderDropDownListPresentation: aDropListPresentation [
+	| listModel |
+
+	listModel:= GLMDropListModel new glamourPresentation: aDropListPresentation.
+	"When the morph changes, we want to update the glamour model"
+	listModel announcer on: GLMDropDownListMorphSelectionChanged do: [ :ann | 	
+		aDropListPresentation selection: ann selectionValue ].
+	
+	^(MorphDropListMorph
+			on: listModel
+			list: #list
+			selected: #selectionIndex
+			changeSelected: #selectionIndex:
+			useIndex: true )
+		hResizing: #spaceFill;
+		vResizing: #shrinkWrap
+]
+
 { #category : #'rendering browsers' }
 GLMMorphicRenderer >> renderFinder: aBrowser [ 
 	| container |
