@@ -121,22 +121,27 @@ GLMAnnouncementPropagationTest >> testSimple [
 ]
 
 { #category : #'as yet unclassified' }
-GLMAnnouncementPropagationTest >> testSimplePropagation [
+GLMAnnouncementPropagationTest >> testSimpleCreation [
 	| browser announcements pane |
 	browser := GLMBrowser new.
-	pane := GLMPane named: 'pane1'.
-	browser addPane: pane.
-	browser addTransmission: 
-			(GLMTransmission new
-				ensureBundleStrategy;
-				addActiveOrigin: 
-						(GLMPresentationBoundPort new
-								presentation: browser;
-								name: #entity; 
-								yourself); 
-				destination: (browser panes first port: #entity); 
-				addPresentation: GLMPresentation new; 
-				yourself).
 	browser startOn: 42.
-	self assert: GLMLogger instance announcements size = 8
+	self assert: GLMLogger instance announcements copy size = 4.
+"	
+browser pane.
+
+browser pane presentations pane"
+]
+
+{ #category : #'as yet unclassified' }
+GLMAnnouncementPropagationTest >> testSimplePropagation [
+	| browser announcements pane |
+	browser := GLMTabulator new.
+	browser column: #pane1.
+	browser transmit to: #pane1; andShow: [:a | a text ].
+	browser startOn: 42.
+	self assert: GLMLogger instance announcements copy size = 8.
+"	
+browser pane.
+
+browser pane presentations pane"
 ]
