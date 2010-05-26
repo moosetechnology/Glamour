@@ -472,7 +472,8 @@ GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation 
 	index := 1.
 	presentations withIndexDo: [ :each :i | 
 		aCompositePresentation pane lastActivePresentation notNil and: [ 
-			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
+			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ 
+				index := i ] ] ].
 	tabs selectedPageIndex: index.
 	^ tabs
 ]
