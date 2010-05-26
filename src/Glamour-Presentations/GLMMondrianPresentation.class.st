@@ -34,7 +34,7 @@ GLMMondrianPresentation >> renderGlamorouslyOn: aRenderer [
 
 { #category : #accessing }
 GLMMondrianPresentation >> renderOn: aView [
-	self flag: 'find a smarter solution that does not depend on isKindOf:'.
+	self flag: 'find a smarter solution that does not depend on isKindOf:'. 
 	self painting glamourValue: (
 		(self entity isKindOf: GLMMultiValue) 
 				ifTrue: [(GLMMultiValue with: aView) , self entity , (GLMMultiValue with: self)] 
