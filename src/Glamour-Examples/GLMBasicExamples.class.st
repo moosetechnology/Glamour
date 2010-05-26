@@ -172,6 +172,44 @@ GLMBasicExamples >> doubleClick [
 	^ browser
 ]
 
+{ #category : #'explicit selection' }
+GLMBasicExamples >> dropDownList [
+	"	| browser |
+		browser := self new dropDownList.
+		browser openOn: 5. "
+	|browser |
+
+	browser := GLMTabulator new.
+	browser row: #one  size: 30; row: #two.
+	browser showOn: #one; using: [
+		browser dropDownList
+			display: [:x | 1 to: x ]].
+	browser showOn: #two; from: #one; using: [
+		browser list
+			display: [:x | 1 to: x asNumber * 2]].
+	^ browser
+]
+
+{ #category : #'explicit selection' }
+GLMBasicExamples >> dropDownListWithInitialValue [
+	"	| browser |
+		browser := self new dropDownListWithInitialValue.
+		browser openOn: 5.
+		((browser paneNamed: #one) port: #selection) value: 12. "
+	|browser |
+
+	browser := GLMTabulator new.
+	browser row: #one  size: 30; row: #two.
+	browser showOn: #one; using: [
+		browser dropDownList
+			display: [:x | (1 to: x) + 10 ];
+		   selectedIndex: 2 ].
+	browser showOn: #two; from: #one; using: [
+		browser list
+			display: [:x | 1 to: x asNumber ]].
+	^ browser
+]
+
 { #category : #others }
 GLMBasicExamples >> fixSizePanes [
 	<glmBrowser: 'Fix size pane' input: '5'>
