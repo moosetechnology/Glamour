@@ -183,7 +183,8 @@ GLMBasicExamples >> dropDownList [
 	browser row: #one  size: 30; row: #two.
 	browser showOn: #one; using: [
 		browser dropDownList
-			display: [:x | 1 to: x ]].
+			display: [:x | 1 to: x ];
+			format: [:number | Text string: number printString attribute: TextColor red]].
 	browser showOn: #two; from: #one; using: [
 		browser list
 			display: [:x | 1 to: x asNumber * 2]].
