@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMDropDownListPresentation,
-	#superclass : #GLMPresentation,
+	#superclass : #GLMFormatedPresentation,
 	#instVars : [
 		'selectedIndex'
 	],
