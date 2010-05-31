@@ -36,6 +36,35 @@ SGLRenderer >> render: aRenderable [
 	aRenderable renderGlamorouslyOn: self
 ]
 
+{ #category : #'as yet unclassified' }
+SGLRenderer >> renderAccordionCompositePresentation: aCompositePresentation [
+	| presentations index |
+	presentations := aCompositePresentation matchingPresentations.
+	presentations isEmpty ifTrue: [ ^ self renderEmptyPresentation ].
+	presentations size = 1 ifTrue: [ ^ self renderWithTitleOrNil: presentations first ].
+	
+	index := 1.
+	presentations withIndexDo: [ :each :i | 
+		aCompositePresentation pane lastActivePresentation notNil and: [ 
+			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
+
+	html div
+		class: 'accordion-arrangement';
+      script: (html jQuery new accordion animated: false; active: index-1);
+      with: [
+         presentations withIndexDo: [ :each :i | 
+				html div: [ html anchor: each title ].
+				html div: [ self render: each ] ] ]
+]
+
+{ #category : #widgets }
+SGLRenderer >> renderEmptyPresentation [
+	html div
+		class: 'ui-widget';
+		class: 'ui-widget-content';
+		class: 'ui-corner-all'
+]
+
 { #category : #widgets }
 SGLRenderer >> renderFinder: aBrowser [
 	aBrowser 
@@ -80,15 +109,18 @@ SGLRenderer >> renderListPresentation: aPresentation [
 	items := toShow isCollection
 		ifTrue: [ toShow ]
 		ifFalse: [ Array with: toShow ].
-	html select
-		size: 10;
-		list: (items ifNil: [ #() ]);
-		labels: aPresentation format;
-		selected: aPresentation selection;
-		callback: [ :value | aPresentation selection: value ];
-		onChange: (html jQuery ajax 
-			serializeThis;
-			script: [ :script | self updateScript: script ])
+		
+	self widgetContainer
+		with: [
+			html select
+				size: 10;
+				list: (items ifNil: [ #() ]);
+				labels: aPresentation format;
+				selected: aPresentation selection;
+				callback: [ :value | aPresentation selection: value ];
+					onChange: (html jQuery ajax 
+						serializeThis;
+						script: [ :script | self updateScript: script ]) ].
 ]
 
 { #category : #presentation }
@@ -139,8 +171,8 @@ SGLRenderer >> renderPane: aPane [
 			put: ((html jQuery id: (self uuidFor: aPane))
 				html: [ :renderer |
 					html := renderer.
-					self renderPaneContent: aPane ]) ].
-	self renderPaneContent: aPane
+					self renderWithTitleOrNil: aPane presentations]) ].
+	self renderWithTitleOrNil: aPane presentations
 ]
 
 { #category : #widgets }
@@ -168,7 +200,7 @@ SGLRenderer >> renderPaneContent: aPane [
 	| panes pane |
 	panes := aPane matchingPresentations.
 	panes isEmpty 
-		ifTrue: [ ^ self renderPaneEmpty ].
+		ifTrue: [ ^ self renderEmptyPresentation ].
 	panes size = 1
 		ifTrue: [ ^ self renderPaneSingle: panes first ].
 	pane := properties 
@@ -180,20 +212,12 @@ SGLRenderer >> renderPaneContent: aPane [
 ]
 
 { #category : #widgets }
-SGLRenderer >> renderPaneEmpty [
-	html div
-		class: 'ui-widget';
-		class: 'ui-widget-content';
-		class: 'ui-corner-all'
-]
-
-{ #category : #widgets }
 SGLRenderer >> renderPaneSingle: aPane [
 	html div
 		class: 'ui-widget';
 		class: 'ui-widget-content';
 		class: 'ui-corner-all';
-		with: [ self render: aPane ]
+		with: [ self renderWithTitleOrNil: aPane ]
 ]
 
 { #category : #widgets }
@@ -211,6 +235,55 @@ SGLRenderer >> renderPaneTabs: aPane tabs: aCollection [
 									html: [ :renderer | 
 										html := renderer.
 										properties at: aPane put: each.
+										self render: each ];
+									fullUrl);
+								with: each title ] ] ] ]
+]
+
+{ #category : #'as yet unclassified' }
+SGLRenderer >> renderStackedVerticallyCompositePresentation: aCompositePresentation [
+	| presentations|
+	presentations := aCompositePresentation matchingPresentations.
+	presentations isEmpty ifTrue: [ ^ self renderEmptyPresentation ].	
+	presentations size = 1 ifTrue: [^ self renderWithTitleOrNil: presentations first ].
+	
+
+	html div 
+		class: 'ui-widget ui-widget-content ui-corner-all';
+		class: 'stacked-arrangement';
+		with: [
+			presentations do: [ :each | 
+				self renderWithTitleOrNil: each
+				
+				] ]
+]
+
+{ #category : #presentation }
+SGLRenderer >> renderTabbedCompositePresentation: aCompositePresentation [
+	| presentations index|
+	presentations := aCompositePresentation matchingPresentations.
+	presentations isEmpty ifTrue: [ ^ self renderEmptyPresentation ].
+	presentations size = 1 ifTrue: [^ self renderWithTitleOrNil: presentations first ].
+	
+	index := 1.
+	presentations withIndexDo: [ :each :i | 
+		aCompositePresentation pane lastActivePresentation notNil and: [ 
+			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
+	
+	html div
+		class: 'tabbed-arrangement';
+		script: (html jQuery this tabs);
+		with: [
+			html unorderedList: [
+				presentations withIndexDo: [ :each :i|
+					html listItem 
+						class: 'ui-state-selected' if: i = index; 
+						with: [
+							html anchor
+								url: (html jQuery ajax
+									html: [ :renderer | 
+										html := renderer.
+										
 										self render: each ];
 									fullUrl);
 								with: each title ] ] ] ]
@@ -259,12 +332,14 @@ SGLRenderer >> renderTabulator: aBrowser [
 
 { #category : #presentation }
 SGLRenderer >> renderTextPresentation: aPresentation [
-	html textArea
-		value: aPresentation formatedDisplayValue;
-		callback: [ :value | aPresentation text: value ];
-		onChange: (html jQuery ajax 
-			serializeThis;
-			script: [ :script | self updateScript: script ])
+	self widgetContainer
+		with: [
+			html textArea
+				value: aPresentation formatedDisplayValue;
+				callback: [ :value | aPresentation text: value ];
+				onChange: (html jQuery ajax 
+					serializeThis;
+					script: [ :script | self updateScript: script ]) ]
 ]
 
 { #category : #presentation }
@@ -299,6 +374,28 @@ SGLRenderer >> renderTreePresentation: aPresentation select: aSelectTag node: an
 		do: [ :each | self renderTreePresentation: aPresentation select: aSelectTag node: each level: anInteger + 4 ]
 ]
 
+{ #category : #widgets }
+SGLRenderer >> renderWithTitleOrNil: aPresentation [
+	aPresentation hasTitle ifFalse: [^self render: aPresentation ].
+	
+	self widgetContainer 
+		class: 'presentation-with-title';
+		with: [
+			html unorderedList				
+				class: 'ui-tabs-nav ui-corner-all ui-helper-reset';
+				class: 'presentation-title';
+				with: [
+					html listItem 
+						class: 'ui-state-default ui-corner-top';
+						with: [ html span: aPresentation titleValue. ]
+					].
+			html div				
+				class: 'ui-tabs-panel ui-widget-content ui-corner-bottom';
+				class: 'presentation-content';
+				with: [
+					self render: aPresentation] ] 
+]
+
 { #category : #presentation }
 SGLRenderer >> renderWorkspacePresentation: aWorkspacePresentation [
 	self renderTextPresentation: aWorkspacePresentation
@@ -324,4 +421,13 @@ SGLRenderer >> updateScript: aScript [
 { #category : #private }
 SGLRenderer >> uuidFor: anObject [
 	^ uuid at: anObject ifAbsentPut: [ html nextId ]
+]
+
+{ #category : #widgets }
+SGLRenderer >> widgetContainer [
+	^ html div
+		class: 'ui-widget';
+		class: 'ui-widget-content';
+		class: 'ui-corner-all';
+		yourself
 ]

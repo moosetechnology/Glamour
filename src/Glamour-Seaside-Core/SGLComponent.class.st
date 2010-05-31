@@ -120,6 +120,73 @@ div.finder > div.finder-pane {
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 }
 
+/* presentations with title */
+
+.presentation-with-title, .presentation-content {
+	position: relative;
+	display: -webkit-box; display: -moz-box; display: box;
+	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
+	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;
+}
+
+.presentation-with-title {
+	padding: 0.2em;
+}
+
+.presentation-title {
+	display: block;
+	border: 1px solid #4297D7;
+	background-color: #E1E1E1;
+	padding: 0.2em 0.2em 0;
+}
+
+.presentation-title {
+	-webkit-box-flex: 0; -moz-box-flex: 0; box-flex: 0;
+}
+
+.presentation-title li {
+	border-bottom:0 none !important;
+	float:left;
+	list-style:none outside none;
+	margin:0 0.2em 1px 0;
+	padding:0;
+	position:relative;
+	top:1px;
+	white-space:nowrap;
+}
+
+.presentation-title li span {
+	float: left;
+	padding: 0.5em 1em;
+}
+
+.presentation-content {
+	padding: 0;
+	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+	background: none repeat scroll 0 0 transparent;
+	border-width: 0;
+}
+
+.presentation-content > div {
+	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+}
+
+
+/* composite arrangements */
+.stacked-arrangement, .tabbed-arrangement {
+	position: relative;
+	width: 100%;
+	padding: 0;
+}
+
+.stacked-arrangement {
+	position: relative;
+	display: -webkit-box; display: -moz-box; display: box;
+	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
+	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;
+}
+
+
 /* table layout */
 .sgl-table {
 	width: 100%;	
