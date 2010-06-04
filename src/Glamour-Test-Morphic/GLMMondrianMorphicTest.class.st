@@ -20,7 +20,7 @@ GLMMondrianMorphicTest >> testMondrian [
 
 { #category : #testing }
 GLMMondrianMorphicTest >> testSelection [
-	| browser textMorph textPresentation canvas |
+	| browser canvas |
 	browser := GLMTabulator new.
 	browser column: #one.
 	browser transmit to: #one; andShow: [ :a | 
