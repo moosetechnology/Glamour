@@ -102,7 +102,7 @@ GLMMorphicRenderer >> open: aRenderable [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderAccordionCompositePresentation: aCompositePresentation [
-	| presentations container expander title index |
+	| presentations container expander |
 	presentations := aCompositePresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
 	presentations size = 1 ifTrue: [ ^ self render: presentations first ].
@@ -155,11 +155,8 @@ GLMMorphicRenderer >> renderAccumulator: aBrowser [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [ 
-	| items list toShow container button buttonModel |
+	| toShow container buttonModel button |
 	toShow := anActionListPresentation displayValue.
-	items := toShow isCollection 
-		ifTrue: [ toShow ]
-		ifFalse: [ OrderedCollection with: toShow ].
 	container := GLMMorphic emptyMorph.
 	anActionListPresentation allActions withIndexDo: 
 		[ :each :index | 
@@ -243,8 +240,8 @@ GLMMorphicRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aMorph inBrowse
 ]
 
 { #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderDiffPresentation: aDiffPresentation [ 
-	| textMorph textModel |  
+GLMMorphicRenderer >> renderDiffPresentation: aDiffPresentation [
+	| textMorph |
 	textMorph := (DiffMorph from: aDiffPresentation displayValue first to: aDiffPresentation displayValue last)
 "			onKeyStrokeSend: #keystroke:from: to: textModel;
 "			layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
@@ -323,8 +320,7 @@ GLMMorphicRenderer >> renderListPresentation: aListPresentation [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderListingPresentation: aPresentation [ 
-	| treeMorph treeModel textInput container amountFilteringButton |
-	
+	| treeModel container treeMorph textInput |
 	treeModel := GLMTreeMorphModel new glamourPresentation: aPresentation.
 	container := GLMMorphic emptyMorph.
 	treeMorph := self treeMorphFor: treeModel and: aPresentation.
@@ -459,7 +455,7 @@ GLMMorphicRenderer >> renderPaneWithoutTitle: aPane [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderStackedVerticallyCompositePresentation: aCompositePresentation [
-	| presentations container item title index |
+	| presentations container |
 	presentations := aCompositePresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].	
 	container := GLMMorphic emptyMorph.
@@ -471,7 +467,7 @@ GLMMorphicRenderer >> renderStackedVerticallyCompositePresentation: aCompositePr
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation [
-	| presentations tabs title index container |
+	| presentations tabs index |
 	presentations := aCompositePresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
 	presentations size = 1 ifTrue: [ 
