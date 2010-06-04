@@ -222,7 +222,7 @@ GLMScriptingTest >> testNestedBrowserWithExplicitTransmission [
 
 { #category : #tests }
 GLMScriptingTest >> testOuterEntity [ 
-	| browser innerBrowser | 
+	| browser | 
 	browser := GLMTabulator new.
 	browser column: #one; column: #two. 
 	browser showOn: #one; using: [browser text]. 
@@ -426,8 +426,7 @@ GLMScriptingTest >> testStartWithOnlyJumpStart [
 
 { #category : #tests }
 GLMScriptingTest >> testThreePanesTransmissions [ 
-	 
-	| browser one two | 
+	| browser two |
 	browser := GLMTabulator new. 
 	browser 
 		column: #one; 
@@ -441,7 +440,6 @@ GLMScriptingTest >> testThreePanesTransmissions [
 			a text 
 						display: 
 							[:x :y |  
-							one := x. 
 							two := y]]. 
 	self assert: browser transmissions size = 1. 
 	self assert: browser transmissions first passiveOrigins size = 1. 

@@ -235,9 +235,8 @@ GLMPresentationTest >> testUnregisterAnnouncements [
 
 { #category : #tests }
 GLMPresentationTest >> testUnregisterAnnouncementsWhenEntityChanges [
-	| announcer1 announcer2 presentation |
+	| announcer1 presentation |
 	announcer1 := Announcer new.
-	announcer2 := Announcer new.
 	presentation := GLMPresentation new.
 	presentation updateOn: TestAnnouncement from: [ announcer1 ].
 	presentation entity: 1.
@@ -256,7 +255,7 @@ GLMPresentationTest >> testUnregisterAnnouncementsWhenEntityChanges [
 
 { #category : #tests }
 GLMPresentationTest >> testUpdate [
-	| pane port presentation timesTriggered announcer col |
+	| col pane presentation |
 	col := OrderedCollection with: 1 with: 2. 
 	pane := GLMPane named: 'test'. 
 	presentation := GLMListPresentation new.
@@ -273,8 +272,8 @@ GLMPresentationTest >> testUpdate [
 ]
 
 { #category : #tests }
-GLMPresentationTest >> testUpdateConditionallyTriggered [
-	| pane port presentation timesTriggered announcer | 
+GLMPresentationTest >> testUpdateConditionallyTriggered [ 
+	| pane presentation announcer timesTriggered |
 	pane := GLMPane named: 'test'. 
 	(pane port: #entity) value: 40.
 	presentation := GLMPresentation new.
@@ -323,7 +322,7 @@ GLMPresentationTest >> testUpdateOnFromAllPortsUpdate [
 
 { #category : #tests }
 GLMPresentationTest >> testUpdateOnPortsUpdate [
-	| pane port presentation timesTriggered announcer col |
+	| col pane presentation announcer |
 	col := OrderedCollection with: 1 with: 2. 
 	pane := GLMPane named: 'test'. 
 	presentation := GLMListPresentation new.
@@ -343,7 +342,7 @@ GLMPresentationTest >> testUpdateOnPortsUpdate [
 
 { #category : #tests }
 GLMPresentationTest >> testUpdateOnTriggered [
-	| pane port presentation timesTriggered announcer | 
+	| pane presentation announcer timesTriggered |
 	pane := GLMPane named: 'test'. 
 	presentation := GLMPresentation new.
 	announcer := Announcer new.
@@ -362,8 +361,7 @@ GLMPresentationTest >> testUpdateOnTriggered [
 
 { #category : #tests }
 GLMPresentationTest >> testValidate [
-	 
-	| pane port presentation| 
+	| pane presentation | 
 	pane := GLMPane named: 'test'. 
 	presentation := GLMPresentation new.
 	pane addPresentation: presentation.

@@ -21,7 +21,7 @@ GLMAccumulatorTest >> testCopy [
 
 { #category : #testing }
 GLMAccumulatorTest >> testCustomTransmissions [
-	| accumulator presentation annoumcementsCount |
+	| accumulator presentation |
 	accumulator := GLMAccumulator new.
 	presentation := GLMPresentation new.
 	accumulator addPresentation: presentation.
@@ -111,7 +111,7 @@ GLMAccumulatorTest >> testPaneSelectedAnnouncement [
 
 { #category : #testing }
 GLMAccumulatorTest >> testPublishToOutside [
-	| accumulator presentation annoumcementsCount |
+	| accumulator presentation |
 	accumulator := GLMAccumulator new.
 	presentation := GLMPresentation new.
 	accumulator addPresentation: presentation.

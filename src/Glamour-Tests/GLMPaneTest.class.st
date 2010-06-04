@@ -34,8 +34,7 @@ GLMPaneTest >> testDefaultPresentations [
 
 { #category : #tests }
 GLMPaneTest >> testDefaultValidate [
-	 
-	| pane port | 
+	| pane |
 	pane := GLMPane named: 'test'. 
 	self assert: ((pane port: #selection) validate: 5)
 
@@ -167,8 +166,7 @@ GLMPaneTest >> testSimplePresentations [
 
 { #category : #tests }
 GLMPaneTest >> testValidate [
-	 
-	| pane port presentation| 
+	| pane presentation |
 	pane := GLMPane named: 'test'. 
 	presentation := GLMListPresentation new.
 	pane addPresentation: presentation.

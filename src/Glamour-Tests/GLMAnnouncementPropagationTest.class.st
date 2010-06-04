@@ -32,7 +32,7 @@ GLMAnnouncementPropagationTest >> testEntityPropogationAnnouncements [
 	This is a sister test to testEntityPropogation that ensures that the 
 	announcements are raised in the right order and not redundantly." 
 	 
-	| browser1 browser2 presentation realBrowser2 realPresentation | 
+	| browser1 browser2 | 
 	browser1 := GLMTabulator new title: '1'; yourself. 
 	browser2 := GLMTabulator new title: '2'; yourself. 
 	browser1 pane name: 'b1 parent pane'. 
@@ -63,16 +63,16 @@ GLMAnnouncementPropagationTest >> testEntityPropogationAnnouncements [
 	self assert: (GLMLogger instance announcements at: 4) pane == browser2 panes first. 
 	self assert: (GLMLogger instance announcements at: 4) oldPresentations isEmpty. 
 	self assert: (GLMLogger instance announcements at: 4) presentations size = 1. 
-	self assert: (GLMLogger instance announcements at: 4) presentations first == presentation.	"5. ...and then the context." 
+	self assert: (GLMLogger instance announcements at: 4) presentations first isNil.	"5. ...and then the context." 
 	self assert: ((GLMLogger instance announcements at: 5) isKindOf: GLMContextChanged). 
-	self assert: (GLMLogger instance announcements at: 5) presentation == presentation. 
+	self assert: (GLMLogger instance announcements at: 5) presentation isNil. 
 	self assert: (GLMLogger instance announcements at: 5) property = #entity. 
 	self assert: (GLMLogger instance announcements at: 5) value = 42.	"6. Due to the context change of 5, the innermost presentation now matches." 
 	self assert: ((GLMLogger instance announcements at: 6) isKindOf: GLMMatchingPresentationsChanged). 
 	self assert: (GLMLogger instance announcements at: 6) pane == browser2 panes first. 
 	self assert: (GLMLogger instance announcements at: 6) oldMatchingPresentations isEmpty. 
 	self assert: (GLMLogger instance announcements at: 6) matchingPresentations size = 1. 
-	self assert: (GLMLogger instance announcements at: 6) matchingPresentations first == presentation.	"7. Due to the context change of 3, the inner browser now matches." 
+	self assert: (GLMLogger instance announcements at: 6) matchingPresentations first isNil.	"7. Due to the context change of 3, the inner browser now matches." 
 	self assert: ((GLMLogger instance announcements at: 7) isKindOf: GLMMatchingPresentationsChanged). 
 	self assert: (GLMLogger instance announcements at: 7) pane == browser1 panes first. 
 	self assert: (GLMLogger instance announcements at: 7) oldMatchingPresentations isEmpty. 
@@ -93,7 +93,7 @@ GLMAnnouncementPropagationTest >> testSimple [
 
 { #category : #tests }
 GLMAnnouncementPropagationTest >> testSimpleCreation [
-	| browser announcements pane |
+	| browser |
 	browser := GLMBrowser new.
 	browser startOn: 42.
 	self assert: GLMLogger instance announcements copy size = 4.
@@ -105,7 +105,7 @@ browser pane presentations pane"
 
 { #category : #tests }
 GLMAnnouncementPropagationTest >> testSimplePropagation [
-	| browser announcements pane |
+	| browser |
 	browser := GLMTabulator new.
 	browser column: #pane1.
 	browser transmit to: #pane1; andShow: [:a | a text ].

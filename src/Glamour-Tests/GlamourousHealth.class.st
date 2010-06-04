@@ -101,7 +101,7 @@ GlamourousHealth >> viewTestCoverage [
 	"
 	GlamourousHealth new viewTestCoverage
 	"
-	| typeClass coverage bar |
+	| typeClass coverage |
 	typeClass := Smalltalk 
 		at: #CoveragePackageSpy
 		ifAbsent: 
@@ -113,7 +113,7 @@ GlamourousHealth >> viewTestCoverage [
 
 { #category : #'report producers' }
 GlamourousHealth >> writeCoverageInfoOn: stream [ 
-	| typeClass ratioCoveredMethods testClasses lastCoverage diff diffAsString |
+	| typeClass ratioCoveredMethods lastCoverage diff diffAsString |
 	typeClass := Smalltalk 
 		at: #CoveragePackageSpy
 		ifAbsent: 
@@ -150,10 +150,8 @@ GlamourousHealth >> writeDelimitationOn: stream [
 
 { #category : #'report producers' }
 GlamourousHealth >> writeGeneralInfoOn: stream [
-	| mcPackage |
 	stream nextPutAll: 'Report produced on ', DateAndTime now printString; cr.
-	
-	mcPackage := MCWorkingCopy allManagers detect: [:m | m package name beginsWith: 'Glamour-Tests' ].
+	MCWorkingCopy allManagers detect: [:m | m package name beginsWith: 'Glamour-Tests' ].
 ]
 
 { #category : #'report producers' }

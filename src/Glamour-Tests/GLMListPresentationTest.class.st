@@ -15,8 +15,7 @@ GLMListPresentationTest >> testChildren [
 
 { #category : #tests }
 GLMListPresentationTest >> testCustomValidation [
-	| pane port presentation |
-
+	| pane presentation |
 	pane := GLMPane named: 'test'.
 	presentation := GLMListPresentation new.
 	pane addPresentation: presentation.
@@ -39,8 +38,7 @@ GLMListPresentationTest >> testToSend [
 
 { #category : #tests }
 GLMListPresentationTest >> testValidateOn [
-	 
-	| pane port presentation| 
+	| pane presentation |
 	pane := GLMPane named: 'test'. 
 	presentation := GLMListPresentation new.
 	pane addPresentation: presentation.
@@ -55,8 +53,7 @@ GLMListPresentationTest >> testValidateOn [
 
 { #category : #tests }
 GLMListPresentationTest >> testValidatePorts [
-	 
-	| pane port presentation| 
+	| pane presentation |
 	pane := GLMPane named: 'test'.
 	presentation := GLMListPresentation new.
 	pane addPresentation: presentation.
@@ -70,8 +67,7 @@ GLMListPresentationTest >> testValidatePorts [
 
 { #category : #tests }
 GLMListPresentationTest >> testValidateWithMultipleSelection [
-	 
-	| pane port presentation| 
+	| pane presentation |
 	pane := GLMPane named: 'test'. 
 	presentation := GLMListPresentation new.
 	presentation beMultiple.

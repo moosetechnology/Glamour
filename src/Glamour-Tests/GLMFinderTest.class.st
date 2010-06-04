@@ -77,7 +77,7 @@ GLMFinderTest >> testPortPublishing [
 
 { #category : #tests }
 GLMFinderTest >> testUnregisterAnnouncementsWhenRemovingPane [
-	| announcer presentation browser pane |
+	| announcer browser presentation |
 	announcer := Announcer new.
 	browser := GLMFinder new.
 	presentation := GLMPresentation new.
