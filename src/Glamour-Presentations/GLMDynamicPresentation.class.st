@@ -14,7 +14,7 @@ Class {
 
 { #category : #rendering }
 GLMDynamicPresentation >> currentPresentation [ 
-	| currentPresentation composite |
+	| composite |
 	composite := GLMCompositePresentation new.
 	self presentationTransformation glamourValue: (
 			composite asGlamorousMultiValue, 
