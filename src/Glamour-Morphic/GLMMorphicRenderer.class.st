@@ -155,8 +155,7 @@ GLMMorphicRenderer >> renderAccumulator: aBrowser [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [ 
-	| toShow container buttonModel button |
-	toShow := anActionListPresentation displayValue.
+	| container buttonModel button |
 	container := GLMMorphic emptyMorph.
 	anActionListPresentation allActions withIndexDo: 
 		[ :each :index | 
