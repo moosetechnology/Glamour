@@ -81,7 +81,7 @@ GlamourousBenchmark >> measureSelectionTimeInFinderForSize: size [
 	"
 	self new measureSelectionTimeInFinderForSize: 20 
 	"
-	| browser time port window |
+	| browser time window |
 
 	browser := self defaultFinderBrowser.
 	window := browser openOn: size.
