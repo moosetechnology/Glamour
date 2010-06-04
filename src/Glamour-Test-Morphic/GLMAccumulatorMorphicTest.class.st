@@ -41,7 +41,7 @@ GLMAccumulatorMorphicTest >> testListInside [
 
 { #category : #testing }
 GLMAccumulatorMorphicTest >> testPaneCreation [
-	| browser tabs firstTreeMorph |
+	| browser tabs |
 	browser := GLMAccumulator new.
 	browser show: [:a | a list display: [:x | $a to: x ]].
 	window := browser openOn: $d.
@@ -54,7 +54,7 @@ GLMAccumulatorMorphicTest >> testPaneCreation [
 
 { #category : #testing }
 GLMAccumulatorMorphicTest >> testSelectedTab [
-	| browser tabs firstTreeMorph firstTabLabel |
+	| browser tabs |
 	browser := GLMAccumulator new.
 	browser show: [:a | 
 		a title: [:x | x asString ].
@@ -70,7 +70,7 @@ GLMAccumulatorMorphicTest >> testSelectedTab [
 
 { #category : #testing }
 GLMAccumulatorMorphicTest >> testTabTitle [
-	| browser tabs firstTreeMorph firstTabLabel |
+	| browser tabs firstTabLabel |
 	browser := GLMAccumulator new.
 	browser show: [:a | 
 		a title: [:x | x asString ].

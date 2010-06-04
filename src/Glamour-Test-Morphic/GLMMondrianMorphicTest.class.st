@@ -6,7 +6,7 @@ Class {
 
 { #category : #testing }
 GLMMondrianMorphicTest >> testMondrian [
-	| browser textMorph textPresentation canvas |
+	| browser canvas |
 	browser := GLMTabulator new.
 	browser column: #one.
 	browser transmit to: #one; andShow: [ :a | 

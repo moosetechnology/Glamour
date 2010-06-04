@@ -69,7 +69,7 @@ GLMMorphicTest >> tearDown [
 
 { #category : #testing }
 GLMMorphicTest >> testAllowNil [
-	| browser presentationsChanged detailsMorph |
+	| browser detailsMorph |
 	browser := GLMTabulator new.
 	browser 
 		column: [: c | c row: #one; row: #two];
@@ -98,7 +98,7 @@ GLMMorphicTest >> testAllowNil [
 { #category : #testing }
 GLMMorphicTest >> testChildrenBlock [
 
-	| browser check treeMorph mouseUp treeNodeMorph |
+	| browser check treeMorph treeNodeMorph |
 	browser := GLMFinder new.
 	check := false.
 	browser tree
@@ -214,7 +214,7 @@ GLMMorphicTest >> testInterdependentPanesShouldUpdateTheFocusTriggerPaneWithText
 { #category : #testing }
 GLMMorphicTest >> testListDoubleClick [
 
-	| browser treeMorph treeNodeMorph lastTreeNodeMorph |
+	| browser treeMorph treeNodeMorph |
 	browser := GLMFinder new.
 	browser tree.
 	window := browser openOn: ($a to: $d).
@@ -275,7 +275,7 @@ GLMMorphicTest >> testMultiplePresentationsValidation [
 
 { #category : #testing }
 GLMMorphicTest >> testNoSelection [
-	| browser treeMorph treeNodeMorph lastTreeNodeMorph |
+	| browser treeMorph treeNodeMorph  |
 	browser := GLMFinder new.
 	browser tree noSelection.
 	window := browser openOn: ($a to: $d).
@@ -287,7 +287,7 @@ GLMMorphicTest >> testNoSelection [
 
 { #category : #testing }
 GLMMorphicTest >> testSpawnFinder [
-	| browser check |
+	| browser |
 	browser := GLMFinder new.
 	window := browser openOn: ($a to: $d).
 	self repeatAssert: [window submorphs last class] equals: GLMPaneScroller.
@@ -297,7 +297,7 @@ GLMMorphicTest >> testSpawnFinder [
 { #category : #testing }
 GLMMorphicTest >> testSpawnTabulator [
 
-	| browser check |
+	| browser |
 	browser := GLMTabulator new.
 	window := browser openOn: ($a to: $d).
 	self assert: window model == browser.
@@ -328,7 +328,7 @@ GLMMorphicTest >> testStatusbar [
 
 { #category : #testing }
 GLMMorphicTest >> testTreeAllowDeseletion [
-	| browser treeMorph treeNodeMorph lastTreeNodeMorph |	
+	| browser treeMorph treeNodeMorph |	
 	browser := GLMFinder new.
 	browser list allowDeselection.
 	window := browser openOn: ($a to: $d).
@@ -341,7 +341,7 @@ GLMMorphicTest >> testTreeAllowDeseletion [
 
 { #category : #testing }
 GLMMorphicTest >> testTreeDefaultAllowDeseletion [
-	| browser treeMorph treeNodeMorph lastTreeNodeMorph |
+	| browser treeMorph treeNodeMorph |
 	browser := GLMFinder new.
 	browser tree.
 	window := browser openOn: ($a to: $d).
