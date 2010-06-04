@@ -15,7 +15,6 @@ Class {
 
 { #category : #private }
 GLMFinder >> addPaneFrom: aPort [ 
-	| lastActivePresentation |
 	self panes addLast: (GLMPane in: self).
 	GLMTransmission new
 		ensureBundleStrategy;
@@ -69,7 +68,7 @@ GLMFinder >> innerPortEvent: aPortEvent [
 		"We don't want to resend the transmission, but use a new SimpleTransmission." 
 		(self pane port: aPortEvent portName) value: aPortEvent value]. 
 	aPortEvent port name = #selection ifTrue: [
-		(self panes reverse copyUpTo: aPortEvent pane) do: [ :each |  
+		(self panes reversed copyUpTo: aPortEvent pane) do: [ :each |  
 			self removeLastPane.
 			self announce: (GLMPaneRemoved pane: each fromBrowser: self) ]. 
 		self addPaneFromInner: aPortEvent port ]

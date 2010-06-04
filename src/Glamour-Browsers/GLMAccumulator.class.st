@@ -32,7 +32,6 @@ GLMAccumulator >> activeEntity: anObject [
 
 { #category : #private }
 GLMAccumulator >> addPaneFrom: aPort [ 
-	| lastActivePresentation |
 	(self tryToSelectPaneFrom: aPort) ifTrue: [ ^ self ].
 	self panes addLast: (GLMPane in: self).
 	GLMTransmission new
