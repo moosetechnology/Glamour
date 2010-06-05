@@ -36,7 +36,7 @@ SGLRenderer >> render: aRenderable [
 	aRenderable renderGlamorouslyOn: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #presentation }
 SGLRenderer >> renderAccordionCompositePresentation: aCompositePresentation [
 	| presentations index |
 	presentations := aCompositePresentation matchingPresentations.
@@ -49,7 +49,7 @@ SGLRenderer >> renderAccordionCompositePresentation: aCompositePresentation [
 			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
 
 	html div
-		class: 'accordion-arrangement';
+	   class: 'accordion-arrangement';
       script: (html jQuery new accordion animated: false; active: index-1);
       with: [
          presentations withIndexDo: [ :each :i | 
@@ -67,18 +67,23 @@ SGLRenderer >> renderEmptyPresentation [
 
 { #category : #widgets }
 SGLRenderer >> renderFinder: aBrowser [
+   |container|
 	aBrowser 
 		when: GLMPaneRemoved
 		do: [ :ann | self renderFinder: ann browser removePane: ann pane ].
 	aBrowser
 		when: GLMPaneAdded
 		do: [ :ann | self renderFinder: ann browser addPane: ann pane ].
+		
 	html div
-		id: (self uuidFor: aBrowser); 
-		class: 'ui-widget'; class: 'finder';
+		class: 'finder-container';
 		with: [
-			aBrowser panes 
-				do: [ :each | self renderFinder: aBrowser pane: each ] ]
+			html div
+				id: (self uuidFor: aBrowser); 
+				class: 'ui-widget'; class: 'finder';
+				with: [
+					aBrowser panes 
+						do: [ :each | self renderFinder: aBrowser pane: each ] ] ].
 ]
 
 { #category : #widgets }
@@ -175,72 +180,7 @@ SGLRenderer >> renderPane: aPane [
 	self renderWithTitleOrNil: aPane presentations
 ]
 
-{ #category : #widgets }
-SGLRenderer >> renderPane: aPane tabs: aCollection [
-	html div
-		script: (html jQuery this tabs);
-		with: [
-			html unorderedList: [
-				aCollection do: [ :each |
-					html listItem 
-						class: 'ui-state-selected' if: aPane = each;
-						with: [
-							html anchor
-								url: (html jQuery ajax
-									html: [ :renderer | 
-										html := renderer.
-										properties at: aPane put: each.
-										self render: each ];
-									fullUrl);
-								with: each title ] ] ] ]
-]
-
-{ #category : #widgets }
-SGLRenderer >> renderPaneContent: aPane [
-	| panes pane |
-	panes := aPane matchingPresentations.
-	panes isEmpty 
-		ifTrue: [ ^ self renderEmptyPresentation ].
-	panes size = 1
-		ifTrue: [ ^ self renderPaneSingle: panes first ].
-	pane := properties 
-		at: aPane
-		ifAbsentPut: [ panes first ].
-	(panes includes: pane)
-		ifFalse: [ pane := properties at: aPane put: panes first ].
-	self renderPaneTabs: pane tabs: panes
-]
-
-{ #category : #widgets }
-SGLRenderer >> renderPaneSingle: aPane [
-	html div
-		class: 'ui-widget';
-		class: 'ui-widget-content';
-		class: 'ui-corner-all';
-		with: [ self renderWithTitleOrNil: aPane ]
-]
-
-{ #category : #widgets }
-SGLRenderer >> renderPaneTabs: aPane tabs: aCollection [
-	html div
-		script: (html jQuery this tabs);
-		with: [
-			html unorderedList: [
-				aCollection do: [ :each |
-					html listItem 
-						class: 'ui-state-selected' if: aPane = each;
-						with: [
-							html anchor
-								url: (html jQuery ajax
-									html: [ :renderer | 
-										html := renderer.
-										properties at: aPane put: each.
-										self render: each ];
-									fullUrl);
-								with: each title ] ] ] ]
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #presentation }
 SGLRenderer >> renderStackedVerticallyCompositePresentation: aCompositePresentation [
 	| presentations|
 	presentations := aCompositePresentation matchingPresentations.
@@ -253,9 +193,7 @@ SGLRenderer >> renderStackedVerticallyCompositePresentation: aCompositePresentat
 		class: 'stacked-arrangement';
 		with: [
 			presentations do: [ :each | 
-				self renderWithTitleOrNil: each
-				
-				] ]
+				self renderWithTitleOrNil: each ] ]
 ]
 
 { #category : #presentation }
@@ -290,7 +228,7 @@ SGLRenderer >> renderTabbedCompositePresentation: aCompositePresentation [
 ]
 
 { #category : #widgets }
-SGLRenderer >> renderTableLayoutBrowserColumn: aCell [
+SGLRenderer >> renderTableLayoutColumn: aCell inBrowser: aBrowser [
 	html div class: 'sgl-table'; class: 'sgl-table-vbox'; with: [
 		aCell children 
 			do: [ :each |
@@ -299,15 +237,15 @@ SGLRenderer >> renderTableLayoutBrowserColumn: aCell [
 				each hasId 
 					ifTrue: [
 						| pane |
-						pane := aCell browser paneNamed: each id.
+						pane := aBrowser paneNamed: each id.
 						tag id: (self uuidFor: pane); with: [ self render: pane ] ]
 					ifFalse: [ 
-						tag with: [ self renderTableLayoutBrowserRow: each ] ] ]
+						tag with: [ self renderTableLayoutRow: each inBrowser: aBrowser  ] ] ]
 			separatedBy: [ html div class: 'sgl-table-split' ] ]
 ]
 
 { #category : #widgets }
-SGLRenderer >> renderTableLayoutBrowserRow: aCell [
+SGLRenderer >> renderTableLayoutRow: aCell inBrowser: aBrowser [
 	html div class: 'sgl-table'; class: 'sgl-table-hbox'; with: [
 		aCell children 
 			do: [ :each |
@@ -316,18 +254,18 @@ SGLRenderer >> renderTableLayoutBrowserRow: aCell [
 				each hasId 
 					ifTrue: [
 						| pane |
-						pane := aCell browser paneNamed: each id.
+						pane := aBrowser paneNamed: each id.
 						tag id: (self uuidFor: pane); with: [ self render: pane ] ]
 					ifFalse: [ 
-						tag with: [ self renderTableLayoutBrowserColumn: each ] ] ]
+						tag with: [ self renderTableLayoutColumn: each inBrowser: aBrowser ] ] ]
 			separatedBy: [ html div class: 'sgl-table-split' ] ]
 ]
 
 { #category : #widgets }
 SGLRenderer >> renderTabulator: aBrowser [
 	aBrowser cell isRow
-		ifTrue: [ self renderTableLayoutBrowserRow: aBrowser cell ]
-		ifFalse: [ self renderTableLayoutBrowserColumn: aBrowser cell ]
+		ifTrue: [ self renderTableLayoutRow: aBrowser cell inBrowser: aBrowser  ]
+		ifFalse: [ self renderTableLayoutColumn: aBrowser cell inBrowser: aBrowser  ]
 ]
 
 { #category : #presentation }

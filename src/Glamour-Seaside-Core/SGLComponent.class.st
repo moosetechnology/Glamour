@@ -53,7 +53,7 @@ SGLComponent >> renderContentOn: html [
 { #category : #accessing }
 SGLComponent >> script [
 	^ 'var glamourResize = function() {
-	$("body > .sgl-table").each(function() {
+	$("body > .sgl-table, body > .finder-container").each(function() {
 		$(this).height($(window).height() - 20);
 	});
 };
@@ -65,12 +65,18 @@ $(window).resize(glamourResize);'
 { #category : #accessing }
 SGLComponent >> style [
 	^ '/* html */
-body {
-	font-size: 0.8em;
-}
+* {margin:0; padding:0;}
+
 html, body {
 	overflow: hidden;
+	height: 100%;
 }
+
+body {
+	font-size: 0.8em;
+	margin: 8px;
+}
+
 body, table, td, th, input, select, textarea, button {
 	font-family: Verdana, Arial, sans-serif;
 }
@@ -87,19 +93,33 @@ input, select, textarea {
 }
 
 /* layout */
+
+.finder-container {
+	overflow-x: auto;
+	overflow-y: hidden;
+	height: 100%;
+}
+
 div.finder {
 	width: auto;
-	height: 100%;
+	height: 98%;
 	overflow: auto;
 	overflow-x: scroll;
 	overflow-y: visible;
 	position: relative;
+	display: table;
 }
 div.finder > div.finder-pane {
 	min-width: 300px;
 	max-width: 500px;
-	height: auto;
+	height: 100%;
 	display: table-cell;
+	padding-right: 5px;
+}
+
+div.finder-pane > * {
+	width: auto;
+	height: 100%;
 }
 
 
@@ -237,5 +257,6 @@ div.magritte .submit { display: inline; margin: .5em .4em .5em 0; cursor: pointe
 { #category : #updating }
 SGLComponent >> updateRoot: aHtmlRoot [
 	super updateRoot: aHtmlRoot.
-	aHtmlRoot title: 'Seaside Glamorous Browser'
+	aHtmlRoot title: 'Seaside Glamorous Browser'.
+	"aHtmlRoot javascript url: 'http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'"
 ]

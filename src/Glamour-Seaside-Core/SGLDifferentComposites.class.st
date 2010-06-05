@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Seaside-Examples'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 SGLDifferentComposites class >> initialize [
 	self registerAsApplication: 'glamour/basicExamples/differentComposites'
 ]
