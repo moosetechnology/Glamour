@@ -174,70 +174,6 @@ ConfigurationOfGlamour >> baseline20beta4: spec [
 ]
 
 { #category : #baselines }
-ConfigurationOfGlamour >> default11: spec [ 
-	<version: 'default11'>
-	
-	spec for: #common do: [
-		spec blessing: #baseline.
-		spec repository: 'http://www.squeaksource.com/Glamour'.
-		spec 
-			"package: 'Morphic-MorphTreeWidget' with: [
-				spec repository: 'http://www.squeaksource.com/Momo10' ];"
-			package: 'Glamour-Announcements' ;
-			package: 'Glamour-Helpers' ;
-			package: 'Glamour-Core' ;
-			package: 'Glamour-Presentations'" with: [spec requires: #('Magritte-Morph')]";
-			package: 'Glamour-Browsers' ;
-			package: 'Glamour-Scripting' ;
-			package: 'Glamour-Tests' ;
-			package: 'Glamour-Morphic'; "with: [spec requires: #('Morphic-MorphTreeWidget')];"
-			package: 'Glamour-Test-Morphic' with: [spec requires: #('Glamour-Morphic')];
-			package: 'Glamour-Examples' ;
-			package: 'Glamour-Tools';
-			package: 'Magritte-Model' with: [
-				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
-				spec requires: 'Grease'];
-			package: 'Magritte-Tests' with: [
-				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
-				spec requires: 'Magritte-Model'];
-			package: 'Magritte-Morph' with: [
-				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
-				spec requires: #('Magritte-Model')].
-		spec group: 'Core' with: #(
-						'Glamour-Announcements'
-						'Glamour-Helpers'
-						'Glamour-Core'
-						'Glamour-Presentations'
-						'Glamour-Browsers'
-						'Glamour-Scripting'
-						'Glamour-Examples'
-						'Glamour-Tools').
-		spec group: 'Extras' with: #(
-						'Glamour-Morphic'
-						'Mondrian for Glamour').
-		spec group: 'Tests' with: #(
-						'Glamour-Tests'
-						'Glamour-Examples'
-						'Glamour-Test-Morphic'). 
-		spec
-			project: 'Mondrian for Glamour' with: [
-				spec
-					className: 'ConfigurationOfMondrian';
-					file: 'ConfigurationOfMondrian';
-					version: 'default';
-					repository: 'http://www.squeaksource.com/Mondrian' ].
-		spec
-			project: 'Grease' with: [
-				spec
-					className: 'ConfigurationOfGrease';
-					file: 'ConfigurationOfGrease';
-					version: '1.0-alpha9.1';
-					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
-
-	]
-]
-
-{ #category : #baselines }
 ConfigurationOfGlamour >> default: spec [ 
 	<version: 'default'>
 	
@@ -245,16 +181,14 @@ ConfigurationOfGlamour >> default: spec [
 		spec blessing: #baseline.
 		spec repository: 'http://www.squeaksource.com/Glamour'.
 		spec 
-			package: 'Morphic-MorphTreeWidget' with: [
-				spec repository: 'http://www.squeaksource.com/Momo10' ];
 			package: 'Glamour-Announcements' ;
 			package: 'Glamour-Helpers' ;
 			package: 'Glamour-Core' ;
-			package: 'Glamour-Presentations'" with: [spec requires: #('Magritte-Morph')]";
+			package: 'Glamour-Presentations';
 			package: 'Glamour-Browsers' ;
 			package: 'Glamour-Scripting' ;
 			package: 'Glamour-Tests' ;
-			package: 'Glamour-Morphic' with: [spec requires: #('Morphic-MorphTreeWidget')];
+			package: 'Glamour-Morphic';
 			package: 'Glamour-Test-Morphic' with: [spec requires: #('Glamour-Morphic')];
 			package: 'Glamour-Examples' ;
 			package: 'Glamour-Tools';
@@ -266,7 +200,10 @@ ConfigurationOfGlamour >> default: spec [
 				spec requires: 'Magritte-Model'];
 			package: 'Magritte-Morph' with: [
 				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
-				spec requires: #('Magritte-Model')].
+				spec requires: #('Magritte-Model')];
+			package: 'Magritte-Pharo-Model' with: [
+				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
+				spec requires: 'Magritte-Model' ].
 		spec group: 'Core' with: #(
 						'Glamour-Announcements'
 						'Glamour-Helpers'
