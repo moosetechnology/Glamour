@@ -668,7 +668,7 @@ GLMMorphicRenderer >> treeMorphFor: treeModel and: aPresentation [
 		keystrokeActionSelector: #keyStroke:from:;
 		cornerStyle: treeMorph preferredCornerStyle;
 		borderStyle: (BorderStyle inset width: 1);
-		autoDeselect: aPresentation allowsDeselection;
+		autoDeselection: aPresentation allowsDeselection;
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1)).
