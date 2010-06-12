@@ -46,7 +46,7 @@ LazyTabGroupMorph >> lazyPages [
 
 { #category : #accessing }
 LazyTabGroupMorph >> onPageIndexChange [
-	^ onPageIndexChange ifNil: [[]]
+	^ onPageIndexChange ifNil: [[:x | ]]
 ]
 
 { #category : #accessing }
