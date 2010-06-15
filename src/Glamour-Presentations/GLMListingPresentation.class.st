@@ -8,7 +8,8 @@ Class {
 		'amountToShowBlock',
 		'allowsMultipleSelection',
 		'tagsFilterBlock',
-		'allowsDeselection'
+		'allowsDeselection',
+		'tagsStyle'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -64,6 +65,12 @@ GLMListingPresentation >> columns [
 { #category : #accessing }
 GLMListingPresentation >> filterStrategy [
 	^filterBlock
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> grayRoundedTags [
+
+	tagsStyle := #grayRoundedButton
 ]
 
 { #category : #testing }
@@ -146,4 +153,16 @@ GLMListingPresentation >> tagsFor: anObject to: operation [
 	^ value isString
 		ifTrue: [ OrderedCollection with: value ]
 		ifFalse: [ value asOrderedCollection ]
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> tagsStyle [
+
+	^tagsStyle ifNil:[ self grayRoundedTags. tagsStyle ]
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> whiteRectangledTags [
+
+	tagsStyle := #whiteRectangledButton
 ]
