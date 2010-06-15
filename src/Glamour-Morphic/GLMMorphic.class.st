@@ -1,9 +1,6 @@
 Class {
 	#name : #GLMMorphic,
 	#superclass : #Object,
-	#classInstVars : [
-		'styleButton'
-	],
 	#category : #'Glamour-Morphic'
 }
 
@@ -51,10 +48,37 @@ GLMMorphic class >> emptyMorphShowing: aBoolean asTitle: aTitle [
 		ifFalse: [ self emptyMorph ]
 ]
 
+{ #category : #'button styles' }
+GLMMorphic class >> grayRoundedButtonStyle: button morph: aMorph pressed: aBoolean [
+
+	button useRoundedCorners.
+	(self isAlignmentMorph: aMorph)
+	ifTrue:[ 
+		aBoolean 
+		ifTrue: [ aMorph lastSubmorph color: Color darkGray.
+					button color: Color veryLightGray ]
+		ifFalse:[ aMorph lastSubmorph color: Color white.
+					button color: Color gray ] ]
+	ifFalse:[			
+		aBoolean 
+		ifTrue: [ aMorph color: Color darkGray.
+				   button color: Color veryLightGray ]
+		ifFalse:[ aMorph color: Color white.
+					button color: Color gray ] ]
+
+]
+
 { #category : #'as yet unclassified' }
 GLMMorphic class >> isAlignmentMorph: anObject [
 
 	^anObject isMemberOf: AlignmentMorph
+]
+
+{ #category : #'button styles' }
+GLMMorphic class >> isGrayRoundedButton: aSymbol [
+
+	^aSymbol = #grayRoundedButton
+		or:[ aSymbol = #default ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -64,15 +88,9 @@ GLMMorphic class >> isImageMorph: anObject [
 ]
 
 { #category : #'button styles' }
-GLMMorphic class >> isRectangledWhiteButton [
+GLMMorphic class >> isWhiteRectangledButton: aSymbol [
 
-	^self styleButton = #rectangledWhiteButton
-]
-
-{ #category : #'button styles' }
-GLMMorphic class >> isRoundedGrayButton [
-
-	^self styleButton = #roundedGrayButton
+	^aSymbol = #whiteRectangledButton
 ]
 
 { #category : #'as yet unclassified' }
@@ -97,9 +115,49 @@ GLMMorphic class >> morphElement: anObject [
 	^self emptyMorph
 ]
 
-{ #category : #'button styles' }
-GLMMorphic class >> rectangledWhiteButtonStyle: button morph: aMorph pressed: aBoolean [
+{ #category : #'as yet unclassified' }
+GLMMorphic class >> styleButton: button morph: m pressed: aBoolean style: aSymbol [
 
+	(self isGrayRoundedButton: aSymbol)
+	ifTrue:[ self grayRoundedButtonStyle: button morph: m pressed: aBoolean ].
+	
+	(self isWhiteRectangledButton: aSymbol)
+	ifTrue:[ self whiteRectangledButtonStyle: button morph: m pressed: aBoolean ]
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphic class >> togglingButtonLabelled: anObject pressed: aBoolean style: aSymbol [
+	| button oldLabel m |
+	button := SimpleButtonMorph new.
+	(oldLabel := button findA: StringMorph) ifNotNil: [ oldLabel delete ].
+	m := self morphElement: anObject.
+	
+	button
+		addMorph: m;
+		borderStyle: (BorderStyle inset width: 1);
+		borderColor: Color gray.
+
+	(self isAlignmentMorph: m)
+	ifTrue:[ 
+		button extent: m width @ (m height - 2).
+		m position: 0 @ -2 ]
+	ifFalse:[ 
+		(self isImageMorph: m)
+		ifTrue: [ button borderColor: Color transparent.
+					button extent: (m width + 6) @ m height ]
+		ifFalse:[ button extent: (m width + 6) @ (m height + 2) ].
+		m position: 3 @ 0.	"button center - (m extent // 2)" ].
+		
+	self styleButton: button morph: m pressed: aBoolean style: aSymbol.
+	m lock.
+	
+	^ button
+]
+
+{ #category : #'button styles' }
+GLMMorphic class >> whiteRectangledButtonStyle: button morph: aMorph pressed: aBoolean [
+
+	button useSquareCorners.
 	(self isAlignmentMorph: aMorph)
 	ifTrue:[ 
 		aBoolean 
@@ -113,80 +171,4 @@ GLMMorphic class >> rectangledWhiteButtonStyle: button morph: aMorph pressed: aB
 				   button color: Color gray ]
 		ifFalse:[ aMorph color: Color black.
 					button color: Color white ] ]
-]
-
-{ #category : #'button styles' }
-GLMMorphic class >> roundedGrayButtonStyle: button morph: aMorph pressed: aBoolean [
-
-	button useRoundedCorners.
-	(self isAlignmentMorph: aMorph)
-	ifTrue:[ 
-		aBoolean 
-		ifTrue: [ aMorph lastSubmorph color: Color darkGray.
-					button color: Color veryLightGray ]
-		ifFalse:[ aMorph lastSubmorph color: Color white.
-					button color: Color gray ] ]
-	ifFalse:[			
-		aBoolean 
-		ifTrue: [ aMorph color: Color darkGray.
-				   button color: Color veryLightGray ]
-		ifFalse:[ aMorph color: Color white.
-					button color: Color gray ] ]
-
-]
-
-{ #category : #'button styles' }
-GLMMorphic class >> setRectangledWhiteButton [
-
-	styleButton := #rectangledWhiteButton
-]
-
-{ #category : #'button styles' }
-GLMMorphic class >> setRoundedGrayButton [
-
-	styleButton := #roundedGrayButton
-]
-
-{ #category : #'button styles' }
-GLMMorphic class >> styleButton [
-
-	^styleButton ifNil:[ self setRoundedGrayButton ]
-]
-
-{ #category : #'as yet unclassified' }
-GLMMorphic class >> styleButton: button morph: m pressed: aBoolean [
-
-	self isRoundedGrayButton
-	ifTrue:[ self roundedGrayButtonStyle: button morph: m pressed: aBoolean ].
-	
-	self isRectangledWhiteButton
-	ifTrue:[ self rectangledWhiteButtonStyle: button morph: m pressed: aBoolean ]
-]
-
-{ #category : #'as yet unclassified' }
-GLMMorphic class >> togglingButtonLabelled: anObject pressed: aBoolean [
-	| button oldLabel m |
-	button := SimpleButtonMorph new.
-	(oldLabel := button findA: StringMorph) ifNotNil: [ oldLabel delete ].
-	m := self morphElement: anObject.
-
-	button
-		addMorph: m;
-		borderStyle: (BorderStyle inset width: 1);
-		borderColor: Color gray.
-		
-	(self isAlignmentMorph: m)
-	ifTrue:[ 
-		button extent: m width @ (m height - 2).
-		m position: 0 @ -2 ]
-	ifFalse:[ 
-		(self isImageMorph: m)
-		ifTrue: [ button extent: (m width + 6) @ m height ]
-		ifFalse:[ button extent: (m width + 6) @ (m height) ].
-		m position: 3 @ 0.	"button center - (m extent // 2)" ].
-		
-	self styleButton: button morph: m pressed: aBoolean.
-	m lock.
-	
-	^ button
 ]

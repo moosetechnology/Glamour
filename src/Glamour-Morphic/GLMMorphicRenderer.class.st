@@ -24,7 +24,8 @@ GLMMorphicRenderer >> amountFilteringButtonFor: treeModel [
 	| amountFilteringButton |
 	amountFilteringButton := GLMMorphic 
 			togglingButtonLabelled: 'There are hidden elements'
-			pressed: false.
+			pressed: false
+			style: #default.
 	amountFilteringButton layoutFrame: (LayoutFrame 
 				fractions: (0 @ 0 corner: 1 @ 0)
 				offsets: (0 @ 0 corner: 0 @ 24)).
