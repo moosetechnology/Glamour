@@ -195,7 +195,7 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Magritte-Model' with: [
 				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
 				spec requires: 'Grease'];
-			package: 'Magritte-Tests' with: [
+			package: 'Magritte-Tests-Model' with: [
 				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
 				spec requires: 'Magritte-Model'];
 			package: 'Magritte-Morph' with: [
