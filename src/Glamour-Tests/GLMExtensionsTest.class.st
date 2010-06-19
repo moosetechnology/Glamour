@@ -1,11 +1,11 @@
 Class {
-	#name : #GLMTestExtensions,
+	#name : #GLMExtensionsTest,
 	#superclass : #TestCase,
 	#category : #'Glamour-Tests'
 }
 
 { #category : #tests }
-GLMTestExtensions >> testGlamourValue [ 
+GLMExtensionsTest >> testGlamourValue [ 
 	"Block closure" 
 	 
 	self assert: ([#foo] glamourValue: #(1 2)) = #foo. 
@@ -24,7 +24,7 @@ GLMTestExtensions >> testGlamourValue [
 ]
 
 { #category : #tests }
-GLMTestExtensions >> testGlamourValueWithArgs [ 
+GLMExtensionsTest >> testGlamourValueWithArgs [ 
 	"Block closure" 
 	 
 	self assert: ([#foo] glamourValueWithArgs: #(1 2)) = #foo. 
