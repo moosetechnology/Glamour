@@ -270,15 +270,21 @@ GLMBasicExamples >> listsWithUpdatedSelection [
 GLMBasicExamples >> mondrianPainting [
 	<glmBrowser: 'Mondrian painting' input: '100'>
 	"self new mondrianPainting openOn: 100"
-	| browser |
+	| browser items |
 	browser := GLMTabulator withStatusbar.
+	items := 50.
+	browser act: [:b | 
+		items := 10.
+		(b paneNamed: #one) presentations first update ] entitled: 'Update'.
+	browser act: [:b | 
+		(b paneNamed: #one) inspect ] entitled: 'Inspect'.
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser mondrian 
 			title: 'Numbers in Mondrian tree';
 			painting: [:view :number | 
 			view shape label.
-			view nodes: (1 to: number).
+			view nodes: (1 to: items ).
 			view edgesFrom: [:x | x // 3 ].
 			view horizontalTreeLayout ]].
 	browser showOn: #two; from: #one; using: [
