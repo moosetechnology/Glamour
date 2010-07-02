@@ -81,13 +81,7 @@ GLMMorphicRenderer >> mondrianCanvasFor: aPresentation in: aScrollPane [
 	aPresentation when: GLMPresentationUpdated do: [:ann |
 		aPresentation view: MOViewRenderer new.
 		aScrollPane scroller removeMorph: aScrollPane scroller submorphs first.
-		self mondrianCanvasFor: aPresentation in: aScrollPane.
-"		newCanvas := MOCanvas new.
-		newView root interaction menu: [ :x | self menuIn: MenuMorph new for: aPresentation ].
-		aPresentation renderOn: newView. 
-		newCanvas root: newView root.
-		newCanvas initializeHanders.
-		canvasScrollPane scroller addMorph: newCanvas" ].
+		self mondrianCanvasFor: aPresentation in: aScrollPane ].
 	aPresentation when: GLMContextChanged do: [ :ann | 
 			ann property = #selection ifTrue: [ 
 				canvas selected: (canvas root deepFindNodeWithEntity: ann value) ] ].
