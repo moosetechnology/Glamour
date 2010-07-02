@@ -61,6 +61,42 @@ GLMMorphicRenderer >> menuIn: aMenuMorph for: aPresentation [
 ]
 
 { #category : #private }
+GLMMorphicRenderer >> mondrianCanvasFor: aPresentation in: aScrollPane [ 
+	| canvas view |
+	view := aPresentation view.
+	view root interaction menu: [ :x | self menuIn: MenuMorph new for: aPresentation ].
+	aPresentation renderOn: view.
+	canvas := MOCanvas new.
+	canvas root: view root.
+	canvas initializeHanders.
+	canvas announcer
+			when: MOFigureSelection
+			do: [ :ann | aPresentation selection: ann element model ].
+	canvas announcer
+			when: MOMouseEnter
+			do: [ :ann | aPresentation status: ann element model ].
+	canvas announcer
+			when: MOMouseLeave
+			do: [ :ann | aPresentation status: nil ].
+	aPresentation when: GLMPresentationUpdated do: [:ann |
+		aPresentation view: MOViewRenderer new.
+		aScrollPane scroller removeMorph: aScrollPane scroller submorphs first.
+		self mondrianCanvasFor: aPresentation in: aScrollPane.
+"		newCanvas := MOCanvas new.
+		newView root interaction menu: [ :x | self menuIn: MenuMorph new for: aPresentation ].
+		aPresentation renderOn: newView. 
+		newCanvas root: newView root.
+		newCanvas initializeHanders.
+		canvasScrollPane scroller addMorph: newCanvas" ].
+	aPresentation when: GLMContextChanged do: [ :ann | 
+			ann property = #selection ifTrue: [ 
+				canvas selected: (canvas root deepFindNodeWithEntity: ann value) ] ].
+	aScrollPane scroller addMorph: canvas.	
+
+	^ canvas
+]
+
+{ #category : #private }
 GLMMorphicRenderer >> moreToolbarActions: noIconActions on: aBrowser [
 	| menuMorph |
 	menuMorph := MenuMorph new.
@@ -373,36 +409,9 @@ GLMMorphicRenderer >> renderMagrittePresentation: anAsMorphPresentation [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderMondrianPresentation: aPresentation [
-	| canvas view canvasScrollPane newCanvas newView |
-	view := aPresentation view.
-	view root interaction menu: [ :x | self menuIn: MenuMorph new for: aPresentation ].
-	aPresentation renderOn: view.
-	canvas := MOCanvas new.
-	canvas root: view root.
-	canvas initializeHanders.
-	canvas announcer
-			when: MOFigureSelection
-			do: [ :ann | aPresentation selection: ann element model ].
-	canvas announcer
-			when: MOMouseEnter
-			do: [ :ann | aPresentation status: ann element model ].
-	canvas announcer
-			when: MOMouseLeave
-			do: [ :ann | aPresentation status: nil ].
-	aPresentation when: GLMPresentationUpdated do: [:ann |
-		newCanvas := MOCanvas new.
-		newView := MOViewRenderer new.
-		newView root interaction menu: [ :x | self menuIn: MenuMorph new for: aPresentation ].
-		aPresentation renderOn: newView. 
-		newCanvas root: newView root.
-		newCanvas initializeHanders.
-		canvasScrollPane scroller removeMorph: canvasScrollPane scroller submorphs first.
-		canvasScrollPane scroller addMorph: newCanvas ].
-	aPresentation when: GLMContextChanged do: [ :ann | 
-			ann property = #selection ifTrue: [ 
-				canvas selected: (canvas root deepFindNodeWithEntity: ann value) ] ].
+	| canvasScrollPane |
 	canvasScrollPane := ScrollPane new.
-	canvasScrollPane scroller addMorph: canvas.	
+	self mondrianCanvasFor: aPresentation  in: canvasScrollPane.
 	canvasScrollPane
 		color: Color white;
 		vResizing: #spaceFill;
