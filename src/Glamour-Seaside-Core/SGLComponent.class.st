@@ -110,7 +110,7 @@ div.finder {
 	display: table;
 }
 div.finder > div.finder-pane {
-	min-width: 300px;
+	/*min-width: 300px;*/
 	max-width: 500px;
 	height: 100%;
 	display: table-cell;
@@ -139,6 +139,18 @@ div.finder-pane > * {
 	padding: 0;
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 }
+
+/* presentations */
+
+.presentation-container {
+	
+}
+
+.presentation-container > * {
+	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+}
+
+
 
 /* presentations with title */
 
@@ -206,6 +218,9 @@ div.finder-pane > * {
 	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;
 }
 
+.stacked-arrangement > * {
+	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+}
 
 /* table layout */
 .sgl-table {

@@ -50,11 +50,63 @@ SGLRenderer >> renderAccordionCompositePresentation: aCompositePresentation [
 
 	html div
 	   class: 'accordion-arrangement';
-      script: (html jQuery new accordion animated: false; active: index-1);
+      script: (html jQuery new accordion animated: false; clearStyle: true; active: index-1);
       with: [
          presentations withIndexDo: [ :each :i | 
 				html div: [ html anchor: each title ].
 				html div: [ self render: each ] ] ]
+]
+
+{ #category : #widgets }
+SGLRenderer >> renderAccumulator: aBrowser [
+	|panes|
+	panes := aBrowser panes.
+	panes isEmpty ifTrue: [ ^ self renderEmptyPresentation ].
+	aBrowser 
+		when: GLMPaneAdded
+		do: [ :ann | self renderAccumulator: aBrowser addPane: ann pane].
+		
+	html div
+		id: (self uuidFor: aBrowser);
+		class: 'accumulator';
+		script: (html jQuery this tabs);
+					"onSelect: (html jQuery ajax callbackTabs: [ :event | 
+                    	aBrowser activeEntity: ((aBrowser panes at: (event at: #index)) port: #entity) value ]) ); "
+		with: [
+			html unorderedList: [
+				aBrowser panes withIndexDo: [ :each :i |
+					self renderAccumulator: aBrowser pane: each at: i] ] ]
+]
+
+{ #category : #widgets }
+SGLRenderer >> renderAccumulator: aBrowser addPane: aPane [
+	|tabs|
+	tabs := (html jQuery id: (self uuidFor: aBrowser)).
+	self scriptFor: aBrowser add: ( 
+		(tabs tabs 
+			add: (html jQuery ajax
+						html: [ :renderer | 
+							html := renderer.										
+							self renderPaneWithoutTitle: aPane ];
+						fullUrl)			 
+			label: (self titleOrIconOf: aPane presentations) ),
+		(tabs tabs select: aBrowser panes size-1) ).
+
+]
+
+{ #category : #'as yet unclassified' }
+SGLRenderer >> renderAccumulator: aBrowser pane: aPane at: index [
+	html listItem
+		class: 'ui-tabs-selected' if: aBrowser panes size = index;  
+		with: [ 
+			html anchor
+				url: (html jQuery ajax
+					html: [ :renderer | 
+						html := renderer.										
+						self renderPaneWithoutTitle: aPane ];
+					fullUrl);
+				with: ( self titleOrIconOf: aPane presentations) ].
+
 ]
 
 { #category : #widgets }
@@ -116,16 +168,18 @@ SGLRenderer >> renderListPresentation: aPresentation [
 		ifFalse: [ Array with: toShow ].
 		
 	self widgetContainer
+		class: 'presentation-container';
 		with: [
-			html select
-				size: 10;
-				list: (items ifNil: [ #() ]);
-				labels: aPresentation format;
-				selected: aPresentation selection;
-				callback: [ :value | aPresentation selection: value ];
-					onChange: (html jQuery ajax 
-						serializeThis;
-						script: [ :script | self updateScript: script ]) ].
+		
+				html select
+					size: 10;
+					list: (items ifNil: [ #() ]);
+					labels: aPresentation format;
+					selected: aPresentation selection;
+					callback: [ :value | aPresentation selection: value ];
+						onChange: (html jQuery ajax 
+							serializeThis;
+							script: [ :script | self updateScript: script ]) ] .
 ]
 
 { #category : #presentation }
@@ -181,6 +235,18 @@ SGLRenderer >> renderPane: aPane [
 ]
 
 { #category : #presentation }
+SGLRenderer >> renderPaneWithoutTitle: aPane [
+	aPane whenMatchingPresentationsChanged: [ :ann |
+		self 
+			scriptFor: aPane
+			put: ((html jQuery id: (self uuidFor: aPane))
+				html: [ :renderer |
+					html := renderer.
+					self render: aPane presentations]) ].
+	self render: aPane presentations
+]
+
+{ #category : #presentation }
 SGLRenderer >> renderStackedVerticallyCompositePresentation: aCompositePresentation [
 	| presentations|
 	presentations := aCompositePresentation matchingPresentations.
@@ -203,19 +269,21 @@ SGLRenderer >> renderTabbedCompositePresentation: aCompositePresentation [
 	presentations isEmpty ifTrue: [ ^ self renderEmptyPresentation ].
 	presentations size = 1 ifTrue: [^ self renderWithTitleOrNil: presentations first ].
 	
-	index := 1.
+	index := 0.
 	presentations withIndexDo: [ :each :i | 
 		aCompositePresentation pane lastActivePresentation notNil and: [ 
-			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
+			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i-1 ] ] ].
 	
 	html div
 		class: 'tabbed-arrangement';
-		script: (html jQuery this tabs);
+		script: ( html jQuery new tabs );
+					"onSelect: (html jQuery ajax callbackTabs: [ :event | 
+                    	aCompositePresentation pane lastActivePresentation: (aCompositePresentation matchingPresentations at: (event at: #index) ) ]) ); "
 		with: [
 			html unorderedList: [
 				presentations withIndexDo: [ :each :i|
 					html listItem 
-						class: 'ui-state-selected' if: i = index; 
+						class: 'ui-tabs-selected' if: i = index; 
 						with: [
 							html anchor
 								url: (html jQuery ajax
@@ -271,6 +339,7 @@ SGLRenderer >> renderTabulator: aBrowser [
 { #category : #presentation }
 SGLRenderer >> renderTextPresentation: aPresentation [
 	self widgetContainer
+		class: 'presentation-container';
 		with: [
 			html textArea
 				value: aPresentation formatedDisplayValue;
@@ -347,6 +416,12 @@ SGLRenderer >> scriptFor: anObject add: aScript [
 { #category : #private }
 SGLRenderer >> scriptFor: anObject put: aScript [
 	scripts at: (self uuidFor: anObject) put: aScript
+]
+
+{ #category : #widgets }
+SGLRenderer >> titleOrIconOf: aPresentation [
+
+	^aPresentation titleValue ifNil: ['']
 ]
 
 { #category : #private }
