@@ -5,6 +5,20 @@ Class {
 }
 
 { #category : #testing }
+GLMMondrianMorphicTest >> testFigureSelection [
+	| browser canvas |
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit to: #one; andShow: [ :a | 
+		a mondrian painting: [:view :input | view nodes: ($a to: input)]].
+	window := browser openOn: $d.
+
+	canvas := window submorphs last submorphs first submorphs first submorphs first submorphs first.
+	canvas announce: (MOFigureSelection event: nil on: canvas root allNodes first).
+	self assert: (browser panes first port: #selection) value = $a.
+]
+
+{ #category : #testing }
 GLMMondrianMorphicTest >> testMondrian [
 	| browser canvas |
 	browser := GLMTabulator new.
@@ -37,5 +51,26 @@ GLMMondrianMorphicTest >> testSelection [
 	(browser panes first port: #selection) value: $d.
 	self assert: (canvas root deepFindNodeWithEntity: $d) isSelected.
 	self assert: (canvas root deepFindNodeWithEntity: $c) isSelected not.
+
+]
+
+{ #category : #testing }
+GLMMondrianMorphicTest >> testUpdate [
+	| browser canvas |
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit to: #one; andShow: [ :a | 
+		a mondrian painting: [:view :input | view nodes: ($a to: input)]].
+	window := browser openOn: $d.
+
+	canvas := window submorphs last submorphs first submorphs first submorphs first submorphs first.
+	canvas announce: (MOFigureSelection event: nil on: canvas root allNodes first).
+	self assert: (browser panes first port: #selection) value = $a.
+	
+	browser panes first presentations first update.
+	canvas := window submorphs last submorphs first submorphs first submorphs first submorphs first.
+	canvas announce: (MOFigureSelection event: nil on: canvas root allNodes last).
+	self assert: (browser panes first port: #selection) value = $d.
+	
 
 ]
