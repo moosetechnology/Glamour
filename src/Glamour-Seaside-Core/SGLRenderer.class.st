@@ -49,10 +49,10 @@ SGLRenderer >> renderAccordionCompositePresentation: aCompositePresentation [
 			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
 
 	html div
-	   class: 'accordion-arrangement';
-      script: (html jQuery new accordion animated: false; clearStyle: true; active: index-1);
-      with: [
-         presentations withIndexDo: [ :each :i | 
+		class: 'accordion-arrangement';
+  	      script: (html jQuery new accordion animated: false; clearStyle: true; active: index-1);
+   	      with: [
+         		presentations withIndexDo: [ :each :i | 
 				html div: [ html anchor: each title ].
 				html div: [ self render: each ] ] ]
 ]
@@ -69,7 +69,7 @@ SGLRenderer >> renderAccumulator: aBrowser [
 	html div
 		id: (self uuidFor: aBrowser);
 		class: 'accumulator';
-		script: (html jQuery this tabs);
+		script: (html jQuery this tabs cache: true);
 					"onSelect: (html jQuery ajax callbackTabs: [ :event | 
                     	aBrowser activeEntity: ((aBrowser panes at: (event at: #index)) port: #entity) value ]) ); "
 		with: [
@@ -109,12 +109,26 @@ SGLRenderer >> renderAccumulator: aBrowser pane: aPane at: index [
 
 ]
 
+{ #category : #'as yet unclassified' }
+SGLRenderer >> renderElement: anElement from: aPresentation [
+	html div   
+		onClick: (
+			(html jQuery ajax
+				script: [:s | 
+					aPresentation selection: anElement.
+					self updateScript: s ]) ,
+			 ( (html jQuery expression: '#', (self uuidFor: aPresentation),  ' > div > div') removeClass: 'selected'  ),
+			 ( html jQuery new addClass: 'selected' ));
+		with: anElement 
+]
+
 { #category : #widgets }
 SGLRenderer >> renderEmptyPresentation [
 	html div
 		class: 'ui-widget';
 		class: 'ui-widget-content';
-		class: 'ui-corner-all'
+		class: 'ui-corner-all';
+		class: 'empty-presentation'
 ]
 
 { #category : #widgets }
@@ -128,14 +142,11 @@ SGLRenderer >> renderFinder: aBrowser [
 		do: [ :ann | self renderFinder: ann browser addPane: ann pane ].
 		
 	html div
-		class: 'finder-container';
+		id: (self uuidFor: aBrowser); 
+		class: 'ui-widget'; class: 'finder';
 		with: [
-			html div
-				id: (self uuidFor: aBrowser); 
-				class: 'ui-widget'; class: 'finder';
-				with: [
-					aBrowser panes 
-						do: [ :each | self renderFinder: aBrowser pane: each ] ] ].
+			aBrowser panes 
+				do: [ :each | self renderFinder: aBrowser pane: each ] ] .
 ]
 
 { #category : #widgets }
@@ -147,7 +158,7 @@ SGLRenderer >> renderFinder: aBrowser addPane: aPane [
 { #category : #widgets }
 SGLRenderer >> renderFinder: aBrowser pane: aPane [
 	html div
-		class: 'finder-pane';
+		class: 'finder-pane ui-widget-content ui-corner-all';
 		with: [ self render: aPane ]
 ]
 
@@ -161,25 +172,40 @@ SGLRenderer >> renderFinder: aBrowser removePane: aPane [
 
 { #category : #presentation }
 SGLRenderer >> renderListPresentation: aPresentation [
-	| items toShow |
-	toShow := aPresentation displayValue.
-	items := toShow isCollection
-		ifTrue: [ toShow ]
-		ifFalse: [ Array with: toShow ].
-		
+	| items stepSize amountToShow amountShown size|
+	aPresentation displayValue isCollection
+		ifTrue: [ items :=  OrderedCollection newFrom: aPresentation displayValue ]
+		ifFalse: [ items :=  OrderedCollection new add: aPresentation displayValue ].
+	size := items size.
+	stepSize := aPresentation amountToShow ifNil: [size].
+
 	self widgetContainer
-		class: 'presentation-container';
+		class: 'list-presentation';
+		id: (self uuidFor: aPresentation);
 		with: [
-		
-				html select
-					size: 10;
-					list: (items ifNil: [ #() ]);
-					labels: aPresentation format;
-					selected: aPresentation selection;
-					callback: [ :value | aPresentation selection: value ];
-						onChange: (html jQuery ajax 
-							serializeThis;
-							script: [ :script | self updateScript: script ]) ] .
+			html div  
+				with: [
+					amountToShow := stepSize min: size.
+					 (1 to: amountToShow) do: [ :each |  
+						self renderElement: (items at: each) from: aPresentation  ] ] .
+				
+			amountShown := amountToShow.
+			(size > amountShown) ifTrue: [ "Add a button for loading the remaining elements"
+				html submitButton
+    		    			onClick: (html jQuery ajax
+      		    	  		script: [ :s | 
+							(size > amountShown) 
+								ifTrue: [
+									amountToShow := amountShown+stepSize min: size.
+									s << (  (s jQuery id: (self uuidFor: aPresentation)) children: 'div' ) append: [:h |  
+										html := h. 
+										(amountShown+1 to: amountToShow ) do: [ :each |  self renderElement: (items at: each) from: aPresentation ].
+									amountShown := amountToShow ] ] .
+							(size > amountShown) 
+								ifFalse: [  "Disable the button for loading content"
+									s << ( (s jQuery id: (self uuidFor: aPresentation)) children: ':input'  ) attributeAt: 'disabled' put: true ] ] );
+					disabled: false;
+         				with: 'Append' ] ] .
 ]
 
 { #category : #presentation }
@@ -276,7 +302,7 @@ SGLRenderer >> renderTabbedCompositePresentation: aCompositePresentation [
 	
 	html div
 		class: 'tabbed-arrangement';
-		script: ( html jQuery new tabs );
+		script: ( html jQuery new tabs cache: true );
 					"onSelect: (html jQuery ajax callbackTabs: [ :event | 
                     	aCompositePresentation pane lastActivePresentation: (aCompositePresentation matchingPresentations at: (event at: #index) ) ]) ); "
 		with: [

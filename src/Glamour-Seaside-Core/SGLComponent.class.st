@@ -92,6 +92,9 @@ input, select, textarea {
 	background-color: transparent;
 }
 
+.selected {
+	background-color: #E3E0D0;
+}
 /* layout */
 
 .finder-container {
@@ -101,25 +104,28 @@ input, select, textarea {
 }
 
 div.finder {
-	width: auto;
+	width: 100%;
 	height: 98%;
-	overflow: auto;
-	overflow-x: scroll;
-	overflow-y: visible;
+	overflow-x: auto;
 	position: relative;
-	display: table;
+	display: -webkit-box; display: -moz-box; display: box;
+	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
+	-webkit-box-orient: horizontal; -moz-box-orient: horizontal; box-orient: horizontal;
 }
 div.finder > div.finder-pane {
-	/*min-width: 300px;*/
+	min-width: 150px;
 	max-width: 500px;
 	height: 100%;
-	display: table-cell;
-	padding-right: 5px;
+	width: 100%;
+	display: -webkit-box; display: -moz-box; display: box;
+	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
+	-webkit-box-orient: horizontal; -moz-box-orient: horizontal; box-orient: horizontal;
 }
 
 div.finder-pane > * {
 	width: auto;
 	height: 100%;
+	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 }
 
 
@@ -138,9 +144,20 @@ div.finder-pane > * {
 .ui-tabs > .ui-tabs-panel {
 	padding: 0;
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+	display: -webkit-box; display: -moz-box; display: box;
+	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch; 
+	/* -webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical; */
+}
+
+.ui-tabs-panel > * {
+	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 }
 
 /* presentations */
+
+.empty-presentation{
+	min-height:50px;
+}
 
 .presentation-container {
 	
@@ -150,6 +167,33 @@ div.finder-pane > * {
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 }
 
+.list-presentation {
+	display: -webkit-box; display: -moz-box; display: box;
+	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
+	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;
+	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+}
+
+.list-presentation > div {
+	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+	overflow: auto;
+	min-height: 100px;
+	min-width: 100px;
+}
+
+.list-presentation > div > div {
+	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+}
+
+.list-presentation > input {
+	height: 25px;
+	background-color: #EBEBEB;
+	-webkit-box-flex: 0; -moz-box-flex: 0; box-flex: 0;
+}
+
+.ui-accordion-content > * {
+	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+}
 
 
 /* presentations with title */
@@ -205,21 +249,26 @@ div.finder-pane > * {
 
 
 /* composite arrangements */
-.stacked-arrangement, .tabbed-arrangement {
+.stacked-arrangement, .tabbed-arrangement, .accordion-arrangement {
 	position: relative;
 	width: 100%;
 	padding: 0;
 }
 
-.stacked-arrangement {
+.stacked-arrangement, .accordion-arrangement {
 	position: relative;
 	display: -webkit-box; display: -moz-box; display: box;
 	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
 	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;
 }
 
-.stacked-arrangement > * {
+.stacked-arrangement > *{
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+}
+
+.accordion-arrangement > .ui-accordion-content {
+	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+	display: -webkit-box; display: -moz-box; display: box;
 }
 
 /* table layout */
