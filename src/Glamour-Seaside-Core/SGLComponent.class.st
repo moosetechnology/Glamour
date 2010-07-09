@@ -52,11 +52,64 @@ SGLComponent >> renderContentOn: html [
 
 { #category : #accessing }
 SGLComponent >> script [
-	^ 'var glamourResize = function() {
+	^ '
+	var Glamour = {};
+	
+	var glamourResize = function() {
 	$("body > .sgl-table, body > .finder-container").each(function() {
 		$(this).height($(window).height() - 20);
 	});
 };
+
+var glamourDisableClickEvent = function(id) {
+	document.getElementById(id).onclick = null;
+};
+
+	Glamour.tree = {};
+	Glamour.tree.bindEvents = function(listId, level) {
+		var padding = "";
+		
+		// Create a padding made out of images
+		for (var index = 0; index < level; index++) {
+			//padding += "<img class=\"glm-tree-icon-padding\" src=\"http://www.sencha.com/deploy/dev/resources/images/default/s.gif\">";
+			padding += "<ins class=\"glm-tree-icon-padding\">&nbsp</ins>";
+		}
+		
+		// Bind the events
+		$("#"+listId+" > .glm-tree-node > .glm-tree-node-el").bind("click", function(){
+			var parent = $(this).parent();
+			
+			Glamour.tree.collapsible(parent);
+			Glamour.tree.selection(parent);
+		}).find(":first").before("<span>"+padding+"</span>").before(Glamour.tree.icon) ; 
+	}
+	
+	Glamour.tree.icon = function() {
+		if (  $(this).parent().parent().hasClass("glm-tree-leaf") == false ) {
+			return  "<ins class=\"glm-tree-icon\">&nbsp;</ins>";
+		}
+	}
+	
+	Glamour.tree.selection = function(element) {
+		element.addClass("glm-tree-node-selected");
+		if (typeof Glamour.tree.selectedId !== "undefined" && Glamour.tree.selectedId !== element.attr("id") ) {
+			$("#"+Glamour.tree.selectedId).removeClass("glm-tree-node-selected");
+		} 
+		
+		Glamour.tree.selectedId = element.attr("id");
+	}
+	
+	Glamour.tree.collapsible = function(element) {
+		if ( element.hasClass("glm-tree-open") ) {
+			element.removeClass("glm-tree-open");
+			element.addClass("glm-tree-closed");
+			element.children(".glm-tree-node-ct").hide();
+		} else if ( element.hasClass("glm-tree-closed")  ) {
+			element.removeClass("glm-tree-closed");
+			element.addClass("glm-tree-open");
+			element.children(".glm-tree-node-ct").show();
+		}
+	};
 
 $(glamourResize);
 $(window).resize(glamourResize);'
@@ -64,6 +117,8 @@ $(window).resize(glamourResize);'
 
 { #category : #accessing }
 SGLComponent >> style [
+	^ ''
+"
 	^ '/* html */
 * {margin:0; padding:0;}
 
@@ -92,9 +147,6 @@ input, select, textarea {
 	background-color: transparent;
 }
 
-.selected {
-	background-color: #E3E0D0;
-}
 /* layout */
 
 .finder-container {
@@ -174,14 +226,14 @@ div.finder-pane > * {
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 }
 
-.list-presentation > div {
+.list-presentation > ul {
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 	overflow: auto;
 	min-height: 100px;
 	min-width: 100px;
 }
 
-.list-presentation > div > div {
+.list-presentation > ul > li {
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 }
 
@@ -271,6 +323,53 @@ div.finder-pane > * {
 	display: -webkit-box; display: -moz-box; display: box;
 }
 
+/* List/tree presentation */
+
+.glm-tree-root-ct {
+	cursor: pointer;
+}
+.selected {
+	background-color: #E3E0D0;
+}
+
+.glm-tree-node-selected > .glm-tree-node-el{
+	background-color: #E3E0D0;
+}
+
+.glm-tree-icon-padding {
+	background-repeat:no-repeat;
+	border:0 none;
+	height:18px;
+	margin:0;
+	padding:0;
+	vertical-align:top;
+	width:16px;
+	display:inline-block;
+	text-decoration:none;
+}
+
+.glm-tree-root-ct .glm-tree-icon {
+	display:inline-block;
+	height:18px;
+	margin:0;
+	padding:0;
+	text-decoration:none;
+	width:14px;
+}
+
+.glm-tree-node-el > .glm-tree-icon  {
+	background-image:url(arrows.png);
+	background-repeat:no-repeat;
+}
+
+.glm-tree-closed > .glm-tree-node-el > .glm-tree-icon {
+	background-position: -4px 0;
+}
+
+.glm-tree-open > .glm-tree-node-el > .glm-tree-icon {
+	background-position: -22px 0;
+}
+
 /* table layout */
 .sgl-table {
 	width: 100%;	
@@ -315,12 +414,13 @@ div.magritte textarea { height: 250px; }
 div.magritte table { width: 100%; padding: .3em 1em 0 .4em; }
 div.magritte input, div.magritte textarea { width: 100%; border: 1px solid #d3d3d3; background: #e6e6e6; }
 div.magritte .buttons { text-align: right; border-width: 1px 0 0 0; margin: .5em 0 0 0; padding: .3em 1em .5em .4em; }
-div.magritte .submit { display: inline; margin: .5em .4em .5em 0; cursor: pointer; padding: .2em .6em .3em .6em; line-height: 1.4em; width: auto; overflow: visible; border: 1px solid #d3d3d3; background: #e6e6e6 url(/seaside/files/JQUiSmoothnessTheme/uibgglass75e6e6e61x400.png) 50% 50% repeat-x; font-weight: normal; color: #555555; outline: none; }'
+div.magritte .submit { display: inline; margin: .5em .4em .5em 0; cursor: pointer; padding: .2em .6em .3em .6em; line-height: 1.4em; width: auto; overflow: visible; border: 1px solid #d3d3d3; background: #e6e6e6 url(/seaside/files/JQUiSmoothnessTheme/uibgglass75e6e6e61x400.png) 50% 50% repeat-x; font-weight: normal; color: #555555; outline: none; }' "
 ]
 
 { #category : #updating }
 SGLComponent >> updateRoot: aHtmlRoot [
 	super updateRoot: aHtmlRoot.
 	aHtmlRoot title: 'Seaside Glamorous Browser'.
+	aHtmlRoot stylesheet url: (ListingPresentationFileLibrary urlOf: #styleCss)
 	"aHtmlRoot javascript url: 'http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'"
 ]

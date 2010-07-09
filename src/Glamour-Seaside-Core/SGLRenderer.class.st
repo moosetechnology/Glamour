@@ -111,15 +111,59 @@ SGLRenderer >> renderAccumulator: aBrowser pane: aPane at: index [
 
 { #category : #'as yet unclassified' }
 SGLRenderer >> renderElement: anElement from: aPresentation [
-	html div   
+	html listItem    
 		onClick: (
 			(html jQuery ajax
 				script: [:s | 
 					aPresentation selection: anElement.
 					self updateScript: s ]) ,
-			 ( (html jQuery expression: '#', (self uuidFor: aPresentation),  ' > div > div') removeClass: 'selected'  ),
+			 ( (html jQuery expression: '#', (self uuidFor: aPresentation),  ' > ul > li') removeClass: 'selected'  ),
 			 ( html jQuery new addClass: 'selected' ));
 		with: anElement 
+]
+
+{ #category : #'as yet unclassified' }
+SGLRenderer >> renderElement: anElement from: aPresentation withChildrens: childrens onLevel: level [
+	|id listItem expanded childBlock|
+	id := html nextId.
+	expanded := childrens size > 0 and: [ (aPresentation shouldRootsExpand and: [level == 1]) or: [aPresentation shouldAllExpand] ].
+	childBlock := [ :h |
+		html := h.
+		h unorderedList 
+			id: html nextId;
+			script: (JSStream on: 'Glamour.tree.bindEvents("', html lastId,'" ,', level asString , ')');
+			class: 'glm-tree-node-ct';
+			with: [ childrens do: [:each | 
+				self renderElement: each from: aPresentation withChildrens: (aPresentation childrenValueOf: each) onLevel: level +1 ] ] ].
+	listItem := html listItem  
+		id: id;  
+		class: 'glm-tree-node';
+		class: 'glm-tree-leaf' if: childrens size == 0;
+		class: 'glm-tree-open' if: expanded;
+		class: 'glm-tree-closed' if: (childrens size > 0 and: [expanded not]).
+	(childrens size >0 and:[ expanded not ] ) ifTrue: [
+		listItem onClick: (html jQuery ajax script: [:s | 
+			s << ( (html jQuery id: id) append: [:h | (childBlock value: h)  ] ).
+			s add: (JSStream on: 'glamourDisableClickEvent("',id,'")')  "Allow only one click" ]  ) ].
+	listItem with: [
+			html div
+				class: 'glm-tree-node-el';
+				onClick: (
+					(html jQuery ajax
+						script: [:s | 
+							"Update the selection load the modifications"
+							aPresentation selection: anElement.
+							self updateScript: s ] ) );
+				with: [ html span with: (aPresentation format value: anElement) ].
+			(expanded) ifTrue: [ childBlock value: html ] ]
+]
+
+{ #category : #'as yet unclassified' }
+SGLRenderer >> renderElements: items from: aPresentation beginWith: startIndex andShow: amountToShow [
+	"Render the first 'amountToShow' elements starting from the one with the index 'startIndex'"
+	
+	(startIndex to: ( startIndex+amountToShow-1 )) do: [ :each |   
+			self renderElement: (items at: each) from: aPresentation withChildrens: (aPresentation childrenValueOf:  (items at: each) ) onLevel: 1 ] 
 ]
 
 { #category : #widgets }
@@ -183,7 +227,7 @@ SGLRenderer >> renderListPresentation: aPresentation [
 		class: 'list-presentation';
 		id: (self uuidFor: aPresentation);
 		with: [
-			html div  
+			html unorderedList   
 				with: [
 					amountToShow := stepSize min: size.
 					 (1 to: amountToShow) do: [ :each |  
@@ -197,7 +241,7 @@ SGLRenderer >> renderListPresentation: aPresentation [
 							(size > amountShown) 
 								ifTrue: [
 									amountToShow := amountShown+stepSize min: size.
-									s << (  (s jQuery id: (self uuidFor: aPresentation)) children: 'div' ) append: [:h |  
+									s << (  (s jQuery id: (self uuidFor: aPresentation)) children: 'ul' ) append: [:h |  
 										html := h. 
 										(amountShown+1 to: amountToShow ) do: [ :each |  self renderElement: (items at: each) from: aPresentation ].
 									amountShown := amountToShow ] ] .
@@ -377,22 +421,42 @@ SGLRenderer >> renderTextPresentation: aPresentation [
 
 { #category : #presentation }
 SGLRenderer >> renderTreePresentation: aPresentation [
-	| tag nodes |
-	(tag := html select)
-		size: 10;
-		selected: aPresentation selection;
-		callback: [ :value | aPresentation selection: value ];
-		onChange: (html jQuery ajax 
-			serializeThis;
-			script: [ :script | self updateScript: script ]);
+	| items stepSize amountToShow amountShown size|
+	aPresentation displayValue isCollection
+		ifTrue: [ items :=  OrderedCollection newFrom: aPresentation displayValue ]
+		ifFalse: [ items :=  OrderedCollection new add: aPresentation displayValue ].
+	size := items size.
+	stepSize := aPresentation amountToShow ifNil: [size].
+
+	self widgetContainer
+		class: 'list-presentation';
+		id: (self uuidFor: aPresentation);
 		with: [
-			nodes := aPresentation displayValue.
-			nodes isCollection
-				ifFalse: [ nodes := Array with: nodes ].
-			nodes do: [ :each |
-				self 
-					renderTreePresentation: aPresentation
-					select: tag node: each level: 0 ] ]
+			html unorderedList   
+				class: 'glm-tree-root-ct';
+				id: html nextId;
+				script: (JSStream on: 'Glamour.tree.bindEvents("', html lastId,'" , 0)');
+				with: [
+					amountToShow := stepSize min: size.
+					self renderElements: items from: aPresentation beginWith: 1 andShow: amountToShow ] .
+				
+			amountShown := amountToShow.
+			(size > amountShown) ifTrue: [ "Add a button for loading the remaining elements"
+				html submitButton
+    		    			onClick: (html jQuery ajax
+      		    	  		script: [ :s | 
+							(size > amountShown) 
+								ifTrue: [
+									amountToShow := stepSize min: size-amountShown.
+									s << (  (s jQuery id: (self uuidFor: aPresentation)) children: 'ul' ) append: [:h |  
+										html := h. 
+										self renderElements: items from: aPresentation beginWith: amountShown+1 andShow: amountToShow ].
+									amountShown := amountShown + amountToShow ] .
+							(size > amountShown) 
+								ifFalse: [  "Disable the button for loading content"
+									s << ( (s jQuery id: (self uuidFor: aPresentation)) children: ':input'  ) attributeAt: 'disabled' put: true ] ] );
+					disabled: false;
+         				with: 'Append' ] ] .
 ]
 
 { #category : #presentation }
