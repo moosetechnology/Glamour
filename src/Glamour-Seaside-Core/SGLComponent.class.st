@@ -55,15 +55,15 @@ SGLComponent >> script [
 	^ '
 	var Glamour = {};
 	
-	var glamourResize = function() {
-	$("body > .sgl-table, body > .finder-container").each(function() {
-		$(this).height($(window).height() - 20);
-	});
-};
+	Glamour.resize = function() {
+		$("body > .sgl-table, body > .finder-container").each(function() {
+			$(this).height($(window).height() - 20);
+		});
+	};
 
-var glamourDisableClickEvent = function(id) {
-	document.getElementById(id).onclick = null;
-};
+	Glamour.disableClickEvent = function(id) {
+		document.getElementById(id).onclick = null;
+	};
 
 	Glamour.tree = {};
 	Glamour.tree.bindEvents = function(listId, level) {
@@ -111,8 +111,8 @@ var glamourDisableClickEvent = function(id) {
 		}
 	};
 
-$(glamourResize);
-$(window).resize(glamourResize);'
+$(Glamour.resize);
+$(window).resize(Glamour.resize);'
 ]
 
 { #category : #accessing }

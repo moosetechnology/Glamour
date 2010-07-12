@@ -64,8 +64,10 @@ SGLRenderer >> renderAccumulator: aBrowser [
 	panes isEmpty ifTrue: [ ^ self renderEmptyPresentation ].
 	aBrowser 
 		when: GLMPaneAdded
-		do: [ :ann | self renderAccumulator: aBrowser addPane: ann pane].
-		
+		do: [ :ann | self renderAccumulator: aBrowser addPane: ann pane ].
+	aBrowser 
+		when: GLMPaneSelected
+		do: [ :ann | self renderAccumulator: aBrowser selectPaneAt: ann position ].
 	html div
 		id: (self uuidFor: aBrowser);
 		class: 'accumulator';
@@ -110,6 +112,12 @@ SGLRenderer >> renderAccumulator: aBrowser pane: aPane at: index [
 ]
 
 { #category : #'as yet unclassified' }
+SGLRenderer >> renderAccumulator: aBrowser selectPaneAt: index [
+	self scriptFor: aBrowser add:  (
+		 (html jQuery id: (self uuidFor: aBrowser)) tabs select: index-1 ).
+]
+
+{ #category : #'as yet unclassified' }
 SGLRenderer >> renderElement: anElement from: aPresentation [
 	html listItem    
 		onClick: (
@@ -144,7 +152,7 @@ SGLRenderer >> renderElement: anElement from: aPresentation withChildrens: child
 	(childrens size >0 and:[ expanded not ] ) ifTrue: [
 		listItem onClick: (html jQuery ajax script: [:s | 
 			s << ( (html jQuery id: id) append: [:h | (childBlock value: h)  ] ).
-			s add: (JSStream on: 'glamourDisableClickEvent("',id,'")')  "Allow only one click" ]  ) ].
+			s add: (JSStream on: 'Glamour.disableClickEvent("',id,'")')  "Allow only one click" ]  ) ].
 	listItem with: [
 			html div
 				class: 'glm-tree-node-el';
@@ -459,18 +467,6 @@ SGLRenderer >> renderTreePresentation: aPresentation [
          				with: 'Append' ] ] .
 ]
 
-{ #category : #presentation }
-SGLRenderer >> renderTreePresentation: aPresentation select: aSelectTag node: anObject level: anInteger [
-	html option
-		selected: (aSelectTag isSelected: anObject);
-		callback: [ aSelectTag performCallback: anObject ];
-		with: [
-			anInteger timesRepeat: [ html html: '&nbsp;' ].
-			html text: (aPresentation format value: anObject) ].
-	(aPresentation children value: anObject)
-		do: [ :each | self renderTreePresentation: aPresentation select: aSelectTag node: each level: anInteger + 4 ]
-]
-
 { #category : #widgets }
 SGLRenderer >> renderWithTitleOrNil: aPresentation [
 	aPresentation hasTitle ifFalse: [^self render: aPresentation ].
@@ -517,7 +513,7 @@ SGLRenderer >> titleOrIconOf: aPresentation [
 { #category : #private }
 SGLRenderer >> updateScript: aScript [
 	aScript addAll: scripts values.
-	aScript add: (JSStream on: 'glamourResize()').
+	aScript add: (JSStream on: 'Glamour.resize()').
 	scripts := GRSmallDictionary new
 ]
 
