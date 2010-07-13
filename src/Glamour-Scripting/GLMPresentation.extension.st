@@ -97,6 +97,22 @@ GLMPresentation >> noTitle [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMPresentation >> populate: aPortSymbol icon: anIcon entitled: aString with: aBlock [ 
+	 
+	self 
+		addAction: 
+			((GLMAction new) 
+				action: 
+						((GLMPortUpdater new) 
+								portSymbol: aPortSymbol; 
+								valueBlock: aBlock; 
+								yourself); 
+				icon: anIcon; 
+				title: aString;
+				yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMPresentation >> populate: aPortSymbol on: aCharacter entitled: aString with: aBlock [ 
 	 
 	self 
