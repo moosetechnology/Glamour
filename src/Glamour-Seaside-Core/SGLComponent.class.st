@@ -69,9 +69,8 @@ SGLComponent >> script [
 	Glamour.tree.bindEvents = function(listId, level) {
 		var padding = "";
 		
-		// Create a padding made out of images
+		// Create a padding
 		for (var index = 0; index < level; index++) {
-			//padding += "<img class=\"glm-tree-icon-padding\" src=\"http://www.sencha.com/deploy/dev/resources/images/default/s.gif\">";
 			padding += "<ins class=\"glm-tree-icon-padding\">&nbsp</ins>";
 		}
 		
@@ -84,7 +83,15 @@ SGLComponent >> script [
 		}).find(":first").before("<span>"+padding+"</span>").before(Glamour.tree.icon) ; 
 	}
 	
+	Glamour.tree.addRootIcon = function(listId) {
+		$("#"+listId+" > .glm-tree-node > .glm-tree-node-el").find(":first").before(function() {
+			if ( $(this).parent().children("ins").size() == 0 && $(this).parent().parent().hasClass("glm-tree-leaf") == false )
+				return "<span></span>" + Glamour.tree.icon();
+		}) ; 
+	}
+	
 	Glamour.tree.icon = function() {
+		
 		if (  $(this).parent().parent().hasClass("glm-tree-leaf") == false ) {
 			return  "<ins class=\"glm-tree-icon\">&nbsp;</ins>";
 		}

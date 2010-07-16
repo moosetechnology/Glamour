@@ -17,6 +17,12 @@ SGLSimpleTree >> browser [
 	browser column: #one.
 	browser showOn: #one; using: [
 		browser tree
+			title: 'No expansion';
+			children: [:item | 1 to: 4];
+			showOnly: 10.
+		browser tree
+			title: 'Roots expanded';
+			rootsExpanded;
 			children: [:item | 1 to: 4];
 			showOnly: 10 ].
 

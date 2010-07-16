@@ -72,9 +72,6 @@ div.finder-pane > * {
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 }
 
-
-
-
 /* jquery ui */
 .ui-tabs {
 	position: relative;
@@ -225,10 +222,6 @@ div.finder-pane > * {
 	background-color: #E3E0D0;
 }
 
-.selected {
-	background-color: #E3E0D0;
-}
-
 .glm-tree-icon-padding {
 	background-repeat:no-repeat;
 	border:0 none;
@@ -261,6 +254,32 @@ div.finder-pane > * {
 
 .glm-tree-open > .glm-tree-node-el > .glm-tree-icon {
 	background-position: -22px 0;
+}
+
+/* actions */
+.glm-ac-container {
+	float: right;
+	cursor: pointer;
+	min-height: 28px;
+}
+
+.ui-state-default > .glm-ac-container {
+	display: none;
+}
+
+.ui-tabs-selected > .glm-ac-container {
+	display: block;
+}
+
+.glm-ac-container > img {
+	margin-right: 2px;
+}
+
+.ui-accordion .ui-state-active a {
+	display: inline;
+	position: absolute;
+	margin-top: -15px;
+	top: 50%;
 }
 
 /* table layout */

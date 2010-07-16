@@ -53,7 +53,7 @@ SGLRenderer >> renderAccordionCompositePresentation: aCompositePresentation [
   	      script: (html jQuery new accordion animated: false; clearStyle: true; active: index-1);
    	      with: [
          		presentations withIndexDo: [ :each :i | 
-				html div: [ html anchor: each title ].
+				html div: [ html anchor: each title. self renderActionsFrom: each ].
 				html div: [ self render: each ] ] ]
 ]
 
@@ -71,9 +71,9 @@ SGLRenderer >> renderAccumulator: aBrowser [
 	html div
 		id: (self uuidFor: aBrowser);
 		class: 'accumulator';
-		script: (html jQuery this tabs cache: true);
-					"onSelect: (html jQuery ajax callbackTabs: [ :event | 
-                    	aBrowser activeEntity: ((aBrowser panes at: (event at: #index)) port: #entity) value ]) ); "
+		script: ( (html jQuery this tabs cache: true)
+					onSelect: (html jQuery ajax callbackTabs: [ :event | 
+                    			aBrowser activeEntity: ((aBrowser panes at: (event at: #index) + 1) port: #entity) value ]) );
 		with: [
 			html unorderedList: [
 				aBrowser panes withIndexDo: [ :each :i |
@@ -90,8 +90,8 @@ SGLRenderer >> renderAccumulator: aBrowser addPane: aPane [
 						html: [ :renderer | 
 							html := renderer.										
 							self renderPaneWithoutTitle: aPane ];
-						fullUrl)			 
-			label: (self titleOrIconOf: aPane presentations) ),
+						fullUrl) 			 
+			label: ( self titleOrIconOf: aPane presentations) ),
 		(tabs tabs select: aBrowser panes size-1) ).
 
 ]
@@ -107,7 +107,8 @@ SGLRenderer >> renderAccumulator: aBrowser pane: aPane at: index [
 						html := renderer.										
 						self renderPaneWithoutTitle: aPane ];
 					fullUrl);
-				with: ( self titleOrIconOf: aPane presentations) ].
+				with: ( self titleOrIconOf: aPane presentations).
+				self renderActionsFrom: aPane presentations ].
 
 ]
 
@@ -118,40 +119,41 @@ SGLRenderer >> renderAccumulator: aBrowser selectPaneAt: index [
 ]
 
 { #category : #'as yet unclassified' }
-SGLRenderer >> renderElement: anElement from: aPresentation [
-	html listItem    
-		onClick: (
-			(html jQuery ajax
-				script: [:s | 
-					aPresentation selection: anElement.
-					self updateScript: s ]) ,
-			 ( (html jQuery expression: '#', (self uuidFor: aPresentation),  ' > ul > li') removeClass: 'selected'  ),
-			 ( html jQuery new addClass: 'selected' ));
-		with: anElement 
+SGLRenderer >> renderAction: anAction from: aPresentation [
+	html image 
+		form: anAction icon;
+		id: html nextId;
+		title: anAction title;
+		onClick: ( html jQuery ajax
+			callback: [:a | anAction actOn: aPresentation ] value: JQEvent new target;
+			script: [:script| self updateScript: script ] )
 ]
 
 { #category : #'as yet unclassified' }
-SGLRenderer >> renderElement: anElement from: aPresentation withChildrens: childrens onLevel: level [
-	|id listItem expanded childBlock|
+SGLRenderer >> renderActionsFrom: aPresentation [
+	html div
+		class: 'glm-ac-container';
+		with: [   
+			(aPresentation allActions select: [:action | action hasIcon ] ) do: [ :action | self renderAction: action from: aPresentation] ]
+]
+
+{ #category : #'as yet unclassified' }
+SGLRenderer >> renderElement: anElement from: aPresentationModel withChildrens: childrens onLevel: level [
+	|id listItem expanded|
 	id := html nextId.
-	expanded := childrens size > 0 and: [ (aPresentation shouldRootsExpand and: [level == 1]) or: [aPresentation shouldAllExpand] ].
-	childBlock := [ :h |
-		html := h.
-		h unorderedList 
-			id: html nextId;
-			script: (JSStream on: 'Glamour.tree.bindEvents("', html lastId,'" ,', level asString , ')');
-			class: 'glm-tree-node-ct';
-			with: [ childrens do: [:each | 
-				self renderElement: each from: aPresentation withChildrens: (aPresentation childrenValueOf: each) onLevel: level +1 ] ] ].
+	expanded := childrens size > 0 and: [ (aPresentationModel shouldRootsExpand and: [level == 1]) or: [aPresentationModel shouldAllExpand] ].
+
 	listItem := html listItem  
 		id: id;  
 		class: 'glm-tree-node';
 		class: 'glm-tree-leaf' if: childrens size == 0;
 		class: 'glm-tree-open' if: expanded;
 		class: 'glm-tree-closed' if: (childrens size > 0 and: [expanded not]).
-	(childrens size >0 and:[ expanded not ] ) ifTrue: [
+	(childrens size > 0 and:[ expanded not ] ) ifTrue: [
 		listItem onClick: (html jQuery ajax script: [:s | 
-			s << ( (html jQuery id: id) append: [:h | (childBlock value: h)  ] ).
+			s << ( (html jQuery id: id) append: [:h | 
+				html:=h. 
+				self renderElements: childrens asListFrom: aPresentationModel onLevel: level+1  ] ).
 			s add: (JSStream on: 'Glamour.disableClickEvent("',id,'")')  "Allow only one click" ]  ) ].
 	listItem with: [
 			html div
@@ -160,18 +162,20 @@ SGLRenderer >> renderElement: anElement from: aPresentation withChildrens: child
 					(html jQuery ajax
 						script: [:s | 
 							"Update the selection load the modifications"
-							aPresentation selection: anElement.
+							aPresentationModel glamourPresentation selection: anElement.
 							self updateScript: s ] ) );
-				with: [ html span with: (aPresentation format value: anElement) ].
-			(expanded) ifTrue: [ childBlock value: html ] ]
+				with: [ html span with: (aPresentationModel glamourPresentation format value: anElement) ].
+			(expanded) ifTrue: [ self renderElements: childrens asListFrom: aPresentationModel onLevel: level+1 ] ]
 ]
 
 { #category : #'as yet unclassified' }
-SGLRenderer >> renderElements: items from: aPresentation beginWith: startIndex andShow: amountToShow [
-	"Render the first 'amountToShow' elements starting from the one with the index 'startIndex'"
-	
-	(startIndex to: ( startIndex+amountToShow-1 )) do: [ :each |   
-			self renderElement: (items at: each) from: aPresentation withChildrens: (aPresentation childrenValueOf:  (items at: each) ) onLevel: 1 ] 
+SGLRenderer >> renderElements: elements asListFrom: aPresentationModel onLevel: level [
+	html unorderedList 
+		id: html nextId;
+		script: (JSStream on: 'Glamour.tree.bindEvents("', html lastId,'" ,', level asString , ')');
+		class: 'glm-tree-node-ct';
+		with: [ elements do: [:each | 
+			self renderElement: each from: aPresentationModel  withChildrens: (aPresentationModel glamourPresentation  childrenValueOf: each) onLevel: level +1 ] ] 
 ]
 
 { #category : #widgets }
@@ -224,38 +228,42 @@ SGLRenderer >> renderFinder: aBrowser removePane: aPane [
 
 { #category : #presentation }
 SGLRenderer >> renderListPresentation: aPresentation [
-	| items stepSize amountToShow amountShown size|
-	aPresentation displayValue isCollection
-		ifTrue: [ items :=  OrderedCollection newFrom: aPresentation displayValue ]
-		ifFalse: [ items :=  OrderedCollection new add: aPresentation displayValue ].
-	size := items size.
-	stepSize := aPresentation amountToShow ifNil: [size].
+	|model|
+	model := SGLTreeModel new.
+	model glamourPresentation: aPresentation.
+	self renderListingPresentation: model
+]
+
+{ #category : #presentation }
+SGLRenderer >> renderListingPresentation: aPresentationModel [
+	| items listId|
+	items := aPresentationModel roots.
 
 	self widgetContainer
 		class: 'list-presentation';
-		id: (self uuidFor: aPresentation);
+		id: (self uuidFor: aPresentationModel glamourPresentation);
 		with: [
+			listId := html nextId.
 			html unorderedList   
-				with: [
-					amountToShow := stepSize min: size.
-					 (1 to: amountToShow) do: [ :each |  
-						self renderElement: (items at: each) from: aPresentation  ] ] .
+				class: 'glm-tree-root-ct';
+				id: listId;
+				script: (JSStream on: 'Glamour.tree.bindEvents("', listId,'" , 0)');
+				with: [ self renderRootElements: items from: aPresentationModel beginWith: 1] .
 				
-			amountShown := amountToShow.
-			(size > amountShown) ifTrue: [ "Add a button for loading the remaining elements"
+			(items size > aPresentationModel amountShown) ifTrue: [ "Add a button for loading the remaining elements"
 				html submitButton
     		    			onClick: (html jQuery ajax
       		    	  		script: [ :s | 
-							(size > amountShown) 
+							(items size > aPresentationModel amountShown) 
 								ifTrue: [
-									amountToShow := amountShown+stepSize min: size.
-									s << (  (s jQuery id: (self uuidFor: aPresentation)) children: 'ul' ) append: [:h |  
-										html := h. 
-										(amountShown+1 to: amountToShow ) do: [ :each |  self renderElement: (items at: each) from: aPresentation ].
-									amountShown := amountToShow ] ] .
-							(size > amountShown) 
+									s << (  (s jQuery id: (self uuidFor: aPresentationModel  glamourPresentation )) children: '.glm-tree-root-ct' ) 
+										append: [:h |  
+											html := h. 
+											self renderRootElements: items from: aPresentationModel beginWith: aPresentationModel amountShown+1 ] ] .
+							(items size > aPresentationModel amountShown) 
 								ifFalse: [  "Disable the button for loading content"
-									s << ( (s jQuery id: (self uuidFor: aPresentation)) children: ':input'  ) attributeAt: 'disabled' put: true ] ] );
+									s << ( (s jQuery id: (self uuidFor: aPresentationModel glamourPresentation )) children: ':input'  ) attributeAt: 'disabled' put: true ].
+							s << (JSStream on: 'Glamour.tree.addRootIcon("', listId, '")') ] );
 					disabled: false;
          				with: 'Append' ] ] .
 ]
@@ -324,6 +332,23 @@ SGLRenderer >> renderPaneWithoutTitle: aPane [
 	self render: aPane presentations
 ]
 
+{ #category : #'as yet unclassified' }
+SGLRenderer >> renderRootElements: items from: aPresentationModel beginWith: startIndex [
+	"Render the first 'amountToShow' elements starting from the one with the index 'startIndex'"
+	
+	|endIndex|
+	(startIndex = 1 and: [aPresentationModel amountShown ~= 0 ] ) 
+		ifTrue: [ endIndex  := aPresentationModel amountShown ] 
+		ifFalse: [ endIndex := startIndex+aPresentationModel amountToShow-1 ].
+	(startIndex to: endIndex) do: [ :each |   
+			self renderElement: (items at: each) from: aPresentationModel withChildrens: (aPresentationModel glamourPresentation childrenValueOf:  (items at: each) ) onLevel: 1 ].
+	startIndex  == 1 
+		ifTrue: [
+			aPresentationModel amountShown isZero ifTrue: [aPresentationModel amountShown: aPresentationModel amountToShow] ] 
+		ifFalse: [
+			aPresentationModel amountShown: aPresentationModel amountToShow + aPresentationModel amountShown ] .
+]
+
 { #category : #presentation }
 SGLRenderer >> renderStackedVerticallyCompositePresentation: aCompositePresentation [
 	| presentations|
@@ -337,7 +362,7 @@ SGLRenderer >> renderStackedVerticallyCompositePresentation: aCompositePresentat
 		class: 'stacked-arrangement';
 		with: [
 			presentations do: [ :each | 
-				self renderWithTitleOrNil: each ] ]
+				self renderWithTitle: each ] ]
 ]
 
 { #category : #presentation }
@@ -346,7 +371,6 @@ SGLRenderer >> renderTabbedCompositePresentation: aCompositePresentation [
 	presentations := aCompositePresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ self renderEmptyPresentation ].
 	presentations size = 1 ifTrue: [^ self renderWithTitleOrNil: presentations first ].
-	
 	index := 0.
 	presentations withIndexDo: [ :each :i | 
 		aCompositePresentation pane lastActivePresentation notNil and: [ 
@@ -354,9 +378,9 @@ SGLRenderer >> renderTabbedCompositePresentation: aCompositePresentation [
 	
 	html div
 		class: 'tabbed-arrangement';
-		script: ( html jQuery new tabs cache: true );
-					"onSelect: (html jQuery ajax callbackTabs: [ :event | 
-                    	aCompositePresentation pane lastActivePresentation: (aCompositePresentation matchingPresentations at: (event at: #index) ) ]) ); "
+		script: ( ( html jQuery new tabs cache: true )
+					onSelect: (html jQuery ajax callbackTabs: [ :event | 
+       		             	aCompositePresentation pane lastActivePresentation: (aCompositePresentation matchingPresentations at: (event at: #index)+1 ) ]) ); 
 		with: [
 			html unorderedList: [
 				presentations withIndexDo: [ :each :i|
@@ -366,11 +390,11 @@ SGLRenderer >> renderTabbedCompositePresentation: aCompositePresentation [
 							html anchor
 								url: (html jQuery ajax
 									html: [ :renderer | 
-										html := renderer.
-										
+										html := renderer.										
 										self render: each ];
 									fullUrl);
-								with: each title ] ] ] ]
+								with: each title.
+							self renderActionsFrom: each ] ] ] ]
 ]
 
 { #category : #widgets }
@@ -429,48 +453,16 @@ SGLRenderer >> renderTextPresentation: aPresentation [
 
 { #category : #presentation }
 SGLRenderer >> renderTreePresentation: aPresentation [
-	| items stepSize amountToShow amountShown size|
-	aPresentation displayValue isCollection
-		ifTrue: [ items :=  OrderedCollection newFrom: aPresentation displayValue ]
-		ifFalse: [ items :=  OrderedCollection new add: aPresentation displayValue ].
-	size := items size.
-	stepSize := aPresentation amountToShow ifNil: [size].
-
-	self widgetContainer
-		class: 'list-presentation';
-		id: (self uuidFor: aPresentation);
-		with: [
-			html unorderedList   
-				class: 'glm-tree-root-ct';
-				id: html nextId;
-				script: (JSStream on: 'Glamour.tree.bindEvents("', html lastId,'" , 0)');
-				with: [
-					amountToShow := stepSize min: size.
-					self renderElements: items from: aPresentation beginWith: 1 andShow: amountToShow ] .
-				
-			amountShown := amountToShow.
-			(size > amountShown) ifTrue: [ "Add a button for loading the remaining elements"
-				html submitButton
-    		    			onClick: (html jQuery ajax
-      		    	  		script: [ :s | 
-							(size > amountShown) 
-								ifTrue: [
-									amountToShow := stepSize min: size-amountShown.
-									s << (  (s jQuery id: (self uuidFor: aPresentation)) children: 'ul' ) append: [:h |  
-										html := h. 
-										self renderElements: items from: aPresentation beginWith: amountShown+1 andShow: amountToShow ].
-									amountShown := amountShown + amountToShow ] .
-							(size > amountShown) 
-								ifFalse: [  "Disable the button for loading content"
-									s << ( (s jQuery id: (self uuidFor: aPresentation)) children: ':input'  ) attributeAt: 'disabled' put: true ] ] );
-					disabled: false;
-         				with: 'Append' ] ] .
+	|model|
+	model := SGLTreeModel new.
+	model glamourPresentation: aPresentation.
+	model shouldRootsExpand: aPresentation shouldRootsExpand.
+	model shouldAllExpand: aPresentation shouldAllExpand.
+	self renderListingPresentation: model
 ]
 
-{ #category : #widgets }
-SGLRenderer >> renderWithTitleOrNil: aPresentation [
-	aPresentation hasTitle ifFalse: [^self render: aPresentation ].
-	
+{ #category : #'as yet unclassified' }
+SGLRenderer >> renderWithTitle: aPresentation [
 	self widgetContainer 
 		class: 'presentation-with-title';
 		with: [
@@ -479,14 +471,22 @@ SGLRenderer >> renderWithTitleOrNil: aPresentation [
 				class: 'presentation-title';
 				with: [
 					html listItem 
-						class: 'ui-state-default ui-corner-top';
-						with: [ html span: aPresentation titleValue. ]
+						class: 'ui-state-default ui-corner-top ui-tabs-selected';
+						with: [ 
+							html span: (aPresentation titleValue ifNil: ['&nbsp']).
+							self renderActionsFrom: aPresentation ]
 					].
 			html div				
 				class: 'ui-tabs-panel ui-widget-content ui-corner-bottom';
 				class: 'presentation-content';
 				with: [
 					self render: aPresentation] ] 
+]
+
+{ #category : #widgets }
+SGLRenderer >> renderWithTitleOrNil: aPresentation [
+	aPresentation hasTitle ifFalse: [^self render: aPresentation ].
+	self renderWithTitle: aPresentation 
 ]
 
 { #category : #presentation }
@@ -506,7 +506,6 @@ SGLRenderer >> scriptFor: anObject put: aScript [
 
 { #category : #widgets }
 SGLRenderer >> titleOrIconOf: aPresentation [
-
 	^aPresentation titleValue ifNil: ['']
 ]
 

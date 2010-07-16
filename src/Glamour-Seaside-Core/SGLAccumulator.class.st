@@ -15,7 +15,7 @@ SGLAccumulator >> browser [
 	browser := GLMTabulator new.
 	acc := GLMAccumulator new.
 	acc show: [:a | 
-		a title: [:x | x asString]. 
+		a title: [:x | x asString].
 		a list title: 'List'; display: [:x |1 to: x ]; showOnly: 10.
 		a text title: 'Text'; display: [:x | 'This is an editor on ', x printString ].
 		].

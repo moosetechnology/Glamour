@@ -46,5 +46,5 @@ SGLCodeBrowser >> browser [
 
 { #category : #accessing }
 SGLCodeBrowser >> model [
-	^ Collection
+	^ Integer
 ]
