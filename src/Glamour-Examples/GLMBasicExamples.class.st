@@ -735,7 +735,8 @@ GLMBasicExamples >> updatableBrowser [
 	|collection|
 	collection := GLMAnnouncingCollection new.
 	collection add: 1; add: 2; add: 3.
-	self new updatableBrowser openOn: collection."
+	self new updatableBrowser openOn: collection.
+	collection inspect"
 	
 	| browser |
 	browser := GLMTabulator new.
@@ -745,7 +746,7 @@ GLMBasicExamples >> updatableBrowser [
 	browser transmit to: #one; andShow: [ :a |
 		a title: 'Updated automatically'.
 		a stackedArrangement.
-		a list title: 'List';
+		a list title: [:x | 'List: ', x size printString ];
 			shouldValidate: true;
 			updateOn: GLMItemAdded from: #yourself;
 			updateOn: GLMItemRemoved from: #yourself.
