@@ -218,6 +218,10 @@ div.finder-pane > * {
 	cursor: pointer;
 }
 
+.glm-tree-root-ct > .glm-tree-node {
+	margin-top: 1px;
+}
+
 .glm-tree-node-selected > .glm-tree-node-el{
 	background-color: #E3E0D0;
 }
@@ -280,6 +284,24 @@ div.finder-pane > * {
 	position: absolute;
 	margin-top: -15px;
 	top: 50%;
+}
+
+/* Actions */
+.glm-tree-tags, .glm-tree-tag {
+	display: inline;
+}
+
+.glm-tree-tags {
+	padding-left: 2px;
+}
+
+.glm-tree-tag {
+	margin-left: 3px;
+	background-color: #808080;
+}
+
+.glm-tree-tag-selected {
+	background-color: #BFBFBF;
 }
 
 /* table layout */
