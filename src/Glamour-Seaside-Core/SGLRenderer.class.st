@@ -360,9 +360,9 @@ SGLRenderer >> renderRootElements: items from: aPresentationModel beginWith: sta
 		ifFalse: [ endIndex := startIndex+aPresentationModel amountToShow-1 ].
 	(startIndex to: endIndex) do: [ :each |   
 			self renderElement: (items at: each)  onLevel: 1 ].
-	startIndex  == 1 
+	(startIndex == 1 and: [aPresentationModel amountShown ~= 0 ] ) 
 		ifTrue: [
-			aPresentationModel amountShown isZero ifTrue: [aPresentationModel amountShown: aPresentationModel amountToShow] ] 
+			 aPresentationModel amountShown: (aPresentationModel amountShown max: endIndex) ]  
 		ifFalse: [
 			aPresentationModel amountShown: aPresentationModel amountToShow + aPresentationModel amountShown ] 
 ]
@@ -464,7 +464,7 @@ SGLRenderer >> renderTag: aTag withFilter: aFilter for: aNode [
 		onClick:  (html jQuery ajax script: [:s | 
 			aNode containerTree toggleFilteringByTag: aTag.
 			s << ( html jQuery id: (self uuidFor: aNode containerTree glamourPresentation ))
-				html: [ :renderer |
+				replaceWith: [ :renderer |
 					html := renderer.
 					self renderListingPresentation: aNode containerTree ] ] )  ;
 		onClick: JQEvent new stopPropagation, JQEvent new preventDefault;

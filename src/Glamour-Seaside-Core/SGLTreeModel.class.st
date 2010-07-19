@@ -107,6 +107,7 @@ SGLTreeModel >> toggleFilteringByTag: aTag [
 
 { #category : #accessing }
 SGLTreeModel >> updateRoots [
+	amountToShow := nil. "This value is cached"
 	"roots := nil."
 	"self roots"
 ]

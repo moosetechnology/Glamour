@@ -17,6 +17,7 @@ SGLListTags >> browser [
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser tree
+			showOnly: 10;
 			tags: [:each | 
 				{each even ifTrue: ['even'] ifFalse: ['odd'].
 				(each\\3 == 0 ) ifTrue: ['div 3'] ifFalse: ['not div 3'].
@@ -31,5 +32,5 @@ SGLListTags >> browser [
 
 { #category : #'as yet unclassified' }
 SGLListTags >> model [
-	^ 1 to: 20
+	^ 1 to: 103
 ]
