@@ -7,12 +7,13 @@ Class {
 		'parentNode',
 		'childrens',
 		'expanded',
-		'rendered'
+		'rendered',
+		'htmlId'
 	],
 	#category : #'Glamour-Seaside-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 SGLTreeNodeModel class >> with: anObject [
 	^ self new item: anObject 
 ]
@@ -58,6 +59,17 @@ SGLTreeNodeModel >> expanded [
 { #category : #accessing }
 SGLTreeNodeModel >> expanded: aBoolean [
 	expanded := aBoolean 
+]
+
+{ #category : #accessing }
+SGLTreeNodeModel >> htmlId [
+	^ htmlId 
+]
+
+{ #category : #accessing }
+SGLTreeNodeModel >> htmlId: anId [
+	htmlId := anId 
+
 ]
 
 { #category : #'as yet unclassified' }

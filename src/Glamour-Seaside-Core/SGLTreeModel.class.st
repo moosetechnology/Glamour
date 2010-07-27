@@ -8,15 +8,12 @@ Class {
 		'amountShown',
 		'tagsToFilterBy',
 		'shouldRootsExpand',
-		'shouldAllExpand'
+		'shouldAllExpand',
+		'announcer',
+		'selection'
 	],
 	#category : #'Glamour-Seaside-Core'
 }
-
-{ #category : #'as yet unclassified' }
-SGLTreeModel class >> with: anObject [
-	^ self new item: anObject 
-]
 
 { #category : #accessing }
 SGLTreeModel >> amountShown [
@@ -36,6 +33,16 @@ SGLTreeModel >> amountToShow [
 		ifTrue: [amountToShow := self roots size - self amountShown ].
 	^ amountToShow 
 	
+]
+
+{ #category : #'as yet unclassified' }
+SGLTreeModel >> announce: anAnnouncement [
+	self announcer announce: anAnnouncement 
+]
+
+{ #category : #accessing }
+SGLTreeModel >> announcer [
+	^ announcer ifNil: [announcer := GLMAnnouncer new]
 ]
 
 { #category : #accessing }
@@ -65,6 +72,32 @@ SGLTreeModel >> roots: anObjectOrCollection [
 	roots := anObjectOrCollection isCollection 
 		ifTrue: [ anObjectOrCollection collect: [:each | self nodeModelFor: each ] ]
 		ifFalse: [ OrderedCollection with: (self nodeModelFor: anObjectOrCollection) ]
+]
+
+{ #category : #selection }
+SGLTreeModel >> selectedNodePath [
+	^ selection ifNotNil: [selection lastSelectedNodePath]
+]
+
+{ #category : #selection }
+SGLTreeModel >> selection [ 
+	^ selection
+]
+
+{ #category : #selection }
+SGLTreeModel >> selection: aSelection [ 
+	self selection = aSelection ifTrue: [ ^ self ].
+	selection := aSelection.
+	self announcer announce: (
+			GLMTreeMorphSelectionChanged new 
+				selectionValue: (aSelection ifNotNil: [aSelection selectedItemOrItemsOrNil]);
+				selectionPathValue: self selectionPathItems;
+				yourself)
+]
+
+{ #category : #selection }
+SGLTreeModel >> selectionPathItems [
+	^ self selectedNodePath isNil ifTrue: [nil] ifFalse: [self selectedNodePath collect: [:each | each item]]
 ]
 
 { #category : #accessing }
