@@ -149,7 +149,7 @@ SGLTreePresenter >> renderNode: aNode fromLevel: level on: html [
 SGLTreePresenter >> renderNodeTitleFor: aNode withContent: aBlock on: html [
 	html div
 		class: 'glm-tree-node-el';
-		onClick: (self onClickActionForNode: aNode withContent: aBlock on: html);
+		onClick: (self onClickActionForNode: aNode withContent: aBlock on: html) ;
 		with: [ 
 			html span with: [
 				html span

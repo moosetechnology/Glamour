@@ -195,10 +195,10 @@ SGLRenderer >> renderListPresentation: aPresentation [
 
 { #category : #presentation }
 SGLRenderer >> renderListingPresentation: aPresentationModel [
-	|aPresentation treeRenderer|
+	|aPresentation treePresenter|
 	aPresentation := aPresentationModel glamourPresentation.
-	treeRenderer := (SGLTreePresenter for:  aPresentationModel with: self).
-	treeRenderer htmlId: (self uuidFor: aPresentation).
+	treePresenter := (SGLTreePresenter for:  aPresentationModel with: self).
+	treePresenter htmlId: (self uuidFor: aPresentation).
 	
 	"When the morph changes, we want to update the glamour model"
 	aPresentationModel announcer on: GLMTreeMorphSelectionChanged do: [ :ann | 
@@ -208,7 +208,8 @@ SGLRenderer >> renderListingPresentation: aPresentationModel [
 	"aPresentationModel announcer on: GLMTreeMorphStrongSelectionChanged do: [ :ann | 
 		aPresentation strongSelection: ann strongSelectionValue ]."
 	
-	treeRenderer renderContentOn: html
+	"treeRenderer renderContentOn: html"
+	html render: treePresenter
 ]
 
 { #category : #presentation }
