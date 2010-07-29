@@ -72,8 +72,10 @@ SGLRenderer >> renderAccumulator: aBrowser [
 		id: (self uuidFor: aBrowser);
 		class: 'accumulator';
 		script: ( (html jQuery this tabs cache: true)
-					onSelect: (html jQuery ajax callbackTabs: [ :event | 
-                    			aBrowser activeEntity: ((aBrowser panes at: (event at: #index) + 1) port: #entity) value ]) );
+					onSelect: (html jQuery ajax 
+						callbackTabs: [ :event | 
+      	              			aBrowser activeEntity: ((aBrowser panes at: (event at: #index) + 1) port: #entity) value ];
+						script: [: script | self updateScript: script ]) );
 		with: [
 			html unorderedList: [
 				aBrowser panes withIndexDo: [ :each :i |
@@ -207,6 +209,15 @@ SGLRenderer >> renderListingPresentation: aPresentationModel [
 			aPresentation selectionPath: ann selectionPathValue] ].
 	"aPresentationModel announcer on: GLMTreeMorphStrongSelectionChanged do: [ :ann | 
 		aPresentation strongSelection: ann strongSelectionValue ]."
+	
+	"When the glamour model changes, we want to update the morph"
+	aPresentation when: GLMContextChanged do: [ :ann | 
+			ann property = #selection ifTrue: [ 
+				aPresentationModel announcer suspendAllWhile: [
+					treePresenter model explicitSelection: ann value.
+					treePresenter updateSelectedNodes ] ] ].
+	aPresentation when: GLMPresentationUpdated do: [ :ann |
+		treePresenter model updateRoots ].
 	
 	"treeRenderer renderContentOn: html"
 	html render: treePresenter

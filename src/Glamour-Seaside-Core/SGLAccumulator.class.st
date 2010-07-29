@@ -27,6 +27,9 @@ SGLAccumulator >> browser [
 	browser transmit from: #one; to: #three; andShowIfNone: [:a |
 		a custom: acc ].
 	
+	browser transmit from: #one; to: #three->#entityToSelect.
+	browser transmit from: #three->#activeEntity; to: #one->#selection.
+	
 	browser transmit from: #three; to: #four; andShow: [ :a |
 		a list display: [:x| 1 to: x]	].
 

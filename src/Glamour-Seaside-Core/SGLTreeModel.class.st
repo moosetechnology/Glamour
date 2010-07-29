@@ -3,6 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'roots',
+		'filteredRoots',
 		'glamourPresentation',
 		'amountToShow',
 		'amountShown',
@@ -35,7 +36,7 @@ SGLTreeModel >> amountToShow [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #announcements }
 SGLTreeModel >> announce: anAnnouncement [
 	self announcer announce: anAnnouncement 
 ]
@@ -43,6 +44,39 @@ SGLTreeModel >> announce: anAnnouncement [
 { #category : #accessing }
 SGLTreeModel >> announcer [
 	^ announcer ifNil: [announcer := GLMAnnouncer new]
+]
+
+{ #category : #callbacks }
+SGLTreeModel >> explicitSelection: anObject [ 
+	"anObject is a domain object, not a Glamour related object"
+	self glamourPresentation isMultiple 
+		ifTrue: [ self explicitlySelectMultipleItems: anObject ]
+		ifFalse: [ self explicitlySelectItem: anObject ]
+]
+
+{ #category : #selection }
+SGLTreeModel >> explicitlySelectItem: anObject [ 
+	(self selectedItem isNil and: [ anObject isNil ]) ifTrue: [ ^ self ].
+	anObject isNil ifTrue: [self selection: nil].
+	self roots do: [:eachRoot |
+		eachRoot withContentsDo: [:each |
+			each item = anObject ifTrue: [
+				"each expandParentPath."
+				self selectNodePath: each path.
+				^ self]]]
+]
+
+{ #category : #selection }
+SGLTreeModel >> explicitlySelectMultipleItems: aCollection [
+	| newSelection collection|
+	aCollection isNil ifTrue: [^ self].
+	collection := aCollection isCollection ifTrue: [aCollection] ifFalse: [aCollection asOrderedCollection ].
+	newSelection := OrderedCollection new.
+	self roots do: [:eachRoot |
+		eachRoot withContentsDo: [:each |
+			(collection includes: each item) ifTrue: [
+				newSelection add: each path ]]].
+	self selectAllNodePaths: newSelection
 ]
 
 { #category : #accessing }
@@ -63,8 +97,8 @@ SGLTreeModel >> nodeModelFor: anObject [
 { #category : #accessing }
 SGLTreeModel >> roots [
 	roots ifNil: [ self roots: self glamourPresentation displayValue ].
-	^ roots select: [ :each | each shouldBeDisplayed ]. "This result should be chached as this method is often called"
-	
+	filteredRoots ifNil: [filteredRoots := roots select: [ :each | each shouldBeDisplayed ] ].
+	^ filteredRoots.
 ]
 
 { #category : #accessing }
@@ -75,16 +109,50 @@ SGLTreeModel >> roots: anObjectOrCollection [
 ]
 
 { #category : #selection }
+SGLTreeModel >> selectAllNodePaths: aCollectionOfNodePath [
+	(self shouldDeselect: aCollectionOfNodePath) ifTrue: [
+		 self glamourPresentation allowsDeselection 
+			ifTrue: [ 
+				self selection: (MorphTreeMorphMultipleSelection new selectedNodePathList: OrderedCollection new).
+				^ self ]
+			ifFalse: [
+				^ self "If the selection is the same don't do anything"] ].
+	self selection: (MorphTreeMorphMultipleSelection new selectedNodePathList: aCollectionOfNodePath)
+]
+
+{ #category : #selection }
+SGLTreeModel >> selectNodePath: aNodePath [
+	(self shouldDeselect: aNodePath last)  ifTrue: [
+			self glamourPresentation allowsDeselection 
+				ifTrue: [ 
+					self selection: (MorphTreeMorphSingleSelection new selectedNodePath: nil).
+					^ self ]
+				ifFalse: [
+					^ self "If the selection is the same don't do anything"] ].
+	self selection: (MorphTreeMorphSingleSelection new selectedNodePath: aNodePath)
+]
+
+{ #category : #selection }
+SGLTreeModel >> selectedItem [
+	^ self selectedNode ifNotNil: [:node | node item]
+]
+
+{ #category : #selection }
+SGLTreeModel >> selectedNode [
+	^ self selectedNodePath ifNotNil: [:path | path ifEmpty: [nil] ifNotEmpty: [path last]]
+]
+
+{ #category : #selection }
 SGLTreeModel >> selectedNodePath [
 	^ selection ifNotNil: [selection lastSelectedNodePath]
 ]
 
-{ #category : #selection }
+{ #category : #accessing }
 SGLTreeModel >> selection [ 
 	^ selection
 ]
 
-{ #category : #selection }
+{ #category : #callbacks }
 SGLTreeModel >> selection: aSelection [ 
 	self selection = aSelection ifTrue: [ ^ self ].
 	selection := aSelection.
@@ -110,7 +178,17 @@ SGLTreeModel >> shouldAllExpand: anObject [
 	shouldAllExpand := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #selection }
+SGLTreeModel >> shouldDeselect: aNodeOrACollectionOfPaths [
+	self selection ifNil: [^ false].
+	self glamourPresentation isMultiple 
+		ifTrue: [
+			^ self selection selectedNodePathList = aNodeOrACollectionOfPaths ] 
+		ifFalse: [
+			^ self selection lastSelectedNode = aNodeOrACollectionOfPaths ]
+]
+
+{ #category : #callbacks }
 SGLTreeModel >> shouldFilterByTag: aTag [
 	^ self tagsToFilterBy includes: aTag 
 ]
@@ -130,7 +208,7 @@ SGLTreeModel >> tagsToFilterBy [
 	^ tagsToFilterBy ifNil: [ tagsToFilterBy := OrderedCollection new ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #callbacks }
 SGLTreeModel >> toggleFilteringByTag: aTag [ 
 	(self shouldFilterByTag: aTag) 
 		ifTrue: [self tagsToFilterBy remove: aTag ]
@@ -140,7 +218,7 @@ SGLTreeModel >> toggleFilteringByTag: aTag [
 
 { #category : #accessing }
 SGLTreeModel >> updateRoots [
-	amountToShow := nil. "This value is cached"
-	"roots := nil."
-	"self roots"
+	amountToShow := nil.
+	filteredRoots := nil.
+	self roots
 ]

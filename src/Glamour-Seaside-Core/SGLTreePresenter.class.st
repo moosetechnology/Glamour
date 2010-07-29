@@ -15,17 +15,16 @@ SGLTreePresenter class >> for: aModel with: aRenderer [
 ]
 
 { #category : #selection }
-SGLTreePresenter >> explicitSelection: anObject from: aPresentationModel [
-	"anObject is a node or a collection of nodes"
-	aPresentationModel glamourPresentation isMultiple 
+SGLTreePresenter >> explicitSelection: aNodeOrCollection [
+	self model glamourPresentation isMultiple 
 		ifTrue: [ 
 			|nodesPaths|
 			nodesPaths := OrderedCollection new.
-			anObject isCollection 
-				ifTrue: [ anObject do: [:each | nodesPaths add: each path ] ] 
-				ifFalse: [nodesPaths add: anObject path]. 
-			aPresentationModel selection: (MorphTreeMorphMultipleSelection new selectedNodePathList: nodesPaths ) ]
-		ifFalse: [ aPresentationModel selection: (MorphTreeMorphSingleSelection new selectedNodePath: anObject path). ]
+			aNodeOrCollection isCollection 
+				ifTrue: [ aNodeOrCollection do: [:each | nodesPaths add: each path ] ] 
+				ifFalse: [nodesPaths add: aNodeOrCollection path]. 
+			self model selectAllNodePaths: nodesPaths ]
+		ifFalse: [ self model selectNodePath: aNodeOrCollection path]
 ]
 
 { #category : #accessing }
@@ -45,16 +44,20 @@ SGLTreePresenter >> initializeFor: aModel with: aRenderer [
 	renderer := aRenderer
 ]
 
+{ #category : #accessing }
+SGLTreePresenter >> model [
+	^ model
+]
+
 { #category : #actions }
 SGLTreePresenter >> onClickActionForAppendButtonOn: html [
 	^ html jQuery ajax
 		script: [ :s | 
-			(model roots size > model amountShown) 
+			(self model roots size > self model amountShown) 
 				ifTrue: [ "Load the required elements"
 					s << (  (s jQuery id: self htmlId) children: '.glm-tree-root-ct' ) 
 						append: [:h |
-							self renderRootNodesBeginningWith: model amountShown+1 on: h ] ] .
-			(model roots size > model amountShown) 
+							self renderRootNodesBeginningWith: self model amountShown+1 on: h ] ] 
 				ifFalse: [  "Disable the button for loading content"
 					s << ( (s jQuery id: self htmlId) children: '.glm-tree-append-button'  ) attributeAt: 'disabled' put: true ].
 			s << (JSStream new 
@@ -107,7 +110,7 @@ SGLTreePresenter >> renderContentOn: html [
 		id: self htmlId;
 		with: [
 			self renderInitialRootNodesOn: html.
-			(model roots size > model amountShown) ifTrue: [ "Add a button for loading the remaining elements"
+			(self model roots size > self model amountShown) ifTrue: [ "Add a button for loading the remaining elements"
 				self renderAppendButtonOn: html ] ]
 ]
 
@@ -174,17 +177,17 @@ SGLTreePresenter >> renderRootNodesBeginningWith: startIndex on: html [
 	"Render the first 'amountToShow' elements starting from the one with the index 'startIndex'"
 	
 	|endIndex nodes|
-	nodes := model roots.
-	(startIndex == 1 and: [model amountShown ~= 0 ] ) 
-		ifTrue: [ endIndex  := model amountShown min: model roots size ] 
-		ifFalse: [ endIndex := startIndex+model amountToShow-1 ].
+	nodes := self model roots.
+	(startIndex == 1 and: [ self model amountShown ~= 0 ] ) 
+		ifTrue: [ endIndex  := self model amountShown min: self model roots size ] 
+		ifFalse: [ endIndex := startIndex+self model amountToShow-1 ].
 	(startIndex to: endIndex) do: [ :each |   
 			self renderNode: (nodes at: each)  fromLevel: 0 on: html ].
-	(startIndex == 1 and: [model amountShown ~= 0 ] ) 
+	(startIndex == 1 and: [self model amountShown ~= 0 ] ) 
 		ifTrue: [
-			 model amountShown: (model amountShown max: endIndex) ]  
+			 self model amountShown: (self model amountShown max: endIndex) ]  
 		ifFalse: [
-			model amountShown: model amountToShow + model amountShown ] 
+			self model amountShown: self model amountToShow + self model amountShown ] 
 ]
 
 { #category : #rendering }
@@ -215,21 +218,22 @@ SGLTreePresenter >> renderer [
 ]
 
 { #category : #updating }
-SGLTreePresenter >> updateSelectedNodesFrom: aPresentationModel [
-	self renderer scriptFor: aPresentationModel glamourPresentation add: (
+SGLTreePresenter >> updateSelectedNodes [
+	self renderer scriptFor: self model glamourPresentation add: (
 		JSStream new 
 			nextPutAll:  'Glamour.tree.deselectAll'; 
 			argument: self htmlId).
-	aPresentationModel selection selectedNodes do: [:each | 
-		self renderer scriptFor: aPresentationModel glamourPresentation add: (
-			JSStream new 
-				nextPutAll:  'Glamour.tree.selectNode'; 
-				argument: each htmlId ) ]
+	self model selection ifNotNil: [ self model selection selectedNodes do: [:each |
+		each ifNotNil: [ 
+			self renderer scriptFor: self model glamourPresentation add: (
+				JSStream new 
+					nextPutAll:  'Glamour.tree.selectNode'; 
+					argument: each htmlId ) ] ] ]
 ]
 
 { #category : #updating }
 SGLTreePresenter >> updateSelectionWithNode: aNode on: aScript [
-	self explicitSelection: aNode from: aNode containerTree.
-	self updateSelectedNodesFrom: aNode containerTree.
+	self explicitSelection: aNode.
+	self updateSelectedNodes.
 	self renderer updateScript: aScript
 ]
