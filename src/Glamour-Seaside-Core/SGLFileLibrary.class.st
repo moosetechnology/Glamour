@@ -11,7 +11,120 @@ SGLFileLibrary >> arrowsPng [
 
 { #category : #uploaded }
 SGLFileLibrary >> glamourSeasideJs [
-	^ '	var Glamour = {};
+	^ '	
+	
+	; ( function($) {
+		$.fn.glamourTree = function(action, options) {
+			var opts = options;
+			
+			return this.each( function() {
+				var childrenSelector;
+				var childrenCount = 0;
+				var rootList = $(this).closest(".glm-tree-root-ct")[0];
+
+				switch (action) {
+					case "initialize": {
+						
+						childrenSelector = initializeOperation(this, rootList, opts);
+						break;
+					}
+					
+					case "update": {
+						
+						childrenSelector = updateOperation(this, rootList, opts);
+						
+						break;
+					}
+					
+					default: {
+						return ;
+					}
+				}
+				
+				$(this).children(childrenSelector).each( function() {
+					var $node = $(this);
+					var $content = $node.find(":first");
+					
+					childrenCount++;
+					addPadding($content, opts.level);
+					addIcon($content, $node);
+					
+					// Submit a request when the user selects a node.
+					$content.bind("click", function() {
+						opts.onSelect($node);
+						return false;
+					})
+					
+					$content.children(".glm-tree-icon").bind("click", function() {						
+						opts.onExpandToggled($node);
+						toggleClass($node);
+						return false;
+					});
+				});
+				
+				$.data(this, "childrenCount",  $.data(this, "childrenCount") + childrenCount );
+		
+			});
+		};
+		
+		function initializeOperation(list, rootList, opts) {
+									
+			if ( opts.level > 0 ) {
+				addCallbacks(rootList, opts);
+			} else {
+				$.data(list, "onSelect", opts.onSelect);
+				$.data(list, "onExpandToggled", opts.onExpandToggled);				
+			}
+			$.data(list, "childrenCount", 0);
+			return ".glm-tree-node";
+		}
+		
+		function updateOperation(list, rootList, opts) {
+			addCallbacks(rootList, opts);
+			
+			return ".glm-tree-node:gt(" + ( $.data(list, "childrenCount") - 1) + ")";
+		}
+		
+		function addCallbacks(rootList, opts) {
+			if ( typeof opts.onSelect === "undefined" ) {
+				opts.onSelect = $.data(rootList, "onSelect");
+			}
+			if ( typeof opts.onExpandToggled === "undefined" ) {
+				opts.onExpandToggled = $.data(rootList, "onExpandToggled");
+			}
+		}
+		
+		function addPadding($nodeContent, level) {
+			var padding = "";
+			
+			for (var index = 0; index < level; index++) {
+				padding += "<ins class=\"glm-tree-icon-padding\">&nbsp</ins>";
+			}
+			$nodeContent.find(":first").before("<span>"+padding+"</span>");
+		}
+		
+		function addIcon($nodeContent, $node) {
+			if ( $node.hasClass("glm-tree-leaf") == false ) {
+				$nodeContent.children(":eq(1)").before("<ins class=\"glm-tree-icon\">&nbsp;</ins>");
+			}
+		}
+		
+		function toggleClass($node) {
+			if ( $node.hasClass("glm-tree-open") ) {
+				$node.removeClass("glm-tree-open");
+				$node.addClass("glm-tree-closed");
+				$node.children(".glm-tree-node-ct").hide();
+			} else if ( $node.hasClass("glm-tree-closed")  ) {
+				$node.removeClass("glm-tree-closed");
+				$node.addClass("glm-tree-open");
+				$node.children(".glm-tree-node-ct").show();
+			};
+		}
+		
+	} ) (jQuery);
+		
+		
+	var Glamour = {};
 	
 	Glamour.resize = function() {
 		$("body > .sgl-table, body > .finder-container").each(function() {
@@ -19,9 +132,6 @@ SGLFileLibrary >> glamourSeasideJs [
 		});
 	};
 
-	Glamour.disableClickEvent = function(id) {
-		document.getElementById(id).onclick = null;
-	};
 
 	Glamour.tree = {};
 	
@@ -32,58 +142,6 @@ SGLFileLibrary >> glamourSeasideJs [
 	Glamour.tree.selectNode = function(nodeId) {
 		$("#"+nodeId).addClass("glm-tree-node-selected");
 	}; 
-	
-	Glamour.tree.bindEvents = function(listId, level) {
-		var padding = "";
-		
-		// Create a padding
-		for (var index = 0; index < level; index++) {
-			padding += "<ins class=\"glm-tree-icon-padding\">&nbsp</ins>";
-		}
-		
-		// Bind the events
-		$("#"+listId+" > .glm-tree-node > .glm-tree-node-el").bind("click", function(){
-			var parent = $(this).parent();
-			
-			Glamour.tree.collapsible(parent);
-			// Glamour.tree.selection(parent);
-		}).find(":first").before("<span>"+padding+"</span>").before(Glamour.tree.icon) ; 
-	}
-	
-	Glamour.tree.addRootIcon = function(listSelector) {
-		$(listSelector+" > .glm-tree-node > .glm-tree-node-el").find(":first").before(function() {
-			if ( $(this).parent().children("ins").size() == 0 && $(this).parent().parent().hasClass("glm-tree-leaf") == false )
-				return "<span></span>" + Glamour.tree.icon();
-		}) ; 
-	}
-	
-	Glamour.tree.icon = function() {
-		
-		if (  $(this).parent().parent().hasClass("glm-tree-leaf") == false ) {
-			return  "<ins class=\"glm-tree-icon\">&nbsp;</ins>";
-		}
-	}
-	
-	Glamour.tree.selection = function(element) {
-		element.addClass("glm-tree-node-selected");
-		if (typeof Glamour.tree.selectedId !== "undefined" && Glamour.tree.selectedId !== element.attr("id") ) {
-			$("#"+Glamour.tree.selectedId).removeClass("glm-tree-node-selected");
-		} 
-		
-		Glamour.tree.selectedId = element.attr("id");
-	}
-	
-	Glamour.tree.collapsible = function(element) {
-		if ( element.hasClass("glm-tree-open") ) {
-			element.removeClass("glm-tree-open");
-			element.addClass("glm-tree-closed");
-			element.children(".glm-tree-node-ct").hide();
-		} else if ( element.hasClass("glm-tree-closed")  ) {
-			element.removeClass("glm-tree-closed");
-			element.addClass("glm-tree-open");
-			element.children(".glm-tree-node-ct").show();
-		}
-	};
 
 $(Glamour.resize);
 $(window).resize(Glamour.resize);'

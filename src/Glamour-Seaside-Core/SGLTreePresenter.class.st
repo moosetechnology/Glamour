@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'renderer',
 		'model',
-		'htmlId'
+		'htmlId',
+		'nodesId'
 	],
 	#category : #'Glamour-Seaside-Core'
 }
@@ -12,6 +13,11 @@ Class {
 { #category : #'instance creation' }
 SGLTreePresenter class >> for: aModel with: aRenderer [
 	^ self basicNew initializeFor: aModel with: aRenderer 
+]
+
+{ #category : #accessing }
+SGLTreePresenter >> associateId: anId forNode: aNode [
+	nodesId at: anId ifAbsentPut: [aNode] 
 ]
 
 { #category : #selection }
@@ -38,6 +44,11 @@ SGLTreePresenter >> htmlId: anObject [
 ]
 
 { #category : #initialization }
+SGLTreePresenter >> initialize [
+	nodesId := Dictionary new
+]
+
+{ #category : #initialization }
 SGLTreePresenter >> initializeFor: aModel with: aRenderer [
 	self initialize.
 	model := aModel.
@@ -47,6 +58,11 @@ SGLTreePresenter >> initializeFor: aModel with: aRenderer [
 { #category : #accessing }
 SGLTreePresenter >> model [
 	^ model
+]
+
+{ #category : #accessing }
+SGLTreePresenter >> nodeForId: anId [
+	^ nodesId at: anId 
 ]
 
 { #category : #actions }
@@ -60,29 +76,7 @@ SGLTreePresenter >> onClickActionForAppendButtonOn: html [
 							self renderRootNodesBeginningWith: self model amountShown+1 on: h ] ] 
 				ifFalse: [  "Disable the button for loading content"
 					s << ( (s jQuery id: self htmlId) children: '.glm-tree-append-button'  ) attributeAt: 'disabled' put: true ].
-			s << (JSStream new 
-				nextPutAll: 'Glamour.tree.addRootIcon'; 
-				arguments: (Array with: '#', self htmlId,  ' > .glm-tree-root-ct' with: 0 ) ) ] 
-]
-
-{ #category : #actions }
-SGLTreePresenter >> onClickActionForNode: aNode withContent: aBlock on: html [
-	|rendered|
-	rendered := aNode contents size > 0 and: [ aNode expanded ].
-	
-	^ html jQuery ajax script: [:s | 
-		rendered "Render the node childrens or just update the model"
-			ifTrue: [
-				aNode expanded 
-					ifTrue: [aNode expanded: false] 
-					ifFalse: [aNode expanded: true] ] 
-			ifFalse: [
-				s << aBlock value.
-				aNode expanded: true.
-				rendered := true ].
-		"Update the selection load the modifications"
-		self updateSelectionWithNode: aNode on: s ] 
-
+			s << ( (html jQuery expression: '#', self htmlId, ' > .glm-tree-root-ct' ) glamourTree update; level: 0 ) ] 
 ]
 
 { #category : #actions }
@@ -92,6 +86,38 @@ SGLTreePresenter >> onClickActionForTag: aTag of: aNode on: html [
 		s << ( html jQuery id: (self renderer uuidFor: aNode containerTree glamourPresentation ) )
 			replaceWith: [ :h |
 				self renderContentOn: h ] ] 
+]
+
+{ #category : #actions }
+SGLTreePresenter >> onExpandActionForANodeOn: html [
+	|aNode|
+	
+	^ html jQuery ajax 
+		script: [:s | 
+			aNode rendered "Render the children"
+				ifTrue: [ aNode toggleSelection ]
+				ifFalse: [
+					s << ((html jQuery id: aNode htmlId ) append: [:h | 
+						self renderNodes: aNode contents asListFromLevel: aNode path size on: h ]).
+					aNode expanded: true.
+					aNode rendered: true ].
+				self updateSelectionWithNode: aNode on: s ] ;
+		callback: [ :nodeId |
+			aNode := self nodeForId: nodeId ] value:  (JSStream on: '$node.attr("id")')
+]
+
+{ #category : #actions }
+SGLTreePresenter >> onSelectActionForANodeOn: html [
+	|aNode|
+	^ html jQuery ajax 
+		script: [:s | 
+			aNode rendered
+				ifTrue: [ aNode toggleSelection ].
+			"Update the selection load the modifications"
+			aNode inspect.
+			self updateSelectionWithNode: aNode on: s ] ;
+		callback: [ :nodeId |
+			aNode := self nodeForId: nodeId ] value:  (JSStream on: '$node.attr("id")')
 ]
 
 { #category : #rendering }
@@ -118,45 +144,47 @@ SGLTreePresenter >> renderContentOn: html [
 SGLTreePresenter >> renderInitialRootNodesOn: html [
 	|listId|
 	listId := html nextId.
+	Transcript show: (html jQuery new glamourTree init) asString; cr. 
 	html unorderedList   
 		class: 'glm-tree-root-ct';
 		id: listId;
-		script:  (JSStream new 
+		script: ( html jQuery new glamourTree 
+			init; 
+			level: 0;
+			onSelect: (self onSelectActionForANodeOn: html) ;
+			onExpandToggled: (self onExpandActionForANodeOn: html) );
+		"script:  (JSStream new 
 			nextPutAll: 'Glamour.tree.bindEvents'; 
-			arguments: (Array with: listId with: 0 ) );
+			arguments: (Array with: listId with: 0 ) );"
 		with: [ self renderRootNodesBeginningWith: 1 on: html ]
 ]
 
 { #category : #rendering }
 SGLTreePresenter >> renderNode: aNode fromLevel: level on: html [
-	|childrens|
+	|children|
 	aNode htmlId: html nextId.
-	childrens := aNode contents.
+	self associateId: aNode htmlId forNode: aNode.
+	children := aNode contents.
 	html listItem  
 		id: aNode htmlId;  
 		class: 'glm-tree-node';
-		class: 'glm-tree-leaf' if: childrens size == 0;
-		class: 'glm-tree-open' if: (childrens size > 0 and: [aNode expanded]);
-		class: 'glm-tree-closed' if: (childrens size > 0 and: [aNode expanded not]);
+		class: 'glm-tree-leaf' if: children size == 0;
+		class: 'glm-tree-open' if: (children size > 0 and: [aNode expanded]);
+		class: 'glm-tree-closed' if: (children size > 0 and: [aNode expanded not]);
 		with: [
-			self renderNodeTitleFor: aNode 
-				withContent: [
-					(html jQuery id: aNode htmlId) append: [:h | 
-						self renderNodes: childrens asListFromLevel: level+1 on: h ] ]
-				on: html.
-			(childrens size > 0 and: [ aNode expanded] ) ifTrue: [ 
-				self renderNodes: childrens asListFromLevel: level+1 on: html ] ]
+			self renderNodeTitleFor: aNode on: html.
+			(children size > 0 and: [ aNode expanded ] ) ifTrue: [ 
+				self renderNodes: children asListFromLevel: level+1 on: html.
+				aNode rendered: true. ] ]
 ]
 
 { #category : #rendering }
-SGLTreePresenter >> renderNodeTitleFor: aNode withContent: aBlock on: html [
+SGLTreePresenter >> renderNodeTitleFor: aNode on: html [
 	html div
 		class: 'glm-tree-node-el';
-		onClick: (self onClickActionForNode: aNode withContent: aBlock on: html) ;
 		with: [ 
 			html span with: [
-				html span
-					with: aNode displayText. 
+				html span: aNode displayText. 
 				self renderTagsOf: aNode on: html ] ]
 ]
 
@@ -164,9 +192,7 @@ SGLTreePresenter >> renderNodeTitleFor: aNode withContent: aBlock on: html [
 SGLTreePresenter >> renderNodes: nodes asListFromLevel: level on: html [
 	html unorderedList 
 		id: html nextId;
-		script: (JSStream new 
-					nextPutAll: 'Glamour.tree.bindEvents'; 
-					arguments: (Array with: html lastId with: level ) );
+		script: ( html jQuery new glamourTree init; level: level );
 		class: 'glm-tree-node-ct';
 		with: [ nodes do: [:each | 
 			self renderNode: each fromLevel: level on: html ] ]

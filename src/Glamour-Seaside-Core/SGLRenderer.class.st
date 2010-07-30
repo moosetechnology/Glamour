@@ -47,7 +47,7 @@ SGLRenderer >> renderAccordionCompositePresentation: aCompositePresentation [
 	presentations withIndexDo: [ :each :i | 
 		aCompositePresentation pane lastActivePresentation notNil and: [ 
 			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
-
+	Transcript show:  (html jQuery new accordion activate: 1; onChange: 'a';resize; animated: false; clearStyle: true; active: index-1) asString; cr .
 	html div
 		class: 'accordion-arrangement';
   	      script: (html jQuery new accordion animated: false; clearStyle: true; active: index-1);

@@ -63,13 +63,12 @@ SGLTreeNodeModel >> expanded: aBoolean [
 
 { #category : #accessing }
 SGLTreeNodeModel >> htmlId [
-	^ htmlId 
+	^ htmlId
 ]
 
 { #category : #accessing }
-SGLTreeNodeModel >> htmlId: anId [
-	htmlId := anId 
-
+SGLTreeNodeModel >> htmlId: anObject [
+	htmlId := anObject
 ]
 
 { #category : #'as yet unclassified' }
@@ -105,6 +104,16 @@ SGLTreeNodeModel >> path [
 	^ aCollection
 ]
 
+{ #category : #accessing }
+SGLTreeNodeModel >> rendered [
+	^ rendered ifNil: [rendered := false]
+]
+
+{ #category : #accessing }
+SGLTreeNodeModel >> rendered: anObject [
+	rendered := anObject
+]
+
 { #category : #'as yet unclassified' }
 SGLTreeNodeModel >> shouldBeDisplayed [
 	^ self shouldBeDisplayedByTags
@@ -119,6 +128,13 @@ SGLTreeNodeModel >> shouldBeDisplayedByTags [
 		(self containerTree tagsToFilterBy allSatisfy: [ :each | nodeTags includes: each ])
 			ifTrue: [ ^ true ] ].
 	^ false
+]
+
+{ #category : #'as yet unclassified' }
+SGLTreeNodeModel >> toggleSelection [
+	self expanded 
+		ifTrue: [self expanded: false] 
+		ifFalse: [self expanded: true]
 ]
 
 { #category : #'as yet unclassified' }
