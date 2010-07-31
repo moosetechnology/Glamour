@@ -4,17 +4,17 @@ Class {
 	#category : #'Glamour-Seaside-Examples'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 SGLTreeWithExpansion class >> initialize [
 	self registerAsApplication: 'glamour/basicExamples/treeWithExpansion'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLTreeWithExpansion >> browser [
 	^ GLMBasicExamples new treeWithExpansion
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLTreeWithExpansion >> model [
 	^ #(($a $b $c $d) ($e $f) ($g $h $i $j ($l $m $n)))
 ]

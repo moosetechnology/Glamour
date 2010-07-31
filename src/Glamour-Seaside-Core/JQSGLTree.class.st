@@ -10,6 +10,11 @@ JQSGLTree >> init [
 ]
 
 { #category : #'as yet unclassified' }
+JQSGLTree >> isMultiple: aBoolean [
+	self optionAt: 'isMultiple' put: aBoolean
+]
+
+{ #category : #'as yet unclassified' }
 JQSGLTree >> level: anInteger [
 	self optionAt: 'level' put: anInteger
 ]
@@ -26,7 +31,7 @@ JQSGLTree >> onExpandToggled: anObject [
 
 { #category : #'as yet unclassified' }
 JQSGLTree >> onSelect: anObject [
-	self optionAt: 'onSelect' put: (anObject asFunction: #('$node'))
+	self optionAt: 'onSelect' put:  (anObject asFunction: #('$anIdOrAList'))
 ]
 
 { #category : #'as yet unclassified' }

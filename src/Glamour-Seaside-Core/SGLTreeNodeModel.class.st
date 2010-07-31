@@ -131,7 +131,7 @@ SGLTreeNodeModel >> shouldBeDisplayedByTags [
 ]
 
 { #category : #'as yet unclassified' }
-SGLTreeNodeModel >> toggleSelection [
+SGLTreeNodeModel >> toggleExpansion [
 	self expanded 
 		ifTrue: [self expanded: false] 
 		ifFalse: [self expanded: true]

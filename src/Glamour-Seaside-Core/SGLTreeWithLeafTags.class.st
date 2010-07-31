@@ -16,6 +16,7 @@ SGLTreeWithLeafTags >> browser [
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser tree
+			beMultiple;
 			title: 'No expansion';
 			tags: [:each | 
 				each isNumber 

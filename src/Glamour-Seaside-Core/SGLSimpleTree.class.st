@@ -6,7 +6,7 @@ Class {
 
 { #category : #'as yet unclassified' }
 SGLSimpleTree class >> initialize [
-	self registerAsApplication: 'glamour/tabulator/simpleTreePresentation'
+	self registerAsApplication: 'glamour/tree/simpleTreePresentation'
 ]
 
 { #category : #'as yet unclassified' }

@@ -89,35 +89,36 @@ SGLTreePresenter >> onClickActionForTag: aTag of: aNode on: html [
 ]
 
 { #category : #actions }
-SGLTreePresenter >> onExpandActionForANodeOn: html [
-	|aNode|
-	
+SGLTreePresenter >> onExpandToggledActionForANodeOn: html [
 	^ html jQuery ajax 
 		script: [:s | 
-			aNode rendered "Render the children"
-				ifTrue: [ aNode toggleSelection ]
-				ifFalse: [
-					s << ((html jQuery id: aNode htmlId ) append: [:h | 
-						self renderNodes: aNode contents asListFromLevel: aNode path size on: h ]).
-					aNode expanded: true.
-					aNode rendered: true ].
-				self updateSelectionWithNode: aNode on: s ] ;
+			self renderer updateScript: s ] ;
 		callback: [ :nodeId |
-			aNode := self nodeForId: nodeId ] value:  (JSStream on: '$node.attr("id")')
+			|aNode|
+			aNode := self nodeForId: nodeId.
+			aNode rendered "Render the children and update the model"
+				ifTrue: [ aNode toggleExpansion ]
+				ifFalse: [
+					self renderer scriptFor: self model glamourPresentation add: (
+						(html jQuery id: aNode htmlId ) append: [:h | 
+							self renderNodes: aNode contents asListFromLevel: aNode path size on: h ]).
+					aNode expanded: true.
+					aNode rendered: true ] ] value:  (JSStream on: '$node.attr("id")')
 ]
 
 { #category : #actions }
 SGLTreePresenter >> onSelectActionForANodeOn: html [
-	|aNode|
 	^ html jQuery ajax 
 		script: [:s | 
-			aNode rendered
-				ifTrue: [ aNode toggleSelection ].
-			"Update the selection load the modifications"
-			aNode inspect.
-			self updateSelectionWithNode: aNode on: s ] ;
-		callback: [ :nodeId |
-			aNode := self nodeForId: nodeId ] value:  (JSStream on: '$node.attr("id")')
+			self renderer updateScript: s ] ;
+		callback: [ :value |
+			|nodes|
+			nodes := ( value contents findTokens: $, ) collect: [:each | 
+				self nodeForId: each].
+			(nodes size == 1) 
+				ifTrue: [self explicitSelection: (nodes at: 1) ]
+				ifFalse:  [self explicitSelection: nodes].
+			self updateSelectedNodes ] value:  (JSStream on: '$anIdOrAList')
 ]
 
 { #category : #rendering }
@@ -144,18 +145,15 @@ SGLTreePresenter >> renderContentOn: html [
 SGLTreePresenter >> renderInitialRootNodesOn: html [
 	|listId|
 	listId := html nextId.
-	Transcript show: (html jQuery new glamourTree init) asString; cr. 
 	html unorderedList   
 		class: 'glm-tree-root-ct';
 		id: listId;
 		script: ( html jQuery new glamourTree 
 			init; 
 			level: 0;
-			onSelect: (self onSelectActionForANodeOn: html) ;
-			onExpandToggled: (self onExpandActionForANodeOn: html) );
-		"script:  (JSStream new 
-			nextPutAll: 'Glamour.tree.bindEvents'; 
-			arguments: (Array with: listId with: 0 ) );"
+			isMultiple: self model glamourPresentation isMultiple;
+			onSelect: (self onSelectActionForANodeOn: html);
+			onExpandToggled: (self onExpandToggledActionForANodeOn: html) );
 		with: [ self renderRootNodesBeginningWith: 1 on: html ]
 ]
 
@@ -167,6 +165,7 @@ SGLTreePresenter >> renderNode: aNode fromLevel: level on: html [
 	children := aNode contents.
 	html listItem  
 		id: aNode htmlId;  
+		class: 'glm-tree-node-selected' if: ( self model selection notNil and: [ (self model selection selectedNodes indexOf: aNode) > 0] );
 		class: 'glm-tree-node';
 		class: 'glm-tree-leaf' if: children size == 0;
 		class: 'glm-tree-open' if: (children size > 0 and: [aNode expanded]);

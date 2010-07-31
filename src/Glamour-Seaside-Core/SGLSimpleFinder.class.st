@@ -1,15 +1,15 @@
 Class {
 	#name : #SGLSimpleFinder,
 	#superclass : #SGLComponent,
-	#category : #'Glamour-Seaside-Examples'
+	#category : #'Glamour-Seaside-Examples-Dev'
 }
 
 { #category : #initialization }
 SGLSimpleFinder class >> initialize [
-	self registerAsApplication: 'glamour/basicExamples/simpleFinder'
+	self registerAsApplication: 'glamour/finder/simpleFinder'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLSimpleFinder >> browser [
 	| finder |
 	finder := GLMFinder new.
@@ -21,7 +21,7 @@ SGLSimpleFinder >> browser [
 	^finder.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLSimpleFinder >> model [
 	^100
 ]

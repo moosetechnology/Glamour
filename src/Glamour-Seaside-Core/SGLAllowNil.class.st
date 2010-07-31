@@ -9,12 +9,12 @@ SGLAllowNil class >> initialize [
 	self registerAsApplication: 'glamour/basicExamples/allowNill'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLAllowNil >> browser [
 	^GLMBasicExamples new allowNil 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLAllowNil >> model [
 	^ 42
 ]

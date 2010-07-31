@@ -12,27 +12,22 @@ SGLFileLibrary >> arrowsPng [
 { #category : #uploaded }
 SGLFileLibrary >> glamourSeasideJs [
 	^ '	
-	
 	; ( function($) {
 		$.fn.glamourTree = function(action, options) {
-			var opts = options;
+			var opts;
 			
 			return this.each( function() {
-				var childrenSelector;
 				var childrenCount = 0;
 				var rootList = $(this).closest(".glm-tree-root-ct")[0];
 
 				switch (action) {
 					case "initialize": {
-						
-						childrenSelector = initializeOperation(this, rootList, opts);
+						opts = initializeOperation(this, rootList, options);
 						break;
 					}
 					
 					case "update": {
-						
-						childrenSelector = updateOperation(this, rootList, opts);
-						
+						opts = updateOperation(this, rootList, options);
 						break;
 					}
 					
@@ -41,7 +36,7 @@ SGLFileLibrary >> glamourSeasideJs [
 					}
 				}
 				
-				$(this).children(childrenSelector).each( function() {
+				$(this).children(opts.childrenSelector).each( function() {
 					var $node = $(this);
 					var $content = $node.find(":first");
 					
@@ -50,11 +45,32 @@ SGLFileLibrary >> glamourSeasideJs [
 					addIcon($content, $node);
 					
 					// Submit a request when the user selects a node.
-					$content.bind("click", function() {
-						opts.onSelect($node);
-						return false;
-					})
+					$content.bind("click", function(e) {
+						var $selectedNode = $.data(rootList, "selectedNode");
+						var $allNodeChildren;
 					
+						if ( e.shiftKey && opts.isMultiple ) {
+							if ($selectedNode) {
+								$allNodeChildren = $("#"+$(rootList).attr("id")+" .glm-tree-node");
+								
+								"Obtain a list with all the selected nodes and send it to the server"
+								if ( $allNodeChildren.index($selectedNode) < $allNodeChildren.index($node) ) {
+									opts.onSelect(selectNodes($selectedNode, $node));
+								} else {
+									opts.onSelect(selectNodes($node, $selectedNode));									
+								}
+								
+							} else {
+								selectNode($node, rootList, opts);
+							}
+						} else {
+							selectNode($node, rootList, opts);
+						}
+						
+						return false;
+					});
+					
+					// Submit a request when the uses expands/collapses a node.
 					$content.children(".glm-tree-icon").bind("click", function() {						
 						opts.onExpandToggled($node);
 						toggleClass($node);
@@ -63,36 +79,71 @@ SGLFileLibrary >> glamourSeasideJs [
 				});
 				
 				$.data(this, "childrenCount",  $.data(this, "childrenCount") + childrenCount );
-		
 			});
 		};
 		
-		function initializeOperation(list, rootList, opts) {
-									
-			if ( opts.level > 0 ) {
-				addCallbacks(rootList, opts);
-			} else {
-				$.data(list, "onSelect", opts.onSelect);
-				$.data(list, "onExpandToggled", opts.onExpandToggled);				
-			}
-			$.data(list, "childrenCount", 0);
-			return ".glm-tree-node";
-		}
+		$.fn.glamourTree.defaults = {
+			"level" :0 ,
+			"childrenSelector" : ".glm-tree-node",
+			"isMultiple" : false
+		};
 		
-		function updateOperation(list, rootList, opts) {
-			addCallbacks(rootList, opts);
+		function selectNodes($fromNode, $toNode) {
+			var fromId = $fromNode.attr("id");
+			var toId = $toNode.attr("id");
+			var selectedNodes = ""+fromId;
+			var $childrenList, $nextSibling, $parent;
 			
-			return ".glm-tree-node:gt(" + ( $.data(list, "childrenCount") - 1) + ")";
-		}
+			while (fromId != toId) {
+				
+				$childrenList = $("#"+fromId).children(".glm-tree-node-ct:visible");
+				if ( $childrenList.size() > 0 ) {
+					fromId = $childrenList.children(":eq(0)").attr("id");
+					selectedNodes += ","+fromId;
+					continue;
+				}
+				
+				$nextSibling = $("#"+fromId).next();
+				if ( $nextSibling.size() > 0 ) {
+					fromId = $nextSibling.attr("id");
+					selectedNodes += ","+fromId;
+					continue;
+				} else {
+					$parent = $("#"+fromId).parent().parent();
+					while ( $parent.next().size() == 0 ) {
+						$parent = $parent.parent().parent();
+					}
+					fromId = $parent.next().attr("id");
+					selectedNodes += ","+fromId;
+				}
+			}
+			
+			return selectedNodes;
+		};
 		
-		function addCallbacks(rootList, opts) {
-			if ( typeof opts.onSelect === "undefined" ) {
-				opts.onSelect = $.data(rootList, "onSelect");
-			}
-			if ( typeof opts.onExpandToggled === "undefined" ) {
-				opts.onExpandToggled = $.data(rootList, "onExpandToggled");
-			}
-		}
+		function selectNode($node, rootList, opts) {
+			$.data(rootList, "selectedNode", $node);
+			opts.onSelect($node.attr("id"));
+		};
+		
+		function initializeOperation(list, rootList, options) {
+			var savedOpts = $.data(rootList, "options");
+			var opts =  $.extend({}, $.fn.glamourTree.defaults, savedOpts, options);
+				
+			if ( savedOpts == null ) {
+				$.data(rootList, "options", opts);
+			 }
+			$.data(list, "childrenCount", 0);
+			return opts;
+		};
+		
+		function updateOperation(list, rootList, options) {
+			var savedOpts = $.data(rootList, "options");
+			var opts = $.extend({},  savedOpts, options);
+
+			opts.childrenSelector = ".glm-tree-node:gt(" + ( $.data(list, "childrenCount") - 1) + ")";
+			return opts;
+		};
 		
 		function addPadding($nodeContent, level) {
 			var padding = "";
@@ -101,13 +152,13 @@ SGLFileLibrary >> glamourSeasideJs [
 				padding += "<ins class=\"glm-tree-icon-padding\">&nbsp</ins>";
 			}
 			$nodeContent.find(":first").before("<span>"+padding+"</span>");
-		}
+		};
 		
 		function addIcon($nodeContent, $node) {
 			if ( $node.hasClass("glm-tree-leaf") == false ) {
 				$nodeContent.children(":eq(1)").before("<ins class=\"glm-tree-icon\">&nbsp;</ins>");
 			}
-		}
+		};
 		
 		function toggleClass($node) {
 			if ( $node.hasClass("glm-tree-open") ) {
@@ -118,8 +169,8 @@ SGLFileLibrary >> glamourSeasideJs [
 				$node.removeClass("glm-tree-closed");
 				$node.addClass("glm-tree-open");
 				$node.children(".glm-tree-node-ct").show();
-			};
-		}
+			}
+		};
 		
 	} ) (jQuery);
 		

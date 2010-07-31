@@ -9,12 +9,12 @@ SGLDifferentComposites class >> initialize [
 	self registerAsApplication: 'glamour/basicExamples/differentComposites'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLDifferentComposites >> browser [
 	^GLMBasicExamples new differentComposites
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLDifferentComposites >> model [
 	^ (1 to: 100)
 ]
