@@ -43,8 +43,8 @@ ConfigurationOfGlamourSeaside >> default: spec [
 		spec blessing: #baseline.
 		spec repository: 'http://www.squeaksource.com/Glamour'.
 		spec package: 'Glamour-Seaside'.
-		spec package: 'JQWidgetBox-Core-Libraries' with: [spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
-		spec package: 'JQWidgetBox-Dev-Libraries' with: [spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
+		spec package: 'JQWidgetBox-Core' with: [spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
+		spec package: 'JQWidgetBox-Dev' with: [spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
 		spec package: 'JQWidgetBox-MbMenu-Core' with: [spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
 		spec group: 'Core' with: #(
 						'Glamour-Seaside'
