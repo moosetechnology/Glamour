@@ -58,7 +58,7 @@ ConfigurationOfGlamourSeaside >> default: spec [
 						'Glamour-Seaside'
 						'JQWidgetBox-Core'
 						'JQWidgetBox-MbMenu-Core'
-						JQWidgetBox-HoverIntent-Core).
+						'JQWidgetBox-HoverIntent-Core').
 "		spec group: 'Tests' with: #(
 						'Glamour-Tests'). 
 "		spec
