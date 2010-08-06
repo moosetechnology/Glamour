@@ -48,8 +48,8 @@ ConfigurationOfGlamourSeaside >> default: spec [
 		spec package: 'JQWidgetBox-MbMenu-Core' with: [spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
 		spec group: 'Core' with: #(
 						'Glamour-Seaside'
-						'JQWidgetBox-Core-Libraries'
-						'JQWidgetBox-Dev-Libraries'
+						'JQWidgetBox-Core'
+						'JQWidgetBox-Dev'
 						'JQWidgetBox-MbMenu-Core').
 "		spec group: 'Tests' with: #(
 						'Glamour-Tests'). 
