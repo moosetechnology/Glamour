@@ -9,7 +9,7 @@ SGLSimpleTree class >> initialize [
 	self registerAsApplication: 'glamour/tree/simpleTreePresentation'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLSimpleTree >> browser [
 	|browser|
 
@@ -29,7 +29,7 @@ SGLSimpleTree >> browser [
 	^ browser
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLSimpleTree >> model [
 	^ 1 to: 100
 ]

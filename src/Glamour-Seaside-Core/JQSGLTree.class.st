@@ -4,37 +4,42 @@ Class {
 	#category : #'Glamour-Seaside-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 JQSGLTree >> init [
 	self action: 'initialize'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'options-generated' }
 JQSGLTree >> isMultiple: aBoolean [
 	self optionAt: 'isMultiple' put: aBoolean
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'options-generated' }
 JQSGLTree >> level: anInteger [
 	self optionAt: 'level' put: anInteger
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 JQSGLTree >> method [
 	^ 'glamourTree'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'events-generated' }
 JQSGLTree >> onExpandToggled: anObject [
 	self optionAt: 'onExpandToggled' put: (anObject asFunction: #('$node'))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'events-generated' }
 JQSGLTree >> onSelect: anObject [
 	self optionAt: 'onSelect' put:  (anObject asFunction: #('$anIdOrAList'))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'options-generated' }
+JQSGLTree >> selectedNodes: anArray [
+	self optionAt: 'selectedNodes' put: anArray
+]
+
+{ #category : #actions }
 JQSGLTree >> update [
 	self action: 'update'
 ]

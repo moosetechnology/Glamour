@@ -9,7 +9,7 @@ SGLVerySimpleFinder class >> initialize [
 	self registerAsApplication: 'glamour/finder/simpleFinder'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLVerySimpleFinder >> browser [
 	| finder |
 	finder := GLMFinder new.
@@ -24,7 +24,7 @@ SGLVerySimpleFinder >> browser [
 	^finder.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLVerySimpleFinder >> model [
 	^	MooseModel root allModels first allModelNamespaces
 ]

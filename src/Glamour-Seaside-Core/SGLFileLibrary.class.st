@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #uploaded }
+SGLFileLibrary >> arrowDownPng [
+	^ #(137 80 78 71 13 10 26 10 0 0 0 13 73 72 68 82 0 0 0 15 0 0 0 15 8 6 0 0 0 59 214 149 74 0 0 0 1 115 82 71 66 0 174 206 28 233 0 0 0 4 103 65 77 65 0 0 177 143 11 252 97 5 0 0 0 32 99 72 82 77 0 0 122 38 0 0 128 132 0 0 250 0 0 0 128 232 0 0 117 48 0 0 234 96 0 0 58 152 0 0 23 112 156 186 81 60 0 0 0 7 116 73 77 69 7 217 9 27 8 50 9 233 82 232 197 0 0 0 25 116 69 88 116 83 111 102 116 119 97 114 101 0 80 97 105 110 116 46 78 69 84 32 118 51 46 53 46 53 73 138 252 224 0 0 0 192 73 68 65 84 56 79 99 20 19 17 238 98 96 96 184 8 196 171 95 189 121 251 11 72 227 5 64 245 108 64 5 225 64 108 192 0 228 56 3 241 127 32 126 6 196 181 64 44 134 77 55 80 92 28 136 235 129 248 57 84 189 51 88 29 144 115 24 42 0 50 228 7 16 47 0 98 35 168 156 49 144 189 16 42 14 146 7 225 195 112 11 128 28 23 36 205 48 5 32 250 30 14 113 23 20 215 161 217 142 108 0 58 27 97 43 204 4 60 182 163 107 134 248 21 29 0 13 56 130 195 153 152 126 197 162 217 149 128 102 236 182 34 57 31 151 237 135 8 165 1 80 180 225 178 221 137 160 102 104 220 162 219 126 144 40 141 80 205 232 182 59 18 173 25 205 246 3 36 105 68 179 221 158 100 205 80 3 154 240 105 4 0 224 99 118 136 46 145 128 201 0 0 0 0 73 69 78 68 174 66 96 130) asByteArray
+]
+
+{ #category : #uploaded }
 SGLFileLibrary >> arrowsPng [
 	^ #(137 80 78 71 13 10 26 10 0 0 0 13 73 72 68 82 0 0 0 39 0 0 0 19 8 3 0 0 0 36 150 228 188 0 0 0 4 103 65 77 65 0 0 177 142 124 251 81 147 0 0 0 32 99 72 82 77 0 0 135 15 0 0 140 15 0 0 253 82 0 0 129 64 0 0 125 121 0 0 233 139 0 0 60 229 0 0 25 204 115 60 133 119 0 0 10 57 105 67 67 80 80 104 111 116 111 115 104 111 112 32 73 67 67 32 112 114 111 102 105 108 101 0 0 72 199 157 150 119 84 84 215 22 135 207 189 119 122 161 205 48 2 82 134 222 187 192 0 210 123 147 94 69 97 152 25 96 40 3 14 51 52 177 33 162 2 17 69 68 154 34 72 80 196 128 209 80 36 86 68 177 16 20 84 176 7 36 8 40 49 24 69 84 44 111 70 214 139 174 172 188 247 242 242 251 227 172 111 237 179 247 185 251 236 189 207 90 23 0 146 167 47 151 151 6 75 1 144 202 19 240 131 60 156 233 17 145 81 116 236 0 128 1 30 96 128 41 0 76 86 70 186 95 176 123 8 16 201 203 205 133 158 33 114 2 95 4 1 240 122 88 188 2 112 211 208 51 128 78 7 255 159 164 89 233 124 129 232 152 0 17 155 179 57 25 44 17 23 136 56 37 75 144 46 182 207 138 152 26 151 44 102 24 37 102 190 40 65 17 203 137 57 97 145 13 62 251 44 178 163 152 217 169 60 182 136 197 57 167 179 83 217 98 238 21 241 182 76 33 71 196 136 175 136 11 51 185 156 44 17 223 18 177 70 138 48 149 43 226 55 226 216 84 14 51 3 0 20 73 108 23 112 88 137 34 54 17 49 137 31 18 228 34 226 229 0 224 72 9 95 113 220 87 44 224 100 11 196 151 114 73 75 207 225 115 19 18 5 116 29 150 46 221 212 218 154 65 247 228 100 165 112 4 2 195 0 38 43 153 201 103 211 93 210 82 211 153 188 28 0 22 239 252 89 50 226 218 210 69 69 182 52 181 182 180 52 52 51 50 253 170 80 255 117 243 111 74 220 219 69 122 25 248 185 103 16 173 255 139 237 175 252 210 26 0 96 204 137 106 179 243 139 45 174 10 128 206 45 0 200 221 251 98 211 56 0 128 164 168 111 29 215 191 186 15 77 60 47 137 2 65 186 141 177 113 86 86 150 17 151 195 50 18 23 244 15 253 79 135 191 161 175 190 103 36 62 238 143 242 208 93 57 241 76 97 138 128 46 174 27 43 45 37 77 200 167 103 164 51 89 28 186 225 159 135 248 31 7 254 117 30 6 65 156 120 14 159 195 19 69 132 137 166 140 203 75 16 181 155 199 230 10 184 105 60 58 151 247 159 154 248 15 195 254 164 197 185 22 137 210 248 17 80 99 140 128 212 117 42 64 126 237 7 40 10 17 32 209 251 197 93 255 163 111 190 248 48 32 126 121 225 42 147 139 115 255 239 55 253 103 193 165 226 37 131 155 240 57 206 37 40 132 206 18 242 51 23 247 196 207 18 160 1 1 72 2 42 144 7 202 64 29 232 0 67 96 6 172 128 45 112 4 110 192 27 248 131 16 16 9 86 3 22 72 4 169 128 15 178 64 30 216 4 10 65 49 216 9 246 128 106 80 7 26 65 51 104 5 199 65 39 56 5 206 131 75 224 26 184 1 110 131 251 96 20 76 128 103 96 22 188 6 11 16 4 97 33 50 68 129 228 33 21 72 19 210 135 204 32 6 100 15 185 65 190 80 16 20 9 197 66 9 16 15 18 66 121 208 102 168 24 42 131 170 161 122 168 25 250 30 58 9 157 135 174 64 131 208 93 104 12 154 134 126 135 222 193 8 76 130 169 176 18 172 5 27 195 12 216 9 246 129 67 224 85 112 2 188 6 206 133 11 224 29 112 37 220 0 31 133 59 224 243 240 53 248 54 60 10 63 131 231 16 128 16 17 26 162 138 24 34 12 196 5 241 71 162 144 120 132 143 172 71 138 144 10 164 1 105 69 186 145 62 228 38 50 138 204 32 111 81 24 20 5 69 71 25 162 108 81 158 168 80 20 11 181 6 181 30 85 130 170 70 29 70 117 160 122 81 55 81 99 168 89 212 71 52 25 173 136 214 71 219 160 189 208 17 232 4 116 22 186 16 93 129 110 66 183 163 47 162 111 163 39 208 175 49 24 12 13 163 141 177 194 120 98 34 49 73 152 181 152 18 204 62 76 27 230 28 102 16 51 142 153 195 98 177 242 88 125 172 29 214 31 203 196 10 176 133 216 42 236 81 236 89 236 16 118 2 251 6 71 196 169 224 204 112 238 184 40 28 15 151 143 171 192 29 193 157 193 13 225 38 113 11 120 41 188 38 222 6 239 143 103 227 115 240 165 248 70 124 55 254 58 126 2 191 64 144 38 104 19 236 8 33 132 36 194 38 66 37 161 149 112 145 240 128 240 146 72 36 170 17 173 137 129 68 46 113 35 177 146 120 140 120 153 56 70 124 75 146 33 233 145 92 72 209 36 33 105 7 233 16 233 28 233 46 233 37 153 76 214 34 59 146 163 200 2 242 14 114 51 249 2 249 17 249 141 4 69 194 72 194 75 130 45 177 65 162 70 162 67 98 72 226 185 36 94 82 83 210 73 114 181 100 174 100 133 228 9 201 235 146 51 82 120 41 45 41 23 41 166 212 122 169 26 169 147 82 35 82 115 210 20 105 83 105 127 233 84 233 18 233 35 210 87 164 167 100 176 50 90 50 110 50 108 153 2 153 131 50 23 100 198 41 8 69 157 226 66 97 81 54 83 26 41 23 41 19 84 12 85 155 234 69 77 162 22 83 191 163 14 80 103 101 101 100 151 201 134 201 102 203 214 200 158 150 29 165 33 52 45 154 23 45 133 86 74 59 78 27 166 189 91 162 180 196 105 9 103 201 246 37 173 75 134 150 204 203 45 149 115 148 227 200 21 201 181 201 221 150 123 39 79 151 119 147 79 150 223 37 223 41 255 80 1 165 160 167 16 168 144 165 176 95 225 162 194 204 82 234 82 219 165 172 165 69 75 143 47 189 167 8 43 234 41 6 41 174 85 60 168 216 175 56 167 164 172 228 161 148 174 84 165 116 65 105 70 153 166 236 168 156 164 92 174 124 70 121 90 133 162 98 175 194 85 41 87 57 171 242 148 46 75 119 162 167 208 43 233 189 244 89 85 69 85 79 85 161 106 189 234 128 234 130 154 182 90 168 90 190 90 155 218 67 117 130 58 67 61 94 189 92 189 71 125 86 67 69 195 79 35 79 163 69 227 158 38 94 147 161 153 168 185 87 179 79 115 94 75 91 43 92 107 171 86 167 214 148 182 156 182 151 118 174 118 139 246 3 29 178 142 131 206 26 157 6 157 91 186 24 93 134 110 178 238 62 221 27 122 176 158 133 94 162 94 141 222 117 125 88 223 82 159 171 191 79 127 208 0 109 96 109 192 51 104 48 24 49 36 25 58 25 102 26 182 24 142 25 209 140 124 141 242 141 58 141 158 27 107 24 71 25 239 50 238 51 254 104 98 97 146 98 210 104 114 223 84 198 212 219 52 223 180 219 244 119 51 61 51 150 89 141 217 45 115 178 185 187 249 6 243 46 243 23 203 244 151 113 150 237 95 118 199 130 98 225 103 177 213 162 199 226 131 165 149 37 223 178 213 114 218 74 195 42 214 170 214 106 132 65 101 4 48 74 24 151 173 209 214 206 214 27 172 79 89 191 181 177 180 17 216 28 183 249 205 214 208 54 217 246 136 237 212 114 237 229 156 229 141 203 199 237 212 236 152 118 245 118 163 246 116 251 88 251 3 246 163 14 170 14 76 135 6 135 199 142 234 142 108 199 38 199 73 39 93 167 36 167 163 78 207 157 77 156 249 206 237 206 243 46 54 46 235 92 206 185 34 174 30 174 69 174 3 110 50 110 161 110 213 110 143 220 213 220 19 220 91 220 103 61 44 60 214 122 156 243 68 123 250 120 238 242 28 241 82 242 98 121 53 123 205 122 91 121 175 243 238 245 33 249 4 251 84 251 60 246 213 243 229 251 118 251 193 126 222 126 187 253 30 172 208 92 193 91 209 233 15 252 189 252 119 251 63 12 208 14 88 19 240 99 32 38 48 32 176 38 240 73 144 105 80 94 80 95 48 37 56 38 248 72 240 235 16 231 144 210 144 251 161 58 161 194 208 158 48 201 176 232 176 230 176 249 112 215 240 178 240 209 8 227 136 117 17 215 34 21 34 185 145 93 81 216 168 176 168 166 168 185 149 110 43 247 172 156 136 182 136 46 140 30 94 165 189 42 123 213 149 213 10 171 83 86 159 142 145 140 97 198 156 136 69 199 134 199 30 137 125 207 244 103 54 48 231 226 188 226 106 227 102 89 46 172 189 172 103 108 71 118 57 123 154 99 199 41 227 76 198 219 197 151 197 79 37 216 37 236 78 152 78 116 72 172 72 156 225 186 112 171 185 47 146 60 147 234 146 230 147 253 147 15 37 127 74 9 79 105 75 197 165 198 166 158 228 201 240 146 121 189 105 202 105 217 105 131 233 250 233 133 233 163 107 108 214 236 89 51 203 247 225 55 101 64 25 171 50 186 4 84 209 207 84 191 80 71 184 69 56 150 105 159 89 147 249 38 43 44 235 68 182 116 54 47 187 63 71 47 103 123 206 100 174 123 238 183 107 81 107 89 107 123 242 84 243 54 229 141 173 115 90 87 191 30 90 31 183 190 103 131 250 134 130 13 19 27 61 54 30 222 68 216 148 188 233 167 124 147 252 178 252 87 155 195 55 119 23 40 21 108 44 24 223 226 177 165 165 80 162 144 95 56 178 213 118 107 221 54 212 54 238 182 129 237 230 219 171 182 127 44 98 23 93 45 54 41 174 40 126 95 194 42 185 250 141 233 55 149 223 124 218 17 191 99 160 212 178 116 255 78 204 78 222 206 225 93 14 187 14 151 73 151 229 150 141 239 246 219 221 81 78 47 47 42 127 181 39 102 207 149 138 101 21 117 123 9 123 133 123 71 43 125 43 187 170 52 170 118 86 189 175 78 172 190 93 227 92 211 86 171 88 187 189 118 126 31 123 223 208 126 199 253 173 117 74 117 197 117 239 14 112 15 220 169 247 168 239 104 208 106 168 56 136 57 152 121 240 73 99 88 99 223 183 140 111 155 155 20 154 138 155 62 28 226 29 26 61 28 116 184 183 217 170 185 249 136 226 145 210 22 184 69 216 50 125 52 250 232 141 239 92 191 235 106 53 108 173 111 163 181 21 31 3 199 132 199 158 126 31 251 253 240 113 159 227 61 39 24 39 90 127 208 252 161 182 157 210 94 212 1 117 228 116 204 118 38 118 142 118 69 118 13 158 244 62 217 211 109 219 221 254 163 209 143 135 78 169 158 170 57 45 123 186 244 12 225 76 193 153 79 103 115 207 206 157 75 63 55 115 62 225 252 120 79 76 207 253 11 17 23 110 245 6 246 14 92 244 185 120 249 146 251 165 11 125 78 125 103 47 219 93 62 117 197 230 202 201 171 140 171 157 215 44 175 117 244 91 244 183 255 100 241 83 251 128 229 64 199 117 171 235 93 55 172 111 116 15 46 31 60 51 228 48 116 254 166 235 205 75 183 188 110 93 187 189 226 246 224 112 232 240 157 145 232 145 209 59 236 59 83 119 83 238 190 184 151 121 111 225 254 198 7 232 7 69 15 165 30 86 60 82 124 212 240 179 238 207 109 163 150 163 167 199 92 199 250 31 7 63 190 63 206 26 127 246 75 198 47 239 39 10 158 144 159 84 76 170 76 54 79 153 77 157 154 118 159 190 241 116 229 211 137 103 233 207 22 102 10 127 149 254 181 246 185 206 243 31 126 115 252 173 127 54 98 118 226 5 255 197 167 223 75 94 202 191 60 244 106 217 171 158 185 128 185 71 175 83 95 47 204 23 189 145 127 115 248 45 227 109 223 187 240 119 147 11 89 239 177 239 43 63 232 126 232 254 232 243 241 193 167 212 79 159 254 5 3 152 243 252 186 196 232 211 0 0 3 0 80 76 84 69 0 0 0 37 37 37 38 38 38 89 89 89 132 132 132 149 149 149 150 150 150 159 159 159 164 164 164 165 165 165 167 167 167 230 230 230 233 233 233 234 234 234 251 251 251 252 252 252 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 110 174 208 68 0 0 1 0 116 82 78 83 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 255 0 83 247 7 37 0 0 0 9 112 72 89 115 0 0 11 18 0 0 11 18 1 210 221 126 252 0 0 0 25 116 69 88 116 83 111 102 116 119 97 114 101 0 80 97 105 110 116 46 78 69 84 32 118 51 46 53 46 53 73 138 252 224 0 0 0 99 73 68 65 84 40 83 197 210 75 14 128 32 12 4 80 24 252 161 34 247 63 45 178 192 104 237 36 116 71 151 228 209 76 41 174 216 202 217 88 25 236 34 141 137 247 180 229 139 59 129 240 218 165 85 65 4 210 239 74 243 15 34 48 151 243 49 9 88 25 239 183 72 230 81 75 231 59 117 62 113 175 205 187 177 121 191 240 121 151 222 154 7 239 183 23 207 252 255 110 230 158 181 143 132 192 216 14 0 0 0 0 73 69 78 68 174 66 96 130) asByteArray
 ]
@@ -12,7 +17,49 @@ SGLFileLibrary >> arrowsPng [
 { #category : #uploaded }
 SGLFileLibrary >> glamourSeasideJs [
 	^ '	
+	$.glamour = {};	
+	
 	; ( function($) {
+		
+		$.glamour = {
+		
+			compare : function(array1, array2) {
+ 	 			if(!array1 && !array2) return true;
+				if(!array1 || !array2) return false;
+				
+				if (array1.length == array2.length) {
+					for(var i = 0; i < array1.length;i++) {
+						if(array1[i] != array2[i]) return false;
+  					}
+					return true;
+				} else 
+					return false
+			} ,
+			
+			selectNodes: function(presentationId, nodesIds, resetReferenceNode) {
+				var rootList = $("#"+presentationId+" > .glm-tree-root-ct")[0];
+				var selectedNodes = [];
+				var referenceNode;
+				
+				$.each(nodesIds, function(index, nodeId) {
+					var $node = $("#"+nodeId);
+				
+					if ( $node.size() != 0 ) {
+						selectedNodes.push($node);
+					}
+				});
+				
+				if ( resetReferenceNode ) {
+					referenceNode = $.data(rootList, "referenceNode");
+					if ( !referenceNode ) {
+						if (selectedNodes.length != 0)  $.data(rootList, "referenceNode", selectedNodes[0]);
+					}
+				}
+				
+				performeSelection(rootList, selectedNodes);
+			}
+		};
+	
 		$.fn.glamourTree = function(action, options) {
 			var opts;
 			
@@ -46,20 +93,11 @@ SGLFileLibrary >> glamourSeasideJs [
 					
 					// Submit a request when the user selects a node.
 					$content.bind("click", function(e) {
-						var $selectedNode = $.data(rootList, "selectedNode");
-						var $allNodeChildren;
+						var $referenceNode = $.data(rootList, "referenceNode");
 					
 						if ( e.shiftKey && opts.isMultiple ) {
-							if ($selectedNode) {
-								$allNodeChildren = $("#"+$(rootList).attr("id")+" .glm-tree-node");
-								
-								"Obtain a list with all the selected nodes and send it to the server"
-								if ( $allNodeChildren.index($selectedNode) < $allNodeChildren.index($node) ) {
-									opts.onSelect(selectNodes($selectedNode, $node));
-								} else {
-									opts.onSelect(selectNodes($node, $selectedNode));									
-								}
-								
+							if ($referenceNode) {
+								selectNodes(rootList, $referenceNode, $node, opts);
 							} else {
 								selectNode($node, rootList, opts);
 							}
@@ -85,36 +123,55 @@ SGLFileLibrary >> glamourSeasideJs [
 		$.fn.glamourTree.defaults = {
 			"level" :0 ,
 			"childrenSelector" : ".glm-tree-node",
-			"isMultiple" : false
+			"isMultiple" : false,
+			"selectedNodes:" : [] 
 		};
 		
-		function selectNodes($fromNode, $toNode) {
-			var fromId = $fromNode.attr("id");
-			var toId = $toNode.attr("id");
-			var selectedNodes = ""+fromId;
+		function selectNodes(rootList, $referenceNode, $node, opts) {
+			var $allNodeChildren = $("#"+$(rootList).attr("id")+" .glm-tree-node");
+			var selectedNodes;
+			var index, ids = "";
+								
+			"Obtain a list with all the selected nodes and send it to the server"
+			if ( $allNodeChildren.index($referenceNode) < $allNodeChildren.index($node) ) {
+				selectedNodes = obtainNodes($referenceNode, $node);
+			} else {
+				selectedNodes = obtainNodes($node, $referenceNode);									
+			}
+			
+			for (index = 0; index < selectedNodes.length - 1; index++) {
+				ids += selectedNodes[index].attr("id") + ",";
+			}
+			ids += selectedNodes[index].attr("id");
+			
+			opts.onSelect(ids);
+		}
+		
+		function obtainNodes($fromNode, $toNode) {
+			var selectedNodes = [$fromNode];
 			var $childrenList, $nextSibling, $parent;
 			
-			while (fromId != toId) {
+			while ($fromNode.attr("id") != $toNode.attr("id")) {
 				
-				$childrenList = $("#"+fromId).children(".glm-tree-node-ct:visible");
+				$childrenList = $fromNode.children(".glm-tree-node-ct:visible");
 				if ( $childrenList.size() > 0 ) {
-					fromId = $childrenList.children(":eq(0)").attr("id");
-					selectedNodes += ","+fromId;
+					$fromNode = $childrenList.children(":eq(0)");
+					selectedNodes.push($fromNode);
 					continue;
 				}
 				
-				$nextSibling = $("#"+fromId).next();
+				$nextSibling = $fromNode.next();
 				if ( $nextSibling.size() > 0 ) {
-					fromId = $nextSibling.attr("id");
-					selectedNodes += ","+fromId;
+					$fromNode = $nextSibling;
+					selectedNodes.push($fromNode);
 					continue;
 				} else {
-					$parent = $("#"+fromId).parent().parent();
+					$parent = $fromNode.parent().parent();
 					while ( $parent.next().size() == 0 ) {
 						$parent = $parent.parent().parent();
 					}
-					fromId = $parent.next().attr("id");
-					selectedNodes += ","+fromId;
+					$fromNode = $parent.next();
+					selectedNodes.push($fromNode);
 				}
 			}
 			
@@ -122,8 +179,24 @@ SGLFileLibrary >> glamourSeasideJs [
 		};
 		
 		function selectNode($node, rootList, opts) {
-			$.data(rootList, "selectedNode", $node);
-			opts.onSelect($node.attr("id"));
+			$.data(rootList, "referenceNode", $node);
+			opts.onSelect($node.attr("id"));	
+		};
+		
+		function performeSelection(rootList, nodes) {
+			var savedSelectedNodes = $.data(rootList, "selectedNodes");
+			
+			$.each(savedSelectedNodes, function(index, $node) {
+				$node.removeClass("glm-tree-node-selected");
+			});
+			$.each(nodes, function(index, $node) {
+				$node.addClass("glm-tree-node-selected");
+			});
+			
+			if ( nodes.length == 0 ) {
+				$.data(rootList, "referenceNode", null);
+			}
+			$.data(rootList, "selectedNodes", nodes);
 		};
 		
 		function initializeOperation(list, rootList, options) {
@@ -131,6 +204,9 @@ SGLFileLibrary >> glamourSeasideJs [
 			var opts =  $.extend({}, $.fn.glamourTree.defaults, savedOpts, options);
 				
 			if ( savedOpts == null ) {
+				$.data(rootList, "selectedNodes", []);	
+				$.glamour.selectNodes(rootList.parentNode.id, opts.selectedNodes, true);
+				opts.selectedNodes = [];
 				$.data(rootList, "options", opts);
 			 }
 			$.data(list, "childrenCount", 0);
@@ -174,6 +250,116 @@ SGLFileLibrary >> glamourSeasideJs [
 		
 	} ) (jQuery);
 		
+	; ( function($) {
+
+		$.fn.glamourActions = function() {
+			var args = arguments;
+			var opts;
+			
+			return this.each( function() {
+				var $tabs = $(this);
+				
+				switch (args[0]) {
+					case "initialize" : {
+						if ( args[1] && args[1].hasActions ) {
+							initialize($tabs);
+						}
+						break;
+					}
+					case "add" : {
+						if ($tabs.hasClass("glm-has-actions") ) {
+							add($tabs, args[1], args[2]);
+						}
+						break;
+					}
+				}
+				
+			});
+		}
+		
+		function initialize($tabs) {
+			var $actions = $tabs.children(".ui-tabs-nav").children(".glm-actions");
+			
+			$tabs.addClass("glm-has-actions");
+			$actions.css("float", "right");
+			$tabs.children(".ui-tabs-nav").children(":not(.glm-actions)").each(function(index, tab){
+				$.data(tab, "action", $actions[index]);
+			});
+			showActionsForSelectedTab($tabs, $tabs.tabs( "option", "selected"));
+			
+			$tabs.bind("tabsselect", function(event, ui) {
+				showActionsForSelectedTab($tabs, ui.index);
+			});
+		}
+		
+		function add($tabs, tabIndex, options) {
+			var $navigation = $tabs.children(".ui-tabs-nav");
+			var index = typeof tabIndex !== "integer" ? $tabs.tabs( "length" ) - 1 :  tabIndex;
+			var $tab = $navigation.children(".ui-state-default:eq("+index+")");
+			var $action;
+			
+			$navigation.append(options.actionsContent);
+			$action = $navigation.children(":last");
+			$action.css("float", "right");
+			$.data($tab[0], "action", $action[0]);
+		}
+		
+		function showActionsForSelectedTab($tabs, index) {
+			var $navigation = $tabs.children(".ui-tabs-nav");
+			var $selectedTab;
+			
+			$navigation.children(".glm-action-selected").hide().removeClass("glm-action-selected");
+			if ( index > -1 ) {
+				$selectedTab = $navigation.children(".ui-state-default:eq("+index+")");
+				$action = $($.data($selectedTab[0], "action"));
+				$action.addClass("glm-action-selected");
+				$action.show();
+			}
+		}
+	
+	})(jQuery);
+	
+	; ( function($) {		
+
+		$.fn.glamourTabs = function() {
+			var options = {}; 
+			var args = arguments;
+			var result;
+			
+			if ( args && args[0] === "add" ) {
+				if ( typeof args[3] === "object") {
+					options = args[3];
+					delete args[3];
+				} else if ( typeof args[4] === "object") {
+					options = args[4];
+					delete args[4];
+				}
+			}
+			
+			result = this.tabs.apply(this, args);
+			
+			this.each( function() {
+				var $tabs = $(this);
+				
+				if ( !args ) {
+					initializeActions($tabs, {});
+				} else if ( typeof args[0] === "object"  ) {
+					initializeActions($tabs, args[0]);
+				} else if ( typeof args[0] === "string" ) {
+					if (args[0] === "add") {
+						$tabs.glamourActions("add", args[3], options);
+					}
+				}
+			});
+			
+			return result;
+		}
+
+		function initializeActions($tabs, options) {
+			$tabs.glamourActions("initialize", options);
+		}
+	
+	})(jQuery);
 		
 	var Glamour = {};
 	
@@ -183,19 +369,246 @@ SGLFileLibrary >> glamourSeasideJs [
 		});
 	};
 
+	$(Glamour.resize);
+	$(window).resize(Glamour.resize);'
+]
 
-	Glamour.tree = {};
-	
-	Glamour.tree.deselectAll = function(treeId) {
-		$("#"+treeId + " .glm-tree-node-selected").removeClass("glm-tree-node-selected");
-	};
-	
-	Glamour.tree.selectNode = function(nodeId) {
-		$("#"+nodeId).addClass("glm-tree-node-selected");
-	}; 
+{ #category : #uploaded }
+SGLFileLibrary >> mbMenuCss [
+	^ '/*
+* jQuery.mb.components: jquery.mb.menu
+* © 2001 - 2010 Matteo Bicocchi (pupunzi), Open Lab
+*
+*/
 
-$(Glamour.resize);
-$(window).resize(Glamour.resize);'
+@charset "UTF-8";
+
+body{
+  font-family:"Lucida Sans Unicode","Lucida Grande",Helvetica,Arial,sans-serif;
+  font-size:14px;
+  color:gray;
+}
+.mbmenu{
+  display:none;
+}
+.rootVoices{
+}
+.rootVoices td.rootVoice {
+  vertical-align:middle;
+/*background-color:#fff;*/
+  width:120px;
+  font-family:Arial,Helvetica,sans-serif;
+  text-shadow:#fff 1px 1px 1px;  
+  color: gray;
+  font-size:14px;
+  line-height:18px;
+  padding:8px;
+  cursor: pointer;
+}
+
+.rootVoices td.rootVoice.selected{
+  background: black url("../images/bgnd_sel_4.png");
+  padding:8px;
+  color:#ffffff;
+  cursor: pointer;
+  font-size:14px;
+  text-shadow:#660033 1px 1px 1px;
+  /*
+    -moz-box-shadow:#999 2px 2px 10px;
+    -webkit-box-shadow:#999 2px 2px 10px;
+  */
+  -moz-border-radius:8px 8px 0 0px;
+  -webkit-border-top-right-radius:8px;
+  -webkit-border-top-left-radius:8px;
+  -webkit-border-bottom-right-radius:0px;
+  -webkit-border-bottom-left-radius:0px;
+
+}
+.rootVoices td.rootVoice.disabled.selected{
+  background:#999!important;
+  color:#666;
+  text-shadow:#ddd 1px 1px 1px;
+}
+
+.rootVoices.vertical {
+  width:140px;
+}
+.rootVoices.vertical td.rootVoice{
+  -moz-border-radius:8px 0px 0 8px;
+  -webkit-border-top-right-radius:0px;
+  -webkit-border-top-left-radius:8px;
+  -webkit-border-bottom-right-radius:0px;
+  -webkit-border-bottom-left-radius:8px;
+}
+
+/**/
+
+.menuContainer{
+/*overflow:hidden;*/
+  position:absolute;
+  background-color:gray;
+  border-top:5px solid black;
+  padding:0;
+  -moz-box-shadow:#999 2px 2px 10px;
+  -webkit-box-shadow:#999 2px 2px 10px;
+  box-shadow:#999 2px 2px 10px;
+  -moz-border-radius: 0 0 8px 8px;
+  -webkit-border-top-right-radius:0px;
+  -webkit-border-top-left-radius:0px;
+  -webkit-border-bottom-right-radius:8px;
+  -webkit-border-bottom-left-radius:8px;
+}
+.menuContainer.submenuContainer{
+  border-top:none!important;
+}
+
+.menuContainer.disabled{
+  border-top:5px solid #999;
+  background-color:gray;
+}
+.menuContainer .line{
+  background-color:transparent;
+  width:100%;
+}
+.menuContainer .line.title {
+  background-color:black;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:14px;
+/*border-bottom:1px solid black;*/
+}
+.menuContainer.disabled .line.title {
+  background-color:#999;
+}
+.menuContainer .line.title a{
+  font-size:14px;
+  color:#ccc;
+}
+.menuContainer.disabled .line.title a{
+  font-size:14px;
+  color:#666;
+  text-shadow:#999 1px 1px 1px;
+}
+.menuContainer td a{
+  text-decoration:none;
+  color:#f3f3f3;
+  text-shadow:#666 1px 1px 1px;
+}
+.menuContainer td.voice{
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:14px;
+  padding:7px;
+}
+.menuContainer .separator{
+  background-color:#999;
+  height:1px;
+  padding:0;
+  margin:0;
+}
+.menuContainer td.img{
+  font-family:Arial,Helvetica,sans-serif;
+  text-align:center;
+  font-size:12px;
+  color: #c3c3c3;
+  background-color:transparent;
+  width:24px;
+  padding:5px;
+}
+.menuContainer td.img img{
+  width:20px;
+}
+.menuContainer .textBox{
+  padding: 10px;
+  font-family:Arial,Helvetica,sans-serif;
+  font-size:12px;
+  color: #c3c3c3;
+}
+.menuContainer .selected td{
+  background-color:#f3f3f3;
+  background-image:url("../images/bgnd_sel_2.jpg")
+}
+.menuContainer .selected td a{
+  color:#000;
+  text-shadow:#fff 2px 2px 1px;
+  display:block;
+}
+.menuContainer .disabled td, .menuContainer .disabled td a {
+  color:#555;
+  text-shadow:#999 1px 1px 1px;
+}
+.menuContainer .subMenuOpener{
+  background-image:url("../images/menuArrow_w.gif");
+  background-repeat:no-repeat;
+  background-position:right;
+}
+.menuContainer .selected .subMenuOpener{
+  background-image:url("../images/menuArrow.gif");
+  background-repeat:no-repeat;
+  background-position:right;
+}
+
+/*BOX MENU*/
+
+.boxMenu{
+  color:#f3f3f3;
+  border-top:8px solid black;
+  background:url("../images/box_top.png") repeat-x;
+}
+.boxMenu h4{
+  white-space:nowrap;
+  margin:0 0 20px 0;
+  padding:3px;
+  font:18px/20px georgia, serif;
+  padding-right:20px;
+  text-shadow:#666 2px 2px 1px;
+}
+
+.boxMenu td{
+  min-width:160px;
+  vertical-align:top;
+  border-right:1px solid #999;
+}
+.boxMenu td:hover{
+  background:url(../images/box_menu_over.png);
+  -moz-box-shadow:#666 2px 2px 4px;
+  -webkit-box-shadow:#666 2px 2px 4px;
+}
+
+.boxMenu td:hover a{
+  margin-right:3px;
+  text-shadow:#fff 1px 1px 1px;
+  color:#000;
+}
+
+.boxMenu td:last-child{
+  min-width:160px;
+  vertical-align:top;
+  border-right:none;
+}
+
+.boxMenu a{
+  font-size:14px;
+  white-space:nowrap;
+  display:block;
+  padding:5px;
+  margin-bottom:5px;
+}
+
+.boxMenu a img{
+  padding-right:5px;
+}
+
+.boxMenu a:hover{
+  color:#000;
+  text-shadow:#fff 2px 2px 1px;
+  background-image:url("../images/bgnd_sel_2.jpg");
+  -moz-box-shadow:#666 2px 2px 4px;
+  -webkit-box-shadow:#666 2px 2px 4px;
+}
+
+.boxMenu a img{
+  border:0;
+}
+'
 ]
 
 { #category : #uploaded }
@@ -352,13 +765,16 @@ div.finder-pane > * {
 
 .presentation-title li {
 	border-bottom:0 none !important;
-	float:left;
 	list-style:none outside none;
 	margin:0 0.2em 1px 0;
 	padding:0;
 	position:relative;
 	top:1px;
 	white-space:nowrap;
+}
+
+.presentation-title .ui-state-default {
+	float:left;
 }
 
 .presentation-title li span {
@@ -392,8 +808,13 @@ div.finder-pane > * {
 	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;
 }
 
+.stacked-arrangement {
+	overflow-y: auto;
+}
+
 .stacked-arrangement > *{
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+	height: 0;
 }
 
 .accordion-arrangement > .ui-accordion-content {
@@ -450,10 +871,23 @@ div.finder-pane > * {
 }
 
 /* actions */
+
+.glm-actions {
+	float: right;
+	width: 78px;
+}
+
 .glm-ac-container {
 	float: right;
 	cursor: pointer;
 	min-height: 28px;
+	margin-top: 2px;
+	margin-right:3px;
+}
+
+.glm-ac-container-menu {
+	float: right;
+	margin-top: 3px;
 }
 
 .ui-state-default > .glm-ac-container {
@@ -466,6 +900,8 @@ div.finder-pane > * {
 
 .glm-ac-container > img {
 	margin-right: 2px;
+	float: left;
+	max-width: 28px;
 }
 
 .ui-accordion .ui-state-active a {
@@ -475,7 +911,7 @@ div.finder-pane > * {
 	top: 50%;
 }
 
-/* Actions */
+/* Tags */
 .glm-tree-tags, .glm-tree-tag {
 	display: inline;
 }

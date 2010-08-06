@@ -9,7 +9,7 @@ SGLComposedTabulator class >> initialize [
 	self registerAsApplication: 'glamour/tabulator/composedTabulator'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLComposedTabulator >> browser [
 		|browser|
 
@@ -63,7 +63,7 @@ SGLComposedTabulator >> browser [
 	^browser 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLComposedTabulator >> model [
 	^ 1000
 

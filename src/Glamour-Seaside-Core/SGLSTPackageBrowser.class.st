@@ -9,12 +9,12 @@ SGLSTPackageBrowser class >> initialize [
 	self registerAsApplication: 'glamour/package'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLSTPackageBrowser >> browser [
 	^ GLMSTBrowserExample new browser
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLSTPackageBrowser >> model [
 	^ BrowserEnvironment new forPackageNamed: 'Glamour'
 ]

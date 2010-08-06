@@ -9,7 +9,7 @@ SGLOnePaneTabulator class >> initialize [
 	self registerAsApplication: 'glamour/tabulator/onePaneWithoutPresentation'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLOnePaneTabulator >> browser [
 	"self new browser openOn: self new model"
 	
@@ -37,7 +37,7 @@ SGLOnePaneTabulator >> browser [
 	^ browser
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLOnePaneTabulator >> model [
 	^ 10
 ]

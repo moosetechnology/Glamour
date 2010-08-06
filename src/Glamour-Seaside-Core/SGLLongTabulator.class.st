@@ -9,7 +9,7 @@ SGLLongTabulator class >> initialize [
 	self registerAsApplication: 'glamour/tabulator/longTabulator'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLLongTabulator >> browser [
 	|browser|
 	browser := GLMTabulator new.
@@ -35,7 +35,7 @@ SGLLongTabulator >> browser [
 	^browser
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLLongTabulator >> model [
 	^ (MooseModel root allModels first allMethods entityNamed: #'org::argouml::model::Facade.getName()' )
 ]

@@ -9,8 +9,10 @@ SGLTreeWithLeafTags class >> initialize [
 	self registerAsApplication: 'glamour/tags/treeWithLeafTags'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLTreeWithLeafTags >> browser [
+	"self new browser openOn: self new model"
+
 	|browser |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
@@ -45,7 +47,7 @@ SGLTreeWithLeafTags >> browser [
 	^ browser
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLTreeWithLeafTags >> model [
 	^ #(
 			(1 2 3 4) 

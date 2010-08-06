@@ -55,6 +55,9 @@ SGLComponent >> updateRoot: aHtmlRoot [
 	super updateRoot: aHtmlRoot.
 	aHtmlRoot title: 'Seaside Glamorous Browser'.
 	aHtmlRoot stylesheet url: (SGLFileLibrary urlOf: #styleCss).
-	aHtmlRoot javascript url: (SGLFileLibrary urlOf: #glamourSeasideJs)
+	aHtmlRoot javascript url: (SGLFileLibrary urlOf: #glamourSeasideJs).
+	aHtmlRoot javascript url: JQWidgetBoxDevelopmentLibrary / #mbMenuJs.
+	aHtmlRoot stylesheet url: (SGLFileLibrary urlOf:  #mbMenuCss).
+	aHtmlRoot javascript url: JQWidgetBoxDevelopmentLibrary / #jqueryhoverintentJs.
 	"aHtmlRoot javascript url: 'http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'"
 ]

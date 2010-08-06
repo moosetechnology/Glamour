@@ -67,8 +67,8 @@ SGLTreeNodeModel >> htmlId [
 ]
 
 { #category : #accessing }
-SGLTreeNodeModel >> htmlId: anObject [
-	htmlId := anObject
+SGLTreeNodeModel >> htmlIdIfNotNil: anObject [
+	htmlId ifNil: [htmlId := anObject]
 ]
 
 { #category : #'as yet unclassified' }

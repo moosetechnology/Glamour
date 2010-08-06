@@ -9,7 +9,7 @@ SGLListTags class >> initialize [
 	self registerAsApplication: 'glamour/tags/listTags'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLListTags >> browser [
 	|browser |
 
@@ -30,7 +30,7 @@ SGLListTags >> browser [
 	^ browser
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLListTags >> model [
 	^ 1 to: 103
 ]

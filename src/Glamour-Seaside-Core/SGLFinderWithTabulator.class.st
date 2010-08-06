@@ -9,7 +9,7 @@ SGLFinderWithTabulator class >> initialize [
 	self registerAsApplication: 'glamour/finder/finderWithTabulator'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLFinderWithTabulator >> browser [
 	|innerBrowser finder|
 	innerBrowser := GLMTabulator new.
@@ -33,7 +33,7 @@ SGLFinderWithTabulator >> browser [
 	^finder
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLFinderWithTabulator >> model [
 	 ^ (MooseModel root allModels first allMethods entityNamed: #'org::argouml::model::Facade.getName()' )
 ]

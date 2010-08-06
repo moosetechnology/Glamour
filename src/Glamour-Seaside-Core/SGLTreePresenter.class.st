@@ -76,7 +76,7 @@ SGLTreePresenter >> onClickActionForAppendButtonOn: html [
 							self renderRootNodesBeginningWith: self model amountShown+1 on: h ] ] 
 				ifFalse: [  "Disable the button for loading content"
 					s << ( (s jQuery id: self htmlId) children: '.glm-tree-append-button'  ) attributeAt: 'disabled' put: true ].
-			s << ( (html jQuery expression: '#', self htmlId, ' > .glm-tree-root-ct' ) glamourTree update; level: 0 ) ] 
+			s << ( (html jQuery expression: '#', self htmlId, ' > .glm-tree-root-ct' ) glamourTree update ) ] 
 ]
 
 { #category : #actions }
@@ -138,7 +138,8 @@ SGLTreePresenter >> renderContentOn: html [
 		with: [
 			self renderInitialRootNodesOn: html.
 			(self model roots size > self model amountShown) ifTrue: [ "Add a button for loading the remaining elements"
-				self renderAppendButtonOn: html ] ]
+				self renderAppendButtonOn: html ] ].
+	
 ]
 
 { #category : #rendering }
@@ -148,10 +149,9 @@ SGLTreePresenter >> renderInitialRootNodesOn: html [
 	html unorderedList   
 		class: 'glm-tree-root-ct';
 		id: listId;
-		script: ( html jQuery new glamourTree 
-			init; 
-			level: 0;
+		script: ( html jQuery new glamourTree init; 
 			isMultiple: self model glamourPresentation isMultiple;
+			selectedNodes: self selectedIds; 
 			onSelect: (self onSelectActionForANodeOn: html);
 			onExpandToggled: (self onExpandToggledActionForANodeOn: html) );
 		with: [ self renderRootNodesBeginningWith: 1 on: html ]
@@ -160,12 +160,11 @@ SGLTreePresenter >> renderInitialRootNodesOn: html [
 { #category : #rendering }
 SGLTreePresenter >> renderNode: aNode fromLevel: level on: html [
 	|children|
-	aNode htmlId: html nextId.
+	aNode htmlIdIfNotNil: html nextId.
 	self associateId: aNode htmlId forNode: aNode.
 	children := aNode contents.
 	html listItem  
 		id: aNode htmlId;  
-		class: 'glm-tree-node-selected' if: ( self model selection notNil and: [ (self model selection selectedNodes indexOf: aNode) > 0] );
 		class: 'glm-tree-node';
 		class: 'glm-tree-leaf' if: children size == 0;
 		class: 'glm-tree-open' if: (children size > 0 and: [aNode expanded]);
@@ -242,18 +241,28 @@ SGLTreePresenter >> renderer [
 	^ renderer
 ]
 
-{ #category : #updating }
-SGLTreePresenter >> updateSelectedNodes [
-	self renderer scriptFor: self model glamourPresentation add: (
-		JSStream new 
-			nextPutAll:  'Glamour.tree.deselectAll'; 
-			argument: self htmlId).
+{ #category : #private }
+SGLTreePresenter >> selectNodesScript [
+	^ JSStream new 
+			nextPutAll:  '$.glamour.selectNodes'; 
+			arguments: (Array with: self htmlId with: self selectedIds)
+]
+
+{ #category : #private }
+SGLTreePresenter >> selectedIds [
+	|ids|
+	ids := OrderedCollection new.
 	self model selection ifNotNil: [ self model selection selectedNodes do: [:each |
 		each ifNotNil: [ 
-			self renderer scriptFor: self model glamourPresentation add: (
-				JSStream new 
-					nextPutAll:  'Glamour.tree.selectNode'; 
-					argument: each htmlId ) ] ] ]
+			ids add: each htmlId ] ] ].
+	^ ids
+]
+
+{ #category : #updating }
+SGLTreePresenter >> updateSelectedNodes [
+	self renderer 
+		scriptFor: self model glamourPresentation 
+		add: self selectNodesScript
 ]
 
 { #category : #updating }

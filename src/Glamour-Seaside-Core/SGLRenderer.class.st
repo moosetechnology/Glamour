@@ -47,13 +47,14 @@ SGLRenderer >> renderAccordionCompositePresentation: aCompositePresentation [
 	presentations withIndexDo: [ :each :i | 
 		aCompositePresentation pane lastActivePresentation notNil and: [ 
 			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
-	Transcript show:  (html jQuery new accordion activate: 1; onChange: 'a';resize; animated: false; clearStyle: true; active: index-1) asString; cr .
 	html div
 		class: 'accordion-arrangement';
   	      script: (html jQuery new accordion animated: false; clearStyle: true; active: index-1);
    	      with: [
          		presentations withIndexDo: [ :each :i | 
-				html div: [ html anchor: each title. self renderActionsFrom: each ].
+				html div: [ 
+					html anchor: each title. 
+					self renderActionsFrom: each on: html ].
 				html div: [ self render: each ] ] ]
 ]
 
@@ -71,11 +72,18 @@ SGLRenderer >> renderAccumulator: aBrowser [
 	html div
 		id: (self uuidFor: aBrowser);
 		class: 'accumulator';
-		script: ( (html jQuery this tabs cache: true)
+		"script: ( (html jQuery this tabs cache: true)
 					onSelect: (html jQuery ajax 
 						callbackTabs: [ :event | 
       	              			aBrowser activeEntity: ((aBrowser panes at: (event at: #index) + 1) port: #entity) value ];
-						script: [: script | self updateScript: script ]) );
+						script: [: script | self updateScript: script ]) );"
+		script: ( html jQuery this glamourTabs  
+			cache: true; 
+			hasActions: true;
+			onSelect: (html jQuery ajax 
+				callbackTabs: [ :event | 
+    	  	      		aBrowser activeEntity: ((aBrowser panes at: (event at: #index) + 1) port: #entity) value ];
+				script: [: script | self updateScript: script ]) );
 		with: [
 			html unorderedList: [
 				aBrowser panes withIndexDo: [ :each :i |
@@ -85,16 +93,22 @@ SGLRenderer >> renderAccumulator: aBrowser [
 { #category : #widgets }
 SGLRenderer >> renderAccumulator: aBrowser addPane: aPane [
 	|tabs|
+	self flag: 'There must be a better way to give the html to add:label:action: bellow '.
 	tabs := (html jQuery id: (self uuidFor: aBrowser)).
 	self scriptFor: aBrowser add: ( 
-		(tabs tabs 
+		(tabs glamourTabs 
 			add: (html jQuery ajax
 						html: [ :renderer | 
 							html := renderer.										
 							self renderPaneWithoutTitle: aPane ];
 						fullUrl) 			 
-			label: ( self titleOrIconOf: aPane presentations) ),
-		(tabs tabs select: aBrowser panes size-1) ).
+			label: ( self titleOrIconOf: aPane presentations)
+			actions: (html jQuery new render: [:aRenderer| 
+				aRenderer listItem
+						class: 'glm-actions';
+						style: 'display: none;';
+						with: [ self renderActionsFrom: aPane presentations on: aRenderer ]  ])),
+		(tabs glamourTabs select: aBrowser panes size-1) ).
 
 ]
 
@@ -109,8 +123,12 @@ SGLRenderer >> renderAccumulator: aBrowser pane: aPane at: index [
 						html := renderer.										
 						self renderPaneWithoutTitle: aPane ];
 					fullUrl);
-				with: ( self titleOrIconOf: aPane presentations).
-				self renderActionsFrom: aPane presentations ].
+				with: ( self titleOrIconOf: aPane presentations) ].
+	html listItem
+		class: 'glm-actions';
+		style: 'display: none;';
+		with: [ self renderActionsFrom: aPane presentations on: html ]
+	
 
 ]
 
@@ -121,22 +139,8 @@ SGLRenderer >> renderAccumulator: aBrowser selectPaneAt: index [
 ]
 
 { #category : #widgets }
-SGLRenderer >> renderAction: anAction from: aPresentation [
-	html image 
-		form: anAction icon;
-		id: html nextId;
-		title: anAction title;
-		onClick: ( html jQuery ajax
-			callback: [:a | anAction actOn: aPresentation ] value: JQEvent new target;
-			script: [:script| self updateScript: script ] )
-]
-
-{ #category : #widgets }
-SGLRenderer >> renderActionsFrom: aPresentation [
-	html div
-		class: 'glm-ac-container';
-		with: [   
-			(aPresentation allActions select: [:action | action hasIcon ] ) do: [ :action | self renderAction: action from: aPresentation] ]
+SGLRenderer >> renderActionsFrom: aPresentation on: aRenderer [
+	aRenderer render: (SGLActionPresenter for: aPresentation with: self) 
 ]
 
 { #category : #widgets }
@@ -309,21 +313,22 @@ SGLRenderer >> renderTabbedCompositePresentation: aCompositePresentation [
 	presentations := aCompositePresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ self renderEmptyPresentation ].
 	presentations size = 1 ifTrue: [^ self renderWithTitleOrNil: presentations first ].
-	index := 0.
+	index := 1.
 	presentations withIndexDo: [ :each :i | 
 		aCompositePresentation pane lastActivePresentation notNil and: [ 
-			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i-1 ] ] ].
-	
+			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
+
 	html div
 		class: 'tabbed-arrangement';
-		script: ( ( html jQuery new tabs cache: true )
+		script: ( ( html jQuery new glamourTabs cache: true; hasActions: true )
 					onSelect: (html jQuery ajax callbackTabs: [ :event | 
-       		             	aCompositePresentation pane lastActivePresentation: (aCompositePresentation matchingPresentations at: (event at: #index)+1 ) ]) ); 
+       		             	aCompositePresentation pane lastActivePresentation: (aCompositePresentation matchingPresentations at: (event at: #index)+1 ) ]) );
+		"script: (html jQuery new glamourActions); "
 		with: [
 			html unorderedList: [
 				presentations withIndexDo: [ :each :i|
 					html listItem 
-						class: 'ui-tabs-selected' if: i = index; 
+						class: 'ui-tabs-selected' if: i + 1 = index; 
 						with: [
 							html anchor
 								url: (html jQuery ajax
@@ -331,8 +336,12 @@ SGLRenderer >> renderTabbedCompositePresentation: aCompositePresentation [
 										html := renderer.										
 										self render: each ];
 									fullUrl);
-								with: each title.
-							self renderActionsFrom: each ] ] ] ]
+								with: each title ] ].
+				presentations withIndexDo: [ :each :i | 
+					html listItem
+						class: 'glm-actions';
+						style: 'display: none;';
+						with: [ self renderActionsFrom: each on: html ] ] ] ]
 ]
 
 { #category : #widgets }
@@ -411,8 +420,10 @@ SGLRenderer >> renderWithTitle: aPresentation [
 					html listItem 
 						class: 'ui-state-default ui-corner-top ui-tabs-selected';
 						with: [ 
-							html span: (aPresentation titleValue ifNil: ['&nbsp']).
-							self renderActionsFrom: aPresentation ]
+							html span: (aPresentation titleValue ifNil: ['&nbsp']) ].
+					html listItem 
+						class: 'glm-actions';
+						with: [self renderActionsFrom: aPresentation on: html].
 					].
 			html div				
 				class: 'ui-tabs-panel ui-widget-content ui-corner-bottom';

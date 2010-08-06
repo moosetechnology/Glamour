@@ -9,7 +9,7 @@ SGLOnePaneWithTitle class >> initialize [
 	self registerAsApplication: 'glamour/tabulator/onePaneWithTitle'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLOnePaneWithTitle >> browser [
 	|browser|
 	
@@ -29,7 +29,7 @@ SGLOnePaneWithTitle >> browser [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLOnePaneWithTitle >> model [
 	^ 100
 ]

@@ -9,7 +9,7 @@ SGLOnePaneMultipleTabPresentations class >> initialize [
 	self registerAsApplication: 'glamour/tabulator/onePaneWithMultipleTabs'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLOnePaneMultipleTabPresentations >> browser [
 	|browser|
 
@@ -17,7 +17,8 @@ SGLOnePaneMultipleTabPresentations >> browser [
 	browser row: #justARow.
 
 	browser transmit  to: #justARow; andShow: [ :a |
-		a title: 'Presentare'.
+		"a title: 'Presentare'."
+		a stackedVerticallyArrangement.
 		a list
 			title: 'First';
 			showOnly: 10;
@@ -41,7 +42,7 @@ SGLOnePaneMultipleTabPresentations >> browser [
 	^browser 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLOnePaneMultipleTabPresentations >> model [
 	^ 1000
 ]

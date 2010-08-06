@@ -9,7 +9,7 @@ SGLAccumulator class >> initialize [
 	self registerAsApplication: 'glamour/accumulator/composedAccumulator'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLAccumulator >> browser [
 	| browser acc |
 	browser := GLMTabulator new.
@@ -37,7 +37,7 @@ SGLAccumulator >> browser [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLAccumulator >> model [
 	^ 42
 ]
