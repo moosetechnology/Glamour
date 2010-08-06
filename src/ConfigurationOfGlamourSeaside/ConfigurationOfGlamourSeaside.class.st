@@ -56,13 +56,17 @@ ConfigurationOfGlamourSeaside >> default: spec [
 		spec package: 'JQuery-UI' with: [
 			spec requires: #('Seaside').
 			spec repository: 'http://www.squeaksource.com/Seaside30'].
+		spec package: 'Seaside-Core' with: [
+			spec requires: #('Seaside').
+			spec repository: 'http://www.squeaksource.com/Seaside30'].
 		spec group: 'Core' with: #(
 						'Seaside'
 						'Glamour-Seaside'
 						'JQWidgetBox-Core'
 						'JQWidgetBox-MbMenu-Core'
 						'JQWidgetBox-HoverIntent-Core'
-						'JQuery-UI').
+						'JQuery-UI'
+						'Seaside-Core').
 "		spec group: 'Tests' with: #(
 						'Glamour-Tests'). 
 "		spec
