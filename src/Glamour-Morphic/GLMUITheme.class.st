@@ -15,6 +15,20 @@ GLMUITheme class >> themeName [
 	^ 'Glamorous'
 ]
 
+{ #category : #defaults }
+GLMUITheme >> buttonMinHeight [
+	"Answer the minumum height of a button for this theme."
+	
+	^16
+]
+
+{ #category : #defaults }
+GLMUITheme >> buttonMinWidth [
+	"Answer the minumum width of a button for this theme."
+	
+	^16
+]
+
 { #category : #'fill-styles' }
 GLMUITheme >> resizerGripNormalFillStyleFor: aResizer [
 	"Return the normal fillStyle for the given resizer.
