@@ -72,14 +72,14 @@ SGLRenderer >> renderAccumulator: aBrowser [
 	html div
 		id: (self uuidFor: aBrowser);
 		class: 'accumulator';
-		"script: ( (html jQuery this tabs cache: true)
-					onSelect: (html jQuery ajax 
-						callbackTabs: [ :event | 
-      	              			aBrowser activeEntity: ((aBrowser panes at: (event at: #index) + 1) port: #entity) value ];
-						script: [: script | self updateScript: script ]) );"
 		script: ( html jQuery this glamourTabs  
 			cache: true; 
 			hasActions: true;
+			closable: true;
+			onRemove: (html jQuery ajax
+				callbackTabs: [:event|
+					aBrowser removePaneIndex: (event at: #index) + 1];
+				script: [: script | self updateScript: script ]);
 			onSelect: (html jQuery ajax 
 				callbackTabs: [ :event | 
     	  	      		aBrowser activeEntity: ((aBrowser panes at: (event at: #index) + 1) port: #entity) value ];
@@ -320,15 +320,18 @@ SGLRenderer >> renderTabbedCompositePresentation: aCompositePresentation [
 
 	html div
 		class: 'tabbed-arrangement';
-		script: ( ( html jQuery new glamourTabs cache: true; hasActions: true )
-					onSelect: (html jQuery ajax callbackTabs: [ :event | 
-       		             	aCompositePresentation pane lastActivePresentation: (aCompositePresentation matchingPresentations at: (event at: #index)+1 ) ]) );
-		"script: (html jQuery new glamourActions); "
+		script: ( html jQuery new glamourTabs 
+			cache: true; 
+			hasActions: true;
+			closable: true;
+			onSelect: (html jQuery ajax callbackTabs: [ :event | 
+       			aCompositePresentation pane lastActivePresentation: (aCompositePresentation matchingPresentations at: (event at: #index)+1 ) ]) );
 		with: [
 			html unorderedList: [
 				presentations withIndexDo: [ :each :i|
 					html listItem 
 						class: 'ui-tabs-selected' if: i + 1 = index; 
+						id: html nextId;
 						with: [
 							html anchor
 								url: (html jQuery ajax

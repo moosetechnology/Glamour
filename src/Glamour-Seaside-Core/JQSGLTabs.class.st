@@ -12,6 +12,11 @@ JQSGLTabs >> add: aUrl label: aString actions: htmlContent [
 ]
 
 { #category : #'options-generated' }
+JQSGLTabs >> closable: aBoolean [
+	self optionAt: 'closable' put: aBoolean
+]
+
+{ #category : #'options-generated' }
 JQSGLTabs >> hasActions: aBoolean [
 	self optionAt: 'hasActions' put: aBoolean
 ]
@@ -19,4 +24,11 @@ JQSGLTabs >> hasActions: aBoolean [
 { #category : #accessing }
 JQSGLTabs >> method [
 	^ 'glamourTabs'
+]
+
+{ #category : #'events-generated' }
+JQSGLTabs >> onRemove: anObject [
+	"Bind this event with the 'delete' action as 'remove' does not properly work in JQueru-UI 1.8.2 "
+
+	self optionAt: 'delete' put: anObject asFunction
 ]

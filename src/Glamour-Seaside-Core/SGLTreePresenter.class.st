@@ -244,7 +244,7 @@ SGLTreePresenter >> renderer [
 { #category : #private }
 SGLTreePresenter >> selectNodesScript [
 	^ JSStream new 
-			nextPutAll:  '$.glamour.selectNodes'; 
+			nextPutAll:  '$.glamourTree.selectNodes'; 
 			arguments: (Array with: self htmlId with: self selectedIds)
 ]
 

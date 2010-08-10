@@ -17,8 +17,8 @@ SGLOnePaneMultipleTabPresentations >> browser [
 	browser row: #justARow.
 
 	browser transmit  to: #justARow; andShow: [ :a |
-		"a title: 'Presentare'."
-		a stackedVerticallyArrangement.
+		"a title: 'A tab presentation."
+		"a stackedVerticallyArrangement."
 		a list
 			title: 'First';
 			showOnly: 10;
