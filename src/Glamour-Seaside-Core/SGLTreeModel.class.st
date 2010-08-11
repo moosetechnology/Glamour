@@ -103,9 +103,12 @@ SGLTreeModel >> roots [
 
 { #category : #accessing }
 SGLTreeModel >> roots: anObjectOrCollection [
-	roots := anObjectOrCollection isCollection 
-		ifTrue: [ anObjectOrCollection collect: [:each | self nodeModelFor: each ] ]
-		ifFalse: [ OrderedCollection with: (self nodeModelFor: anObjectOrCollection) ]
+	anObjectOrCollection isCollection 
+		ifTrue: [ |items|
+			items := OrderedCollection new.
+			anObjectOrCollection do: [:each | items add: (self nodeModelFor: each) ].
+			roots := items ]
+		ifFalse: [ roots := OrderedCollection with: (self nodeModelFor: anObjectOrCollection) ]
 ]
 
 { #category : #selection }

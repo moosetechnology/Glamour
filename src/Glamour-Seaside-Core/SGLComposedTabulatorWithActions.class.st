@@ -68,7 +68,7 @@ SGLComposedTabulatorWithActions >> browser [
 	browser transmit  to: #stack; andShow: [ :a |
 		a stackedVerticallyArrangement.
 		a act: [:list :entity| Transcript show: 'Stacked arrangement action 1'; cr ] icon: MenuIcons jumpIcon entitled: 'Stacked arrangement action 1'.
-		a title: 'Stack arrangment'.
+		a title: 'Stack arrangement'.
 		a list
 			title: 'First';
 			showOnly: 10;

@@ -24,7 +24,7 @@ SGLOnePaneTabulator >> browser [
 | browser acc |
 	browser := GLMTabulator new.
 
-	browser column: #one; column: #two.
+	browser row: #one; row: #two.
 	browser transmit to: #one; andShow: [:a | 
 		a list display: [:x | x to: 10 * x]; allowDeselection   ].
 	browser transmit to: #two; andShow: [:a | 

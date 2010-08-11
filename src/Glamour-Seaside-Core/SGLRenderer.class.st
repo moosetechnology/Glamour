@@ -298,13 +298,12 @@ SGLRenderer >> renderStackedVerticallyCompositePresentation: aCompositePresentat
 	presentations isEmpty ifTrue: [ ^ self renderEmptyPresentation ].	
 	presentations size = 1 ifTrue: [^ self renderWithTitleOrNil: presentations first ].
 	
-
 	html div 
 		class: 'ui-widget ui-widget-content ui-corner-all';
 		class: 'stacked-arrangement';
 		with: [
 			presentations do: [ :each | 
-				self renderWithTitle: each ] ]
+				self renderWithTitle: each andAddCloseButton: true ] ]
 ]
 
 { #category : #presentation }
@@ -413,23 +412,35 @@ SGLRenderer >> renderTreePresentation: aPresentation [
 
 { #category : #widgets }
 SGLRenderer >> renderWithTitle: aPresentation [
+	self renderWithTitle: aPresentation andAddCloseButton: false 
+]
+
+{ #category : #widgets }
+SGLRenderer >> renderWithTitle: aPresentation andAddCloseButton: aBoolean [ 
+	"Renders a presentation with its title and if the presentation is removed executes 'anAction'."
+
+	|id|
+	id := html nextId.
 	self widgetContainer 
+		script: ( html jQuery new glamourTabs
+			ifEmptyDo: 'remove';
+			hasActions: true;
+			closable: aBoolean );
 		class: 'presentation-with-title';
 		with: [
 			html unorderedList				
-				class: 'ui-tabs-nav ui-corner-all ui-helper-reset';
 				class: 'presentation-title';
 				with: [
-					html listItem 
-						class: 'ui-state-default ui-corner-top ui-tabs-selected';
-						with: [ 
-							html span: (aPresentation titleValue ifNil: ['&nbsp']) ].
+					html listItem: [ 
+							html anchor
+								url: '#', id asString;
+								with: (aPresentation titleValue ifNil: [' '])  ].
 					html listItem 
 						class: 'glm-actions';
 						with: [self renderActionsFrom: aPresentation on: html].
 					].
-			html div				
-				class: 'ui-tabs-panel ui-widget-content ui-corner-bottom';
+			html div
+				id: id;				
 				class: 'presentation-content';
 				with: [
 					self render: aPresentation] ] 

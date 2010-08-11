@@ -15,7 +15,9 @@ SGLAccumulatorWithActions >> browser [
 	
 	| browser acc|
 	browser := GLMTabulator new.
+	browser title: 'A tabulator'.
 	acc := GLMAccumulator new.
+	acc title: 'An accumulator'.
 	acc show: [:a |
 		a title: [:x | x asString].
 
@@ -35,7 +37,9 @@ SGLAccumulatorWithActions >> browser [
 		].
 	browser column: [:c | c row: #one span: 4; row: #two]; column: #three; column: #four.
 	browser transmit to: #one; andShow: [:a | 
-		a list display: [:x | x to: 10 * x]; showOnly: 10].
+		a list 
+			title: 'List presentation';
+			display: [:x | x to: 10 * x]; showOnly: 10].
 	browser transmit from: #one; to: #two; andShow: [:a |
 		a text display: [:x | 'You have selected ', x printString, '. Double cick to open to the right']].
 	browser transmit from: #one; to: #three; andShowIfNone: [:a |

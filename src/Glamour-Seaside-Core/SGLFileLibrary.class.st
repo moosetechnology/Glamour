@@ -385,9 +385,9 @@ SGLFileLibrary >> glamourSeasideJs [
 				var $tabs = $(this);
 				
 				if ( !args ) {
-					initialize(this, {});
+					initialize(this, $.fn.glamourTabs.defaults);
 				} else if ( typeof args[0] === "object"  ) {
-					initialize(this, args[0]);
+					initialize(this, $.extend({}, $.fn.glamourTabs.defaults, args[0]) );
 				} else if ( typeof args[0] === "string" ) {
 					if (args[0] === "add") {
 						add(this, args[3], options);
@@ -406,6 +406,16 @@ SGLFileLibrary >> glamourSeasideJs [
 					addCloseButton(tab, tabs);
 				});
 			}
+			
+			
+			$(tabs).bind("tabsremovedlast", function(event) {
+				if ( options.ifEmptyDo === "replace" ) {
+					$(tabs).replaceWith(options.replaceWith);
+				} else if ( options.ifEmptyDo === "remove" ) {
+					$(tabs).remove();
+				}
+			});
+			
 			
 			if ( options.glmDelete ) {
 				$(tabs).bind("tabsdeleted", function(event, ui) {
@@ -432,7 +442,18 @@ SGLFileLibrary >> glamourSeasideJs [
 				$(tabs).tabs("remove",  index);
 				// Trigger a custom event as in version JQuery-UI 1.8.2 the index of the deleted element is not correctly passed.
 				$(tabs).triggerHandler("tabsdeleted", {"tab": tab, "index": index, "panel": tab});
+				
+				if ( $(tabs).tabs("length") == 0 ) {
+					$(tabs).triggerHandler("tabsremovedlast");
+				}
 			});
+		}
+		
+		$.fn.glamourTabs.defaults = {
+			"ifEmptyDo:" : "nothing",
+			"replaceWith" : "<div class=\"ui-widget ui-widget-content ui-corner-all empty-presentation\"></div>" ,
+			"hasActions" : true ,
+			"closable" : false
 		}
 	
 	})(jQuery);
@@ -790,10 +811,6 @@ div.finder-pane > * {
 	visibility: hidden;
 }
 
-.ui-tabs-selected > .glm-tabs-close-button {
-	visibility: visible;
-}
-
 .ui-state-hover > .glm-tabs-close-button {
 	visibility: visible;
 }
@@ -857,12 +874,16 @@ div.finder-pane > * {
 .presentation-title {
 	display: block;
 	border: 1px solid #4297D7;
-	background-color: #E1E1E1;
+	background: #E1E1E1;
 	padding: 0.2em 0.2em 0;
 }
 
 .presentation-title {
 	-webkit-box-flex: 0; -moz-box-flex: 0; box-flex: 0;
+}
+
+.presentation-title a, .presentation-title a:visited, .presentation-title a:link {
+	color: #2E6E9E;
 }
 
 .presentation-title li {
@@ -877,11 +898,6 @@ div.finder-pane > * {
 
 .presentation-title .ui-state-default {
 	float:left;
-}
-
-.presentation-title li span {
-	float: left;
-	padding: 0.5em 1em;
 }
 
 .presentation-content {
