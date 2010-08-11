@@ -407,9 +407,9 @@ SGLFileLibrary >> glamourSeasideJs [
 				});
 			}
 			
-			if ( options.delete ) {
+			if ( options.glmDelete ) {
 				$(tabs).bind("tabsdeleted", function(event, ui) {
-					options.delete(event, ui);
+					options.glmDelete(event, ui);
 				});
 			}
 		}

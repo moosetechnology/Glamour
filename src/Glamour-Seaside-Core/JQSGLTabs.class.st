@@ -30,5 +30,5 @@ JQSGLTabs >> method [
 JQSGLTabs >> onRemove: anObject [
 	"Bind this event with the 'delete' action as 'remove' does not properly work in JQueru-UI 1.8.2 "
 
-	self optionAt: 'delete' put: anObject asFunction
+	self optionAt: 'glmDelete' put: anObject asFunction
 ]
