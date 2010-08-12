@@ -30,12 +30,20 @@ LazyTabGroupMorph >> addPage: aMorph at: anIndex [
 	^self pages at: anIndex put: aMorph
 ]
 
+{ #category : #'as yet unclassified' }
+LazyTabGroupMorph >> clear [
+	self flag: 'todo'.
+"	tabSelectorMorph submorphs do: [:each |
+		tabSelectorMorph removeMorph: each ].
+	lazyPages := OrderedCollection new.
+	pageMorphs := Dictionary new."
+]
+
 { #category : #initialization }
 LazyTabGroupMorph >> initialize [
 	super initialize.
 	lazyPages := OrderedCollection new.
 	pageMorphs := Dictionary new.
-
 ]
 
 { #category : #'as yet unclassified' }

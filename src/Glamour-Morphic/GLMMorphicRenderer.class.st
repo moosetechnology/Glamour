@@ -381,10 +381,10 @@ GLMMorphicRenderer >> renderListingPresentation: aPresentation [
 ]
 
 { #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderMagrittePresentation: anAsMorphPresentation [ 
+GLMMorphicRenderer >> renderMagrittePresentation: aMagrittePresentation [ 
 	| toShow description magritteMorph scrollPane |
-	toShow := anAsMorphPresentation displayValue.
-	description := (anAsMorphPresentation magritteDescription glamourValue: toShow) copy.
+	toShow := aMagrittePresentation displayValue.
+	description := (aMagrittePresentation magritteDescription glamourValue: toShow) copy.
 	description morphClass: MASilentContainerMorph.
 	magritteMorph := (description asMorphOn: toShow)
 		addButtons;
@@ -398,7 +398,17 @@ GLMMorphicRenderer >> renderMagrittePresentation: anAsMorphPresentation [
 		layoutChanged".
 	scrollPane layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ 25 corner: 0 @ 0)).
 
-	^ magritteMorph
+	aMagrittePresentation when: GLMPresentationUpdated do: [:ann |
+		scrollPane scroller removeMorph: scrollPane scroller submorphs first.
+		toShow := aMagrittePresentation displayValue.
+		description := (aMagrittePresentation magritteDescription glamourValue: toShow) copy.
+		description morphClass: MASilentContainerMorph.
+		magritteMorph := (description asMorphOn: toShow)
+			addButtons;
+			morph.
+		scrollPane scroller addMorph: magritteMorph].
+
+	^ scrollPane
 ]
 
 { #category : #'rendering presentations' }
@@ -511,6 +521,19 @@ GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation 
 			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ 
 				index := i ] ] ].
 	tabs selectedPageIndex: index.
+	aCompositePresentation when: GLMPresentationUpdated do: [:ann |
+		presentations do: [ :each | 
+		tabs clear.
+		tabs 
+			addLazyPage: [ self render: each ]
+			label: (self titleOrIconOf: each in: tabs) ].
+		index := 1.
+		presentations withIndexDo: [ :each :i | 
+			aCompositePresentation pane lastActivePresentation notNil and: [ 
+				each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ 
+					index := i ] ] ].
+		tabs selectedPageIndex: index.].
+
 	^ tabs
 ]
 
@@ -536,6 +559,7 @@ GLMMorphicRenderer >> renderTabulator: aBrowser [
 				ofPane: aBrowser pane
 				inUI: container
 				inBrowser: aBrowser ].
+
 	^ container
 ]
 
