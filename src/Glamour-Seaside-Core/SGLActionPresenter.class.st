@@ -14,20 +14,12 @@ SGLActionPresenter class >> for: aPresentation with: aRenderer [
 	^ self basicNew initializeFor: aPresentation with: aRenderer 
 ]
 
-{ #category : #scripting }
-SGLActionPresenter >> buildActionScriptFor: anAction with: html [
+{ #category : #scripts }
+SGLActionPresenter >> actionScriptFor: anAction with: html [
 	^ html jQuery ajax
 		script: [:script| 
 			anAction actOn: presentation.
 			renderer updateScript: script ] 
-]
-
-{ #category : #scripting }
-SGLActionPresenter >> buildMenuScriptWith: html [
-	^ html jQuery new buildMenu 
-			menuWidth: 20;
-			hasImages: false;
-			closeOnMouseOut: true
 ]
 
 { #category : #initialization }
@@ -43,13 +35,21 @@ SGLActionPresenter >> initializeFor: aPresentation with: aRenderer [
 	renderer := aRenderer
 ]
 
+{ #category : #scripts }
+SGLActionPresenter >> menuScriptWith: html [
+	^ html jQuery new buildMenu 
+			menuWidth: 20;
+			hasImages: false;
+			closeOnMouseOut: true
+]
+
 { #category : #rendering }
 SGLActionPresenter >> renderAction: anAction on: html [
 	html image 
 		form: anAction icon;
 		id: html nextId;
 		title: anAction title;
-		onClick: ( self buildActionScriptFor: anAction with: html )
+		onClick: ( self actionScriptFor: anAction with: html )
 ]
 
 { #category : #rendering }
@@ -73,7 +73,7 @@ SGLActionPresenter >> renderContentOn: html [
 SGLActionPresenter >> renderMbMenuContentForActions: actions on: html [
 	self showAsIconCount + 1to: actions size do: [ :index|
 		html anchor
-			action: (self buildActionScriptFor: ( actions at: index) with: html);
+			action: (self actionScriptFor: ( actions at: index) with: html);
 			with: [
 				"html image form: (actions at: index) icon."
 				html text: ( actions at: index) title] ] 
@@ -95,7 +95,7 @@ SGLActionPresenter >> renderMbMenuHeaderForMenu: aMenuId on:  html [
 	html div 
 		id: html nextId;
 		class: 'glm-ac-container-menu';
-		script: (self buildMenuScriptWith: html);
+		script: (self menuScriptWith: html);
 		with: [
 			html table 
 				class: 'rootVoices';

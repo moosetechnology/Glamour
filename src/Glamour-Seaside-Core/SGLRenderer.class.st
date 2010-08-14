@@ -5,8 +5,7 @@ Class {
 		'component',
 		'html',
 		'uuid',
-		'scripts',
-		'properties'
+		'scripts'
 	],
 	#category : #'Glamour-Seaside-Core'
 }
@@ -20,7 +19,7 @@ SGLRenderer class >> in: aComponent on: html [
 SGLRenderer >> initialize [
 	super initialize.
 	uuid := IdentityDictionary new.
-	properties := IdentityDictionary new.
+	"properties := IdentityDictionary new."
 	scripts := GRSmallDictionary new
 ]
 
@@ -33,6 +32,12 @@ SGLRenderer >> initializeIn: aComponent on: aRenderer [
 
 { #category : #dispatching }
 SGLRenderer >> render: aRenderable [
+	aRenderable renderGlamorouslyOn: self
+]
+
+{ #category : #dispatching }
+SGLRenderer >> render: aRenderable on: aRenderer [
+	html := aRenderer.
 	aRenderable renderGlamorouslyOn: self
 ]
 
@@ -308,42 +313,7 @@ SGLRenderer >> renderStackedVerticallyCompositePresentation: aCompositePresentat
 
 { #category : #presentation }
 SGLRenderer >> renderTabbedCompositePresentation: aCompositePresentation [
-	| presentations index|
-	presentations := aCompositePresentation matchingPresentations.
-	presentations isEmpty ifTrue: [ ^ self renderEmptyPresentation ].
-	presentations size = 1 ifTrue: [^ self renderWithTitleOrNil: presentations first ].
-	index := 1.
-	presentations withIndexDo: [ :each :i | 
-		aCompositePresentation pane lastActivePresentation notNil and: [ 
-			each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ index := i ] ] ].
-
-	html div
-		class: 'tabbed-arrangement';
-		script: ( html jQuery new glamourTabs 
-			cache: true; 
-			hasActions: true;
-			closable: true;
-			onSelect: (html jQuery ajax callbackTabs: [ :event | 
-       			aCompositePresentation pane lastActivePresentation: (aCompositePresentation matchingPresentations at: (event at: #index)+1 ) ]) );
-		with: [
-			html unorderedList: [
-				presentations withIndexDo: [ :each :i|
-					html listItem 
-						class: 'ui-tabs-selected' if: i + 1 = index; 
-						id: html nextId;
-						with: [
-							html anchor
-								url: (html jQuery ajax
-									html: [ :renderer | 
-										html := renderer.										
-										self render: each ];
-									fullUrl);
-								with: each title ] ].
-				presentations withIndexDo: [ :each :i | 
-					html listItem
-						class: 'glm-actions';
-						style: 'display: none;';
-						with: [ self renderActionsFrom: each on: html ] ] ] ]
+	html render: (SGLTabbedCompositePresenter for: aCompositePresentation with: self)
 ]
 
 { #category : #widgets }
