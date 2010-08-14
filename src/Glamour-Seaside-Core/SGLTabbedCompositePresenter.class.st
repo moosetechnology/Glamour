@@ -50,8 +50,8 @@ SGLTabbedCompositePresenter >> renderActionsFor: aTab on: html [
 SGLTabbedCompositePresenter >> renderContentOn: html [
 	| presentations|
 	presentations := compositePresentation matchingPresentations.
-	presentations isEmpty ifTrue: [ ^ self renderEmptyPresentation ].
-	presentations size = 1 ifTrue: [^ self renderWithTitleOrNil: presentations first ].
+	presentations isEmpty ifTrue: [ ^ renderer renderEmptyPresentation ].
+	presentations size = 1 ifTrue: [^ renderer renderWithTitleOrNil: presentations first ].
 	html div
 		class: 'tabbed-arrangement';
 		script: (self tabScriptWith: html);
