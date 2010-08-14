@@ -253,6 +253,8 @@ SGLRenderer >> renderMondrianPresentation: aPresentation [
 	canvas selected: (view 
 		nodeForDomainValue: aPresentation selection 
 		ifAbsent: [ nil ]).
+	html div
+		with: [
 	html image
 		form: canvas imageForm;	
 		style: 'position: relative';
@@ -270,6 +272,7 @@ SGLRenderer >> renderMondrianPresentation: aPresentation [
 			self scriptFor: aPresentation put: ((html jQuery id: (self uuidFor: aPresentation))
 				replaceWith: [ :r | html := r. self renderMondrianPresentation: aPresentation ]).
 			self updateScript: script ])
+	]
 ]
 
 { #category : #widgets }
