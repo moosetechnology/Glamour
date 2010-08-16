@@ -58,7 +58,7 @@ SGLRenderer >> renderAccordionCompositePresentation: aCompositePresentation [
    	      with: [
          		presentations withIndexDo: [ :each :i | 
 				html div: [ 
-					html anchor: each title. 
+					html anchor: each titleValue. 
 					self renderActionsFrom: each on: html ].
 				html div: [ self render: each ] ] ]
 ]
@@ -107,7 +107,7 @@ SGLRenderer >> renderAccumulator: aBrowser addPane: aPane [
 							html := renderer.										
 							self renderPaneWithoutTitle: aPane ];
 						fullUrl) 			 
-			label: ( self titleOrIconOf: aPane presentations)
+			label: [ :aRenderer | self renderTitleOrIconOf: aPane presentations on: aRenderer ]
 			actions: (html jQuery new render: [:aRenderer| 
 				aRenderer listItem
 						class: 'glm-actions';
@@ -128,7 +128,7 @@ SGLRenderer >> renderAccumulator: aBrowser pane: aPane at: index [
 						html := renderer.										
 						self renderPaneWithoutTitle: aPane ];
 					fullUrl);
-				with: ( self titleOrIconOf: aPane presentations) ].
+				with: [ self renderTitleOrIconOf: aPane presentations on: html ] ].
 	html listItem
 		class: 'glm-actions';
 		style: 'display: none;';
@@ -154,7 +154,7 @@ SGLRenderer >> renderEmptyPresentation [
 		class: 'ui-widget';
 		class: 'ui-widget-content';
 		class: 'ui-corner-all';
-		class: 'empty-presentation'
+		class: 'glm-empty-presentation'
 ]
 
 { #category : #widgets }
@@ -245,7 +245,7 @@ SGLRenderer >> renderMagrittePresentation: aPresentation [
 
 { #category : #presentation }
 SGLRenderer >> renderMondrianPresentation: aPresentation [
-	| view canvas |
+	| view canvas id|
 	view := MOViewRenderer new.
 	aPresentation renderOn: view. 
 	canvas := MOCanvas new. 
@@ -254,11 +254,11 @@ SGLRenderer >> renderMondrianPresentation: aPresentation [
 		nodeForDomainValue: aPresentation selection 
 		ifAbsent: [ nil ]).
 	html div
+		id: (self uuidFor: aPresentation);
+		class: 'glm-mondrian-presentation';
 		with: [
 	html image
 		form: canvas imageForm;	
-		style: 'position: relative';
-		id: (self uuidFor: aPresentation);
 		onClick: (html jQuery ajax 
 			callback: [ :value |
 			| coordinates element |
@@ -353,6 +353,12 @@ SGLRenderer >> renderTableLayoutRow: aCell inBrowser: aBrowser [
 			separatedBy: [ html div class: 'sgl-table-split' ] ]
 ]
 
+{ #category : #presentation }
+SGLRenderer >> renderTablePresentation: aPresentation [
+	self renderEmptyPresentation.
+
+]
+
 { #category : #widgets }
 SGLRenderer >> renderTabulator: aBrowser [
 	aBrowser cell isRow
@@ -364,6 +370,7 @@ SGLRenderer >> renderTabulator: aBrowser [
 SGLRenderer >> renderTextPresentation: aPresentation [
 	self widgetContainer
 		class: 'presentation-container';
+		class: 'glm-text-presentation';
 		with: [
 			html textArea
 				value: aPresentation formatedDisplayValue;
@@ -371,6 +378,15 @@ SGLRenderer >> renderTextPresentation: aPresentation [
 				onChange: (html jQuery ajax 
 					serializeThis;
 					script: [ :script | self updateScript: script ]) ]
+]
+
+{ #category : #widgets }
+SGLRenderer >> renderTitleOrIconOf: aPresentation on: aRenderer [
+	aPresentation hasTitleIcon
+		ifTrue: [ 
+			aRenderer image
+				form: aPresentation titleIconValue  ] 
+		ifFalse:  [ aRenderer render: (aPresentation titleValue ifNil: ['']) ]
 ]
 
 { #category : #presentation }
@@ -407,7 +423,7 @@ SGLRenderer >> renderWithTitle: aPresentation andAddCloseButton: aBoolean [
 					html listItem: [ 
 							html anchor
 								url: '#', id asString;
-								with: (aPresentation titleValue ifNil: [' '])  ].
+								with: [self renderTitleOrIconOf: aPresentation on: html]  ].
 					html listItem 
 						class: 'glm-actions';
 						with: [self renderActionsFrom: aPresentation on: html].
@@ -421,7 +437,7 @@ SGLRenderer >> renderWithTitle: aPresentation andAddCloseButton: aBoolean [
 
 { #category : #widgets }
 SGLRenderer >> renderWithTitleOrNil: aPresentation [
-	aPresentation hasTitle ifFalse: [^self render: aPresentation ].
+	(aPresentation hasTitleIcon or: [aPresentation hasTitle]) ifFalse: [^self render: aPresentation ].
 	self renderWithTitle: aPresentation 
 ]
 
@@ -438,11 +454,6 @@ SGLRenderer >> scriptFor: anObject add: aScript [
 { #category : #script }
 SGLRenderer >> scriptFor: anObject put: aScript [
 	scripts at: (self uuidFor: anObject) put: aScript
-]
-
-{ #category : #widgets }
-SGLRenderer >> titleOrIconOf: aPresentation [
-	^aPresentation titleValue ifNil: ['']
 ]
 
 { #category : #script }

@@ -757,7 +757,7 @@ div.finder {
 }
 div.finder > div.finder-pane {
 	min-width: 150px;
-	max-width: 500px;
+	/*max-width: 500px;*/
 	height: 100%;
 	width: 100%;
 	display: -webkit-box; display: -moz-box; display: box;
@@ -783,6 +783,7 @@ div.finder-pane > * {
 }
 .ui-tabs > .ui-tabs-panel {
 	padding: 0;
+	position: relative;
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 	display: -webkit-box; display: -moz-box; display: box;
 	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch; 
@@ -942,10 +943,6 @@ div.finder-pane > * {
 
 /* List/tree presentation */
 
-.glm-tree-root-ct {
-	cursor: pointer;
-}
-
 .glm-tree-root-ct > .glm-tree-node {
 	margin-top: 1px;
 }
@@ -975,6 +972,10 @@ div.finder-pane > * {
 	width:14px;
 }
 
+.glm-tree-node-el {
+	cursor: pointer;
+}
+
 .glm-tree-node-el > .glm-tree-icon  {
 	background-image:url("arrows.png");
 	background-repeat:no-repeat;
@@ -988,7 +989,24 @@ div.finder-pane > * {
 	background-position: -22px 0;
 }
 
-/* actions */
+/* Mondrian presentation */
+.glm-mondrian-presentation{
+	position: relative;
+	overflow: auto;
+	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+}
+
+.glm-mondrian-presentation > img{
+	position: absolute;
+}
+
+/* Text presentation */
+.glm-text-presentation, .glm-empty-presentation {
+	position: relative;
+	min-height: 150px;
+}
+
+/* Actions */
 
 .glm-actions {
 	float: right;

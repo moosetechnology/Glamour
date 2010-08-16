@@ -70,7 +70,7 @@ SGLTabbedCompositePresenter >> renderTab: aTab asSelectedIf: isSelected on: html
 SGLTabbedCompositePresenter >> renderTabAchorFor: aTab on: html [
 	html anchor
 		url: (self loadContentScriptFor: aTab with: html);
-		with: aTab title
+		with: [renderer renderTitleOrIconOf: aTab on: html]
 ]
 
 { #category : #rendering }
