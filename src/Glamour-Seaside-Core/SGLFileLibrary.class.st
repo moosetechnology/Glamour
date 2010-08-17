@@ -757,17 +757,20 @@ div.finder {
 }
 div.finder > div.finder-pane {
 	min-width: 150px;
-	/*max-width: 500px;*/
+	max-width: 500px;
 	height: 100%;
 	width: 100%;
 	display: -webkit-box; display: -moz-box; display: box;
 	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
 	-webkit-box-orient: horizontal; -moz-box-orient: horizontal; box-orient: horizontal;
+	margin-right: 5px;
 }
 
 div.finder-pane > * {
+	overflow: auto;
 	width: auto;
 	height: 100%;
+	max-width: 500px;
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 }
 
@@ -1003,6 +1006,7 @@ div.finder-pane > * {
 /* Text presentation */
 .glm-text-presentation, .glm-empty-presentation {
 	position: relative;
+	display: -webkit-box; display: -moz-box; display: box;
 	min-height: 150px;
 }
 
