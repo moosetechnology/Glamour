@@ -178,13 +178,15 @@ SGLRenderer >> renderFinder: aBrowser [
 { #category : #widgets }
 SGLRenderer >> renderFinder: aBrowser addPane: aPane [
 	self scriptFor: aBrowser add: ((html jQuery id: (self uuidFor: aBrowser))
-		append: [ :r | html := r. self renderFinder: aBrowser pane: aPane ])
+		append: [ :r | html := r. self renderFinder: aBrowser pane: aPane ]).
+	self scriptFor: aBrowser add: ( ( html jQuery id: (self uuidFor: aBrowser) ) glamourScrollTo target: ( '#', (self uuidFor: aPane) ) ) 
 ]
 
 { #category : #widgets }
 SGLRenderer >> renderFinder: aBrowser pane: aPane [
 	html div
 		class: 'finder-pane ui-widget-content ui-corner-all';
+		id: (self uuidFor: aPane);
 		with: [ self render: aPane ]
 ]
 

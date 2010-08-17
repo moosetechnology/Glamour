@@ -1,6 +1,11 @@
 Extension { #name : #JQueryInstance }
 
 { #category : #'*Glamour-Seaside-Core' }
+JQueryInstance >> glamourScrollTo [
+	^ self create: JQScrollTo
+]
+
+{ #category : #'*Glamour-Seaside-Core' }
 JQueryInstance >> glamourTabs [
 	^ self create: JQSGLTabs
 ]

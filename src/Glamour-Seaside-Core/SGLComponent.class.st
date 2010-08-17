@@ -59,5 +59,6 @@ SGLComponent >> updateRoot: aHtmlRoot [
 	aHtmlRoot javascript url: JQWidgetBoxDeploymentLibrary / #mbMenuJs.
 	aHtmlRoot stylesheet url: (SGLFileLibrary urlOf:  #mbMenuCss).
 	aHtmlRoot javascript url: JQWidgetBoxDeploymentLibrary / #jqueryhoverintentJs.
+	aHtmlRoot javascript url: (SGLFileLibrary urlOf: #scrollToJs).
 	"aHtmlRoot javascript url: 'http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'"
 ]
