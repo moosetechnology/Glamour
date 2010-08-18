@@ -407,7 +407,6 @@ SGLFileLibrary >> glamourSeasideJs [
 				});
 			}
 			
-			
 			$(tabs).bind("tabsremovedlast", function(event) {
 				if ( options.ifEmptyDo === "replace" ) {
 					$(tabs).replaceWith(options.replaceWith);
@@ -416,12 +415,18 @@ SGLFileLibrary >> glamourSeasideJs [
 				}
 			});
 			
-			
 			if ( options.glmDelete ) {
 				$(tabs).bind("tabsdeleted", function(event, ui) {
 					options.glmDelete(event, ui);
 				});
 			}
+			
+			setTabsWidth(tabs);
+		}
+		
+		function setTabsWidth(tabs) {
+			var navigation = $(tabs).children(":first");
+			navigation.css("min-width", navigation.glamourWidth()+$.glamourWidth.outerWidth(navigation)+1);
 		}
 		
 		function add(tabs, index, options) {
@@ -456,6 +461,43 @@ SGLFileLibrary >> glamourSeasideJs [
 			"closable" : false
 		}
 	
+	})(jQuery);
+		
+	
+	;(function($) {
+	
+		$.glamourWidth = {
+			outerWidth : function(node) {
+				var width = 0;
+				
+				width += parseInt(node.css("padding-left"), 10) + parseInt(node.css("padding-right"), 10); 
+				width += parseInt(node.css("margin-left"), 10) + parseInt(node.css("margin-right"), 10); 
+				width += parseInt(node.css("borderLeftWidth"), 10) + parseInt(node.css("borderRightWidth"), 10); 
+				
+				return width;
+			}
+		}
+	
+		$.fn.glamourWidth = function (childrenSelector) {
+			var totalWidth = 0;
+			var width = 0;
+			
+			childrenSelector = childrenSelector || ":visible";
+			this.children(childrenSelector).each(function(){
+				var width;
+
+				if ( $(this).children().size() == 0 ) {
+					width = $(this).outerWidth();
+				} else {
+					width =  $(this).glamourWidth();
+					width = ( width > $(this).width() ? width : $(this).width());
+					width +=$.glamourWidth.outerWidth($(this));
+				}
+				totalWidth +=width;
+			});
+			
+			return totalWidth;
+		}
 	})(jQuery);
 		
 	var Glamour = {};
