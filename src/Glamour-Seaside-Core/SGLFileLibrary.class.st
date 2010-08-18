@@ -417,18 +417,23 @@ SGLFileLibrary >> glamourSeasideJs [
 				}
 			});
 			
-			if ( options.glmDelete ) {
-				$(tabs).bind("tabsdeleted", function(event, ui) {
+			
+			$(tabs).bind("tabsdeleted", function(event, ui) {
+				if ( options.glmDelete ) {
 					options.glmDelete(event, ui);
-				});
-			}
+				}
+				if ( $(ui.tab).hasClass("ui-tab-first") ) {
+					navigation.children(".ui-state-default:first").addClass("ui-tab-first");
+				} else if ( $(ui.tab).hasClass("ui-tab-last") ) {
+					navigation.children(".ui-state-default:last").addClass("ui-tab-last");
+				}	
+			});
+			
 			
 			//Set the width of the tab.
 			navigation.css("min-width", navigation.glamourWidth()+$.glamourWidth.outerWidth(navigation)+1);
 			
-			navigation.children().removeClass("ui-corner-top");
-			navigation.children(".ui-state-default:first").addClass("ui-tab-first");
-			navigation.children(".ui-state-default:last").addClass("ui-tab-last");
+			setNavigationStyles(navigation)
 		}
 		
 		function add(tabs, index, options) {
@@ -437,6 +442,7 @@ SGLFileLibrary >> glamourSeasideJs [
 			$(tabs).glamourActions("add", index, options);
 			$tab = $(tabs).children(".ui-tabs-nav").children(".ui-state-default:eq("+ ( typeof index === "integer"? index : $(tabs).tabs("length") - 1 )+")");
 			addCloseButton($tab[0], tabs);
+			updateNavigationStyles($tab, tabs);
 		}
 		
 		function addCloseButton(tab, tabs) {
@@ -454,6 +460,21 @@ SGLFileLibrary >> glamourSeasideJs [
 					$(tabs).triggerHandler("tabsremovedlast");
 				}
 			});
+		}
+		
+		function  setNavigationStyles($navigation) {
+			$navigation.children().removeClass("ui-corner-top");
+			$navigation.children(".ui-state-default:first").addClass("ui-tab-first");
+			$navigation.children(".ui-state-default:last").addClass("ui-tab-last");
+		}
+		
+		function updateNavigationStyles($newTab, tabs) {
+			$newTab.removeClass("ui-corner-top");
+			$newTab.prevUntil().removeClass("ui-tab-last");
+			$newTab.addClass("ui-tab-last");
+			if ( $(tabs).tabs("length") == 1 ) {
+				$newTab.addClass("ui-tab-first");
+			}
 		}
 		
 		$.fn.glamourTabs.defaults = {
@@ -975,10 +996,6 @@ SGLFileLibrary >> scrollToJs [
 SGLFileLibrary >> styleCss [
 	^ '/* html */
 
-.ui-tabs-nav  .ui-tab-first {
-	-moz-border-radius-topleft: 4px; -webkit-border-top-left-radius: 4px; border-top-left-radius: 4px; 
-}
-
 .ui-tabs .ui-tabs-nav li {
 	padding-bottom: 1px;
 	min-height: 32px;
@@ -996,6 +1013,10 @@ SGLFileLibrary >> styleCss [
 	border-left: 0 none !important;
 }
 
+.ui-tab-first {
+	-moz-border-radius-topleft: 4px; -webkit-border-top-left-radius: 4px; border-top-left-radius: 4px; 
+}
+
 .ui-tab-last {
 	-moz-border-radius-topright: 4px; -webkit-border-top-right-radius: 4px; border-top-right-radius: 4px;
 }
@@ -1003,6 +1024,11 @@ SGLFileLibrary >> styleCss [
 .ui-tabs .ui-tabs-nav li a {
 	padding-top: 10px;
 }
+	
+.presentation-with-title, .presentation-content, .tabbed-arrangement {
+	border: 0 none !important;
+}
+	
 	
 * {margin:0; padding:0;}
 
@@ -1091,7 +1117,7 @@ div.finder-pane > * {
 }
 
 .ui-tabs-nav {
-//	min-height: 38px;
+	min-height: 32px;
 }
 
 .glm-tabs-close-button {

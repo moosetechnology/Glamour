@@ -85,7 +85,7 @@ SGLTabbedCompositePresenter >> renderTabsHeaderOn: html [
 
 { #category : #scripts }
 SGLTabbedCompositePresenter >> tabScriptWith: html [
-	^ html jQuery new glamourTabs 
+	^ html jQuery new glamourTabs
 		cache: true; 
 		hasActions: true;
 		closable: true;
