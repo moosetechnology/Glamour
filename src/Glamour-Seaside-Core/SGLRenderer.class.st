@@ -185,7 +185,7 @@ SGLRenderer >> renderFinder: aBrowser addPane: aPane [
 { #category : #widgets }
 SGLRenderer >> renderFinder: aBrowser pane: aPane [
 	html div
-		class: 'finder-pane ui-widget-content ui-corner-all';
+		class: 'finder-pane';
 		id: (self uuidFor: aPane);
 		with: [ self render: aPane ]
 ]

@@ -399,6 +399,8 @@ SGLFileLibrary >> glamourSeasideJs [
 		}
 
 		function initialize(tabs, options) {
+			var navigation = $(tabs).children(".ui-tabs-nav:first");
+			
 			$(tabs).glamourActions("initialize", options);
 			
 			if ( options.closable ) {
@@ -421,12 +423,12 @@ SGLFileLibrary >> glamourSeasideJs [
 				});
 			}
 			
-			setTabsWidth(tabs);
-		}
-		
-		function setTabsWidth(tabs) {
-			var navigation = $(tabs).children(":first");
+			//Set the width of the tab.
 			navigation.css("min-width", navigation.glamourWidth()+$.glamourWidth.outerWidth(navigation)+1);
+			
+			navigation.children().removeClass("ui-corner-top");
+			navigation.children(".ui-state-default:first").addClass("ui-tab-first");
+			navigation.children(".ui-state-default:last").addClass("ui-tab-last");
 		}
 		
 		function add(tabs, index, options) {
@@ -972,6 +974,36 @@ SGLFileLibrary >> scrollToJs [
 { #category : #uploaded }
 SGLFileLibrary >> styleCss [
 	^ '/* html */
+
+.ui-tabs-nav  .ui-tab-first {
+	-moz-border-radius-topleft: 4px; -webkit-border-top-left-radius: 4px; border-top-left-radius: 4px; 
+}
+
+.ui-tabs .ui-tabs-nav li {
+	padding-bottom: 1px;
+	min-height: 32px;
+	margin: 0;
+	top: 0;
+}
+
+.ui-tabs .ui-tabs-nav .ui-state-default {
+	border-top: 0 none !important;
+	border-right: 0 none !important;
+	border-bottom: 0 none !important;
+	border-left: 1px solid #000000;
+}
+.ui-tabs .ui-tabs-nav .ui-state-default:first-child {
+	border-left: 0 none !important;
+}
+
+.ui-tab-last {
+	-moz-border-radius-topright: 4px; -webkit-border-top-right-radius: 4px; border-top-right-radius: 4px;
+}
+	
+.ui-tabs .ui-tabs-nav li a {
+	padding-top: 10px;
+}
+	
 * {margin:0; padding:0;}
 
 html, body {
@@ -980,7 +1012,7 @@ html, body {
 }
 
 body {
-	font-size: 0.8em;
+	font-size: 10px;
 	margin: 8px;
 }
 
@@ -1059,7 +1091,7 @@ div.finder-pane > * {
 }
 
 .ui-tabs-nav {
-	min-height: 38px;
+//	min-height: 38px;
 }
 
 .glm-tabs-close-button {
@@ -1138,7 +1170,6 @@ div.finder-pane > * {
 
 .presentation-title {
 	display: block;
-	border: 1px solid #4297D7;
 	background: #E1E1E1;
 	padding: 0.2em 0.2em 0;
 }
@@ -1147,9 +1178,9 @@ div.finder-pane > * {
 	-webkit-box-flex: 0; -moz-box-flex: 0; box-flex: 0;
 }
 
-.presentation-title a, .presentation-title a:visited, .presentation-title a:link {
-	color: #2E6E9E;
-}
+.\\presentation-title a, .presentation-title a:visited, .presentation-title a:link {
+\\	color: #2E6E9E;
+\\}
 
 .presentation-title li {
 	border-bottom:0 none !important;

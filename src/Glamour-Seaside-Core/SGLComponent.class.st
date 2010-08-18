@@ -17,7 +17,8 @@ SGLComponent class >> registerAsApplication: aString [
 	application 
 		addLibrary: JQGoogleLibrary;
 		addLibrary: JQUiGoogleLibrary;
-		addLibrary: JQRedmondTheme.
+		addLibrary: JQSGLTheme.
+		"addLibrary: JQRedmondTheme."
 	^ application
 ]
 
