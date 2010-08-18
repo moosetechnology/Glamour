@@ -1028,6 +1028,12 @@ SGLFileLibrary >> styleCss [
 .presentation-with-title, .presentation-content, .tabbed-arrangement {
 	border: 0 none !important;
 }
+
+.ui-accordion .ui-accordion-content {
+	padding: 0;
+	border-left: 0 none !important;
+	border-right: 0 none !important;
+}
 	
 	
 * {margin:0; padding:0;}
