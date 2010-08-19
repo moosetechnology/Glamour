@@ -4,11 +4,10 @@ Class {
 	#category : #'Glamour-Examples'
 }
 
-{ #category : #'as yet unclassified' }
-GLMExamples class >> browseExamples [
+{ #category : #accessing }
+GLMExamples class >> browser [
 	"self browseExamples"
-	| browser pragmas |
-	pragmas := Pragma allNamed: #glmBrowser:input: in: self.
+	| browser |
 	browser := GLMTabulator new.
 	browser title: self title.
 	browser column: #titles; column: #example span: 4.
@@ -26,15 +25,20 @@ GLMExamples class >> browseExamples [
 			title: 'Source code';
 			forSmalltalk: self;
 			display: [:each | self sourceCodeAt: each selector]].	
-	^ browser openOn: pragmas.
+	^ browser.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+GLMExamples class >> model [
+	^ Pragma allNamed: #glmBrowser:input: in: self.
+]
+
+{ #category : #rendering }
 GLMExamples class >> open [
-	^ self browseExamples
+	^ self browser openOn: self model
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMExamples class >> title [
 	^ 'Examples'
 ]

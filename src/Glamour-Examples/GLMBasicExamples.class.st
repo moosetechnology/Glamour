@@ -7,7 +7,7 @@ Class {
 	#category : #'Glamour-Examples'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMBasicExamples class >> title [ 
 	^ 'Basic Examples'
 ]
