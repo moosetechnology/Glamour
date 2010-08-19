@@ -143,6 +143,12 @@ SGLRenderer >> renderAccumulator: aBrowser selectPaneAt: index [
 		 (html jQuery id: (self uuidFor: aBrowser)) tabs select: index-1 ).
 ]
 
+{ #category : #presentation }
+SGLRenderer >> renderActionListPresentation: anActionListPresentation [ 
+	self flag: 'To implement'.
+	self renderEmptyPresentation 
+]
+
 { #category : #widgets }
 SGLRenderer >> renderActionsFrom: aPresentation on: aRenderer [
 	aRenderer render: (SGLActionPresenter for: aPresentation with: self) 
@@ -196,6 +202,13 @@ SGLRenderer >> renderFinder: aBrowser removePane: aPane [
 		contents;
 		filter: ':last';
 		remove)
+]
+
+{ #category : #presentation }
+SGLRenderer >> renderLabelPresentation: aLabelPresentation [ 
+	self flag: 'To implement'.
+	self renderEmptyPresentation
+	
 ]
 
 { #category : #presentation }
@@ -277,6 +290,12 @@ SGLRenderer >> renderMondrianPresentation: aPresentation [
 	]
 ]
 
+{ #category : #presentation }
+SGLRenderer >> renderMorphPresentation: aMorphPresentation [ 
+	self flag: 'To implement'.
+	self renderEmptyPresentation.
+]
+
 { #category : #widgets }
 SGLRenderer >> renderPane: aPane [
 	aPane whenMatchingPresentationsChanged: [ :ann |
@@ -314,6 +333,12 @@ SGLRenderer >> renderStackedVerticallyCompositePresentation: aCompositePresentat
 		with: [
 			presentations do: [ :each | 
 				self renderWithTitle: each andAddCloseButton: true ] ]
+]
+
+{ #category : #widgets }
+SGLRenderer >> renderStacker: aBrowser [ 
+	self flag: 'To implement'.
+	self renderEmptyPresentation
 ]
 
 { #category : #presentation }
@@ -357,6 +382,7 @@ SGLRenderer >> renderTableLayoutRow: aCell inBrowser: aBrowser [
 
 { #category : #presentation }
 SGLRenderer >> renderTablePresentation: aPresentation [
+	self flag: 'To implement'.
 	self renderEmptyPresentation.
 
 ]
