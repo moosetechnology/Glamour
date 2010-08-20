@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Seaside-Examples-Dev'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 SGLTreeWithLeafTags class >> initialize [
 	self registerAsApplication: 'glamour/tags/treeWithLeafTags'
 ]

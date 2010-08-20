@@ -243,7 +243,6 @@ SGLRenderer >> renderListingPresentation: aPresentationModel [
 	aPresentation when: GLMPresentationUpdated do: [ :ann |
 		treePresenter model updateRoots ].
 	
-	"treeRenderer renderContentOn: html"
 	html render: treePresenter
 ]
 
@@ -395,17 +394,31 @@ SGLRenderer >> renderTabulator: aBrowser [
 ]
 
 { #category : #presentation }
-SGLRenderer >> renderTextPresentation: aPresentation [
-	self widgetContainer
-		class: 'presentation-container';
-		class: 'glm-text-presentation';
-		with: [
-			html textArea
-				value: aPresentation formatedDisplayValue;
-				callback: [ :value | aPresentation text: value ];
-				onChange: (html jQuery ajax 
-					serializeThis;
-					script: [ :script | self updateScript: script ]) ]
+SGLRenderer >> renderTextPresentation: aTextPresentation [
+	| model textPresenter |
+	model := SGLTextModel new.
+	model glamourPresentation: aTextPresentation.
+	textPresenter := (SGLTextPresenter for:  model with: self).
+	textPresenter htmlId: (self uuidFor: aTextPresentation).
+	
+	"When the presenter changes, we want to update the glamour model"
+	model announcer on: SGLTextPresenterTextChanged do: [ :ann | 
+		aTextPresentation announcer suspendAllWhile: [
+			aTextPresentation text: ann text ] ].
+	
+	"When the glamour model changes, we want to update the presenter"
+	aTextPresentation when: GLMContextChanged do: [ :ann | 
+		model announcer suspendAllWhile: [
+			ann inspect.
+			ann property = #text
+				ifTrue: [
+					textPresenter model text: ann value.
+					textPresenter updateText ] ] ].
+	aTextPresentation when: GLMPresentationUpdated do: [:ann |
+		self halt.
+		].
+	
+	html render: textPresenter
 ]
 
 { #category : #widgets }

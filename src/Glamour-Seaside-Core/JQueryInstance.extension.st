@@ -11,6 +11,11 @@ JQueryInstance >> glamourTabs [
 ]
 
 { #category : #'*Glamour-Seaside-Core' }
+JQueryInstance >> glamourText [
+	^ self create: JQSGLText
+]
+
+{ #category : #'*Glamour-Seaside-Core' }
 JQueryInstance >> glamourTree [
 	^ self create: JQSGLTree
 ]
