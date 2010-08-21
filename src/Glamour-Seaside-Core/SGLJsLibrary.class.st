@@ -509,18 +509,30 @@ SGLJsLibrary >> glamourSeasideJs [
 	})(jQuery);
 		
 	(function($){
-		$.fn.glamourText = function(options) {
-			var opts = options;
+		$.fn.glamourText = function() {
+			var args = arguments;
 			
 			return this.each( function() {
-				if (typeof opts.change === "function" ) {
-					$(this).typeWatch({ 
-						captureLength: 1, 
-						callback: function() { alert(arguments[0]); opts.change(arguments[0])}
-					} );
+				if ( typeof args[0] === "object" ) {
+					createWidget(this, args[0]);
+				} else {
+					$(this).val(args[1]);
 				}
+				
 			})
 		}
+		
+		function createWidget(text, opts) {
+
+			if (typeof opts.change === "function" ) {
+				$(text).typeWatch({ 
+					highlight: false, 
+					captureLength: -1, 
+					callback: function() { opts.change(arguments[0])}
+				} );
+			}
+		}
+		
 	})(jQuery)
 		
 	var Glamour = {};

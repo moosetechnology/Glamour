@@ -4,6 +4,11 @@ Class {
 	#category : #'Glamour-Seaside-Core'
 }
 
+{ #category : #actions }
+JQSGLText >> changeText: aString [
+	self action: 'changeText' arguments: (Array with: aString)
+]
+
 { #category : #accessing }
 JQSGLText >> method [
 	^ 'glamourText'

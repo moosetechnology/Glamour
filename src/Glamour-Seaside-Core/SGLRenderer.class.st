@@ -15,6 +15,11 @@ SGLRenderer class >> in: aComponent on: html [
 	^ self basicNew initializeIn: aComponent on: html
 ]
 
+{ #category : #accessing }
+SGLRenderer >> html [
+	^ html
+]
+
 { #category : #initialization }
 SGLRenderer >> initialize [
 	super initialize.
@@ -409,14 +414,11 @@ SGLRenderer >> renderTextPresentation: aTextPresentation [
 	"When the glamour model changes, we want to update the presenter"
 	aTextPresentation when: GLMContextChanged do: [ :ann | 
 		model announcer suspendAllWhile: [
-			ann inspect.
-			ann property = #text
+			( #(#text "#selectionInterval #selectionText" ) includes:  ann property) 
 				ifTrue: [
-					textPresenter model text: ann value.
+					textPresenter model  perform: (ann property, ':') asSymbol with: ann value.
 					textPresenter updateText ] ] ].
-	aTextPresentation when: GLMPresentationUpdated do: [:ann |
-		self halt.
-		].
+	aTextPresentation when: GLMPresentationUpdated do: [:ann | ].
 	
 	html render: textPresenter
 ]

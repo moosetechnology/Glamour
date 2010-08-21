@@ -16,13 +16,9 @@ SGLTextModel >> text [
 SGLTextModel >> text: aString [
 	self text = aString 
 		ifFalse: [
-			self text: aString.
+			text := aString.
 			self announcer announce: (
 				SGLTextPresenterTextChanged  new 
 					text: aString
 					yourself) ]
-]
-
-{ #category : #updating }
-SGLTextModel >> updateText [
 ]

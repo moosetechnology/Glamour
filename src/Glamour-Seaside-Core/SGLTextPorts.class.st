@@ -18,7 +18,7 @@ SGLTextPorts >> browser [
 	browser := GLMTabulator new.
 	browser row: #main; row: [:r | r column: #full; column: #fullFromTransmision].
 	browser showOn: #main; using: [browser text].
-	"browser showOn: #full; from: #main->#text; using: [browser text]."
+	browser showOn: #full; from: #main->#text; using: [browser text].
 	
 	"browser transmit to: #textFromTransmision->#text; from: #main->#text; when: [:text| text notNil]; andShow: [:a| a text]."
 	

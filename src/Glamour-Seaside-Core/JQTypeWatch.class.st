@@ -10,6 +10,11 @@ JQTypeWatch >> callback: anObject [
 ]
 
 { #category : #'options-generated' }
+JQTypeWatch >> captureEnter: aBoolean [
+	self optionAt: 'captureEnter' put: aBoolean
+]
+
+{ #category : #'options-generated' }
 JQTypeWatch >> captureLength: anInteger [
 	self optionAt: 'captureLength' put: anInteger
 ]

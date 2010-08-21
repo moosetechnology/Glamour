@@ -38,12 +38,10 @@ SGLTextPresenter >> model [
 
 { #category : #rendering }
 SGLTextPresenter >> renderContentOn: html [
-	Transcript show: 'render text'; cr.
 	html div
 		class: 'ui-widget ui-widget-content ui-corner-all';
 		class: 'presentation-container';
 		class: 'glm-text-presentation';
-		id: self htmlId;
 		with: [
 			self renderTextAreaOn: html]
 ]
@@ -51,6 +49,7 @@ SGLTextPresenter >> renderContentOn: html [
 { #category : #rendering }
 SGLTextPresenter >> renderTextAreaOn: html [
 	html textArea
+		id: self htmlId;
 		value: model glamourPresentation formatedDisplayValue;
 		script: ( html jQuery this glamourText 
 			onChange: (
@@ -59,4 +58,12 @@ SGLTextPresenter >> renderTextAreaOn: html [
 						model text: value.
 						renderer updateScript: script  ]) )
 			
+]
+
+{ #category : #updating }
+SGLTextPresenter >> updateText [
+	renderer 
+		scriptFor: self model glamourPresentation 
+		add: ( ( (renderer html jQuery id: (
+			renderer uuidFor: self model glamourPresentation) )  glamourText ) changeText: self model text )
 ]
