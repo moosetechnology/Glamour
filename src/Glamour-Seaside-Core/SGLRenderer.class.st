@@ -420,6 +420,10 @@ SGLRenderer >> renderTextPresentation: aTextPresentation [
 					textPresenter updateText ] ] ].
 	aTextPresentation when: GLMPresentationUpdated do: [:ann | ].
 	
+	"We populate the text port. Must be done after setting the anouncers
+	in order to trigger them"
+	model text: aTextPresentation formatedDisplayValue.
+	
 	html render: textPresenter
 ]
 
