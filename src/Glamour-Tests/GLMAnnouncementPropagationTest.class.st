@@ -6,7 +6,7 @@ Class {
 
 { #category : #setup }
 GLMAnnouncementPropagationTest >> expectedFailures [
-	^ #(testEntityPropogationAnnouncements testSimplePropagation)
+	^ #("testEntityPropogationAnnouncements testSimplePropagation")
 ]
 
 { #category : #setup }
@@ -97,10 +97,15 @@ GLMAnnouncementPropagationTest >> testSimpleCreation [
 	browser := GLMBrowser new.
 	browser startOn: 42.
 	self assert: GLMLogger instance announcements copy size = 4.
-"	
-browser pane.
+]
 
-browser pane presentations pane"
+{ #category : #tests }
+GLMAnnouncementPropagationTest >> testSimpleEmptyPane [
+	| pane |
+	pane := GLMPane new.
+	pane browser: GLMPresentation new.
+	(pane port: #entity) value: 42.
+	self assert: GLMLogger instance announcements copy size = 2
 ]
 
 { #category : #tests }
@@ -110,9 +115,5 @@ GLMAnnouncementPropagationTest >> testSimplePropagation [
 	browser column: #pane1.
 	browser transmit to: #pane1; andShow: [:a | a text ].
 	browser startOn: 42.
-	self assert: GLMLogger instance announcements copy size = 8.
-"	
-browser pane.
-
-browser pane presentations pane"
+	self assert: GLMLogger instance announcements copy size = 8
 ]
