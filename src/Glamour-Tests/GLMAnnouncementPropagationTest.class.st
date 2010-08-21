@@ -45,7 +45,8 @@ GLMAnnouncementPropagationTest >> testEntityPropogationAnnouncements [
 	self assert: GLMLogger instance announcements copy isEmpty. 
 	browser1 startOn: 42. 
 	
-	self assert: GLMLogger instance announcements copy size = 8.	"1. The outer browser's outer pane changes its value." 
+	self assert: GLMLogger instance announcements copy size = 12.	"1. The outer browser's outer pane changes its value." 
+
 	self assert: ((GLMLogger instance announcements copy at: 1) isKindOf: GLMContextChanged). 
 	self assert: (GLMLogger instance announcements copy at: 1) presentation == browser1. 
 	self assert: (GLMLogger instance announcements copy at: 1) property = #entity. 
