@@ -53,25 +53,43 @@ GLMFinder >> addPaneFromInner: aPort [
 				addPresentations: (each presentations collect: #copy)] . 
 	(realTransmissions select: [:each | each originatesAt: aPort]) 
 		do: [:each | each transmit]. 
-	self 
+"	self 
 		announce: 
 			(GLMPaneAdded 
 				pane: self panes last 
 				atPosition: self panes size 
-				inBrowser: self)
+				inBrowser: self)"
 ]
 
 { #category : #events }
 GLMFinder >> innerPortEvent: aPortEvent [ 
-	 
 	aPortEvent portName = #entity ifFalse: [
 		"We don't want to resend the transmission, but use a new SimpleTransmission." 
 		(self pane port: aPortEvent portName) value: aPortEvent value]. 
+
 	aPortEvent port name = #selection ifTrue: [
-		(self panes reversed copyUpTo: aPortEvent pane) do: [ :each |  
+		| index toReplace |
+		index := self panes reversed indexOf: aPortEvent pane.
+		Transcript show: index printString; cr.
+		(self panes reversed first: index - 2) do: [ :each |  
 			self removeLastPane.
-			self announce: (GLMPaneRemoved pane: each fromBrowser: self) ]. 
-		self addPaneFromInner: aPortEvent port ]
+			self announce: (GLMPaneRemoved pane: each fromBrowser: self) ].
+		index <= 1 
+			ifTrue: [ 
+				self addPaneFromInner: aPortEvent port.
+				self announce: 
+					(GLMPaneAdded 
+						pane: self panes last 
+						atPosition: self panes size 
+						inBrowser: self) ]
+			ifFalse: [
+				toReplace := self removeLastPane.
+				self addPaneFromInner: aPortEvent port.
+				self announce: (GLMPaneReplaced 
+							oldPane: toReplace 
+							newPane: self panes last
+							fromBrowser: self ) ] 
+	]
 ]
 
 { #category : #events }
