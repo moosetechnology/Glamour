@@ -349,39 +349,12 @@ GLMMorphicRenderer >> renderLabelPresentation: aLabelPresentation [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderListPresentation: aListPresentation [ 
-	^ self renderListingPresentation: aListPresentation
+	^ GLMMorphicListRenderer render: aListPresentation from: self
 ]
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderListingPresentation: aPresentation [ 
-	| treeModel container treeMorph textInput |
-	treeModel := GLMTreeMorphModel new glamourPresentation: aPresentation.
-	container := GLMMorphic emptyMorph.
-	treeMorph := self treeMorphFor: treeModel and: aPresentation.
-	aPresentation allowsInput ifTrue: [
-		textInput := self textInputFor: treeModel.
-		treeMorph layoutFrame bottomOffset: -24.
-		container addMorphBack: textInput ].
-	container addMorphBack: treeMorph.
-	self installActionsOnUI: treeModel fromPresentation: aPresentation.
-
-	"When the morph changes, we want to update the glamour model"
-	treeModel announcer on: GLMTreeMorphSelectionChanged do: [ :ann | 
-		aPresentation announcer suspendAllWhile: [
-			aPresentation selection: ann selectionValue.
-			aPresentation selectionPath: ann selectionPathValue] ].
-	treeModel announcer on: GLMTreeMorphStrongSelectionChanged do: [ :ann | 
-		aPresentation strongSelection: ann strongSelectionValue ].
-	
-	"When the glamour model changes, we want to update the morph"
-	aPresentation when: GLMContextChanged do: [ :ann | 
-			ann property = #selection ifTrue: [ 
-				treeModel announcer suspendAllWhile: [
-					treeMorph model explicitSelection: ann value ] ] ].
-	aPresentation when: GLMPresentationUpdated do: [ :ann |
-		treeMorph model updateRoots ].
-
-	^ container
+	^ GLMMorphicListingRenderer render: aPresentation from: self
 ]
 
 { #category : #'rendering presentations' }
@@ -543,7 +516,7 @@ GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation 
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTablePresentation: aPresentation [ 
-	^ self renderListingPresentation: aPresentation
+	^ GLMMorphicTableRenderer render: aPresentation from: self
 ]
 
 { #category : #'rendering browsers' }
@@ -601,11 +574,7 @@ GLMMorphicRenderer >> renderToolbarForBrowser: aBrowser inWindow: aWin [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTreePresentation: aPresentation [ 
-	| container |
-	container := self renderListingPresentation: aPresentation.
-	aPresentation shouldAllExpand ifTrue: [container submorphs first expandAll ].
-	aPresentation shouldRootsExpand ifTrue: [container submorphs first expandRoots ].
-	^ container
+	^ GLMMorphicTreeRenderer render: aPresentation from: self
 ]
 
 { #category : #private }
