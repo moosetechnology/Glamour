@@ -11,7 +11,9 @@ SGLAllowNil class >> initialize [
 
 { #category : #accessing }
 SGLAllowNil >> browser [
-	^GLMBasicExamples new allowNil 
+	"self new browser openOn: self new model"
+	
+	^ GLMBasicExamples new allowNil.
 ]
 
 { #category : #accessing }
