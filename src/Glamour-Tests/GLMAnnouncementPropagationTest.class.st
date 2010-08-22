@@ -6,7 +6,7 @@ Class {
 
 { #category : #setup }
 GLMAnnouncementPropagationTest >> expectedFailures [
-	^ #("testEntityPropogationAnnouncements testSimplePropagation")
+	^ #(testEntityPropogationAnnouncements)
 ]
 
 { #category : #setup }
