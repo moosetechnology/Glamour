@@ -173,7 +173,7 @@ GLMPane >> notingPresentationChangeDo: aBlock [
 	oldMatchingPresentations := self matchingPresentations. 
 
 	aBlock value. 
-	presentations ~= oldPresentations ifTrue: [
+	presentations presentations  ~= oldPresentations ifTrue: [
 		self announce: ((GLMPresentationsChanged new) 
 						pane: self; 
 						oldPresentations: oldPresentations; 
