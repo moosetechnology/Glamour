@@ -93,18 +93,10 @@ GLMAnnouncementPropagationTest >> testSimple [
 ]
 
 { #category : #tests }
-GLMAnnouncementPropagationTest >> testSimpleCreation [
-	| browser |
-	browser := GLMBrowser new.
-	browser startOn: 42.
-	self assert: GLMLogger instance announcements copy size = 4.
-]
-
-{ #category : #tests }
 GLMAnnouncementPropagationTest >> testSimpleEmptyPane [
 	| pane |
 	pane := GLMPane new.
-	pane browser: GLMPresentation new.
+	pane browser: GLMBrowser new.
 	(pane port: #entity) value: 42.
 	self assert: GLMLogger instance announcements size = 1.
 	self assert: (GLMLogger instance announcements first isKindOf: GLMContextChanged)
