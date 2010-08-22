@@ -29,8 +29,10 @@ Class {
 
 { #category : #comparison }
 GLMPresentation >> = aPresentation [
-	^ self class = aPresentation class and: [
-		self rootPrototype == aPresentation rootPrototype ]
+	self flag: 'this breaks some tests'.
+	^ self == aPresentation 
+	"^ self class = aPresentation class and: [
+		self rootPrototype == aPresentation rootPrototype ]"
 ]
 
 { #category : #accessing }
