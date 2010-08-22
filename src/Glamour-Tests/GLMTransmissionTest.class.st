@@ -20,7 +20,7 @@ GLMTransmissionTest >> testBundleStrategy [
 	presentation := pane2 presentations first.
 	(pane1 port: #port1) value: 2.
 	transmission transmit.
-	self assert: pane2 presentations first = presentation.
+	self assert: pane2 presentations first rootPrototype = presentation rootPrototype.
 	self assert: pane2 presentations first ~~ presentation
 ]
 
@@ -62,7 +62,7 @@ GLMTransmissionTest >> testNoOverrideStrategy [
 	self assert: transmission destination pane == pane2.
 	(pane1 port: #port1) value: 2.
 	transmission transmit.
-	self assert: pane2 presentations first = presentation.
+	self assert: pane2 presentations first rootPrototype = presentation rootPrototype.
 	self assert: pane2 presentations first == presentation
 ]
 

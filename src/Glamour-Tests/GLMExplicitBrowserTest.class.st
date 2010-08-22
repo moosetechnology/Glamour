@@ -31,7 +31,7 @@ GLMExplicitBrowserTest >> testJumpstartTransmission [
 	(browser pane port: #entity) value: #foo. 
 	self assert: (browser panes first port: #entity) value = #foo. 
 	self assert: browser panes first presentations size = 1. 
-	self assert: browser panes first presentations first = presentation
+	self assert: browser panes first presentations first rootPrototype = presentation
 ]
 
 { #category : #tests }
@@ -206,7 +206,7 @@ GLMExplicitBrowserTest >> testTransmissionBundle [
 		assert: 
 			(pane3 port: #entity) value = (GLMMultiValue withAll: #(#bar #foo)). 
 	self assert: pane3 presentations size = 1. 
-	self assert: pane3 presentations first = presentation2
+	self assert: pane3 presentations first rootPrototype = presentation2
 ]
 
 { #category : #tests }

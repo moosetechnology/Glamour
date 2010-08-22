@@ -96,12 +96,12 @@ GLMNestedBrowserTest >> testEntityPropogation [
 	self assert: (browser1 panes first port: #entity) value = 42.
 	self assert: browser1 panes first presentations size = 1. 
 	innerBrowser := browser1 panes first presentations first.
-	self assert: innerBrowser = browser2. 
+	self assert: innerBrowser rootPrototype = browser2. 
 	self assert: innerBrowser pane == browser1 panes first.
 	self assert: innerBrowser panes size = 1.
 	self assert: (innerBrowser panes first port: #entity) value = 42.
 	self assert: innerBrowser panes first presentations size = 1.
-	self assert: innerBrowser panes first presentations first = presentation
+	self assert: innerBrowser panes first presentations first rootPrototype = presentation
 ]
 
 { #category : #tests }
