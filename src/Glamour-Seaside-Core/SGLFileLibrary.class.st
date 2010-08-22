@@ -260,10 +260,15 @@ body{
 { #category : #uploaded }
 SGLFileLibrary >> styleCss [
 	^ '/* html */
+	
+.ui-widget-header {
+	background: none;
+	background-color: #868786;
+	-moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0; 
+}
 
 .ui-tabs .ui-tabs-nav li {
 	padding-bottom: 1px;
-	min-height: 32px;
 	margin: 0;
 	top: 0;
 }
@@ -288,6 +293,10 @@ SGLFileLibrary >> styleCss [
 	
 .ui-tabs .ui-tabs-nav li a {
 	padding-top: 10px;
+}
+
+.ui-tabs-panel > * {
+	border-top: 0 none !important;
 }
 	
 .presentation-with-title, .presentation-content, .tabbed-arrangement {
@@ -372,10 +381,13 @@ div.finder-pane > * {
 	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;
 }
 .ui-tabs > .ui-tabs-nav {
+	padding: 0;
+	border: 0 none !important;
 	-webkit-box-flex: 0; -moz-box-flex: 0; box-flex: 0;
 }
 .ui-tabs > .ui-tabs-panel {
-	padding: 0;
+	background-color: #868786;
+	padding: 3px;
 	position: relative;
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 	display: -webkit-box; display: -moz-box; display: box;
@@ -385,10 +397,6 @@ div.finder-pane > * {
 
 .ui-tabs-panel > * {
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
-}
-
-.ui-tabs-nav {
-	min-height: 32px;
 }
 
 .glm-tabs-close-button {
@@ -467,17 +475,12 @@ div.finder-pane > * {
 
 .presentation-title {
 	display: block;
-	background: #E1E1E1;
 	padding: 0.2em 0.2em 0;
 }
 
 .presentation-title {
 	-webkit-box-flex: 0; -moz-box-flex: 0; box-flex: 0;
 }
-
-.\\presentation-title a, .presentation-title a:visited, .presentation-title a:link {
-\\	color: #2E6E9E;
-\\}
 
 .presentation-title li {
 	border-bottom:0 none !important;
@@ -521,11 +524,14 @@ div.finder-pane > * {
 
 .stacked-arrangement {
 	overflow-y: auto;
+	border: 0 none !important;
 }
 
 .stacked-arrangement > *{
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 	height: 0;
+	background: none repeat scroll 0 0 #868786;
+	-moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0; 
 }
 
 .accordion-arrangement > .ui-accordion-content {
@@ -623,7 +629,7 @@ div.finder-pane > * {
 	display: none;
 }
 
-.ui-tabs-selected > .glm-ac-container {
+.ui-state-active > .glm-ac-container {
 	display: block;
 }
 
