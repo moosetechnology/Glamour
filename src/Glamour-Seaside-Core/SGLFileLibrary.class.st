@@ -592,6 +592,7 @@ div.finder-pane > * {
 	position: relative;
 	overflow: auto;
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+	background: none repeat scroll 0 0 #FFFFFF;
 }
 
 .glm-mondrian-presentation > img{
