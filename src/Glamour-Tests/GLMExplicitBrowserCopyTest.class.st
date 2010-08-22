@@ -32,7 +32,7 @@ GLMExplicitBrowserCopyTest >> setUp [
 
 { #category : #tests }
 GLMExplicitBrowserCopyTest >> testEquality [
-	self assert: copiedBrowser = browser
+	self assert: (copiedBrowser = browser) not
 ]
 
 { #category : #tests }

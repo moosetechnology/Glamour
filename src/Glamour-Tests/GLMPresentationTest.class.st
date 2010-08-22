@@ -88,7 +88,7 @@ GLMPresentationTest >> testDisplay [
 GLMPresentationTest >> testEquality [
 	| presentation |
 	presentation := GLMPresentation new.
-	self assert: presentation = presentation copy
+	self assert: (presentation = presentation copy) not
 ]
 
 { #category : #tests }

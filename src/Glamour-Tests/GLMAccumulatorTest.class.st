@@ -66,13 +66,13 @@ GLMAccumulatorTest >> testPaneCreation [
 	accumulator entity: 41.
 	self assert: accumulator panes size = 1.
 	self assert: (accumulator panes first port: #entity) value = 41.
-	self assert: accumulator panes first presentations first = presentation.
+	self assert: accumulator panes first presentations first rootPrototype == presentation.
 	accumulator entity: 42.
 	self assert: accumulator panes size = 2.
 	self assert: (accumulator panes first port: #entity) value = 41.
 	self assert: (accumulator panes last port: #entity) value = 42.
-	self assert: accumulator panes first presentations first = presentation.
-	self assert: accumulator panes last presentations first = presentation.
+	self assert: accumulator panes first presentations first rootPrototype = presentation.
+	self assert: accumulator panes last presentations first rootPrototype = presentation.
 
 ]
 
