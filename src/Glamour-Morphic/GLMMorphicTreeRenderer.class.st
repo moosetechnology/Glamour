@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Morphic'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMMorphicTreeRenderer >> render: aPresentation [
 	| container |
 	container := super render: aPresentation.

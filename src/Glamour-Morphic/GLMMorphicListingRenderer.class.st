@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Morphic'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMMorphicListingRenderer >> render: aPresentation [
 	| treeModel container treeMorph textInput |
 	treeModel := GLMTreeMorphModel new glamourPresentation: aPresentation.

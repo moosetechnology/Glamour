@@ -22,6 +22,11 @@ GLMMorphicWidgetRenderer >> render: aPresentation [
 	^ self subclassResponsibility 
 ]
 
+{ #category : #private }
+GLMMorphicWidgetRenderer >> renderObject: anObject [
+	^ renderer render: anObject 
+]
+
 { #category : #accessing }
 GLMMorphicWidgetRenderer >> renderer [
 	^ renderer
