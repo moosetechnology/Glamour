@@ -169,7 +169,7 @@ GLMPane >> notingPresentationChangeDo: aBlock [
 	Like this we can deal with the problem of announcing the same announcement twice"
 	allowedToNotePresentationsChanged := false.
 	
-	oldPresentations := presentations presentations. 
+	oldPresentations := presentations presentations copy. 
 	oldMatchingPresentations := self matchingPresentations. 
 
 	aBlock value. 
