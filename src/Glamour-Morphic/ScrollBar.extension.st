@@ -2,7 +2,8 @@ Extension { #name : #ScrollBar }
 
 { #category : #'*Glamour-Morphic' }
 ScrollBar >> glmAnimateValue: aNumber duration: anInteger [
-	anInteger <= 0
+	aNumber = value ifTrue: [^ self ].
+	anInteger <= 0 
 		ifTrue: [ self setValue: aNumber ]
 		ifFalse: [
 			| startTime start end |

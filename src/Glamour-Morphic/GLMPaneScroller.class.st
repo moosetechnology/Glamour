@@ -171,6 +171,25 @@ GLMPaneScroller >> paneWidthsToFit: limit [
 ]
 
 { #category : #panes }
+GLMPaneScroller >> popAndReplacePane: aMorph [	
+	transform removeMorph: transform lastSubmorph. "one for the separator"
+	transform submorphs isEmpty
+		ifFalse: [ transform removeMorph: transform lastSubmorph ].
+	paneCount := paneCount - 1.	
+	
+	aMorph 
+		borderWidth: 0;
+		hResizing: #spaceFill;
+		vResizing: #spaceFill;
+		layoutInset: 0.
+	transform hasSubmorphs 
+		ifTrue: [ transform addMorphBack: self separator ].
+	transform addMorphBack: (aMorph adoptPaneColor: self paneColor).
+	paneCount := paneCount + 1.
+	self updatePanes
+]
+
+{ #category : #panes }
 GLMPaneScroller >> popPane [
 	transform removeMorph: transform lastSubmorph. "one for the separator"
 	transform submorphs isEmpty
@@ -228,7 +247,8 @@ GLMPaneScroller >> scrollDeltaWidth [
 
 { #category : #scrolling }
 GLMPaneScroller >> scrollToRight [
-	^ scrollBar glmAnimateValue: 1.0 duration: 200
+"	(transform submorphs size + 1) / 2 > paneCount ifTrue: [ 
+"		scrollBar glmAnimateValue: 1.0 duration: 200 "]"
 ]
 
 { #category : #panes }

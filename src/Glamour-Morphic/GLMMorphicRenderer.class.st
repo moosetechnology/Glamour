@@ -318,6 +318,10 @@ GLMMorphicRenderer >> renderFinder: aBrowser [
 	aBrowser 
 		when: GLMPaneAdded
 		do: [ :ann | container pushPane: (self render: ann pane) ].
+	aBrowser 
+		when: GLMPaneReplaced
+		do: [ :ann | 
+			container popAndReplacePane: (self render: ann newPane) ].
 	aBrowser panes
 		do: [ :each | container pushPane: (self render: each) ].
 	^ container
@@ -522,16 +526,16 @@ GLMMorphicRenderer >> renderTabbedCompositePresentation: aCompositePresentation 
 				index := i ] ] ].
 	tabs selectedPageIndex: index.
 	aCompositePresentation when: GLMPresentationUpdated do: [:ann |
+		tabs clear.	
 		presentations do: [ :each | 
-		tabs clear.
-		tabs 
-			addLazyPage: [ self render: each ]
-			label: (self titleOrIconOf: each in: tabs) ].
-		index := 1.
-		presentations withIndexDo: [ :each :i | 
-			aCompositePresentation pane lastActivePresentation notNil and: [ 
-				each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ 
-					index := i ] ] ].
+			tabs 
+				addLazyPage: [ self render: each ]
+				label: (self titleOrIconOf: each in: tabs) ].
+			index := 1.
+			presentations withIndexDo: [ :each :i | 
+				aCompositePresentation pane lastActivePresentation notNil and: [ 
+					each title = aCompositePresentation pane lastActivePresentation title ifTrue: [ 
+						index := i ] ] ].
 		tabs selectedPageIndex: index.].
 
 	^ tabs
@@ -565,40 +569,7 @@ GLMMorphicRenderer >> renderTabulator: aBrowser [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [ 
-	| textMorph toShow textModel | 
-	toShow := aTextPresentation formatedDisplayValue. 
-	textModel := GLMTextModel new
-			text: toShow;
-			glamourPresentation: aTextPresentation;
-			highlightSmalltalk: aTextPresentation highlightSmalltalk;
-			highlightSmalltalkContext: aTextPresentation highlightSmalltalkContext.
-	textMorph := (PluggableShoutMorph
-		on: textModel
-		text: #text
-		accept: #accept:notifying:
-		readSelection: #selection
-		menu: #menu:shifted:)
-			onKeyStrokeSend: #keystroke:from: to: textModel;
-			layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
-			vResizing: #spaceFill;
-			hResizing: #spaceFill;
-			color: Color white;
-			yourself.
-	"this is a horrible hack: 
-	because we cannot get the update of when the text changes from the morph,
-	we get the reference to the mutable text object :) :)"
-	textModel text: textMorph textMorph asText. 
-	self installActionsOnUI: textModel fromPresentation: aTextPresentation.
-	aTextPresentation selectedTextBlock: [ textMorph textMorph editor selection ].
-	aTextPresentation textBlock: [ textMorph textMorph editor text ].
-	aTextPresentation when: GLMPresentationUpdated do: [:ann |
-		textModel text: aTextPresentation formatedDisplayValue.
-		textModel changed: #text ].
-	aTextPresentation when: GLMContextChanged do: [ :ann | 
-		ann property = #selectionInterval
-			ifTrue: [ textMorph setSelection: ann value ] ].
-
-	^ textMorph
+	^ GLMMorphicTextRenderer render: aTextPresentation from: self
 ]
 
 { #category : #private }
