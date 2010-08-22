@@ -55,7 +55,7 @@ GLMTextModel >> selectSilently: anIndex [
 
 { #category : #callbacks }
 GLMTextModel >> selection [
-	^ 1 to: 0
+	^ self glamourPresentation selectionInterval
 ]
 
 { #category : #accessing }
