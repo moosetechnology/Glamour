@@ -228,7 +228,7 @@ GLMPaneScroller >> scrollDeltaWidth [
 
 { #category : #scrolling }
 GLMPaneScroller >> scrollToRight [
-	^ scrollBar setValue: 1.
+	^ scrollBar glmAnimateValue: 1.0 duration: 200
 ]
 
 { #category : #panes }
