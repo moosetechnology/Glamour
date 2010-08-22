@@ -106,7 +106,8 @@ GLMAnnouncementPropagationTest >> testSimpleEmptyPane [
 	pane := GLMPane new.
 	pane browser: GLMPresentation new.
 	(pane port: #entity) value: 42.
-	self assert: GLMLogger instance announcements copy size = 2
+	self assert: GLMLogger instance announcements size = 1.
+	self assert: (GLMLogger instance announcements first isKindOf: GLMContextChanged)
 ]
 
 { #category : #tests }
