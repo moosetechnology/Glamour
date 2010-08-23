@@ -129,7 +129,7 @@ GLMMorphicWidgetRenderer >> render: aPresentation [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #x }
+{ #category : #private }
 GLMMorphicWidgetRenderer >> renderObject: anObject [
 	^ renderer render: anObject 
 ]

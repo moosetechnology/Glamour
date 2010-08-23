@@ -21,7 +21,8 @@ Class {
 
 { #category : #opening }
 GLMMorphicRenderer >> open: aRenderable [
-	^ ( self windowFor: aRenderable ) openInWorld
+	window := GLMWindowRenderer render: aRenderable from: self.
+	^ window openInWorld
 ]
 
 { #category : #'rendering presentations' }
@@ -207,11 +208,6 @@ GLMMorphicRenderer >> renderTreePresentation: aPresentation [
 	^ GLMMorphicTreeRenderer render: aPresentation from: self
 ]
 
-{ #category : #factory }
-GLMMorphicRenderer >> theme [
-	^ UITheme current
-]
-
 { #category : #accessing }
 GLMMorphicRenderer >> window [
 	^ window
@@ -220,10 +216,4 @@ GLMMorphicRenderer >> window [
 { #category : #accessing }
 GLMMorphicRenderer >> window: anObject [
 	window := anObject
-]
-
-{ #category : #opening }
-GLMMorphicRenderer >> windowFor: aRenderable [ 
-	window := GLMWindowRenderer render: aRenderable from: self.
-	^ window
 ]

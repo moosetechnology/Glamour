@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Morphic'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMPaneRenderer >> render: aPane [
 	| container |
 	container := GLMMorphic emptyMorph.

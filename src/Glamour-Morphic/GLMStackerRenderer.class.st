@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Morphic'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMStackerRenderer >> render: aBrowser [
 	| tabs |
 	aBrowser panes isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].

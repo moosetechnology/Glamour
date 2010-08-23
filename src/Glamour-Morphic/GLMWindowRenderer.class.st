@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Morphic'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMWindowRenderer >> render: aRenderable [
 	| dock offset bottomOffset statusbarMorph window |
 	window := GLMSystemWindow new.
