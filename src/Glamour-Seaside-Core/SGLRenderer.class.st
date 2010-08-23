@@ -177,6 +177,9 @@ SGLRenderer >> renderFinder: aBrowser [
 	aBrowser
 		when: GLMPaneAdded
 		do: [ :ann | self renderFinder: ann browser addPane: ann pane ].
+	aBrowser
+		when: GLMPaneReplaced
+		do: [ :ann | self renderFinder: ann browser replacePane: ann newPane ].
 		
 	html div
 		id: (self uuidFor: aBrowser); 
@@ -207,6 +210,14 @@ SGLRenderer >> renderFinder: aBrowser removePane: aPane [
 		contents;
 		filter: ':last';
 		remove)
+]
+
+{ #category : #widgets }
+SGLRenderer >> renderFinder: aBrowser replacePane: aPane [
+	self scriptFor: aBrowser add: ((html jQuery id: (self uuidFor: aBrowser))
+		contents;
+		filter: ':last';
+		replaceWith: [ :r | html := r. self renderFinder: aBrowser pane: aPane ])
 ]
 
 { #category : #presentation }

@@ -11,6 +11,8 @@ SGLSimpleFinder class >> initialize [
 
 { #category : #accessing }
 SGLSimpleFinder >> browser [
+	"self new browser openOn: self new model"
+	
 	| finder |
 	finder := GLMFinder new.
 	finder title: 'Finder'.

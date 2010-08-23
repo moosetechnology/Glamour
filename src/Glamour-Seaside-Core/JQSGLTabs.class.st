@@ -5,8 +5,8 @@ Class {
 }
 
 { #category : #actions }
-JQSGLTabs >> add: aUrl label: aBlock actions: htmlContent [	
-	self action: 'add' arguments: (Array with: aUrl with: (self render: aBlock)).
+JQSGLTabs >> add: aUrl label: aRenderable actions: htmlContent [	
+	self action: 'add' arguments: (Array with: aUrl with: (self render: aRenderable)).
 	self optionAt: 'actionsContent' put: htmlContent
 	
 ]
