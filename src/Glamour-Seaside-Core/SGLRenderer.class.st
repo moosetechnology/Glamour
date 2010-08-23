@@ -81,7 +81,7 @@ SGLRenderer >> renderAccumulator: aBrowser [
 		do: [ :ann | self renderAccumulator: aBrowser selectPaneAt: ann position ].
 	html div
 		id: (self uuidFor: aBrowser);
-		class: 'accumulator';
+		class: 'glm-accumulator';
 		script: ( html jQuery this glamourTabs  
 			cache: true; 
 			hasActions: true;

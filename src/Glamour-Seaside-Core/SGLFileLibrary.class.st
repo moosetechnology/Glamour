@@ -267,7 +267,7 @@ SGLFileLibrary >> styleCss [
 	
 .ui-widget-header {
 	background: none;
-	background-color: #DFDFDF;
+ 	background-color: #DFDFDF;
 	-moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0; 
 }
 
@@ -289,7 +289,7 @@ SGLFileLibrary >> styleCss [
 	border-top: 0 none !important;
 	border-right: 0 none !important;
 	border-bottom: 0 none !important;
-	border-left: 1px solid #000000;
+	border-left: 1px solid #CCCCCC;
 }
 .ui-tabs .ui-tabs-nav .ui-state-default:first-child {
 	border-left: 0 none !important;
@@ -308,7 +308,7 @@ SGLFileLibrary >> styleCss [
 }
 
 .ui-tabs-panel > *, .ui-accordion-content > * {
-	border-top: 0 none !important;
+	border: 0 none !important;
 	-moz-border-radius-topright: 0; -webkit-border-top-right-radius: 0; border-top-right-radius: 0;
 	-moz-border-radius-topleft: 0; -webkit-border-top-left-radius: 0; border-top-left-radius: 0;
 }
@@ -385,6 +385,11 @@ div.finder-pane > * {
 	height: 100%;
 	max-width: 500px;
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+}
+
+/* Acumulator */
+.glm-accumulator {
+	padding: 0;
 }
 
 /* jquery ui */
@@ -473,6 +478,9 @@ div.finder-pane > * {
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 }
 
+.ui-accordion-header {
+	border: 0 none !important;
+}
 
 /* presentations with title */
 
@@ -558,8 +566,12 @@ div.finder-pane > * {
 	margin-top: 1px;
 }
 
+.glm-tree-root-ct > .glm-tree-node > .glm-tree-node-el  {
+	padding-left: 5px;
+}
+
 .glm-tree-node-selected > .glm-tree-node-el{
-	background-color: #E3E0D0;
+	background: none repeat scroll 0 0 #DFDFDF;
 }
 
 .glm-tree-icon-padding {
@@ -671,11 +683,11 @@ div.finder-pane > * {
 
 .glm-tree-tag {
 	margin-left: 3px;
-	background-color: #808080;
+	background-color: #CCCCCC;
 }
 
 .glm-tree-tag-selected {
-	background-color: #BFBFBF;
+	background-color: #DDDDDD;
 }
 
 /* table layout */
