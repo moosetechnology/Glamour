@@ -1,5 +1,5 @@
 "
-self browseExamples
+self open
 "
 Class {
 	#name : #GLMOtherExamples,
