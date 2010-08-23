@@ -271,7 +271,7 @@ SGLFileLibrary >> styleCss [
 	-moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0; 
 }
 
-.stacked-arrangement > *{
+.stacked-arrangement > *, .tabbed-arrangement{
 	background: none repeat scroll 0 0 #DFDFDF;
 }
 
@@ -400,7 +400,6 @@ div.finder-pane > * {
 	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;
 }
 .ui-tabs > .ui-tabs-nav {
-	padding: 0;
 	border: 0 none !important;
 	-webkit-box-flex: 0; -moz-box-flex: 0; box-flex: 0;
 	min-height: 20px;
@@ -534,7 +533,6 @@ div.finder-pane > * {
 .stacked-arrangement, .tabbed-arrangement, .accordion-arrangement {
 	position: relative;
 	width: 100%;
-	padding: 0;
 }
 
 .stacked-arrangement, .accordion-arrangement {
@@ -629,6 +627,10 @@ div.finder-pane > * {
 	position: relative;
 	display: -webkit-box; display: -moz-box; display: box;
 	min-height: 150px;
+}
+
+.glm-text-presentation > textarea {
+	padding-left: 5px;
 }
 
 /* Actions */
