@@ -261,10 +261,22 @@ body{
 SGLFileLibrary >> styleCss [
 	^ '/* html */
 	
+.ui-tabs > .ui-tabs-panel {
+	background-color: #DFDFDF;
+}
+	
 .ui-widget-header {
 	background: none;
-	background-color: #868786;
+	background-color: #DFDFDF;
 	-moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0; 
+}
+
+.stacked-arrangement > *{
+	background: none repeat scroll 0 0 #DFDFDF;
+}
+
+.ui-widget {
+
 }
 
 .ui-tabs .ui-tabs-nav li {
@@ -295,8 +307,10 @@ SGLFileLibrary >> styleCss [
 	padding-top: 10px;
 }
 
-.ui-tabs-panel > * {
+.ui-tabs-panel > *, .ui-accordion-content > * {
 	border-top: 0 none !important;
+	-moz-border-radius-topright: 0; -webkit-border-top-right-radius: 0; border-top-right-radius: 0;
+	-moz-border-radius-topleft: 0; -webkit-border-top-left-radius: 0; border-top-left-radius: 0;
 }
 	
 .presentation-with-title, .presentation-content, .tabbed-arrangement {
@@ -384,9 +398,9 @@ div.finder-pane > * {
 	padding: 0;
 	border: 0 none !important;
 	-webkit-box-flex: 0; -moz-box-flex: 0; box-flex: 0;
+	min-height: 20px;
 }
 .ui-tabs > .ui-tabs-panel {
-	background-color: #868786;
 	padding: 3px;
 	position: relative;
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
@@ -530,7 +544,6 @@ div.finder-pane > * {
 .stacked-arrangement > *{
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 	height: 0;
-	background: none repeat scroll 0 0 #868786;
 	-moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0; 
 }
 

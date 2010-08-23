@@ -11,7 +11,8 @@ SGLComposedTabulatorWithActions class >> initialize [
 
 { #category : #accessing }
 SGLComposedTabulatorWithActions >> browser [
-		|browser|
+	"self new browser openOn: self new model."
+	|browser|
 
 	browser := GLMTabulator new.
 	browser column:  #tab; column: #accordion; column: #stack.

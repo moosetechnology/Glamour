@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #uploaded }
-JQSGLTheme >> glamourThemejQueryUICss [
+JQSGLTheme >> glamourThemeJQueryUICss [
 	^ '/*
  * jQuery UI CSS Framework @VERSION
  *
@@ -58,7 +58,7 @@ JQSGLTheme >> glamourThemejQueryUICss [
  *
  * http://docs.jquery.com/UI/Theming/API
  *
- * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Verdana,Arial,sans-serif&fwDefault=normal&fsDefault=10px&cornerRadius=4px&bgColorHeader=d4d4d3&bgTextureHeader=05_inset_soft.png&bgImgOpacityHeader=75&borderColorHeader=aaaaaa&fcHeader=b5b9c9&iconColorHeader=222222&bgColorContent=ffffff&bgTextureContent=01_flat.png&bgImgOpacityContent=75&borderColorContent=aaaaaa&fcContent=222222&iconColorContent=222222&bgColorDefault=ababab&bgTextureDefault=05_inset_soft.png&bgImgOpacityDefault=75&borderColorDefault=d3d3d3&fcDefault=555555&iconColorDefault=888888&bgColorHover=767676&bgTextureHover=05_inset_soft.png&bgImgOpacityHover=75&borderColorHover=999999&fcHover=ffffff&iconColorHover=ffffff&bgColorActive=3a3b3a&bgTextureActive=05_inset_soft.png&bgImgOpacityActive=65&borderColorActive=aaaaaa&fcActive=ffffff&iconColorActive=ffffff&bgColorHighlight=fbf9ee&bgTextureHighlight=02_glass.png&bgImgOpacityHighlight=55&borderColorHighlight=fcefa1&fcHighlight=363636&iconColorHighlight=2e83ff&bgColorError=fef1ec&bgTextureError=05_inset_soft.png&bgImgOpacityError=95&borderColorError=cd0a0a&fcError=cd0a0a&iconColorError=cd0a0a&bgColorOverlay=aaaaaa&bgTextureOverlay=01_flat.png&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=aaaaaa&bgTextureShadow=01_flat.png&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
+ * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Verdana,Arial,sans-serif&fwDefault=normal&fsDefault=10px&cornerRadius=4px&bgColorHeader=DDDDDD&bgTextureHeader=05_inset_soft.png&bgImgOpacityHeader=75&borderColorHeader=aaaaaa&fcHeader=b5b9c9&iconColorHeader=222222&bgColorContent=ffffff&bgTextureContent=01_flat.png&bgImgOpacityContent=75&borderColorContent=aaaaaa&fcContent=222222&iconColorContent=222222&bgColorDefault=dddddd&bgTextureDefault=05_inset_soft.png&bgImgOpacityDefault=75&borderColorDefault=d3d3d3&fcDefault=000000&iconColorDefault=888888&bgColorHover=cccccA&bgTextureHover=05_inset_soft.png&bgImgOpacityHover=75&borderColorHover=999999&fcHover=000000&iconColorHover=ffffff&bgColorActive=cccccc&bgTextureActive=05_inset_soft.png&bgImgOpacityActive=65&borderColorActive=aaaaaa&fcActive=000000&iconColorActive=ffffff&bgColorHighlight=fbf9ee&bgTextureHighlight=02_glass.png&bgImgOpacityHighlight=55&borderColorHighlight=fcefa1&fcHighlight=363636&iconColorHighlight=2e83ff&bgColorError=fef1ec&bgTextureError=05_inset_soft.png&bgImgOpacityError=95&borderColorError=cd0a0a&fcError=cd0a0a&iconColorError=cd0a0a&bgColorOverlay=aaaaaa&bgTextureOverlay=01_flat.png&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=aaaaaa&bgTextureShadow=01_flat.png&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
  */
 
 
@@ -69,17 +69,17 @@ JQSGLTheme >> glamourThemejQueryUICss [
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Verdana,Arial,sans-serif; font-size: 1em; }
 .ui-widget-content { border: 1px solid #aaaaaa; background: #ffffff url(ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x; color: #222222; }
 .ui-widget-content a { color: #222222; }
-.ui-widget-header { border: 1px solid #aaaaaa; background: #d4d4d3 url(ui-bg_inset-soft_75_d4d4d3_1x100.png) 50% 50% repeat-x; color: #b5b9c9; font-weight: bold; }
+.ui-widget-header { border: 1px solid #aaaaaa; background: #dddddd url(ui-bg_inset-soft_75_dddddd_1x100.png) 50% 50% repeat-x; color: #b5b9c9; font-weight: bold; }
 .ui-widget-header a { color: #b5b9c9; }
 
 /* Interaction states
 ----------------------------------*/
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #d3d3d3; background: #ababab url(ui-bg_inset-soft_75_ababab_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #555555; }
-.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #555555; text-decoration: none; }
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #999999; background: #767676 url(ui-bg_inset-soft_75_767676_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #ffffff; }
-.ui-state-hover a, .ui-state-hover a:hover { color: #ffffff; text-decoration: none; }
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #aaaaaa; background: #3a3b3a url(ui-bg_inset-soft_65_3a3b3a_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #ffffff; }
-.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #ffffff; text-decoration: none; }
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #d3d3d3; background: #dddddd url(ui-bg_inset-soft_75_dddddd_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #000000; }
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #000000; text-decoration: none; }
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #999999; background: #ccccca url(ui-bg_inset-soft_75_ccccca_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #000000; }
+.ui-state-hover a, .ui-state-hover a:hover { color: #000000; text-decoration: none; }
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #aaaaaa; background: #cccccc url(ui-bg_inset-soft_65_cccccc_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #000000; }
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #000000; text-decoration: none; }
 .ui-widget :active { outline: none; }
 
 /* Interaction Cues
@@ -596,23 +596,18 @@ JQSGLTheme >> uibgglass55fbf9ee1x400Png [
 ]
 
 { #category : #uploaded }
-JQSGLTheme >> uibginsetsoft653a3b3a1x100Png [
-	^ #(137 80 78 71 13 10 26 10 0 0 0 13 73 72 68 82 0 0 0 1 0 0 0 100 8 6 0 0 1 48 43 106 246 0 0 0 121 73 68 65 84 24 149 181 142 75 10 131 48 20 69 143 55 228 229 99 141 144 89 6 6 178 13 187 255 117 181 19 59 83 16 161 147 3 23 238 143 253 189 127 4 112 138 90 43 26 99 160 214 218 169 133 203 2 239 61 234 91 71 189 119 52 191 230 251 217 75 76 211 132 114 206 168 148 114 252 91 203 138 150 178 28 147 55 171 30 140 63 132 36 100 102 40 88 64 49 69 20 99 68 33 4 148 82 66 49 252 164 153 33 111 30 57 231 254 115 232 11 91 25 11 9 223 150 243 48 0 0 0 0 73 69 78 68 174 66 96 130) asByteArray
+JQSGLTheme >> uibginsetsoft65cccccc1x100Png [
+	^ #(137 80 78 71 13 10 26 10 0 0 0 13 73 72 68 82 0 0 0 1 0 0 0 100 8 6 0 0 0 71 44 90 96 0 0 0 47 73 68 65 84 24 149 99 56 115 230 204 127 38 6 6 6 134 97 72 48 50 50 66 9 52 46 19 19 19 84 12 193 66 72 32 212 97 211 139 141 24 120 175 146 66 0 0 141 163 4 102 45 50 10 135 0 0 0 0 73 69 78 68 174 66 96 130) asByteArray
 ]
 
 { #category : #uploaded }
-JQSGLTheme >> uibginsetsoft757676761x100Png [
-	^ #(137 80 78 71 13 10 26 10 0 0 0 13 73 72 68 82 0 0 0 1 0 0 0 100 8 6 0 0 0 71 44 90 96 0 0 0 49 73 68 65 84 24 149 99 40 43 43 251 207 196 192 192 192 48 188 8 38 38 38 6 38 102 102 102 236 44 52 130 133 133 133 40 9 52 163 24 25 25 161 220 129 247 47 41 4 0 7 133 3 223 74 138 177 166 0 0 0 0 73 69 78 68 174 66 96 130) asByteArray
+JQSGLTheme >> uibginsetsoft75ccccca1x100Png [
+	^ #(137 80 78 71 13 10 26 10 0 0 0 13 73 72 68 82 0 0 0 1 0 0 0 100 8 6 0 0 1 48 43 106 246 0 0 0 89 73 68 65 84 24 149 181 143 75 10 192 32 12 68 199 153 4 163 247 63 85 241 78 237 70 93 217 34 66 55 15 2 147 249 160 181 235 38 0 44 225 238 96 173 21 204 57 150 18 188 26 144 4 35 2 44 165 128 146 237 255 126 195 204 38 188 151 148 212 35 55 93 78 195 15 65 114 66 160 180 58 199 132 148 82 199 31 93 30 128 158 15 81 250 0 127 238 0 0 0 0 73 69 78 68 174 66 96 130) asByteArray
 ]
 
 { #category : #uploaded }
-JQSGLTheme >> uibginsetsoft75ababab1x100Png [
-	^ #(137 80 78 71 13 10 26 10 0 0 0 13 73 72 68 82 0 0 0 1 0 0 0 100 8 6 0 0 1 48 43 106 246 0 0 0 97 73 68 65 84 24 149 181 142 77 10 197 48 16 130 141 6 147 44 146 220 255 12 57 228 123 155 129 46 250 67 91 232 230 67 112 70 197 90 235 71 0 56 68 107 13 156 115 130 189 247 195 19 156 6 72 2 199 24 1 219 247 127 175 97 27 44 165 128 181 214 80 182 163 242 102 202 219 242 231 72 41 197 52 73 96 206 121 135 205 144 4 146 12 124 49 232 15 17 85 14 125 234 12 23 133 0 0 0 0 73 69 78 68 174 66 96 130) asByteArray
-]
-
-{ #category : #uploaded }
-JQSGLTheme >> uibginsetsoft75d4d4d31x100Png [
-	^ #(137 80 78 71 13 10 26 10 0 0 0 13 73 72 68 82 0 0 0 1 0 0 0 100 8 6 0 0 0 71 44 90 96 0 0 0 51 73 68 65 84 24 149 221 204 177 9 0 32 20 3 209 187 236 191 157 238 163 221 23 17 236 181 121 132 4 66 239 109 4 224 67 52 68 33 106 117 22 219 122 33 149 214 149 199 243 51 76 183 252 4 122 215 24 195 164 0 0 0 0 73 69 78 68 174 66 96 130) asByteArray
+JQSGLTheme >> uibginsetsoft75dddddd1x100Png [
+	^ #(137 80 78 71 13 10 26 10 0 0 0 13 73 72 68 82 0 0 0 1 0 0 0 100 8 6 0 0 0 71 44 90 96 0 0 0 38 73 68 65 84 24 149 99 184 123 247 238 127 38 6 6 6 134 97 72 48 50 50 98 103 161 17 216 36 240 139 161 201 14 188 87 73 33 0 227 125 4 138 161 170 243 254 0 0 0 0 73 69 78 68 174 66 96 130) asByteArray
 ]
 
 { #category : #uploaded }
@@ -648,5 +643,5 @@ JQSGLTheme >> uiiconsffffff256x240Png [
 { #category : #updating }
 JQSGLTheme >> updateRoot: anHtmlRoot [
 	super updateRoot: anHtmlRoot.
-	anHtmlRoot stylesheet url: (self class urlOf: #glamourThemejQueryUICss).
+	anHtmlRoot stylesheet url: (self class urlOf: #glamourThemeJQueryUICss).
 ]
