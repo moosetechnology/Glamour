@@ -29,8 +29,10 @@ Class {
 
 { #category : #comparison }
 GLMPresentation >> = aPresentation [
-	self flag: 'this breaks some tests'.
-	^ self == aPresentation 
+	self flag: 'A presentation should not be equal with its copies'.
+	^ self == aPresentation.
+	"Using the code bellow leads to wrong behaviour in GLMPane>>notingPresentationChangeDo: 
+	as a presentation becomes equal with its copies." 
 	"^ self class = aPresentation class and: [
 		self rootPrototype == aPresentation rootPrototype ]"
 ]
