@@ -29,7 +29,7 @@ GLMMorphicTextRenderer >> render: aPresentation [
 	because we cannot get the update of when the text changes from the morph,
 	we get the reference to the mutable text object :) :)"
 	textModel text: textMorph textMorph asText. 
-	renderer installActionsOnUI: textModel fromPresentation: aPresentation.
+	self installActionsOnUI: textModel fromPresentation: aPresentation.
 	aPresentation selectedTextBlock: [ textMorph textMorph editor selection ].
 	aPresentation textBlock: [ textMorph textMorph editor text ].
 	aPresentation when: GLMPresentationUpdated do: [:ann |

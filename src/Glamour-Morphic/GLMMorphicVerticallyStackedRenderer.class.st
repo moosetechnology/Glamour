@@ -12,6 +12,6 @@ GLMMorphicVerticallyStackedRenderer >> render: aPresentation [
 	container := GLMMorphic emptyMorph.
 	container changeTableLayout.
 	presentations do: [ :each | 
-		container addMorphBack: (renderer renderWithTitle: each) ].
+		container addMorphBack: (self renderWithTitle: each) ].
 	^ container
 ]

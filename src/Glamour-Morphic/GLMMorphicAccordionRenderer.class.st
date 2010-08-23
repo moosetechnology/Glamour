@@ -9,14 +9,14 @@ GLMMorphicAccordionRenderer >> render: aPresentation [
 	| presentations container expander |
 	presentations := aPresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
-	presentations size = 1 ifTrue: [ ^ renderer render: presentations first ].
+	presentations size = 1 ifTrue: [ ^ self renderObject: presentations first ].
 	container := GLMMorphic emptyMorph.
 	container changeTableLayout.
 	presentations do: [ :each | 
-		expander := renderer theme 
+		expander := self theme 
 			newExpanderIn: container 
-			label: (renderer titleOrIconOf: each in: container)
-			forAll: {(renderer render: each)}.
+			label: (self titleOrIconOf: each in: container)
+			forAll: {(self renderObject: each)}.
 		container addMorphBack: expander.
 		(aPresentation pane lastActivePresentation notNil and: [
 			each title = aPresentation pane lastActivePresentation title ]) ifTrue: [

@@ -9,13 +9,13 @@ GLMMorphicListingRenderer >> render: aPresentation [
 	| treeModel container treeMorph textInput |
 	treeModel := GLMTreeMorphModel new glamourPresentation: aPresentation.
 	container := GLMMorphic emptyMorph.
-	treeMorph := renderer treeMorphFor: treeModel and: aPresentation.
+	treeMorph := self treeMorphFor: treeModel and: aPresentation.
 	aPresentation allowsInput ifTrue: [
-		textInput := renderer textInputFor: treeModel.
+		textInput := self textInputFor: treeModel.
 		treeMorph layoutFrame bottomOffset: -24.
 		container addMorphBack: textInput ].
 	container addMorphBack: treeMorph.
-	renderer installActionsOnUI: treeModel fromPresentation: aPresentation.
+	self installActionsOnUI: treeModel fromPresentation: aPresentation.
 
 	"When the morph changes, we want to update the glamour model"
 	treeModel announcer on: GLMTreeMorphSelectionChanged do: [ :ann | 
