@@ -61,6 +61,9 @@ GLMNestedBrowserTest >> testCondition [
 	browser2 := GLMExplicitBrowser new. 
 	browser1 title: 'browser1'. 
 	browser2 title: 'browser2'. 
+	browser2 
+				transformation: [:x | x = 42 ifFalse: [self fail. 42 ] ifTrue: [84] ];
+				condition: [:x | x = 42].
 	browser1 addNewPane name: 'pane1'. 
 	transmission1 := GLMTransmission new ensureBundleStrategy.
 	transmission1 transmissionStrategy addPresentation: browser2. 
@@ -70,20 +73,20 @@ GLMNestedBrowserTest >> testCondition [
 								name: #entity; 
 								yourself); 
 				destination: (browser1 panes first port: #entity); 
-				transformation: [:x | x = 42 ifFalse: [self fail. 42 ] ifTrue: [84] ];
-				condition: [:x | x = 42];
 				yourself).
 	self assert: (browser1 pane port: #entity) value isNil. 
 	self assert: (browser1 panes first port: #entity) value isNil. 
 	self assert: browser1 panes first presentations isEmpty. 
 	(browser1 pane port: #entity) value: 41. 
 	self assert: (browser1 pane port: #entity) value = 41. 
-	self assert: (browser1 panes first port: #entity) value isNil.
-	self assert: browser1 panes first presentations isEmpty. 
+	self assert: (browser1 panes first port: #entity) value = 41.
+	self assert: browser1 panes first presentations size = 1.
+	self assert: browser1 panes first matchingPresentations size = 0.
 	(browser1 pane port: #entity) value: 42. 
 	self assert: (browser1 pane port: #entity) value = 42. 
-	self assert: (browser1 panes first port: #entity) value = 84.
-	self assert: browser1 panes first presentations size = 1. 
+"	self assert: (browser1 panes first port: #entity) presentations value = 84.
+"	self assert: browser1 panes first presentations size = 1. 
+	self assert: browser1 panes first matchingPresentations size = 1
 ]
 
 { #category : #tests }
