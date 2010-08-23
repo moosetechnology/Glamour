@@ -18,22 +18,6 @@ GLMMorphicWidgetRenderer class >> render: aPresentation from: aRenderer [
 ]
 
 { #category : #private }
-GLMMorphicWidgetRenderer >> amountFilteringButtonFor: treeModel [
-	| amountFilteringButton |
-	amountFilteringButton := GLMMorphic 
-			togglingButtonLabelled: 'There are hidden elements'
-			pressed: false
-			style: #default.
-	amountFilteringButton layoutFrame: (LayoutFrame 
-				fractions: (0 @ 0 corner: 1 @ 0)
-				offsets: (0 @ 0 corner: 0 @ 24)).
-	amountFilteringButton
-			target: treeModel;
-			actionSelector: #toggleAmountToFilterBy.
-	^ amountFilteringButton
-]
-
-{ #category : #private }
 GLMMorphicWidgetRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPresentation [	 
 	aMorphicModel when: GLMMenuItemSelected do: [ :ann | ann action actOn: aPresentation ].
 	aMorphicModel when: GLMKeyStroke do: [ :ann | ann action actOn: aPresentation ].
@@ -56,36 +40,6 @@ GLMMorphicWidgetRenderer >> menuIn: aMenuMorph for: aPresentation [
 			selector: #actOn:
 			argument: aPresentation ].
 	^ aMenuMorph
-]
-
-{ #category : #private }
-GLMMorphicWidgetRenderer >> mondrianCanvasFor: aPresentation in: aScrollPane [ 
-	| canvas view |
-	view := aPresentation view.
-	view root interaction menu: [ :x | self menuIn: MenuMorph new for: aPresentation ].
-	aPresentation renderOn: view.
-	canvas := MOCanvas new.
-	canvas root: view root.
-	canvas initializeHanders.
-	canvas announcer
-			when: MOFigureSelection
-			do: [ :ann | aPresentation selection: ann element model ].
-	canvas announcer
-			when: MOMouseEnter
-			do: [ :ann | aPresentation status: ann element model ].
-	canvas announcer
-			when: MOMouseLeave
-			do: [ :ann | aPresentation status: nil ].
-	aPresentation when: GLMPresentationUpdated do: [:ann |
-		aPresentation view: MOViewRenderer new.
-		aScrollPane scroller removeMorph: aScrollPane scroller submorphs first.
-		self mondrianCanvasFor: aPresentation in: aScrollPane ].
-	aPresentation when: GLMContextChanged do: [ :ann | 
-			ann property = #selection ifTrue: [ 
-				canvas selected: (canvas root deepFindNodeWithEntity: ann value) ] ].
-	aScrollPane scroller addMorph: canvas.	
-
-	^ canvas
 ]
 
 { #category : #private }
@@ -204,23 +158,6 @@ GLMMorphicWidgetRenderer >> renderer: anObject [
 	renderer := anObject
 ]
 
-{ #category : #private }
-GLMMorphicWidgetRenderer >> textInputFor: treeModel [
-	| textInput |
-	textInput := self theme 
-			newTextEntryIn: nil
-			for: treeModel
-			get: #inputText
-			set: #inputText:
-			class: String
-			getEnabled: #inputTextEnabled
-			help: 'Search Input'.
-	textInput layoutFrame: (LayoutFrame 
-				fractions: (0 @ 1 corner: 1 @ 1)
-				offsets: (0 @ -24 corner: 0 @ 0)).
-	^ textInput
-]
-
 { #category : #factory }
 GLMMorphicWidgetRenderer >> theme [
 	^ UITheme current
@@ -247,45 +184,4 @@ GLMMorphicWidgetRenderer >> titleOrIconOrNilOf: aPresentation in: container [
 			aPresentation hasTitle 
 				ifTrue: [ aPresentation titleValue ]
 				ifFalse: [ nil ] ]
-]
-
-{ #category : #private }
-GLMMorphicWidgetRenderer >> treeMorphFor: treeModel and: aPresentation [
-	| treeMorph columns |
-	treeMorph := LazyMorphTreeMorph new.
-	treeMorph
-		makeLastColumnUnbounded;
-		doubleClickSelector: #onDoubleClick;
-		getMenuSelector: #menu:shifted:;
-		keystrokeActionSelector: #keyStroke:from:;
-		cornerStyle: treeMorph preferredCornerStyle;
-		borderStyle: (BorderStyle inset width: 1);
-		autoDeselection: aPresentation allowsDeselection;
-		hResizing: #spaceFill;
-		vResizing: #spaceFill;
-		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1)).
-	columns := aPresentation columns isEmpty 
-		ifTrue: [ OrderedCollection with: (MorphTreeColumn new rowMorphGetSelector: #elementColumn)]
-		ifFalse: [
-			aPresentation columns collect: [:each | 
-				GLMMorphTreeColumn new 
-					glamourColumn: each; 
-					headerButtonLabel: (aPresentation titleValueOfColumn: each) 
-					font: Preferences standardMenuFont 
-					target: nil 
-					actionSelector: nil 
-					arguments: #(); 
-					yourself ].
-		].
-	treeMorph
-		preferedPaneColor: Color white;	
-		model: treeModel;
-		nodeListSelector: #roots;
-		columns: columns.
-	aPresentation isMultiple 
-		ifTrue: [treeMorph beMultiple] 
-		ifFalse: [treeMorph beSingle].
-	treeModel chunkSize: aPresentation amountToShow.
-	treeMorph vShowScrollBar.
-	^ treeMorph buildContents
 ]
