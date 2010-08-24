@@ -52,12 +52,29 @@ SGLTextPresenter >> renderTextAreaOn: html [
 		id: self htmlId;
 		value: model glamourPresentation formatedDisplayValue;
 		script: ( html jQuery this glamourText 
+			onSelect: (
+				html jQuery ajax 
+					sglCallbackText: [ :event :script |
+						"Transcript show: 'start: ', ((event at: 'start')+1) asString ; cr.
+						Transcript show: 'end: ',((event at: 'end')+1) asString ; cr.
+						Transcript show: 'selection: ',(event at: 'selection'); cr."
+						model selectionInterval: (Interval from: (event at: 'start') + 1 to: (event at: 'end') + 1) withText: (event at: 'selection'). 
+						renderer updateScript: script ]
+			);
 			onChange: (
 				html jQuery ajax
-					sglCallbackText:  [ :value :script |
-						model text: value.
+					sglCallbackText:  [ :event :script |
+						model text: (event at: 'text').
 						renderer updateScript: script  ]) )
 			
+]
+
+{ #category : #updating }
+SGLTextPresenter >> updateSelectionInterval [
+	renderer 
+		scriptFor: self model glamourPresentation 
+		add: ( ( (renderer html jQuery id: (
+			renderer uuidFor: self model glamourPresentation) )  glamourText ) selectFrom: self model selectionInterval first - 1 to: self model selectionInterval last - 1)
 ]
 
 { #category : #updating }

@@ -1,6 +1,6 @@
 Class {
 	#name : #JQSGLText,
-	#superclass : #JQTabs,
+	#superclass : #JQWidget,
 	#category : #'Glamour-Seaside-Core'
 }
 
@@ -17,4 +17,14 @@ JQSGLText >> method [
 { #category : #'events-generated' }
 JQSGLText >> onChange: anObject [
 	self optionAt: 'change' put: anObject asFunction
+]
+
+{ #category : #'events-generated' }
+JQSGLText >> onSelect: anObject [
+	self optionAt: 'select' put: anObject asFunction
+]
+
+{ #category : #actions }
+JQSGLText >> selectFrom: start to: end [
+	self action: 'changeSelection' arguments: (Array with: start with: end)
 ]

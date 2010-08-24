@@ -421,14 +421,18 @@ SGLRenderer >> renderTextPresentation: aTextPresentation [
 	model announcer on: SGLTextPresenterTextChanged do: [ :ann | 
 		aTextPresentation announcer suspendAllWhile: [
 			aTextPresentation text: ann text ] ].
+	model announcer on: SGLTextPresenterSelectionChanged do: [ :ann | 
+		aTextPresentation announcer suspendAllWhile: [
+			aTextPresentation selectionInterval: ann selectionInterval.
+			aTextPresentation selectedText: ann selectedText ] ].
 	
 	"When the glamour model changes, we want to update the presenter"
 	aTextPresentation when: GLMContextChanged do: [ :ann | 
-		model announcer suspendAllWhile: [
-			( #(#text "#selectionInterval #selectionText" ) includes:  ann property) 
-				ifTrue: [
-					textPresenter model  perform: (ann property, ':') asSymbol with: ann value.
-					textPresenter updateText ] ] ].
+		( #(#text #selectionInterval ) includes:  ann property) 
+			ifTrue: [
+				model announcer suspendAllWhile: [	
+					textPresenter model perform: (ann property, ':') asSymbol with: ann value.
+					textPresenter perform: ('update', ann property asString capitalized) asSymbol ] ] ].
 	aTextPresentation when: GLMPresentationUpdated do: [:ann | ].
 	
 	"We populate the text port. Must be done after setting the anouncers

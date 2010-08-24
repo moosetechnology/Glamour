@@ -5,6 +5,81 @@ Class {
 }
 
 { #category : #uploaded }
+SGLJsLibrary >> caretJs [
+	^ '/*
+ *
+ * Copyright (c) 2010 C. F., Wong (<a href="http://cloudgen.w0ng.hk">Cloudgen Examplet Store</a>)
+ * Licensed under the MIT License:
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ */
+ï»¿(function($,len,createRange,duplicate){
+	$.fn.caret=function(options,opt2){
+		var start,end,t=this[0],browser=$.browser.msie;
+		if(typeof options==="object" && typeof options.start==="number" && typeof options.end==="number") {
+			start=options.start;
+			end=options.end;
+		} else if(typeof options==="number" && typeof opt2==="number"){
+			start=options;
+			end=opt2;
+		} else if(typeof options==="string"){
+			if((start=t.value.indexOf(options))>-1) end=start+options[len];
+			else start=null;
+		} else if(Object.prototype.toString.call(options)==="[object RegExp]"){
+			var re=options.exec(t.value);
+			if(re != null) {
+				start=re.index;
+				end=start+re[0][len];
+			}
+		}
+		if(typeof start!="undefined"){
+			if(browser){
+				var selRange = this[0].createTextRange();
+				selRange.collapse(true);
+				selRange.moveStart(''character'', start);
+				selRange.moveEnd(''character'', end-start);
+				selRange.select();
+			} else {
+				this[0].selectionStart=start;
+				this[0].selectionEnd=end;
+			}
+			this[0].focus();
+			return this
+		} else {
+			// Modification as suggested by ÐÐ½Ð´ÑÐµÐ¹ Ð®ÑÐºÐ¸Ð½
+           if(browser){
+				var selection=document.selection;
+                if (this[0].tagName.toLowerCase() != "textarea") {
+                    var val = this.val(),
+                    range = selection[createRange]()[duplicate]();
+                    range.moveEnd("character", val[len]);
+                    var s = (range.text == "" ? val[len]:val.lastIndexOf(range.text));
+                    range = selection[createRange]()[duplicate]();
+                    range.moveStart("character", -val[len]);
+                    var e = range.text[len];
+                } else {
+                    var range = selection[createRange](),
+                    stored_range = range[duplicate]();
+                    stored_range.moveToElementText(this[0]);
+                    stored_range.setEndPoint(''EndToEnd'', range);
+                    var s = stored_range.text[len] - range.text[len],
+                    e = s + range.text[len]
+                }
+			// End of Modification
+            } else {
+				var s=t.selectionStart,
+					e=t.selectionEnd;
+			}
+			var te=t.value.substring(s,e);
+			return {start:s,end:e,text:te,replace:function(st){
+				return t.value.substring(0,s)+st+t.value.substring(e,t.value[len])
+			}}
+		}
+	}
+})(jQuery,"length","createRange","duplicate");'
+]
+
+{ #category : #uploaded }
 SGLJsLibrary >> glamourSeasideJs [
 	^ '	
 	jQuery.glamour = {};	
@@ -508,32 +583,82 @@ SGLJsLibrary >> glamourSeasideJs [
 		}
 	})(jQuery);
 		
-	(function($){
-		$.fn.glamourText = function() {
-			var args = arguments;
+	;(function($){
+		jQuery.widget("ui.glamourText", {
+			options: {
+				_shouldTriggerSelect: true,
+				_shouldTriggerChange: true
+			}, 
 			
-			return this.each( function() {
-				if ( typeof args[0] === "object" ) {
-					createWidget(this, args[0]);
-				} else {
-					$(this).val(args[1]);
-				}
-				
-			})
-		}
-		
-		function createWidget(text, opts) {
+			_init: function() {
+				var self = this;
 
-			if (typeof opts.change === "function" ) {
-				$(text).typeWatch({ 
+				this.element.typeWatch({ 
 					highlight: false, 
 					captureLength: -1, 
-					callback: function() { opts.change(arguments[0])}
+					callback: function() { self._triggerChange.call(self, arguments[0])}
 				} );
+				
+				this.element.change(function() {
+					
+				});
+				
+				this.element.select(function(){
+					self._triggerSelect.call(self);
+				});
+			},
+			
+			_triggerSelect: function(start, end) {
+				var caret;
+				
+				caret = this.element.caret();
+				this._trigger( "select", 0, this._normalizeEventData({
+					selection: caret.text,
+					end: end || caret.end,
+					start: start || caret.start
+				}) );
+				
+				this.options._shouldTriggerSelect = true;
+			},
+			
+			_triggerChange: function(newText) {
+				this._trigger( "change", 0, this._normalizeEventData({text: newText}) );
+			},
+			
+			_normalizeEventData: function(eventData) {
+				return $.extend(
+					{},
+					{text: "", start: 0, end: 0, selection: ""},
+					eventData);
+			},
+			
+			_getData: function(type) {
+				switch (type) {
+					case "change" : {
+						return this.option.change;
+					}
+					case "select": {
+						return this.option.select;
+					}
+				}
+			},
+			
+			changeText: function(newText, shouldTriggerChange) {
+				this.element.val(newText);
+				if ( shouldTriggerChange ) {
+					this._triggerChange.call(this, newText);
+				}
+			},
+			
+			changeSelection: function(start, end, shouldTriggerSelect) {
+				this.element.caret({"start": start, "end": end});
+				if ( shouldTriggerSelect ) {
+					this._triggerSelect.call(this, start, end);
+				}
 			}
-		}
-		
-	})(jQuery)
+
+		});
+	})(jQuery);
 		
 	var Glamour = {};
 	
@@ -793,7 +918,7 @@ SGLJsLibrary >> typeWatchJs [
 			
 		function checkElement(timer, override) {
 			var elTxt = jQuery(timer.el).val();
-		
+			console.log("b");
 			// Fire if text > options.captureLength AND text != saved txt OR if override AND text > options.captureLength
 			if ((elTxt.length > options.captureLength && elTxt.toUpperCase() != timer.text) 
 			|| (override && elTxt.length > options.captureLength)) {
@@ -837,7 +962,7 @@ SGLJsLibrary >> typeWatchJs [
 					{
 						checkElement(timer, overrideBool)
 					}
-					
+					console.log("a");
 					// Clear timer					
 					clearTimeout(timer.timer);
 					timer.timer = setTimeout(timerCallbackFx, timerWait);				
@@ -845,6 +970,7 @@ SGLJsLibrary >> typeWatchJs [
 				};
 				
 				jQuery(elem).keydown(startWatch);
+				jQuery(elem).change(startWatch);
 			}
 		};
 		

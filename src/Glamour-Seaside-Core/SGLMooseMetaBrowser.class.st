@@ -14,7 +14,11 @@ SGLMooseMetaBrowser class >> initialize [
 
 { #category : #accessing }
 SGLMooseMetaBrowser >> browser [
-	"self new browser openOn: self new model."
+	"
+	|component|
+	component := self new.
+	component browser openOn: component model.
+	"
 
 	^ mooseMetaBrowser buildBrowser
 ]
