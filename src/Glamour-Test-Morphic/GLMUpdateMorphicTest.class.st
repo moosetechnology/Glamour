@@ -83,3 +83,11 @@ GLMUpdateMorphicTest >> testRemove [
 	self assert: treeMorph model roots size = 2.
 	self assert: tableMorph model roots size = 2.
 ]
+
+{ #category : #testing }
+GLMUpdateMorphicTest >> testUpdateBrowserTitle [
+
+	browser title: 'something'.
+	browser update.
+	self assert: window label = 'something'
+]
