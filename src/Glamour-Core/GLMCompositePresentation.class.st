@@ -147,6 +147,14 @@ GLMCompositePresentation >> unregisterFromAllAnnouncements [
 	self presentations do: [:each | each unregisterFromAllAnnouncements ]
 ]
 
+{ #category : #updating }
+GLMCompositePresentation >> update [
+	self pane ports do: [:each |
+		(self validate: each value on: each) ifFalse: [each resetValue] ].
+	self presentations do: [ :each | each update ].
+	self announce: (GLMPresentationUpdated new presentation: self).
+]
+
 { #category : #accessing }
 GLMCompositePresentation >> withAllDo: aBlock [
 	super withAllDo: aBlock.

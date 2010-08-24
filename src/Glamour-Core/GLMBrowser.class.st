@@ -182,3 +182,9 @@ GLMBrowser >> unregisterFromAllAnnouncements [
 	self panes do: [:each | 
 		each presentations unregisterFromAllAnnouncements ]
 ]
+
+{ #category : #updating }
+GLMBrowser >> update [ 
+	self panes do: [:each | each update ].
+	self announce: (GLMPresentationUpdated new presentation: self).
+]

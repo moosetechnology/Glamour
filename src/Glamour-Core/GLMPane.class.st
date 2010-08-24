@@ -257,6 +257,11 @@ GLMPane >> unregisterFromAllAnnouncements [
 	self presentations unregisterFromAllAnnouncements
 ]
 
+{ #category : #updating }
+GLMPane >> update [ 
+	self presentations do: [:each | each update ]
+]
+
 { #category : #announcements }
 GLMPane >> whenMatchingPresentationsChanged: aBlock [ 
 	 
