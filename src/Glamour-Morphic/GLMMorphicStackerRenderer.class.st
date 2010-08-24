@@ -1,11 +1,11 @@
 Class {
-	#name : #GLMStackerRenderer,
-	#superclass : #GLMBrowserRenderer,
+	#name : #GLMMorphicStackerRenderer,
+	#superclass : #GLMMorphicBrowserRenderer,
 	#category : #'Glamour-Morphic'
 }
 
 { #category : #rendering }
-GLMStackerRenderer >> render: aBrowser [
+GLMMorphicStackerRenderer >> render: aBrowser [
 	| tabs |
 	aBrowser panes isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
 	tabs := LazyTabGroupMorph new.

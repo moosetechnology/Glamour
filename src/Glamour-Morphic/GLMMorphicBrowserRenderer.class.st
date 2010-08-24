@@ -1,5 +1,5 @@
 Class {
-	#name : #GLMBrowserRenderer,
+	#name : #GLMMorphicBrowserRenderer,
 	#superclass : #GLMMorphicWidgetRenderer,
 	#category : #'Glamour-Morphic'
 }

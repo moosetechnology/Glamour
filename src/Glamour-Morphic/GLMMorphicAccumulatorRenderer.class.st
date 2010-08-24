@@ -1,11 +1,11 @@
 Class {
-	#name : #GLMAccumulatorRenderer,
-	#superclass : #GLMBrowserRenderer,
+	#name : #GLMMorphicAccumulatorRenderer,
+	#superclass : #GLMMorphicBrowserRenderer,
 	#category : #'Glamour-Morphic'
 }
 
 { #category : #rendering }
-GLMAccumulatorRenderer >> render: aBrowser [
+GLMMorphicAccumulatorRenderer >> render: aBrowser [
 
 	| tabs |
 	aBrowser panes isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].

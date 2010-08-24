@@ -1,11 +1,11 @@
 Class {
-	#name : #GLMTabulatorRenderer,
-	#superclass : #GLMBrowserRenderer,
+	#name : #GLMMorphicTabulatorRenderer,
+	#superclass : #GLMMorphicBrowserRenderer,
 	#category : #'Glamour-Morphic'
 }
 
 { #category : #rendering }
-GLMTabulatorRenderer >> render: aBrowser [
+GLMMorphicTabulatorRenderer >> render: aBrowser [
 	| container |
 	container := GLMMorphic emptyMorph.
 	aBrowser cell isRow 
@@ -26,7 +26,7 @@ GLMTabulatorRenderer >> render: aBrowser [
 ]
 
 { #category : #private }
-GLMTabulatorRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aMorph inBrowser: aBrowser [ 
+GLMMorphicTabulatorRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aMorph inBrowser: aBrowser [ 
 	| pane totalSpans currentSpanPosition currentOffset |
 	totalSpans := aCell children inject: 0 into: [ :sum :each | sum + each span ].
 	currentSpanPosition := 0.
@@ -58,7 +58,7 @@ GLMTabulatorRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aMorph inB
 ]
 
 { #category : #private }
-GLMTabulatorRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aMorph inBrowser: aBrowser [ 
+GLMMorphicTabulatorRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aMorph inBrowser: aBrowser [ 
 	| pane totalSpans currentSpanPosition currentOffset |
 	totalSpans := aCell children inject: 0 into: [ :sum :each | sum + each span ].
 	currentSpanPosition := 0.

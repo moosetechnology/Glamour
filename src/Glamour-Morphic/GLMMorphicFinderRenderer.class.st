@@ -1,11 +1,11 @@
 Class {
-	#name : #GLMFinderRenderer,
-	#superclass : #GLMBrowserRenderer,
+	#name : #GLMMorphicFinderRenderer,
+	#superclass : #GLMMorphicBrowserRenderer,
 	#category : #'Glamour-Morphic'
 }
 
 { #category : #rendering }
-GLMFinderRenderer >> render: aBrowser [
+GLMMorphicFinderRenderer >> render: aBrowser [
 	| container |
 	container := GLMPaneScroller new
 		name: 'scroller';

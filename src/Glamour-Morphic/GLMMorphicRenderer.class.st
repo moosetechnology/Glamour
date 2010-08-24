@@ -21,7 +21,7 @@ Class {
 
 { #category : #opening }
 GLMMorphicRenderer >> open: aRenderable [
-	window := GLMWindowRenderer render: aRenderable from: self.
+	window := GLMMorphicWindowRenderer render: aRenderable from: self.
 	^ window openInWorld
 ]
 
@@ -32,7 +32,7 @@ GLMMorphicRenderer >> renderAccordionCompositePresentation: aCompositePresentati
 
 { #category : #'rendering browsers' }
 GLMMorphicRenderer >> renderAccumulator: aBrowser [ 
-	^ GLMAccumulatorRenderer render: aBrowser from: self
+	^ GLMMorphicAccumulatorRenderer render: aBrowser from: self
 ]
 
 { #category : #'rendering presentations' }
@@ -58,19 +58,8 @@ GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [
 ]
 
 { #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderDiffPresentation: aDiffPresentation [
-	| textMorph |
-	textMorph := (DiffMorph from: aDiffPresentation displayValue first to: aDiffPresentation displayValue last)
-"			onKeyStrokeSend: #keystroke:from: to: textModel;
-"			layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
-			vResizing: #spaceFill;
-			hResizing: #spaceFill;
-			color: Color white;
-			yourself.
-"	self installActionsOnUI: textModel fromPresentation: aTextPresentation.
-	aTextPresentation selectedTextBlock: [ textMorph textMorph editor selection ].
-	aTextPresentation textBlock: [ textMorph textMorph editor text ].
-"	^textMorph
+GLMMorphicRenderer >> renderDiffPresentation: aPresentation [
+	^ GLMMorphicListingRenderer render: aPresentation from: self
 ]
 
 { #category : #'rendering presentations' }
@@ -94,7 +83,7 @@ GLMMorphicRenderer >> renderDropDownListPresentation: aDropListPresentation [
 
 { #category : #'rendering browsers' }
 GLMMorphicRenderer >> renderFinder: aBrowser [ 
-	^ GLMFinderRenderer render: aBrowser from: self
+	^ GLMMorphicFinderRenderer render: aBrowser from: self
 ]
 
 { #category : #'rendering presentations' }
@@ -170,7 +159,7 @@ GLMMorphicRenderer >> renderMorphPresentation: aMorphPresentation [
 
 { #category : #rendering }
 GLMMorphicRenderer >> renderPane: aPane [ 
-	^ GLMPaneRenderer render: aPane from: self
+	^ GLMMorphicPaneRenderer render: aPane from: self
 ]
 
 { #category : #'rendering presentations' }
@@ -180,7 +169,7 @@ GLMMorphicRenderer >> renderStackedVerticallyCompositePresentation: aCompositePr
 
 { #category : #'rendering browsers' }
 GLMMorphicRenderer >> renderStacker: aBrowser [ 
-	^ GLMStackerRenderer render: aBrowser from: self
+	^ GLMMorphicStackerRenderer render: aBrowser from: self
 ]
 
 { #category : #'rendering presentations' }
@@ -195,7 +184,7 @@ GLMMorphicRenderer >> renderTablePresentation: aPresentation [
 
 { #category : #'rendering browsers' }
 GLMMorphicRenderer >> renderTabulator: aBrowser [ 
-	^ GLMTabulatorRenderer render: aBrowser from: self
+	^ GLMMorphicTabulatorRenderer render: aBrowser from: self
 ]
 
 { #category : #'rendering presentations' }

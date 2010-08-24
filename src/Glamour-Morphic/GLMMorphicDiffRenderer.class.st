@@ -1,11 +1,11 @@
 Class {
-	#name : #GLMDiffRenderer,
+	#name : #GLMMorphicDiffRenderer,
 	#superclass : #GLMMorphicWidgetRenderer,
 	#category : #'Glamour-Morphic'
 }
 
 { #category : #rendering }
-GLMDiffRenderer >> render: aPresentation [
+GLMMorphicDiffRenderer >> render: aPresentation [
 	| textMorph |
 	textMorph := (DiffMorph from: aPresentation displayValue first to: aPresentation displayValue last)
 "			onKeyStrokeSend: #keystroke:from: to: textModel;

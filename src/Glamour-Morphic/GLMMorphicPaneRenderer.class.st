@@ -1,11 +1,11 @@
 Class {
-	#name : #GLMPaneRenderer,
+	#name : #GLMMorphicPaneRenderer,
 	#superclass : #GLMMorphicWidgetRenderer,
 	#category : #'Glamour-Morphic'
 }
 
 { #category : #rendering }
-GLMPaneRenderer >> render: aPane [
+GLMMorphicPaneRenderer >> render: aPane [
 	| container |
 	container := GLMMorphic emptyMorph.
 	aPane when: GLMMatchingPresentationsChanged do: [ :ann | 

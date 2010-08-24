@@ -1,11 +1,11 @@
 Class {
-	#name : #GLMWindowRenderer,
+	#name : #GLMMorphicWindowRenderer,
 	#superclass : #GLMMorphicWidgetRenderer,
 	#category : #'Glamour-Morphic'
 }
 
 { #category : #rendering }
-GLMWindowRenderer >> render: aRenderable [
+GLMMorphicWindowRenderer >> render: aRenderable [
 	| dock offset bottomOffset statusbarMorph window |
 	window := GLMSystemWindow new.
 	window
