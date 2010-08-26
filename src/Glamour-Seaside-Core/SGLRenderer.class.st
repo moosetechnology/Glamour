@@ -193,7 +193,7 @@ SGLRenderer >> renderFinder: aBrowser [
 SGLRenderer >> renderFinder: aBrowser addPane: aPane [
 	self scriptFor: aBrowser add: ((html jQuery id: (self uuidFor: aBrowser))
 		append: [ :r | html := r. self renderFinder: aBrowser pane: aPane ]).
-	self scriptFor: aBrowser add: ( ( html jQuery id: (self uuidFor: aBrowser) ) glamourScrollTo target: ( '#', (self uuidFor: aPane) ); duration:800 ) 
+	self scriptFor: aBrowser add: ( ( html jQuery id: (self uuidFor: aBrowser) ) glamourScrollTo target: ( '#', (self uuidFor: aPane) ); duration: 500 ) 
 ]
 
 { #category : #widgets }
@@ -218,7 +218,7 @@ SGLRenderer >> renderFinder: aBrowser replacePane: aPane [
 		contents;
 		filter: ':last';
 		replaceWith: [ :r | html := r. self renderFinder: aBrowser pane: aPane ]).
-	self scriptFor: aBrowser add: ( ( html jQuery id: (self uuidFor: aBrowser) ) glamourScrollTo target: ( '#', (self uuidFor: aPane) ); duration:800 ) 
+	self scriptFor: aBrowser add: ( ( html jQuery id: (self uuidFor: aBrowser) ) glamourScrollTo target: ( '#', (self uuidFor: aPane) ); duration: 500 ) 
 ]
 
 { #category : #presentation }

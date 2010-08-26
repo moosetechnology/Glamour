@@ -631,6 +631,8 @@ div.finder-pane > * {
 .glm-text-presentation, .glm-empty-presentation {
 	position: relative;
 	display: -webkit-box; display: -moz-box; display: box;
+	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
+	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;
 	min-height: 150px;
 }
 
