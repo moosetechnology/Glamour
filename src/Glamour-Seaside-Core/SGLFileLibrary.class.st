@@ -304,7 +304,12 @@ SGLFileLibrary >> styleCss [
 }
 	
 .ui-tabs .ui-tabs-nav li a {
-	padding-top: 10px;
+	padding-top: 2px;
+	padding-bottom: 0;
+}
+
+.ui-tabs-nav li a img {
+	border: 0 none !important;
 }
 
 .ui-tabs-panel > *, .ui-accordion-content > * {
@@ -643,9 +648,13 @@ div.finder-pane > * {
 .glm-ac-container {
 	float: right;
 	cursor: pointer;
-	min-height: 28px;
+	min-height: 18px;
 	margin-top: 2px;
 	margin-right:3px;
+}
+
+.ui-accordion-header .glm-ac-container {
+	min-height: 25px;
 }
 
 .glm-ac-container-menu {

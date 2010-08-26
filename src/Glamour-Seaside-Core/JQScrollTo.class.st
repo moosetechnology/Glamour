@@ -4,6 +4,11 @@ Class {
 	#category : #'Glamour-Seaside-Core'
 }
 
+{ #category : #'options-generated' }
+JQScrollTo >> duration: anInteger [
+	self optionAt: 'duration' put: anInteger
+]
+
 { #category : #accessing }
 JQScrollTo >> method [
 	^ 'scrollTo'
