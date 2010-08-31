@@ -7,9 +7,9 @@ Class {
 	#category : #'Glamour-Seaside-Examples'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 SGLMooseMetaBrowser class >> initialize [
-	self registerAsApplication: 'glamour/moose/metaBrowser'
+	self registerAsApplication: 'moose/metaBrowser'
 ]
 
 { #category : #accessing }

@@ -6,7 +6,7 @@ Class {
 
 { #category : #initialization }
 SGLMooseFinder class >> initialize [
-	self registerAsApplication: 'glamour/moose/codeFinder'
+	self registerAsApplication: 'moose/finder'
 ]
 
 { #category : #accessing }

@@ -15,6 +15,15 @@ Class {
 	#category : #'Glamour-Seaside-Rendering'
 }
 
+{ #category : #selection }
+SGLTreeModel >> addInitialSelection [
+	|aSelection|
+	self announcer suspendAllWhile: [
+		"selection := nil."
+		aSelection := self glamourPresentation selection.
+		self explicitSelection: aSelection ]
+]
+
 { #category : #accessing }
 SGLTreeModel >> amountShown [
 	^ amountShown ifNil: [amountShown := 0]
@@ -65,7 +74,8 @@ SGLTreeModel >> explicitlySelectMultipleItems: aCollection [
 		eachRoot withContentsDo: [:each |
 			(collection includes: each item) ifTrue: [
 				newSelection add: each path ]]].
-	self selectAllNodePaths: newSelection
+	(newSelection isEmpty) ifFalse: [
+		self selectAllNodePaths: newSelection ]
 ]
 
 { #category : #initialization }

@@ -146,6 +146,7 @@ SGLTreePresenter >> renderAppendButtonOn: html [
 
 { #category : #rendering }
 SGLTreePresenter >> renderContentOn: html [
+	self model addInitialSelection.
 	(self widgetContainerWith: html)
 		class: 'list-presentation';
 		id: self htmlId;
@@ -161,7 +162,9 @@ SGLTreePresenter >> renderInitialRootNodesOn: html [
 	|listId| 
 	listId := html nextId.
 	self model selection ifNotNil: [ self model selection selectedNodes do: [:each|
-			self associateNode: each withId: html nextId] ].
+			each shouldBeDisplayed ifTrue: [
+				self associateNode: each withId: html nextId.
+				each expandParentPath ] ] ].
 	html unorderedList   
 		class: 'glm-tree-root-ct';
 		id: listId;
@@ -265,11 +268,10 @@ SGLTreePresenter >> selectedIds [
 	|ids|
 	ids := OrderedCollection new.
 	self model selection ifNotNil: [ self model selection selectedNodes do: [:node |
-		node ifNotNil: [ 
+		(node isNil not and: [node shouldBeDisplayed]) ifTrue: [ 
 			(self idOfNode: node)
 				ifNil: [
 					|path unrenderedNode|
-					"Transcript show: 'haba'; cr."
 					path := node path.
 					unrenderedNode := path detect: [:each| each areChildrenRendered not].
 					(path indexOf: unrenderedNode) to: path size - 1do: [:index| (path at: index) expanded: true].

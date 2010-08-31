@@ -6,7 +6,7 @@ Class {
 
 { #category : #initialization }
 SGLMooseCodeWithAnnotations class >> initialize [
-	self registerAsApplication: 'glamour/moose/codeWithAnnotations'
+	self registerAsApplication: 'moose/codeBrowser'
 ]
 
 { #category : #accessing }

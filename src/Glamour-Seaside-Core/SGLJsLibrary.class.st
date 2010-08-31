@@ -283,11 +283,15 @@ SGLJsLibrary >> glamourSeasideJs [
 				});
 		
 			});
+			$.data(rootList, "selectedNodes", nodes);
 			
 			if ( nodes.length == 0 ) {
 				$.data(rootList, "referenceNode", null);
+			} else {
+				// Scroll to the last added element
+				$(rootList).scrollTo(nodes[nodes.length-1]);
 			}
-			$.data(rootList, "selectedNodes", nodes);
+			
 		};
 		
 		function initializeOperation(list, rootList, options) {

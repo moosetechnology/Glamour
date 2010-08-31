@@ -55,6 +55,13 @@ SGLTreeNodeModel >> displayText [
 	^self containerTree glamourPresentation formatedDisplayValueOf: self item
 ]
 
+{ #category : #'as yet unclassified' }
+SGLTreeNodeModel >> expandParentPath [
+	|path|
+	path := self path.
+	1 to: path size - 1 do: [:index| (path at: index) expanded: true ]
+]
+
 { #category : #accessing }
 SGLTreeNodeModel >> expanded [
 	^ expanded ifNil: [ expanded := self containerTree shouldAllExpand or: [ self path size == 1 and: [self containerTree shouldRootsExpand ] ] ]
