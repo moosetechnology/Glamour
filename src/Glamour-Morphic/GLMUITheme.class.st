@@ -4,6 +4,11 @@ Class {
 	#category : #'Glamour-Morphic'
 }
 
+{ #category : #accessing }
+GLMUITheme class >> baseColor [
+	^ Color r: 200 g: 200 b: 200 range: 255
+]
+
 { #category : #'as yet unclassified' }
 GLMUITheme class >> beCurrent [
 	"self beCurrent"
@@ -30,11 +35,11 @@ GLMUITheme class >> newDefaultSettings [
 	^super newDefaultSettings
 		menuColor: (Color r: 220 g: 220 b: 220 range: 255);
 		menuTitleColor: (Color r: 220 g: 220 b: 220 range: 255);
-		windowColor: (Color r: 200 g: 200 b: 200 range: 255);
+		windowColor: self baseColor;
 		selectionColor: (self glamorousBlue twiceDarker alpha: 0.2);
 		menuSelectionColor: (self glamorousBlue twiceDarker alpha: 0.4);
 		selectionColor: (self glamorousBlue twiceDarker alpha: 0.2);
-		progressBarColor: (Color r: 200 g: 200 b: 200 range: 255);
+		progressBarColor: self baseColor;
 		progressBarProgressColor: (self glamorousBlue twiceDarker alpha: 0.2)		
 
 	"Answer a new original default settings."
@@ -58,7 +63,7 @@ GLMUITheme class >> themeName [
 
 { #category : #private }
 GLMUITheme >> buttonBaseColorFor: aButton [
-	^ Color r: 200 g: 200 b: 200 range: 255
+	^ self class baseColor
 	
 	"unfortunately, it looks like paneColor does not always return the wanted color"
 	"aButton paneColorOrNil ifNil: [Color r: 200 g: 200 b: 200 range: 255]"
