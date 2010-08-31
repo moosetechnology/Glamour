@@ -269,7 +269,7 @@ SGLTreePresenter >> selectedIds [
 			(self idOfNode: node)
 				ifNil: [
 					|path unrenderedNode|
-					Transcript show: 'haba'; cr.
+					"Transcript show: 'haba'; cr."
 					path := node path.
 					unrenderedNode := path detect: [:each| each areChildrenRendered not].
 					(path indexOf: unrenderedNode) to: path size - 1do: [:index| (path at: index) expanded: true].
