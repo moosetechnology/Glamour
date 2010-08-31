@@ -9,6 +9,11 @@ GLMUITheme class >> baseColor [
 	^ Color r: 200 g: 200 b: 200 range: 255
 ]
 
+{ #category : #accessing }
+GLMUITheme class >> baseSelectionColor [
+	^ self glamorousBlue
+]
+
 { #category : #'as yet unclassified' }
 GLMUITheme class >> beCurrent [
 	"self beCurrent"
@@ -122,8 +127,7 @@ GLMUITheme >> buttonNormalFillStyleFor: aButton [
 	"Return the normal button fillStyle for the given button."
 	
 	| toptop top bottom base |
-	(aButton valueOfProperty: #noFill ifAbsent: [false]) ifTrue: [
-		^ SolidFillStyle color: Color transparent ].
+	(aButton valueOfProperty: #noFill ifAbsent: [false]) ifTrue: [^ SolidFillStyle color: Color transparent ].
 	base := self buttonBaseColorFor: aButton.
 	toptop := base muchLighter.
 	top := base twiceLighter.
@@ -217,6 +221,16 @@ GLMUITheme >> plainGroupPanelBorderStyleFor: aGroupPanel [
 	^SimpleBorder new
 		width: 1;
 		baseColor: (self buttonBaseColorFor: aGroupPanel) darker
+]
+
+{ #category : #'fill-styles' }
+GLMUITheme >> progressBarFillStyleFor: aProgressBar [
+	^ (self buttonBaseColorFor: aProgressBar) muchLighter
+]
+
+{ #category : #'fill-styles' }
+GLMUITheme >> progressBarProgressFillStyleFor: aProgressBar [
+	^ self class baseSelectionColor muchLighter
 ]
 
 { #category : #'fill-styles' }
