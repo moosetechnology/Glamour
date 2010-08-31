@@ -288,11 +288,23 @@ SGLJsLibrary >> glamourSeasideJs [
 			if ( nodes.length == 0 ) {
 				$.data(rootList, "referenceNode", null);
 			} else {
-				// Scroll to the last added element
-				$(rootList).scrollTo(nodes[nodes.length-1]);
+				// Scroll to the last added element if it is not visible
+				scrollToElement(nodes[nodes.length-1], rootList);
 			}
 			
 		};
+		
+		function scrollToElement($node, rootList) {
+			var nodeTopOffset = $node.offset().top;
+			var listTopOffset = $(rootList).offset().top;
+			
+			//alert(nodeTopOffset+"  "+listTopOffset);
+			//alert((listTopOffset + $(rootList).height())+"  "+(nodeTopOffset + $node.height()));
+			if (  (nodeTopOffset < listTopOffset) || ( listTopOffset + $(rootList).height() < nodeTopOffset + $node.height() ) ) {
+				//alert("scroll");
+				$(rootList).scrollTo($node); 
+			}
+		}
 		
 		function initializeOperation(list, rootList, options) {
 			var savedOpts = $.data(rootList, "options");

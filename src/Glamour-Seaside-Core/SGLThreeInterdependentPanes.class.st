@@ -1,12 +1,12 @@
 Class {
 	#name : #SGLThreeInterdependentPanes,
 	#superclass : #SGLComponent,
-	#category : #'Glamour-Seaside-Examples-Dev'
+	#category : #'Glamour-Seaside-Examples'
 }
 
 { #category : #'instance creation' }
 SGLThreeInterdependentPanes class >> initialize [
-	self registerAsApplication: 'glamour/basicExamples/threeInterdependentPanes'
+	self registerAsApplication: 'glamour/threeInterdependentPanes'
 ]
 
 { #category : #accessing }

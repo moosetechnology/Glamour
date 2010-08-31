@@ -11,6 +11,7 @@ SGLSTPackageBrowser class >> initialize [
 
 { #category : #accessing }
 SGLSTPackageBrowser >> browser [
+	"self new browser openOn: self new model"
 	^ GLMSTBrowserExample new browser
 ]
 
