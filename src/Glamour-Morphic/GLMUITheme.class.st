@@ -114,7 +114,7 @@ GLMUITheme >> buttonNormalBorderStyleFor: aButton [
 	| outerColor innerColor |
 	(aButton valueOfProperty: #noBorder ifAbsent: [false]) ifTrue: [
 		^ SimpleBorder new width: 0; baseColor: Color transparent ].
-	outerColor := (self buttonBaseColorFor: aButton) twiceDarker.
+	outerColor := (self buttonBaseColorFor: aButton) darker.
 	^SimpleBorder new
 					width: 1;
 					baseColor: outerColor
@@ -208,7 +208,7 @@ GLMUITheme >> newFocusIndicatorMorphFor: aMorph [
 		fillStyle: Color transparent;
 		borderStyle: (SimpleBorder new
 			 width: 2;
-			baseColor: (self glamorousBlue twiceDarker alpha: 0.2));
+			baseColor: (self glamorousBlue muchLighter));
 		bounds: aMorph focusBounds
 ]
 
@@ -323,6 +323,16 @@ GLMUITheme >> tabLabelNormalFillStyleFor: aTabLabel [
 { #category : #'fill-styles-buttons' }
 GLMUITheme >> tabLabelSelectedFillStyleFor: aTabLabel [
 	^ self buttonSelectedFillStyleFor: aTabLabel 
+]
+
+{ #category : #'border-styles' }
+GLMUITheme >> tabPanelBorderStyleFor: aTabGroup [
+	"Answer the normal border style for a tab panel."
+
+	^ TabPanelBorder new
+		width: 1;
+		baseColor: ((self buttonBaseColorFor: aTabGroup) darker);
+		tabSelector: aTabGroup tabSelectorMorph
 ]
 
 { #category : #'basic-colors' }
