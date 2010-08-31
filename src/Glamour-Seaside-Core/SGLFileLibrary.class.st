@@ -497,6 +497,7 @@ div.finder-pane > * {
 
 .presentation-with-title {
 	padding: 0.2em;
+	background: none repeat scroll 0 0 #DFDFDF;
 }
 
 .presentation-title {

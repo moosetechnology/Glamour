@@ -128,6 +128,15 @@ SGLBasicExamples >> simpleFinder [
 	^finder.
 ]
 
+{ #category : #'actions examples' }
+SGLBasicExamples >> staticAndDynamicMenu [
+	"
+		self new staticAndDynamicMenu openOn: $z
+	"
+	<glmBrowser: 'Menus' input: '$z'>
+	^ GLMBasicExamples new staticAndDynamicMenu
+]
+
 { #category : #others }
 SGLBasicExamples >> taggedTree [
 	"
@@ -177,7 +186,7 @@ SGLBasicExamples >> threeInterdependentPanes [
 		browser tree
 			title: 'Pane 3';
 			display: [:x | 1 to: x*3];
-			populate: #focus icon: MenuIcons projectIcon entitled: 'Focus' with: [:list | list selection] ].
+			populate: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
 	browser sendTo: #outer->#focus from: #three->#focus with: [:x | x ].
 	browser sendTo: #one->#selection from: #outer->#focus with: [:x | x ].
 	browser sendTo: #two->#selection from: #outer->#focus with: [:x | x ].
@@ -251,6 +260,25 @@ SGLBasicExamples >> treeWithLeafTags [
 					(each isNumber and: [each\\5 == 0] ) ifTrue: ['div 5'] ifFalse: ['not div 5']} ]
 				ifFalse: [{}] ];
 			children: [:x :i | x isCollection ifTrue: [x] ifFalse: [OrderedCollection new] ] ].
+	browser showOn: #two; from: #one; using: [ browser text ].
+	^ browser
+]
+
+{ #category : #'actions examples' }
+SGLBasicExamples >> treeWithMenu [
+	"
+		self new treeWithMenu openOn: #(($a $b $c $d) ($e $f) ($g $h $i $j $l))
+	"
+	<glmBrowser: 'Tree with menu' input: '#(($a $b $c $d) ($e $f) ($g $h $i $j $l))'>
+	|browser |
+	browser := GLMTabulator new.
+	browser column: #one; column: #two.
+	browser showOn: #one; using: [
+		browser tree
+			title: ['Tree with menu'];
+			children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ];
+			act: [:tree | tree inspect ] on: $i entitled: 'Inspect';
+			icon: [:x | MenuIcons helpIcon ]].
 	browser showOn: #two; from: #one; using: [ browser text ].
 	^ browser
 ]

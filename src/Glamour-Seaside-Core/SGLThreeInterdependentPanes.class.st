@@ -12,7 +12,6 @@ SGLThreeInterdependentPanes class >> initialize [
 { #category : #accessing }
 SGLThreeInterdependentPanes >> browser [
 	"self new browser openOn: self new model."
-
 	|browser |
 
 	browser := GLMTabulator new.
@@ -27,9 +26,9 @@ SGLThreeInterdependentPanes >> browser [
 			display: [:x | 1 to: x*2]].
 	browser showOn: #three; from: #two; using: [
 		browser tree
-			title: 'Pane 33';
+			title: 'Pane 3';
 			display: [:x | 1 to: x*3];
-			populate: #focus icon: MenuIcons projectIcon entitled: 'Focus' with: [:list | list selection] ].
+			populate: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
 	browser sendTo: #outer->#focus from: #three->#focus with: [:x | x ].
 	browser sendTo: #one->#selection from: #outer->#focus with: [:x | x ].
 	browser sendTo: #two->#selection from: #outer->#focus with: [:x | x ].

@@ -201,6 +201,39 @@ SGLDevExamples >> methodsInvocations [
 ]
 
 { #category : #other }
+SGLDevExamples >> multiMethodsViewer [
+	"
+		self new multiMethodsViewer openOn: MooseModel root allModels first
+	"
+	<glmBrowser: 'Multi methods viewer' input: 'MooseModel root allModels first'>
+	| browser |
+	browser := GLMTabulator new.
+	browser title: 'Multi Methods Viewer'.
+	browser 
+ 	 	column: [:c | c row:  #classes; row: #methods];
+  		column: #source.
+	browser transmit to: #classes; andShow: [ :a  |
+ 		a list 
+   		   title: 'Classes';
+		   showOnly: 50;
+    		   display: [:model | model allClasses ] ].
+	browser transmit to: #methods; from: #classes; andShow: [ :a |
+  		a list 
+    			title: [ :class | 'Methods from ', class name ];
+    			beMultiple; 
+    			display: [ :class | class methods ];
+    			format: [ :class | class name ] ].
+	browser transmit to: #source; from: #methods; andShow: [ :a |
+  		a dynamic with: [ :some :methods | 
+    			methods do: [ :each |
+      			some text 
+        			title: each name asString;
+        			display: [ each sourceText] ].
+    				some stackedArrangement ] ].
+	^ browser
+]
+
+{ #category : #other }
 SGLDevExamples >> multipleTabPresentations [
 	"
 		self new multipleTabPresentations openOn: 100
@@ -245,7 +278,6 @@ SGLDevExamples >> namespacesDependencies [
 	<glmBrowser: 'Namespaces Dependencies' input: 'MooseModel root allModels first allModelNamespaces'>
 	| finder |
 	finder := GLMFinder new.
-	finder title: 'Finder'.
 	finder show: [ :a |
 		a list 
 			showOnly: 30;

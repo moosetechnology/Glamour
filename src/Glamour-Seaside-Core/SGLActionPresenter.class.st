@@ -41,29 +41,39 @@ SGLActionPresenter >> renderAction: anAction on: html [
 
 { #category : #rendering }
 SGLActionPresenter >> renderActions: actions on: html [
-	1 to: (self showAsIconCount min: actions size) do: [:index | 
-		self renderAction: (actions at: index) on: html].
-	(actions size > self showAsIconCount) ifTrue: [
+	| headerIcons menuIcons count |
+	count := 1.
+	headerIcons := OrderedCollection new.
+	menuIcons := OrderedCollection new.
+	actions do: [:each|
+		(each hasIcon and: [count <= self showAsIconCount])
+			ifTrue: [
+				headerIcons add: each. 
+				count := count + 1] 
+			ifFalse: [menuIcons add: each] ].
+	headerIcons do: [:each|
+		self renderAction: each on: html ].
+	(menuIcons isEmpty) ifFalse: [
 			self renderMenuForActions: actions on: html ]
 ]
 
 { #category : #rendering }
 SGLActionPresenter >> renderContentOn: html [
 	|actions|
-	actions := (presentation allActions select: [:action | action hasIcon and: [action hasTitle] ]) asOrderedCollection.
+	actions := (presentation actions select: [:action | action hasIcon or: [action hasTitle] ]) asOrderedCollection.
 	html div
 		class: 'glm-ac-container';
-		with: [  self renderActions: actions on: html ]
+		with: [ self renderActions: actions on: html ]
 ]
 
 { #category : #mbmenu }
 SGLActionPresenter >> renderMbMenuContentForActions: actions on: html [
-	self showAsIconCount + 1to: actions size do: [ :index|
+	actions do: [ :each|
 		html anchor
-			action: (self actionScriptFor: ( actions at: index) with: html);
+			action: (self actionScriptFor: each with: html);
 			with: [
 				"html image form: (actions at: index) icon."
-				html text: ( actions at: index) title] ] 
+				html text: each title] ] 
 ]
 
 { #category : #mbmenu }
@@ -95,10 +105,11 @@ SGLActionPresenter >> renderMbMenuHeaderForMenu: aMenuId on:  html [
 
 { #category : #mbmenu }
 SGLActionPresenter >> renderMbMenuWithId: anId forActions: actions on: html [
+	|categories|
 	html div 
 		class: 'mbmenu';
 		id: anId;
-		with: [ self renderMbMenuContentForActions: actions on: html ]
+		with: [ self renderMbMenuContentForActions: actions on: html ] 
 ]
 
 { #category : #rendering }
