@@ -325,6 +325,18 @@ GLMUITheme >> tabLabelSelectedFillStyleFor: aTabLabel [
 	^ self buttonSelectedFillStyleFor: aTabLabel 
 ]
 
+{ #category : #'basic-colors' }
+GLMUITheme >> taskbarButtonLabelColorFor: aButton [
+	"Answer the colour for the label of the given taskbar button."
+
+	^aButton model
+		ifNil: [super taskbarButtonLabelColorFor: aButton]
+		ifNotNil: [:win |
+			win isActive
+				ifTrue: [self buttonBaseColorFor: aButton]
+				ifFalse: [super taskbarButtonLabelColorFor: aButton]]
+]
+
 { #category : #'fill-styles' }
 GLMUITheme >> taskbarFillStyleFor: aTaskbar [
 	^ self buttonNormalFillStyleFor: aTaskbar
