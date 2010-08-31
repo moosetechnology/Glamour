@@ -41,12 +41,10 @@ GLMUITheme class >> newDefaultSettings [
 		menuColor: (Color r: 220 g: 220 b: 220 range: 255);
 		menuTitleColor: (Color r: 220 g: 220 b: 220 range: 255);
 		windowColor: self baseColor;
-		selectionColor: (self glamorousBlue twiceDarker alpha: 0.2);
-		menuSelectionColor: (self glamorousBlue twiceDarker alpha: 0.4);
-		selectionColor: (self glamorousBlue twiceDarker alpha: 0.2);
-		progressBarColor: self baseColor;
-		progressBarProgressColor: (self glamorousBlue twiceDarker alpha: 0.2)		
-
+		selectionColor: (self glamorousBlue muchLighter);
+		menuSelectionColor: (self glamorousBlue muchLighter);
+		progressBarColor: self baseColor
+		
 	"Answer a new original default settings."
 	"self defaultSettings: nil"
 "	^super newDefaultSettings
