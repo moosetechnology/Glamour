@@ -211,8 +211,8 @@ GLMUITheme >> newFocusIndicatorMorphFor: aMorph [
 	^ BorderedMorph new
 		fillStyle: Color transparent;
 		borderStyle: (SimpleBorder new
-			 width: 2;
-			baseColor: (self glamorousBlue muchLighter));
+			 width: 1;
+			baseColor: (self glamorousBlue lighter));
 		bounds: aMorph focusBounds
 ]
 
