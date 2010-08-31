@@ -30,9 +30,13 @@ GLMUITheme class >> beCurrent [
 
 { #category : #private }
 GLMUITheme class >> glamorousBlue [
-	^ Color r: 0
+	^ Color 
+		r: 0.38
+		g: 0.64
+		b: 0.88
+	"Color r: 0
 		g: 0.4
-		b: 0.808
+		b: 0.808"
 ]
 
 { #category : #'as yet unclassified' }
@@ -41,8 +45,8 @@ GLMUITheme class >> newDefaultSettings [
 		menuColor: (Color r: 220 g: 220 b: 220 range: 255);
 		menuTitleColor: (Color r: 220 g: 220 b: 220 range: 255);
 		windowColor: self baseColor;
-		selectionColor: (self glamorousBlue muchLighter);
-		menuSelectionColor: (self glamorousBlue muchLighter);
+		selectionColor: self glamorousBlue muchLighter;
+		menuSelectionColor: self glamorousBlue muchLighter;
 		progressBarColor: self baseColor
 		
 	"Answer a new original default settings."
