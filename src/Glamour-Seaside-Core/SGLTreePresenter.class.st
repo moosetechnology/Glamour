@@ -10,8 +10,8 @@ Class {
 }
 
 { #category : #accessing }
-SGLTreePresenter >> associateId: anId forNode: aNode [
-	nodesId at: anId ifAbsentPut: [aNode] 
+SGLTreePresenter >> associateNode: aNode withId: anId [
+	nodesId at: aNode ifAbsentPut: anId
 ]
 
 { #category : #selection }
@@ -35,6 +35,11 @@ SGLTreePresenter >> htmlId [
 { #category : #accessing }
 SGLTreePresenter >> htmlId: anObject [
 	htmlId := anObject
+]
+
+{ #category : #accessing }
+SGLTreePresenter >> idOfNode: aNode [
+	^ nodesId at: aNode ifAbsent: [nil]
 ]
 
 { #category : #initialization }
@@ -69,7 +74,9 @@ SGLTreePresenter >> model [
 
 { #category : #accessing }
 SGLTreePresenter >> nodeForId: anId [
-	^ nodesId at: anId 
+	|value|
+	value := nodesId keyAtValue: anId.
+	^ value
 ]
 
 { #category : #'jQuery-scripts' }
@@ -92,6 +99,8 @@ SGLTreePresenter >> onClickActionForTag: aTag of: aNode with: html [
 		aNode containerTree toggleFilteringByTag: aTag.
 		s << ( html jQuery id: (self renderer uuidFor: aNode containerTree glamourPresentation ) )
 			replaceWith: [ :aRenderer |
+				self model markAllNodesAsNotRenderer.
+				nodesId := Dictionary new.
 				aRenderer render: self ] ] 
 ]
 
@@ -102,14 +111,13 @@ SGLTreePresenter >> onExpandToggledActionForANodeWith: html [
 			self renderer updateScript: s ] ;
 		callback: [ :nodeId |
 			|aNode|
-			"Transcript show: 'triger: ', nodeId; cr."
 			aNode := self nodeForId: nodeId.
-			aNode rendered "Render the children and update the model"
+			aNode areChildrenRendered "Render the children and update the model"
 				ifTrue: [ aNode toggleExpansion ]
 				ifFalse: [
 					self updateNodeContentScriptFor: aNode.
 					aNode expanded: true.
-					aNode rendered: true ] ] value:  (JSStream on: '$node.attr("id")')
+					aNode markChildrenAsRendered ] ] value:  (JSStream on: '$node.attr("id")')
 ]
 
 { #category : #'jQuery-scripts' }
@@ -120,7 +128,7 @@ SGLTreePresenter >> onSelectActionForANodeWith: html [
 		callback: [ :value |
 			|nodes|
 			nodes := ( value contents findTokens: $, ) collect: [:each | 
-				self nodeForId: each].
+				self nodeForId: each ].
 			(nodes size == 1) 
 				ifTrue: [self explicitSelection: (nodes at: 1) ]
 				ifFalse:  [self explicitSelection: nodes].
@@ -150,8 +158,10 @@ SGLTreePresenter >> renderContentOn: html [
 
 { #category : #rendering }
 SGLTreePresenter >> renderInitialRootNodesOn: html [
-	|listId|
+	|listId| 
 	listId := html nextId.
+	self model selection ifNotNil: [ self model selection selectedNodes do: [:each|
+			self associateNode: each withId: html nextId] ].
 	html unorderedList   
 		class: 'glm-tree-root-ct';
 		id: listId;
@@ -166,21 +176,19 @@ SGLTreePresenter >> renderInitialRootNodesOn: html [
 { #category : #rendering }
 SGLTreePresenter >> renderNode: aNode fromLevel: level on: html [
 	|children|
-	aNode htmlIdIfNotNil: html nextId.
-	self associateId: aNode htmlId forNode: aNode.
+	self associateNode: aNode withId: html nextId.
 	children := aNode contents.
 	html listItem  
-		id: aNode htmlId;  
+		id: (self idOfNode: aNode);  
 		class: 'glm-tree-node';
 		class: 'glm-tree-leaf' if: children size == 0;
 		class: 'glm-tree-open' if: (children size > 0 and: [aNode expanded]);
 		class: 'glm-tree-closed' if: (children size > 0 and: [aNode expanded not]);
 		with: [
-			aNode rendered: false. "When using tags this may be set to true."
 			self renderNodeTitleFor: aNode on: html.
 			(children size > 0 and: [ aNode expanded ] ) ifTrue: [ 
 				self renderNodes: children asListFromLevel: level+1 on: html.
-				aNode rendered: true. ] ]
+				aNode markChildrenAsRendered ] ]
 ]
 
 { #category : #rendering }
@@ -258,18 +266,18 @@ SGLTreePresenter >> selectedIds [
 	ids := OrderedCollection new.
 	self model selection ifNotNil: [ self model selection selectedNodes do: [:node |
 		node ifNotNil: [ 
-			node htmlId 
+			(self idOfNode: node)
 				ifNil: [
 					|path unrenderedNode|
-					"Transcript show: 'haba'; cr."
+					Transcript show: 'haba'; cr.
 					path := node path.
-					unrenderedNode := path detect: [:each| each rendered not].
-					(path indexOf: unrenderedNode) to: path size -1do: [:index| (path at: index) expanded: true].
+					unrenderedNode := path detect: [:each| each areChildrenRendered not].
+					(path indexOf: unrenderedNode) to: path size - 1do: [:index| (path at: index) expanded: true].
 					unrenderedNode expanded: true.
 					self updateNodeContentScriptFor: unrenderedNode.
 					self toggleNodeClassFor: unrenderedNode.
-					unrenderedNode rendered: true ].
-			ids add: node htmlId ] ] ].
+					unrenderedNode markChildrenAsRendered ].
+			ids add: (self idOfNode: node) ] ] ].
 	^ ids
 ]
 
@@ -278,13 +286,13 @@ SGLTreePresenter >> toggleNodeClassFor: aNode [
 	self renderer scriptFor: self model glamourPresentation add: (
 		JSStream new 
 			nextPutAll:  '$.glamourTree.toggleClass'; 
-			arguments: (Array with: aNode htmlId) )
+			arguments: (Array with: (self idOfNode: aNode)) )
 ]
 
 { #category : #private }
 SGLTreePresenter >> updateNodeContentScriptFor: aNode [
 	self renderer scriptFor: self model glamourPresentation add: (
-		(self renderer html jQuery id: aNode htmlId ) append: [:aRenderer | 
+		(self renderer html jQuery id: (self idOfNode: aNode) ) append: [:aRenderer | 
 			self renderNodes: aNode contents asListFromLevel: aNode path size on: aRenderer ])
 ]
 

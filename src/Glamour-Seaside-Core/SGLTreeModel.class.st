@@ -9,7 +9,8 @@ Class {
 		'tagsToFilterBy',
 		'shouldRootsExpand',
 		'shouldAllExpand',
-		'selection'
+		'selection',
+		'renderedNodes'
 	],
 	#category : #'Glamour-Seaside-Rendering'
 }
@@ -65,6 +66,27 @@ SGLTreeModel >> explicitlySelectMultipleItems: aCollection [
 			(collection includes: each item) ifTrue: [
 				newSelection add: each path ]]].
 	self selectAllNodePaths: newSelection
+]
+
+{ #category : #initialization }
+SGLTreeModel >> initialize [
+	super initialize.
+	renderedNodes := IdentityDictionary new
+]
+
+{ #category : #accessing }
+SGLTreeModel >> isNodeRendered: aNode [
+	^ renderedNodes at: aNode ifAbsentPut: [false]
+]
+
+{ #category : #accessing }
+SGLTreeModel >> markAllNodesAsNotRenderer [
+	renderedNodes := IdentityDictionary new
+]
+
+{ #category : #accessing }
+SGLTreeModel >> markNodeAsRendered: aNode [
+	renderedNodes at: aNode put: true
 ]
 
 { #category : #accessing }

@@ -7,7 +7,6 @@ Class {
 		'parentNode',
 		'childrens',
 		'expanded',
-		'rendered',
 		'htmlId'
 	],
 	#category : #'Glamour-Seaside-Rendering'
@@ -16,6 +15,11 @@ Class {
 { #category : #'instance creation' }
 SGLTreeNodeModel class >> with: anObject [
 	^ self new item: anObject 
+]
+
+{ #category : #accessing }
+SGLTreeNodeModel >> areChildrenRendered [
+	^ self containerTree isNodeRendered: self
 ]
 
 { #category : #accessing }
@@ -82,6 +86,11 @@ SGLTreeNodeModel >> item: anObject [
 ]
 
 { #category : #accessing }
+SGLTreeNodeModel >> markChildrenAsRendered [
+	self containerTree markNodeAsRendered: self
+]
+
+{ #category : #accessing }
 SGLTreeNodeModel >> parentNode [
 	^ parentNode 
 ]
@@ -106,12 +115,14 @@ SGLTreeNodeModel >> path [
 
 { #category : #accessing }
 SGLTreeNodeModel >> rendered [
-	^ rendered ifNil: [rendered := false]
+	^ self containerTree isNodeRendered: self
 ]
 
 { #category : #accessing }
-SGLTreeNodeModel >> rendered: anObject [
-	rendered := anObject
+SGLTreeNodeModel >> rendered: aBoolean [
+	aBoolean 
+		ifTrue: [ self containerTree markNodeAsRendered: self] 
+		ifFalse: [ self containerTree markNodeAsUnRendered: self]
 ]
 
 { #category : #'as yet unclassified' }
