@@ -6,21 +6,11 @@ JQAjax >> sglCallbackText: aBlock [
 	event only certain fields may be populated"
 	
 	self sglPostCallback: aBlock forEvent: #(
+		(string port)
 		(string text "the text contained in the element")
 		(string selection "the selected text")
 		(number start "the start position of the selected text")
 		(number end "the end position of the selected text"))
-
-	"self 
-		type: 'POST';
-		addParameters: ( GRSmallDictionary new
-			at: 'text' put: (JSStream on: 'arguments[1].text');
-			yourself);
-		script: [ :script | 
-			|result|
-			result := GRSmallDictionary new.
-			result at: 'text' put: (self requestContext request at: 'text').
-			aBlock value: result value: script ]"
 					
 ]
 
@@ -42,6 +32,6 @@ JQAjax >> sglPostCallback: aBlock forEvent: anArraySpec [
 				(spec first = #number)
 					ifTrue: [ result at: spec last put: (self requestContext request at: spec last ifAbsent: ['0']) greaseInteger]
 			].
-			result at: 'text' put: (self requestContext request at: 'text').
+			"result at: 'text' put: (self requestContext request at: 'text')."
 			aBlock value: result value: script ]
 ]

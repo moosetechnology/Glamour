@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'text'
 	],
-	#category : #'Glamour-Seaside-Core'
+	#category : #'Glamour-Seaside-Rendering'
 }
 
 { #category : #accessing }

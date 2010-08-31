@@ -1,19 +1,17 @@
 Class {
 	#name : #SGLTreeModel,
-	#superclass : #Object,
+	#superclass : #SGLModel,
 	#instVars : [
 		'roots',
 		'filteredRoots',
-		'glamourPresentation',
 		'amountToShow',
 		'amountShown',
 		'tagsToFilterBy',
 		'shouldRootsExpand',
 		'shouldAllExpand',
-		'announcer',
 		'selection'
 	],
-	#category : #'Glamour-Seaside-Core'
+	#category : #'Glamour-Seaside-Rendering'
 }
 
 { #category : #accessing }
@@ -34,16 +32,6 @@ SGLTreeModel >> amountToShow [
 		ifTrue: [amountToShow := self roots size - self amountShown ].
 	^ amountToShow 
 	
-]
-
-{ #category : #announcements }
-SGLTreeModel >> announce: anAnnouncement [
-	self announcer announce: anAnnouncement 
-]
-
-{ #category : #accessing }
-SGLTreeModel >> announcer [
-	^ announcer ifNil: [announcer := GLMAnnouncer new]
 ]
 
 { #category : #callbacks }
@@ -77,16 +65,6 @@ SGLTreeModel >> explicitlySelectMultipleItems: aCollection [
 			(collection includes: each item) ifTrue: [
 				newSelection add: each path ]]].
 	self selectAllNodePaths: newSelection
-]
-
-{ #category : #accessing }
-SGLTreeModel >> glamourPresentation [
-	^ glamourPresentation 
-]
-
-{ #category : #accessing }
-SGLTreeModel >> glamourPresentation: anObject [
-	glamourPresentation := anObject 
 ]
 
 { #category : #accessing }

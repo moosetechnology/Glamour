@@ -10,7 +10,7 @@ Class {
 		'rendered',
 		'htmlId'
 	],
-	#category : #'Glamour-Seaside-Core'
+	#category : #'Glamour-Seaside-Rendering'
 }
 
 { #category : #'instance creation' }

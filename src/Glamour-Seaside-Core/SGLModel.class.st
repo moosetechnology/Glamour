@@ -5,7 +5,7 @@ Class {
 		'glamourPresentation',
 		'announcer'
 	],
-	#category : #'Glamour-Seaside-Core'
+	#category : #'Glamour-Seaside-Rendering'
 }
 
 { #category : #accessing }

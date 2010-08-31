@@ -26,5 +26,10 @@ JQSGLText >> onSelect: anObject [
 
 { #category : #actions }
 JQSGLText >> selectFrom: start to: end [
-	self action: 'changeSelection' arguments: (Array with: start with: end)
+	self action: 'changeSelectionInterval' arguments: (Array with: start with: end)
+]
+
+{ #category : #actions }
+JQSGLText >> selectText: aString [
+	self action: 'changeSelectedText' arguments: (Array with: aString)
 ]

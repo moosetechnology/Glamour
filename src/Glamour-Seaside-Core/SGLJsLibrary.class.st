@@ -101,6 +101,26 @@ SGLJsLibrary >> glamourSeasideJs [
 					return false
 			} ,
 			
+			toggleClass : function(nodeOrId) {
+				var $node;
+				
+				if ( typeof nodeOrId === "string" ) {
+					$node= $("#"+nodeOrId);
+				} else {
+					$node = nodeOrId;
+				}
+				
+				if ( $node.hasClass("glm-tree-open") ) {
+					$node.removeClass("glm-tree-open");
+					$node.addClass("glm-tree-closed");
+					$node.children(".glm-tree-node-ct").hide();
+				} else if ( $node.hasClass("glm-tree-closed")  ) {
+					$node.removeClass("glm-tree-closed");
+					$node.addClass("glm-tree-open");
+					$node.children(".glm-tree-node-ct").show();
+				}
+			},
+			
 			selectNodes: function(presentationId, nodesIds, resetReferenceNode) {
 				var rootList = $("#"+presentationId+" > .glm-tree-root-ct")[0];
 				var selectedNodes = [];
@@ -176,7 +196,7 @@ SGLJsLibrary >> glamourSeasideJs [
 					// Submit a request when the uses expands/collapses a node.
 					$content.children(".glm-tree-icon").bind("click", function() {						
 						opts.onExpandToggled($node);
-						toggleClass($node);
+						$.glamourTree.toggleClass($node);
 						return false;
 					});
 				});
@@ -250,12 +270,18 @@ SGLJsLibrary >> glamourSeasideJs [
 		
 		function performeSelection(rootList, nodes) {
 			var savedSelectedNodes = $.data(rootList, "selectedNodes");
+			var $parents;
 			
 			$.each(savedSelectedNodes, function(index, $node) {
 				$node.removeClass("glm-tree-node-selected");
 			});
 			$.each(nodes, function(index, $node) {
 				$node.addClass("glm-tree-node-selected");
+				// Expand the parents
+				$node.parentsUntil(".glm-tree-root-ct").filter(".glm-tree-closed").each(function(index, node){
+					$(node).children(".glm-tree-node-el").children(".glm-tree-icon").trigger("click");
+				});
+		
 			});
 			
 			if ( nodes.length == 0 ) {
@@ -298,18 +324,6 @@ SGLJsLibrary >> glamourSeasideJs [
 		function addIcon($nodeContent, $node) {
 			if ( $node.hasClass("glm-tree-leaf") == false ) {
 				$nodeContent.children(":eq(1)").before("<ins class=\"glm-tree-icon\">&nbsp;</ins>");
-			}
-		};
-		
-		function toggleClass($node) {
-			if ( $node.hasClass("glm-tree-open") ) {
-				$node.removeClass("glm-tree-open");
-				$node.addClass("glm-tree-closed");
-				$node.children(".glm-tree-node-ct").hide();
-			} else if ( $node.hasClass("glm-tree-closed")  ) {
-				$node.removeClass("glm-tree-closed");
-				$node.addClass("glm-tree-open");
-				$node.children(".glm-tree-node-ct").show();
 			}
 		};
 		
@@ -491,7 +505,7 @@ SGLJsLibrary >> glamourSeasideJs [
 			
 			
 			//Set the width of the tab.
-			navigation.css("min-width", navigation.glamourWidth()+$.glamourWidth.outerWidth(navigation)+1);
+			navigation.css("min-width", navigation.glamourWidth()+$.glamourWidth.outerWidth(navigation)+2);
 			
 			setNavigationStyles(navigation)
 		}
@@ -586,8 +600,8 @@ SGLJsLibrary >> glamourSeasideJs [
 	;(function($){
 		jQuery.widget("ui.glamourText", {
 			options: {
-				_shouldTriggerSelect: true,
-				_shouldTriggerChange: true
+				triggerSelectCallback: true,
+				triggerChangeCallback: false
 			}, 
 			
 			_init: function() {
@@ -599,30 +613,25 @@ SGLJsLibrary >> glamourSeasideJs [
 					callback: function() { self._triggerChange.call(self, arguments[0])}
 				} );
 				
-				this.element.change(function() {
-					
-				});
-				
 				this.element.select(function(){
-					self._triggerSelect.call(self);
+					self._triggerSelect.call(self, "selection");
 				});
 			},
 			
-			_triggerSelect: function(start, end) {
+			_triggerSelect: function(port, start, end, selection) {
 				var caret;
-				
+
 				caret = this.element.caret();
 				this._trigger( "select", 0, this._normalizeEventData({
-					selection: caret.text,
-					end: end || caret.end,
-					start: start || caret.start
+					"port": port,
+					selection: (selection == "" || selection) ? selection : caret.text,
+					end: (end == 0 || end) ? end : caret.end,
+					start: ( (start == 0 || start) ? start : caret.start ) + 1
 				}) );
-				
-				this.options._shouldTriggerSelect = true;
 			},
 			
 			_triggerChange: function(newText) {
-				this._trigger( "change", 0, this._normalizeEventData({text: newText}) );
+				this._trigger( "change", 0, this._normalizeEventData({text: newText, port: "text"}) );
 			},
 			
 			_normalizeEventData: function(eventData) {
@@ -650,13 +659,20 @@ SGLJsLibrary >> glamourSeasideJs [
 				}
 			},
 			
-			changeSelection: function(start, end, shouldTriggerSelect) {
-				this.element.caret({"start": start, "end": end});
-				if ( shouldTriggerSelect ) {
-					this._triggerSelect.call(this, start, end);
+			changeSelectionInterval: function(start, end) {
+				(start <= end ? this.element.caret({"start": start - 1, "end": end}) : this.element.caret({"start": end - 1, "end": start}) )
+				if ( this.options.triggerSelectCallback ) {
+					this._triggerSelect.call(this, "selectionInterval", start - 1, end);
+				}
+			},
+			
+			changeSelectedText: function(selection) {
+				this.element.caret(selection);
+				if ( this.options.triggerSelectCallback ) {
+					this._triggerSelect.call(this, "selectedText", null, null, selection);
 				}
 			}
-
+			
 		});
 	})(jQuery);
 		
@@ -918,7 +934,6 @@ SGLJsLibrary >> typeWatchJs [
 			
 		function checkElement(timer, override) {
 			var elTxt = jQuery(timer.el).val();
-			console.log("b");
 			// Fire if text > options.captureLength AND text != saved txt OR if override AND text > options.captureLength
 			if ((elTxt.length > options.captureLength && elTxt.toUpperCase() != timer.text) 
 			|| (override && elTxt.length > options.captureLength)) {
@@ -962,7 +977,7 @@ SGLJsLibrary >> typeWatchJs [
 					{
 						checkElement(timer, overrideBool)
 					}
-					console.log("a");
+
 					// Clear timer					
 					clearTimeout(timer.timer);
 					timer.timer = setTimeout(timerCallbackFx, timerWait);				

@@ -27,7 +27,7 @@ SGLThreeInterdependentPanes >> browser [
 			display: [:x | 1 to: x*2]].
 	browser showOn: #three; from: #two; using: [
 		browser tree
-			title: 'Pane 3';
+			title: 'Pane 33';
 			display: [:x | 1 to: x*3];
 			populate: #focus icon: MenuIcons projectIcon entitled: 'Focus' with: [:list | list selection] ].
 	browser sendTo: #outer->#focus from: #three->#focus with: [:x | x ].

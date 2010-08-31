@@ -1,41 +1,28 @@
 Class {
 	#name : #SGLActionPresenter,
-	#superclass : #WAPresenter,
+	#superclass : #SGLPresenter,
 	#instVars : [
 		'presentation',
-		'renderer',
 		'showAsIconCount'
 	],
-	#category : #'Glamour-Seaside-Core'
+	#category : #'Glamour-Seaside-Rendering'
 }
 
-{ #category : #'instance creation' }
-SGLActionPresenter class >> for: aPresentation with: aRenderer [
-	^ self basicNew initializeFor: aPresentation with: aRenderer 
-]
-
-{ #category : #scripts }
+{ #category : #'jQuery-scripts' }
 SGLActionPresenter >> actionScriptFor: anAction with: html [
 	^ html jQuery ajax
 		script: [:script| 
 			anAction actOn: presentation.
-			renderer updateScript: script ] 
+			self renderer updateScript: script ] 
 ]
 
 { #category : #initialization }
-SGLActionPresenter >> initialize [
-	super initialize.
+SGLActionPresenter >> initializeFor: aPresentation [
+	presentation := aPresentation.
 	self showAsIconCount: 2
 ]
 
-{ #category : #initialization }
-SGLActionPresenter >> initializeFor: aPresentation with: aRenderer [
-	self initialize.
-	presentation := aPresentation.
-	renderer := aRenderer
-]
-
-{ #category : #scripts }
+{ #category : #'jQuery-scripts' }
 SGLActionPresenter >> menuScriptWith: html [
 	^ html jQuery new buildMenu 
 			menuWidth: 20;

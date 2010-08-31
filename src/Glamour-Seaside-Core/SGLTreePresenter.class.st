@@ -1,19 +1,13 @@
 Class {
 	#name : #SGLTreePresenter,
-	#superclass : #WAPresenter,
+	#superclass : #SGLPresenter,
 	#instVars : [
-		'renderer',
 		'model',
 		'htmlId',
 		'nodesId'
 	],
-	#category : #'Glamour-Seaside-Core'
+	#category : #'Glamour-Seaside-Rendering'
 }
-
-{ #category : #'instance creation' }
-SGLTreePresenter class >> for: aModel with: aRenderer [
-	^ self basicNew initializeFor: aModel with: aRenderer 
-]
 
 { #category : #accessing }
 SGLTreePresenter >> associateId: anId forNode: aNode [
@@ -44,15 +38,28 @@ SGLTreePresenter >> htmlId: anObject [
 ]
 
 { #category : #initialization }
-SGLTreePresenter >> initialize [
-	nodesId := Dictionary new
-]
-
-{ #category : #initialization }
-SGLTreePresenter >> initializeFor: aModel with: aRenderer [
-	self initialize.
-	model := aModel.
-	renderer := aRenderer
+SGLTreePresenter >> initializeFor: aPresentation [
+	model := SGLTreeModel new.
+	nodesId := Dictionary new.
+	model glamourPresentation: aPresentation.
+	
+	"When the morph changes, we want to update the glamour model"
+	model announcer on: GLMTreeMorphSelectionChanged do: [ :ann | 
+		aPresentation announcer suspendAllWhile: [
+			aPresentation selection: ann selectionValue.
+			aPresentation selectionPath: ann selectionPathValue] ].
+	"aPresentationModel announcer on: GLMTreeMorphStrongSelectionChanged do: [ :ann | 
+		aPresentation strongSelection: ann strongSelectionValue ]."
+	
+	"When the glamour model changes, we want to update the morph"
+	aPresentation when: GLMContextChanged do: [ :ann | 
+			ann property = #selection ifTrue: [ 
+				model announcer suspendAllWhile: [
+					model explicitSelection: ann value.
+					self updateSelectedNodes ] ] ].
+	aPresentation when: GLMPresentationUpdated do: [ :ann |
+		model updateRoots ].
+	
 ]
 
 { #category : #accessing }
@@ -65,8 +72,8 @@ SGLTreePresenter >> nodeForId: anId [
 	^ nodesId at: anId 
 ]
 
-{ #category : #actions }
-SGLTreePresenter >> onClickActionForAppendButtonOn: html [
+{ #category : #'jQuery-scripts' }
+SGLTreePresenter >> onClickActionForAppendButtonWith: html [
 	^ html jQuery ajax
 		script: [ :s | 
 			(self model roots size > self model amountShown) 
@@ -79,35 +86,34 @@ SGLTreePresenter >> onClickActionForAppendButtonOn: html [
 			s << ( (html jQuery expression: '#', self htmlId, ' > .glm-tree-root-ct' ) glamourTree update ) ] 
 ]
 
-{ #category : #actions }
-SGLTreePresenter >> onClickActionForTag: aTag of: aNode on: html [
+{ #category : #'jQuery-scripts' }
+SGLTreePresenter >> onClickActionForTag: aTag of: aNode with: html [
 	^ html jQuery ajax script: [:s | 
 		aNode containerTree toggleFilteringByTag: aTag.
 		s << ( html jQuery id: (self renderer uuidFor: aNode containerTree glamourPresentation ) )
-			replaceWith: [ :h |
-				self renderContentOn: h ] ] 
+			replaceWith: [ :aRenderer |
+				aRenderer render: self ] ] 
 ]
 
-{ #category : #actions }
-SGLTreePresenter >> onExpandToggledActionForANodeOn: html [
+{ #category : #'jQuery-scripts' }
+SGLTreePresenter >> onExpandToggledActionForANodeWith: html [
 	^ html jQuery ajax 
 		script: [:s | 
 			self renderer updateScript: s ] ;
 		callback: [ :nodeId |
 			|aNode|
+			"Transcript show: 'triger: ', nodeId; cr."
 			aNode := self nodeForId: nodeId.
 			aNode rendered "Render the children and update the model"
 				ifTrue: [ aNode toggleExpansion ]
 				ifFalse: [
-					self renderer scriptFor: self model glamourPresentation add: (
-						(html jQuery id: aNode htmlId ) append: [:h | 
-							self renderNodes: aNode contents asListFromLevel: aNode path size on: h ]).
+					self updateNodeContentScriptFor: aNode.
 					aNode expanded: true.
 					aNode rendered: true ] ] value:  (JSStream on: '$node.attr("id")')
 ]
 
-{ #category : #actions }
-SGLTreePresenter >> onSelectActionForANodeOn: html [
+{ #category : #'jQuery-scripts' }
+SGLTreePresenter >> onSelectActionForANodeWith: html [
 	^ html jQuery ajax 
 		script: [:s | 
 			self renderer updateScript: s ] ;
@@ -124,7 +130,7 @@ SGLTreePresenter >> onSelectActionForANodeOn: html [
 { #category : #rendering }
 SGLTreePresenter >> renderAppendButtonOn: html [
 	html submitButton
-		onClick: (self onClickActionForAppendButtonOn: html);
+		onClick: (self onClickActionForAppendButtonWith: html);
 		disabled: false;
 		class: 'glm-tree-append-button';
          	with: 'Append'
@@ -132,7 +138,7 @@ SGLTreePresenter >> renderAppendButtonOn: html [
 
 { #category : #rendering }
 SGLTreePresenter >> renderContentOn: html [
-	self renderer widgetContainer
+	(self widgetContainerWith: html)
 		class: 'list-presentation';
 		id: self htmlId;
 		with: [
@@ -152,8 +158,8 @@ SGLTreePresenter >> renderInitialRootNodesOn: html [
 		script: ( html jQuery new glamourTree init; 
 			isMultiple: self model glamourPresentation isMultiple;
 			selectedNodes: self selectedIds; 
-			onSelect: (self onSelectActionForANodeOn: html);
-			onExpandToggled: (self onExpandToggledActionForANodeOn: html) );
+			onSelect: (self onSelectActionForANodeWith: html);
+			onExpandToggled: (self onExpandToggledActionForANodeWith: html) );
 		with: [ self renderRootNodesBeginningWith: 1 on: html ]
 ]
 
@@ -170,6 +176,7 @@ SGLTreePresenter >> renderNode: aNode fromLevel: level on: html [
 		class: 'glm-tree-open' if: (children size > 0 and: [aNode expanded]);
 		class: 'glm-tree-closed' if: (children size > 0 and: [aNode expanded not]);
 		with: [
+			aNode rendered: false. "When using tags this may be set to true."
 			self renderNodeTitleFor: aNode on: html.
 			(children size > 0 and: [ aNode expanded ] ) ifTrue: [ 
 				self renderNodes: children asListFromLevel: level+1 on: html.
@@ -181,9 +188,11 @@ SGLTreePresenter >> renderNodeTitleFor: aNode on: html [
 	html div
 		class: 'glm-tree-node-el';
 		with: [ 
-			html span with: [
-				html span: aNode displayText. 
-				self renderTagsOf: aNode on: html ] ]
+			html span 
+				class: 'glm-tree-node-title';
+				with: [
+					html span: aNode displayText. 
+					self renderTagsOf: aNode on: html ] ]
 ]
 
 { #category : #rendering }
@@ -219,7 +228,7 @@ SGLTreePresenter >> renderTag: aTag withFilter: aFilter for: aNode on: html [
 	html div
 		class: 'glm-tree-tag ui-corner-top ui-corner-bottom';
 		class: 'glm-tree-tag-selected' if: ( aNode containerTree tagsToFilterBy includes: aTag );
-		onClick: (self onClickActionForTag: aTag of: aNode on: html);
+		onClick: (self onClickActionForTag: aTag of: aNode with: html);
 		onClick: JQEvent new stopPropagation, JQEvent new preventDefault;
 		with: aTag asString 
 ]
@@ -236,11 +245,6 @@ SGLTreePresenter >> renderTagsOf: aNode on: html [
 				self renderTag: each withFilter: (tagsFilter at: index ifAbsentPut:[ each ] ) for: aNode on: html ] ]
 ]
 
-{ #category : #accessing }
-SGLTreePresenter >> renderer [ 
-	^ renderer
-]
-
 { #category : #private }
 SGLTreePresenter >> selectNodesScript [
 	^ JSStream new 
@@ -252,20 +256,46 @@ SGLTreePresenter >> selectNodesScript [
 SGLTreePresenter >> selectedIds [
 	|ids|
 	ids := OrderedCollection new.
-	self model selection ifNotNil: [ self model selection selectedNodes do: [:each |
-		each ifNotNil: [ 
-			ids add: each htmlId ] ] ].
+	self model selection ifNotNil: [ self model selection selectedNodes do: [:node |
+		node ifNotNil: [ 
+			node htmlId 
+				ifNil: [
+					|path unrenderedNode|
+					"Transcript show: 'haba'; cr."
+					path := node path.
+					unrenderedNode := path detect: [:each| each rendered not].
+					(path indexOf: unrenderedNode) to: path size -1do: [:index| (path at: index) expanded: true].
+					unrenderedNode expanded: true.
+					self updateNodeContentScriptFor: unrenderedNode.
+					self toggleNodeClassFor: unrenderedNode.
+					unrenderedNode rendered: true ].
+			ids add: node htmlId ] ] ].
 	^ ids
 ]
 
-{ #category : #updating }
+{ #category : #private }
+SGLTreePresenter >> toggleNodeClassFor: aNode [
+	self renderer scriptFor: self model glamourPresentation add: (
+		JSStream new 
+			nextPutAll:  '$.glamourTree.toggleClass'; 
+			arguments: (Array with: aNode htmlId) )
+]
+
+{ #category : #private }
+SGLTreePresenter >> updateNodeContentScriptFor: aNode [
+	self renderer scriptFor: self model glamourPresentation add: (
+		(self renderer html jQuery id: aNode htmlId ) append: [:aRenderer | 
+			self renderNodes: aNode contents asListFromLevel: aNode path size on: aRenderer ])
+]
+
+{ #category : #callbacks }
 SGLTreePresenter >> updateSelectedNodes [
 	self renderer 
 		scriptFor: self model glamourPresentation 
 		add: self selectNodesScript
 ]
 
-{ #category : #updating }
+{ #category : #callbacks }
 SGLTreePresenter >> updateSelectionWithNode: aNode on: aScript [
 	self explicitSelection: aNode.
 	self updateSelectedNodes.

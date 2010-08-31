@@ -337,7 +337,7 @@ html, body {
 }
 
 body {
-	font-size: 10px;
+	font-size: 10pt;
 	margin: 8px;
 }
 
@@ -600,6 +600,10 @@ div.finder-pane > * {
 
 .glm-tree-node-el {
 	cursor: pointer;
+}
+
+.glm-tree-node-title {
+	white-space: nowrap;
 }
 
 .glm-tree-node-el > .glm-tree-icon  {

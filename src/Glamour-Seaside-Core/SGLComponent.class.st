@@ -11,6 +11,7 @@ Class {
 SGLComponent class >> registerAsApplication: aString [
 	| application |
 	application := WAAdmin register: self asApplicationAt: aString.
+	application preferenceAt: #sessionClass put: SGLSession.
 	application configuration
 		addParent: WADevelopmentConfiguration instance;
 		at: #rootDecorationClasses put: #().
@@ -47,6 +48,7 @@ SGLComponent >> presentation [
 
 { #category : #rendering }
 SGLComponent >> renderContentOn: html [
+	self session addBrowser: self browser.
 	(SGLRenderer in: self on: html)
 		render: self presentation
 ]
