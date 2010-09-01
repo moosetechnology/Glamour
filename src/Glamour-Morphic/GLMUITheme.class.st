@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 GLMUITheme class >> baseColor [
-	^ Color r: 200 g: 200 b: 200 range: 255
+	^ Color r: 180 g: 180 b: 180 range: 255
 ]
 
 { #category : #accessing }
@@ -20,12 +20,11 @@ GLMUITheme class >> beCurrent [
 	super beCurrent.
 	World color: (
 		(GradientFillStyle 
-			ramp: { 0.0 -> Color white darker.  1.0 -> Color veryLightGray})
+			ramp: { 0.0 -> Color veryLightGray.  1.0 -> Color darkGray})
 			origin: 50 @ 50;
 			direction: 800@0;
 			normal: 0@800;
-		radial: true).
-	
+		radial: true)
 ]
 
 { #category : #private }
@@ -42,11 +41,11 @@ GLMUITheme class >> glamorousBlue [
 { #category : #'as yet unclassified' }
 GLMUITheme class >> newDefaultSettings [
 	^super newDefaultSettings
-		menuColor: (Color r: 220 g: 220 b: 220 range: 255);
-		menuTitleColor: (Color r: 220 g: 220 b: 220 range: 255);
+		menuColor: self baseColor;
+		menuTitleColor: self baseColor;
 		windowColor: self baseColor;
-		selectionColor: self glamorousBlue muchLighter;
-		menuSelectionColor: self glamorousBlue twiceLighter;
+		selectionColor: self baseSelectionColor muchLighter;
+		menuSelectionColor: self baseSelectionColor twiceLighter;
 		progressBarColor: self baseColor
 		
 	"Answer a new original default settings."
@@ -71,6 +70,14 @@ GLMUITheme class >> themeName [
 { #category : #private }
 GLMUITheme >> buttonBaseColorFor: aButton [
 	^ self class baseColor
+	
+	"unfortunately, it looks like paneColor does not always return the wanted color"
+	"aButton paneColorOrNil ifNil: [Color r: 200 g: 200 b: 200 range: 255]"
+]
+
+{ #category : #private }
+GLMUITheme >> buttonBaseSelectionColorFor: aButton [
+	^ self class baseSelectionColor
 	
 	"unfortunately, it looks like paneColor does not always return the wanted color"
 	"aButton paneColorOrNil ifNil: [Color r: 200 g: 200 b: 200 range: 255]"
@@ -155,7 +162,7 @@ GLMUITheme >> buttonSelectedFillStyleFor: aButton [
 	| toptop top bottom base |
 	base := self buttonBaseColorFor: aButton.
 	toptop := base muchLighter.
-	top := self glamorousBlue muchLighter.
+	top := (self buttonBaseSelectionColorFor: aButton) muchLighter.
 	bottom := base.
 
 	^(GradientFillStyle ramp: {
@@ -173,9 +180,11 @@ GLMUITheme >> configureWindowBorderFor: aWindow [
 	aWindow roundedCorners: #() "not even top"
 ]
 
-{ #category : #private }
-GLMUITheme >> glamorousBlue [ 
-	^ self class glamorousBlue
+{ #category : #'fill-styles' }
+GLMUITheme >> dockingBarNormalFillStyleFor: aToolDockingBar [
+	"Return the normal docking bar fillStyle for the given color."
+	
+	^ SolidFillStyle color: (self buttonBaseColorFor: aToolDockingBar)
 ]
 
 { #category : #'initialize-release' }
@@ -212,7 +221,7 @@ GLMUITheme >> newFocusIndicatorMorphFor: aMorph [
 		fillStyle: Color transparent;
 		borderStyle: (SimpleBorder new
 			 width: 1;
-			baseColor: (self glamorousBlue lighter));
+			baseColor: (self buttonBaseSelectionColorFor: aMorph) lighter);
 		bounds: aMorph focusBounds
 ]
 
@@ -222,7 +231,7 @@ GLMUITheme >> plainGroupPanelBorderStyleFor: aGroupPanel [
 
 	^SimpleBorder new
 		width: 1;
-		baseColor: (self buttonBaseColorFor: aGroupPanel) darker
+		baseColor: (self buttonBaseColorFor: aGroupPanel) lighter
 ]
 
 { #category : #'fill-styles' }
@@ -308,7 +317,7 @@ GLMUITheme >> splitterPressedFillStyleFor: aSplitter [
 GLMUITheme >> subgroupColorFrom: paneColor [
 	"Answer the colour for a subgroup given the pane colour."
 
-	^paneColor
+	^ self class baseColor" paneColor"
 ]
 
 { #category : #'border-styles' }
@@ -335,7 +344,7 @@ GLMUITheme >> tabPanelBorderStyleFor: aTabGroup [
 
 	^ TabPanelBorder new
 		width: 1;
-		baseColor: ((self buttonBaseColorFor: aTabGroup) darker);
+		baseColor: ((self buttonBaseColorFor: aTabGroup));
 		tabSelector: aTabGroup tabSelectorMorph
 ]
 
@@ -347,7 +356,7 @@ GLMUITheme >> taskbarButtonLabelColorFor: aButton [
 		ifNil: [super taskbarButtonLabelColorFor: aButton]
 		ifNotNil: [:win |
 			win isActive
-				ifTrue: [self buttonBaseColorFor: aButton]
+				ifTrue: [Color white]
 				ifFalse: [super taskbarButtonLabelColorFor: aButton]]
 ]
 
@@ -360,6 +369,13 @@ GLMUITheme >> taskbarFillStyleFor: aTaskbar [
 GLMUITheme >> windowInactiveFillStyleFor: aWindow [
 	"Return the window inactive fillStyle for the given window."
 	
-	^ super windowInactiveFillStyleFor: aWindow
-"	^self windowActiveFillStyleFor: aWindow "
+"	^ super windowInactiveFillStyleFor: aWindow
+"	^self windowActiveFillStyleFor: aWindow
+]
+
+{ #category : #'fill-styles' }
+GLMUITheme >> windowInactiveTitleFillStyleFor: aWindow [
+	"Return the window inactive title fillStyle for the given color."
+	
+	^self windowActiveTitleFillStyleFor: aWindow
 ]
