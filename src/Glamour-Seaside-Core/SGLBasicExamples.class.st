@@ -4,9 +4,9 @@ Class {
 	#category : #'Glamour-Seaside-Examples'
 }
 
-{ #category : #accessing }
-SGLBasicExamples class >> applicationUrl [
-	^ 'glamour/basicExamples'
+{ #category : #'instance creation' }
+SGLBasicExamples class >> initialize [
+	self registerAsApplication: 'glamour/basicExamples'
 ]
 
 { #category : #others }

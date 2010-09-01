@@ -5,16 +5,6 @@ Class {
 }
 
 { #category : #accessing }
-SGLExamples class >> applicationUrl [
-	self subclassResponsibility
-]
-
-{ #category : #'instance creation' }
-SGLExamples class >> initialize [
-	self registerAsApplication: self applicationUrl
-]
-
-{ #category : #accessing }
 SGLExamples >> browser [
 	| browser |
 	browser := GLMTabulator new.
