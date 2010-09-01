@@ -25,7 +25,7 @@ SGLActionPresenter >> initializeFor: aPresentation [
 { #category : #'jQuery-scripts' }
 SGLActionPresenter >> menuScriptWith: html [
 	^ html jQuery new buildMenu 
-			menuWidth: 20;
+			menuWidth: 110;
 			hasImages: false;
 			closeOnMouseOut: true
 ]
@@ -67,13 +67,32 @@ SGLActionPresenter >> renderContentOn: html [
 ]
 
 { #category : #mbmenu }
+SGLActionPresenter >> renderMbMenuActionOrCategory: anActionOrCategory withMenuId: anId on: html [
+	|anchor|
+	anchor :=html anchor.
+	anId ifNil: [
+			anchor action: (self actionScriptFor: anActionOrCategory with: html) ]
+		ifNotNil: [anchor menu: anId].
+	anchor 	with: [
+			"html image form: (actions at: index) icon."
+			html text: (anId ifNil: [anActionOrCategory title] ifNotNil: [anActionOrCategory]) ]
+]
+
+{ #category : #mbmenu }
+SGLActionPresenter >> renderMbMenuCategories: categories on: html [
+	|id ids|
+	ids := Dictionary new.
+	categories keys do: [:each|
+		id := html nextId.
+		ids at: each put: id.
+		self renderMbMenuActionOrCategory: each withMenuId: id on: html ].
+	^ ids
+]
+
+{ #category : #mbmenu }
 SGLActionPresenter >> renderMbMenuContentForActions: actions on: html [
 	actions do: [ :each|
-		html anchor
-			action: (self actionScriptFor: each with: html);
-			with: [
-				"html image form: (actions at: index) icon."
-				html text: each title] ] 
+		self renderMbMenuActionOrCategory: each withMenuId: nil on: html ] 
 ]
 
 { #category : #mbmenu }
@@ -105,11 +124,36 @@ SGLActionPresenter >> renderMbMenuHeaderForMenu: aMenuId on:  html [
 
 { #category : #mbmenu }
 SGLActionPresenter >> renderMbMenuWithId: anId forActions: actions on: html [
-	|categories|
+	|categories uncategorizedActions categoriesId|
+	categories := Dictionary new.
+	uncategorizedActions := OrderedCollection new.
+	actions do: [:each|
+		(each category) 
+			ifNil: [uncategorizedActions add: each] 
+			ifNotNil: [ 
+				|category|
+				category := categories at: each category ifAbsentPut: [OrderedCollection new].
+				category add: each ] ].
 	html div 
 		class: 'mbmenu';
 		id: anId;
-		with: [ self renderMbMenuContentForActions: actions on: html ] 
+		with: [ 
+			self renderMbMenuContentForActions: uncategorizedActions on: html.
+			categoriesId := self renderMbMenuCategories: categories on: html ].
+	self renderMbSubmenuesFor: categories withIds: categoriesId on: html.
+]
+
+{ #category : #mbmenu }
+SGLActionPresenter >> renderMbSubmenuesFor: categories withIds: ids on: html [
+	| category |
+	categories keys do: [:each|
+		 html div
+			id: (ids at: each);
+			class: 'mbmenu';
+			with: [
+				(categories at: each) do: [:action|
+					self renderMbMenuActionOrCategory: action withMenuId: nil on: html ] ] ]
+	
 ]
 
 { #category : #rendering }

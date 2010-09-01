@@ -369,6 +369,34 @@ SGLDevExamples >> tabsWithActions [
 ]
 
 { #category : #other }
+SGLDevExamples >> tabsWithMenues [
+	"
+		self new tabsWithMenues openOn: 10
+	"
+	<glmBrowser: 'Tabs with menues' input: '10'>
+	|browser|
+	browser := GLMTabulator new.
+	browser column: #aColumn.
+
+	browser transmit  to: #aColumn; andShow: [ :a |
+		a list
+			title: 'A tab';
+			showOnly: 10;
+			display:  [ :x | 1 to: x ];
+			act: [:list :entity| Transcript show: '+1'; cr ] entitled: '+1' categorized: 'Adition';
+			act: [:list :entity| Transcript show: '+2'; cr ] entitled: '+2'categorized: 'Adition';
+			act: [:list :entity| Transcript show: '+3'; cr ] entitled: '+3' categorized: 'Adition';
+			act: [:list :entity| Transcript show: '+4'; cr ] entitled: '+4'categorized: 'Adition';
+			act: [:list :entity| Transcript show: '+5'; cr ] entitled: '+5'categorized: 'Adition';
+			act: [:list :entity| Transcript show: '-1'; cr ] entitled: '-1' categorized: 'Substraction';
+			act: [:list :entity| Transcript show: '-2'; cr ] entitled: '-2'categorized: 'Substraction';
+			act: [:list :entity| Transcript show: '-3'; cr ] entitled: '-3' categorized: 'Substraction';
+			act: [:list :entity| Transcript show: '-4'; cr ] entitled: '-4'categorized: 'Substraction';
+			act: [:list :entity| Transcript show: '-5'; cr ] entitled: '-5'categorized: 'Substraction'.].
+	^browser
+]
+
+{ #category : #other }
 SGLDevExamples >> textSelectedTextPort [
 	"
 		self new textSelectedTextPort openOn: 20
