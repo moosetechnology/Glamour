@@ -187,9 +187,10 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Presentations';
 			package: 'Glamour-Browsers' ;
 			package: 'Glamour-Scripting' ;
-			package: 'Glamour-Tests' ;
-			package: 'Glamour-Morphic';
-			package: 'Glamour-Test-Morphic' with: [spec requires: #('Glamour-Morphic')];
+			package: 'Glamour-Tests-Core' ;
+			package: 'Glamour-Morphic-Renderer';
+			package: 'Glamour-Morphic-Theme';
+			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
 			package: 'Glamour-Examples' ;
 			package: 'Glamour-Tools';
 			package: 'Magritte-Model' with: [
@@ -214,12 +215,13 @@ ConfigurationOfGlamour >> default: spec [
 						'Glamour-Examples'
 						'Glamour-Tools').
 		spec group: 'Extras' with: #(
-						'Glamour-Morphic'
+						'Glamour-Morphic-Renderer'
+						'Glamour-Morphic-Theme'
 						'Mondrian for Glamour').
 		spec group: 'Tests' with: #(
-						'Glamour-Tests'
+						'Glamour-Tests-Core'
 						'Glamour-Examples'
-						'Glamour-Test-Morphic'). 
+						'Glamour-Tests-Morphic'). 
 		spec
 			project: 'Mondrian for Glamour' with: [
 				spec
