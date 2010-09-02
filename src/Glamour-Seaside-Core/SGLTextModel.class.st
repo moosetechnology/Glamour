@@ -9,6 +9,25 @@ Class {
 	#category : #'Glamour-Seaside-Rendering'
 }
 
+{ #category : #'instance creation' }
+SGLTextModel class >> for: aPresentation [
+	|model|
+	model := self new glamourPresentation: aPresentation.
+	
+	"When the presenter changes, we want to update the glamour model"
+	model announcer on: SGLTextPresenterTextChanged do: [ :ann | 
+		aPresentation announcer suspendAllWhile: [
+			aPresentation text: ann text ] ].
+	model announcer on: SGLTextPresenterSelectedTextChanged do: [ :ann | 
+		aPresentation announcer suspendAllWhile: [
+			aPresentation selectedText: ann selectedText ] ].
+	model announcer on: SGLTextPresenterSelectionIntervalChanged do: [ :ann | 
+		aPresentation announcer suspendAllWhile: [
+			aPresentation selectionInterval: ann selectionInterval ] ].
+	^ model
+
+]
+
 { #category : #private }
 SGLTextModel >> anounceSelectedTextChangedTo: aString [
 	self announcer announce: (
@@ -37,8 +56,8 @@ SGLTextModel >> anounceTextChangedTo: aString [
 SGLTextModel >> intervalForSelection: aString [
 	|index|
 	index := aString 
-		ifNil: [0] 
-		ifNotNil: [self text ifNil: [0] ifNotNil: [ self text findString: aString ]].
+		ifNil: [^ nil] 
+		ifNotNil: [self text ifNil: [^ nil] ifNotNil: [ self text findString: aString ]].
 	(index = 0)
 		ifTrue: [^ nil] 
 		ifFalse: [ ^ Interval from: index to: (index + aString size -1) ]
@@ -50,12 +69,11 @@ SGLTextModel >> selectedText [
 ]
 
 { #category : #callbacks }
-SGLTextModel >> selectedText: aString withUpdate: aBoolean [
+SGLTextModel >> selectedText: aString [
 	self selectedText = aString 
 		ifFalse: [
 			selectedText := aString.
-			aBoolean ifTrue: [
-				self anounceSelectedTextChangedTo: aString ] ]
+			self anounceSelectedTextChangedTo: aString ]
 ]
 
 { #category : #private }
@@ -78,22 +96,21 @@ SGLTextModel >> selectionInterval [
 ]
 
 { #category : #callbacks }
-SGLTextModel >> selectionInterval: anInterval withText: aString [	
+SGLTextModel >> selectionInterval: anInterval [
+	self selectionInterval = anInterval
+		ifFalse: [
+			selectionInterval := anInterval.
+			self anounceSelectionIntervalChangedTo: anInterval ]
+]
+
+{ #category : #callbacks }
+SGLTextModel >> selectionInterval: anInterval withSelectedText: aString [	
 	(self selectionInterval = anInterval and: [ self selectedText = aString ]) 
 		ifFalse: [
 			selectionInterval := anInterval.
 			selectedText := aString.
 			self anounceSelectionIntervalChangedTo: anInterval.
 			self anounceSelectedTextChangedTo: aString ]
-]
-
-{ #category : #callbacks }
-SGLTextModel >> selectionInterval: anInterval withUpdate: aBoolean [
-	self selectionInterval = anInterval
-		ifFalse: [
-			selectionInterval := anInterval.
-			aBoolean ifTrue: [
-				self anounceSelectionIntervalChangedTo: anInterval ] ]
 ]
 
 { #category : #accessing }

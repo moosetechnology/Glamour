@@ -37,19 +37,7 @@ SGLTextPresenter >> initializationScriptWith: html [
 
 { #category : #initialization }
 SGLTextPresenter >> initializeFor: aPresentation [
-	model := SGLTextModel new.
-	model glamourPresentation: aPresentation.
-	
-	"When the presenter changes, we want to update the glamour model"
-	model announcer on: SGLTextPresenterTextChanged do: [ :ann | 
-		aPresentation announcer suspendAllWhile: [
-			aPresentation text: ann text ] ].
-	model announcer on: SGLTextPresenterSelectedTextChanged do: [ :ann | 
-		aPresentation announcer suspendAllWhile: [
-			aPresentation selectedText: ann selectedText ] ].
-	model announcer on: SGLTextPresenterSelectionIntervalChanged do: [ :ann | 
-		aPresentation announcer suspendAllWhile: [
-			aPresentation selectionInterval: ann selectionInterval ] ].
+	model := SGLTextModel for: aPresentation.
 	
 	"When the glamour model changes, we want to update the presenter"
 	aPresentation when: GLMContextChanged do: [ :ann | 
@@ -84,17 +72,15 @@ SGLTextPresenter >> onSelectActionWith: html [
 					interval := Interval from: (event at: 'start') to: (event at: 'end').
 					self model 
 						selectionInterval: interval 
-						withText: (self model selectionForInterval: interval)	].
+						withSelectedText: (self model selectionForInterval: interval)	].
 			((event at: 'port') = 'selectedText')
 				ifTrue: [
 					self model 
-						selectionInterval:  (self model intervalForSelection: (event at: 'selection') )
-						withUpdate: true ].
+						selectionInterval:  (self model intervalForSelection: (event at: 'selection') ) ].
 			((event at: 'port') = 'selectionInterval')
 				ifTrue: [
 					self model 
-						selectedText: (self model selectionForInterval: (Interval from: (event at: 'start') to: (event at: 'end') ) )
-						withUpdate: true ].
+						selectedText: (self model selectionForInterval: (Interval from: (event at: 'start') to: (event at: 'end') ) ) ].
 			self renderer updateScript: script ]
 ]
 
@@ -119,21 +105,21 @@ SGLTextPresenter >> renderTextAreaOn: html [
 
 { #category : #callbacks }
 SGLTextPresenter >> updateSelectedText: aSelection [
-	self model selectedText: aSelection withUpdate: false.
-	self updateSelectedTextScriptWith: (aSelection ifNil: [''])
+	self model selectedText: aSelection.
+	self updateSelectedTextScriptWith: aSelection
 ]
 
 { #category : #private }
-SGLTextPresenter >> updateSelectedTextScriptWith: aString [
+SGLTextPresenter >> updateSelectedTextScriptWith: aSelection [
 	self renderer
 		scriptFor: self model glamourPresentation 
 		add: ( ( (self renderer html jQuery id: (
-			self renderer uuidFor: self model glamourPresentation) )  glamourText ) selectText: aString)
+			self renderer uuidFor: self model glamourPresentation) )  glamourText ) selectText: (aSelection ifNil: ['']) )
 ]
 
 { #category : #callbacks }
 SGLTextPresenter >> updateSelectionInterval: anInterval [
-	self model selectionInterval: anInterval withUpdate: false.
+	self model selectionInterval: anInterval.
 	self updateSelectionIntervalScriptWith: anInterval
 ]
 
@@ -163,6 +149,11 @@ SGLTextPresenter >> updateSelectionScript [
 SGLTextPresenter >> updateText: aText [
 	self model text: aText.
 	self updateSelectionScript.
+	self updateTextScriptWith: aText
+]
+
+{ #category : #callbacks }
+SGLTextPresenter >> updateTextScriptWith: aText [
 	self renderer 
 		scriptFor: self model glamourPresentation 
 		add: ( ( (self renderer html jQuery id: (

@@ -649,7 +649,6 @@ SGLDevExamples >> textTextPorts [
 	<glmBrowser: 'Text presentation - text port' input: '''Type and select to see the 
 	results previewed'''>
 	| browser |
-	GLMLogger instance: GLMMemoryLogger new.
 	browser := GLMTabulator new.
 	browser 
 		row: #main; 
