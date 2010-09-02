@@ -14,13 +14,13 @@ GLMUITheme class >> baseSelectionColor [
 	^ self glamorousBlue
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #settings }
 GLMUITheme class >> beCurrent [
 	"self beCurrent"
 	super beCurrent.
 	World color: (
 		(GradientFillStyle 
-			ramp: { 0.0 -> Color veryLightGray.  1.0 -> Color darkGray})
+			ramp: { 0.0 -> Color white.  1.0 -> Color lightGray})
 			origin: 50 @ 50;
 			direction: 800@0;
 			normal: 0@800;
@@ -38,7 +38,7 @@ GLMUITheme class >> glamorousBlue [
 		b: 0.808"
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #settings }
 GLMUITheme class >> newDefaultSettings [
 	^super newDefaultSettings
 		menuColor: self baseColor;
@@ -182,8 +182,6 @@ GLMUITheme >> configureWindowBorderFor: aWindow [
 
 { #category : #'fill-styles' }
 GLMUITheme >> dockingBarNormalFillStyleFor: aToolDockingBar [
-	"Return the normal docking bar fillStyle for the given color."
-	
 	^ SolidFillStyle color: (self buttonBaseColorFor: aToolDockingBar)
 ]
 
@@ -356,8 +354,8 @@ GLMUITheme >> taskbarButtonLabelColorFor: aButton [
 		ifNil: [super taskbarButtonLabelColorFor: aButton]
 		ifNotNil: [:win |
 			win isActive
-				ifTrue: [Color white]
-				ifFalse: [super taskbarButtonLabelColorFor: aButton]]
+				ifTrue: [self class baseSelectionColor muchDarker]
+				ifFalse: [Color black]]
 ]
 
 { #category : #'fill-styles' }
@@ -367,15 +365,12 @@ GLMUITheme >> taskbarFillStyleFor: aTaskbar [
 
 { #category : #'fill-styles' }
 GLMUITheme >> windowInactiveFillStyleFor: aWindow [
-	"Return the window inactive fillStyle for the given window."
-	
-"	^ super windowInactiveFillStyleFor: aWindow
-"	^self windowActiveFillStyleFor: aWindow
+	"We do not want the lighting effect when the window goes inactive"
+	^self windowActiveFillStyleFor: aWindow
 ]
 
 { #category : #'fill-styles' }
 GLMUITheme >> windowInactiveTitleFillStyleFor: aWindow [
-	"Return the window inactive title fillStyle for the given color."
-	
+	"We do not want the lighting effect when the window goes inactive"
 	^self windowActiveTitleFillStyleFor: aWindow
 ]
