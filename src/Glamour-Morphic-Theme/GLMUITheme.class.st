@@ -6,36 +6,43 @@ Class {
 
 { #category : #accessing }
 GLMUITheme class >> baseColor [
-	^ Color r: 180 g: 180 b: 180 range: 255
+	^ Color r: 200 g: 200 b: 200 range: 255
 ]
 
 { #category : #accessing }
 GLMUITheme class >> baseSelectionColor [
-	^ self glamorousBlue
-]
-
-{ #category : #settings }
-GLMUITheme class >> beCurrent [
-	"self beCurrent"
-	super beCurrent.
-	World color: (
-		(GradientFillStyle 
-			ramp: { 0.0 -> Color white.  1.0 -> Color lightGray})
-			origin: 50 @ 50;
-			direction: 800@0;
-			normal: 0@800;
-		radial: true)
+	^ Color r: 0.38 g: 0.64 b: 0.88
 ]
 
 { #category : #private }
-GLMUITheme class >> glamorousBlue [
-	^ Color 
-		r: 0.38
-		g: 0.64
-		b: 0.88
-	"Color r: 0
-		g: 0.4
-		b: 0.808"
+GLMUITheme class >> importGlamorousIcons [
+	"utility method to import the icons necessary for the theme from the file system"
+	"self importGlamorousIcons"
+	| icons |
+	icons := #(
+		'glamorousMax'
+		'glamorousMin'
+		'glamorousClose'
+		'glamorousMenu'
+		'glamorousMaxInactive'
+		'glamorousMinInactive'
+		'glamorousCloseInactive'
+		'glamorousMenuInactive').
+	self importIcons: icons fromFolder: 'icons' inClass: MenuIcons category: '*glamour-morphic-theme'
+]
+
+{ #category : #private }
+GLMUITheme class >> importIcons: icons fromFolder: aString inClass: aClass category: aCategory [
+	icons
+		do: [:each |
+			| method form |
+			form := PNGReadWriter formFromFileNamed: aString, '/', each , '.png'.
+			method := each , Character cr asString ,
+				(aClass methodStart: each),		
+				form storeString,
+				aClass methodEnd.
+			aClass class compile: method classified: aCategory ].
+	aClass initialize
 ]
 
 { #category : #settings }
@@ -62,25 +69,21 @@ GLMUITheme class >> newDefaultSettings [
 		progressBarProgressColor: (Color r: 62 g: 142 b: 220 range: 255)"
 ]
 
+{ #category : #settings }
+GLMUITheme class >> setPreferredWorldBackground [
+	"self setPreferredWorldBackground"
+	World color: (
+		(GradientFillStyle 
+			ramp: { 0.0 -> Color white.  1.0 -> Color gray})
+			origin: 50 @ 50;
+			direction: 800@0;
+			normal: 0@800;
+		radial: true)
+]
+
 { #category : #accessing }
 GLMUITheme class >> themeName [
 	^ 'Glamorous'
-]
-
-{ #category : #private }
-GLMUITheme >> buttonBaseColorFor: aButton [
-	^ self class baseColor
-	
-	"unfortunately, it looks like paneColor does not always return the wanted color"
-	"aButton paneColorOrNil ifNil: [Color r: 200 g: 200 b: 200 range: 255]"
-]
-
-{ #category : #private }
-GLMUITheme >> buttonBaseSelectionColorFor: aButton [
-	^ self class baseSelectionColor
-	
-	"unfortunately, it looks like paneColor does not always return the wanted color"
-	"aButton paneColorOrNil ifNil: [Color r: 200 g: 200 b: 200 range: 255]"
 ]
 
 { #category : #'border-styles-buttons' }
@@ -125,7 +128,7 @@ GLMUITheme >> buttonNormalBorderStyleFor: aButton [
 	| outerColor innerColor |
 	(aButton valueOfProperty: #noBorder ifAbsent: [false]) ifTrue: [
 		^ SimpleBorder new width: 0; baseColor: Color transparent ].
-	outerColor := (self buttonBaseColorFor: aButton) darker.
+	outerColor := (self glamorousBaseColorFor: aButton) darker.
 	^SimpleBorder new
 					width: 1;
 					baseColor: outerColor
@@ -135,19 +138,8 @@ GLMUITheme >> buttonNormalBorderStyleFor: aButton [
 GLMUITheme >> buttonNormalFillStyleFor: aButton [
 	"Return the normal button fillStyle for the given button."
 	
-	| toptop top bottom base |
 	(aButton valueOfProperty: #noFill ifAbsent: [false]) ifTrue: [^ SolidFillStyle color: Color transparent ].
-	base := self buttonBaseColorFor: aButton.
-	toptop := base muchLighter.
-	top := base twiceLighter.
-	bottom := base.
-	^(GradientFillStyle ramp: {
-			0.0->toptop.
-			0.05->top.
-			0.8->bottom.})
-		origin: aButton bounds origin;
-		direction: 0 @ aButton height;
-		radial: false
+	^ self glamorousNormalFillStyleFor: aButton height: aButton height
 ]
 
 { #category : #'border-styles-buttons' }
@@ -160,15 +152,15 @@ GLMUITheme >> buttonSelectedFillStyleFor: aButton [
 	"Return the normal button fillStyle for the given button."
 	
 	| toptop top bottom base |
-	base := self buttonBaseColorFor: aButton.
+	base := self glamorousBaseColorFor: aButton.
 	toptop := base muchLighter.
-	top := (self buttonBaseSelectionColorFor: aButton) muchLighter.
+	top := (self glamorousBaseSelectionColorFor: aButton) muchLighter.
 	bottom := base.
 
 	^(GradientFillStyle ramp: {
 			0.0->toptop.
 			0.05->top.
-			0.8->bottom.})
+			0.7->bottom.})
 		origin: aButton bounds origin;
 		direction: 0 @ aButton height;
 		radial: false
@@ -180,9 +172,78 @@ GLMUITheme >> configureWindowBorderFor: aWindow [
 	aWindow roundedCorners: #() "not even top"
 ]
 
+{ #category : #'label-styles' }
+GLMUITheme >> createMenuBoxFor: aSystemWindow [
+	"Answer a button for the window menu."
+	
+"	^aSystemWindow createBox
+		labelGraphic: (self windowMenuIconFor: aSystemWindow);
+		extent: aSystemWindow boxExtent;
+		actWhen: #buttonDown;
+		actionSelector: #offerWindowMenu;
+		setBalloonText: 'window menu' translated"
+	
+	|form msb|
+	form := self windowMenuForm.
+	msb := MultistateButtonMorph new extent: form extent.
+	msb activeEnabledNotOverUpFillStyle: (ImageFillStyle form: form).
+	form := self windowMenuPassiveForm.
+	msb extent: form extent.
+	msb activeDisabledNotOverUpFillStyle: (ImageFillStyle form: form).
+	msb passiveEnabledNotOverUpFillStyle: (ImageFillStyle form: form).
+	msb passiveDisabledNotOverUpFillStyle: (ImageFillStyle form: form).
+	form := self windowMenuForm.
+	msb extent: form extent.
+	msb
+		activeEnabledOverUpFillStyle: (ImageFillStyle form: form);
+		passiveEnabledOverUpFillStyle: (ImageFillStyle form: form).
+	form := self windowMenuPassiveForm.
+	msb
+		extent: form extent;
+		activeEnabledOverDownFillStyle: (ImageFillStyle form: form);
+		passiveEnabledOverDownFillStyle: (ImageFillStyle form: form);
+		addUpAction: [aSystemWindow offerWindowMenu];
+		setBalloonText: 'window menu' translated;
+		extent: aSystemWindow boxExtent.
+	^msb
+]
+
 { #category : #'fill-styles' }
 GLMUITheme >> dockingBarNormalFillStyleFor: aToolDockingBar [
-	^ SolidFillStyle color: (self buttonBaseColorFor: aToolDockingBar)
+	^ SolidFillStyle color: Color transparent
+]
+
+{ #category : #private }
+GLMUITheme >> glamorousBaseColorFor: aButton [
+	^ self class baseColor
+	"unfortunately, it looks like paneColor does not always return the wanted color"
+	"aButton paneColorOrNil ifNil: [Color r: 200 g: 200 b: 200 range: 255]"
+]
+
+{ #category : #private }
+GLMUITheme >> glamorousBaseSelectionColorFor: aButton [
+	^ self class baseSelectionColor
+	
+	"unfortunately, it looks like paneColor does not always return the wanted color"
+	"aButton paneColorOrNil ifNil: [Color r: 200 g: 200 b: 200 range: 255]"
+]
+
+{ #category : #private }
+GLMUITheme >> glamorousNormalFillStyleFor: aMorph height: anInteger [
+	"Return the normal button fillStyle for the given button."
+	
+	| toptop top bottom base |
+	base := self glamorousBaseColorFor: aMorph.
+	toptop := base twiceLighter lighter.
+	top := base twiceLighter.
+	bottom := base.
+	^(GradientFillStyle ramp: {
+			0.0->toptop.
+			0.05->top.
+			0.7->bottom.})
+		origin: aMorph bounds origin;
+		direction: 0 @ anInteger;
+		radial: false
 ]
 
 { #category : #'initialize-release' }
@@ -219,7 +280,7 @@ GLMUITheme >> newFocusIndicatorMorphFor: aMorph [
 		fillStyle: Color transparent;
 		borderStyle: (SimpleBorder new
 			 width: 1;
-			baseColor: (self buttonBaseSelectionColorFor: aMorph) lighter);
+			baseColor: (self glamorousBaseSelectionColorFor: aMorph) lighter);
 		bounds: aMorph focusBounds
 ]
 
@@ -241,11 +302,14 @@ GLMUITheme >> newWindowMaximizeForm [
 GLMUITheme >> newWindowMenuForm [
 	"Answer a new form for a window menu box."
 
-	^(Form
-	extent: 24@16
-	depth: 32
-	fromArray: #( 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4293125091 4287335307 4283453520 4281150765 4280690214 4280821800 4280821800 4280821800 4280821800 4280821800 4280821800 4280821800 4280821800 4280690214 4281150765 4283453520 4287335307 4293125091 0 0 0 0 0 4293059298 4285493103 4282795590 4287072135 4289638062 4290493371 4290822336 4290756543 4290756543 4290822336 4290822336 4290756543 4290756543 4290822336 4290493371 4289638062 4287072135 4282795590 4285493103 4293059298 0 0 0 0 4287335307 4282598211 4288322202 4291875024 4292927712 4293322470 4293519849 4293519849 4293519849 4293519849 4293519849 4293519849 4293519849 4293519849 4293322470 4292927712 4291875024 4288322202 4282598211 4287401100 0 0 0 0 4283585106 4285953654 4289967027 4291677645 4292269782 4292401368 4292401368 4292401368 4292335575 4292335575 4292335575 4292335575 4292401368 4292401368 4292401368 4292269782 4291677645 4289967027 4285953654 4283585106 0 0 0 0 4281742902 4287861651 4290493371 4291085508 4291480266 4291546059 4291611852 4291611852 4291546059 4291480266 4291480266 4291546059 4291611852 4291611852 4291546059 4291480266 4291085508 4290493371 4287861651 4281742902 0 0 0 0 4281940281 4288782753 4291414473 4292203989 4292664540 4292796126 4292927712 4292796126 4292861919 4292927712 4292927712 4292861919 4292796126 4292927712 4292796126 4292664540 4292203989 4291414473 4288782753 4281874488 0 0 0 0 4284045657 4288256409 4291546059 4293190884 4294177779 4294572537 4294440951 4294572537 4294506744 4294572537 4294572537 4294506744 4294572537 4294440951 4294572537 4294177779 4293190884 4291546059 4288256409 4284045657 0 0 0 0 4287269514 4283914071 4290624957 4293190884 4294638330 4294769916 4294835709 4294835709 4294835709 4294835709 4294835709 4294835709 4294835709 4294835709 4294769916 4294638330 4293190884 4290624957 4283914071 4287269514 0 0 0 0 4292467161 4286414205 4283387727 4287993237 4291019715 4292269782 4292467161 4292467161 4292467161 4292467161 4292467161 4292467161 4292467161 4292467161 4292598747 4291611852 4287993237 4283387727 4286414205 4292467161 0 0 0 0 4292401368 4292467161 4288124823 4284177243 4281150765 4280229663 4280361249 4280361249 4280361249 4280361249 4280361249 4280361249 4280361249 4280361249 4280229663 4281282351 4284177243 4288124823 4292467161 4292401368 0 0 0 0 0 4292203989 4292203989 4292335575 4292401368 4292927712 4292927712 4292927712 4292927712 4292927712 4292927712 4292927712 4292927712 4292927712 4292664540 4292401368 4292335575 4292269782 4292203989 0 0 0 0 0 0 0 4292006610 4292401368 4292467161 4292730333 4292730333 4292730333 4292730333 4292730333 4292730333 4292730333 4292730333 4292730333 4292796126 4292467161 4292401368 4292006610 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0)
-	offset: 0@0)
+	^ MenuIcons glamorousMenu
+]
+
+{ #category : #'initialize-release' }
+GLMUITheme >> newWindowMenuPassiveForm [
+	"Answer a new form for a window menu box."
+
+	^ MenuIcons glamorousMenuInactive
 ]
 
 { #category : #'initialize-release' }
@@ -261,12 +325,12 @@ GLMUITheme >> plainGroupPanelBorderStyleFor: aGroupPanel [
 
 	^SimpleBorder new
 		width: 1;
-		baseColor: (self buttonBaseColorFor: aGroupPanel) lighter
+		baseColor: Color transparent
 ]
 
 { #category : #'fill-styles' }
 GLMUITheme >> progressBarFillStyleFor: aProgressBar [
-	^ (self buttonBaseColorFor: aProgressBar) muchLighter
+	^ (self glamorousBaseColorFor: aProgressBar) muchLighter
 ]
 
 { #category : #'fill-styles' }
@@ -297,7 +361,7 @@ GLMUITheme >> scrollbarNormalButtonFillStyleFor: aScrollbar [
 GLMUITheme >> scrollbarNormalFillStyleFor: aScrollbar [
 	"Return the normal scrollbar fillStyle for the given scrollbar."
 	
-	^ (self buttonBaseColorFor: aScrollbar) muchLighter
+	^ (self glamorousBaseColorFor: aScrollbar) muchLighter
 ]
 
 { #category : #'fill-styles-scrollbars' }
@@ -332,10 +396,8 @@ GLMUITheme >> splitterPressedFillStyleFor: aSplitter [
 	"Return the pressed splitter fillStyle for the given splitter."
 	
 	|aColor|
-	aColor := self buttonBaseColorFor: aSplitter.
-	^(GradientFillStyle ramp: {
-			0.0->Color white. 0.6-> aColor.
-			1.0->aColor darker})
+	aColor := self glamorousBaseColorFor: aSplitter.
+	^(GradientFillStyle ramp: {0.0->aColor lighter. 0.9-> aColor})
 		origin: aSplitter topLeft;
 		direction: (aSplitter splitsTopAndBottom
 			ifTrue: [0 @ aSplitter height]
@@ -347,7 +409,7 @@ GLMUITheme >> splitterPressedFillStyleFor: aSplitter [
 GLMUITheme >> subgroupColorFrom: paneColor [
 	"Answer the colour for a subgroup given the pane colour."
 
-	^ self class baseColor" paneColor"
+	^ self class baseColor "paneColor"
 ]
 
 { #category : #'border-styles' }
@@ -374,7 +436,7 @@ GLMUITheme >> tabPanelBorderStyleFor: aTabGroup [
 
 	^ TabPanelBorder new
 		width: 1;
-		baseColor: ((self buttonBaseColorFor: aTabGroup));
+		baseColor: ((self glamorousBaseColorFor: aTabGroup));
 		tabSelector: aTabGroup tabSelectorMorph
 ]
 
@@ -396,6 +458,24 @@ GLMUITheme >> taskbarFillStyleFor: aTaskbar [
 ]
 
 { #category : #'fill-styles' }
+GLMUITheme >> windowActiveFillStyleFor: aWindow [
+	"We do not want the lighting effect when the window goes inactive"
+	^SolidFillStyle color: self class baseColor
+]
+
+{ #category : #'fill-styles' }
+GLMUITheme >> windowActiveTitleFillStyleFor: aWindow [
+	^ self glamorousNormalFillStyleFor: aWindow height: aWindow labelHeight
+]
+
+{ #category : #'label-styles' }
+GLMUITheme >> windowClosePassiveForm [
+	"Answer the form to use for passive (background) window close buttons"
+
+	^MenuIcons glamorousCloseInactive
+]
+
+{ #category : #'fill-styles' }
 GLMUITheme >> windowInactiveFillStyleFor: aWindow [
 	"We do not want the lighting effect when the window goes inactive"
 	^self windowActiveFillStyleFor: aWindow
@@ -405,4 +485,25 @@ GLMUITheme >> windowInactiveFillStyleFor: aWindow [
 GLMUITheme >> windowInactiveTitleFillStyleFor: aWindow [
 	"We do not want the lighting effect when the window goes inactive"
 	^self windowActiveTitleFillStyleFor: aWindow
+]
+
+{ #category : #'label-styles' }
+GLMUITheme >> windowMaximizePassiveForm [
+	"Answer the form to use for passive (background) window maximize/restore buttons"
+
+	^MenuIcons glamorousMaxInactive
+]
+
+{ #category : #'label-styles' }
+GLMUITheme >> windowMenuPassiveForm [
+	"Answer the form to use for passive (background) window menu buttons"
+
+	^self newWindowMenuPassiveForm
+]
+
+{ #category : #'label-styles' }
+GLMUITheme >> windowMinimizePassiveForm [
+	"Answer the form to use for passive (background) window minimize buttons"
+
+	^MenuIcons glamorousMinInactive
 ]
