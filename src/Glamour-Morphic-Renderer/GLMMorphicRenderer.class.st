@@ -59,7 +59,7 @@ GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderDiffPresentation: aPresentation [
-	^ GLMMorphicListingRenderer render: aPresentation from: self
+	^ GLMMorphicDiffRenderer render: aPresentation from: self
 ]
 
 { #category : #'rendering presentations' }

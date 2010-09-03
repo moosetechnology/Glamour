@@ -50,21 +50,20 @@ GLMMorphic class >> emptyMorphShowing: aBoolean asTitle: aTitle [
 
 { #category : #'button styles' }
 GLMMorphic class >> grayRoundedButtonStyle: button morph: aMorph pressed: aBoolean [
-
 	button useRoundedCorners.
 	(self isAlignmentMorph: aMorph)
-	ifTrue:[ 
-		aBoolean 
-		ifTrue: [ aMorph lastSubmorph color: Color darkGray.
-					button color: Color veryLightGray ]
-		ifFalse:[ aMorph lastSubmorph color: Color white.
-					button color: Color gray ] ]
-	ifFalse:[			
-		aBoolean 
-		ifTrue: [ aMorph color: Color darkGray.
-				   button color: Color veryLightGray ]
-		ifFalse:[ aMorph color: Color white.
-					button color: Color gray ] ]
+		ifTrue: [
+			aBoolean 
+				ifTrue: [	aMorph lastSubmorph color: Color darkGray.
+						button fillStyle: (button theme buttonNormalFillStyleFor: button) ]
+				ifFalse:[	aMorph lastSubmorph color: Color white.
+						button fillStyle: (button theme buttonSelectedFillStyleFor: button) ] ]
+		ifFalse: [			
+			aBoolean 
+				ifTrue: [	aMorph color: Color darkGray.
+						button color: Color veryLightGray ]
+				ifFalse:[	aMorph color: Color white.
+						button color: Color gray ] ]
 
 ]
 
@@ -89,7 +88,6 @@ GLMMorphic class >> isImageMorph: anObject [
 
 { #category : #'button styles' }
 GLMMorphic class >> isWhiteRectangledButton: aSymbol [
-
 	^aSymbol = #whiteRectangledButton
 ]
 

@@ -10,7 +10,7 @@ Class {
 	#category : #'Glamour-Morphic-Renderer'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMMorphicWidgetRenderer class >> render: aPresentation from: aRenderer [
 	^ self new 
 		renderer: aRenderer;
