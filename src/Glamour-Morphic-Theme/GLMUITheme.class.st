@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 GLMUITheme class >> baseColor [
-	^ Color r: 200 g: 200 b: 200 range: 255
+	^ Color r: 180 g: 180 b: 180 range: 255
 ]
 
 { #category : #accessing }
@@ -159,7 +159,7 @@ GLMUITheme >> buttonSelectedFillStyleFor: aButton [
 
 	^(GradientFillStyle ramp: {
 			0.0->toptop.
-			0.05->top.
+			0.1->top.
 			0.7->bottom.})
 		origin: aButton bounds origin;
 		direction: 0 @ aButton height;
@@ -239,7 +239,7 @@ GLMUITheme >> glamorousNormalFillStyleFor: aMorph height: anInteger [
 	bottom := base.
 	^(GradientFillStyle ramp: {
 			0.0->toptop.
-			0.05->top.
+			0.1->top.
 			0.7->bottom.})
 		origin: aMorph bounds origin;
 		direction: 0 @ anInteger;
