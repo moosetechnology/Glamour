@@ -453,6 +453,11 @@ GLMUITheme >> taskbarThumbnailCornerStyleFor: aMorph [
 	^#square
 ]
 
+{ #category : #'border-styles' }
+GLMUITheme >> taskbarThumbnailNormalBorderStyleFor: aWindow [
+	^ self buttonNormalBorderStyleFor: aWindow
+]
+
 { #category : #'fill-styles' }
 GLMUITheme >> tasklistFillStyleFor: aTasklist [
 	"Return the tasklist fillStyle for the given tasklist."
