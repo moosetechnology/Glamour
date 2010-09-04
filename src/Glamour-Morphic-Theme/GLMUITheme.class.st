@@ -57,7 +57,8 @@ GLMUITheme class >> newDefaultSettings [
 		progressBarColor: self baseColor;
 		standardColorsOnly: true;
 		autoSelectionColor: false;
-		preferRoundCorner: false
+		preferRoundCorner: false;
+		flatMenu: true
 ]
 
 { #category : #settings }
