@@ -84,15 +84,9 @@ GLMUITheme class >> themeName [
 
 { #category : #'border-styles-buttons' }
 GLMUITheme >> buttonCornerStyleIn: aThemedMorph [
-	"Allow for themes to override default behaviour."
+	"If asked, we only allow square corners"
 	
 	^ #square
-	"^aThemedMorph
-		ifNil: [#rounded]
-		ifNotNil: [:tm | 
-			tm preferredButtonCornerStyle
-				ifNil: [#rounded]
-				ifNotNil: [:bcs | bcs]]"
 ]
 
 { #category : #'label-styles' }
@@ -221,6 +215,20 @@ GLMUITheme >> createMenuBoxFor: aSystemWindow [
 { #category : #'fill-styles' }
 GLMUITheme >> dockingBarNormalFillStyleFor: aToolDockingBar [
 	^ SolidFillStyle color: Color transparent
+]
+
+{ #category : #'border-styles' }
+GLMUITheme >> dropListNormalBorderStyleFor: aDropList [
+	"Return the normal borderStyle for the given drop list"
+
+	^ self buttonNormalBorderStyleFor: aDropList
+]
+
+{ #category : #'fill-styles' }
+GLMUITheme >> dropListNormalFillStyleFor: aDropList [
+	"Return the normal fillStyle for the given drop list."
+	
+	^ SolidFillStyle color: Color white
 ]
 
 { #category : #private }
@@ -513,6 +521,13 @@ GLMUITheme >> tasklistFillStyleFor: aTasklist [
 		origin: aTasklist topLeft;
 		direction: 0 @ aTasklist height;
 		radial: false
+]
+
+{ #category : #'border-styles' }
+GLMUITheme >> textEditorNormalBorderStyleFor: aTextEditor [
+	"Return the normal text editor borderStyle for the given text editor."
+
+	^self buttonNormalBorderStyleFor: aTextEditor
 ]
 
 { #category : #scrollbars }
