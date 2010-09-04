@@ -53,20 +53,9 @@ GLMUITheme class >> newDefaultSettings [
 		windowColor: self baseColor;
 		selectionColor: self baseSelectionColor muchLighter;
 		menuSelectionColor: self baseSelectionColor twiceLighter;
-		progressBarColor: self baseColor
-		
-	"Answer a new original default settings."
-	"self defaultSettings: nil"
-"	^super newDefaultSettings
+		progressBarColor: self baseColor;
 		standardColorsOnly: true;
-		autoSelectionColor: false;
-		buttonColor: (Color r: 232 g: 232 b: 232 range: 255);
-		windowColor: (Color r: 232 g: 232 b: 232 range: 255);
-		scrollbarColor: (Color r: 62 g: 142 b: 220 range: 255) ;
-		selectionColor: (TranslucentColor r: 0.0 g: 0.0 b: 0.8 alpha: 0.2) ;
-		menuSelectionColor: (Color r: 51 g: 76 b: 230 range: 255) ;
-		progressBarColor: (Color r: 232 g: 232 b: 232 range: 255);
-		progressBarProgressColor: (Color r: 62 g: 142 b: 220 range: 255)"
+		autoSelectionColor: false
 ]
 
 { #category : #settings }
@@ -111,14 +100,14 @@ GLMUITheme >> buttonLabelForText: aTextOrString [
 GLMUITheme >> buttonMinHeight [
 	"Answer the minumum height of a button for this theme."
 	
-	^20
+	^25
 ]
 
 { #category : #defaults }
 GLMUITheme >> buttonMinWidth [
 	"Answer the minumum width of a button for this theme."
 	
-	^20
+	^25
 ]
 
 { #category : #'border-styles-buttons' }
@@ -455,6 +444,49 @@ GLMUITheme >> taskbarButtonLabelColorFor: aButton [
 { #category : #'fill-styles' }
 GLMUITheme >> taskbarFillStyleFor: aTaskbar [
 	^ self buttonNormalFillStyleFor: aTaskbar
+]
+
+{ #category : #'border-styles' }
+GLMUITheme >> taskbarThumbnailCornerStyleFor: aMorph [
+	"Answer the corner style for the taskbar thumbnail/tasklist."
+	
+	^#square
+]
+
+{ #category : #'fill-styles' }
+GLMUITheme >> tasklistFillStyleFor: aTasklist [
+	"Return the tasklist fillStyle for the given tasklist."
+	
+	|aColor|
+	aColor := aTasklist color.
+	^(GradientFillStyle ramp: {
+			0.0->aColor whiter whiter. 0.2->aColor lighter.
+			0.8->aColor darker. 1.0->aColor blacker})
+		origin: aTasklist topLeft;
+		direction: 0 @ aTasklist height;
+		radial: false
+]
+
+{ #category : #scrollbars }
+GLMUITheme >> verticesForSimpleArrow: aRectangle [ 
+	"PRIVATE - answer a collection of vertices to draw a simple arrow"
+	| vertices |
+	vertices := OrderedCollection new.
+	""
+	vertices add: aRectangle bottomLeft.
+	vertices add: aRectangle center x @ (aRectangle top + (aRectangle width / 8)).
+	vertices add: aRectangle bottomRight.
+	vertices add: aRectangle bottomRight + (0@0.01).
+	""
+	^ vertices
+"	| vertices |
+	vertices := OrderedCollection new.
+	vertices add: (aRectangle center x - (aRectangle width / 4)) @ (aRectangle bottom - 8).
+	vertices add: aRectangle center x @ (aRectangle top).
+	vertices add: (aRectangle center x + (aRectangle width / 4)) @ (aRectangle bottom - 8).
+	vertices add: (aRectangle center x + (aRectangle width / 4)) @ (aRectangle bottom - 8) + (0@0.01).
+	^ vertices"
+"	^ super verticesForSimpleArrow: aRectangle "
 ]
 
 { #category : #'fill-styles' }
