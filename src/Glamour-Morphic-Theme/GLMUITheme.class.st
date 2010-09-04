@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 GLMUITheme class >> baseColor [
-	^ Color r: 180 g: 180 b: 180 range: 255
+	^ Color r: 190 g: 190 b: 190 range: 255
 ]
 
 { #category : #accessing }
@@ -28,7 +28,11 @@ GLMUITheme class >> importGlamorousIcons [
 		'glamorousMinInactive'
 		'glamorousCloseInactive'
 		'glamorousMenuInactive'
-		'glamorousMenuPin').
+		'glamorousMenuPin'
+		'glamorousCheckboxSelected'
+		'glamorousCheckboxUnselected'
+		'glamorousRadioSelected'
+		'glamorousRadioUnselected').
 	self importIcons: icons fromFolder: 'icons' inClass: MenuIcons category: '*glamour-morphic-theme'
 ]
 
@@ -156,6 +160,20 @@ GLMUITheme >> buttonSelectedFillStyleFor: aButton [
 		origin: aButton bounds origin;
 		direction: 0 @ aButton height;
 		radial: false
+]
+
+{ #category : #'fill-styles' }
+GLMUITheme >> checkboxForm [
+	"Answer the form to use for a normal checkbox."
+
+	^MenuIcons glamorousCheckboxUnselected
+]
+
+{ #category : #'fill-styles' }
+GLMUITheme >> checkboxSelectedForm [
+	"Answer the form to use for a selected checkbox."
+
+	^MenuIcons glamorousCheckboxSelected
 ]
 
 { #category : #'border-styles' }
@@ -335,6 +353,20 @@ GLMUITheme >> progressBarFillStyleFor: aProgressBar [
 { #category : #'fill-styles' }
 GLMUITheme >> progressBarProgressFillStyleFor: aProgressBar [
 	^ self class baseSelectionColor muchLighter
+]
+
+{ #category : #'fill-styles' }
+GLMUITheme >> radioButtonForm [
+	"Answer the form to use for a normal radio button."
+
+	^MenuIcons glamorousRadioUnselected 
+]
+
+{ #category : #'fill-styles' }
+GLMUITheme >> radioButtonSelectedForm [
+	"Answer the form to use for a selected radio button."
+
+	^MenuIcons glamorousRadioSelected 
 ]
 
 { #category : #'fill-styles' }
