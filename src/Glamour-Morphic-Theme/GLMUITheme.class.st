@@ -27,7 +27,8 @@ GLMUITheme class >> importGlamorousIcons [
 		'glamorousMaxInactive'
 		'glamorousMinInactive'
 		'glamorousCloseInactive'
-		'glamorousMenuInactive').
+		'glamorousMenuInactive'
+		'glamorousMenuPin').
 	self importIcons: icons fromFolder: 'icons' inClass: MenuIcons category: '*glamour-morphic-theme'
 ]
 
@@ -55,7 +56,8 @@ GLMUITheme class >> newDefaultSettings [
 		menuSelectionColor: self baseSelectionColor twiceLighter;
 		progressBarColor: self baseColor;
 		standardColorsOnly: true;
-		autoSelectionColor: false
+		autoSelectionColor: false;
+		preferRoundCorner: false
 ]
 
 { #category : #settings }
@@ -259,6 +261,13 @@ GLMUITheme >> menuItemInDockingBarSelectedFillStyleFor: aMenuItem [
 	^ fill
 ]
 
+{ #category : #'label-styles' }
+GLMUITheme >> menuPinForm [
+	"Answer the form to use for the pin button of a menu."
+
+	^MenuIcons glamorousMenuPin
+]
+
 { #category : #'morph creation' }
 GLMUITheme >> newFocusIndicatorMorphFor: aMorph [
 	"Answer a new focus indicator for the given morph."
@@ -350,7 +359,8 @@ GLMUITheme >> scrollbarNormalButtonFillStyleFor: aScrollbar [
 GLMUITheme >> scrollbarNormalFillStyleFor: aScrollbar [
 	"Return the normal scrollbar fillStyle for the given scrollbar."
 	
-	^ (self glamorousBaseColorFor: aScrollbar) muchLighter
+	^ "(self glamorousBaseColorFor: aScrollbar) muchLighter"
+	Color r: 245 g: 245 b: 245 range: 255
 ]
 
 { #category : #'fill-styles-scrollbars' }
