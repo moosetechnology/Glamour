@@ -67,9 +67,9 @@ ConfigurationOfGlamourSeaside >> default: spec [
 						'JQWidgetBox-HoverIntent-Core'
 						'JQuery-UI'
 						'Seaside-Core').
-"		spec group: 'Tests' with: #(
-						'Glamour-Tests'). 
-"		spec
+		spec group: 'Tests' with: #(
+						'Glamour-Seaside'). 
+		spec
 			project: 'Glamour' with: [
 				spec
 					className: 'ConfigurationOfGlamour';
