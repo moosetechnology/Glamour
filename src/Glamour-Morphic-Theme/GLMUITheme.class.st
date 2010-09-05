@@ -16,7 +16,7 @@ GLMUITheme class >> basePassiveBackgroundColor [
 
 { #category : #accessing }
 GLMUITheme class >> baseSelectionColor [
-	^ Color r: 0.38 g: 0.64 b: 0.88 "Color r: 185 g: 210 b: 255 range: 255"
+	^ Color r: 97 g: 163 b: 225 range: 255
 ]
 
 { #category : #private }
