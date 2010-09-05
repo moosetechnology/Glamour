@@ -11,7 +11,7 @@ GLMUITheme class >> baseColor [
 
 { #category : #accessing }
 GLMUITheme class >> basePassiveBackgroundColor [
-	^ self baseColor muchLighter
+	^ Color r: 245 g: 245 b: 245 range: 255
 ]
 
 { #category : #accessing }
@@ -376,7 +376,7 @@ GLMUITheme >> plainGroupPanelBorderStyleFor: aGroupPanel [
 
 { #category : #'fill-styles' }
 GLMUITheme >> progressBarFillStyleFor: aProgressBar [
-	^ (self glamorousBaseColorFor: aProgressBar) muchLighter
+	^ self glamorousBasePassiveBackgroundColorFor: aProgressBar
 ]
 
 { #category : #'fill-styles' }
