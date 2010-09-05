@@ -533,7 +533,7 @@ GLMUITheme >> taskbarButtonLabelColorFor: aButton [
 		ifNil: [super taskbarButtonLabelColorFor: aButton]
 		ifNotNil: [:win |
 			win isActive
-				ifTrue: [self glamorousLightSelectionColorFor: aButton]
+				ifTrue: [self glamorousBaseSelectionColorFor: aButton]
 				ifFalse: [Color black]]
 ]
 
