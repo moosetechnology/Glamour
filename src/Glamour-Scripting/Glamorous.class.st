@@ -9,18 +9,20 @@ Class {
 
 { #category : #'as yet unclassified' }
 Glamorous class >> editor [
+	"self editor openOn: '| browser |'"
 	| browser |
 	browser := GLMTabulator new.
 	browser row: #browser; row: #source.
 	browser title: 'Glamorous Editor'.
-	browser showOn: #source; using: [
-		browser text
+	browser transmit to: #source; andShow: [ :a |
+		a text
+			title: 'Editor';
 			forSmalltalk;
 			populate: #selection on: $o entitled: 'Open (o)' with: [:text | text text]].
-	browser showOn: #browser; from: #source; using: [
-		browser dynamic
+	browser transmit to: #browser; from: #source; andShow: [ :a |
+		a dynamic
+			title: 'Preview';
 			display: [:source | 
 				(Compiler evaluate: source logged: false)]].
-	browser openOn: '| browser |
-	'
+	^ browser
 ]
