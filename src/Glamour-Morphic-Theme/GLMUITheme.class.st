@@ -16,7 +16,7 @@ GLMUITheme class >> basePassiveBackgroundColor [
 
 { #category : #accessing }
 GLMUITheme class >> baseSelectionColor [
-	^ Color r: 0.38 g: 0.64 b: 0.88
+	^ Color r: 0.38 g: 0.64 b: 0.88 "Color r: 185 g: 210 b: 255 range: 255"
 ]
 
 { #category : #private }
@@ -55,14 +55,19 @@ GLMUITheme class >> importIcons: icons fromFolder: aString inClass: aClass categ
 	aClass initialize
 ]
 
+{ #category : #accessing }
+GLMUITheme class >> lightSelectionColor [
+	^ Color r: 218 g: 234 b: 250 range: 255
+]
+
 { #category : #settings }
 GLMUITheme class >> newDefaultSettings [
 	^super newDefaultSettings
 		menuColor: self baseColor;
 		menuTitleColor: self baseColor;
 		windowColor: self baseColor;
-		selectionColor: self baseSelectionColor muchLighter;
-		menuSelectionColor: self baseSelectionColor twiceLighter;
+		selectionColor: self lightSelectionColor;
+		menuSelectionColor: self baseSelectionColor;
 		progressBarColor: self baseColor;
 		standardColorsOnly: true;
 		autoSelectionColor: false;
@@ -149,7 +154,7 @@ GLMUITheme >> buttonSelectedFillStyleFor: aButton [
 	| toptop top bottom base |
 	base := self glamorousBaseColorFor: aButton.
 	toptop := base muchLighter.
-	top := (self glamorousBaseSelectionColorFor: aButton) muchLighter.
+	top := (self glamorousLightSelectionColorFor: aButton).
 	bottom := base.
 
 	^(GradientFillStyle ramp: {
@@ -261,6 +266,11 @@ GLMUITheme >> glamorousBaseSelectionColorFor: aButton [
 ]
 
 { #category : #private }
+GLMUITheme >> glamorousLightSelectionColorFor: aMorph [
+	^ self class lightSelectionColor
+]
+
+{ #category : #private }
 GLMUITheme >> glamorousNormalFillStyleFor: aMorph height: anInteger [
 	"Return the normal button fillStyle for the given button."
 	
@@ -326,7 +336,7 @@ GLMUITheme >> newFocusIndicatorMorphFor: aMorph [
 		fillStyle: Color transparent;
 		borderStyle: (SimpleBorder new
 			 width: 1;
-			baseColor: (self glamorousBaseSelectionColorFor: aMorph) lighter);
+			baseColor: (self glamorousBaseSelectionColorFor: aMorph));
 		bounds: aMorph focusBounds
 ]
 
@@ -381,7 +391,7 @@ GLMUITheme >> progressBarFillStyleFor: aProgressBar [
 
 { #category : #'fill-styles' }
 GLMUITheme >> progressBarProgressFillStyleFor: aProgressBar [
-	^ self glamorousBasePassiveBackgroundColorFor: aProgressBar
+	^ self glamorousLightSelectionColorFor: aProgressBar
 ]
 
 { #category : #'fill-styles' }
@@ -523,7 +533,7 @@ GLMUITheme >> taskbarButtonLabelColorFor: aButton [
 		ifNil: [super taskbarButtonLabelColorFor: aButton]
 		ifNotNil: [:win |
 			win isActive
-				ifTrue: [self class baseSelectionColor muchDarker]
+				ifTrue: [self glamorousLightSelectionColorFor: aButton]
 				ifFalse: [Color black]]
 ]
 
