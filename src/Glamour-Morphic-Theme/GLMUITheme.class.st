@@ -425,6 +425,13 @@ GLMUITheme >> scrollbarThumbCornerStyleIn: aThemedMorph [
 ]
 
 { #category : #'fill-styles' }
+GLMUITheme >> separatorFillStyleFor: aSeparator [
+	"Return the separator fillStyle for the given separator."
+	
+	^ SolidFillStyle color: (self glamorousBaseColorFor: aSeparator) darker
+]
+
+{ #category : #'fill-styles' }
 GLMUITheme >> splitterNormalFillStyleFor: aSplitter [
 	"Return the normal splitter fillStyle for the given splitter."
 	
