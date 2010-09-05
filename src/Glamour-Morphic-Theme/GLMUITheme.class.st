@@ -10,6 +10,11 @@ GLMUITheme class >> baseColor [
 ]
 
 { #category : #accessing }
+GLMUITheme class >> basePassiveBackgroundColor [
+	^ self baseColor muchLighter
+]
+
+{ #category : #accessing }
 GLMUITheme class >> baseSelectionColor [
 	^ Color r: 0.38 g: 0.64 b: 0.88
 ]
@@ -217,6 +222,13 @@ GLMUITheme >> dockingBarNormalFillStyleFor: aToolDockingBar [
 	^ SolidFillStyle color: Color transparent
 ]
 
+{ #category : #'fill-styles' }
+GLMUITheme >> dropListDisabledFillStyleFor: aDropList [
+	"Return the disabled fillStyle for the given drop list."
+	
+	^ self textEditorDisabledFillStyleFor: aDropList
+]
+
 { #category : #'border-styles' }
 GLMUITheme >> dropListNormalBorderStyleFor: aDropList [
 	"Return the normal borderStyle for the given drop list"
@@ -239,11 +251,13 @@ GLMUITheme >> glamorousBaseColorFor: aButton [
 ]
 
 { #category : #private }
+GLMUITheme >> glamorousBasePassiveBackgroundColorFor: aButton [
+	^ self class basePassiveBackgroundColor
+]
+
+{ #category : #private }
 GLMUITheme >> glamorousBaseSelectionColorFor: aButton [
 	^ self class baseSelectionColor
-	
-	"unfortunately, it looks like paneColor does not always return the wanted color"
-	"aButton paneColorOrNil ifNil: [Color r: 200 g: 200 b: 200 range: 255]"
 ]
 
 { #category : #private }
@@ -270,6 +284,13 @@ GLMUITheme >> initialize [
 
 	super initialize.
 	self windowActiveDropShadowStyle: #nodiffuse
+]
+
+{ #category : #'fill-styles' }
+GLMUITheme >> listDisabledFillStyleFor: aList [
+	"Return the disabled fillStyle for the given list."
+	
+	^ self textEditorDisabledFillStyleFor: aList
 ]
 
 { #category : #'fill-styles-buttons' }
@@ -360,14 +381,14 @@ GLMUITheme >> progressBarFillStyleFor: aProgressBar [
 
 { #category : #'fill-styles' }
 GLMUITheme >> progressBarProgressFillStyleFor: aProgressBar [
-	^ self class baseSelectionColor muchLighter
+	^ self glamorousBasePassiveBackgroundColorFor: aProgressBar
 ]
 
 { #category : #'fill-styles' }
 GLMUITheme >> radioButtonForm [
 	"Answer the form to use for a normal radio button."
 
-	^MenuIcons glamorousRadioUnselected 
+	^ MenuIcons glamorousRadioUnselected 
 ]
 
 { #category : #'fill-styles' }
@@ -432,10 +453,17 @@ GLMUITheme >> separatorFillStyleFor: aSeparator [
 ]
 
 { #category : #'fill-styles' }
+GLMUITheme >> sliderDisabledFillStyleFor: aSlider [
+	"Return the disabled fillStyle for the given slider."
+	
+	^ self textEditorDisabledFillStyleFor: aSlider
+]
+
+{ #category : #'fill-styles' }
 GLMUITheme >> splitterNormalFillStyleFor: aSplitter [
 	"Return the normal splitter fillStyle for the given splitter."
 	
-	^SolidFillStyle color: Color transparent
+	^ SolidFillStyle color: Color transparent
 ]
 
 { #category : #'fill-styles' }
@@ -444,7 +472,7 @@ GLMUITheme >> splitterPressedFillStyleFor: aSplitter [
 	
 	|aColor|
 	aColor := self glamorousBaseColorFor: aSplitter.
-	^(GradientFillStyle ramp: {0.0->aColor lighter. 0.9-> aColor})
+	^ (GradientFillStyle ramp: {0.0->aColor lighter. 0.9-> aColor})
 		origin: aSplitter topLeft;
 		direction: (aSplitter splitsTopAndBottom
 			ifTrue: [0 @ aSplitter height]
@@ -528,6 +556,13 @@ GLMUITheme >> tasklistFillStyleFor: aTasklist [
 		origin: aTasklist topLeft;
 		direction: 0 @ aTasklist height;
 		radial: false
+]
+
+{ #category : #'fill-styles' }
+GLMUITheme >> textEditorDisabledFillStyleFor: aTextEditor [
+	"Return the disabled fillStyle for the given text editor."
+	
+	^self glamorousBasePassiveBackgroundColorFor: aTextEditor
 ]
 
 { #category : #'border-styles' }
