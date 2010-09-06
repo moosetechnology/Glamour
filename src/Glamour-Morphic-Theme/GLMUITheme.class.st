@@ -62,6 +62,7 @@ GLMUITheme class >> lightSelectionColor [
 
 { #category : #settings }
 GLMUITheme class >> newDefaultSettings [
+	BalloonMorph setBalloonColorTo: self lightSelectionColor.
 	^super newDefaultSettings
 		menuColor: self baseColor;
 		menuTitleColor: self baseColor;
@@ -111,14 +112,14 @@ GLMUITheme >> buttonLabelForText: aTextOrString [
 GLMUITheme >> buttonMinHeight [
 	"Answer the minumum height of a button for this theme."
 	
-	^25
+	^24
 ]
 
 { #category : #defaults }
 GLMUITheme >> buttonMinWidth [
 	"Answer the minumum width of a button for this theme."
 	
-	^25
+	^24
 ]
 
 { #category : #'border-styles-buttons' }
@@ -307,7 +308,8 @@ GLMUITheme >> listDisabledFillStyleFor: aList [
 GLMUITheme >> menuItemInDockingBarSelectedFillStyleFor: aMenuItem [
 	"Answer the selected fill style to use for the given menu item that is in a docking bar."
 	
-	| fill baseColor |
+	^ self buttonSelectedFillStyleFor: aMenuItem
+"	| fill baseColor |
 	Display depth <= 2
 		ifTrue: [^ Color gray].
 	baseColor := self settings derivedMenuColor.
@@ -316,7 +318,7 @@ GLMUITheme >> menuItemInDockingBarSelectedFillStyleFor: aMenuItem [
 	fill
 		origin: aMenuItem topLeft;
 		direction: 0@aMenuItem height.
-	^ fill
+	^ fill"
 ]
 
 { #category : #'label-styles' }
@@ -324,6 +326,13 @@ GLMUITheme >> menuPinForm [
 	"Answer the form to use for the pin button of a menu."
 
 	^MenuIcons glamorousMenuPin
+]
+
+{ #category : #'initialize-release' }
+GLMUITheme >> newCheckboxMarkerForm [
+	"Answer a new checkbox marker form."
+
+	^Form extent: 12@12 depth: 32
 ]
 
 { #category : #'morph creation' }
@@ -338,6 +347,20 @@ GLMUITheme >> newFocusIndicatorMorphFor: aMorph [
 			 width: 1;
 			baseColor: (self glamorousBaseSelectionColorFor: aMorph));
 		bounds: aMorph focusBounds
+]
+
+{ #category : #'initialize-release' }
+GLMUITheme >> newRadioButtonMarkerForm [
+	"Answer a new radio button marker form. We make it empty because we already have the selected radio button take care of the state."
+
+	^Form extent: 12@12 depth: 32
+]
+
+{ #category : #'initialize-release' }
+GLMUITheme >> newRadioMarkerForm [
+	"Answer a new checkbox marker form."
+
+	^Form extent: 12@12 depth: 32
 ]
 
 { #category : #'initialize-release' }
@@ -533,8 +556,8 @@ GLMUITheme >> taskbarButtonLabelColorFor: aButton [
 		ifNil: [super taskbarButtonLabelColorFor: aButton]
 		ifNotNil: [:win |
 			win isActive
-				ifTrue: [self glamorousBaseSelectionColorFor: aButton]
-				ifFalse: [Color black]]
+				ifTrue: [Color black]
+				ifFalse: [Color gray darker]]
 ]
 
 { #category : #'fill-styles' }
