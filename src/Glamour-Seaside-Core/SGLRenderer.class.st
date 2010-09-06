@@ -20,6 +20,11 @@ SGLRenderer >> html [
 	^ html
 ]
 
+{ #category : #accessing }
+SGLRenderer >> html: aRenderer [
+	html := aRenderer
+]
+
 { #category : #initialization }
 SGLRenderer >> initialize [
 	super initialize.

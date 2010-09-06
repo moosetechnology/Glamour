@@ -28,6 +28,29 @@ SGLTextModel class >> for: aPresentation [
 
 ]
 
+{ #category : #selection }
+SGLTextModel >> addInitialSelections [
+	| selection |
+	"We populate the text port"
+	self text: self glamourPresentation displayValue.
+	
+	(self glamourPresentation selectionInterval isNil) 
+		ifTrue: [
+			selection := (self glamourPresentation selectedText = '') ifTrue: [nil] ifFalse: [self glamourPresentation selectedText].
+			(selection isNil) 
+				ifFalse:  [
+					self selectedText: selection.
+					self selectionInterval: (self intervalForSelection: selection) ] ] 
+		ifFalse:  [
+			selection := self selectionForInterval: self glamourPresentation selectionInterval.
+			self selectionInterval:  self glamourPresentation selectionInterval.
+			self selectedText: (selection isNil 
+				ifTrue: [(self glamourPresentation selectedText = '') ifTrue: [nil] ifFalse: [self glamourPresentation selectedText]] 
+				ifFalse: [selection]) ]
+	
+	
+]
+
 { #category : #private }
 SGLTextModel >> anounceSelectedTextChangedTo: aString [
 	self announcer announce: (
@@ -55,9 +78,10 @@ SGLTextModel >> anounceTextChangedTo: aString [
 { #category : #private }
 SGLTextModel >> intervalForSelection: aString [
 	|index|
+	self text ifNil: [^ self selectionInterval].
 	index := aString 
-		ifNil: [^ nil] 
-		ifNotNil: [self text ifNil: [^ nil] ifNotNil: [ self text findString: aString ]].
+		ifNil: [0] 
+		ifNotNil: [self text findString: aString ].
 	(index = 0)
 		ifTrue: [^ nil] 
 		ifFalse: [ ^ Interval from: index to: (index + aString size -1) ]
@@ -79,7 +103,8 @@ SGLTextModel >> selectedText: aString [
 { #category : #private }
 SGLTextModel >> selectionForInterval: anInterval [
 	| from to interval |
-	(anInterval isNil or: [self text isNil] ) ifTrue: [^nil].
+	self text isNil ifTrue: [^self selectedText].
+	anInterval isNil ifTrue: [^nil].
 	(anInterval first > anInterval last )
 		ifTrue: [ interval := Interval from: anInterval last to: anInterval first ]
 		ifFalse: [ interval := anInterval ].

@@ -9,7 +9,7 @@ Class {
 
 { #category : #'instance creation' }
 SGLPresenter class >> for: anObject from: aRenderer [
-	^ self new initializeFor: anObject from: aRenderer
+	^ self basicNew initializeFor: anObject from: aRenderer
 ]
 
 { #category : #initialization }

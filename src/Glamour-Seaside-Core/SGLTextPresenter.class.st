@@ -86,8 +86,8 @@ SGLTextPresenter >> onSelectActionWith: html [
 
 { #category : #rendering }
 SGLTextPresenter >> renderContentOn: html [
-	"We populate the text port"
-	self model text: model glamourPresentation formatedDisplayValue.
+	self model addInitialSelections.
+	htmlId := self renderer uuidFor: model glamourPresentation.
 	html div
 		class: 'ui-widget ui-widget-content ui-corner-all';
 		class: 'presentation-container glm-text-presentation';
@@ -97,7 +97,7 @@ SGLTextPresenter >> renderContentOn: html [
 { #category : #rendering }
 SGLTextPresenter >> renderTextAreaOn: html [
 	html textArea
-		id: self htmlId;
+		id: htmlId;
 		value: self model glamourPresentation formatedDisplayValue;
 		script: (self initializationScriptWith: html)
 			

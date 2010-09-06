@@ -58,7 +58,7 @@ SGLAccumulatorPresenter >> registerAnnouncers [
 		do: [ :ann | self addPane: ann pane ].
 	self browser 
 		when: GLMPaneSelected
-		do: [ :ann | .self selectPaneAt: ann position ].
+		do: [ :ann | self selectPaneAt: ann position ].
 ]
 
 { #category : #rendering }

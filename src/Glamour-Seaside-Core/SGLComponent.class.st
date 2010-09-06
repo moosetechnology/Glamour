@@ -8,18 +8,24 @@ Class {
 }
 
 { #category : #initialization }
-SGLComponent class >> registerAsApplication: aString [
-	| application |
-	application := WAAdmin register: self asApplicationAt: aString.
-	application preferenceAt: #sessionClass put: SGLSession.
-	application configuration
+SGLComponent class >> applyPreferencesOn: anApplication [
+	anApplication preferenceAt: #sessionClass put: SGLSession.
+	anApplication configuration
 		addParent: WADevelopmentConfiguration instance;
 		at: #rootDecorationClasses put: #().
-	application 
+	anApplication 
 		addLibrary: JQGoogleLibrary;
 		addLibrary: JQUiGoogleLibrary;
 		addLibrary: JQSGLTheme.
 		"addLibrary: JQRedmondTheme."
+
+]
+
+{ #category : #initialization }
+SGLComponent class >> registerAsApplication: aString [
+	| application |
+	application := WAAdmin register: self asApplicationAt: aString.
+	self applyPreferencesOn: application.
 	^ application
 ]
 

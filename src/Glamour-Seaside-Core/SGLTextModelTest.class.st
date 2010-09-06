@@ -10,6 +10,8 @@ Class {
 
 { #category : #setup }
 SGLTextModelTest >> setUp [
+	super setUp.
+
 	presentation := GLMTextPresentation new.
 	model := SGLTextModel for: presentation
 ]
@@ -41,7 +43,18 @@ SGLTextModelTest >> testAnnouncerslInitialization [
 ]
 
 { #category : #testing }
-SGLTextModelTest >> testIntervalForSelection [
+SGLTextModelTest >> testIntervalForSelectionWithSelectionInterval [
+	model selectionInterval: (2 to: 21).
+	self assert: (model intervalForSelection: nil) =  (2 to: 21).
+	self assert: (model intervalForSelection: 'text') =  (2 to: 21).
+	model text: 'a test text'.
+	self assert: (model intervalForSelection: 'test t') = (3 to: 8).
+	self assert: (model intervalForSelection: 'not found') = nil.
+	
+]
+
+{ #category : #testing }
+SGLTextModelTest >> testIntervalForSelectionWithoutSelectionInterval [
 	self assert: (model intervalForSelection: nil) = nil.
 	self assert: (model intervalForSelection: 'text') = nil.
 	model text: 'a test text'.
@@ -88,7 +101,17 @@ SGLTextModelTest >> testSelectedTextChanged [
 ]
 
 { #category : #testing }
-SGLTextModelTest >> testSelectionForInterval [
+SGLTextModelTest >> testSelectionForIntervalWithSelectedText [
+	model selectedText: 'selected'.
+	self assert: (model selectionForInterval: nil) = 'selected'.
+	self assert: (model selectionForInterval: (1 to: 100)) = 'selected'.
+	model text: 'a test text'.
+	self assert: (model selectionForInterval: (1 to: 11)) =  'a test text'.
+	
+]
+
+{ #category : #testing }
+SGLTextModelTest >> testSelectionForIntervalWithoutSelectedText [
 	self assert: (model selectionForInterval: nil) = nil.
 	self assert: (model selectionForInterval: (1 to: 100)) = nil.
 	model text: 'a test text'.
