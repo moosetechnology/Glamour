@@ -14,7 +14,7 @@ GLMMorphicMondrianRenderer >> mondrianCanvasFor: aPresentation in: aScrollPane [
 	canvas root: view root.
 	canvas initializeHanders.
 	canvas announcer
-			when: MOFigureSelection
+			when: MOElementSelection
 			do: [ :ann | aPresentation selection: ann element model ].
 	canvas announcer
 			when: MOMouseEnter
