@@ -62,6 +62,7 @@ GLMMorphicWidgetRenderer >> morph: aMorph withTitleOf: aPresentation [
 		newGroupboxIn: GLMMorphic emptyMorph 
 		label: (self titleOrIconOf: aPresentation in: GLMMorphic emptyMorph).
 	container addContentMorph: aMorph.
+	container contentMorph cellInset: 2.
 	^ container
 ]
 
@@ -73,7 +74,7 @@ GLMMorphicWidgetRenderer >> morph: aMorph withTitleOrNilOf: aPresentation [
 	container := self theme 
 		newGroupboxIn: empty
 		label: (self titleOrIconOrNilOf: aPresentation in: empty).
-	container contentMorph cellInset: 2.
+	container contentMorph cellInset: 0.
 	container addContentMorph: aMorph.
 	^ container
 ]
