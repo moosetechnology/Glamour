@@ -38,12 +38,12 @@ ConfigurationOfGlamourSeaside class >> project [
 { #category : #baselines }
 ConfigurationOfGlamourSeaside >> default: spec [ 
 	<version: 'default'>
-	
+
 	spec for: #common do: [
 		spec blessing: #baseline.
 		spec repository: 'http://www.squeaksource.com/Glamour'.
 		spec package: 'Glamour-Seaside' with: [
-			spec requires: #('Seaside' 'Glamour') ]..
+			spec requires: #('Seaside' 'Glamour' 'SeasideTesting') ]..
 		spec package: 'JQWidgetBox-Core' with: [
 			spec requires: #('Seaside').
 			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
@@ -67,8 +67,8 @@ ConfigurationOfGlamourSeaside >> default: spec [
 						'JQWidgetBox-HoverIntent-Core'
 						'JQuery-UI'
 						'Seaside-Core').
-		spec group: 'Tests' with: #(
-						'Glamour-Seaside'). 
+		"spec group: 'Tests' with: #(
+						'Glamour-Seaside-Tests'). "
 		spec
 			project: 'Glamour' with: [
 				spec
@@ -83,8 +83,14 @@ ConfigurationOfGlamourSeaside >> default: spec [
 					file: 'ConfigurationOfSeaside30';
 					version: '3.0.0-alpha5.15';
 					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
-
-	]
+		spec
+			project: 'SeasideTesting' with: [
+				spec
+					className: 'ConfigurationOfSeasideTesting';
+					file: 'ConfigurationOfSeasideTesting';
+					version: '0.1';
+					repository: 'http://www.squeaksource.com/SeasideTesting' ].
+		spec ]
 ]
 
 { #category : #accessing }
