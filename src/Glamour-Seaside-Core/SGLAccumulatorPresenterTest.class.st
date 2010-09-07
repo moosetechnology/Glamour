@@ -5,8 +5,8 @@ Class {
 }
 
 { #category : #setup }
-SGLAccumulatorPresenterTest >> presentationClass [
-	^ GLMAccumulator
+SGLAccumulatorPresenterTest >> buildPresentation [
+	^ GLMAccumulator new
 ]
 
 { #category : #setup }

@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #setup }
-SGLPresenterTest >> presentationClass [
+SGLPresenterTest >> buildPresentation [
 	self subclassResponsibility
 ]
 
@@ -23,7 +23,7 @@ SGLPresenterTest >> presenterClass [
 SGLPresenterTest >> setUp [
 	super setUp.
 	
-	presentation := self presentationClass new.
+	presentation := self buildPresentation.
 	app := self newApplicationWithRootClass: SGLPresenterWrapper initializeWith: [ : wrapper |
 		wrapper initializeFor: presentation with: self presenterClass.
 		presenter := wrapper presenter].

@@ -5,13 +5,13 @@ Class {
 }
 
 { #category : #setup }
-SGLTextPresenterTest >> expectedFailures [
-	^ #(testTextWithSelectedTextAnnouncements testTextWithSelectionIntervalAnnouncements)
+SGLTextPresenterTest >> buildPresentation [
+	^ GLMTextPresentation new
 ]
 
 { #category : #setup }
-SGLTextPresenterTest >> presentationClass [
-	^ GLMTextPresentation
+SGLTextPresenterTest >> expectedFailures [
+	^ #(testTextWithSelectedTextAnnouncements testTextWithSelectionIntervalAnnouncements)
 ]
 
 { #category : #setup }

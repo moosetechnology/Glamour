@@ -8,7 +8,7 @@ Class {
 SGLAccordionCompositePresenter >> renderContentOn: html [
 	| presentations index |
 	presentations := self presentation matchingPresentations.
-	presentations isEmpty ifTrue: [ ^ self renderEmptyPresentation ].
+	presentations isEmpty ifTrue: [ ^ self renderEmptyPresentationOn: html ].
 	presentations size = 1 ifTrue: [ ^ self renderWithTitleOrNil: presentations first ].
 	
 	index := self indexForSelectedPresentation.
