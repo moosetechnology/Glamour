@@ -57,7 +57,7 @@ GLMUITheme class >> importIcons: icons fromFolder: aString inClass: aClass categ
 
 { #category : #accessing }
 GLMUITheme class >> lightSelectionColor [
-	^ Color r: 218 g: 234 b: 250 range: 255
+	^ Color r: 175 g: 213 b: 250 range: 255
 ]
 
 { #category : #settings }
@@ -91,6 +91,11 @@ GLMUITheme class >> setPreferredWorldBackground [
 { #category : #accessing }
 GLMUITheme class >> themeName [
 	^ 'Glamorous'
+]
+
+{ #category : #accessing }
+GLMUITheme class >> veryLightSelectionColor [
+	^ Color r: 218 g: 234 b: 250 range: 255
 ]
 
 { #category : #'border-styles-buttons' }
@@ -155,7 +160,7 @@ GLMUITheme >> buttonSelectedFillStyleFor: aButton [
 	| toptop top bottom base |
 	base := self glamorousBaseColorFor: aButton.
 	toptop := base muchLighter.
-	top := (self glamorousLightSelectionColorFor: aButton).
+	top := self glamorousLightSelectionColorFor: aButton.
 	bottom := base.
 
 	^(GradientFillStyle ramp: {
@@ -414,7 +419,7 @@ GLMUITheme >> progressBarFillStyleFor: aProgressBar [
 
 { #category : #'fill-styles' }
 GLMUITheme >> progressBarProgressFillStyleFor: aProgressBar [
-	^ self glamorousLightSelectionColorFor: aProgressBar
+	^ (self glamorousLightSelectionColorFor: aProgressBar)
 ]
 
 { #category : #'fill-styles' }
@@ -517,7 +522,7 @@ GLMUITheme >> splitterPressedFillStyleFor: aSplitter [
 GLMUITheme >> subgroupColorFrom: paneColor [
 	"Answer the colour for a subgroup given the pane colour."
 
-	^ self class baseColor "paneColor"
+	^ self class baseColor lighter "paneColor"
 ]
 
 { #category : #'border-styles' }
