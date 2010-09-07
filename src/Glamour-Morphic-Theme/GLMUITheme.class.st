@@ -1,3 +1,7 @@
+"
+self defaultSettings: nil.
+self beCurrent. 
+"
 Class {
 	#name : #GLMUITheme,
 	#superclass : #UIThemeWatery2,
