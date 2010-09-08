@@ -68,6 +68,7 @@ ConfigurationOfGlamourSeaside >> default: spec [
 						'JQuery-UI'
 						'Seaside-Core').
 		spec group: 'Tests' with: #(
+						'SeasideTesting'
 						'Glamour-Seaside'). 
 		spec
 			project: 'Glamour' with: [
