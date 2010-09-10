@@ -23,6 +23,11 @@ GLMUITheme class >> baseSelectionColor [
 	^ Color r: 97 g: 163 b: 225 range: 255
 ]
 
+{ #category : #accessing }
+GLMUITheme class >> darkBaseColor [
+	^ Color r: 180 g: 180 b: 180 range: 255
+]
+
 { #category : #private }
 GLMUITheme class >> importGlamorousIcons [
 	"utility method to import the icons necessary for the theme from the file system"
@@ -57,6 +62,11 @@ GLMUITheme class >> importIcons: icons fromFolder: aString inClass: aClass categ
 				aClass methodEnd.
 			aClass class compile: method classified: aCategory ].
 	aClass initialize
+]
+
+{ #category : #accessing }
+GLMUITheme class >> lightBaseColor [
+	^ Color r: 200 g: 200 b: 200 range: 255
 ]
 
 { #category : #accessing }
@@ -138,7 +148,7 @@ GLMUITheme >> buttonNormalBorderStyleFor: aButton [
 	| outerColor innerColor |
 	(aButton valueOfProperty: #noBorder ifAbsent: [false]) ifTrue: [
 		^ SimpleBorder new width: 0; baseColor: Color transparent ].
-	outerColor := (self glamorousBaseColorFor: aButton) darker.
+	outerColor := self glamorousDarkBaseColorFor: aButton.
 	^SimpleBorder new
 					width: 1;
 					baseColor: outerColor
@@ -168,8 +178,7 @@ GLMUITheme >> buttonSelectedFillStyleFor: aButton [
 	bottom := base.
 
 	^(GradientFillStyle ramp: {
-			0.0->toptop.
-			0.1->top.
+			0.0->top.
 			0.7->bottom.})
 		origin: aButton bounds origin;
 		direction: 0 @ aButton height;
@@ -276,6 +285,16 @@ GLMUITheme >> glamorousBaseSelectionColorFor: aButton [
 ]
 
 { #category : #private }
+GLMUITheme >> glamorousDarkBaseColorFor: aButton [
+	^ self class darkBaseColor
+]
+
+{ #category : #private }
+GLMUITheme >> glamorousLightColorFor: aButton [
+	^ self class lightBaseColor
+]
+
+{ #category : #private }
 GLMUITheme >> glamorousLightSelectionColorFor: aMorph [
 	^ self class lightSelectionColor
 ]
@@ -286,16 +305,23 @@ GLMUITheme >> glamorousNormalFillStyleFor: aMorph height: anInteger [
 	
 	| toptop top bottom base |
 	base := self glamorousBaseColorFor: aMorph.
-	toptop := base twiceLighter lighter.
 	top := base twiceLighter.
 	bottom := base.
 	^(GradientFillStyle ramp: {
-			0.0->toptop.
-			0.1->top.
+			0.0->top.
 			0.7->bottom.})
 		origin: aMorph bounds origin;
 		direction: 0 @ anInteger;
 		radial: false
+]
+
+{ #category : #'border-styles' }
+GLMUITheme >> groupPanelBorderStyleFor: aGroupPanel [
+	"Answer the normal border style for a group panel."
+
+	^ SimpleBorder new
+		width: 1;
+		baseColor: ((self glamorousBaseColorFor: aGroupPanel))
 ]
 
 { #category : #'initialize-release' }
@@ -316,18 +342,7 @@ GLMUITheme >> listDisabledFillStyleFor: aList [
 { #category : #'fill-styles-buttons' }
 GLMUITheme >> menuItemInDockingBarSelectedFillStyleFor: aMenuItem [
 	"Answer the selected fill style to use for the given menu item that is in a docking bar."
-	
 	^ self buttonSelectedFillStyleFor: aMenuItem
-"	| fill baseColor |
-	Display depth <= 2
-		ifTrue: [^ Color gray].
-	baseColor := self settings derivedMenuColor.
-	self preferGradientFill ifFalse: [^baseColor].
-	fill := GradientFillStyle ramp: {0.0 -> baseColor twiceDarker . 1 -> baseColor twiceLighter}.
-	fill
-		origin: aMenuItem topLeft;
-		direction: 0@aMenuItem height.
-	^ fill"
 ]
 
 { #category : #'label-styles' }
@@ -526,7 +541,7 @@ GLMUITheme >> splitterPressedFillStyleFor: aSplitter [
 GLMUITheme >> subgroupColorFrom: paneColor [
 	"Answer the colour for a subgroup given the pane colour."
 
-	^ self class baseColor lighter "paneColor"
+	^ "self glamorousLightColorFor: paneColor" self class baseColor
 ]
 
 { #category : #'border-styles' }
@@ -549,11 +564,9 @@ GLMUITheme >> tabLabelSelectedFillStyleFor: aTabLabel [
 
 { #category : #'border-styles' }
 GLMUITheme >> tabPanelBorderStyleFor: aTabGroup [
-	"Answer the normal border style for a tab panel."
-
-	^ TabPanelBorder new
+	^ GLMTabPanelBorder new 
 		width: 1;
-		baseColor: ((self glamorousBaseColorFor: aTabGroup));
+		baseColor: ((self glamorousBaseColorFor: aTabGroup) darker);
 		tabSelector: aTabGroup tabSelectorMorph
 ]
 
@@ -584,20 +597,6 @@ GLMUITheme >> taskbarThumbnailCornerStyleFor: aMorph [
 { #category : #'border-styles' }
 GLMUITheme >> taskbarThumbnailNormalBorderStyleFor: aWindow [
 	^ self buttonNormalBorderStyleFor: aWindow
-]
-
-{ #category : #'fill-styles' }
-GLMUITheme >> tasklistFillStyleFor: aTasklist [
-	"Return the tasklist fillStyle for the given tasklist."
-	
-	|aColor|
-	aColor := aTasklist color.
-	^(GradientFillStyle ramp: {
-			0.0->aColor whiter whiter. 0.2->aColor lighter.
-			0.8->aColor darker. 1.0->aColor blacker})
-		origin: aTasklist topLeft;
-		direction: 0 @ aTasklist height;
-		radial: false
 ]
 
 { #category : #'fill-styles' }
