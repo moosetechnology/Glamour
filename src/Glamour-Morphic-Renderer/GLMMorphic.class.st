@@ -33,21 +33,6 @@ GLMMorphic class >> emptyMorph [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
-GLMMorphic class >> emptyMorphShowing: aBoolean asTitle: aTitle [
-	^ aBoolean 
-		ifTrue: [
-			GroupboxMorph new
-				label: aTitle;
-				layoutPolicy: ProportionalLayout new;
-				color: Color transparent;
-				hResizing: #spaceFill;
-				vResizing: #spaceFill;
-				borderWidth: 0;
-				yourself]
-		ifFalse: [ self emptyMorph ]
-]
-
 { #category : #'button styles' }
 GLMMorphic class >> grayRoundedButtonStyle: button morph: aMorph pressed: aBoolean [
 	button useRoundedCorners.

@@ -56,27 +56,25 @@ GLMMorphicWidgetRenderer >> moreToolbarActions: noIconActions on: aBrowser [
 ]
 
 { #category : #private }
-GLMMorphicWidgetRenderer >> morph: aMorph withTitleOf: aPresentation [
-	| container |
-	container := self theme 
-		newGroupboxIn: GLMMorphic emptyMorph 
-		label: (self titleOrIconOf: aPresentation in: GLMMorphic emptyMorph).
-	container addContentMorph: aMorph.
-	container contentMorph cellInset: 2.
-	^ container
+GLMMorphicWidgetRenderer >> morph: aMorph withTitleOf: aPresentation [	
+	| tabs |
+	tabs := LazyTabGroupMorph new.
+	tabs
+		vResizing: #spaceFill;
+		hResizing: #spaceFill;
+		cornerStyle: (self theme tabGroupCornerStyleIn: nil);
+		font: self theme labelFont.
+	tabs 
+			addLazyPage: [aMorph]
+			label: (self titleOrIconOf: aPresentation in: tabs).
+	tabs selectedPageIndex: 1.
+	^ tabs
 ]
 
 { #category : #private }
 GLMMorphicWidgetRenderer >> morph: aMorph withTitleOrNilOf: aPresentation [
-	| container empty |
 	(aPresentation hasTitle or: [aPresentation hasTitleIcon]) ifFalse: [^ aMorph ].
-	empty := GLMMorphic emptyMorph.
-	container := self theme 
-		newGroupboxIn: empty
-		label: (self titleOrIconOrNilOf: aPresentation in: empty).
-	container contentMorph cellInset: 0.
-	container addContentMorph: aMorph.
-	^ container
+	^ self morph: aMorph withTitleOf: aPresentation
 ]
 
 { #category : #rendering }
