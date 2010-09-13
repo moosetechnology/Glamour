@@ -49,7 +49,7 @@ GLMCompositePresentationMorphicTest >> testAccordionWithTitle [
 		a text ].
 	window := browser openOn: 42.
 	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph class = GroupboxMorph.
+	self assert: compositeMorph class = LazyTabGroupMorph.
 	self assert: compositeMorph submorphs notEmpty.
 	self assert: compositeMorph submorphs size = 2.
 	self assert: compositeMorph contentMorph class = PanelMorph.
@@ -69,7 +69,7 @@ GLMCompositePresentationMorphicTest >> testFinder [
 	self assert: finder presentations size = 2.
 	self assert: (finder presentations arrangement isKindOf: GLMStackedVerticallyArrangement).
 	window := finder openOn: (1 to: 42).
-	self assert: (window submorphs last submorphs first submorphs first submorphs first isKindOf: GroupboxMorph) 
+	self assert: (window submorphs last submorphs first submorphs first submorphs first isKindOf: LazyTabGroupMorph) 
 ]
 
 { #category : #testing }
@@ -83,14 +83,14 @@ GLMCompositePresentationMorphicTest >> testOneStackedVerticallyWithTitle [
 		a list ].
 	window := browser openOn: 42.
 	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph class = GroupboxMorph.
+	self assert: compositeMorph class = LazyTabGroupMorph.
 	self assert: compositeMorph submorphs notEmpty.
 	self assert: compositeMorph submorphs size = 2.
 	self assert: compositeMorph contentMorph class = PanelMorph.
 	self assert: compositeMorph contentMorph submorphs size = 1.
 	self assert: compositeMorph contentMorph submorphs first class = PanelMorph.
 	self assert: compositeMorph contentMorph submorphs first submorphs size = 1.
-	self assert: compositeMorph contentMorph submorphs first submorphs first class = GroupboxMorph
+	self assert: compositeMorph contentMorph submorphs first submorphs first class = LazyTabGroupMorph
 ]
 
 { #category : #testing }
@@ -107,7 +107,7 @@ GLMCompositePresentationMorphicTest >> testStackedVertically [
 	self assert: compositeMorph class = PanelMorph.
 	self assert: compositeMorph submorphs size = 2.
 	self assert: compositeMorph submorphs size = 2.
-	self assert: compositeMorph submorphs first class = GroupboxMorph.
+	self assert: compositeMorph submorphs first class = LazyTabGroupMorph.
 ]
 
 { #category : #testing }
@@ -122,14 +122,14 @@ GLMCompositePresentationMorphicTest >> testStackedVerticallyWithTitle [
 		a text title: 'text'].
 	window := browser openOn: 42.
 	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph class = GroupboxMorph.
+	self assert: compositeMorph class = LazyTabGroupMorph.
 	self assert: compositeMorph submorphs notEmpty.
 	self assert: compositeMorph submorphs size = 2.
 	self assert: compositeMorph contentMorph class = PanelMorph.
 	self assert: compositeMorph contentMorph submorphs size = 1.
 	self assert: compositeMorph contentMorph submorphs first class = PanelMorph.
 	self assert: compositeMorph contentMorph submorphs first submorphs size = 2.
-	self assert: compositeMorph contentMorph submorphs first submorphs first class = GroupboxMorph
+	self assert: compositeMorph contentMorph submorphs first submorphs first class = LazyTabGroupMorph
 ]
 
 { #category : #testing }
@@ -157,7 +157,7 @@ GLMCompositePresentationMorphicTest >> testTabsWithTitle [
 		a text ].
 	window := browser openOn: 42.
 	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph class = GroupboxMorph.
+	self assert: compositeMorph class = LazyTabGroupMorph.
 	self assert: compositeMorph submorphs size = 2.
 	self assert: compositeMorph submorphs first class = PanelMorph.
 	self assert: compositeMorph submorphs first submorphs size = 1.
