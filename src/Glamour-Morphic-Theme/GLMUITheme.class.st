@@ -93,13 +93,14 @@ GLMUITheme class >> newDefaultSettings [
 { #category : #settings }
 GLMUITheme class >> setPreferredWorldBackground [
 	"self setPreferredWorldBackground"
-	World color: (
+	"World color: (
 		(GradientFillStyle 
 			ramp: { 0.0 -> Color white.  1.0 -> Color gray})
 			origin: 50 @ 50;
 			direction: 800@0;
 			normal: 0@800;
-		radial: true)
+		radial: true)"
+	World color: Color white
 ]
 
 { #category : #accessing }
@@ -171,11 +172,9 @@ GLMUITheme >> buttonSelectedBorderStyleFor: aButton [
 GLMUITheme >> buttonSelectedFillStyleFor: aButton [
 	"Return the normal button fillStyle for the given button."
 	
-	| toptop top bottom base |
-	base := self glamorousBaseColorFor: aButton.
-	toptop := base muchLighter.
+	| top bottom |
 	top := self glamorousLightSelectionColorFor: aButton.
-	bottom := base.
+	bottom := self glamorousLightColorFor: aButton.
 
 	^(GradientFillStyle ramp: {
 			0.0->top.
@@ -303,10 +302,18 @@ GLMUITheme >> glamorousLightSelectionColorFor: aMorph [
 GLMUITheme >> glamorousNormalFillStyleFor: aMorph height: anInteger [
 	"Return the normal button fillStyle for the given button."
 	
-	| toptop top bottom base |
-	base := self glamorousBaseColorFor: aMorph.
-	top := base twiceLighter.
-	bottom := base.
+	| baseColor |
+	baseColor := self glamorousBaseColorFor: aMorph.
+	^ self glamorousNormalFillStyleWithBaseColor: baseColor for: aMorph height: anInteger
+
+]
+
+{ #category : #private }
+GLMUITheme >> glamorousNormalFillStyleWithBaseColor: aColor for: aMorph height: anInteger [
+	
+	| top bottom |
+	top := aColor twiceLighter.
+	bottom := aColor.
 	^(GradientFillStyle ramp: {
 			0.0->top.
 			0.7->bottom.})
@@ -468,10 +475,7 @@ GLMUITheme >> resizerGripNormalFillStyleFor: aResizer [
 GLMUITheme >> scrollbarNormalButtonFillStyleFor: aScrollbar [
 	"Return the normal scrollbar button fillStyle for the given scrollbar."
 	
-	^ (self buttonNormalFillStyleFor: aScrollbar) 
-		direction: (aScrollbar bounds isWide
-			ifTrue: [0 @ aScrollbar height]
-			ifFalse: [aScrollbar width @ 0])
+	^ self scrollbarNormalThumbFillStyleFor: aScrollbar
 ]
 
 { #category : #'fill-styles-scrollbars' }
@@ -486,7 +490,7 @@ GLMUITheme >> scrollbarNormalFillStyleFor: aScrollbar [
 GLMUITheme >> scrollbarNormalThumbFillStyleFor: aScrollbar [
 	"Return the normal scrollbar fillStyle for the given scrollbar."
 	
-	^ (self buttonNormalFillStyleFor: aScrollbar) 
+	^ (self glamorousNormalFillStyleWithBaseColor: aScrollbar paneColor for:  aScrollbar height: aScrollbar height)
 		direction: (aScrollbar bounds isWide
 			ifTrue: [0 @ aScrollbar height]
 			ifFalse: [aScrollbar width @ 0])
@@ -541,7 +545,7 @@ GLMUITheme >> splitterPressedFillStyleFor: aSplitter [
 GLMUITheme >> subgroupColorFrom: paneColor [
 	"Answer the colour for a subgroup given the pane colour."
 
-	^ "self glamorousLightColorFor: paneColor" self class baseColor
+	^ self glamorousLightColorFor: paneColor" self class baseColor"
 ]
 
 { #category : #'border-styles' }
@@ -566,7 +570,7 @@ GLMUITheme >> tabLabelSelectedFillStyleFor: aTabLabel [
 GLMUITheme >> tabPanelBorderStyleFor: aTabGroup [
 	^ GLMTabPanelBorder new 
 		width: 1;
-		baseColor: ((self glamorousBaseColorFor: aTabGroup) darker);
+		baseColor: ((self glamorousDarkBaseColorFor: aTabGroup));
 		tabSelector: aTabGroup tabSelectorMorph
 ]
 
