@@ -70,7 +70,6 @@ GLMFinder >> innerPortEvent: aPortEvent [
 	aPortEvent port name = #selection ifTrue: [
 		| index toReplace |
 		index := self panes reversed indexOf: aPortEvent pane.
-		Transcript show: index printString; cr.
 		(self panes reversed first: index - 2) do: [ :each |  
 			self removeLastPane.
 			self announce: (GLMPaneRemoved pane: each fromBrowser: self) ].
