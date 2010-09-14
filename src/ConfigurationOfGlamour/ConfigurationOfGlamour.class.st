@@ -174,6 +174,73 @@ ConfigurationOfGlamour >> baseline20beta4: spec [
 ]
 
 { #category : #baselines }
+ConfigurationOfGlamour >> baseline20beta5: spec [ 
+	<version: '2.0-beta.5-baseline'>
+	
+	spec for: #common do: [
+		spec blessing: #baseline.
+		spec repository: 'http://www.squeaksource.com/Glamour'.
+		spec 
+			package: 'Glamour-Announcements' ;
+			package: 'Glamour-Helpers' ;
+			package: 'Glamour-Core' with: [spec requires: #('Glamour-Helpers' 'Glamour-Announcements')];
+			package: 'Glamour-Presentations'  with: [spec requires: #('Glamour-Core')];
+			package: 'Glamour-Browsers'  with: [spec requires: #('Glamour-Core')];
+			package: 'Glamour-Scripting' with: [spec requires: #('Glamour-Presentations' 'Glamour-Browsers' 'Glamour-Core')];
+			package: 'Glamour-Tests-Core' ;
+			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Magritte-Morph' 'Mondrian for Glamour')];
+			package: 'Glamour-Morphic-Theme';
+			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
+			package: 'Glamour-Examples' ;
+			package: 'Glamour-Tools';
+			package: 'Magritte-Model' with: [
+				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
+				spec requires: 'Grease'];
+			package: 'Magritte-Tests-Model' with: [
+				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
+				spec requires: 'Magritte-Model'];
+			package: 'Magritte-Morph' with: [
+				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
+				spec requires: #('Magritte-Model')];
+			package: 'Magritte-Pharo-Model' with: [
+				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
+				spec requires: 'Magritte-Model' ].
+		spec group: 'Core' with: #(
+						'Glamour-Announcements'
+						'Glamour-Helpers'
+						'Glamour-Core'
+						'Glamour-Presentations'
+						'Glamour-Browsers'
+						'Glamour-Scripting'
+						'Glamour-Examples'
+						'Glamour-Tools').
+		spec group: 'Extras' with: #(
+						'Glamour-Morphic-Renderer'
+						'Glamour-Morphic-Theme'
+						'Mondrian for Glamour').
+		spec group: 'Tests' with: #(
+						'Glamour-Tests-Core'
+						'Glamour-Examples'
+						'Glamour-Tests-Morphic'). 
+		spec
+			project: 'Mondrian for Glamour' with: [
+				spec
+					className: 'ConfigurationOfMondrian';
+					file: 'ConfigurationOfMondrian';
+					version: 'default';
+					repository: 'http://www.squeaksource.com/Mondrian' ].
+		spec
+			project: 'Grease' with: [
+				spec
+					className: 'ConfigurationOfGrease';
+					file: 'ConfigurationOfGrease';
+					version: '1.0-alpha9.1';
+					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
+
+	]
+]
+
+{ #category : #baselines }
 ConfigurationOfGlamour >> default: spec [ 
 	<version: 'default'>
 	
@@ -415,4 +482,32 @@ ConfigurationOfGlamour >> version20beta6: spec [
 			package: 'Glamour-Test-Morphic' with: 'Glamour-Test-Morphic-tg.72';
 			package: 'Glamour-Examples' with: 'Glamour-Examples-VeronicaUquillas.142';
 			package: 'Glamour-Tools' with: 'Glamour-Tools-tg.22'.].
+]
+
+{ #category : #versions }
+ConfigurationOfGlamour >> version20beta7: spec [
+	<version: '2.0-beta.7' imports: #('2.0-beta.5-baseline')>
+
+	spec for: #common do: [
+		spec author: 'jl'.
+		spec timestamp: '09/13/2010 22:00'.
+		spec blessing: #development.
+		spec project: 'Mondrian for Glamour' with: '2.0-beta.8'.
+		spec 
+			package: 'Glamour-Announcements' with:  'Glamour-Announcements-tg.5';
+			package: 'Glamour-Helpers' with:  'Glamour-Helpers-tg.20';
+			package: 'Glamour-Core' with:  'Glamour-Core-tg.142';
+			package: 'Glamour-Presentations'  with: 'Glamour-Presentations-tg.83';
+			package: 'Glamour-Browsers'  with: 'Glamour-Browsers-tg.45';
+			package: 'Glamour-Scripting' with: 'Glamour-Scripting-tg.91';
+			package: 'Glamour-Tests-Core' with:  'Glamour-Tests-Core-tg.1';
+			package: 'Glamour-Morphic-Renderer' with:  'Glamour-Morphic-Renderer-tg.5';
+			package: 'Glamour-Morphic-Theme' with:  'Glamour-Morphic-Theme-tg.21';
+			package: 'Glamour-Tests-Morphic' with:  'Glamour-Tests-Morphic-tg.3';
+			package: 'Glamour-Examples' with:  'Glamour-Examples-tg.148';
+			package: 'Glamour-Tools' with:  'Glamour-Tools-tg.22';
+			package: 'Magritte-Model' with:  'Magritte-Model-lr.397';
+			package: 'Magritte-Tests-Model' with:  'Magritte-Tests-Model-lr.13';
+			package: 'Magritte-Morph' with:  'Magritte-Morph-lr.52';
+			package: 'Magritte-Pharo-Model' with:  'Magritte-Pharo-Model-lr.22'.].
 ]
