@@ -20,6 +20,7 @@ SGLSession >> browsers [
 { #category : #'parent/child' }
 SGLSession >> unregistered [
 	super unregistered.
-	self browsers do: [:each| each unregisterFromAllAnnouncements].
+	self browsers do: [:each| 
+		each ifNotNil: [each unregisterFromAllAnnouncements] ].
 	browsers := nil
 ]

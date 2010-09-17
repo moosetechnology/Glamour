@@ -59,6 +59,32 @@ SGLDevExamples >> accumulatorWithActions [
 ]
 
 { #category : #other }
+SGLDevExamples >> classLister [
+	"
+		self new classLister openOn: MooseModel root allModels first allModelNamespaces
+	"
+	<glmBrowser: 'Class Listing' input: 'MooseModel root allModels first allModelNamespaces'>
+	| accumulator tabulator |
+	tabulator := GLMTabulator new.
+	tabulator column: #namespaces; column: #accumulator.
+	tabulator transmit to:  #namespaces; andShow: [ :a |
+		a list 
+			showOnly: 30;
+			format: #mooseName ].
+	accumulator := GLMAccumulator  new.
+	accumulator show: [ :a |
+		a title: [: namespace| namespace mooseName ].
+		a list 
+			showOnly: 30;
+			format: #name;
+			display: [:namespace| namespace classes] ].
+	tabulator transmit to: #accumulator; from: #namespaces; andShowIfNone:[:a |
+		a custom: accumulator].
+	tabulator transmit from: #namespaces; to: #accumulator->#entityToSelect.
+	^tabulator .
+]
+
+{ #category : #other }
 SGLDevExamples >> differentCompositesWithActions [
 	"
 		self new differentCompositesWithActions openOn: 100
@@ -281,7 +307,6 @@ SGLDevExamples >> namespacesDependencies [
 	finder show: [ :a |
 		a list 
 			showOnly: 30;
-			title: 'A Finder';
 			format: #mooseName;
 			send: #providerNamespaces ].
 		
