@@ -26,7 +26,11 @@ ConfigurationOfGlamourSeaside class >> isMetacelloConfig [
 
 { #category : #loading }
 ConfigurationOfGlamourSeaside class >> loadDefault [
-	(self project version: 'default') load
+	| previousDeprecationWarning |
+	previousDeprecationWarning := Deprecation raiseWarning.
+	Deprecation raiseWarning: false.
+	(self project version: 'default') load.
+	Deprecation raiseWarning: previousDeprecationWarning
 ]
 
 { #category : #accessing }
