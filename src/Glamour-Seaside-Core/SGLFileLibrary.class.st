@@ -656,6 +656,7 @@ div.finder-pane > * {
 	overflow: auto;
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 	background: none repeat scroll 0 0 #FFFFFF;
+	min-height: 100px;
 }
 
 .glm-mondrian-presentation > img{

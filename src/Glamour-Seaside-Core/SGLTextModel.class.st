@@ -1,6 +1,6 @@
 Class {
 	#name : #SGLTextModel,
-	#superclass : #SGLModel,
+	#superclass : #SGLWidgetModel,
 	#instVars : [
 		'text',
 		'selectionInterval',

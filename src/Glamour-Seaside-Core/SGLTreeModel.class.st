@@ -1,6 +1,6 @@
 Class {
 	#name : #SGLTreeModel,
-	#superclass : #SGLModel,
+	#superclass : #SGLWidgetModel,
 	#instVars : [
 		'roots',
 		'filteredRoots',
