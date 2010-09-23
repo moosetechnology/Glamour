@@ -6,13 +6,14 @@ Class {
 
 { #category : #building }
 GLMSystemWindow >> buildWindowMenu [
-	^ self model actions isEmpty
+	| actions aMenu |
+	actions := self model allActions select: [:each | each hasTitle and: [each hasIcon not]].
+	^ actions isEmpty
 		ifTrue: [ super buildWindowMenu ]
 		ifFalse: [
-			self model actions
-				inject: (super buildWindowMenu
-					addLine;
-					yourself)
+			aMenu := self theme newMenuIn: self for: self.
+			actions
+				inject: aMenu
 				into: [ :menu :action |
 					menu
 						add: action title target: action selector: #actOn: argument: self model;

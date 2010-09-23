@@ -122,17 +122,19 @@ GLMMorphicWidgetRenderer >> renderToolbarForBrowser: aBrowser inWindow: aWin [
 			valueOfProperty: #noBorder ifAbsentPut: [true];
 			valueOfProperty: #noFill ifAbsentPut: [true];
 			yourself ].
-	noIconActions := aBrowser allActions select: [:each | each hasTitle and: [each hasIcon not]].
+"	noIconActions := aBrowser allActions select: [:each | each hasTitle and: [each hasIcon not]].
 	tools := aWin newToolbar: buttons.
-	noIconActions isEmpty ifFalse: [ 
-		dock 
-			add: '...' translated
-			font: aWin theme menuBarFont
-			icon: nil
-			help: 'Browser actions' translated
-			subMenu: (self menuIn: MenuMorph new for: aBrowser).
-		buttons isEmpty ifFalse: [dock addMorphBack: tools] ]
-		ifTrue: [ dock addAllMorphs: buttons ].
+	noIconActions isEmpty 
+		ifFalse: [ 
+			dock 
+				add: '...' translated
+				font: aWin theme menuBarFont
+				icon: nil
+				help: 'Browser actions' translated
+				subMenu: (self menuIn: MenuMorph new for: aBrowser).
+			buttons isEmpty ifFalse: [dock addMorphBack: tools] ]
+		ifTrue: [ "
+			dock addAllMorphs: buttons "]".
 	^ dock
 ]
 
