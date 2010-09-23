@@ -39,16 +39,18 @@ GLMMorphic class >> grayRoundedButtonStyle: button morph: aMorph pressed: aBoole
 	(self isAlignmentMorph: aMorph)
 		ifTrue: [
 			aBoolean 
-				ifTrue: [	aMorph lastSubmorph color: Color darkGray.
-						button fillStyle: (button theme buttonNormalFillStyleFor: button) ]
+				ifTrue: [	aMorph lastSubmorph color: Color gray.
+						button fillStyle: (button theme buttonSelectedFillStyleFor: button).
+						button borderStyle: (button theme buttonSelectedBorderStyleFor: button) ]
 				ifFalse:[	aMorph lastSubmorph color: Color white.
-						button fillStyle: (button theme buttonSelectedFillStyleFor: button) ] ]
+						button fillStyle: (button theme buttonNormalFillStyleFor: button).
+						button borderStyle: (button theme buttonNormalBorderStyleFor: button) ] ]
 		ifFalse: [			
 			aBoolean 
-				ifTrue: [	aMorph color: Color darkGray.
+				ifTrue: [	aMorph color: Color gray.
 						button color: Color veryLightGray ]
 				ifFalse:[	aMorph color: Color white.
-						button color: Color gray ] ]
+						button color: Color lightGray ] ]
 
 ]
 
@@ -100,12 +102,11 @@ GLMMorphic class >> morphElement: anObject [
 
 { #category : #'as yet unclassified' }
 GLMMorphic class >> styleButton: button morph: m pressed: aBoolean style: aSymbol [
-
 	(self isGrayRoundedButton: aSymbol)
-	ifTrue:[ self grayRoundedButtonStyle: button morph: m pressed: aBoolean ].
+		ifTrue:[ self grayRoundedButtonStyle: button morph: m pressed: aBoolean ].
 	
 	(self isWhiteRectangledButton: aSymbol)
-	ifTrue:[ self whiteRectangledButtonStyle: button morph: m pressed: aBoolean ]
+		ifTrue:[ self whiteRectangledButtonStyle: button morph: m pressed: aBoolean ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -114,26 +115,20 @@ GLMMorphic class >> togglingButtonLabelled: anObject pressed: aBoolean style: aS
 	button := SimpleButtonMorph new.
 	(oldLabel := button findA: StringMorph) ifNotNil: [ oldLabel delete ].
 	m := self morphElement: anObject.
-	
 	button
 		addMorph: m;
-		borderStyle: (BorderStyle inset width: 1);
-		borderColor: Color gray.
-
+		borderColor: Color transparent.
 	(self isAlignmentMorph: m)
-	ifTrue:[ 
-		button extent: m width @ (m height - 2).
-		m position: 0 @ -2 ]
-	ifFalse:[ 
-		(self isImageMorph: m)
-		ifTrue: [ button borderColor: Color transparent.
-					button extent: (m width + 6) @ m height ]
-		ifFalse:[ button extent: (m width + 6) @ (m height + 2) ].
-		m position: 3 @ 0.	"button center - (m extent // 2)" ].
-		
+		ifTrue:[ 
+			button extent: (m width + 6 ) @ (m height + 6 ).
+			m position: 3 @ 3 ]
+		ifFalse:[ 
+			(self isImageMorph: m)
+				ifTrue: [ button extent: (m width + 6) @ (m height + 6) ]
+				ifFalse:[ button extent: (m width + 6) @ (m height + 6) ].
+			m position: 3 @ 3.	"button center - (m extent // 2)" ].
 	self styleButton: button morph: m pressed: aBoolean style: aSymbol.
 	m lock.
-	
 	^ button
 ]
 

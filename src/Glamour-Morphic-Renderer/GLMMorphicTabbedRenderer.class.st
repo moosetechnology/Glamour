@@ -17,7 +17,7 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
 		cornerStyle: (self theme tabGroupCornerStyleIn: nil);
-		font: self theme labelFont;
+		font: self theme buttonFont;
 		onPageIndexChange: [ :i | 
 			aPresentation pane lastActivePresentation: (aPresentation matchingPresentations at: i) ].
 	presentations do: [ :each | 
