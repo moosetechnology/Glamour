@@ -146,35 +146,6 @@ GLMPresentation >> send: aBlock [
 ]
 
 { #category : #'*Glamour-Scripting' }
-GLMPresentation >> update: aPortSymbol on: aCharacter entitled: aString categorized: anotherString with: aBlock [ 
-	 
-	self 
-		addAction: 
-			((GLMAction new) 
-				action: 
-						((GLMPortUpdater new) 
-								portSymbol: aPortSymbol; 
-								valueBlock: aBlock; 
-								yourself); 
-				shortcut: aCharacter; 
-				title: aString;
-				category: anotherString;
-				yourself)
-]
-
-{ #category : #'*Glamour-Scripting' }
-GLMPresentation >> update: aPortSymbol on: aCharacter entitled: aString with: aBlock [
-	self deprecated: 'Please use populate: aPortSymbol on: aCharacter entitled: aString with: aBlock	'.
-	^ self populate: aPortSymbol on: aCharacter entitled: aString with: aBlock	
-]
-
-{ #category : #'*Glamour-Scripting' }
-GLMPresentation >> update: aPortSymbol on: aCharacter with: aBlock [
-	self deprecated: 'please use populate: aPortSymbol on: aCharacter with: aBlock'.
-	^ self populate: aPortSymbol on: aCharacter with: aBlock
-]
-
-{ #category : #'*Glamour-Scripting' }
 GLMPresentation >> when: aBlock [ 
 	 
 	self condition: aBlock
