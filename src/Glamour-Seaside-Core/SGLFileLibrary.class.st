@@ -697,7 +697,12 @@ div.finder-pane > * {
 
 .glm-ac-container-menu {
 	float: right;
-	margin-top: 3px;
+	//margin-top: 3px;
+}
+
+.glm-mbMenu-header-icon {
+	width: 15px;
+	height: 15px;
 }
 
 .ui-state-default > .glm-ac-container {

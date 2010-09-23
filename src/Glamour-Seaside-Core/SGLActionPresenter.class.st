@@ -103,7 +103,9 @@ SGLActionPresenter >> renderMbMenuHeaderContentForMenu: aMenuId on: html [
 			menu: aMenuId;
 			with: [ 
 				html image
-					url: (SGLFileLibrary urlOf: #arrowDownPng) ] ]
+					form: MenuIcons glamorousMenu;
+					class: 'glm-mbMenu-header-icon'
+					"url: (SGLFileLibrary urlOf: #arrowDownPng)" ] ]
 ]
 
 { #category : #mbmenu }
