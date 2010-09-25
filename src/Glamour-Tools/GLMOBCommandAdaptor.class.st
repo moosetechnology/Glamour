@@ -9,7 +9,7 @@ GLMOBCommandAdaptor >> actionsFrom: aCollectionOfOBCommandClasses on: aTarget fo
 	^ (aCollectionOfOBCommandClasses "select: [ :each | each isActive ]") collect: [ :each |
 		| command |
 		command := each on: aTarget for: aRequestor.
-		GLMAction new
+		GLMGenericAction new
 			icon: command icon;
 			title: command label;
 			action: [:presentation | command execute ];
