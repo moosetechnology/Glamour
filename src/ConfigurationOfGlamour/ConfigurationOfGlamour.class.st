@@ -253,7 +253,7 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Core' with: [spec requires: #('Glamour-Helpers' 'Glamour-Announcements')];
 			package: 'Glamour-Presentations'  with: [spec requires: #('Glamour-Core')];
 			package: 'Glamour-Browsers'  with: [spec requires: #('Glamour-Core')];
-			package: 'Glamour-Scripting' with: [spec requires: #('Glamour-Presentations' 'Glamour-Browsers' 'Glamour-Core')];
+			package: 'Glamour-Scripting' with: [spec requires: #('Glamour-Presentations' 'Glamour-Browsers' 'Glamour-Core' 'Mondrian for Glamour')];
 			package: 'Glamour-Tests-Core' ;
 			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Magritte-Morph' 'Mondrian for Glamour')];
 			package: 'Glamour-Morphic-Theme';
