@@ -146,3 +146,13 @@ GLMAction >> title: anObject [
 	 
 	title := anObject
 ]
+
+{ #category : #testing }
+GLMAction >> worksWithMorphic [
+	^ false
+]
+
+{ #category : #testing }
+GLMAction >> worksWithSeaside [
+	^ false
+]
