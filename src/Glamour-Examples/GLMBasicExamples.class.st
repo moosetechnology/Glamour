@@ -44,7 +44,7 @@ GLMBasicExamples >> actionsFor: aPresentation [
 							ifTrue: [actions := (aPresentation selection) ifNil: [OrderedCollection new]]
 							ifFalse: [actions := OrderedCollection with: aPresentation selection ].
 	^ actions collect: [:i |
-					(GLMAction new) 
+					(GLMGenericAction new) 
 						action: [:each | Transcript show: 'Menu - Item', i printString; cr]; 
 						title: 'Menu - Item', i printString; 
 						yourself ]
@@ -524,7 +524,7 @@ GLMBasicExamples >> staticAndDynamicMenu [
 	finder text
 			title: 'Text';
 			display: [:each | 'Character ', each asString];
-			actions: [:text | OrderedCollection with: (GLMAction new title: 'Print selection'; action: [Transcript show: text selection]; yourself) ];
+			actions: [:text | OrderedCollection with: (GLMGenericAction new title: 'Print selection'; action: [Transcript show: text selection]; yourself) ];
 			act: [Transcript show: 'Text static action'] entitled: 'Static action'.
 	^ finder
 ]
