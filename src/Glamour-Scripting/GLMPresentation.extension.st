@@ -5,7 +5,7 @@ GLMPresentation >> act: aBlock entitled: aString [
 	 
 	self 
 		addAction: 
-			((GLMAction new) 
+			((GLMGenericAction new) 
 				action: aBlock; 
 				title: aString; 
 				yourself)
@@ -16,7 +16,7 @@ GLMPresentation >> act: aBlock entitled: aString categorized: anotherString [
 	 
 	self 
 		addAction: 
-			((GLMAction new) 
+			((GLMGenericAction new) 
 				action: aBlock; 
 				title: aString; 
 				category: anotherString;
@@ -27,7 +27,7 @@ GLMPresentation >> act: aBlock entitled: aString categorized: anotherString [
 GLMPresentation >> act: aBlock icon: anIcon entitled: aString [
 	self 
 		addAction: 
-			((GLMAction new) 
+			((GLMGenericAction new) 
 				action: aBlock; 
 				icon: anIcon;
 				title: aString;
@@ -39,7 +39,7 @@ GLMPresentation >> act: aBlock on: aCharacter [
 	 
 	self 
 		addAction: 
-			((GLMAction new) 
+			((GLMGenericAction new) 
 				action: aBlock; 
 				shortcut: aCharacter; 
 				yourself)
@@ -50,7 +50,7 @@ GLMPresentation >> act: aBlock on: aCharacter entitled: aString [
 	 
 	self 
 		addAction: 
-			((GLMAction new) 
+			((GLMGenericAction new) 
 				action: aBlock; 
 				shortcut: aCharacter; 
 				title: aString; 
@@ -62,7 +62,7 @@ GLMPresentation >> act: aBlock on: aCharacter entitled: aString categorized: ano
 	 
 	self 
 		addAction: 
-			((GLMAction new) 
+			((GLMGenericAction new) 
 				action: aBlock; 
 				shortcut: aCharacter; 
 				title: aString; 
@@ -87,6 +87,18 @@ GLMPresentation >> display: aBlock [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMPresentation >> morphicAct: aBlock on: aCharacter entitled: aString [ 
+	 
+	self 
+		addAction: 
+			((GLMMorphicAction new) 
+				action: aBlock; 
+				shortcut: aCharacter; 
+				title: aString; 
+				yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMPresentation >> noSelection [
 	self acceptsSelection: false
 ]
@@ -97,11 +109,23 @@ GLMPresentation >> noTitle [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMPresentation >> open: aBlock on: aCharacter entitled: aString [ 
+	 
+	self 
+		addAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				shortcut: aCharacter; 
+				title: aString; 
+				yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMPresentation >> populate: aPortSymbol icon: anIcon entitled: aString with: aBlock [ 
 	 
 	self 
 		addAction: 
-			((GLMAction new) 
+			((GLMGenericAction new) 
 				action: 
 						((GLMPortUpdater new) 
 								portSymbol: aPortSymbol; 
@@ -117,7 +141,7 @@ GLMPresentation >> populate: aPortSymbol on: aCharacter entitled: aString with: 
 	 
 	self 
 		addAction: 
-			((GLMAction new) 
+			((GLMGenericAction new) 
 				action: 
 						((GLMPortUpdater new) 
 								portSymbol: aPortSymbol; 
@@ -131,7 +155,7 @@ GLMPresentation >> populate: aPortSymbol on: aCharacter entitled: aString with: 
 { #category : #'*Glamour-Scripting' }
 GLMPresentation >> populate: aPortSymbol on: aCharacter with: aBlock [
 	self addAction: 
-			((GLMAction new) 
+			((GLMGenericAction new) 
 				action: ((GLMPortUpdater new) 
 								portSymbol: aPortSymbol; 
 								valueBlock: aBlock; 
