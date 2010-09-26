@@ -149,6 +149,20 @@ GLMScriptingTest >> testFinderWithPreviousPort [
 ]
 
 { #category : #tests }
+GLMScriptingTest >> testMorphicActionDefinition [ 
+	| browser | 
+	browser := GLMTabulator new. 
+	browser column: #one. 
+	browser showOn: #one; using: [
+		browser text morphicAct: [] entitled: ''.
+		browser list morphicAct: [] entitled: ''.
+		browser tree morphicAct: [] entitled: '']. 
+	browser startOn: #(42).
+	browser panes first presentations do: [:each | 
+		self assert: each actions size = 1]
+]
+
+{ #category : #tests }
 GLMScriptingTest >> testNestedBrowserEntity [
 	 
 	| browser innerBrowser realInnerBrowser | 
