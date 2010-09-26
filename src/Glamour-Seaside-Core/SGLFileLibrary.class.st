@@ -647,7 +647,7 @@ div.finder-pane > * {
 }
 
 .glm-tree-open > .glm-tree-node-el > .glm-tree-icon {
-	background-position: -18px 0;
+	background-position: -22px 0;
 }
 
 /* Mondrian presentation */
