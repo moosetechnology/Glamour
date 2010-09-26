@@ -93,7 +93,7 @@ ConfigurationOfGlamourSeaside >> default: spec [
 				spec
 					className: 'ConfigurationOfSeasideTesting';
 					file: 'ConfigurationOfSeasideTesting';
-					version: '0.1';
+					version: '0.4';
 					repository: 'http://www.squeaksource.com/SeasideTesting' ].
 		spec ]
 ]
