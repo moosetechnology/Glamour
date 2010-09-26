@@ -12,11 +12,10 @@ GLMMorphicWindowRenderer >> render: aRenderable [
 	self setLabelOf: window for: aRenderable.
 	offset := 0.
 	bottomOffset := 0.
-	aRenderable allActions notEmpty
-		ifTrue: [ 
-			dock := self renderToolbarForBrowser: aRenderable inWindow: window.
-			offset := dock minExtent y.
-			window addMorph: dock fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 0) offsets: (0 @ 0 corner: 0 @ offset)) ].
+	(aRenderable allActions select: [:each | each hasIcon]) notEmpty ifTrue: [ 
+		dock := self renderToolbarForBrowser: aRenderable inWindow: window.
+		offset := dock minExtent y.
+		window addMorph: dock fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 0) offsets: (0 @ 0 corner: 0 @ offset)) ].
 	aRenderable hasStatusbar
 		ifTrue: [ 
 			statusbarMorph := self renderPaneWithoutTitle: aRenderable statusbarPane.
