@@ -60,7 +60,9 @@ SGLActionPresenter >> renderActions: actions on: html [
 { #category : #rendering }
 SGLActionPresenter >> renderContentOn: html [
 	|actions|
-	actions := (presentation actions select: [:action | action hasIcon or: [action hasTitle] ]) asOrderedCollection.
+	actions := (presentation actions select: [:action | 
+		action worksWithSeaside and: [
+			action hasIcon or: [action hasTitle] ] ]) asOrderedCollection.
 	html div
 		class: 'glm-ac-container';
 		with: [ self renderActions: actions on: html ]
