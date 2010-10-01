@@ -140,13 +140,19 @@ GLMMorphic class >> whiteRectangledButtonStyle: button morph: aMorph pressed: aB
 	ifTrue:[ 
 		aBoolean 
 		ifTrue: [ aMorph lastSubmorph color: Color white.
+				      button borderColor: Color gray.
 					button color: Color gray ]
 		ifFalse:[ aMorph lastSubmorph color: Color black.
-					button color: Color white ] ]
+			            button borderColor: Color gray.
+					button color: Color white ].
+		button extent: aMorph width @ (aMorph height - 2) ]
 	ifFalse:[			
 		aBoolean 
 		ifTrue: [ aMorph color: Color white.
+			         button borderColor: Color gray.
 				   button color: Color gray ]
 		ifFalse:[ aMorph color: Color black.
-					button color: Color white ] ]
+			            button borderColor: Color gray.
+					button color: Color white ].
+		button extent: (aMorph width + 6) @ (aMorph height + 2) ]
 ]
