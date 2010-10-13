@@ -40,8 +40,8 @@ ConfigurationOfGlamourSeaside class >> project [
 ]
 
 { #category : #baselines }
-ConfigurationOfGlamourSeaside >> baseline10: spec [ 
-	<version: '1.0-baseline'>
+ConfigurationOfGlamourSeaside >> baseline01: spec [ 
+	<version: '0.1-baseline'>
 
 	spec for: #common do: [
 		spec blessing: #baseline.
@@ -171,7 +171,7 @@ ConfigurationOfGlamourSeaside >> project [
 
 { #category : #versions }
 ConfigurationOfGlamourSeaside >> version01: spec [ 
-	<version: '0.1' imports: #('1.0-baseline') >
+	<version: '0.1' imports: #('0.1-baseline') >
 	
 	spec for: #common do: [
 		spec blessing: #release.
