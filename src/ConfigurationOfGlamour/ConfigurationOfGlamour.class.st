@@ -255,7 +255,7 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Browsers'  with: [spec requires: #('Glamour-Core')];
 			package: 'Glamour-Scripting' with: [spec requires: #('Glamour-Presentations' 'Glamour-Browsers' 'Glamour-Core' 'Mondrian for Glamour')];
 			package: 'Glamour-Tests-Core' ;
-			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Magritte-Morph' 'Mondrian for Glamour')];
+			package: 'Glamour-Morphic-Renderer';
 			package: 'Glamour-Morphic-Theme';
 			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
 			package: 'Glamour-Examples' ;
@@ -271,7 +271,11 @@ ConfigurationOfGlamour >> default: spec [
 				spec requires: #('Magritte-Model')];
 			package: 'Magritte-Pharo-Model' with: [
 				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
-				spec requires: 'Magritte-Model' ].
+				spec requires: 'Magritte-Model' ];
+			package: 'Glamour-Mondrian-Presentations' with: [spec requires: 'Mondrian for Glamour'];
+			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte-Morph' 'Magritte-Pharo-Model')];
+			package: 'Glamour-Tests-Mondrian' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Mondrian-Presentations')].
+
 		spec group: 'Core' with: #(
 						'Glamour-Announcements'
 						'Glamour-Helpers'
@@ -281,14 +285,18 @@ ConfigurationOfGlamour >> default: spec [
 						'Glamour-Scripting'
 						'Glamour-Examples'
 						'Glamour-Tools').
-		spec group: 'Extras' with: #(
+		spec group: 'Morphic' with: #(
 						'Glamour-Morphic-Renderer'
-						'Glamour-Morphic-Theme'
-						'Mondrian for Glamour').
+						'Glamour-Morphic-Theme').
+		spec group: 'Extras' with: #(
+						'Glamour-Mondrian-Presentations'
+						'Glamour-Magritte-Presentations').
 		spec group: 'Tests' with: #(
 						'Glamour-Tests-Core'
 						'Glamour-Examples'
 						'Glamour-Tests-Morphic'). 
+		spec group: 'ExtrasTests' with: #(
+						'Glamour-Tests-Mondrian').						
 		spec
 			project: 'Mondrian for Glamour' with: [
 				spec
