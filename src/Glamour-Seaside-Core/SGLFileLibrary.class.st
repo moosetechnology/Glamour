@@ -596,20 +596,20 @@ div.finder-pane > * {
 
 /* List/tree presentation */
 
-.glm-tree-root-ct > .glm-tree-node {
+.sgl-tree-root > .sgl-tree-node {
 	margin-top: 1px;
 }
 
-.glm-tree-node > .glm-tree-node-el  {
+.sgl-tree-node > .sgl-tree-node-el  {
 	padding-left: 5px;
 }
 
-.glm-tree-node-selected > .glm-tree-node-el{
+.sgl-tree-node-selected > .sgl-tree-node-el{
 	background: none repeat scroll 0 0 #DFDFDF;
 }
 
-.glm-tree-icon-padding {
-	background-repeat:no-repeat;
+.sgl-tree-node-icon-padding {
+	background-repeat: no-repeat;
 	border:0 none;
 	height:18px;
 	margin:0;
@@ -620,7 +620,7 @@ div.finder-pane > * {
 	text-decoration:none;
 }
 
-.glm-tree-root-ct .glm-tree-icon {
+.sgl-tree-root .sgl-tree-node-icon {
 	display:inline-block;
 	height:18px;
 	margin:0;
@@ -629,24 +629,24 @@ div.finder-pane > * {
 	width:16px;
 }
 
-.glm-tree-node-el {
+.sgl-tree-node-el {
 	cursor: pointer;
 }
 
-.glm-tree-node-title {
+.sgl-tree-node-title {
 	white-space: nowrap;
 }
 
-.glm-tree-node-el > .glm-tree-icon  {
+.sgl-tree-node-el > .sgl-tree-node-icon  {
 	background-image:url("arrows.png");
 	background-repeat:no-repeat;
 }
 
-.glm-tree-closed > .glm-tree-node-el > .glm-tree-icon {
+.sgl-tree-node-closed > .sgl-tree-node-el > .sgl-tree-node-icon {
 	background-position: -4px 0;
 }
 
-.glm-tree-open > .glm-tree-node-el > .glm-tree-icon {
+.sgl-tree-node-opened > .sgl-tree-node-el > .sgl-tree-node-icon {
 	background-position: -22px 0;
 }
 

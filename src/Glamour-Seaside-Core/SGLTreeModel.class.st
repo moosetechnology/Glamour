@@ -4,9 +4,8 @@ Class {
 	#instVars : [
 		'roots',
 		'filteredRoots',
-		'amountToShow',
-		'amountShown',
 		'tagsToFilterBy',
+		'amountToFilterBy',
 		'shouldRootsExpand',
 		'shouldAllExpand',
 		'selection',
@@ -15,33 +14,19 @@ Class {
 	#category : #'Glamour-Seaside-Rendering'
 }
 
-{ #category : #selection }
-SGLTreeModel >> addInitialSelection [
-	|aSelection|
-	self announcer suspendAllWhile: [
-		"selection := nil."
-		aSelection := self glamourPresentation selection.
-		self explicitSelection: aSelection ]
+{ #category : #accessing }
+SGLTreeModel >> allRoots [
+	^ filteredRoots ifNil: [ self roots. filteredRoots ] 
 ]
 
-{ #category : #accessing }
-SGLTreeModel >> amountShown [
-	^ amountShown ifNil: [amountShown := 0]
+{ #category : #'search and filtering' }
+SGLTreeModel >> amountToFilterBy [
+	^ amountToFilterBy ifNil: [ amountToFilterBy := self glamourPresentation amountToShow ifNil: [0]]
 ]
 
-{ #category : #accessing }
-SGLTreeModel >> amountShown: anInteger [
-	amountShown := anInteger 
-]
-
-{ #category : #accessing }
-SGLTreeModel >> amountToShow [ 
-	amountToShow ifNil: [
-		amountToShow := self glamourPresentation  amountToShow ifNil: [self roots size] ].
-	(amountToShow + self amountShown ) > self roots size
-		ifTrue: [amountToShow := self roots size - self amountShown ].
-	^ amountToShow 
-	
+{ #category : #'search and filtering' }
+SGLTreeModel >> amountToFilterBy: anInteger [
+	amountToFilterBy := anInteger 
 ]
 
 { #category : #callbacks }
@@ -108,7 +93,11 @@ SGLTreeModel >> nodeModelFor: anObject [
 SGLTreeModel >> roots [
 	roots ifNil: [ self roots: self glamourPresentation displayValue ].
 	filteredRoots ifNil: [filteredRoots := roots select: [ :each | each shouldBeDisplayed ] ].
-	^ filteredRoots.
+	((self shouldFilterByAmount and: [
+		self amountToFilterBy < filteredRoots size]) and: [
+			filteredRoots notEmpty]) ifTrue: [
+		^ filteredRoots first: self amountToFilterBy ].
+	^ filteredRoots
 ]
 
 { #category : #accessing }
@@ -201,7 +190,12 @@ SGLTreeModel >> shouldDeselect: aNodeOrACollectionOfPaths [
 			^ self selection lastSelectedNode = aNodeOrACollectionOfPaths ]
 ]
 
-{ #category : #callbacks }
+{ #category : #'search and filtering' }
+SGLTreeModel >> shouldFilterByAmount [
+	^ self amountToFilterBy notNil and: [self amountToFilterBy isZero not]
+]
+
+{ #category : #'search and filtering' }
 SGLTreeModel >> shouldFilterByTag: aTag [
 	^ self tagsToFilterBy includes: aTag 
 ]
@@ -216,12 +210,12 @@ SGLTreeModel >> shouldRootsExpand: anObject [
 	shouldRootsExpand := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #'search and filtering' }
 SGLTreeModel >> tagsToFilterBy [
 	^ tagsToFilterBy ifNil: [ tagsToFilterBy := OrderedCollection new ]
 ]
 
-{ #category : #callbacks }
+{ #category : #'search and filtering' }
 SGLTreeModel >> toggleFilteringByTag: aTag [ 
 	(self shouldFilterByTag: aTag) 
 		ifTrue: [self tagsToFilterBy remove: aTag ]
@@ -229,9 +223,18 @@ SGLTreeModel >> toggleFilteringByTag: aTag [
 	self updateRoots 
 ]
 
+{ #category : #selection }
+SGLTreeModel >> updateModelSelection [
+	|aSelection|
+	self announcer suspendAllWhile: [
+		selection := nil.
+		aSelection := self glamourPresentation selection.
+		self explicitSelection: aSelection ]
+]
+
 { #category : #accessing }
 SGLTreeModel >> updateRoots [
-	amountToShow := nil.
+	"amountToShow := nil."
 	filteredRoots := nil.
 	self roots
 ]

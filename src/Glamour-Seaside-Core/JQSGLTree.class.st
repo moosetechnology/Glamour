@@ -5,28 +5,38 @@ Class {
 }
 
 { #category : #actions }
-JQSGLTree >> init [
-	self action: 'initialize'
+JQSGLTree >> appendRoots: aRenderable [
+	self action: 'appendRoots' arguments: (Array with: (self render: aRenderable) )
+]
+
+{ #category : #'options-generated' }
+JQSGLTree >> appendRootsURL: aString [
+	self optionAt: 'appendRootsURL' put: aString
+]
+
+{ #category : #actions }
+JQSGLTree >> appendSubtree: aRenderable to: node [
+	self action: 'appendSubtree' arguments: (Array with: node with: (self render: aRenderable) )
+]
+
+{ #category : #'options-generated' }
+JQSGLTree >> appendURL: aString [
+	self optionAt: 'appendURL' put: aString
 ]
 
 { #category : #'options-generated' }
 JQSGLTree >> isMultiple: aBoolean [
-	self optionAt: 'isMultiple' put: aBoolean
+	self optionAt: 'allowMultipleSelection' put: aBoolean
 ]
 
 { #category : #'options-generated' }
-JQSGLTree >> level: anInteger [
-	self optionAt: 'level' put: anInteger
+JQSGLTree >> maximumSize: anInteger [
+	self optionAt: 'maximumSize' put: anInteger
 ]
 
 { #category : #accessing }
 JQSGLTree >> method [
-	^ 'glamourTree'
-]
-
-{ #category : #'events-generated' }
-JQSGLTree >> onExpandToggled: anObject [
-	self optionAt: 'onExpandToggled' put: (anObject asFunction: #('$node'))
+	^ 'sglTree'
 ]
 
 { #category : #'events-generated' }
@@ -34,12 +44,27 @@ JQSGLTree >> onSelect: anObject [
 	self optionAt: 'onSelect' put:  (anObject asFunction: #('$anIdOrAList'))
 ]
 
+{ #category : #'events-generated' }
+JQSGLTree >> onToggleExpand: anObject [
+	self optionAt: 'toggleExpand' put: (anObject asFunction)
+]
+
+{ #category : #'options-generated' }
+JQSGLTree >> selectURL: aString [
+	self optionAt: 'selectURL' put: aString
+]
+
 { #category : #'options-generated' }
 JQSGLTree >> selectedNodes: anArray [
 	self optionAt: 'selectedNodes' put: anArray
 ]
 
+{ #category : #'options-generated' }
+JQSGLTree >> stepSize: anInteger [
+	self optionAt: 'stepSize' put: anInteger
+]
+
 { #category : #actions }
-JQSGLTree >> update [
-	self action: 'update'
+JQSGLTree >> toggleExpand: node andTriggerEventIf: shouldTriggerEvent [
+	self action: 'toggleExpand' arguments: (Array with: node with: shouldTriggerEvent)
 ]

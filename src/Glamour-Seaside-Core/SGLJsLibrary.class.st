@@ -83,270 +83,9 @@ SGLJsLibrary >> caretJs [
 SGLJsLibrary >> glamourSeasideJs [
 	^ '	
 	jQuery.glamour = {};	
-	
-	; ( function($) {
-		
-		$.glamourTree = {
-		
-			compare : function(array1, array2) {
- 	 			if(!array1 && !array2) return true;
-				if(!array1 || !array2) return false;
-				
-				if (array1.length == array2.length) {
-					for(var i = 0; i < array1.length;i++) {
-						if(array1[i] != array2[i]) return false;
-  					}
-					return true;
-				} else 
-					return false
-			} ,
-			
-			toggleClass : function(nodeOrId) {
-				var $node;
-				
-				if ( typeof nodeOrId === "string" ) {
-					$node= $("#"+nodeOrId);
-				} else {
-					$node = nodeOrId;
-				}
-				
-				if ( $node.hasClass("glm-tree-open") ) {
-					$node.removeClass("glm-tree-open");
-					$node.addClass("glm-tree-closed");
-					$node.children(".glm-tree-node-ct").hide();
-				} else if ( $node.hasClass("glm-tree-closed")  ) {
-					$node.removeClass("glm-tree-closed");
-					$node.addClass("glm-tree-open");
-					$node.children(".glm-tree-node-ct").show();
-				}
-			},
-			
-			selectNodes: function(presentationId, nodesIds, resetReferenceNode) {
-				var rootList = $("#"+presentationId+" > .glm-tree-root-ct")[0];
-				var selectedNodes = [];
-				var referenceNode;
-				
-				$.each(nodesIds, function(index, nodeId) {
-					var $node = $("#"+nodeId);
-				
-					if ( $node.size() != 0 ) {
-						selectedNodes.push($node);
-					}
-				});
-				
-				if ( resetReferenceNode ) {
-					referenceNode = $.data(rootList, "referenceNode");
-					if ( !referenceNode ) {
-						if (selectedNodes.length != 0)  $.data(rootList, "referenceNode", selectedNodes[0]);
-					}
-				}
-				
-				performeSelection(rootList, selectedNodes);
-			}
-		};
-	
-		$.fn.glamourTree = function(action, options) {
-			var opts;
-			
-			return this.each( function() {
-				var childrenCount = 0;
-				var rootList = $(this).closest(".glm-tree-root-ct")[0];
-
-				switch (action) {
-					case "initialize": {
-						opts = initializeOperation(this, rootList, options);
-						break;
-					}
-					
-					case "update": {
-						opts = updateOperation(this, rootList, options);
-						break;
-					}
-					
-					default: {
-						return ;
-					}
-				}
-				
-				$(this).children(opts.childrenSelector).each( function() {
-					var $node = $(this);
-					var $content = $node.find(":first");
-					
-					childrenCount++;
-					addPadding($content, opts.level);
-					addIcon($content, $node);
-					
-					// Submit a request when the user selects a node.
-					$content.bind("click", function(e) {
-						var $referenceNode = $.data(rootList, "referenceNode");
-					
-						if ( e.shiftKey && opts.isMultiple ) {
-							if ($referenceNode) {
-								selectNodes(rootList, $referenceNode, $node, opts);
-							} else {
-								selectNode($node, rootList, opts);
-							}
-						} else {
-							selectNode($node, rootList, opts);
-						}
-						
-						return false;
-					});
-					
-					// Submit a request when the uses expands/collapses a node.
-					$content.children(".glm-tree-icon").bind("click", function() {						
-						opts.onExpandToggled($node);
-						$.glamourTree.toggleClass($node);
-						return false;
-					});
-				});
-				
-				$.data(this, "childrenCount",  $.data(this, "childrenCount") + childrenCount );
-			});
-		};
-		
-		$.fn.glamourTree.defaults = {
-			"level" :0 ,
-			"childrenSelector" : ".glm-tree-node",
-			"isMultiple" : false,
-			"selectedNodes:" : [] 
-		};
-		
-		function selectNodes(rootList, $referenceNode, $node, opts) {
-			var $allNodeChildren = $("#"+$(rootList).attr("id")+" .glm-tree-node");
-			var selectedNodes;
-			var index, ids = "";
-								
-			"Obtain a list with all the selected nodes and send it to the server"
-			if ( $allNodeChildren.index($referenceNode) < $allNodeChildren.index($node) ) {
-				selectedNodes = obtainNodes($referenceNode, $node);
-			} else {
-				selectedNodes = obtainNodes($node, $referenceNode);									
-			}
-			
-			for (index = 0; index < selectedNodes.length - 1; index++) {
-				ids += selectedNodes[index].attr("id") + ",";
-			}
-			ids += selectedNodes[index].attr("id");
-			
-			opts.onSelect(ids);
-		}
-		
-		function obtainNodes($fromNode, $toNode) {
-			var selectedNodes = [$fromNode];
-			var $childrenList, $nextSibling, $parent;
-			
-			while ($fromNode.attr("id") != $toNode.attr("id")) {
-				
-				$childrenList = $fromNode.children(".glm-tree-node-ct:visible");
-				if ( $childrenList.size() > 0 ) {
-					$fromNode = $childrenList.children(":eq(0)");
-					selectedNodes.push($fromNode);
-					continue;
-				}
-				
-				$nextSibling = $fromNode.next();
-				if ( $nextSibling.size() > 0 ) {
-					$fromNode = $nextSibling;
-					selectedNodes.push($fromNode);
-					continue;
-				} else {
-					$parent = $fromNode.parent().parent();
-					while ( $parent.next().size() == 0 ) {
-						$parent = $parent.parent().parent();
-					}
-					$fromNode = $parent.next();
-					selectedNodes.push($fromNode);
-				}
-			}
-			
-			return selectedNodes;
-		};
-		
-		function selectNode($node, rootList, opts) {
-			$.data(rootList, "referenceNode", $node);
-			opts.onSelect($node.attr("id"));	
-		};
-		
-		function performeSelection(rootList, nodes) {
-			var savedSelectedNodes = $.data(rootList, "selectedNodes");
-			var $parents;
-			
-			$.each(savedSelectedNodes, function(index, $node) {
-				$node.removeClass("glm-tree-node-selected");
-			});
-			$.each(nodes, function(index, $node) {
-				$node.addClass("glm-tree-node-selected");
-				// Expand the parents
-				$node.parentsUntil(".glm-tree-root-ct").filter(".glm-tree-closed").each(function(index, node){
-					$(node).children(".glm-tree-node-el").children(".glm-tree-icon").trigger("click");
-				});
-		
-			});
-			$.data(rootList, "selectedNodes", nodes);
-			
-			if ( nodes.length == 0 ) {
-				$.data(rootList, "referenceNode", null);
-			} else {
-				// Scroll to the last added element if it is not visible
-				scrollToElement(nodes[nodes.length-1], rootList);
-			}
-			
-		};
-		
-		function scrollToElement($node, rootList) {
-			var nodeTopOffset = $node.offset().top;
-			var listTopOffset = $(rootList).offset().top;
-			
-			//alert(nodeTopOffset+"  "+listTopOffset);
-			//alert((listTopOffset + $(rootList).height())+"  "+(nodeTopOffset + $node.height()));
-			if (  (nodeTopOffset < listTopOffset) || ( listTopOffset + $(rootList).height() < nodeTopOffset + $node.height() ) ) {
-				//alert("scroll");
-				$(rootList).scrollTo($node); 
-			}
-		}
-		
-		function initializeOperation(list, rootList, options) {
-			var savedOpts = $.data(rootList, "options");
-			var opts =  $.extend({}, $.fn.glamourTree.defaults, savedOpts, options);
-				
-			if ( savedOpts == null ) {
-				$.data(rootList, "selectedNodes", []);	
-				$.glamourTree.selectNodes(rootList.parentNode.id, opts.selectedNodes, true);
-				opts.selectedNodes = [];
-				$.data(rootList, "options", opts);
-			 }
-			$.data(list, "childrenCount", 0);
-			return opts;
-		};
-		
-		function updateOperation(list, rootList, options) {
-			var savedOpts = $.data(rootList, "options");
-			var opts = $.extend({},  savedOpts, options);
-
-			opts.childrenSelector = ".glm-tree-node:gt(" + ( $.data(list, "childrenCount") - 1) + ")";
-			return opts;
-		};
-		
-		function addPadding($nodeContent, level) {
-			var padding = "";
-			
-			for (var index = 0; index < level; index++) {
-				padding += "<ins class=\"glm-tree-icon-padding\">&nbsp</ins>";
-			}
-			$nodeContent.find(":first").before("<span>"+padding+"</span>");
-		};
-		
-		function addIcon($nodeContent, $node) {
-			if ( $node.hasClass("glm-tree-leaf") == false ) {
-				$nodeContent.children(":eq(1)").before("<ins class=\"glm-tree-icon\">&nbsp;</ins>");
-			}
-		};
-		
-	} ) (jQuery);
 		
 	/**
-	 * Glamour Actions:  plugin that adds  adds actions to the glamour presentations.
+	 * Glamour Actions:  plugin that adds actions to the glamour presentations.
 	 *
 	 * Two possible opperations:
 	 *
@@ -394,7 +133,6 @@ SGLJsLibrary >> glamourSeasideJs [
 			var $navigation = $tabs.children(".ui-tabs-nav");
 			var $actions = $navigation.children(".glm-actions");
 			
-			
 			$actions.css("float", "right");
 			$tabs.children(".ui-tabs-nav").children(":not(.glm-actions)").each(function(index, tab){
 				tab.glamourAction = $actions[index]; 
@@ -416,7 +154,6 @@ SGLJsLibrary >> glamourSeasideJs [
 			var index = typeof tabIndex !== "integer" ? $(tabs).tabs( "length" ) - 1 :  tabIndex;
 			var $tab = $navigation.children(".ui-state-default:eq("+index+")");
 			var $action;
-			
 			
 			$navigation.append(options.actionsContent);
 			$action = $navigation.children(":last");
@@ -518,7 +255,6 @@ SGLJsLibrary >> glamourSeasideJs [
 					navigation.children(".ui-state-default:last").addClass("ui-tab-last");
 				}	
 			});
-			
 			
 			//Set the width of the tab.
 			navigation.css("min-width", navigation.glamourWidth()+$.glamourWidth.outerWidth(navigation)+2);
@@ -921,6 +657,368 @@ SGLJsLibrary >> scrollToJs [
 	};
 
 })( jQuery );'
+]
+
+{ #category : #uploaded }
+SGLJsLibrary >> sglTreeJs [
+	^ '
+	;( function($) {
+		$.widget("ui.sglTree", {
+			options: {
+				allowMultipleSelection: false,
+				selectedNodes: [],
+				appendURL: null,
+				selectURL: null,
+				select: null,
+				toggleExpandURL: null,
+				toggleExpand: null,
+				maximumSize: 0,    // the maximum number of root nodes this tree can have;
+				stepSize:  0 // the number of roots added by an append operation
+			},
+			
+			_create: function() {
+				this.sglTree = this.element.children("ul");
+				this._addMarkupAndBindingsForTree(this.sglTree, 1);
+				this.currentSize = this.sglTree.children(".sgl-tree-node").size();
+				this._addAppendButton();
+			},
+			
+			_init: function() {
+				this._handleSelectedNodesOption(this.options.selectedNodes, true);
+			},
+			
+			_setOption: function(key, value) {
+				
+				switch (key) {
+					case "selectedNodes": {
+						this._handleSelectedNodesOption(value, true);
+						break
+					}
+				}
+			},
+			
+			_handleSelectedNodesOption:  function(value, triggerEvent) {
+				var containsReference = false;
+				var referenceNodeId;
+				var $selectedNodes = [];
+				var ids = [];
+			
+
+				// Set the referenceNode.
+				if ( value.length == 0 ) {
+					this.referenceNode = null;
+				} else if ( value.length == 1 || ! this.referenceNode ) {
+					this.referenceNode = $("#"+value[0]);
+				} else {
+					referenceNodeId = this.referenceNode.attr("id");
+					$.each(value, function(index, id) {
+						if (id==referenceNodeId) containsReference=true;
+					});
+					if (!containsReference) {
+						this.referenceNode = $("#"+value[0]);
+					}
+				}
+		
+				// Obtain the selected nodes.
+				$.each(value, function(index, nodeId) {
+					var $node = $("#"+nodeId);
+				
+					if ( $node.size() != 0 ) {
+						$selectedNodes.push($node);
+						ids.push(nodeId);
+					}
+				});
+				this._performNodesSelection($selectedNodes);
+				
+				// Trigger an event.
+				if (triggerEvent) {
+					this._trigger("select", null, {"nodes": $selectedNodes, "ids": ids});
+				}
+				
+				this.options.selectedNodes = ids;
+			},
+			
+			_performNodesSelection: function ($nodes) {
+				var $parents;
+
+				$.each(this.options.selectedNodes, function(index, nodeId) {
+					$("#"+nodeId).removeClass("sgl-tree-node-selected");
+				});
+				
+				$.each($nodes, function(index, $node) {
+					$node.addClass("sgl-tree-node-selected");
+					// Expand the parents
+					$node.parentsUntil(".sgl-tree-root").filter(".sgl-tree-node-closed").each(function(index, node){
+						$(node).children(".sgl-tree-node-el").children(".sgl-tree-node-icon").trigger("click");
+					});
+		
+				});
+				
+				if ( $nodes.length )  {
+					// Scroll to the last added element if it is not visible
+					this._scrollToNode($nodes[$nodes.length-1]);
+				}
+			},
+			
+			_scrollToNode: function ($node) {
+				var nodeTopOffset = $node.offset().top;
+				var listTopOffset = this.sglTree.offset().top;
+
+				if (  (nodeTopOffset < listTopOffset) || ( listTopOffset + this.sglTree.height() < nodeTopOffset + $node.height() ) ) {
+					this.sglTree.scrollTo($node); 
+				}
+			},
+			
+			_addAppendButton: function() {
+				var that = this;
+				var button =  "<input type=\"button\" class=\"sgl-tree-append-page-button sgl-tree-append-button\"value=\"Append\" />";
+				
+
+				if ( this.options.stepSize && this.currentSize < this.options.maximumSize ) {
+					this.sglTree.after(button);
+					this.element.children(".sgl-tree-append-page-button").bind("click", function(){
+						$.ajax({
+							"dataType": "script",
+							"url": that.options.appendRootsURL,
+							"data": [
+								"stepSize="+that.options.stepSize
+								].join("&")
+						});
+					});
+				}
+			},
+			
+			_addMarkupAndBindingsForTree: function($tree, level) {
+				var that = this;
+				
+				$tree.addClass("sgl-tree-container");
+				if (level == 1) {
+					$tree.addClass("sgl-tree-root");
+				}
+				$tree.children().each(function(){
+					that._addMarkupAndBindingsForNode($(this), level);
+				});
+			},
+			
+			_addMarkupAndBindingsForNode: function($node, level){
+				var that = this;
+				var $nodeContent = $node.children(":first");
+				var $subtree = $node.children("ul");
+				var hasSubtree = $subtree.size() > 0;
+				var padding ;
+				
+				// Add the necessary CSS classes.
+				$node.addClass("sgl-tree-node");
+				if ( $node.hasClass("sgl-tree-node-leaf") || $node.hasClass("sgl-tree-node-closed") || $node.hasClass("sgl-tree-node-opened") ) {
+					if ( $node.hasClass("sgl-tree-node-closed") ) {
+						$subtree.hide();
+					} else if ( $node.hasClass("sgl-tree-node-opened")  ) {
+						$subtree.show();
+					}
+				} else {
+					if ( hasSubtree ) {
+						$node.addClass( $subtree.is(":visible") ? "sgl-tree-node-opened" : "sgl-tree-node-closed" );
+					} else {
+						$node.addClass("sgl-tree-node-leaf");
+					}
+				}
+
+				// Add the markup and the bindings.
+				if ( $nodeContent.size() ) {
+					$nodeContent.addClass("sgl-tree-node-el");
+					$nodeContent.children(":first").addClass("sgl-tree-node-title");					
+					
+					padding = "";
+					for (var index = 0; index < level - 1; index++) {
+						padding += "<ins class=\"sgl-tree-node-icon-padding\">&nbsp</ins>";
+					}
+					$nodeContent.children(":first").before("<span>"+padding+"</span>");
+					
+					$nodeContent.bind("click", function(event) {
+						that._handleSelectionClickEvent(event, $node);
+					});
+					
+					if ( ! $node.hasClass("sgl-tree-node-leaf") ) {
+						$nodeContent.children(":eq(1)").before("<ins class=\"sgl-tree-node-icon\">&nbsp;</ins>");
+						// Bind the toggleExpand event.
+						$nodeContent.children(".sgl-tree-node-icon").bind("click", function(event) {
+							that._handleToggleExpandClickEvent(event, $node);
+							return false;
+						});
+					}
+				}
+				
+				if ( hasSubtree ) {
+					this._addMarkupAndBindingsForTree($subtree, level+1);
+				}
+			},
+			
+			_handleToggleExpandClickEvent: function(event, $node){
+				var that = this;
+				var expansionHandler = function(id) {
+					if ( that.options.toggleExpandURL ) {
+						$.ajax({
+							"dataType": "script",
+							"url": that.options.toggleExpandURL,
+							"data": [
+								"id="+encodeURIComponent(id)
+								].join("&")
+						});
+					} else {
+						that.toggleExpand($node, true, event);
+					}
+				}
+				
+				if ( $node.children("ul").size() == 0  ) {
+					$.ajax({
+						"dataType": "html",
+						"url": this.options.appendURL,
+						"data": [
+							"id="+encodeURIComponent($node.attr("id"))
+							].join("&"),
+						"success": function(data, textStatus, XMLHttpRequest) {
+							
+							that.appendSubtree($node, data);
+							expansionHandler($node.attr("id"));
+						}
+					});
+				} else {
+					expansionHandler($node.attr("id"));
+				}
+			},
+			
+			_handleSelectionClickEvent: function(event, $node) {
+				var ids = [$node.attr("id")];
+				var $selectedNodes ;
+				
+
+				if ( event.shiftKey && this.options.allowMultipleSelection ) {
+					if (this.referenceNode) {
+						$node.focus();
+						$selectedNodes = this._obtainSelectedNodesForMultipleSelection($node, this.referenceNode);
+						ids = [];
+						$.each($selectedNodes, function(index, $node) {
+							ids.push($node.attr("id"));
+						});
+					} 
+				}
+				if ( this.options.selectURL ) {
+					$.ajax({
+						"dataType": "script",
+						"url": this.options.selectURL,
+						"data": [
+							"selectedIds="+encodeURIComponent(ids.join(","))
+							].join("&")
+					});
+				} else {
+					this._handleSelectedNodesOption(ids, true);
+				}
+			},
+			
+			_obtainSelectedNodesForMultipleSelection: function($node, $referenceNode) {
+				var $allNodeChildren = $("#"+this.sglTree.attr("id")+" .sgl-tree-node");
+				var $selectedNodes;
+
+				"Obtain a list with all the selected nodes and send it to the server"
+				if ( $allNodeChildren.index($referenceNode) < $allNodeChildren.index($node) ) {
+					$selectedNodes = this._obtainNodesBetweenLimits($referenceNode, $node);
+				} else {
+					$selectedNodes = this._obtainNodesBetweenLimits($node, $referenceNode);									
+				}
+			
+				return $selectedNodes;
+			},
+			
+			_obtainNodesBetweenLimits: function ($fromNode, $toNode) {
+				var selectedNodes = [$fromNode];
+				var $childrenList, $nextSibling, $parent;
+			
+				while ($fromNode.attr("id") != $toNode.attr("id")) {
+				
+					$childrenList = $fromNode.children(".sgl-tree-container:visible");
+					if ( $childrenList.size() > 0 ) {
+						$fromNode = $childrenList.children(":eq(0)");
+						selectedNodes.push($fromNode);
+						continue;
+					}
+				
+					$nextSibling = $fromNode.next();
+					if ( $nextSibling.size() > 0 ) {
+						$fromNode = $nextSibling;
+						selectedNodes.push($fromNode);
+						continue;
+					} else {
+						$parent = $fromNode.parent().parent();
+						while ( $parent.next().size() == 0 ) {
+							$parent = $parent.parent().parent();
+						}
+						$fromNode = $parent.next();
+						selectedNodes.push($fromNode);
+					}
+				}
+			
+				return selectedNodes;
+			},
+			
+			appendSubtree: function(nodeOrId, data) {
+				var $node;
+				var $subtree;
+				var level;
+				
+				if ( typeof nodeOrId === "string" ) {					
+					$node= $("#"+nodeOrId);				
+				} else {					
+					$node = nodeOrId;				
+				}	
+				$node.children(":last").after(data);
+				$subtree = $node.children("ul");
+				level = $node.children(".sgl-tree-node-el").children(":first").children(".sgl-tree-node-icon-padding").size() + 1;
+				this._addMarkupAndBindingsForTree($subtree, level+1);
+			},
+			
+			appendRoots: function(data) {
+				var that = this;
+				var addedChildren;
+				
+				this.sglTree.append(data);
+				addedChildren = this.sglTree.children(":not(.sgl-tree-node)");
+				addedChildren.each(function() {
+					that._addMarkupAndBindingsForNode($(this), 1);
+				});
+				
+				this.currentSize = this.sglTree.children(".sgl-tree-node").size();
+				if ( this.currentSize >= this.options.maximumSize) {
+					this.element.children(".sgl-tree-append-button").remove();
+				}
+			},
+			
+			toggleExpand: function(nodeOrId, triggerEvent, originalEvent) {
+				var $node;
+				
+				if ( typeof nodeOrId === "string" ) {					
+					$node= $("#"+nodeOrId);				
+				} else {					
+					$node = nodeOrId;				
+				}																
+				if ( $node.hasClass("sgl-tree-node-opened") ) {					
+					$node.removeClass("sgl-tree-node-opened");					
+					$node.addClass("sgl-tree-node-closed");					
+					$node.children(".sgl-tree-container").hide();				
+				} else if ( $node.hasClass("sgl-tree-node-closed")  ) {					
+					$node.removeClass("sgl-tree-node-closed");				
+					$node.addClass("sgl-tree-node-opened");					
+					$node.children(".sgl-tree-container").show();				
+				}
+				
+				// Trigger an event.
+				if (triggerEvent) {
+					this._trigger("toggleExpand", originalEvent, {"node": $node[0]});
+				}
+			}
+			
+		}) ;
+	}) (jQuery) ;
+	'
 ]
 
 { #category : #uploaded }

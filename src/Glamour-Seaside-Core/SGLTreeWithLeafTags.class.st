@@ -1,26 +1,27 @@
 Class {
 	#name : #SGLTreeWithLeafTags,
 	#superclass : #SGLComponent,
-	#category : #'Glamour-Seaside-Examples-Dev'
+	#category : #'Glamour-Seaside-Examples'
 }
 
-{ #category : #'instance creation' }
+{ #category : #'as yet unclassified' }
 SGLTreeWithLeafTags class >> initialize [
-	self registerAsApplication: 'glamour/tags/treeWithLeafTags'
+	self registerAsApplication: 'glamour/development/treeWithLeafTags'
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 SGLTreeWithLeafTags >> browser [
 	"self new browser openOn: self new model"
-
 	|browser |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
 	browser showOn: #one; using: [
 		browser tree
+			title: 'None Expanded';
+			allowDeselection;
 			beMultiple;
-			title: 'No expansion';
-			tags: [:each | 
+			showOnly: 8;
+			tags: [:each |
 				each isNumber 
 				ifTrue: [
 					{(each isNumber and: [each even]) ifTrue: ['even'] ifFalse: ['odd'].
@@ -29,12 +30,12 @@ SGLTreeWithLeafTags >> browser [
 					(each isNumber and: [each\\5 == 0] ) ifTrue: ['div 5'] ifFalse: ['not div 5']} ]
 				ifFalse: [{}] ];
 			children: [:x :i | x isCollection ifTrue: [x] ifFalse: [OrderedCollection new] ].
-			
-			
 		browser tree
-			title: 'All Expanded';
-			allExpanded;
-			tags: [:each | 
+			title: 'Roots Expanded';
+			rootsExpanded;
+			allowDeselection;
+			beMultiple;
+			tags: [:each |
 				each isNumber 
 				ifTrue: [
 					{(each isNumber and: [each even]) ifTrue: ['even'] ifFalse: ['odd'].
@@ -47,11 +48,15 @@ SGLTreeWithLeafTags >> browser [
 	^ browser
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 SGLTreeWithLeafTags >> model [
-	^ #(
-			(1 2 3 4) 
-			(5 6 7 (8 9) (10 11) ( (12 13) (13 15) ) )
-			 (16 17 18  (19 20 21 22))
-		)
+	^ #( 
+		(1 2 3 4) 
+		(5 6 7 (8 9) (10 11) ( (12 13) (13 15 1) ) ) 
+		(16 17 18  (19 20 21 22))  
+		1 2 3 4 5 6 7 8 
+		(9 10 11 12) 
+		(13 14 15 16 1)
+		(17 18 (19  1 20 22 22) 23 24 )
+		25 26 27 28 29)
 ]
