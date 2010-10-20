@@ -137,7 +137,7 @@ ConfigurationOfGlamourSeaside >> baseline02: spec [
 				spec
 					className: 'ConfigurationOfSeaside30';
 					file: 'ConfigurationOfSeaside30';
-					version: '3.0.0';
+					version: '3.0.0-rc.2';
 					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
 		spec
 			project: 'SeasideTesting' with: [
