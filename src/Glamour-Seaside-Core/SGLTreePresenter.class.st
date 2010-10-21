@@ -136,7 +136,7 @@ SGLTreePresenter >> onSelectActionURLForANodeWith: html [
 			|nodes|
 			nodes := ( (value at: 'selectedIds') contents findTokens: $, ) collect: [:each | 
 				(self nodeForId: each) item].
-			(nodes size == 1) 
+			(self model glamourPresentation isMultiple not) 
 				ifTrue: [self model explicitSelection: (nodes at: 1) ]
 				ifFalse:  [self model explicitSelection: nodes].
 			"(nodes size == 1) 
