@@ -67,6 +67,17 @@ SGLTreePresenter >> initializeFor: aPresentation [
 	
 ]
 
+{ #category : #initialization }
+SGLTreePresenter >> initializeModelSelection: html [
+	self model updateModelSelection.
+	self model selection ifNotNil: [ self model selection selectedNodes do: [:each|
+			each shouldBeDisplayed ifTrue: [
+				"Add an id so selectedIds can compute the selected ids before the tree is rendered."
+				self associateNode: each withId: html nextId.
+				"Make sure the selected nodes are rendered."
+				each expandParentPath ] ] ].
+]
+
 { #category : #accessing }
 SGLTreePresenter >> model [
 	^ model
@@ -86,7 +97,7 @@ SGLTreePresenter >> onAppendRootsURLWith: html [
 			| endIndex |
 			endIndex := self model amountToFilterBy + ( (value at: 'stepSize') < 0 ifTrue: [0] ifFalse: [value at: 'stepSize'] ).
 			self renderer scriptFor: self model glamourPresentation add: (
-				(self renderer html jQuery id:  self htmlId ) 
+				(self renderer html jQuery expression:  ('#',self htmlId, ' > ul') ) 
 					glamourTree appendRoots: [:aRenderer|
 						self 
 							renderRootNodesFrom: self model amountToFilterBy + 1 
@@ -148,25 +159,10 @@ SGLTreePresenter >> onSelectActionURLForANodeWith: html [
 
 { #category : #rendering }
 SGLTreePresenter >> renderContentOn: html [
-	self model updateModelSelection.
-	self model selection ifNotNil: [ self model selection selectedNodes do: [:each|
-			each shouldBeDisplayed ifTrue: [
-				"Add an id so selectedIds can compute the selected ids before the tree is rendered."
-				self associateNode: each withId: html nextId.
-				"Make sure the selected nodes are rendered."
-				each expandParentPath ] ] ].
+	self initializeModelSelection: html.
 	(self widgetContainerWith: html)
 		class: 'list-presentation';
 		id: self htmlId;
-		script: ( html jQuery new glamourTree
-			stepSize: (self model glamourPresentation amountToShow ifNil: [0]);
-			maximumSize: self model allRoots size;
-			isMultiple: self model glamourPresentation isMultiple;
-			selectedNodes: self selectedIds; 
-			selectURL: (self onSelectActionURLForANodeWith: html);
-			appendURL: (self onAppendURLWith: html);
-			appendRootsURL: (self onAppendRootsURLWith: html); 
-			onToggleExpand: (self onExpandToggledActionForANodeWith: html) );
 		with: [
 			self renderInitialRootNodesOn: html ]
 	
@@ -178,6 +174,7 @@ SGLTreePresenter >> renderInitialRootNodesOn: html [
 	amountToFilterBy := self model amountToFilterBy.
 	html unorderedList   
 		id: html nextId;
+		script: (self treeInitializationScriptWith: html);
 		with: [ self renderRootNodesFrom: 1 to: ( amountToFilterBy isZero ifTrue: [self model roots size] ifFalse: [amountToFilterBy] ) on: html ]
 ]
 
@@ -248,7 +245,7 @@ SGLTreePresenter >> renderTagsOf: aNode on: html [
 
 { #category : #private }
 SGLTreePresenter >> selectNodesScript [
-	^ (self renderer html jQuery id:  self htmlId ) 
+	^ (self renderer html jQuery expression:  ('#',self htmlId, ' > ul') ) 
 		glamourTree 
 			option: 'selectedNodes' put: self selectedIds;
 			yourself 
@@ -279,14 +276,27 @@ SGLTreePresenter >> selectedIds [
 { #category : #private }
 SGLTreePresenter >> toggleNodeClassFor: aNode [
 	self renderer scriptFor: self model glamourPresentation add: (
-		(self renderer html jQuery id:  self htmlId ) 
+		(self renderer html jQuery expression:  ('#',self htmlId, ' > ul') ) 
 			glamourTree  toggleExpand: (self idOfNode: aNode) andTriggerEventIf: false)
+]
+
+{ #category : #'jQuery-scripts' }
+SGLTreePresenter >> treeInitializationScriptWith: html [
+	^ html jQuery new glamourTree
+		stepSize: (self model glamourPresentation amountToShow ifNil: [0]);
+		maximumSize: self model allRoots size;
+		isMultiple: self model glamourPresentation isMultiple;
+		selectedNodes: self selectedIds; 
+		selectURL: (self onSelectActionURLForANodeWith: html);
+		appendURL: (self onAppendURLWith: html);
+		appendRootsURL: (self onAppendRootsURLWith: html); 
+		onToggleExpand: (self onExpandToggledActionForANodeWith: html)
 ]
 
 { #category : #private }
 SGLTreePresenter >> updateNodeContentScriptFor: aNode [
 	self renderer scriptFor: self model glamourPresentation add: (
-		(self renderer html jQuery id:  self htmlId ) 
+		(self renderer html jQuery expression:  ('#',self htmlId, ' > ul') ) 
 			glamourTree 
 				appendSubtree: [:aRenderer | 
 					self renderNodes: aNode contents asListFromLevel: aNode path size on: aRenderer] 
