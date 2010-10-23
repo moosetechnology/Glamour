@@ -75,7 +75,7 @@ GLMMorphicListingRenderer >> treeMorphFor: treeModel and: aPresentation [
 				GLMMorphTreeColumn new 
 					glamourColumn: each; 
 					headerButtonLabel: (aPresentation titleValueOfColumn: each) 
-					font: Preferences standardMenuFont 
+					font: StandardFonts menuFont 
 					target: nil 
 					actionSelector: nil 
 					arguments: #(); 
