@@ -296,7 +296,14 @@ ConfigurationOfGlamour >> default: spec [
 						'Glamour-Examples'
 						'Glamour-Tests-Morphic'). 
 		spec group: 'ExtrasTests' with: #(
-						'Glamour-Tests-Mondrian').						
+						'Glamour-Tests-Mondrian').	
+		spec
+			project: 'Shout' with: [
+				spec
+					className: 'ConfigurationOfShout';
+					file: 'ConfigurationOfShout';
+					version: '1.1.1';
+					repository: 'http://www.squeaksource.com/MetacelloRepository' ].					
 		spec
 			project: 'Mondrian for Glamour' with: [
 				spec
@@ -311,7 +318,6 @@ ConfigurationOfGlamour >> default: spec [
 					file: 'ConfigurationOfGrease';
 					version: '1.0-alpha9.1';
 					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
-
 	]
 ]
 
