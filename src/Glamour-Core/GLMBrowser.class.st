@@ -131,34 +131,27 @@ GLMBrowser >> removePane: aPane [
 
 { #category : #'scripting-private' }
 GLMBrowser >> resolveDestinationPort: aPortReference [ 
-	 
-	^self resolvePort: aPortReference defaultPortName: #entity
+	self flag: 'this is a temporary hack due to initializeScripting transmitting directly a port'.
+	(aPortReference isKindOf: GLMPort) ifTrue: [ ^ aPortReference ].
+	^self resolvePort: aPortReference asGlamourTargetIdentifier defaultPortName: #entity
 ]
 
 { #category : #'scripting-private' }
 GLMBrowser >> resolveOriginPort: aPortReference [ 
 	 
-	^self resolvePort: aPortReference defaultPortName: #selection
+	^self resolvePort: aPortReference asGlamourOriginIdentifier defaultPortName: #selection
 ]
 
 { #category : #'scripting-private' }
 GLMBrowser >> resolvePort: aPortReference defaultPortName: aSymbol [ 
-	 
-	| tmp | 
-	tmp := aPortReference. 
-	(tmp isKindOf: GLMPane) ifTrue: [tmp := tmp port: aSymbol]. 
-	(tmp isKindOf: GLMPort) ifTrue: [^tmp]. 
-	tmp isSymbol ifTrue: [tmp := tmp -> aSymbol]. 
-	(tmp isKindOf: Association) 
-		ifTrue: 
-			[^tmp key = #outer 
-				ifTrue: 
-					[(GLMPresentationBoundPort new) 
+	^ aPortReference paneName = #outer 
+		ifTrue: [
+			(GLMPresentationBoundPort new) 
 						presentation: self; 
-						name: tmp value; 
+						name: aPortReference portName;
 						yourself] 
-				ifFalse: [(self paneNamed: tmp key) port: tmp value]]. 
-	self error: 'Unknown port reference.'
+		ifFalse: [
+			(self paneNamed: aPortReference paneName) port: aPortReference portName].
 ]
 
 { #category : #accessing }
