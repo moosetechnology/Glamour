@@ -95,20 +95,15 @@ GLMBasicExamples >> compoundTaggedTree [
 	<glmBrowser: 'Tags' input: '#(window help home)'>
 	"self new compoundTaggedTree openOn: #(window help home)"
 	|browser |
-
 	browser := GLMTabulator new.
 	browser column: #one.
 	browser showOn: #one; using: [
 		browser tree
 			title: 'Combined Tags';
-			tags: [:each | 
-				{ {MenuIcons perform: (each, 'Icon') asSymbol . each asString }}].
-	
+			tags: [:each | { {MenuIcons perform: (each, 'Icon') asSymbol . each asString }}].
 		browser tree
 			title: 'Image Tags';
-			tags: [:each | 
-				{ MenuIcons perform: (each, 'Icon') asSymbol}].
-
+			tags: [:each | { MenuIcons perform: (each, 'Icon') asSymbol}].
 		browser tree
 			title: 'Combined Tags - Filter by image';
 			tags: [:each | 
@@ -118,7 +113,6 @@ GLMBasicExamples >> compoundTaggedTree [
 			tagsFilter: [:each | 
 				{ each == #help 
 						ifTrue:[ MenuIcons smallDeleteIcon ] ifFalse:[ MenuIcons smallOkIcon ] } ].
-
 		browser tree
 			title: 'Combined Tags - Filter by label';
 			tags: [:each | 
@@ -126,7 +120,6 @@ GLMBasicExamples >> compoundTaggedTree [
 					each == #help ifTrue:[ 'no ok' ] ifFalse:[ 'ok' ]}} ];
 			tagsFilter: [:each | 
 				{ each == #help ifTrue:[ 'no ok' ] ifFalse:[ 'ok' ] } ] ].
-
 	^ browser
 ]
 
