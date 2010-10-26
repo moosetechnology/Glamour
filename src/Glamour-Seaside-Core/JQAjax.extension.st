@@ -47,7 +47,7 @@ JQAjax >> sglTreeCallbackAppendRootsURL: aBlock [
 		script: [ :script | 	
 			|result|
 			result := GRSmallDictionary new.
-			result at: 'stepSize' put: (self requestContext request at: 'stepSize' ifAbsent: ['0']) greaseInteger.
+			result at: 'stepSize' put: ((self requestContext request at: 'stepSize' ifAbsent: ['0']) greaseInteger ifNil: [0]).
 			aBlock value: result value: script];
 		fullUrl
 ]

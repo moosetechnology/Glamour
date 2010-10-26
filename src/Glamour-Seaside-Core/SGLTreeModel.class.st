@@ -6,6 +6,7 @@ Class {
 		'filteredRoots',
 		'tagsToFilterBy',
 		'amountToFilterBy',
+		'stepSize',
 		'shouldRootsExpand',
 		'shouldAllExpand',
 		'selection',
@@ -21,7 +22,7 @@ SGLTreeModel >> allRoots [
 
 { #category : #'search and filtering' }
 SGLTreeModel >> amountToFilterBy [
-	^ amountToFilterBy ifNil: [ amountToFilterBy := self glamourPresentation amountToShow ifNil: [0]]
+	^ amountToFilterBy ifNil: [ amountToFilterBy := self stepSize]
 ]
 
 { #category : #'search and filtering' }
@@ -208,6 +209,16 @@ SGLTreeModel >> shouldRootsExpand [
 { #category : #accessing }
 SGLTreeModel >> shouldRootsExpand: anObject [
 	shouldRootsExpand := anObject
+]
+
+{ #category : #accessing }
+SGLTreeModel >> stepSize [
+	^ stepSize ifNil: [ stepSize := self glamourPresentation amountToShow ifNil: [0] ]
+]
+
+{ #category : #accessing }
+SGLTreeModel >> stepSize: anObject [
+	stepSize := anObject
 ]
 
 { #category : #'search and filtering' }

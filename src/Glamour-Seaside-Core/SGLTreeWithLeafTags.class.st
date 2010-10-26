@@ -33,6 +33,7 @@ SGLTreeWithLeafTags >> browser [
 		browser tree
 			title: 'Roots Expanded';
 			rootsExpanded;
+			showOnly: 4;
 			allowDeselection;
 			beMultiple;
 			tags: [:each |

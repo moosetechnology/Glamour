@@ -94,8 +94,9 @@ SGLTreePresenter >> nodeForId: anId [
 SGLTreePresenter >> onAppendRootsURLWith: html [
 	^ html jQuery ajax 
 		sglTreeCallbackAppendRootsURL:  [ :value :script |
-			| endIndex |
-			endIndex := self model amountToFilterBy + ( (value at: 'stepSize') < 0 ifTrue: [0] ifFalse: [value at: 'stepSize'] ).
+			| endIndex stepSize |
+			stepSize := ( (value at: 'stepSize') < 0 ifTrue: [0] ifFalse: [value at: 'stepSize'] ).
+			endIndex := stepSize isZero ifTrue: [self model allRoots size]  ifFalse:   [ self model amountToFilterBy + stepSize ].
 			self renderer scriptFor: self model glamourPresentation add: (
 				(self renderer html jQuery expression:  ('#',self htmlId, ' > ul') ) 
 					glamourTree appendRoots: [:aRenderer|
@@ -103,7 +104,8 @@ SGLTreePresenter >> onAppendRootsURLWith: html [
 							renderRootNodesFrom: self model amountToFilterBy + 1 
 							to:  ( endIndex  min: self model allRoots size  )
 							on: aRenderer ] ).	
-			self model amountToFilterBy: endIndex.
+			stepSize isZero ifFalse: [self model stepSize: stepSize].
+			self model amountToFilterBy: (stepSize isZero ifTrue: [nil] ifFalse: [endIndex]).
 			self model updateModelSelection.
 			self updateSelectedNodes.
 			self renderer updateScript: script ]
@@ -283,7 +285,7 @@ SGLTreePresenter >> toggleNodeClassFor: aNode [
 { #category : #'jQuery-scripts' }
 SGLTreePresenter >> treeInitializationScriptWith: html [
 	^ html jQuery new glamourTree
-		stepSize: (self model glamourPresentation amountToShow ifNil: [0]);
+		stepSize: (self model stepSize);
 		maximumSize: self model allRoots size;
 		isMultiple: self model glamourPresentation isMultiple;
 		selectedNodes: self selectedIds; 

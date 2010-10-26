@@ -771,22 +771,54 @@ SGLJsLibrary >> sglTreeJs [
 			_addOrRemoveAppendButton: function() {
 				var isRendered = this.element.next(".sgl-tree-append-button").size();
 				var that = this;
-				var button =  "<input type=\"button\" class=\"sgl-tree-append-page-button sgl-tree-append-button\"value=\"Append\" />";
+				var buttonHTML, $button;
 				
 				
 				if (isRendered) {
 					if ( this.currentSize >= this.options.maximumSize) {
 						this.element.next(".sgl-tree-append-button").remove();
+					} else {
+						this.element.next(".sgl-tree-append-button").find(".sgl-tree-append-status").html(this.currentSize+"/"+this.options.maximumSize);
 					}
 				} else {
 					if ( this.options.stepSize && this.currentSize < this.options.maximumSize ) {
-						this.element.after(button);
-						this.element.next(".sgl-tree-append-page-button").bind("click", function(){
+						buttonHTML = ""+
+							"<div class=\"sgl-tree-append-button\" >" +
+								"<div>" +
+									"<input type=\"text\" class=\"sgl-tree-append-step-size\" value=\""+this.options.stepSize+"\" />" +
+									"<span class=\"sgl-tree-append-page-button\"></span>" +
+									"<span class=\"sgl-tree-append-all-button\"></span>" +
+									"<span class=\"sgl-tree-append-status\">"+this.currentSize+"/"+this.options.maximumSize+"</span>" +
+								"</div>" +
+							"</div>";
+					
+						this.element.after(buttonHTML);
+						$button = this.element.next(".sgl-tree-append-button");
+						$button.find(".sgl-tree-append-page-button").bind("click", function(){
+							var value = parseInt($button.find(".sgl-tree-append-step-size").val());
+							
+							if ( isNaN(value) ||  value <= 0 ) {														
+								value = that.options.stepSize;
+							} 							
+				
+							$button.find(".sgl-tree-append-step-size").val(value);
+							that.options.stepSize = value;
 							$.ajax({
 								"dataType": "script",
 								"url": that.options.appendRootsURL,
 								"data": [
-									"stepSize="+that.options.stepSize
+									"stepSize="+value
+									].join("&")
+							});
+							
+						});
+						
+						$button.find(".sgl-tree-append-all-button").bind("click", function(){
+							$.ajax({
+								"dataType": "script",
+								"url": that.options.appendRootsURL,
+								"data": [
+									"stepSize=0"
 									].join("&")
 							});
 						});
