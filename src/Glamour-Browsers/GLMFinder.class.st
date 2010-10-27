@@ -53,12 +53,6 @@ GLMFinder >> addPaneFromInner: aPort [
 				addPresentations: (each presentations collect: #copy)] . 
 	(realTransmissions select: [:each | each originatesAt: aPort]) 
 		do: [:each | each transmit]. 
-"	self 
-		announce: 
-			(GLMPaneAdded 
-				pane: self panes last 
-				atPosition: self panes size 
-				inBrowser: self)"
 ]
 
 { #category : #events }
