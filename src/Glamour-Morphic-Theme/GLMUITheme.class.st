@@ -394,6 +394,13 @@ GLMUITheme >> newRadioButtonMarkerForm [
 	^GLMUIThemeIcons radioButtonMarkerForm  
 ]
 
+{ #category : #'initialize-release' }
+GLMUITheme >> newRadioMarkerForm [
+	"Answer a new checkbox marker form."
+
+	^Form extent: 12@12 depth: 32
+]
+
 { #category : #forms }
 GLMUITheme >> newWindowCloseForm [
 	"Answer a new form for a window close box."
