@@ -184,18 +184,25 @@ GLMUITheme >> buttonSelectedFillStyleFor: aButton [
 		radial: false
 ]
 
-{ #category : #'fill-styles' }
+{ #category : #forms }
 GLMUITheme >> checkboxForm [
 	"Answer the form to use for a normal checkbox."
 
-	^MenuIcons glamorousCheckboxUnselected
+	^self  checkboxUnselectedForm
 ]
 
-{ #category : #'fill-styles' }
+{ #category : #forms }
 GLMUITheme >> checkboxSelectedForm [
 	"Answer the form to use for a selected checkbox."
 
-	^MenuIcons glamorousCheckboxSelected
+	^GLMUIThemeIcons checkboxSelectedForm
+]
+
+{ #category : #forms }
+GLMUITheme >> checkboxUnselectedForm [
+	"Answer the form to use for a selected checkbox."
+
+	^ GLMUIThemeIcons checkboxUnselectedForm
 ]
 
 { #category : #'border-styles' }
@@ -352,18 +359,18 @@ GLMUITheme >> menuItemInDockingBarSelectedFillStyleFor: aMenuItem [
 	^ self buttonSelectedFillStyleFor: aMenuItem
 ]
 
-{ #category : #'label-styles' }
+{ #category : #forms }
 GLMUITheme >> menuPinForm [
 	"Answer the form to use for the pin button of a menu."
 
-	^MenuIcons glamorousMenuPin
+	^ GLMUIThemeIcons menuPinForm
 ]
 
-{ #category : #'initialize-release' }
+{ #category : #forms }
 GLMUITheme >> newCheckboxMarkerForm [
 	"Answer a new checkbox marker form."
 
-	^Form extent: 12@12 depth: 32
+	^GLMUIThemeIcons checkboxMarkerForm
 ]
 
 { #category : #'morph creation' }
@@ -380,53 +387,67 @@ GLMUITheme >> newFocusIndicatorMorphFor: aMorph [
 		bounds: aMorph focusBounds
 ]
 
-{ #category : #'initialize-release' }
+{ #category : #forms }
 GLMUITheme >> newRadioButtonMarkerForm [
 	"Answer a new radio button marker form. We make it empty because we already have the selected radio button take care of the state."
 
-	^Form extent: 12@12 depth: 32
+	^GLMUIThemeIcons radioButtonMarkerForm  
 ]
 
-{ #category : #'initialize-release' }
-GLMUITheme >> newRadioMarkerForm [
-	"Answer a new checkbox marker form."
-
-	^Form extent: 12@12 depth: 32
-]
-
-{ #category : #'initialize-release' }
+{ #category : #forms }
 GLMUITheme >> newWindowCloseForm [
 	"Answer a new form for a window close box."
 
-	^ MenuIcons glamorousClose
+	^ GLMUIThemeIcons windowCloseForm 
 ]
 
-{ #category : #'initialize-release' }
+{ #category : #forms }
+GLMUITheme >> newWindowCloseOverForm [
+	"Answer a new form for a window menu box."
+
+	^ self newWindowCloseForm
+]
+
+{ #category : #forms }
 GLMUITheme >> newWindowMaximizeForm [
 	"Answer a new form for a window maximize box."
 
-	^ MenuIcons glamorousMax
+	^ GLMUIThemeIcons windowMaximizeForm
 ]
 
-{ #category : #'initialize-release' }
+{ #category : #forms }
+GLMUITheme >> newWindowMaximizeOverForm [
+	"Answer a new form for a window menu box."
+
+	^ self newWindowMaximizeForm
+]
+
+{ #category : #forms }
 GLMUITheme >> newWindowMenuForm [
 	"Answer a new form for a window menu box."
 
-	^ MenuIcons glamorousMenu
+	^ GLMUIThemeIcons windowMenuForm
 ]
 
-{ #category : #'initialize-release' }
+{ #category : #forms }
 GLMUITheme >> newWindowMenuPassiveForm [
 	"Answer a new form for a window menu box."
 
-	^ MenuIcons glamorousMenuInactive
+	^ GLMUIThemeIcons windowMenuInactiveForm
 ]
 
-{ #category : #'initialize-release' }
+{ #category : #forms }
 GLMUITheme >> newWindowMinimizeForm [
 	"Answer a new form for a window minimize box."
 
-	^ MenuIcons glamorousMin
+	^ GLMUIThemeIcons windowMinimizeForm
+]
+
+{ #category : #forms }
+GLMUITheme >> newWindowMinimizeOverForm [
+	"Answer a new form for a window menu box."
+
+	^ self newWindowMinimizeForm
 ]
 
 { #category : #'border-styles' }
@@ -448,18 +469,18 @@ GLMUITheme >> progressBarProgressFillStyleFor: aProgressBar [
 	^ (self glamorousLightSelectionColorFor: aProgressBar)
 ]
 
-{ #category : #'fill-styles' }
+{ #category : #forms }
 GLMUITheme >> radioButtonForm [
 	"Answer the form to use for a normal radio button."
 
-	^ MenuIcons glamorousRadioUnselected 
+	^ GLMUIThemeIcons radioButtonUnselectedForm
 ]
 
-{ #category : #'fill-styles' }
+{ #category : #forms }
 GLMUITheme >> radioButtonSelectedForm [
 	"Answer the form to use for a selected radio button."
 
-	^MenuIcons glamorousRadioSelected 
+	^ GLMUIThemeIcons radioButtonSelectedForm 
 ]
 
 { #category : #'fill-styles' }
@@ -650,11 +671,11 @@ GLMUITheme >> windowActiveTitleFillStyleFor: aWindow [
 	^ self glamorousNormalFillStyleFor: aWindow height: aWindow labelHeight
 ]
 
-{ #category : #'label-styles' }
+{ #category : #forms }
 GLMUITheme >> windowClosePassiveForm [
 	"Answer the form to use for passive (background) window close buttons"
 
-	^MenuIcons glamorousCloseInactive
+	^GLMUIThemeIcons windowCloseInactiveForm
 ]
 
 { #category : #'fill-styles' }
@@ -669,11 +690,11 @@ GLMUITheme >> windowInactiveTitleFillStyleFor: aWindow [
 	^self windowActiveTitleFillStyleFor: aWindow
 ]
 
-{ #category : #'label-styles' }
+{ #category : #forms }
 GLMUITheme >> windowMaximizePassiveForm [
 	"Answer the form to use for passive (background) window maximize/restore buttons"
 
-	^MenuIcons glamorousMaxInactive
+	^GLMUIThemeIcons windowMaximizeInactiveForm
 ]
 
 { #category : #'label-styles' }
@@ -683,9 +704,9 @@ GLMUITheme >> windowMenuPassiveForm [
 	^self newWindowMenuPassiveForm
 ]
 
-{ #category : #'label-styles' }
+{ #category : #forms }
 GLMUITheme >> windowMinimizePassiveForm [
 	"Answer the form to use for passive (background) window minimize buttons"
 
-	^MenuIcons glamorousMinInactive
+	^GLMUIThemeIcons windowMinimizeInactiveForm
 ]
