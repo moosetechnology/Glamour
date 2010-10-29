@@ -15,22 +15,6 @@ Class {
 	#category : #'Glamour-Seaside-Rendering'
 }
 
-{ #category : #'instance creation' }
-SGLTreeModel class >> for: aPresentation [
-	|model|
-	model := self new glamourPresentation: aPresentation.
-	
-	"When the morph changes, we want to update the glamour model"
-	model announcer on: GLMTreeMorphSelectionChanged do: [ :ann | 
-		aPresentation announcer suspendAllWhile: [
-			aPresentation selection: ann selectionValue.
-			aPresentation selectionPath: ann selectionPathValue] ].
-	"aPresentationModel announcer on: GLMTreeMorphStrongSelectionChanged do: [ :ann | 
-		aPresentation strongSelection: ann strongSelectionValue ]."
-	
-	^model
-]
-
 { #category : #accessing }
 SGLTreeModel >> allRoots [
 	^ filteredRoots ifNil: [ self roots. filteredRoots ] 

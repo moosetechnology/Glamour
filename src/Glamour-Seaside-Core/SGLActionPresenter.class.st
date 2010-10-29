@@ -105,7 +105,7 @@ SGLActionPresenter >> renderMbMenuHeaderContentForMenu: aMenuId on: html [
 			menu: aMenuId;
 			with: [ 
 				html image
-					form: MenuIcons glamorousMenu;
+					form: GLMUIThemeIcons windowMenuForm;
 					class: 'glm-mbMenu-header-icon'
 					"url: (SGLFileLibrary urlOf: #arrowDownPng)" ] ]
 ]
