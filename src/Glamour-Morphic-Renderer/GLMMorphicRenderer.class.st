@@ -102,6 +102,7 @@ GLMMorphicRenderer >> renderLabelPresentation: aLabelPresentation [
 			layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 			vResizing: #spaceFill;
 			hResizing: #spaceFill;
+			font: StandardFonts haloFont;
 			yourself.
 	^morph
 ]
