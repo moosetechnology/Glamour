@@ -546,14 +546,14 @@ GLMBasicExamples >> taggedTree [
 
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [ :a |
+		a tree
 			tags: [:each | 
 				{each even ifTrue: ['even'] ifFalse: ['odd'].
 				each even ifTrue: ['x'] ifFalse: ['y']}
 				]].
-	browser showOn: #two; from: #one; using: [
-		browser text
+	browser transmit to: #two; from: #one; andShow: [ :a |
+		a text
 			display: [:x | 'You have selected ', x printString ]].
 	^ browser
 ]
@@ -566,9 +566,9 @@ GLMBasicExamples >> textPortsExamples [
 	| browser |
 	browser := GLMTabulator new.
 	browser row: #main; row: [:r | r column: #selected; column: #full].
-	browser showOn: #main; using: [browser text].
-	browser showOn: #selected; from: #main->#selectedText; using: [browser text].
-	browser showOn: #full; from: #main->#text; using: [browser text].
+	browser transmit to: #main; andShow: [:a | a text].
+	browser transmit to: #selected; from: #main->#selectedText; andShow: [:a | a text].
+	browser transmit to: #full; from: #main->#text; andShow: [:a | a text].
 	^ browser
 ]
 
@@ -604,19 +604,19 @@ GLMBasicExamples >> threeInterdependentPanes [
 
 	browser := GLMTabulator new.
 	browser column: #one; column: #two; column: #three.
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [ :a |
+		a tree
 			display: [:x | 1 to: x]].
-	browser showOn: #two; from: #one; using: [ 
-		browser tree
+	browser transmit to: #two; from: #one; andShow: [ :a | 
+		a tree
 			display: [:x | 1 to: x*2]].
-	browser showOn: #three; from: #two; using: [
-		browser tree
+	browser transmit to: #three; from: #two; andShow: [ :a | 
+		a tree
 			display: [:x | 1 to: x*3];
 			populate: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
-	browser sendTo: #outer->#focus from: #three->#focus with: [:x | x ].
-	browser sendTo: #one->#selection from: #outer->#focus with: [:x | x ].
-	browser sendTo: #two->#selection from: #outer->#focus with: [:x | x ].
+	browser transmit toOutside: #focus; from: #three->#focus.
+	browser transmit to: #one->#selection; from: #outer->#focus.
+	browser transmit to: #two->#selection; from: #outer->#focus.
 	^ browser
 ]
 
@@ -627,8 +627,8 @@ GLMBasicExamples >> treeWithAmountFiltering [
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [ :a | 
+		a tree
 			tags: [ :each | {each even printString} ];
 			showOnly: 50 ].
 	^ browser 
@@ -662,19 +662,19 @@ GLMBasicExamples >> treeWithExpansion [
 	|browser |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [:a |
+		a tree
 			title: 'No expansion';
 			children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ].
-		browser tree
+		a tree
 			title: 'Roots expanded';
 			rootsExpanded;
 			children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ].
-		browser tree
+		a tree
 			title: 'All expanded';
 			allExpanded;
 			children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ] ].
-	browser showOn: #two; from: #one; using: [ browser text ].
+	browser transmit to: #two; from: #one; andShow: [ :a | a text ].
 	^ browser
 ]
 
@@ -694,15 +694,15 @@ GLMBasicExamples >> treeWithInitialSelection [
 
 	browser := GLMTabulator new.
 	browser column: #one; column: [:c | c row: #two; row: #three].
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [ :a |
+		a tree
 			title: 'first tree';
 			children: [:x | x value ].
-		browser tree
+		a tree
 			title: 'second tree';
 			children: [:x | x value ]].
-	browser showOn: #two; from: #one; using: [ browser text title: 'Selection preview' ].
-	browser showOn: #three; from: #one->#selectionPath; using: [ browser text title: 'Selection path preview'].
+	browser transmit to: #two; from: #one; andShow: [ :a | browser text title: 'Selection preview' ].
+	browser transmit to: #three; from: #one->#selectionPath; andShow: [ :a | a text title: 'Selection path preview'].
 	^ browser
 ]
 
@@ -713,12 +713,12 @@ GLMBasicExamples >> treeWithMenu [
 	|browser |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [ :a |
+		a tree
 			children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ];
 			act: [:tree | tree inspect ] on: $i entitled: 'Inspect';
 			icon: [:x | MenuIcons helpIcon ]].
-	browser showOn: #two; from: #one; using: [ browser text ].
+	browser transmit to: #two; from: #one; andShow: [:a | a text ].
 	^ browser
 ]
 
