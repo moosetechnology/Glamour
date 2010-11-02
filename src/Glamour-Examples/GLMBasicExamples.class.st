@@ -644,14 +644,14 @@ GLMBasicExamples >> treeWithChildrenByLevel [
 
 	browser := GLMTabulator new.
 	browser column: #one; column: [:c | c row: #two; row: #three].
-	browser showOn: #one; using: [
+	browser transmit to: #one; andShow: [ :a |
 		browser tree
 			title: 'Tree';
-			children: [:item :x :level | 
-				level > 1 ifTrue: [#()] ifFalse: [1 to: item ] ]].
-	browser showOn: #two; from: #one; using: [ browser text title: 'Selection preview' ].
-	browser showOn: #three; from: #one->#selectionPath; using: [
-		browser text title: 'Selection path preview'].
+			children: [:item :x :level | level > 1 ifTrue: [#()] ifFalse: [1 to: item ] ] "Children must return a collection"].
+	browser transmit to: #two; from: #one; andShow: [:a | 
+		a text title: 'Selection preview' ].
+	browser transmit to: #three; from: #one->#selectionPath; andShow: [:a | 
+		a text title: 'Selection path preview'].
 	^ browser
 ]
 
