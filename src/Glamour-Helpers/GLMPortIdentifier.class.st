@@ -35,6 +35,13 @@ GLMPortIdentifier class >> defaultTargetPortName [
 	^ #entity
 ]
 
+{ #category : #'instance creation' }
+GLMPortIdentifier class >> pane: aPaneName port: aPortName [
+	^ self new 
+		paneName: aPaneName;
+		portName: aPortName
+]
+
 { #category : #accessing }
 GLMPortIdentifier >> asGlamourOriginIdentifier [
 	self portName isNil ifTrue: [self portName: self class defaultOriginPortName].
