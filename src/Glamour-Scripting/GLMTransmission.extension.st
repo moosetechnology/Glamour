@@ -26,6 +26,11 @@ GLMTransmission >> from: aPort [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMTransmission >> from: aPaneSymbol port: aPortSymbol [
+	^ self from: (GLMPortIdentifier pane: aPaneSymbol port: aPortSymbol)
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMTransmission >> from: aPort transformed: aBlock [
 	^ (self addActiveOrigin: (self browser resolveOriginPort: aPort)) transformation: aBlock
 ]
@@ -43,6 +48,11 @@ GLMTransmission >> passivelyFrom: aPort [
 { #category : #'*Glamour-Scripting' }
 GLMTransmission >> to: aPort [
 	^ self destination: (self browser resolveDestinationPort: aPort)
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMTransmission >> to: aPaneSymbol port: aPortSymbol [
+	^ self to: (GLMPortIdentifier pane: aPaneSymbol port: aPortSymbol)
 ]
 
 { #category : #'*Glamour-Scripting' }
