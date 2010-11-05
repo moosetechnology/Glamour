@@ -47,7 +47,7 @@ GLMUITheme class >> importGlamorousIcons [
 		'glamorousCheckboxUnselected'
 		'glamorousRadioSelected'
 		'glamorousRadioUnselected').
-	self importIcons: icons fromFolder: 'icons' inClass: MenuIcons category: '*glamour-morphic-theme'
+	self importIcons: icons fromFolder: 'icons' inClass: GLMUIThemeIcons category: '*glamour-morphic-theme'
 ]
 
 { #category : #private }
