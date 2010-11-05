@@ -9,7 +9,8 @@ Class {
 		'allowsMultipleSelection',
 		'tagsFilterBlock',
 		'allowsDeselection',
-		'tagsStyle'
+		'tagsStyle',
+		'helpMessage'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -81,6 +82,24 @@ GLMListingPresentation >> hasTags [
 { #category : #testing }
 GLMListingPresentation >> hasTagsFilter [
 	^ tagsFilterBlock notNil
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> helpMessage [
+
+	^ helpMessage ifNil: [
+		helpMessage := 'Search Input'
+		]
+
+	
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> helpMessage: aString [
+
+	helpMessage := aString.
+
+	
 ]
 
 { #category : #testing }
