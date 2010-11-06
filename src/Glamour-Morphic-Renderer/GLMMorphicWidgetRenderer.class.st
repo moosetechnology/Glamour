@@ -107,34 +107,54 @@ GLMMorphicWidgetRenderer >> renderPaneWithoutTitle: aPane [
 ]
 
 { #category : #private }
-GLMMorphicWidgetRenderer >> renderToolbarForBrowser: aBrowser inWindow: aWin [
+GLMMorphicWidgetRenderer >> renderPresentation: aPresentation [
+	^ self renderObject: aPresentation
+"	| container offset dock presentationMorph |
+	container := GLMMorphic emptyMorph.
+	offset := 0.
+	(aPresentation allActions select: [:each | each hasIcon]) notEmpty ifTrue: [ 
+		dock := self renderToolbarForPresentation: aPresentation inWindow: container.
+		offset := dock minExtent y.
+		container addMorph: dock fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 0) offsets: (0 @ 0 corner: 0 @ offset)) ].	
+	presentationMorph := self renderObject: aPresentation.
+	container 
+		addMorph: presentationMorph 
+		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ offset corner: 0 @ 0)).
+	^ container"
+]
+
+{ #category : #private }
+GLMMorphicWidgetRenderer >> renderToolbarForPresentation: aPresentation inWindow: aWin [
 	| dock tools buttons noIconActions |
-	dock := aWin newToolDockingBar.
-	buttons := (aBrowser allActions select: [:each | each hasIcon]) collect: [:each |
+	aPresentation inspect.
+	dock := aWin theme newToolDockingBarIn: aWin.
+	buttons := (aPresentation allActions select: [:each | each hasIcon]) collect: [:each |
 		(aWin
 			newButtonFor: each
 			getState: nil
 			action: #actOn:
-			arguments: {aBrowser}
+			arguments: {aPresentation}
 			getEnabled: nil
 			labelForm: each icon
 			help: each title)
 			valueOfProperty: #noBorder ifAbsentPut: [true];
 			valueOfProperty: #noFill ifAbsentPut: [true];
 			yourself ].
-"	noIconActions := aBrowser allActions select: [:each | each hasTitle and: [each hasIcon not]].
-	tools := aWin newToolbar: buttons.
+	noIconActions := aPresentation allActions select: [:each | each hasTitle and: [each hasIcon not]].
+	tools := aWin theme 
+		newToolbarIn: aWin
+		for: buttons.
 	noIconActions isEmpty 
 		ifFalse: [ 
 			dock 
-				add: '...' translated
+				add: ''
 				font: aWin theme menuBarFont
 				icon: nil
 				help: 'Browser actions' translated
-				subMenu: (self menuIn: MenuMorph new for: aBrowser).
+				subMenu: (self menuIn: MenuMorph new for: aPresentation).
 			buttons isEmpty ifFalse: [dock addMorphBack: tools] ]
-		ifTrue: [ "
-			dock addAllMorphs: buttons "]".
+		ifTrue: [ 
+			dock addAllMorphs: buttons ].
 	^ dock
 ]
 

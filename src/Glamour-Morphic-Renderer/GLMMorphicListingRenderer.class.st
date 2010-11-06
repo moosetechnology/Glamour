@@ -11,7 +11,7 @@ GLMMorphicListingRenderer >> render: aPresentation [
 	container := GLMMorphic emptyMorph.
 	treeMorph := self treeMorphFor: treeModel and: aPresentation.
 	aPresentation allowsInput ifTrue: [
-		textInput := self textInputFor: treeModel withHelpMessage: aPresentation helpMessage.
+		textInput := self textInputFor: treeModel.
 		treeMorph layoutFrame bottomOffset: -24.
 		container addMorphBack: textInput ].
 	container addMorphBack: treeMorph.
@@ -37,7 +37,7 @@ GLMMorphicListingRenderer >> render: aPresentation [
 ]
 
 { #category : #private }
-GLMMorphicListingRenderer >> textInputFor: treeModel withHelpMessage: helpStringMessage [
+GLMMorphicListingRenderer >> textInputFor: treeModel [
 	| textInput |
 	textInput := self theme 
 			newTextEntryIn: nil
@@ -46,7 +46,7 @@ GLMMorphicListingRenderer >> textInputFor: treeModel withHelpMessage: helpString
 			set: #inputText:
 			class: String
 			getEnabled: #inputTextEnabled
-			help: helpStringMessage.
+			help: 'Search Input'.
 	textInput layoutFrame: (LayoutFrame 
 				fractions: (0 @ 1 corner: 1 @ 1)
 				offsets: (0 @ -24 corner: 0 @ 0)).

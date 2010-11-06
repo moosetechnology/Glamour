@@ -22,7 +22,7 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 			aPresentation pane lastActivePresentation: (aPresentation matchingPresentations at: i) ].
 	presentations do: [ :each | 
 		tabs 
-			addLazyPage: [ self renderObject: each ]
+			addLazyPage: [ self renderPresentation: each ]
 			label: (self titleOrIconOf: each in: tabs) ].
 	index := 1.
 	presentations withIndexDo: [ :each :i | 
@@ -34,7 +34,7 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 		tabs clear.	
 		presentations do: [ :each | 
 			tabs 
-				addLazyPage: [ self renderObject: each ]
+				addLazyPage: [ self renderPresentation: each ]
 				label: (self titleOrIconOf: each in: tabs) ].
 			index := 1.
 			presentations withIndexDo: [ :each :i | 
