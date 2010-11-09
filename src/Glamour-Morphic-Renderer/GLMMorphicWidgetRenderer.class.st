@@ -126,7 +126,6 @@ GLMMorphicWidgetRenderer >> renderPresentation: aPresentation [
 { #category : #private }
 GLMMorphicWidgetRenderer >> renderToolbarForPresentation: aPresentation inWindow: aWin [
 	| dock tools buttons noIconActions |
-	aPresentation inspect.
 	dock := aWin theme newToolDockingBarIn: aWin.
 	buttons := (aPresentation allActions select: [:each | each hasIcon]) collect: [:each |
 		(aWin
