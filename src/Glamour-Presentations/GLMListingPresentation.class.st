@@ -10,10 +10,22 @@ Class {
 		'tagsFilterBlock',
 		'allowsDeselection',
 		'tagsStyle',
-		'helpMessage'
+		'helpMessage',
+		'selectionActions',
+		'selectionDynamicActionsBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
+
+{ #category : #accessing }
+GLMListingPresentation >> addSelectionAction: anAction [
+	self selectionActions add: anAction
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> allSelectionActions [ 
+	^ self selectionActions, self selectionDynamicActions
+]
 
 { #category : #accessing }
 GLMListingPresentation >> allowsDeselection [
@@ -120,6 +132,22 @@ GLMListingPresentation >> limitsAmount [
 { #category : #accessing }
 GLMListingPresentation >> searchStrategy [
 	^ searchBlock
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> selectionActions [
+	^ selectionActions ifNil: [ selectionActions := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> selectionActions: anObject [
+	selectionActions := anObject
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> selectionDynamicActions [
+	selectionDynamicActionsBlock isNil ifTrue: [ ^ OrderedCollection new ].
+	^ selectionDynamicActionsBlock glamourValue: self
 ]
 
 { #category : #accessing }
