@@ -11,8 +11,7 @@ Class {
 		'allowsDeselection',
 		'tagsStyle',
 		'helpMessage',
-		'selectionActions',
-		'selectionDynamicActionsBlock'
+		'selectionActions'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -24,7 +23,7 @@ GLMListingPresentation >> addSelectionAction: anAction [
 
 { #category : #accessing }
 GLMListingPresentation >> allSelectionActions [ 
-	^ self selectionActions, self selectionDynamicActions
+	^ self selectionActions, self dynamicActionsOnSelection
 ]
 
 { #category : #accessing }
@@ -142,12 +141,6 @@ GLMListingPresentation >> selectionActions [
 { #category : #accessing }
 GLMListingPresentation >> selectionActions: anObject [
 	selectionActions := anObject
-]
-
-{ #category : #accessing }
-GLMListingPresentation >> selectionDynamicActions [
-	selectionDynamicActionsBlock isNil ifTrue: [ ^ OrderedCollection new ].
-	^ selectionDynamicActionsBlock glamourValue: self
 ]
 
 { #category : #accessing }
