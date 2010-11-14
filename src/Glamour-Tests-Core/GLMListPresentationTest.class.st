@@ -10,7 +10,7 @@ GLMListPresentationTest >> testAllSelectionActions [
 	listing := GLMListingPresentation new.
 	listing addSelectionAction: GLMAction new.
 	listing addSelectionAction: GLMAction new.
-	listing selectionDynamicActions: [:p | OrderedCollection with: GLMAction new with: GLMAction new  with: GLMAction new ].
+	listing dynamicActionsOnSelection: [:p | OrderedCollection with: GLMAction new with: GLMAction new  with: GLMAction new ].
 	self assert: listing allSelectionActions size = 5
 ]
 
