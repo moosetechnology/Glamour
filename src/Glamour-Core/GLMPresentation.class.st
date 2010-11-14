@@ -22,7 +22,8 @@ Class {
 		'acceptsSelection',
 		'parentPrototype',
 		'registeredAnnouncers',
-		'updateActions'
+		'updateActions',
+		'selectionDynamicActionsBlock'
 	],
 	#category : #'Glamour-Core'
 }
@@ -144,6 +145,17 @@ GLMPresentation >> doValidate: anObject on: aPort [
 GLMPresentation >> dynamicActions [
 	dynamicActionsBlock isNil ifTrue: [ ^ OrderedCollection new ].
 	^ dynamicActionsBlock glamourValue: self
+]
+
+{ #category : #accessing }
+GLMPresentation >> dynamicActionsOnSelection [
+	selectionDynamicActionsBlock isNil ifTrue: [ ^ OrderedCollection new ].
+	^ selectionDynamicActionsBlock glamourValue: self
+]
+
+{ #category : #accessing }
+GLMPresentation >> dynamicActionsOnSelection: aBlock [
+	selectionDynamicActionsBlock := aBlock
 ]
 
 { #category : #'accessing ports' }
