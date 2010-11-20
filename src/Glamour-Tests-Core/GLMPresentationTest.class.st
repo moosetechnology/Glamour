@@ -5,6 +5,35 @@ Class {
 }
 
 { #category : #tests }
+GLMPresentationTest >> testActions [
+	| listing |
+	listing := GLMPresentation new.
+	listing actions isEmpty.
+	listing addAction: GLMAction new.
+	listing actions size = 1.
+]
+
+{ #category : #tests }
+GLMPresentationTest >> testAllActions [
+	| listing |
+	listing := GLMPresentation new.
+	listing addAction: GLMAction new.
+	listing addAction: GLMAction new.
+	listing dynamicActions: [:p | OrderedCollection with: GLMAction new with: GLMAction new  with: GLMAction new ].
+	self assert: listing allActions size = 5
+]
+
+{ #category : #tests }
+GLMPresentationTest >> testAllSelectionActions [
+	| listing |
+	listing := GLMPresentation new.
+	listing addSelectionAction: GLMAction new.
+	listing addSelectionAction: GLMAction new.
+	listing dynamicActionsOnSelection: [:p | OrderedCollection with: GLMAction new with: GLMAction new  with: GLMAction new ].
+	self assert: listing allSelectionActions size = 5
+]
+
+{ #category : #tests }
 GLMPresentationTest >> testAnnouncement [ 
 	 
 	| pane presentation announcement | 
@@ -178,6 +207,15 @@ GLMPresentationTest >> testMatching [
 			[:err |  
 			self assert: err message selector = #>. 
 			self assert: err message arguments = (Array with: 1)]
+]
+
+{ #category : #tests }
+GLMPresentationTest >> testSelectionActions [
+	| listing |
+	listing := GLMPresentation new.
+	listing selectionActions isEmpty.
+	listing addSelectionAction: GLMAction new.
+	listing selectionActions size = 1.
 ]
 
 { #category : #tests }

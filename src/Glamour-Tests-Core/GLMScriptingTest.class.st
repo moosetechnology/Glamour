@@ -85,7 +85,7 @@ GLMScriptingTest >> testDynamicActions [
 		showOn: #one;
 		using: [ browser list
 				display: [ :x | 1 to: x ];
-				actions: [ :list | 
+				dynamicActions: [ :list | 
 					(1 to: list selection) collect: 
 						[ :index | 
 						GLMGenericAction new

@@ -5,16 +5,6 @@ Class {
 }
 
 { #category : #tests }
-GLMListPresentationTest >> testAllSelectionActions [
-	| listing |
-	listing := GLMListingPresentation new.
-	listing addSelectionAction: GLMAction new.
-	listing addSelectionAction: GLMAction new.
-	listing dynamicActionsOnSelection: [:p | OrderedCollection with: GLMAction new with: GLMAction new  with: GLMAction new ].
-	self assert: listing allSelectionActions size = 5
-]
-
-{ #category : #tests }
 GLMListPresentationTest >> testChildren [
 	| tree |
 	tree := GLMTreePresentation new.
@@ -27,22 +17,13 @@ GLMListPresentationTest >> testChildren [
 GLMListPresentationTest >> testCustomValidation [
 	| pane presentation |
 	pane := GLMPane named: 'test'.
-	presentation := GLMListPresentation new.
+	presentation := GLMPresentation new.
 	pane addPresentation: presentation.
 	presentation customValidation: [ :object :aport :entity | 
 		aport ~= #selection or: [object = (entity last + 40)] ].
 	presentation entity: (OrderedCollection with: 1 with: 2).
 	self assert: presentation entity last = 2.
 	self assert: (presentation validate: 42 on: (pane port: #selection))
-]
-
-{ #category : #tests }
-GLMListPresentationTest >> testSelectionActions [
-	| listing |
-	listing := GLMListingPresentation new.
-	listing selectionActions isEmpty.
-	listing addSelectionAction: GLMAction new.
-	listing selectionActions size = 1.
 ]
 
 { #category : #tests }
