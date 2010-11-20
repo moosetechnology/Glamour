@@ -147,8 +147,8 @@ GLMMorphicWidgetRenderer >> renderToolbarForPresentation: aPresentation inMorph:
 	noIconActions isEmpty 
 		ifFalse: [
 			| activeForm passiveForm menuButton | 
-			activeForm := aMorph theme windowMenuForm.
-			passiveForm := aMorph theme windowMenuPassiveForm.
+			activeForm := GLMMorphicIcons toolbarMenuForm.
+			passiveForm := GLMMorphicIcons toolbarMenuInactiveForm.
 			menuButton := MultistateButtonMorph new extent: activeForm extent.
 			menuButton
 				extent: activeForm extent;
