@@ -23,6 +23,7 @@ Class {
 		'parentPrototype',
 		'registeredAnnouncers',
 		'updateActions',
+		'selectionActions',
 		'selectionDynamicActionsBlock'
 	],
 	#category : #'Glamour-Core'
@@ -63,8 +64,18 @@ GLMPresentation >> addAction: anAction [
 ]
 
 { #category : #accessing }
+GLMPresentation >> addSelectionAction: anAction [
+	self selectionActions add: anAction
+]
+
+{ #category : #accessing }
 GLMPresentation >> allActions [ 
 	^ self actions, self dynamicActions
+]
+
+{ #category : #accessing }
+GLMPresentation >> allSelectionActions [ 
+	^ self selectionActions, self dynamicActionsOnSelection
 ]
 
 { #category : #accessing }
@@ -191,6 +202,11 @@ GLMPresentation >> innerPortEvent: aPortEvent [
 ]
 
 { #category : #testing }
+GLMPresentation >> limitsAmount [
+	^ amountToShowBlock notNil
+]
+
+{ #category : #testing }
 GLMPresentation >> matches [ 
 	^ (self usesImplicitNotNil 
 		ifTrue: [GLMAllNotNilCondition new glamourValue: self entity] 
@@ -294,6 +310,16 @@ GLMPresentation >> selection: anObject [
 	self acceptsSelection ifFalse: [^ self].
 	self flag: 'perhaps it would be better to provide 2 ports: a transformed one and a normal onewsho'.
 	(self pane port: #selection) value: (self postTransformation glamourValue: anObject)
+]
+
+{ #category : #accessing }
+GLMPresentation >> selectionActions [
+	^ selectionActions ifNil: [ selectionActions := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+GLMPresentation >> selectionActions: anObject [
+	selectionActions := anObject
 ]
 
 { #category : #accessing }
