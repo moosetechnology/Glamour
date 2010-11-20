@@ -86,7 +86,7 @@ GLMBasicExamples >> browserWithToolbar [
 	finder list
 			title: 'List';
 			display: [:each | $a to: each];
-			actions: [:list | self actionsFor: list ].
+			dynamicActions: [:list | self actionsFor: list ].
 	^ finder
 ]
 
@@ -338,11 +338,11 @@ GLMBasicExamples >> multipleFinderWithFilter [
 	finder list
 			title: 'List';
 			beMultiple;
-			actions: [:list | self actionsFor: list];
+			dynamicActions: [:list | self actionsFor: list];
 			filterOn: [:text :each | Compiler evaluate: '| each | each := self. ', text for: each logged: false ].
 	finder tree
 			title: 'Tree';
-			actions: [:list | self actionsFor: list];
+			dynamicActions: [:list | self actionsFor: list];
 			filterOn: [:text :each | Compiler evaluate: '| each | each := self. ', text for: each logged: false ].
 	^ finder 
 ]
@@ -357,16 +357,16 @@ GLMBasicExamples >> multipleFinderWithFilterAndSearch [
 	finder list
 			beMultiple;
 			title: 'Simple';
-			actions: [:list | self actionsFor: list].
+			dynamicActions: [:list | self actionsFor: list].
 	finder list
 			title: 'With filter';
 			beMultiple;
-			actions: [:list | self actionsFor: list];
+			dynamicActions: [:list | self actionsFor: list];
 			filterOn: [:text :each | (Compiler evaluate: '[:each | ', text, ']') value: each].
 	finder list
 			title: 'With search';
 			beMultiple;
-			actions: [:list | self actionsFor: list];
+			dynamicActions: [:list | self actionsFor: list];
 			searchOn: [:text :each | (Compiler evaluate: '[:each | ', text, ']') value: each].
 	^ finder 
 ]
@@ -414,7 +414,7 @@ GLMBasicExamples >> simpleFinderWithMenu [
 	finder list
 			title: 'List';
 			display: [:each | $a to: each];
-			actions: [:list | self actionsFor: list ].
+			dynamicActions: [:list | self actionsFor: list ].
 	^ finder
 ]
 
@@ -426,7 +426,7 @@ GLMBasicExamples >> simpleTable [
 	finder := GLMFinder new.
 	finder table
 			display: [ :x | 1 to: x ]; 
-			actions: [ :list | self actionsFor: list ];
+			dynamicActions: [ :list | self actionsFor: list ];
 			column: [:x | 'Numbers from 1 to ', x asString] evaluated: #asString;
 			column: 'Even' evaluated: [ :each | each even asString ];
 			column: 'Odd' evaluated: [ :each | each odd asString ].
@@ -511,13 +511,13 @@ GLMBasicExamples >> staticAndDynamicMenu [
 	finder list
 			title: 'List';
 			display: [:each | $a to: each];
-			actions: [:list | self actionsFor: list ];
+			dynamicActions: [:list | self actionsFor: list ];
 			act: [Transcript show: 'static action'; cr] entitled: 'Static action';
 			act: [Transcript show: 'static sub action'; cr] entitled: 'Static sub action' categorized: 'Sub menu'.
 	finder text
 			title: 'Text';
 			display: [:each | 'Character ', each asString];
-			actions: [:text | OrderedCollection with: (GLMGenericAction new title: 'Print selection'; action: [Transcript show: text selection]; yourself) ];
+			dynamicActions: [:text | OrderedCollection with: (GLMGenericAction new title: 'Print selection'; action: [Transcript show: text selection]; yourself) ];
 			act: [Transcript show: 'Text static action'] entitled: 'Static action'.
 	^ finder
 ]
