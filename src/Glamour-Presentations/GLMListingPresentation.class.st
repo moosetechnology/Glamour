@@ -10,21 +10,10 @@ Class {
 		'tagsFilterBlock',
 		'allowsDeselection',
 		'tagsStyle',
-		'helpMessage',
-		'selectionActions'
+		'helpMessage'
 	],
 	#category : #'Glamour-Presentations'
 }
-
-{ #category : #accessing }
-GLMListingPresentation >> addSelectionAction: anAction [
-	self selectionActions add: anAction
-]
-
-{ #category : #accessing }
-GLMListingPresentation >> allSelectionActions [ 
-	^ self selectionActions, self dynamicActionsOnSelection
-]
 
 { #category : #accessing }
 GLMListingPresentation >> allowsDeselection [
@@ -123,24 +112,9 @@ GLMListingPresentation >> isSingle [
 	^ self isMultiple not
 ]
 
-{ #category : #testing }
-GLMListingPresentation >> limitsAmount [
-	^ amountToShowBlock notNil
-]
-
 { #category : #accessing }
 GLMListingPresentation >> searchStrategy [
 	^ searchBlock
-]
-
-{ #category : #accessing }
-GLMListingPresentation >> selectionActions [
-	^ selectionActions ifNil: [ selectionActions := OrderedCollection new ]
-]
-
-{ #category : #accessing }
-GLMListingPresentation >> selectionActions: anObject [
-	selectionActions := anObject
 ]
 
 { #category : #accessing }
