@@ -181,6 +181,51 @@ GLMPresentation >> populate: aPortSymbol on: aCharacter with: aBlock [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMPresentation >> selectionAct: aBlock entitled: aString [ 
+	 
+	self 
+		addSelectionAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				title: aString; 
+				yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMPresentation >> selectionAct: aBlock entitled: aString categorized: anotherString [
+	 
+	self 
+		addSelectionAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				title: aString; 
+				category: anotherString;
+				yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMPresentation >> selectionAct: aBlock icon: anIcon entitled: aString [
+	self 
+		addSelectionAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				icon: anIcon;
+				title: aString;
+				yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMPresentation >> selectionAct: aBlock on: aCharacter [ 
+	 
+	self 
+		addSelectionAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				shortcut: aCharacter; 
+				yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMPresentation >> selectionAct: aBlock on: aCharacter entitled: aString [ 
 	 
 	self 
