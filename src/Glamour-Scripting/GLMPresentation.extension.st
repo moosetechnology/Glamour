@@ -72,7 +72,8 @@ GLMPresentation >> act: aBlock on: aCharacter entitled: aString categorized: ano
 
 { #category : #'*Glamour-Scripting' }
 GLMPresentation >> actions: aBlock [ 
-	dynamicActionsBlock := aBlock
+	self deprecated: 'use dynamicActions: instead'.
+	^ self dynamicActions: aBlock 
 ]
 
 { #category : #'*Glamour-Scripting' }
@@ -84,6 +85,11 @@ GLMPresentation >> allowNil [
 GLMPresentation >> display: aBlock [ 
 	 
 	self transformation: aBlock
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMPresentation >> dynamicActions: aBlock [ 
+	dynamicActionsBlock := aBlock
 ]
 
 { #category : #'*Glamour-Scripting' }
@@ -171,6 +177,34 @@ GLMPresentation >> populate: aPortSymbol on: aCharacter with: aBlock [
 								valueBlock: aBlock; 
 								yourself); 
 				shortcut: aCharacter; 
+				yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMPresentation >> selectionAct: aBlock on: aCharacter entitled: aString [ 
+	 
+	self 
+		addSelectionAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				shortcut: aCharacter; 
+				title: aString; 
+				yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMPresentation >> selectionPopulate: aPortSymbol on: aCharacter entitled: aString with: aBlock [ 
+	 
+	self 
+		addSelectionAction: 
+			((GLMGenericAction new) 
+				action: 
+						((GLMPortUpdater new) 
+								portSymbol: aPortSymbol; 
+								valueBlock: aBlock; 
+								yourself); 
+				shortcut: aCharacter; 
+				title: aString;
 				yourself)
 ]
 
