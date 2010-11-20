@@ -86,7 +86,7 @@ GLMBasicExamples >> browserWithToolbar [
 	finder list
 			title: 'List';
 			display: [:each | $a to: each];
-			dynamicActions: [:list | self actionsFor: list ].
+			dynamicActionsOnSelection: [:list | self actionsFor: list ].
 	^ finder
 ]
 
@@ -414,7 +414,7 @@ GLMBasicExamples >> simpleFinderWithMenu [
 	finder list
 			title: 'List';
 			display: [:each | $a to: each];
-			dynamicActions: [:list | self actionsFor: list ].
+			dynamicActionsOnSelection: [:list | self actionsFor: list ].
 	^ finder
 ]
 
@@ -511,14 +511,14 @@ GLMBasicExamples >> staticAndDynamicMenu [
 	finder list
 			title: 'List';
 			display: [:each | $a to: each];
-			dynamicActions: [:list | self actionsFor: list ];
-			act: [Transcript show: 'static action'; cr] entitled: 'Static action';
-			act: [Transcript show: 'static sub action'; cr] entitled: 'Static sub action' categorized: 'Sub menu'.
+			dynamicActionsOnSelection: [:list | self actionsFor: list ];
+			selectionAct: [Transcript show: 'static action'; cr] entitled: 'Static action';
+			selectionAct: [Transcript show: 'static sub action'; cr] entitled: 'Static sub action' categorized: 'Sub menu'.
 	finder text
 			title: 'Text';
 			display: [:each | 'Character ', each asString];
-			dynamicActions: [:text | OrderedCollection with: (GLMGenericAction new title: 'Print selection'; action: [Transcript show: text selection]; yourself) ];
-			act: [Transcript show: 'Text static action'] entitled: 'Static action'.
+			dynamicActionsOnSelection: [:text | OrderedCollection with: (GLMGenericAction new title: 'Print selection'; action: [Transcript show: text selection]; yourself) ];
+			selectionAct: [Transcript show: 'Text static action'] entitled: 'Static action'.
 	^ finder
 ]
 
@@ -533,7 +533,7 @@ GLMBasicExamples >> tableWithIcons [
 		browser table
 			column: 'Character' evaluated: [ :each | each asString ];
 			column: 'ASCII' evaluated: [ :each | each asInteger printString ];
-			act: [:tree | tree inspect ] on: $i entitled: 'Inspect';
+			selectionAct: [:tree | tree inspect ] on: $i entitled: 'Inspect';
 			icon: [:x | MenuIcons helpIcon ]].
 	browser showOn: #two; from: #one; using: [ browser text ].
 	^ browser
@@ -655,7 +655,7 @@ GLMBasicExamples >> treeWithChildrenByLevel [
 	^ browser
 ]
 
-{ #category : #'actions examples' }
+{ #category : #others }
 GLMBasicExamples >> treeWithExpansion [
 	<glmBrowser: 'Tree with expansion' input: '#(($a $b $c $d) ($e $f) ($g $h $i $j ($l $m $n)))'>
 	"self new treeWithExpansion openOn: #(($a $b $c $d) ($e $f) ($g $h $i $j ($l $m $n)))"
@@ -716,7 +716,7 @@ GLMBasicExamples >> treeWithMenu [
 	browser transmit to: #one; andShow: [ :a |
 		a tree
 			children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ];
-			act: [:tree | tree inspect ] on: $i entitled: 'Inspect';
+			selectionAct: [:tree | tree inspect ] on: $i entitled: 'Inspect';
 			icon: [:x | MenuIcons helpIcon ]].
 	browser transmit to: #two; from: #one; andShow: [:a | a text ].
 	^ browser
