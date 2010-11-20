@@ -3,15 +3,22 @@ Class {
 	#superclass : #TabGroupMorph,
 	#instVars : [
 		'lazyPages',
-		'onPageIndexChange'
+		'onPageIndexChange',
+		'toolbars'
 	],
 	#category : #'Glamour-Morphic-Renderer'
 }
 
 { #category : #'as yet unclassified' }
 LazyTabGroupMorph >> addLazyPage: aBlock label: aStringOrMorph [
+	self addLazyPage: aBlock label: aStringOrMorph toolbar: nil
+]
+
+{ #category : #'as yet unclassified' }
+LazyTabGroupMorph >> addLazyPage: aBlock label: aStringOrMorph toolbar: aToolbar [
 	self lazyPages add: aBlock.
-	self tabSelectorMorph addTab: aStringOrMorph
+	self tabSelectorMorph addTab: aStringOrMorph.
+	self toolbars add: aToolbar
 ]
 
 { #category : #'as yet unclassified' }
@@ -30,7 +37,7 @@ LazyTabGroupMorph >> addPage: aMorph at: anIndex [
 	^self pages at: anIndex put: aMorph
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 LazyTabGroupMorph >> clear [
 	self flag: 'todo'.
 "	tabSelectorMorph submorphs do: [:each |
@@ -39,14 +46,20 @@ LazyTabGroupMorph >> clear [
 	pageMorphs := Dictionary new."
 ]
 
+{ #category : #accessing }
+LazyTabGroupMorph >> hasToolbarAt: aNumber [
+	^ (self toolbarAt: aNumber) notNil
+]
+
 { #category : #initialization }
 LazyTabGroupMorph >> initialize [
 	super initialize.
 	lazyPages := OrderedCollection new.
 	pageMorphs := Dictionary new.
+	toolbars := OrderedCollection new. "a collection with a toolbar for each page"
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 LazyTabGroupMorph >> lazyPages [
 
 	^lazyPages
@@ -65,6 +78,21 @@ LazyTabGroupMorph >> onPageIndexChange: anObject [
 { #category : #'as yet unclassified' }
 LazyTabGroupMorph >> pageAt: index [
 	^self pages at: index ifAbsent: [ self addPage: (self lazyPages at: index) value at: index]
+]
+
+{ #category : #accessing }
+LazyTabGroupMorph >> toolbarAt: aNumber [
+	^ self toolbars at: aNumber ifAbsent: [nil]
+]
+
+{ #category : #accessing }
+LazyTabGroupMorph >> toolbars [
+	^ toolbars
+]
+
+{ #category : #accessing }
+LazyTabGroupMorph >> toolbars: anObject [
+	toolbars := anObject
 ]
 
 { #category : #'as yet unclassified' }

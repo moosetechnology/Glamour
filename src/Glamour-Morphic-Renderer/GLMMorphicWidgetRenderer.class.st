@@ -65,8 +65,9 @@ GLMMorphicWidgetRenderer >> morph: aMorph withTitleOf: aPresentation [
 		cornerStyle: (self theme tabGroupCornerStyleIn: nil);
 		font: self theme labelFont.
 	tabs 
-			addLazyPage: [aMorph]
-			label: (self titleOrIconOf: aPresentation in: tabs).
+		addLazyPage: [aMorph]
+		label: (self titleOrIconOf: aPresentation in: tabs)
+		toolbar: (self renderToolbarForPresentation: aPresentation inMorph: aMorph).
 	tabs selectedPageIndex: 1.
 	^ tabs
 ]
@@ -108,49 +109,58 @@ GLMMorphicWidgetRenderer >> renderPaneWithoutTitle: aPane [
 
 { #category : #private }
 GLMMorphicWidgetRenderer >> renderPresentation: aPresentation [
-	^ self renderObject: aPresentation
-"	| container offset dock presentationMorph |
+"	^ self renderObject: aPresentation"
+	| container offset dock presentationMorph |
 	container := GLMMorphic emptyMorph.
 	offset := 0.
-	(aPresentation allActions select: [:each | each hasIcon]) notEmpty ifTrue: [ 
-		dock := self renderToolbarForPresentation: aPresentation inWindow: container.
+	aPresentation allActions notEmpty ifTrue: [ 
+		dock := self renderToolbarForPresentation: aPresentation inMorph: container.
 		offset := dock minExtent y.
 		container addMorph: dock fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 0) offsets: (0 @ 0 corner: 0 @ offset)) ].	
 	presentationMorph := self renderObject: aPresentation.
 	container 
 		addMorph: presentationMorph 
 		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ offset corner: 0 @ 0)).
-	^ container"
+	^ container
 ]
 
 { #category : #private }
-GLMMorphicWidgetRenderer >> renderToolbarForPresentation: aPresentation inWindow: aWin [
+GLMMorphicWidgetRenderer >> renderToolbarForPresentation: aPresentation inMorph: aMorph [
 	| dock tools buttons noIconActions |
-	dock := aWin theme newToolDockingBarIn: aWin.
+	dock := aMorph theme newToolDockingBarIn: aMorph.
 	buttons := (aPresentation allActions select: [:each | each hasIcon]) collect: [:each |
-		(aWin
-			newButtonFor: each
+		(aMorph theme
+			newButtonIn: aMorph for: each
 			getState: nil
 			action: #actOn:
 			arguments: {aPresentation}
 			getEnabled: nil
-			labelForm: each icon
+			label: (AlphaImageMorph new image: each icon)
 			help: each title)
 			valueOfProperty: #noBorder ifAbsentPut: [true];
 			valueOfProperty: #noFill ifAbsentPut: [true];
 			yourself ].
 	noIconActions := aPresentation allActions select: [:each | each hasTitle and: [each hasIcon not]].
-	tools := aWin theme 
-		newToolbarIn: aWin
+	tools := aMorph theme 
+		newToolbarIn: aMorph
 		for: buttons.
 	noIconActions isEmpty 
-		ifFalse: [ 
-			dock 
-				add: ''
-				font: aWin theme menuBarFont
-				icon: nil
-				help: 'Browser actions' translated
-				subMenu: (self menuIn: MenuMorph new for: aPresentation).
+		ifFalse: [
+			| activeForm passiveForm menuButton | 
+			activeForm := aMorph theme windowMenuForm.
+			passiveForm := aMorph theme windowMenuPassiveForm.
+			menuButton := MultistateButtonMorph new extent: activeForm extent.
+			menuButton
+				extent: activeForm extent;
+						activeEnabledOverUpFillStyle: (ImageFillStyle form: activeForm);
+						passiveEnabledOverUpFillStyle: (ImageFillStyle form: activeForm);
+						activeEnabledOverDownFillStyle: (ImageFillStyle form: passiveForm);
+				passiveEnabledOverDownFillStyle: (ImageFillStyle form: passiveForm);
+				addUpAction: [ | menu |
+						menu := self menuIn: MenuMorph new for: aPresentation.
+						menu popUpEvent: self currentEvent in: aMorph world ];
+				setBalloonText: 'Menu' translated.
+			dock addMorphBack: menuButton.
 			buttons isEmpty ifFalse: [dock addMorphBack: tools] ]
 		ifTrue: [ 
 			dock addAllMorphs: buttons ].

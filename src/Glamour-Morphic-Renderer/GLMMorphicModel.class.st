@@ -14,7 +14,7 @@ GLMMorphicModel >> allKeystrokeActions [
 
 { #category : #callbacks }
 GLMMorphicModel >> allMenuActions [
-	^ self glamourPresentation allActions select: [:action | action hasTitle ]
+	^ self glamourPresentation allSelectionActions select: [:action | action hasTitle ]
 ]
 
 { #category : #callbacks }

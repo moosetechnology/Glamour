@@ -13,7 +13,7 @@ GLMMorphicWindowRenderer >> render: aRenderable [
 	offset := 0.
 	bottomOffset := 0.
 	(aRenderable allActions select: [:each | each hasIcon]) notEmpty ifTrue: [ 
-		dock := self renderToolbarForPresentation: aRenderable inWindow: window.
+		dock := self renderToolbarForPresentation: aRenderable inMorph: window.
 		offset := dock minExtent y.
 		window addMorph: dock fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 0) offsets: (0 @ 0 corner: 0 @ offset)) ].
 	aRenderable hasStatusbar
