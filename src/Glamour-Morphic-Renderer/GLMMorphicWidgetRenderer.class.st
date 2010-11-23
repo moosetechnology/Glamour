@@ -27,7 +27,7 @@ GLMMorphicWidgetRenderer >> installActionsOnUI: aMorphicModel fromPresentation: 
 GLMMorphicWidgetRenderer >> menuIn: aMenuMorph for: aPresentation [
 	| subMenus targetMenuMorph subMenu |
 	subMenus := Dictionary new.
-	(aPresentation allActions select: [:action | action hasTitle ]) do: [ :action |
+	(aPresentation allActions select: [:each | each hasTitle and: [each hasIcon not]]) do: [ :action |
 		targetMenuMorph := action category notNil 
 			ifTrue: [ subMenus at: action category ifAbsentPut: [ 
 					subMenu :=  MenuMorph new.
@@ -141,11 +141,8 @@ GLMMorphicWidgetRenderer >> renderToolbarForPresentation: aPresentation inMorph:
 			valueOfProperty: #noFill ifAbsentPut: [true];
 			yourself ].
 	noIconActions := aPresentation allActions select: [:each | each hasTitle and: [each hasIcon not]].
-	tools := aMorph theme 
-		newToolbarIn: aMorph
-		for: buttons.
-	noIconActions isEmpty 
-		ifFalse: [
+	tools := aMorph theme newToolbarIn: aMorph for: buttons.
+	noIconActions isEmpty ifFalse: [
 			| activeForm passiveForm menuButton | 
 			activeForm := GLMMorphicIcons toolbarMenuForm.
 			passiveForm := GLMMorphicIcons toolbarMenuInactiveForm.
@@ -162,8 +159,7 @@ GLMMorphicWidgetRenderer >> renderToolbarForPresentation: aPresentation inMorph:
 				setBalloonText: 'Menu' translated.
 			dock addMorphBack: menuButton.
 			buttons isEmpty ifFalse: [dock addMorphBack: tools] ]
-		ifTrue: [ 
-			dock addAllMorphs: buttons ].
+		ifTrue: [ dock addAllMorphs: buttons ].
 	^ dock
 ]
 
