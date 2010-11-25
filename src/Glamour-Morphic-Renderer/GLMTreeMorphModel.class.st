@@ -22,7 +22,8 @@ Class {
 
 { #category : #accessing }
 GLMTreeMorphModel >> allKeystrokeActions [
-	^ self glamourPresentation allActions select: [:action | action hasShortcut ]
+	^ (self glamourPresentation allActions, self glamourPresentation allSelectionActions) select: [ :action | 
+		action hasShortcut ]
 ]
 
 { #category : #accessing }
