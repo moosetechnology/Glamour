@@ -115,6 +115,16 @@ GLMPresentation >> morphicAct: aBlock on: aCharacter entitled: aString [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMPresentation >> morphicSelectionAct: aBlock entitled: aString [ 
+	 
+	self addSelectionAction: 
+			((GLMMorphicAction new) 
+				action: aBlock; 
+				title: aString; 
+				yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMPresentation >> noSelection [
 	self acceptsSelection: false
 ]
