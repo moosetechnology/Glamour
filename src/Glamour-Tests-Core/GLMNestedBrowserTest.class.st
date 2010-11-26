@@ -197,7 +197,9 @@ GLMNestedBrowserTest >> testNestedBrowsersWithMultipleOrigins [
 				display: [:one :two | 
 					transmittedOne := one. 
 					transmittedTwo := two ]) ].
+	browser startOn: 1.
 	((browser paneNamed: #one) port: #selection) value: 1.
 	((browser paneNamed: #two) port: #selection) value: 2.
-	
+	self assert: transmittedOne = 1.
+	self assert: transmittedTwo = 2	
 ]
