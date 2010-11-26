@@ -95,13 +95,13 @@ GLMMorphicWidgetRenderer >> renderPaneWithoutTitle: aPane [
 	aPane when: GLMMatchingPresentationsChanged do: [ :ann | 
 		container
 			removeAllMorphs;
-			addMorph: (self renderObject: aPane presentations)
+			addMorph: (self renderPresentation: aPane presentations)
 			fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 			adoptPaneColor: container paneColor.
 		renderer window fullBounds.
 		renderer window refreshHorizontalScollbars ].
 	container
-		addMorph: (self renderObject: aPane presentations)
+		addMorph: (self renderPresentation: aPane presentations)
 		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		adoptPaneColor: container paneColor.
 	^ container
@@ -109,14 +109,14 @@ GLMMorphicWidgetRenderer >> renderPaneWithoutTitle: aPane [
 
 { #category : #private }
 GLMMorphicWidgetRenderer >> renderPresentation: aPresentation [
-"	^ self renderObject: aPresentation"
 	| container offset dock presentationMorph |
+	aPresentation allActions isEmpty ifTrue: [ 
+		^ self renderObject: aPresentation ].
 	container := GLMMorphic emptyMorph.
 	offset := 0.
-	aPresentation allActions notEmpty ifTrue: [ 
-		dock := self renderToolbarForPresentation: aPresentation inMorph: container.
-		offset := dock minExtent y.
-		container addMorph: dock fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 0) offsets: (0 @ 0 corner: 0 @ offset)) ].	
+	dock := self renderToolbarForPresentation: aPresentation inMorph: container.
+	offset := dock minExtent y.
+	container addMorph: dock fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 0) offsets: (0 @ 0 corner: 0 @ offset)).	
 	presentationMorph := self renderObject: aPresentation.
 	container 
 		addMorph: presentationMorph 
@@ -166,14 +166,14 @@ GLMMorphicWidgetRenderer >> renderToolbarForPresentation: aPresentation inMorph:
 { #category : #private }
 GLMMorphicWidgetRenderer >> renderWithTitle: aPresentation [
 	| morph |
-	morph := self renderObject: aPresentation.
+	morph := self renderPresentation: aPresentation.
 	^ self morph: morph withTitleOf: aPresentation
 ]
 
 { #category : #private }
 GLMMorphicWidgetRenderer >> renderWithTitleOrNil: aPresentation [
 	| morph |
-	morph := self renderObject: aPresentation.
+	morph := self renderPresentation: aPresentation.
 	^ self morph: morph withTitleOrNilOf: aPresentation
 ]
 
