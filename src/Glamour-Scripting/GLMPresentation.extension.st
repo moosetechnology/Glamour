@@ -72,8 +72,8 @@ GLMPresentation >> act: aBlock on: aCharacter entitled: aString categorized: ano
 
 { #category : #'*Glamour-Scripting' }
 GLMPresentation >> actions: aBlock [ 
-	self deprecated: 'use dynamicActions: instead'.
-	^ self dynamicActions: aBlock 
+	self deprecated: 'use dynamicActionsOnSelection: for contextual actions, and dynamicActions for presentation-wide actions'.
+	^ self dynamicActionsOnSelection: aBlock 
 ]
 
 { #category : #'*Glamour-Scripting' }
