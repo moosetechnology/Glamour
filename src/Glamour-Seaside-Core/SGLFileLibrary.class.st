@@ -713,7 +713,7 @@ div.finder-pane > * {
 }
 
 /* Text presentation */
-.glm-text-presentation, .glm-empty-presentation {
+.glm-text-presentation {
 	position: relative;
 	display: -webkit-box; display: -moz-box; display: box;
 	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
@@ -724,6 +724,12 @@ div.finder-pane > * {
 .glm-text-presentation > textarea {
 	padding-left: 5px;
 }
+
+/* Empty presentation */
+.glm-empty-presentation {
+	height: 99%;
+}
+
 
 /* Actions */
 
@@ -795,40 +801,22 @@ div.finder-pane > * {
 
 /* table layout */
 .sgl-table {
-	width: 100%;	
-	position: relative;
 }
 
-.sgl-table-hbox, 
-.sgl-table-hbox > *,
-.sgl-table-vbox > * {
-	position: relative;
-	display: -webkit-box; display: -moz-box; display: box;
-	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
-	-webkit-box-orient: horizontal; -moz-box-orient: horizontal; box-orient: horizontal;
+/* splitter */
+.sgl-splitter-hsplitbar, .hsplitbar {
+	height: 5px;
 }
 
-.sgl-table-hbox > *, 
-.sgl-table-hbox > * > *,
-.sgl-table-vbox > * > * {
-	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+.sgl-splitter-vsplitbar, .vsplitbar {
+	width: 5px;
 }
 
-.sgl-table-vbox {
-	position: relative;
-	display: -webkit-box; display: -moz-box; display: box;
-	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;
-	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
-}
-
-.sgl-table-vbox > * {
-	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
-}
-
-.sgl-table-split {
-	width: 5px; height: 5px;
-	-webkit-box-flex: 0; -moz-box-flex: 0; box-flex: 0;
-}
+.vsplitbar:hover, .vsplitbar.active, .hsplitbar:hover, .hsplitbar.active {
+	background: #e0e0e0;
+	opacity: 0.7;
+	filter: alpha(opacity=70); /* IE */
+} 
 
 /* magritte layout */
 div.magritte { width: 100%; }

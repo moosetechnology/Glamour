@@ -79,7 +79,7 @@ SGLJsLibrary >> caretJs [
 })(jQuery,"length","createRange","duplicate");'
 ]
 
-{ #category : #uploaded }
+{ #category : #created }
 SGLJsLibrary >> glamourSeasideJs [
 	^ '	
 	jQuery.glamour = {};	
@@ -431,13 +431,265 @@ SGLJsLibrary >> glamourSeasideJs [
 	var Glamour = {};
 	
 	Glamour.resize = function() {
-		$("body > .sgl-table, body > .finder-container").each(function() {
+		$("body > .sgl-table, body > .finder-container, body > div").each(function() {
 			$(this).height($(window).height() - 20);
+			$(this).trigger("resize");
 		});
 	};
 
 	$(Glamour.resize);
 	$(window).resize(Glamour.resize);'
+]
+
+{ #category : #uploaded }
+SGLJsLibrary >> jquerybaresizeJs [
+	^ '/*!
+ * jQuery resize event - v1.1 - 3/14/2010
+ * http://benalman.com/projects/jquery-resize-plugin/
+ * 
+ * Copyright (c) 2010 "Cowboy" Ben Alman
+ * Dual licensed under the MIT and GPL licenses.
+ * http://benalman.com/about/license/
+ */
+
+// Script: jQuery resize event
+//
+// *Version: 1.1, Last updated: 3/14/2010*
+// 
+// Project Home - http://benalman.com/projects/jquery-resize-plugin/
+// GitHub       - http://github.com/cowboy/jquery-resize/
+// Source       - http://github.com/cowboy/jquery-resize/raw/master/jquery.ba-resize.js
+// (Minified)   - http://github.com/cowboy/jquery-resize/raw/master/jquery.ba-resize.min.js (1.0kb)
+// 
+// About: License
+// 
+// Copyright (c) 2010 "Cowboy" Ben Alman,
+// Dual licensed under the MIT and GPL licenses.
+// http://benalman.com/about/license/
+// 
+// About: Examples
+// 
+// This working example, complete with fully commented code, illustrates a few
+// ways in which this plugin can be used.
+// 
+// resize event - http://benalman.com/code/projects/jquery-resize/examples/resize/
+// 
+// About: Support and Testing
+// 
+// Information about what version or versions of jQuery this plugin has been
+// tested with, what browsers it has been tested in, and where the unit tests
+// reside (so you can test it yourself).
+// 
+// jQuery Versions - 1.3.2, 1.4.1, 1.4.2
+// Browsers Tested - Internet Explorer 6-8, Firefox 2-3.6, Safari 3-4, Chrome, Opera 9.6-10.1.
+// Unit Tests      - http://benalman.com/code/projects/jquery-resize/unit/
+// 
+// About: Release History
+// 
+// 1.1 - (3/14/2010) Fixed a minor bug that was causing the event to trigger
+//       immediately after bind in some circumstances. Also changed $.fn.data
+//       to $.data to improve performance.
+// 1.0 - (2/10/2010) Initial release
+
+(function($,window,undefined){
+  ''$:nomunge''; // Used by YUI compressor.
+  
+  // A jQuery object containing all non-window elements to which the resize
+  // event is bound.
+  var elems = $([]),
+    
+    // Extend $.resize if it already exists, otherwise create it.
+    jq_resize = $.resize = $.extend( $.resize, {} ),
+    
+    timeout_id,
+    
+    // Reused strings.
+    str_setTimeout = ''setTimeout'',
+    str_resize = ''resize'',
+    str_data = str_resize + ''-special-event'',
+    str_delay = ''delay'',
+    str_throttle = ''throttleWindow'';
+  
+  // Property: jQuery.resize.delay
+  // 
+  // The numeric interval (in milliseconds) at which the resize event polling
+  // loop executes. Defaults to 250.
+  
+  jq_resize[ str_delay ] = 250;
+  
+  // Property: jQuery.resize.throttleWindow
+  // 
+  // Throttle the native window object resize event to fire no more than once
+  // every <jQuery.resize.delay> milliseconds. Defaults to true.
+  // 
+  // Because the window object has its own resize event, it doesn''t need to be
+  // provided by this plugin, and its execution can be left entirely up to the
+  // browser. However, since certain browsers fire the resize event continuously
+  // while others do not, enabling this will throttle the window resize event,
+  // making event behavior consistent across all elements in all browsers.
+  // 
+  // While setting this property to false will disable window object resize
+  // event throttling, please note that this property must be changed before any
+  // window object resize event callbacks are bound.
+  
+  jq_resize[ str_throttle ] = true;
+  
+  // Event: resize event
+  // 
+  // Fired when an element''s width or height changes. Because browsers only
+  // provide this event for the window element, for other elements a polling
+  // loop is initialized, running every <jQuery.resize.delay> milliseconds
+  // to see if elements'' dimensions have changed. You may bind with either
+  // .resize( fn ) or .bind( "resize", fn ), and unbind with .unbind( "resize" ).
+  // 
+  // Usage:
+  // 
+  // > jQuery(''selector'').bind( ''resize'', function(e) {
+  // >   // element''s width or height has changed!
+  // >   ...
+  // > });
+  // 
+  // Additional Notes:
+  // 
+  // * The polling loop is not created until at least one callback is actually
+  //   bound to the ''resize'' event, and this single polling loop is shared
+  //   across all elements.
+  // 
+  // Double firing issue in jQuery 1.3.2:
+  // 
+  // While this plugin works in jQuery 1.3.2, if an element''s event callbacks
+  // are manually triggered via .trigger( ''resize'' ) or .resize() those
+  // callbacks may double-fire, due to limitations in the jQuery 1.3.2 special
+  // events system. This is not an issue when using jQuery 1.4+.
+  // 
+  // > // While this works in jQuery 1.4+
+  // > $(elem).css({ width: new_w, height: new_h }).resize();
+  // > 
+  // > // In jQuery 1.3.2, you need to do this:
+  // > var elem = $(elem);
+  // > elem.css({ width: new_w, height: new_h });
+  // > elem.data( ''resize-special-event'', { width: elem.width(), height: elem.height() } );
+  // > elem.resize();
+      
+  $.event.special[ str_resize ] = {
+    
+    // Called only when the first ''resize'' event callback is bound per element.
+    setup: function() {
+      // Since window has its own native ''resize'' event, return false so that
+      // jQuery will bind the event using DOM methods. Since only ''window''
+      // objects have a .setTimeout method, this should be a sufficient test.
+      // Unless, of course, we''re throttling the ''resize'' event for window.
+      if ( !jq_resize[ str_throttle ] && this[ str_setTimeout ] ) { return false; }
+      
+      var elem = $(this);
+      
+      // Add this element to the list of internal elements to monitor.
+      elems = elems.add( elem );
+      
+      // Initialize data store on the element.
+      $.data( this, str_data, { w: elem.width(), h: elem.height() } );
+      
+      // If this is the first element added, start the polling loop.
+      if ( elems.length === 1 ) {
+        loopy();
+      }
+    },
+    
+    // Called only when the last ''resize'' event callback is unbound per element.
+    teardown: function() {
+      // Since window has its own native ''resize'' event, return false so that
+      // jQuery will unbind the event using DOM methods. Since only ''window''
+      // objects have a .setTimeout method, this should be a sufficient test.
+      // Unless, of course, we''re throttling the ''resize'' event for window.
+      if ( !jq_resize[ str_throttle ] && this[ str_setTimeout ] ) { return false; }
+      
+      var elem = $(this);
+      
+      // Remove this element from the list of internal elements to monitor.
+      elems = elems.not( elem );
+      
+      // Remove any data stored on the element.
+      elem.removeData( str_data );
+      
+      // If this is the last element removed, stop the polling loop.
+      if ( !elems.length ) {
+        clearTimeout( timeout_id );
+      }
+    },
+    
+    // Called every time a ''resize'' event callback is bound per element (new in
+    // jQuery 1.4).
+    add: function( handleObj ) {
+      // Since window has its own native ''resize'' event, return false so that
+      // jQuery doesn''t modify the event object. Unless, of course, we''re
+      // throttling the ''resize'' event for window.
+      if ( !jq_resize[ str_throttle ] && this[ str_setTimeout ] ) { return false; }
+      
+      var old_handler;
+      
+      // The new_handler function is executed every time the event is triggered.
+      // This is used to update the internal element data store with the width
+      // and height when the event is triggered manually, to avoid double-firing
+      // of the event callback. See the "Double firing issue in jQuery 1.3.2"
+      // comments above for more information.
+      
+      function new_handler( e, w, h ) {
+        var elem = $(this),
+          data = $.data( this, str_data );
+        
+        // If called from the polling loop, w and h will be passed in as
+        // arguments. If called manually, via .trigger( ''resize'' ) or .resize(),
+        // those values will need to be computed.
+        data.w = w !== undefined ? w : elem.width();
+        data.h = h !== undefined ? h : elem.height();
+        
+        old_handler.apply( this, arguments );
+      };
+      
+      // This may seem a little complicated, but it normalizes the special event
+      // .add method between jQuery 1.4/1.4.1 and 1.4.2+
+      if ( $.isFunction( handleObj ) ) {
+        // 1.4, 1.4.1
+        old_handler = handleObj;
+        return new_handler;
+      } else {
+        // 1.4.2+
+        old_handler = handleObj.handler;
+        handleObj.handler = new_handler;
+      }
+    }
+    
+  };
+  
+  function loopy() {
+    
+    // Start the polling loop, asynchronously.
+    timeout_id = window[ str_setTimeout ](function(){
+      
+      // Iterate over all elements to which the ''resize'' event is bound.
+      elems.each(function(){
+        var elem = $(this),
+          width = elem.width(),
+          height = elem.height(),
+          data = $.data( this, str_data );
+        
+        // If element size has changed since the last time, update the element
+        // data store and trigger the ''resize'' event.
+        if ( width !== data.w || height !== data.h ) {
+          elem.trigger( str_resize, [ data.w = width, data.h = height ] );
+        }
+        
+      });
+      
+      // Loop.
+      loopy();
+      
+    }, jq_resize[ str_delay ] );
+    
+  };
+  
+})(jQuery,this);
+'
 ]
 
 { #category : #uploaded }
@@ -659,7 +911,150 @@ SGLJsLibrary >> scrollToJs [
 })( jQuery );'
 ]
 
-{ #category : #uploaded }
+{ #category : #created }
+SGLJsLibrary >> sglResizeJs [
+	^ '
+	;( function($) {
+		$.widget("ui.sglResize", {
+			options: {
+				splitHorizontal: false,
+				splitVertical: false,	
+				outline: true,
+				paneA_class: "sgl-table-paneA",
+				paneB_class: "sgl-table-paneB"
+			},
+			
+			_initPanes: function() {
+				var pane;
+				
+				pane = this.element.children(":nth-child(1)");
+				pane.addClass(this.options.paneA);
+				this.paneA = pane;
+				
+				pane = this.element.children(":nth-child(2)");
+				if (pane.size() == 1) {
+					pane.addClass(this.options.paneB);
+					this.paneB = pane;
+				}
+			},
+			
+			_create: function() {
+				var that = this;
+				var jQueryObject = this;
+				var layoutOptions = {}
+								
+								
+				// Initialize the panel.	
+				this._initPanes();				
+
+				// Initialize the spliter and bind the resize event.		
+				if (this.element.children().size() > 1) {					
+					layoutOptions.splitHorizontal = this.options.splitHorizontal;
+					layoutOptions.splitVertical = this.options.splitVertical;
+					layoutOptions.outline = this.options.outline;
+				
+					that.resizeChildrenPanes(true, layoutOptions);
+					this.element.resize(function(){	
+						//console.log(that.element.attr("id")+": resize")						
+						that.resizeChildrenPanes();
+					});
+					
+					//alert(this.element.children(":nth-child(3)").attr("id"));
+					if (!this.paneB.hasClass("sgl-table")) {
+						//alert(this.element.attr("id"));
+						this._setContentPaneChildrenDimensions("paneB");
+					}
+				} else {
+					this.resizePane("paneA");
+				}	
+					
+				this._setContentPaneChildrenDimensions("paneA");
+			},
+			
+			_setContentPaneChildrenDimensions: function(paneName) {
+				var that = this;				
+				var paneSelector = this.options[paneName];
+				var paneFirstChild= this[paneName].children(paneSelector);
+				
+												
+				paneFirstChild.width(this[paneName].width());
+				paneFirstChild.height(this[paneName].height());
+				this[paneName].resize(function(){
+					//console.log("parent: "+that.element.attr("id")+" "+paneName+" resized "+that[paneName].children(paneSelector).attr("id"));
+					that.cachePaneDimensions(paneName);				
+					
+					that[paneName].children().width(that[paneName].width());
+					that[paneName].children().height(that[paneName].height());
+					that[paneName].children().triggerHandler("resize");
+				});		
+			},
+			
+			resizePane: function(paneName) {	
+				var that = this;
+				
+				this._setElementDimensions(this[paneName], this.element.width(), this.element.height());
+				this.element.resize(function(){	
+					that._setElementDimensions(that[paneName], that.element.width(), that.element.height());								
+					that[paneName].triggerHandler("resize");
+				});						
+			},
+			
+			resizeChildrenPanes: function(init, layoutOptions) {
+				var newPosition;
+				var ration;
+				
+				
+				if (init) {
+					//console.log(this.element.attr("id")+": init");
+					this.element.splitter(layoutOptions);
+					
+					//this.pane1 = this.element.children(":nth-child(1)");					
+					//this.pane2 = this.element.children(":nth-child(2)");	
+					this.cacheContainerDimensions();
+					this.cachePaneDimensions("paneA");
+					this.cachePaneDimensions("paneB");
+					return ;
+				}
+				
+				//console.log(this.element.width() + "==" + this.elemWidth +  "&&"  + this.element.height() + "==" + this.elemHeight);
+				// Only handle the event if the dimensions actually changed.
+				if (this.element.width() == this.elemWidth &&  this.element.height() == this.elemHeight ) {											
+					return ;
+				}									
+				
+				if (this.options.splitVertical) {
+					ration = this.element.width() / this.elemWidth;
+					newPosition = this.paneAWidth * ration;		
+					//console.log(this.element.attr("id")+": "+this.element.width() + ", " + this.elemWidth +  ";"  + this.paneAWidth);			
+				} else {
+					ration = this.element.height() / this.elemHeight;
+					newPosition = this.paneAHeight * ration;
+				}
+				//console.log(this.element.attr("id")+" do resize to: "+newPosition);								
+				this.cacheContainerDimensions();									
+				this.element.triggerHandler("resize", [newPosition]);												
+			},
+			
+			cacheContainerDimensions: function() {
+				this.elemWidth = this.element.width();
+				this.elemHeight = this.element.height();	
+			},
+			
+			cachePaneDimensions: function(paneName) {
+				this[paneName+"Width"] = this[paneName].width();
+				this[paneName+"Height"] = this[paneName].height();
+			},
+			
+			_setElementDimensions: function(element, width, height) {
+				element.width(width);
+				element.height(height);
+			}
+			
+		});
+	})(jQuery);'
+]
+
+{ #category : #created }
 SGLJsLibrary >> sglTreeJs [
 	^ '
 	;( function($) {
@@ -1055,6 +1450,225 @@ SGLJsLibrary >> sglTreeJs [
 		}) ;
 	}) (jQuery) ;
 	'
+]
+
+{ #category : #uploaded }
+SGLJsLibrary >> splitterJs [
+	^ '/*
+ * jQuery.splitter.js - two-pane splitter window plugin
+ *
+ * version 1.51 (2009/01/09) 
+ * 
+ * Dual licensed under the MIT and GPL licenses: 
+ *   http://www.opensource.org/licenses/mit-license.php 
+ *   http://www.gnu.org/licenses/gpl.html 
+ */
+
+/**
+ * The splitter() plugin implements a two-pane resizable splitter window.
+ * The selected elements in the jQuery object are converted to a splitter;
+ * each selected element should have two child elements, used for the panes
+ * of the splitter. The plugin adds a third child element for the splitbar.
+ * 
+ * For more details see: http://methvin.com/splitter/
+ *
+ *
+ * @example $(''#MySplitter'').splitter();
+ * @desc Create a vertical splitter with default settings 
+ *
+ * @example $(''#MySplitter'').splitter({type: ''h'', accessKey: ''M''});
+ * @desc Create a horizontal splitter resizable via Alt+Shift+M
+ *
+ * @name splitter
+ * @type jQuery
+ * @param Object options Options for the splitter (not required)
+ * @cat Plugins/Splitter
+ * @return jQuery
+ * @author Dave Methvin (dave.methvin@gmail.com)
+ */
+ ;(function($){
+ 
+ $.fn.splitter = function(args){
+	args = args || {};
+	return this.each(function() {
+		var zombie;		// left-behind splitbar for outline resizes
+		function startSplitMouse(evt) {
+			if ( opts.outline )
+				zombie = zombie || bar.clone(false).insertAfter(A);
+			panes.css("-webkit-user-select", "none");	// Safari selects A/B text on a move
+			bar.addClass(opts.activeClass);
+			A._posSplit = A[0][opts.pxSplit] - evt[opts.eventPos];
+			$(document)
+				.bind("mousemove", doSplitMouse)
+				.bind("mouseup", endSplitMouse);
+		}
+		function doSplitMouse(evt) {
+			var newPos = A._posSplit+evt[opts.eventPos];
+			if ( opts.outline ) {
+				newPos = Math.max(0, Math.min(newPos, splitter._DA - bar._DA));
+				bar.css(opts.origin, newPos);
+			} else 
+				resplit(newPos);
+		}
+		function endSplitMouse(evt) {
+			bar.removeClass(opts.activeClass);
+			var newPos = A._posSplit+evt[opts.eventPos];
+			if ( opts.outline ) {
+				zombie.remove(); zombie = null;
+				resplit(newPos);
+			}
+			panes.css("-webkit-user-select", "text");	// let Safari select text again
+			$(document)
+				.unbind("mousemove", doSplitMouse)
+				.unbind("mouseup", endSplitMouse);
+		}
+		function resplit(newPos) {
+			// Constrain new splitbar position to fit pane size limits
+			newPos = Math.max(A._min, splitter._DA - B._max, 
+					Math.min(newPos, A._max, splitter._DA - bar._DA - B._min));
+			// Resize/position the two panes
+			bar._DA = bar[0][opts.pxSplit];		// bar size may change during dock
+			bar.css(opts.origin, newPos).css(opts.fixed, splitter._DF);
+			A.css(opts.origin, 0).css(opts.split, newPos).css(opts.fixed,  splitter._DF);
+			B.css(opts.origin, newPos+bar._DA)
+				.css(opts.split, splitter._DA-bar._DA-newPos).css(opts.fixed,  splitter._DF);
+			// IE fires resize for us; all others pay cash
+			if ( !$.browser.msie )
+				panes.each(function() {
+					$(this).triggerHandler("resize");
+				})
+		}
+		function dimSum(jq, dims) {
+			// Opera returns -1 for missing min/max width, turn into 0
+			var sum = 0;
+			for ( var i=1; i < arguments.length; i++ )
+				sum += Math.max(parseInt(jq.css(arguments[i])) || 0, 0);
+			return sum;
+		}
+		
+		// Determine settings based on incoming opts, element classes, and defaults
+		var vh = (args.splitHorizontal? ''h'' : args.splitVertical? ''v'' : args.type) || ''v'';
+		var opts = $.extend({
+			activeClass: ''active'',	// class name for active splitter
+			pxPerKey: 8,			// splitter px moved per keypress
+			tabIndex: 0,			// tab order indicator
+			accessKey: ''''			// accessKey for splitbar
+		},{
+			v: {					// Vertical splitters:
+				keyLeft: 39, keyRight: 37, cursor: "e-resize",
+				splitbarClass: "vsplitbar", outlineClass: "voutline",
+				type: ''v'', eventPos: "pageX", origin: "left",
+				split: "width",  pxSplit: "offsetWidth",  side1: "Left", side2: "Right",
+				fixed: "height", pxFixed: "offsetHeight", side3: "Top",  side4: "Bottom"
+			},
+			h: {					// Horizontal splitters:
+				keyTop: 40, keyBottom: 38,  cursor: "n-resize",
+				splitbarClass: "hsplitbar", outlineClass: "houtline",
+				type: ''h'', eventPos: "pageY", origin: "top",
+				split: "height", pxSplit: "offsetHeight", side1: "Top",  side2: "Bottom",
+				fixed: "width",  pxFixed: "offsetWidth",  side3: "Left", side4: "Right"
+			}
+		}[vh], args);
+
+		// Create jQuery object closures for splitter and both panes
+		var splitter = $(this).css({position: "relative"});
+		var panes = $(">*", splitter[0]).css({
+			position: "absolute", 			// positioned inside splitter container
+			"z-index": "1",					// splitbar is positioned above
+			"-moz-outline-style": "none"	// don''t show dotted outline
+		});
+		var A = $(panes[0]);		// left  or top
+		var B = $(panes[1]);		// right or bottom
+
+		// Focuser element, provides keyboard support; title is shown by Opera accessKeys
+		var focuser = $(''<a href="javascript:void(0)"></a>'')
+			.attr({accessKey: opts.accessKey, tabIndex: opts.tabIndex, title: opts.splitbarClass})
+			.bind($.browser.opera?"click":"focus", function(){ this.focus(); bar.addClass(opts.activeClass) })
+			.bind("keydown", function(e){
+				var key = e.which || e.keyCode;
+				var dir = key==opts["key"+opts.side1]? 1 : key==opts["key"+opts.side2]? -1 : 0;
+				if ( dir )
+					resplit(A[0][opts.pxSplit]+dir*opts.pxPerKey, false);
+			})
+			.bind("blur", function(){ bar.removeClass(opts.activeClass) });
+			
+		// Splitbar element, can be already in the doc or we create one
+		var bar = $(panes[2] || ''<div></div>'')
+			.insertAfter(A).css("z-index", "100").append(focuser)
+			.attr({"class": opts.splitbarClass, unselectable: "on"})
+			.css({position: "absolute",	"user-select": "none", "-webkit-user-select": "none",
+				"-khtml-user-select": "none", "-moz-user-select": "none"})
+			.bind("mousedown", startSplitMouse);
+		// Use our cursor unless the style specifies a non-default cursor
+		if ( /^(auto|default|)$/.test(bar.css("cursor")) )
+			bar.css("cursor", opts.cursor);
+
+		// Cache several dimensions for speed, rather than re-querying constantly
+		bar._DA = bar[0][opts.pxSplit];
+		splitter._PBF = $.boxModel? dimSum(splitter, "border"+opts.side3+"Width", "border"+opts.side4+"Width") : 0;
+		splitter._PBA = $.boxModel? dimSum(splitter, "border"+opts.side1+"Width", "border"+opts.side2+"Width") : 0;
+		A._pane = opts.side1;
+		B._pane = opts.side2;
+		$.each([A,B], function(){
+			this._min = opts["min"+this._pane] || dimSum(this, "min-"+opts.split);
+			this._max = opts["max"+this._pane] || dimSum(this, "max-"+opts.split) || 9999;
+			this._init = opts["size"+this._pane]===true ?
+				parseInt($.curCSS(this[0],opts.split)) : opts["size"+this._pane];
+		});
+		
+		// Determine initial position, get from cookie if specified
+		var initPos = A._init;
+		if ( !isNaN(B._init) )	// recalc initial B size as an offset from the top or left side
+			initPos = splitter[0][opts.pxSplit] - splitter._PBA - B._init - bar._DA;
+		if ( opts.cookie ) {
+			if ( !$.cookie )
+				alert(''jQuery.splitter(): jQuery cookie plugin required'');
+			var ckpos = parseInt($.cookie(opts.cookie));
+			if ( !isNaN(ckpos) )
+				initPos = ckpos;
+			$(window).bind("unload", function(){
+				var state = String(bar.css(opts.origin));	// current location of splitbar
+				$.cookie(opts.cookie, state, {expires: opts.cookieExpires || 365, 
+					path: opts.cookiePath || document.location.pathname});
+			});
+		}
+		if ( isNaN(initPos) )	// King Solomon''s algorithm
+			initPos = Math.round((splitter[0][opts.pxSplit] - splitter._PBA - bar._DA)/2);
+
+		// Resize event propagation and splitter sizing
+		if ( opts.anchorToWindow ) {
+			// Account for margin or border on the splitter container and enforce min height
+			splitter._hadjust = dimSum(splitter, "borderTopWidth", "borderBottomWidth", "marginBottom");
+			splitter._hmin = Math.max(dimSum(splitter, "minHeight"), 20);
+			$(window).bind("resize", function(){
+				var top = splitter.offset().top;
+				var wh = $(window).height();
+				splitter.css("height", Math.max(wh-top-splitter._hadjust, splitter._hmin)+"px");
+				if ( !$.browser.msie ) splitter.trigger("resize");
+			}).trigger("resize");
+		}
+		else if ( opts.resizeToWidth && !$.browser.msie )
+			$(window).bind("resize", function(){
+				splitter.trigger("resize"); 
+			});
+
+		// Resize event handler; triggered immediately to set initial position
+		splitter.bind("resize", function(e, size){			
+			// Custom events bubble in jQuery 1.3; don''t get into a Yo Dawg
+			if ( e.target != this ) return;			
+			// Determine new width/height of splitter container
+			splitter._DF = splitter[0][opts.pxFixed] - splitter._PBF;
+			splitter._DA = splitter[0][opts.pxSplit] - splitter._PBA;
+			// Bail if splitter isn''t visible or content isn''t there yet
+			if ( splitter._DF <= 0 || splitter._DA <= 0 ) return;
+			// Re-divvy the adjustable dimension; maintain size of the preferred pane
+			resplit(!isNaN(size)? size : (!(opts.sizeRight||opts.sizeBottom)? A[0][opts.pxSplit] :
+				splitter._DA-B[0][opts.pxSplit]-bar._DA));
+		}).trigger("resize" , [initPos]);
+	});
+};
+
+})(jQuery);'
 ]
 
 { #category : #uploaded }

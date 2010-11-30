@@ -66,10 +66,13 @@ SGLComponent >> updateRoot: aHtmlRoot [
 	aHtmlRoot stylesheet url: (SGLFileLibrary urlOf: #styleCss).
 	aHtmlRoot stylesheet url: (SGLFileLibrary urlOf:  #mbMenuCss).
 	
+	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #splitterJs).
+	"aHtmlRoot javascript url: (SGLJsLibrary urlOf: #jquerybaresizeJs)."
 	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #caretJs).
 	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #scrollToJs).
 	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #typeWatchJs).
 	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #sglTreeJs).
+	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #sglResizeJs).
 	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #glamourSeasideJs).
 	
 	aHtmlRoot javascript url: JQWidgetBoxDeploymentLibrary / #mbMenuJs.
