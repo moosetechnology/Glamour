@@ -13,7 +13,9 @@ GLMMorphicTextRenderer >> render: aPresentation [
 						glamourPresentation: aPresentation;
 						highlightSmalltalk: aPresentation highlightSmalltalk;
 						highlightSmalltalkContext: aPresentation highlightSmalltalkContext.
-	textMorph := self textMorphForModel: textModel. 
+	textMorph := aPresentation highlightSmalltalk 
+			ifTrue: [self smalltalkTextMorphForModel: textModel]
+			ifFalse: [self textMorphForModel: textModel].
 	
 	"this is a horrible hack: 
 	because we cannot get the update of when the text changes from the morph,
@@ -36,8 +38,24 @@ GLMMorphicTextRenderer >> render: aPresentation [
 ]
 
 { #category : #rendering }
-GLMMorphicTextRenderer >> textMorphForModel: textModel [
+GLMMorphicTextRenderer >> smalltalkTextMorphForModel: textModel [
 	^ (PluggableShoutMorph
+		on: textModel
+		text: #text
+		accept: #accept:notifying:
+		readSelection: #selection
+		menu: #menu:shifted:)
+		onKeyStrokeSend: #keystroke:from: to: textModel;
+		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
+		vResizing: #spaceFill;
+		hResizing: #spaceFill;
+		color: Color white;
+		yourself
+]
+
+{ #category : #rendering }
+GLMMorphicTextRenderer >> textMorphForModel: textModel [
+	^ (PluggableTextMorph
 		on: textModel
 		text: #text
 		accept: #accept:notifying:
