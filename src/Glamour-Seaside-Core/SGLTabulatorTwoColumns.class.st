@@ -14,7 +14,7 @@ SGLTabulatorTwoColumns >> browser [
 	"self new browser openOn: self new model"
 	|browser |
 	browser := GLMTabulator new.
-	browser column: #one; column: #two.
+	browser column: #one span: 1; column: #two span: 1.
 	
 	^ browser
 ]

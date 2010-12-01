@@ -10,6 +10,16 @@ JQSGLResize >> method [
 ]
 
 { #category : #'options-generated' }
+JQSGLResize >> paneASpan: anInteger [
+	self optionAt: 'paneASpan' put: anInteger 
+]
+
+{ #category : #'options-generated' }
+JQSGLResize >> remainingSpan: anInteger [
+	self optionAt: 'paneBSpan' put: anInteger 
+]
+
+{ #category : #'options-generated' }
 JQSGLResize >> splitHorizontal [
 	self optionAt: 'splitHorizontal' put: true 
 ]
