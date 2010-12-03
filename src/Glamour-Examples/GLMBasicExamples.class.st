@@ -293,8 +293,8 @@ GLMBasicExamples >> mondrianPainting [
 
 { #category : #others }
 GLMBasicExamples >> morphIcons [
-	<glmBrowser: 'Morph icons' input: 'OBMorphicIcons selectors select: [:each | (OBMorphicIcons new perform: each) isForm ]'>
-	"self new morphIcons openOn: (OBMorphicIcons selectors select: [:each | (OBMorphicIcons new perform: each) isForm ])"
+	<glmBrowser: 'Morph icons' input: 'ThemeIcons class selectors select: [:each | (ThemeIcons perform: each) isForm ]'>
+	"self new morphIcons openOn: (ThemeIcons class selectors select: [:each | (each endsWith: 'Icon') and: [(ThemeIcons perform: each) isForm ]])"
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #list; column: #preview.
@@ -304,7 +304,7 @@ GLMBasicExamples >> morphIcons [
 	browser showOn: #preview; from: #list; using: [
 		browser morph
 			display: [:symbol | 
-				(OBMorphicIcons iconNamed: symbol) asMorph ] ].
+				(ThemeIcons iconNamed: symbol) asMorph ] ].
 	^ browser
 ]
 
@@ -467,7 +467,7 @@ GLMBasicExamples >> stacker [
 	browser transmit to: #x; andShow: [ :a | 
 		a title: 'x'.
 		a list display: [:x | 1 to: x ]].
-	browser transmit from: #x; to: #y; andShow: [:a | 
+	browser transmit to: #y; andShow: [:a | 
 		a title: '10 * x'.
 		a list display: [:x |  1 to: (10*x )] ].
 	^ browser 
