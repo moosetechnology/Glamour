@@ -37,6 +37,11 @@ GLMTransmission >> from: aPort transformed: aBlock [
 
 { #category : #'*Glamour-Scripting' }
 GLMTransmission >> fromOutside: aPortSymbol [
+	^ self fromOutsidePort: aPortSymbol
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMTransmission >> fromOutsidePort: aPortSymbol [
 	^ self from: #outer->aPortSymbol
 ]
 
@@ -57,6 +62,11 @@ GLMTransmission >> to: aPaneSymbol port: aPortSymbol [
 
 { #category : #'*Glamour-Scripting' }
 GLMTransmission >> toOutside: aPortSymbol [
+	^ self toOutsidePort: aPortSymbol
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMTransmission >> toOutsidePort: aPortSymbol [
 	^ self to: #outer->aPortSymbol
 ]
 

@@ -21,6 +21,11 @@ GLMExplicitBrowser >> from: anOriginPortReference [
 
 { #category : #'*Glamour-Scripting-deprecated' }
 GLMExplicitBrowser >> fromOutside: aPortName [
+	 ^ self fromOutsidePort: aPortName
+]
+
+{ #category : #'*Glamour-Scripting-deprecated' }
+GLMExplicitBrowser >> fromOutsidePort: aPortName [
 	 ^ self from: #outer->aPortName
 ]
 
