@@ -256,10 +256,20 @@ SGLJsLibrary >> glamourSeasideJs [
 				}	
 			});
 			
+			$(tabs).bind( "tabsload", function(event, ui) {
+				// Notify the parent that something changed.				
+				$(tabs).parent().trigger( "sglContentChanged" );
+			});
+			
+			// Forward the resize event
+			$(tabs).bind("resize", function(){				
+				$(tabs).children(".ui-tabs-panel").children().triggerHandler("resize");
+			});
+			
 			//Set the width of the tab.
 			navigation.css("min-width", navigation.glamourWidth()+$.glamourWidth.outerWidth(navigation)+2);
 			
-			setNavigationStyles(navigation)
+			setNavigationStyles(navigation);						
 		}
 		
 		function add(tabs, index, options) {
@@ -436,9 +446,33 @@ SGLJsLibrary >> glamourSeasideJs [
 			$(this).trigger("resize");
 		});
 	};
-
+	
 	$(Glamour.resize);
-	$(window).resize(Glamour.resize);'
+	$(window).resize(Glamour.resize);
+	
+	/**
+	 * Set the HTML contents of each element in the set of matched elements and  
+	 * trigger the event "sglContentChanged" on the parents of the matched elements.
+	 */
+	; (function($){
+	
+		$.fn.glamourHtml = function( value ) {
+		
+			// A string value is required.
+			if ( value === undefined && typeof value !== "string" ) {
+				return this;
+			}
+					
+			return this.each(function(){
+				var self = $(this);				
+				
+				self.html( value );
+				self.trigger( "sglContentChanged" );
+			});
+		}
+	
+	})(jQuery);
+	'
 ]
 
 { #category : #uploaded }
@@ -920,36 +954,12 @@ SGLJsLibrary >> sglResizeJs [
 				splitHorizontal: false,
 				splitVertical: false,	
 				outline: true,
+				splitter_class: "sgl-table",
 				paneA_class: "sgl-table-paneA",
 				paneB_class: "sgl-table-paneB",
 				paneASpan: 1,
 				paneBSpan: 1,
 				_containedImbrication: null
-			},
-			
-			_initPanes: function() {
-				var pane;
-				
-				//console.log("paneASpan: "+this.options.paneASpan);
-				
-				pane = this.element.children(":nth-child(1)");
-				pane.addClass(this.options.paneA);
-				this.paneA = pane;
-				
-				pane = this.element.children(":nth-child(2)");
-				if (pane.size() == 1) {
-					pane.addClass(this.options.paneB);
-					this.paneB = pane;
-					//console.log("paneBSpan: "+this.options.paneBSpan);
-					
-					// Determine the numbers of resizable containers contained by paneB.
-					this.options._containedImbrication = 0;
-					while (pane.hasClass("sgl-table")) {
-						this.options._containedImbrication++;
-						pane = pane.children(".sgl-table");
-					}
-					//console.log("paneBSpan: "+this.options.paneBSpan+", _containedImbrication: "+this.options._containedImbrication);
-				}
 			},
 			
 			_create: function() {
@@ -975,28 +985,70 @@ SGLJsLibrary >> sglResizeJs [
 					});
 										
 					if (!this.paneB.hasClass("sgl-table")) {						
-						this._setContentPaneChildrenDimensions("paneB");
+						this._bindPaneContentChanged("paneB");
+						this._setContentPaneChildrenDimensions("paneB", true);
 					}
 				} else {
 					this._resizePane("paneA");
 				}	
-					
-				this._setContentPaneChildrenDimensions("paneA");
+				
+				this._bindPaneContentChanged("paneA");
+				this._setContentPaneChildrenDimensions("paneA", true);
 			},
 			
-			_setContentPaneChildrenDimensions: function(paneName) {
+			_initPanes: function() {
+				var pane;
+				
+				//console.log("paneASpan: "+this.options.paneASpan);
+				
+				pane = this.element.children(":nth-child(1)");
+				pane.addClass(this.options.paneA_class);
+				this.paneA = pane;				
+				
+				pane = this.element.children(":nth-child(2)");
+				if (pane.size() == 1) {
+					pane.addClass(this.options.paneB_class);
+					this.paneB = pane;
+					
+					//console.log("paneBSpan: "+this.options.paneBSpan);
+					
+					// Determine the numbers of resizable containers contained by paneB.
+					this.options._containedImbrication = 0;
+					while (pane.hasClass("sgl-table")) {
+						this.options._containedImbrication++;
+						pane = pane.children(".sgl-table");
+					}
+					//console.log("paneBSpan: "+this.options.paneBSpan+", _containedImbrication: "+this.options._containedImbrication);
+				}
+			},
+			
+			_bindPaneContentChanged: function(paneName){
+				var that = this;
+				
+				this[paneName].bind("sglContentChanged", function() {					
+					that._setContentPaneChildrenDimensions(paneName);
+				});
+			},						
+			
+			_setContentPaneChildrenDimensions: function(paneName, init) {
 				var that = this;
 				var paneFirstChild= this[paneName].children();
 				
-										
-				paneFirstChild.width(this[paneName].width());
-				paneFirstChild.height(this[paneName].height());
-				this[paneName].resize(function(){
-					//console.log("parent: "+that.element.attr("id")+" "+paneName+" resized "+that[paneName].children(paneSelector).attr("id"));
+				
+				//paneFirstChild.width(this[paneName].width());
+				//paneFirstChild.height(this[paneName].height());
+				this._setElementDimensions(paneFirstChild, this[paneName].width(), this[paneName].height());
+				
+				if (!init) {					
+					return ;
+				}
+				
+				this[paneName].resize(function(){					
 					that._cachePaneDimensions(paneName);				
 					
-					that[paneName].children().width(that[paneName].width());
-					that[paneName].children().height(that[paneName].height());
+					//that[paneName].children().width(that[paneName].width());
+					//that[paneName].children().height(that[paneName].height());
+					that._setElementDimensions(that[paneName].children(), that[paneName].width(), that[paneName].height());					
 					if (!$.browser.msie) {
 						that[paneName].children().triggerHandler("resize");
 					}
@@ -1007,9 +1059,13 @@ SGLJsLibrary >> sglResizeJs [
 			_resizePane: function(paneName) {	
 				var that = this;
 				
-				this._setElementDimensions(this[paneName], this.element.width(), this.element.height());
+				//this._setElementDimensions(this[paneName], this.element.width(), this.element.height());
+				this[paneName].width(this.element.width());
+				this[paneName].height(this.element.height());
 				this.element.resize(function(){	
-					that._setElementDimensions(that[paneName], that.element.width(), that.element.height());								
+					//that._setElementDimensions(that[paneName], that.element.width(), that.element.height());								
+					that[paneName].width(that.element.width());
+					that[paneName].height(that.element.height());
 					if (!$.browser.msie) {
 						that[paneName].triggerHandler("resize");
 					}					
@@ -1082,8 +1138,31 @@ SGLJsLibrary >> sglResizeJs [
 			},
 			
 			_setElementDimensions: function(element, width, height) {
-				element.width(width);
-				element.height(height);
+				var paddingLR, paddingTB;
+				var marginLR = 0, marginTB = 0;
+				var borderLR, borderTB;
+				var outerLR, outerTB;
+			
+				paddingLR = parseFloat(element.css("padding-left"), 10) + parseFloat(element.css("padding-right"), 10); 
+				paddingTB = parseFloat(element.css("padding-bottom"), 10) + parseFloat(element.css("padding-top"), 10); 
+				
+				//marginLR = parseFloat(element.css("margin-left"), 10) + parseFloat(element.css("margin-right"), 10); 
+				//marginTB = parseFloat(element.css("margin-bottom"), 10) + parseFloat(element.css("margin-top"), 10); 
+				
+				borderLR = parseFloat(element.css("border-left-width"), 10) + parseFloat(element.css("border-right-width"), 10); 
+				borderTB = parseFloat(element.css("border-bottom-width"), 10) + parseFloat(element.css("border-top-width"), 10); 
+			
+				outerLR = paddingLR + marginLR + borderLR;
+				outerTB = paddingTB + marginTB + borderTB;
+				
+				//alert(""+paddingLR +", "+ marginLR +", "+ borderLR);
+				//alert(width + ", "+ height +" :"+ outerLR + ":, "+ outerTB);
+				
+				width -= outerLR;
+				height -= outerTB;
+				
+				element.width(width < 0 ? 0: Math.round(width));
+				element.height(height < 0 ? 0: Math.round(height));
 			},
 			
 		});

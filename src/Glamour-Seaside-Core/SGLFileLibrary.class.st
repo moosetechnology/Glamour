@@ -483,7 +483,7 @@ div.finder-pane > * {
 /* presentations */
 
 .empty-presentation{
-	min-height:50px;
+	/*min-height:50px;*/
 }
 
 .presentation-container {
@@ -504,8 +504,8 @@ div.finder-pane > * {
 .list-presentation > ul {
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 	overflow: auto;
-	min-height: 100px;
-	min-width: 100px;
+	min-height: 10px;
+	min-width: 10px;
 }
 
 .list-presentation > ul > li {
@@ -705,7 +705,7 @@ div.finder-pane > * {
 	overflow: auto;
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 	background: none repeat scroll 0 0 #FFFFFF;
-	min-height: 100px;
+	/*min-height: 100px;*/
 }
 
 .glm-mondrian-presentation > img{
@@ -718,7 +718,6 @@ div.finder-pane > * {
 	display: -webkit-box; display: -moz-box; display: box;
 	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
 	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;
-	min-height: 150px;
 }
 
 .glm-text-presentation > textarea {
@@ -806,14 +805,16 @@ div.finder-pane > * {
 /* splitter */
 .sgl-splitter-hsplitbar, .hsplitbar {
 	height: 5px;
+	background: white;
 }
 
 .sgl-splitter-vsplitbar, .vsplitbar {
 	width: 5px;
+	background: white;
 }
 
 .vsplitbar:hover, .vsplitbar.active, .hsplitbar:hover, .hsplitbar.active {
-	background: #e0e0e0;
+	background: gray;
 	opacity: 0.7;
 	filter: alpha(opacity=70); /* IE */
 } 

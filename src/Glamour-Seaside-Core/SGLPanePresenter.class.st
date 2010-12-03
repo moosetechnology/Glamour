@@ -18,7 +18,7 @@ SGLPanePresenter >> renderContentOn: html [
 		self renderer
 			scriptFor: pane
 			put: ((html jQuery id: (self renderer uuidFor: pane))
-				html: [ :aRenderer |
+				glamourHtml: [ :aRenderer |
 					self renderPaneOn: aRenderer]) ].
 	self renderPaneOn: html
 	

@@ -1,6 +1,11 @@
 Extension { #name : #JQueryInstance }
 
 { #category : #'*Glamour-Seaside-Core' }
+JQueryInstance >> glamourHtml: aRenderable [
+	self call: 'glamourHtml' with: (self render: aRenderable)
+]
+
+{ #category : #'*Glamour-Seaside-Core' }
 JQueryInstance >> glamourResize [
 	^ self create: JQSGLResize 
 ]
