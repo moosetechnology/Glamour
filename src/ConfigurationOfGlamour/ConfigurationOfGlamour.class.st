@@ -296,9 +296,8 @@ ConfigurationOfGlamour >> baseline20beta6: spec [
 		spec group: 'Tests' with: #(
 						'Glamour-Tests-Core'
 						'Glamour-Examples'
-						'Glamour-Tests-Morphic'). 
-		spec group: 'ExtrasTests' with: #(
-						'Glamour-Tests-Mondrian').	
+						'Glamour-Tests-Morphic'
+						'Glamour-Tests-Mondrian'). 
 		spec
 			project: 'Shout' with: [
 				spec
@@ -614,7 +613,7 @@ ConfigurationOfGlamour >> version20beta8: spec [
 	<version: '2.0-beta.8' imports: #('2.0-beta.6-baseline')>
 
 	spec for: #common do: [
-		spec author: 'Alexandr eBergel'.
+		spec author: 'Alexandre Bergel'.
 		spec timestamp: '12/2/2010 09:36'.
 		spec description: 'Compatible with Pharo 1.1.1'.
 		spec blessing: #development.
