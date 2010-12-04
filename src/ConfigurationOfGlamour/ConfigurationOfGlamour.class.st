@@ -627,7 +627,7 @@ ConfigurationOfGlamour >> version20beta8: spec [
 			package: 'Glamour-Browsers'  with: 'Glamour-Browsers-tg.46';
 			package: 'Glamour-Scripting' with: 'Glamour-Scripting-TudorGirba.100';
 			package: 'Glamour-Tests-Core' with:  'Glamour-Tests-Core-TudorGirba.9';
-			package: 'Glamour-Morphic-Renderer' with:  'Glamour-Morphic-Renderer-tg.5';
+			package: 'Glamour-Morphic-Renderer' with:  'Glamour-Morphic-Renderer-TudorGirba.21';
 			package: 'Glamour-Morphic-Theme' with:  'Glamour-Morphic-Theme-tg.21';
 			package: 'Glamour-Tests-Morphic' with:  'Glamour-Tests-Morphic-tg.4';
 			package: 'Glamour-Examples' with:  'Glamour-Examples-TudorGirba.156';
