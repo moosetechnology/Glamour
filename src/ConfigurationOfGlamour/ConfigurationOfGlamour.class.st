@@ -630,7 +630,7 @@ ConfigurationOfGlamour >> version20beta8: spec [
 			package: 'Glamour-Morphic-Renderer' with:  'Glamour-Morphic-Renderer-tg.5';
 			package: 'Glamour-Morphic-Theme' with:  'Glamour-Morphic-Theme-tg.21';
 			package: 'Glamour-Tests-Morphic' with:  'Glamour-Tests-Morphic-tg.4';
-			package: 'Glamour-Examples' with:  'Glamour-Examples-tg.156';
+			package: 'Glamour-Examples' with:  'Glamour-Examples-TudorGirba.156';
 			package: 'Glamour-Tools' with:  'Glamour-Tools-tg.23';
 			package: 'Magritte-Model' with:  'Magritte-Model-lr.397';
 			package: 'Magritte-Tests-Model' with:  'Magritte-Tests-Model-lr.13';
