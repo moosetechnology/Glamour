@@ -315,10 +315,6 @@ SGLFileLibrary >> styleCss [
 	background: none repeat scroll 0 0 #DFDFDF;
 }
 
-.ui-widget {
-
-}
-
 .ui-tabs .ui-tabs-nav li {
 	padding-bottom: 1px;
 	margin: 0;
@@ -440,26 +436,20 @@ div.finder-pane > * {
 /* jquery ui */
 .ui-tabs {
 	position: relative;
-	display: -webkit-box; display: -moz-box; display: box;
-	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
-	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;
 }
+
 .ui-tabs > .ui-tabs-nav {
 	border: 0 none !important;
-	-webkit-box-flex: 0; -moz-box-flex: 0; box-flex: 0;
 	min-height: 20px;
 }
 .ui-tabs > .ui-tabs-panel {
 	padding: 3px;
 	position: relative;
-	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
-	display: -webkit-box; display: -moz-box; display: box;
-	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch; 
-	/* -webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical; */
 }
 
 .ui-tabs-panel > * {
-	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
+	width: 100%;
+	height: 100%;
 }
 
 .glm-tabs-close-button {
@@ -530,9 +520,10 @@ div.finder-pane > * {
 
 .presentation-with-title, .presentation-content {
 	position: relative;
+	/*
 	display: -webkit-box; display: -moz-box; display: box;
 	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
-	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;
+	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;*/
 }
 
 .presentation-with-title {
@@ -581,7 +572,11 @@ div.finder-pane > * {
 	width: 100%;
 }
 
-.stacked-arrangement, .accordion-arrangement {
+.tabbed-arrangement {
+	padding: 0.2em;
+}
+
+.stacked-arrangement, .stacked-arrangement > *, .accordion-arrangement {
 	position: relative;
 	display: -webkit-box; display: -moz-box; display: box;
 	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
@@ -612,6 +607,7 @@ div.finder-pane > * {
 
 .sgl-tree-node > .sgl-tree-node-el  {
 	padding-left: 5px;
+	white-space: nowrap;
 }
 
 .sgl-tree-node-selected > .sgl-tree-node-el{

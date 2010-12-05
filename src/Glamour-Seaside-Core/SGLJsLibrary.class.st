@@ -196,6 +196,8 @@ SGLJsLibrary >> glamourSeasideJs [
 			var args = arguments;
 			var result;
 			
+			//console.log("init tabs");
+			
 			if ( args && args[0] === "add" ) {
 				if ( typeof args[3] === "object") {
 					options = args[3];
@@ -221,7 +223,7 @@ SGLJsLibrary >> glamourSeasideJs [
 					}
 				}
 			});
-			
+			//console.log("init tabs end");
 			return result;
 		}
 
@@ -243,8 +245,7 @@ SGLJsLibrary >> glamourSeasideJs [
 					$(tabs).remove();
 				}
 			});
-			
-			
+						
 			$(tabs).bind("tabsdeleted", function(event, ui) {
 				if ( options.glmDelete ) {
 					options.glmDelete(event, ui);
@@ -256,20 +257,44 @@ SGLJsLibrary >> glamourSeasideJs [
 				}	
 			});
 			
-			$(tabs).bind( "tabsload", function(event, ui) {
-				// Notify the parent that something changed.				
-				$(tabs).parent().trigger( "sglContentChanged" );
+			$(tabs).bind( "tabsload", function(event, ui) {				
+				//console.log("tabsload "+$(ui.panel).attr("id"));
+				setPaneContentDimensions( $(ui.panel) );				
 			});
 			
 			// Forward the resize event
-			$(tabs).bind("resize", function(){				
-				$(tabs).children(".ui-tabs-panel").children().triggerHandler("resize");
+			$(tabs).bind("resize", function(){	
+				//console.log("tabsresized");	
+				setPanesDimensions($(tabs));					
 			});
 			
 			//Set the width of the tab.
 			navigation.css("min-width", navigation.glamourWidth()+$.glamourWidth.outerWidth(navigation)+2);
 			
-			setNavigationStyles(navigation);						
+			setNavigationStyles(navigation);
+			setPanesDimensions($(tabs));			
+		}
+		
+		function setPanesDimensions($tabs) {
+			var navigationOffset = $tabs.children(".ui-tabs-nav:first").outerHeight();
+			var contentHeight = $tabs.height()-navigationOffset;
+			
+			//console.log(navigationOffset+" "+contentHeight);
+			$tabs.children(".ui-tabs-panel").each(function(){
+				var self = $(this);
+				var height = contentHeight - parseFloat(self.css("padding-bottom"), 10) - parseFloat(self.css("padding-top"), 10);
+			
+				self.height(height);
+				setPaneContentDimensions(self);
+			});			
+		}
+		
+		function setPaneContentDimensions( pane ) {
+			var children = pane.children();
+			
+			if ( children.size() > 0 ) {
+				$.glamour.setElementDimensions(children, pane.width(), pane.height() );				
+			}
 		}
 		
 		function add(tabs, index, options) {
@@ -465,13 +490,49 @@ SGLJsLibrary >> glamourSeasideJs [
 					
 			return this.each(function(){
 				var self = $(this);				
-				
-				self.html( value );
-				self.trigger( "sglContentChanged" );
+								
+				self.html( value );				
+				self.trigger( "sglContentChanged" );				
 			});
 		}
 	
 	})(jQuery);
+	
+	(function($){
+		$.glamour.setElementDimensions =  function(element, width, height) {
+				var paddingLR, paddingTB;
+				var marginLR = 0, marginTB = 0;
+				var borderLR, borderTB;
+				var outerLR, outerTB;
+			
+				paddingLR = parseFloat(element.css("padding-left"), 10) + parseFloat(element.css("padding-right"), 10); 
+				paddingTB = parseFloat(element.css("padding-bottom"), 10) + parseFloat(element.css("padding-top"), 10); 
+				
+				//marginLR = parseFloat(element.css("margin-left"), 10) + parseFloat(element.css("margin-right"), 10); 
+				//marginTB = parseFloat(element.css("margin-bottom"), 10) + parseFloat(element.css("margin-top"), 10); 
+				
+				borderLR = parseFloat(element.css("border-left-width"), 10) + parseFloat(element.css("border-right-width"), 10); 
+				borderTB = parseFloat(element.css("border-bottom-width"), 10) + parseFloat(element.css("border-top-width"), 10); 
+			
+				outerLR = paddingLR + marginLR + borderLR;
+				outerTB = paddingTB + marginTB + borderTB;
+				
+				//console.log(""+paddingLR +", "+ marginLR +", "+ borderLR);
+				//console.log(width + ", "+ height +" :"+ outerLR + ":, "+ outerTB);
+				
+				width -= outerLR;
+				height -= outerTB;
+				
+				element.width(width < 0 ? 0: width);
+				element.height(height < 0 ? 0: height);
+				
+				//console.log(element.attr("id")+" seted dimensions");
+				if (!$.browser.msie) {
+					element.triggerHandler("resize");
+				}
+			}
+	})(jQuery);
+	
 	'
 ]
 
@@ -1025,8 +1086,10 @@ SGLJsLibrary >> sglResizeJs [
 			_bindPaneContentChanged: function(paneName){
 				var that = this;
 				
-				this[paneName].bind("sglContentChanged", function() {					
+				this[paneName].bind("sglContentChanged", function() {		
+					//console.log(that.element.attr("id")+"-"+paneName+" sglContentChanged");			
 					that._setContentPaneChildrenDimensions(paneName);
+					return false;
 				});
 			},						
 			
@@ -1034,10 +1097,7 @@ SGLJsLibrary >> sglResizeJs [
 				var that = this;
 				var paneFirstChild= this[paneName].children();
 				
-				
-				//paneFirstChild.width(this[paneName].width());
-				//paneFirstChild.height(this[paneName].height());
-				this._setElementDimensions(paneFirstChild, this[paneName].width(), this[paneName].height());
+				$.glamour.setElementDimensions(paneFirstChild, this[paneName].width(), this[paneName].height());
 				
 				if (!init) {					
 					return ;
@@ -1045,13 +1105,7 @@ SGLJsLibrary >> sglResizeJs [
 				
 				this[paneName].resize(function(){					
 					that._cachePaneDimensions(paneName);				
-					
-					//that[paneName].children().width(that[paneName].width());
-					//that[paneName].children().height(that[paneName].height());
-					that._setElementDimensions(that[paneName].children(), that[paneName].width(), that[paneName].height());					
-					if (!$.browser.msie) {
-						that[paneName].children().triggerHandler("resize");
-					}
+					$.glamour.setElementDimensions(that[paneName].children(), that[paneName].width(), that[paneName].height());										
 					return false; //Stop bubbling
 				});		
 			},
@@ -1155,14 +1209,14 @@ SGLJsLibrary >> sglResizeJs [
 				outerLR = paddingLR + marginLR + borderLR;
 				outerTB = paddingTB + marginTB + borderTB;
 				
-				//alert(""+paddingLR +", "+ marginLR +", "+ borderLR);
-				//alert(width + ", "+ height +" :"+ outerLR + ":, "+ outerTB);
+				console.log(""+paddingLR +", "+ marginLR +", "+ borderLR);
+				console.log(width + ", "+ height +" :"+ outerLR + ":, "+ outerTB);
 				
 				width -= outerLR;
 				height -= outerTB;
 				
-				element.width(width < 0 ? 0: Math.round(width));
-				element.height(height < 0 ? 0: Math.round(height));
+				element.width(width < 0 ? 0: width);
+				element.height(height < 0 ? 0: height);
 			},
 			
 		});
