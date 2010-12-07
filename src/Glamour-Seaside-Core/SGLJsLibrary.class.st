@@ -275,12 +275,13 @@ SGLJsLibrary >> glamourSeasideJs [
 			setPanesDimensions($(tabs));			
 		}
 		
-		function setPanesDimensions($tabs) {
+		function setPanesDimensions($tabs, panesSelector) {
+			var selector = panesSelector || ".ui-tabs-panel";
 			var navigationOffset = $tabs.children(".ui-tabs-nav:first").outerHeight();
 			var contentHeight = $tabs.height()-navigationOffset;
 			
 			//console.log(navigationOffset+" "+contentHeight);
-			$tabs.children(".ui-tabs-panel").each(function(){
+			$tabs.children(selector).each(function(){
 				var self = $(this);
 				var height = contentHeight - parseFloat(self.css("padding-bottom"), 10) - parseFloat(self.css("padding-top"), 10);
 			
@@ -289,21 +290,24 @@ SGLJsLibrary >> glamourSeasideJs [
 			});			
 		}
 		
-		function setPaneContentDimensions( pane ) {
-			var children = pane.children();
+		function setPaneContentDimensions( $pane ) {
+			var $children = $pane.children();
 			
-			if ( children.size() > 0 ) {
-				$.glamour.setElementDimensions(children, pane.width(), pane.height() );				
+			if ( $children.size() > 0 ) {
+				$.glamour.setElementDimensions($children, $pane.width(), $pane.height() );				
 			}
 		}
 		
 		function add(tabs, index, options) {
-			var $tab;
+			var $tab, selector;
 			
 			$(tabs).glamourActions("add", index, options);
-			$tab = $(tabs).children(".ui-tabs-nav").children(".ui-state-default:eq("+ ( typeof index === "integer"? index : $(tabs).tabs("length") - 1 )+")");
+			selector = ".ui-state-default:eq("+ ( typeof index === "integer"? index : $(tabs).tabs("length") - 1 )+")";
+			$tab = $(tabs).children(".ui-tabs-nav").children(selector);
+			
 			addCloseButton($tab[0], tabs);
 			updateNavigationStyles($tab, tabs);
+			setPanesDimensions($(tabs), ".ui-tabs-panel:visible");
 		}
 		
 		function addCloseButton(tab, tabs) {
