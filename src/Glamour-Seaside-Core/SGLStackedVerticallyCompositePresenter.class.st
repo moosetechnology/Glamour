@@ -13,7 +13,8 @@ SGLStackedVerticallyCompositePresenter >> renderContentOn: html [
 	
 	html div 
 		class: 'ui-widget ui-widget-content ui-corner-all';
-		class: 'stacked-arrangement';
+		class: 'sgl-stacked-arrangement';
+		script: (html jQuery new glamourStack);
 		with: [
 			presentations do: [ :each | 
 				self renderWithTitle: each andAddCloseButton: true on: html ] ]

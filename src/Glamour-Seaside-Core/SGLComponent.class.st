@@ -73,6 +73,7 @@ SGLComponent >> updateRoot: aHtmlRoot [
 	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #typeWatchJs).
 	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #sglTreeJs).
 	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #sglResizeJs).
+	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #sglStackJs).
 	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #glamourSeasideJs).
 	
 	aHtmlRoot javascript url: JQWidgetBoxDeploymentLibrary / #mbMenuJs.

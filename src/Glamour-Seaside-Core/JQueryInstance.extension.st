@@ -16,6 +16,11 @@ JQueryInstance >> glamourScrollTo [
 ]
 
 { #category : #'*Glamour-Seaside-Core' }
+JQueryInstance >> glamourStack [
+	^ self create: JQSGLStack 
+]
+
+{ #category : #'*Glamour-Seaside-Core' }
 JQueryInstance >> glamourTabs [
 	^ self create: JQSGLTabs
 ]

@@ -1,7 +1,7 @@
 Class {
 	#name : #SGLTabulatorTwoColumns,
 	#superclass : #SGLComponent,
-	#category : #'Glamour-Seaside-Examples'
+	#category : #'Glamour-Seaside-Examples-Dev'
 }
 
 { #category : #'as yet unclassified' }

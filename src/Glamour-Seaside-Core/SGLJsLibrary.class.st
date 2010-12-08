@@ -196,7 +196,7 @@ SGLJsLibrary >> glamourSeasideJs [
 			var args = arguments;
 			var result;
 			
-			//console.log("init tabs");
+			//console.log(this.attr("id")+" init tabs");
 			
 			if ( args && args[0] === "add" ) {
 				if ( typeof args[3] === "object") {
@@ -223,7 +223,7 @@ SGLJsLibrary >> glamourSeasideJs [
 					}
 				}
 			});
-			//console.log("init tabs end");
+			//console.log(this.attr("id") + " init tabs end");
 			return result;
 		}
 
@@ -264,8 +264,9 @@ SGLJsLibrary >> glamourSeasideJs [
 			
 			// Forward the resize event
 			$(tabs).bind("resize", function(){	
-				//console.log("tabsresized");	
-				setPanesDimensions($(tabs));					
+				//console.log($(tabs).attr("id")+" tabsresized event");	
+				setPanesDimensions($(tabs));
+				//return false;					
 			});
 			
 			//Set the width of the tab.
@@ -283,9 +284,9 @@ SGLJsLibrary >> glamourSeasideJs [
 			//console.log(navigationOffset+" "+contentHeight);
 			$tabs.children(selector).each(function(){
 				var self = $(this);
-				var height = contentHeight - parseFloat(self.css("padding-bottom"), 10) - parseFloat(self.css("padding-top"), 10);
+				//var height = contentHeight - parseFloat(self.css("padding-bottom"), 10) - parseFloat(self.css("padding-top"), 10);
 			
-				self.height(height);
+				$.glamour.setElementDimensions(self, $tabs.width(), contentHeight)
 				setPaneContentDimensions(self);
 			});			
 		}
@@ -294,6 +295,7 @@ SGLJsLibrary >> glamourSeasideJs [
 			var $children = $pane.children();
 			
 			if ( $children.size() > 0 ) {
+				//console.log($pane.attr("id")+" resize children "+$children.attr("id"));
 				$.glamour.setElementDimensions($children, $pane.width(), $pane.height() );				
 			}
 		}
@@ -494,7 +496,7 @@ SGLJsLibrary >> glamourSeasideJs [
 					
 			return this.each(function(){
 				var self = $(this);				
-								
+							
 				self.html( value );				
 				self.trigger( "sglContentChanged" );				
 			});
@@ -1032,7 +1034,6 @@ SGLJsLibrary >> sglResizeJs [
 				var jQueryObject = this;
 				var layoutOptions = {}
 								
-								
 				// Initialize the panel.	
 				this._initPanes();				
 
@@ -1041,13 +1042,12 @@ SGLJsLibrary >> sglResizeJs [
 					layoutOptions.splitHorizontal = this.options.splitHorizontal;
 					layoutOptions.splitVertical = this.options.splitVertical;
 					layoutOptions.outline = this.options.outline;
-				
-					that._resizeChildrenPanes(true, layoutOptions);
-					this.element.resize(function(){	
-						//console.log(that.element.attr("id")+": resize")						
+									
+					this.element.resize(function(){							
 						that._resizeChildrenPanes();
 						return false; //Stop bubbling
 					});
+					that._resizeChildrenPanes(true, layoutOptions);
 										
 					if (!this.paneB.hasClass("sgl-table")) {						
 						this._bindPaneContentChanged("paneB");
@@ -1136,10 +1136,11 @@ SGLJsLibrary >> sglResizeJs [
 								
 				if (init) {
 					//console.log(this.element.attr("id")+": init");
+					this._cacheContainerDimensions();
+					
 					this.element.splitter(layoutOptions);
 					this.element.triggerHandler("sglResize", [this._computeNewPosition(true)]);	
-					
-					this._cacheContainerDimensions();
+										
 					this._cachePaneDimensions("paneA");
 					this._cachePaneDimensions("paneB");
 					return ;
@@ -1222,6 +1223,41 @@ SGLJsLibrary >> sglResizeJs [
 				element.width(width < 0 ? 0: width);
 				element.height(height < 0 ? 0: height);
 			},
+			
+		});
+	})(jQuery);'
+]
+
+{ #category : #created }
+SGLJsLibrary >> sglStackJs [
+	^ '
+	;( function($) {
+		$.widget("ui.sglStack", {
+		
+			options: {				
+			},
+		
+			_create: function() {
+				var that = this;
+				this._setChildrenDimensions();
+				
+				this.element.bind("resize", function(){					
+					that._setChildrenDimensions();
+				});
+				
+			},
+			
+			_setChildrenDimensions: function() {
+				var that = this;
+				var children = this.element.children();
+				
+				
+				children.each(function(){
+					var self = $( this );
+					
+					$.glamour.setElementDimensions(self, that.element.width(), that.element.height()/children.size());
+				});
+			}
 			
 		});
 	})(jQuery);'

@@ -311,7 +311,7 @@ SGLFileLibrary >> styleCss [
 	-moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0; 
 }
 
-.stacked-arrangement > *, .tabbed-arrangement{
+.sgl-stacked-arrangement > *, .tabbed-arrangement{
 	background: none repeat scroll 0 0 #DFDFDF;
 }
 
@@ -567,7 +567,7 @@ div.finder-pane > * {
 
 
 /* composite arrangements */
-.stacked-arrangement, .tabbed-arrangement, .accordion-arrangement {
+.sgl-stacked-arrangement, .tabbed-arrangement, .accordion-arrangement {
 	position: relative;
 	width: 100%;
 }
@@ -576,22 +576,21 @@ div.finder-pane > * {
 	padding: 0.2em;
 }
 
-.stacked-arrangement, .stacked-arrangement > *, .accordion-arrangement {
+.accordion-arrangement {
 	position: relative;
 	display: -webkit-box; display: -moz-box; display: box;
 	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
 	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;
 }
 
-.stacked-arrangement {
+.sgl-stacked-arrangement {
 	overflow-y: auto;
 	border: 0 none !important;
 }
 
-.stacked-arrangement > *{
-	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
-	height: 0;
+.sgl-stacked-arrangement > *{
 	-moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0; 
+	
 }
 
 .accordion-arrangement > .ui-accordion-content {

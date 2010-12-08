@@ -1,7 +1,7 @@
 Class {
 	#name : #SGLTabulatorComposed2,
 	#superclass : #SGLComponent,
-	#category : #'Glamour-Seaside-Examples'
+	#category : #'Glamour-Seaside-Examples-Dev'
 }
 
 { #category : #initialization }
