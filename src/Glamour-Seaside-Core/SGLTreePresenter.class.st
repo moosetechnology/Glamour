@@ -44,17 +44,8 @@ SGLTreePresenter >> idOfNode: aNode [
 
 { #category : #initialization }
 SGLTreePresenter >> initializeFor: aPresentation [
-	model := SGLTreeModel new.
+	model := SGLTreeModel for: aPresentation.
 	nodesId := Dictionary new.
-	model glamourPresentation: aPresentation.
-	
-	"When the morph changes, we want to update the glamour model"
-	model announcer on: GLMTreeMorphSelectionChanged do: [ :ann | 
-		aPresentation announcer suspendAllWhile: [
-			aPresentation selection: ann selectionValue.
-			aPresentation selectionPath: ann selectionPathValue] ].
-	"aPresentationModel announcer on: GLMTreeMorphStrongSelectionChanged do: [ :ann | 
-		aPresentation strongSelection: ann strongSelectionValue ]."
 	
 	"When the glamour model changes, we want to update the morph"
 	aPresentation when: GLMContextChanged do: [ :ann | 
