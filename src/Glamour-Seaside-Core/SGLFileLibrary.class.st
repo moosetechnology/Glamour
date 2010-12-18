@@ -584,7 +584,7 @@ div.finder-pane > * {
 }
 
 .sgl-stacked-arrangement {
-	overflow-y: auto;
+	overflow: hidden;
 	border: 0 none !important;
 }
 
@@ -803,7 +803,7 @@ div.finder-pane > * {
 	background: white;
 }
 
-.sgl-splitter-vsplitbar, .vsplitbar {
+.sgl-splitter-vsplitbar, .vsplitbar, .vsplitbar > * {
 	width: 5px;
 	background: white;
 }

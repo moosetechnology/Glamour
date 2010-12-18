@@ -263,10 +263,9 @@ SGLJsLibrary >> glamourSeasideJs [
 			});
 			
 			// Forward the resize event
-			$(tabs).bind("resize", function(){	
-				//console.log($(tabs).attr("id")+" tabsresized event");	
+			$(tabs).bind("resize", function(){					
 				setPanesDimensions($(tabs));
-				//return false;					
+				return false;					
 			});
 			
 			//Set the width of the tab.
@@ -283,8 +282,7 @@ SGLJsLibrary >> glamourSeasideJs [
 			
 			//console.log(navigationOffset+" "+contentHeight);
 			$tabs.children(selector).each(function(){
-				var self = $(this);
-				//var height = contentHeight - parseFloat(self.css("padding-bottom"), 10) - parseFloat(self.css("padding-top"), 10);
+				var self = $(this);				
 			
 				$.glamour.setElementDimensions(self, $tabs.width(), contentHeight)
 				setPaneContentDimensions(self);
@@ -496,7 +494,7 @@ SGLJsLibrary >> glamourSeasideJs [
 					
 			return this.each(function(){
 				var self = $(this);				
-							
+				
 				self.html( value );				
 				self.trigger( "sglContentChanged" );				
 			});
@@ -1030,112 +1028,18 @@ SGLJsLibrary >> sglResizeJs [
 			},
 			
 			_create: function() {
-				var that = this;
-				var jQueryObject = this;
+				var that = this;				
 				var layoutOptions = {}
-								
-				// Initialize the panel.	
+													
 				this._initPanes();				
-
-				// Initialize the spliter and bind the resize event.		
-				if (this.element.children().size() > 1) {					
+					
+				if ( this.element.children().size() > 1 ) {					
 					layoutOptions.splitHorizontal = this.options.splitHorizontal;
 					layoutOptions.splitVertical = this.options.splitVertical;
 					layoutOptions.outline = this.options.outline;
-									
-					this.element.resize(function(){							
-						that._resizeChildrenPanes();
-						return false; //Stop bubbling
-					});
-					that._resizeChildrenPanes(true, layoutOptions);
-										
-					if (!this.paneB.hasClass("sgl-table")) {						
-						this._bindPaneContentChanged("paneB");
-						this._setContentPaneChildrenDimensions("paneB", true);
-					}
-				} else {
-					this._resizePane("paneA");
-				}	
 				
-				this._bindPaneContentChanged("paneA");
-				this._setContentPaneChildrenDimensions("paneA", true);
-			},
-			
-			_initPanes: function() {
-				var pane;
-				
-				//console.log("paneASpan: "+this.options.paneASpan);
-				
-				pane = this.element.children(":nth-child(1)");
-				pane.addClass(this.options.paneA_class);
-				this.paneA = pane;				
-				
-				pane = this.element.children(":nth-child(2)");
-				if (pane.size() == 1) {
-					pane.addClass(this.options.paneB_class);
-					this.paneB = pane;
+					// Initialize the spliter and bind the resize event.					
 					
-					//console.log("paneBSpan: "+this.options.paneBSpan);
-					
-					// Determine the numbers of resizable containers contained by paneB.
-					this.options._containedImbrication = 0;
-					while (pane.hasClass("sgl-table")) {
-						this.options._containedImbrication++;
-						pane = pane.children(".sgl-table");
-					}
-					//console.log("paneBSpan: "+this.options.paneBSpan+", _containedImbrication: "+this.options._containedImbrication);
-				}
-			},
-			
-			_bindPaneContentChanged: function(paneName){
-				var that = this;
-				
-				this[paneName].bind("sglContentChanged", function() {		
-					//console.log(that.element.attr("id")+"-"+paneName+" sglContentChanged");			
-					that._setContentPaneChildrenDimensions(paneName);
-					return false;
-				});
-			},						
-			
-			_setContentPaneChildrenDimensions: function(paneName, init) {
-				var that = this;
-				var paneFirstChild= this[paneName].children();
-				
-				$.glamour.setElementDimensions(paneFirstChild, this[paneName].width(), this[paneName].height());
-				
-				if (!init) {					
-					return ;
-				}
-				
-				this[paneName].resize(function(){					
-					that._cachePaneDimensions(paneName);				
-					$.glamour.setElementDimensions(that[paneName].children(), that[paneName].width(), that[paneName].height());										
-					return false; //Stop bubbling
-				});		
-			},
-			
-			_resizePane: function(paneName) {	
-				var that = this;
-				
-				//this._setElementDimensions(this[paneName], this.element.width(), this.element.height());
-				this[paneName].width(this.element.width());
-				this[paneName].height(this.element.height());
-				this.element.resize(function(){	
-					//that._setElementDimensions(that[paneName], that.element.width(), that.element.height());								
-					that[paneName].width(that.element.width());
-					that[paneName].height(that.element.height());
-					if (!$.browser.msie) {
-						that[paneName].triggerHandler("resize");
-					}					
-					return false; //Stop bubbling
-				});						
-			},
-			
-			_resizeChildrenPanes: function(init, layoutOptions) {
-				var newPosition;
-								
-				if (init) {
-					//console.log(this.element.attr("id")+": init");
 					this._cacheContainerDimensions();
 					
 					this.element.splitter(layoutOptions);
@@ -1143,24 +1047,119 @@ SGLJsLibrary >> sglResizeJs [
 										
 					this._cachePaneDimensions("paneA");
 					this._cachePaneDimensions("paneB");
-					return ;
-				}
+					
+					this.element.resize(function(){							
+						that._resizePanes();
+						return false; //Stop bubbling
+					});					
+										
+					if (!this.paneB.hasClass("sgl-table")) {						
+						this._bindPaneContentChanged("paneB");
+						this._setPaneContentDimensions("paneB", true);
+					}
+				} else {
+					// If only one pane is present the splitter is not needed and only paneA is used.
+					$.glamour.setElementDimensions( this["paneA"], this.element.width(), this.element.height() );				
+					this.element.resize(function(){							
+						$.glamour.setElementDimensions( that["paneA"], that.element.width(), that.element.height() );																				
+						return false; //Stop bubbling
+					});
+				}	
 				
-				//console.log(this.element.width() + "==" + this.elemWidth +  "&&"  + this.element.height() + "==" + this.elemHeight);
+				this._bindPaneContentChanged("paneA");
+				this._setPaneContentDimensions("paneA", true);
+			},
+			
+			/**
+			 * Perform basic initializations:
+			 *   - add CSS classes to panes;
+			 *   - set this.paneA and this.paneB (if necessary);
+			 *   - initialize the _containedImbrication option;
+			 */
+			_initPanes: function() {
+				var pane;
+				
+				// Handle the first pane.
+				pane = this.element.children(":nth-child(1)");
+				pane.addClass(this.options.paneA_class);
+				this.paneA = pane;				
+				
+				// Handle the second pane if present.
+				pane = this.element.children(":nth-child(2)");
+				if (pane.size() == 1) {
+					pane.addClass(this.options.paneB_class);
+					this.paneB = pane;
+					
+					// Determine the numbers of resizable containers contained by paneB.
+					this.options._containedImbrication = 0;
+					while ( pane.hasClass("sgl-table") ) {
+						this.options._containedImbrication++;
+						pane = pane.children(".sgl-table");
+					}					
+				}
+			},
+			
+			/**
+			 * Bind the given pane with the event "sglContentChanged".
+			 * When this event is triggered resize the content of the pane
+			 * to fit within its limits.
+			 *
+			 * The event "sglContentChanged" is triggered when the child of a
+			 * pane is replaced.
+			 */
+			_bindPaneContentChanged: function(paneName){
+				var that = this;
+				
+				this[paneName].bind("sglContentChanged", function() {										
+					that._setPaneContentDimensions(paneName);
+					return false; // Stop bubbling.
+				});
+			},						
+			
+			/**
+			 * Resize the content of the pane to fit within its limits.
+			 * If "init" is true bind this action to the resize event of the pane.
+			 */
+			_setPaneContentDimensions: function(paneName, init) {
+				var that = this;
+				var paneFirstChild= this[paneName].children(":nth-child(1)");
+				
+				$.glamour.setElementDimensions( paneFirstChild, this[paneName].width(), this[paneName].height() );
+				
+				if (init) {													
+					this[paneName].resize(function(){	
+						that._cachePaneDimensions(paneName);													
+						$.glamour.setElementDimensions( that[paneName].children(), that[paneName].width(), that[paneName].height() );										
+						return false; //Stop bubbling.
+					});		
+				}
+			},
+
+			/**
+			 * Resize the panes of the splitter to fit within its dimensions.		
+			 */
+			_resizePanes: function() {
+				var newPosition;
+							
 				// Only handle the event if the dimensions actually changed.
 				if (this.element.width() == this.elemWidth &&  this.element.height() == this.elemHeight ) {											
 					return ;
 				}									
-						
+				
+				// Compute the position before caching the splitter dimensions.
 				newPosition = this._computeNewPosition();							
 				this._cacheContainerDimensions();		
-				// Re-trigger the resize to set the new dimensions of the panes.							
-				this.element.triggerHandler("sglResize", [newPosition]);		
 						
-				this._cachePaneDimensions("paneA");
-				this._cachePaneDimensions("paneB");										
+				// Re-trigger the resize to set the new dimensions of the panes.							
+				this.element.triggerHandler("sglResize", [newPosition]);									
 			},
 			
+			/**
+			 * Compute the position of the splitter bar.
+			 * The new position preserves the existing ration between the two panes.
+			 *
+			 * If "init" is true the position is computed by using the span attribute of the panes.
+			 */
 			_computeNewPosition: function(init) {
 				var newPosition;
 				var containerSize;
@@ -1190,38 +1189,9 @@ SGLJsLibrary >> sglResizeJs [
 				this.elemHeight = this.element.height();	
 			},
 			
-			_cachePaneDimensions: function(paneName) {
-				//console.log("cache"+paneName+"["+this[paneName].width()+" "+this[paneName].height()+"]");
+			_cachePaneDimensions: function(paneName) {			
 				this[paneName+"Width"] = this[paneName].width();
 				this[paneName+"Height"] = this[paneName].height();
-			},
-			
-			_setElementDimensions: function(element, width, height) {
-				var paddingLR, paddingTB;
-				var marginLR = 0, marginTB = 0;
-				var borderLR, borderTB;
-				var outerLR, outerTB;
-			
-				paddingLR = parseFloat(element.css("padding-left"), 10) + parseFloat(element.css("padding-right"), 10); 
-				paddingTB = parseFloat(element.css("padding-bottom"), 10) + parseFloat(element.css("padding-top"), 10); 
-				
-				//marginLR = parseFloat(element.css("margin-left"), 10) + parseFloat(element.css("margin-right"), 10); 
-				//marginTB = parseFloat(element.css("margin-bottom"), 10) + parseFloat(element.css("margin-top"), 10); 
-				
-				borderLR = parseFloat(element.css("border-left-width"), 10) + parseFloat(element.css("border-right-width"), 10); 
-				borderTB = parseFloat(element.css("border-bottom-width"), 10) + parseFloat(element.css("border-top-width"), 10); 
-			
-				outerLR = paddingLR + marginLR + borderLR;
-				outerTB = paddingTB + marginTB + borderTB;
-				
-				console.log(""+paddingLR +", "+ marginLR +", "+ borderLR);
-				console.log(width + ", "+ height +" :"+ outerLR + ":, "+ outerTB);
-				
-				width -= outerLR;
-				height -= outerTB;
-				
-				element.width(width < 0 ? 0: width);
-				element.height(height < 0 ? 0: height);
 			},
 			
 		});
@@ -1247,16 +1217,21 @@ SGLJsLibrary >> sglStackJs [
 				
 			},
 			
-			_setChildrenDimensions: function() {
-				var that = this;
+			/**
+			 * Set the dimensions of the panes contained by the stack pane.
+			 */
+			_setChildrenDimensions: function() {				
 				var children = this.element.children();
-				
-				
-				children.each(function(){
-					var self = $( this );
-					
-					$.glamour.setElementDimensions(self, that.element.width(), that.element.height()/children.size());
-				});
+				var index, childrenSize = children.size();
+				var childHeight = Math.round( this.element.height() / childrenSize );
+								
+				if ( childrenSize > 0 ) {
+					for ( index = 0 ; index < childrenSize - 1; index++ ) {			
+						$.glamour.setElementDimensions( $(children[index]), this.element.width(), childHeight );					
+					}
+					// The height of the last pane must be equal with the remaining height.
+					$.glamour.setElementDimensions( $(children[index]), this.element.width(),  this.element.height() - (childrenSize - 1) * childHeight );				
+				}
 			}
 			
 		});
@@ -1742,8 +1717,13 @@ SGLJsLibrary >> splitterJs [
 			B.css(opts.origin, newPos+bar._DA)
 				.css(opts.split, splitter._DA-bar._DA-newPos).css(opts.fixed,  splitter._DF);
 			// IE fires resize for us; all others pay cash
-			if ( !$.browser.msie )
-				panes.trigger("resize");
+			if ( !$.browser.msie ) {
+				//panes.trigger("resize");
+				panes.each(function(){
+					// Avoid bublling if the handler of the splitter is not set.
+					$(this).triggerHandler("resize");
+				});				
+			}
 		}
 		function dimSum(jq, dims) {
 			// Opera returns -1 for missing min/max width, turn into 0
