@@ -79,7 +79,7 @@ ConfigurationOfGlamourSeaside >> baseline01: spec [
 				spec
 					className: 'ConfigurationOfGlamour';
 					file: 'ConfigurationOfGlamour';
-					version: 'default';
+					version: '2.0-beta.8';
 					repository: 'http://www.squeaksource.com/Glamour' ].
 		spec
 			project: 'Seaside' with: [
@@ -130,7 +130,7 @@ ConfigurationOfGlamourSeaside >> baseline02: spec [
 				spec
 					className: 'ConfigurationOfGlamour';
 					file: 'ConfigurationOfGlamour';
-					version: 'default';
+					version: '2.0-beta.8';
 					repository: 'http://www.squeaksource.com/Glamour' ].
 		spec
 			project: 'Seaside' with: [
