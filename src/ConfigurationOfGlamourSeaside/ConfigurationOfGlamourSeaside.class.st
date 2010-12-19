@@ -63,9 +63,6 @@ ConfigurationOfGlamourSeaside >> baseline01: spec [
 		spec package: 'Seaside-Core' with: [
 			spec requires: #('Seaside').
 			spec repository: 'http://www.squeaksource.com/Seaside30'].
-		spec package: 'Glamour-Morphic-Theme' with: [
-			spec requires: #('Glamour').
-			spec repository: 'http://www.squeaksource.com/Glamour'].
 		spec group: 'Core' with: #(
 						'Seaside'
 						'Glamour-Seaside'
@@ -73,8 +70,7 @@ ConfigurationOfGlamourSeaside >> baseline01: spec [
 						'JQWidgetBox-MbMenu-Core'
 						'JQWidgetBox-HoverIntent-Core'
 						'JQuery-UI'
-						'Seaside-Core'
-						'Glamour-Morphic-Theme').
+						'Seaside-Core').
 		spec group: 'Tests' with: #(
 						'SeasideTesting'
 						'Glamour-Seaside'). 
@@ -244,8 +240,7 @@ ConfigurationOfGlamourSeaside >> version01: spec [
 			package: 'JQWidgetBox-MbMenu-Core' with: 'JQWidgetBox-MbMenu-Core-AndreiChis.18';
 			package: 'JQWidgetBox-HoverIntent-Core' with: 'JQWidgetBox-HoverIntent-Core-JohanBrichau.2';
 			package: 'JQuery-UI' with: 'JQuery-UI-lr.62';
-			package: 'Seaside-Core' with: 'Seaside-Core-pmm.659';
-			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-FernandoOlivero.23']. 
+			package: 'Seaside-Core' with: 'Seaside-Core-pmm.659']. 
 ]
 
 { #category : #versions }
