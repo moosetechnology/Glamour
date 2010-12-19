@@ -79,7 +79,7 @@ ConfigurationOfGlamourSeaside >> baseline01: spec [
 				spec
 					className: 'ConfigurationOfGlamour';
 					file: 'ConfigurationOfGlamour';
-					version: '2.0-beta.8';
+					version: '2.0-beta.7';
 					repository: 'http://www.squeaksource.com/Glamour' ].
 		spec
 			project: 'Seaside' with: [
@@ -116,15 +116,23 @@ ConfigurationOfGlamourSeaside >> baseline02: spec [
 		spec package: 'JQWidgetBox-HoverIntent-Core' with: [
 			spec requires: #('Seaside').
 			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
+		spec package: 'Glamour-Morphic-Theme' with: [
+			spec requires: #('Glamour').
+			spec repository: 'http://www.squeaksource.com/Glamour'].
 		spec group: 'Core' with: #(
 						'Seaside'
 						'Glamour-Seaside'
 						'JQWidgetBox-Core'
 						'JQWidgetBox-MbMenu-Core'
-						'JQWidgetBox-HoverIntent-Core').
-		spec group: 'Tests' with: #(
+						'JQWidgetBox-HoverIntent-Core'
+						'Glamour-Morphic-Theme').
+		spec group: 'Tests' with: #(						
 						'SeasideTesting'
-						'Glamour-Seaside'). 
+						'Glamour-Seaside'
+						'JQWidgetBox-Core'
+						'JQWidgetBox-MbMenu-Core'
+						'JQWidgetBox-HoverIntent-Core'
+						'Glamour-Morphic-Theme'). 
 		spec
 			project: 'Glamour' with: [
 				spec
@@ -244,5 +252,6 @@ ConfigurationOfGlamourSeaside >> version02: spec [
 		spec 
 			package: 'JQWidgetBox-Core' with: 'JQWidgetBox-Core-tbn.2';
 			package: 'JQWidgetBox-MbMenu-Core' with: 'JQWidgetBox-MbMenu-Core-AndreiChis.18';
-			package: 'JQWidgetBox-HoverIntent-Core' with: 'JQWidgetBox-HoverIntent-Core-JohanBrichau.2']. 
+			package: 'JQWidgetBox-HoverIntent-Core' with: 'JQWidgetBox-HoverIntent-Core-JohanBrichau.2';
+			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-FernandoOlivero.23']. 
 ]
