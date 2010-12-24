@@ -10,7 +10,7 @@ GLMMorphicMondrianRenderer >> mondrianCanvasFor: aPresentation in: aScrollPane [
 	view := aPresentation view.
 	view root interaction menu: [ :x | self menuIn: MenuMorph new for: aPresentation ].
 	aPresentation renderOn: view.
-	canvas := view canvas.
+	canvas := aPresentation canvas.
 	canvas announcer
 			when: MOElementSelection
 			do: [ :ann | aPresentation selection: ann element model ].
