@@ -9,10 +9,21 @@ Class {
 	#superclass : #GLMPresentation,
 	#instVars : [
 		'painting',
-		'view'
+		'view',
+		'canvas'
 	],
 	#category : #'Glamour-Mondrian-Presentations'
 }
+
+{ #category : #accessing }
+GLMMondrianPresentation >> canvas [
+	^ canvas
+]
+
+{ #category : #accessing }
+GLMMondrianPresentation >> canvas: anObject [
+	canvas := anObject
+]
 
 { #category : #accessing }
 GLMMondrianPresentation >> painting [ 
@@ -38,7 +49,8 @@ GLMMondrianPresentation >> renderOn: aView [
 	self painting glamourValue: (
 		(self entity isKindOf: GLMMultiValue) 
 				ifTrue: [(GLMMultiValue with: aView) , self entity , (GLMMultiValue with: self)] 
-				ifFalse: [GLMMultiValue with: aView with: self entity with: self])
+				ifFalse: [GLMMultiValue with: aView with: self entity with: self]).
+	self canvas: aView canvas
 ]
 
 { #category : #accessing }
