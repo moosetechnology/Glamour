@@ -9,15 +9,15 @@ MOViewRenderer >> openWithStatusbar [
 	browser transmit to: #painting; andShow: [ :a | 
 		a mondrian 
 			view: self;
-			act: [:m | m view canvas exportAsPNG] entitled: 'Export as PNG';
+			act: [:m | m canvas exportAsPNG] entitled: 'Export as PNG';
 			act: [:m | 
-				m view canvas root decreaseZoom.
-				m view canvas  changed ] 
+				m canvas root decreaseZoom.
+				m canvas  changed ] 
 			icon: MondrianIcons mondrianZoomOut
 			entitled: 'Zoom out';
 			act: [:m | 
-				m view canvas root increaseZoom.
-				m view canvas root updateWindow ] 
+				m canvas root increaseZoom.
+				m canvas root updateWindow ] 
 			icon: MondrianIcons mondrianZoomIn 
 			entitled: 'Zoom in'.].
 	^ browser openOn: self
