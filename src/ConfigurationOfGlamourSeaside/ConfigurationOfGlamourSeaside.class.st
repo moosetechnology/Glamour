@@ -164,8 +164,13 @@ ConfigurationOfGlamourSeaside >> default: spec [
 	spec for: #common do: [
 		spec blessing: #baseline.
 		spec repository: 'http://www.squeaksource.com/Glamour'.
-		spec package: 'Glamour-Seaside' with: [
-			spec requires: #('Seaside' 'Glamour' 'SeasideTesting') ]..
+		spec package: 'Glamour-Seaside-Core' with: [
+			spec requires: #('Seaside' 'Glamour') ].
+		spec package: 'Glamour-Seaside-Rendering' with: [
+			spec requires: #('Glamour-Seaside-Core') ].
+		spec package: 'Glamour-Seaside-Examples'.
+		spec package: 'Glamour-Seaside-Tests' with: [
+			spec requires: #('Glamour-Seaside-Rendering' 'SeasideTesting') ].
 		spec package: 'JQWidgetBox-Core' with: [
 			spec requires: #('Seaside').
 			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
@@ -175,43 +180,39 @@ ConfigurationOfGlamourSeaside >> default: spec [
 		spec package: 'JQWidgetBox-HoverIntent-Core' with: [
 			spec requires: #('Seaside').
 			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
-		spec package: 'JQuery-UI' with: [
-			spec requires: #('Seaside').
-			spec repository: 'http://www.squeaksource.com/Seaside30'].
-		spec package: 'Seaside-Core' with: [
-			spec requires: #('Seaside').
-			spec repository: 'http://www.squeaksource.com/Seaside30'].
+		spec package: 'Glamour-Morphic-Theme' with: [
+			spec requires: #('Glamour').
+			spec repository: 'http://www.squeaksource.com/Glamour'].
 		spec group: 'Core' with: #(
 						'Seaside'
-						'Glamour-Seaside'
+						'Glamour-Seaside-Core'
+						'Glamour-Seaside-Rendering'
 						'JQWidgetBox-Core'
 						'JQWidgetBox-MbMenu-Core'
 						'JQWidgetBox-HoverIntent-Core'
-						'JQuery-UI'
-						'Seaside-Core').
-		spec group: 'Tests' with: #(
-						'SeasideTesting'
-						'Glamour-Seaside'). 
+						'Glamour-Morphic-Theme').
+		spec group: 'Tests' with: #(						
+						'Glamour-Seaside-Tests'). 
 		spec
 			project: 'Glamour' with: [
 				spec
 					className: 'ConfigurationOfGlamour';
 					file: 'ConfigurationOfGlamour';
-					version: 'default';
+					version: '2.0-beta.8';
 					repository: 'http://www.squeaksource.com/Glamour' ].
 		spec
 			project: 'Seaside' with: [
 				spec
 					className: 'ConfigurationOfSeaside30';
 					file: 'ConfigurationOfSeaside30';
-					version: '3.0.0-alpha5.15';
+					version: '3.0.3';
 					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
 		spec
 			project: 'SeasideTesting' with: [
 				spec
 					className: 'ConfigurationOfSeasideTesting';
 					file: 'ConfigurationOfSeasideTesting';
-					version: '0.4';
+					version: '0.6';
 					repository: 'http://www.squeaksource.com/SeasideTesting' ].
 		spec ]
 ]
