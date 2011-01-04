@@ -82,6 +82,11 @@ GLMMorphicRenderer >> renderDropDownListPresentation: aDropListPresentation [
 ]
 
 { #category : #'rendering browsers' }
+GLMMorphicRenderer >> renderExpander: aBrowser [ 
+	^ GLMMorphicExpanderRenderer render: aBrowser from: self
+]
+
+{ #category : #'rendering browsers' }
 GLMMorphicRenderer >> renderFinder: aBrowser [ 
 	^ GLMMorphicFinderRenderer render: aBrowser from: self
 ]
