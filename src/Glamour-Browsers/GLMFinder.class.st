@@ -95,6 +95,5 @@ GLMFinder >> outerPortEvent: aPortEvent [
 
 { #category : #rendering }
 GLMFinder >> renderGlamorouslyOn: aRenderer [ 
-	 
-	^aRenderer renderFinder: self
+	^ aRenderer renderFinder: self
 ]

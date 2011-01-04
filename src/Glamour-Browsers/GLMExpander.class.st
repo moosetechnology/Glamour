@@ -11,6 +11,22 @@ Class {
 }
 
 { #category : #events }
+GLMExpander >> addPaneFrom: aPort [ 
+	self panes addLast: (GLMPane in: self).
+	GLMTransmission new
+		ensureBundleStrategy;
+		addActiveOrigin: aPort; 
+		destination: (self panes last port: #entity); 
+		presentations: (self presentations copy); 
+		transmit.
+	self announce: 
+			(GLMPaneAdded 
+				pane: self panes last 
+				atPosition: self panes size 
+				inBrowser: self)
+]
+
+{ #category : #events }
 GLMExpander >> innerPortEvent: aPortEvent [ 
 	 
 	aPortEvent portName = #entity ifFalse: [
@@ -28,5 +44,11 @@ GLMExpander >> outerPortEvent: aPortEvent [
 	 
 	aPortEvent port name = #entity ifFalse: [^self]. 
 	panes := nil. 
-	self addPaneFrom: aPortEvent port
+	aPortEvent port value do: [:each |
+		self addPaneFrom: (GLMSimplePort new value: each) ]
+]
+
+{ #category : #rendering }
+GLMExpander >> renderGlamorouslyOn: aRenderer [ 
+	^ aRenderer renderExpander: self
 ]
