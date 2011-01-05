@@ -405,6 +405,19 @@ GLMBasicExamples >> simpleActionList [
 	^ browser
 ]
 
+{ #category : #others }
+GLMBasicExamples >> simpleExpander [
+	<glmBrowser: 'Simple Expander' input: '#(a b c)'>
+	"self new simpleExpander  openOn: #(a b c)"
+	| browser |
+	browser := GLMExpander new.
+	browser show: [ :a | 
+		a title: [:x | x ].
+		a text title: 'text1'. 
+		a text title: 'text2'.].
+	^ browser
+]
+
 { #category : #'actions examples' }
 GLMBasicExamples >> simpleFinderWithMenu [
 	<glmBrowser: 'Browser menu' input: '$z'>
