@@ -158,6 +158,62 @@ ConfigurationOfGlamourSeaside >> baseline02: spec [
 ]
 
 { #category : #baselines }
+ConfigurationOfGlamourSeaside >> baseline03: spec [ 
+	<version: '0.3-baseline'>
+	
+	spec for: #common do: [
+		spec blessing: #baseline.
+		spec repository: 'http://www.squeaksource.com/Glamour'.
+		spec package: 'Glamour-Seaside-Core' with: [
+			spec requires: #('Seaside' 'Glamour' 'JQWidgetBox-Core' 'JQWidgetBox-MbMenu-Core' 'JQWidgetBox-HoverIntent-Core' 'Glamour-Morphic-Theme') ].
+		spec package: 'Glamour-Seaside-Rendering' with: [
+			spec requires: #('Glamour-Seaside-Core') ].
+		spec package: 'Glamour-Seaside-Examples' with: [
+			spec requires: #('Seaside' 'Glamour-Seaside-Rendering') ].
+		spec package: 'Glamour-Seaside-Tests' with: [
+			spec requires: #('Glamour-Seaside-Rendering' 'SeasideTesting') ].
+		spec package: 'JQWidgetBox-Core' with: [
+			spec requires: #('Seaside').
+			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
+		spec package: 'JQWidgetBox-MbMenu-Core' with: [
+			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'.
+			spec requires: #('Seaside') ].
+		spec package: 'JQWidgetBox-HoverIntent-Core' with: [
+			spec requires: #('Seaside').
+			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
+		spec package: 'Glamour-Morphic-Theme'.
+		spec group: 'Core' with: #(						
+						'Glamour-Seaside-Core'
+						'Glamour-Seaside-Rendering').
+		spec group: 'Examples' with: #(						
+						'Glamour-Seaside-Examples').
+		spec group: 'Tests' with: #(						
+						'Glamour-Seaside-Tests'). 
+		spec
+			project: 'Glamour' with: [
+				spec
+					className: 'ConfigurationOfGlamour';
+					file: 'ConfigurationOfGlamour';
+					version: '2.0-beta.8';
+					repository: 'http://www.squeaksource.com/Glamour' ].
+		spec
+			project: 'Seaside' with: [
+				spec
+					className: 'ConfigurationOfSeaside30';
+					file: 'ConfigurationOfSeaside30';
+					version: '3.0.3';
+					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
+		spec
+			project: 'SeasideTesting' with: [
+				spec
+					className: 'ConfigurationOfSeasideTesting';
+					file: 'ConfigurationOfSeasideTesting';
+					version: '0.6';
+					repository: 'http://www.squeaksource.com/SeasideTesting' ].
+		spec ]
+]
+
+{ #category : #baselines }
 ConfigurationOfGlamourSeaside >> default: spec [ 
 	<version: 'default'>
 
