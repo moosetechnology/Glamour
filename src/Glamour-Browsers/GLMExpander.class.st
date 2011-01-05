@@ -44,7 +44,7 @@ GLMExpander >> outerPortEvent: aPortEvent [
 	 
 	aPortEvent port name = #entity ifFalse: [^self]. 
 	panes := nil. 
-	aPortEvent port value do: [:each |
+	(self transformation glamourValue: aPortEvent port value) do: [:each |
 		self addPaneFrom: (GLMSimplePort new value: each) ]
 ]
 
