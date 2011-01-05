@@ -14,7 +14,8 @@ GLMExpanderLabelNodeModel class >> with: anObject in: aTreeModel [
 
 { #category : #callbacks }
 GLMExpanderLabelNodeModel >> childrenItems [
-	^ OrderedCollection with: GLMExpandeContentsNodeModel new
+	^ OrderedCollection 
+		with: ((GLMExpanderContentsNodeModel with: (self->self item)) containerNode: self)
 ]
 
 { #category : #accessing }
