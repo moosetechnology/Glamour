@@ -12,6 +12,11 @@ GLMExpanderLabelNodeModel class >> with: anObject in: aTreeModel [
 	^ (self with: anObject) containerTree: aTreeModel; yourself
 ]
 
+{ #category : #callbacks }
+GLMExpanderLabelNodeModel >> childrenItems [
+	^ OrderedCollection with: GLMExpandeContentsNodeModel new
+]
+
 { #category : #accessing }
 GLMExpanderLabelNodeModel >> containerTree [
 	^ containerTree
@@ -20,6 +25,11 @@ GLMExpanderLabelNodeModel >> containerTree [
 { #category : #accessing }
 GLMExpanderLabelNodeModel >> containerTree: anObject [
 	containerTree := anObject
+]
+
+{ #category : #callbacks }
+GLMExpanderLabelNodeModel >> contents [
+	^ self childrenItems
 ]
 
 { #category : #accessing }
@@ -44,11 +54,4 @@ GLMExpanderLabelNodeModel >> elementColumn [
 { #category : #accessing }
 GLMExpanderLabelNodeModel >> icon [
 	^ nil
-]
-
-{ #category : #callbacks }
-GLMExpanderLabelNodeModel >> rowMorphForColumn: aGlamourColumn [
-	^ (UITheme current
-		newTextIn: World
-		text: (self item presentations titleValue)) unlock; wrapFlag: true; yourself
 ]
