@@ -1,5 +1,5 @@
 Class {
-	#name : #GLMExpanderTreeMorphNodeModel,
+	#name : #GLMExpanderLabelNodeModel,
 	#superclass : #MorphTreeNodeModel,
 	#instVars : [
 		'containerTree'
@@ -8,29 +8,29 @@ Class {
 }
 
 { #category : #'instance creation' }
-GLMExpanderTreeMorphNodeModel class >> with: anObject in: aTreeModel [
+GLMExpanderLabelNodeModel class >> with: anObject in: aTreeModel [
 	^ (self with: anObject) containerTree: aTreeModel; yourself
 ]
 
 { #category : #accessing }
-GLMExpanderTreeMorphNodeModel >> containerTree [
+GLMExpanderLabelNodeModel >> containerTree [
 	^ containerTree
 ]
 
 { #category : #accessing }
-GLMExpanderTreeMorphNodeModel >> containerTree: anObject [
+GLMExpanderLabelNodeModel >> containerTree: anObject [
 	containerTree := anObject
 ]
 
 { #category : #accessing }
-GLMExpanderTreeMorphNodeModel >> displayText [
+GLMExpanderLabelNodeModel >> displayText [
 	^ UITheme current 
 		newTextIn: World
 		text: (self item presentations titleValue ifNil: ['noname']) 
 ]
 
 { #category : #callbacks }
-GLMExpanderTreeMorphNodeModel >> elementColumn [
+GLMExpanderLabelNodeModel >> elementColumn [
 	| row tags tagsFilter |
 	row := OrderedCollection with: (self displayText).
 "	tags:= self containerTree glamourPresentation tagsFor: self item to: #show.
@@ -42,12 +42,12 @@ GLMExpanderTreeMorphNodeModel >> elementColumn [
 ]
 
 { #category : #accessing }
-GLMExpanderTreeMorphNodeModel >> icon [
+GLMExpanderLabelNodeModel >> icon [
 	^ nil
 ]
 
 { #category : #callbacks }
-GLMExpanderTreeMorphNodeModel >> rowMorphForColumn: aGlamourColumn [
+GLMExpanderLabelNodeModel >> rowMorphForColumn: aGlamourColumn [
 	^ (UITheme current
 		newTextIn: World
 		text: (self item presentations titleValue)) unlock; wrapFlag: true; yourself

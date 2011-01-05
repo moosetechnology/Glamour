@@ -20,7 +20,7 @@ GLMExpanderTreeMorphModel >> glamourExpander: anObject [
 
 { #category : #accessing }
 GLMExpanderTreeMorphModel >> nodeModelFor: anObject [
-	^ GLMExpanderTreeMorphNodeModel with: anObject in: self
+	^ GLMExpanderLabelNodeModel with: anObject in: self
 ]
 
 { #category : #accessing }
