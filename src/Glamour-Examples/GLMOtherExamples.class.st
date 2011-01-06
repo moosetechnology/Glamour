@@ -7,6 +7,28 @@ Class {
 	#category : #'Glamour-Examples'
 }
 
+{ #category : #'other examples' }
+GLMOtherExamples >> expander [
+	"self new expander openOn: Collection withAllSubclasses"
+	| browser expander |
+	browser := GLMTabulator new.
+	browser title: 'Example'.
+	expander := GLMExpander new.
+	expander title: 'Methods'.
+	expander display: [:class | class methods ].
+	expander show: [ :a | 
+		a title: [:x | x selector ].
+		a text 
+			display: #getSource].
+	browser column: #classes; column: #methods.
+	browser transmit to: #classes; andShow: [:a | 
+		a list title: 'Classes' ].
+	browser transmit to: #methods; from: #classes; andShow: [:a | 
+		a custom: expander ].
+	^ browser
+
+]
+
 { #category : #'file examples' }
 GLMOtherExamples >> fileExplorer [
 	<glmBrowser: 'File Explorer' input: 'FileDirectory default'>
