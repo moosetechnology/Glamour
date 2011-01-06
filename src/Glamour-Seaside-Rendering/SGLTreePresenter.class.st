@@ -96,7 +96,7 @@ SGLTreePresenter >> onAppendRootsURLWith: html [
 							to:  ( endIndex  min: self model allRoots size  )
 							on: aRenderer ] ).	
 			stepSize isZero ifFalse: [self model stepSize: stepSize].
-			self model amountToFilterBy: (stepSize isZero ifTrue: [nil] ifFalse: [endIndex]).
+			self model amountToFilterBy: (stepSize isZero ifTrue: [0] ifFalse: [endIndex]).
 			self model updateModelSelection.
 			self updateSelectedNodes.
 			self renderer updateScript: script ]
@@ -275,15 +275,18 @@ SGLTreePresenter >> toggleNodeClassFor: aNode [
 
 { #category : #'jQuery-scripts' }
 SGLTreePresenter >> treeInitializationScriptWith: html [
-	^ html jQuery new glamourTree
-		stepSize: (self model stepSize);
-		maximumSize: self model allRoots size;
+	|tree|
+	tree := html jQuery new glamourTree
 		isMultiple: self model glamourPresentation isMultiple;
 		selectedNodes: self selectedIds; 
 		selectURL: (self onSelectActionURLForANodeWith: html);
-		appendURL: (self onAppendURLWith: html);
-		appendRootsURL: (self onAppendRootsURLWith: html); 
-		onToggleExpand: (self onExpandToggledActionForANodeWith: html)
+		appendURL: (self onAppendURLWith: html);		
+		onToggleExpand: (self onExpandToggledActionForANodeWith: html).
+	tree useAppend
+		stepSize:  (self model stepSize);
+		maximumSize: self model allRoots size;
+		appendRootsURL: (self onAppendRootsURLWith: html).
+	^ tree
 ]
 
 { #category : #private }
