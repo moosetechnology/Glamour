@@ -14,8 +14,8 @@ GLMMorphicPaneRenderer >> render: aPane [
 			addMorph: (self renderWithTitleOrNil: aPane presentations)
 			fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 			adoptPaneColor: container paneColor.
-		renderer window fullBounds.
-		renderer window refreshHorizontalScollbars ].
+		self renderer window fullBounds.
+		self renderer window refreshHorizontalScollbars ].
 	container
 		addMorph: (self renderWithTitleOrNil: aPane presentations)
 		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));

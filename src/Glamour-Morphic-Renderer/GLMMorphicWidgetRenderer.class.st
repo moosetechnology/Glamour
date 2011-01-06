@@ -85,7 +85,7 @@ GLMMorphicWidgetRenderer >> render: aPresentation [
 
 { #category : #private }
 GLMMorphicWidgetRenderer >> renderObject: anObject [
-	^ renderer render: anObject 
+	^ self renderer render: anObject 
 ]
 
 { #category : #rendering }
@@ -98,8 +98,8 @@ GLMMorphicWidgetRenderer >> renderPaneWithoutTitle: aPane [
 			addMorph: (self renderPresentation: aPane presentations)
 			fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 			adoptPaneColor: container paneColor.
-		renderer window fullBounds.
-		renderer window refreshHorizontalScollbars ].
+		self renderer window fullBounds.
+		self renderer window refreshHorizontalScollbars ].
 	container
 		addMorph: (self renderPresentation: aPane presentations)
 		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
@@ -179,7 +179,7 @@ GLMMorphicWidgetRenderer >> renderWithTitleOrNil: aPresentation [
 
 { #category : #accessing }
 GLMMorphicWidgetRenderer >> renderer [
-	^ renderer
+	^ renderer ifNil: [renderer := GLMMorphicRenderer new]
 ]
 
 { #category : #accessing }

@@ -19,9 +19,15 @@ GLMExpanderContentsNodeModel >> containerNode: anObject [
 
 { #category : #callbacks }
 GLMExpanderContentsNodeModel >> elementColumn [
-	| row tags tagsFilter |
+	| row morph |
 	
-	row := OrderedCollection with: (GLMMorphicRenderer new render: self containerNode item).
+	morph := GLMMorphicWidgetRenderer new	renderPaneWithoutTitle: self containerNode item.
+	morph 	
+		hResizing: #spaceFill;
+		vResizing: #spaceFill;
+		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1)).
+
+	row := OrderedCollection with: morph.
 	^ UITheme current newRowIn: World for: row
 ]
 

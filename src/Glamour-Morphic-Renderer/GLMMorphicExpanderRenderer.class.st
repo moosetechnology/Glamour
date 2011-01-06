@@ -11,8 +11,8 @@ GLMMorphicExpanderRenderer >> render: aBrowser [
 	treeMorph := LazyMorphTreeMorph new.
 	treeMorph
 		makeLastColumnUnbounded;
-		doubleClickSelector: #onDoubleClick;
-		getMenuSelector: #menu:shifted:;
+"		doubleClickSelector: #onDoubleClick;
+"		getMenuSelector: #menu:shifted:;
 		keystrokeActionSelector: #keyStroke:from:;
 		cornerStyle: treeMorph preferredCornerStyle;
 		borderStyle: (BorderStyle inset width: 1);
@@ -22,7 +22,7 @@ GLMMorphicExpanderRenderer >> render: aBrowser [
 		preferedPaneColor: Color white;	
 		model: treeModel;
 		nodeListSelector: #roots;
-		columns: ( OrderedCollection with: ( MorphTreeColumn new rowMorphGetSelector: #elementColumn )).
+		columns: ( OrderedCollection with: ( MorphTreeColumn new startWidth: 1000; rowMorphGetSelector: #elementColumn)).
 	treeMorph vShowScrollBar.
 	^ treeMorph buildContents
 ]
