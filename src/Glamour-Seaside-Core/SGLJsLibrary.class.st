@@ -1239,6 +1239,97 @@ SGLJsLibrary >> sglStackJs [
 ]
 
 { #category : #created }
+SGLJsLibrary >> sglTreeAppendJs [
+	^ '
+	;( function($) {
+		$.widget("ui.sglTree_append", {
+		
+			options: {	
+				appendRootsURL: null,
+				maximumSize: 0,    // the maximum number of root nodes this tree can have;
+				stepSize:  0, // the number of roots added by an append operation			
+			},
+		
+			_create: function() {	
+				var that = this;
+											
+				this.currentSize = this.options.tree.children(".sgl-tree-node").size();
+				
+				// Create the append buttons.
+				if ( this.options.stepSize && this.currentSize < this.options.maximumSize ) {							
+					this.options.tree.after(this._buttonHtml());												
+					this._bindAppendButtons();												
+				}				
+				
+				// When more roots				
+				this.element.bind("sgltreeappend", function(event, data) {
+					var isRendered;
+				
+					if ( data.type == "roots" ) {			
+						isRendered = that.options.tree.next(".sgl-tree-append-button").size() > 0;
+						that.currentSize = that.options.tree.children(".sgl-tree-node").size();
+						if ( that.currentSize >= that.options.maximumSize) {
+							that.options.tree.next(".sgl-tree-append-button").remove();
+						} else {
+							that.options.tree.next(".sgl-tree-append-button").find(".sgl-tree-append-status").html(that.currentSize+"/"+that.options.maximumSize);
+						}
+					}
+				});								
+			},
+			
+			/**
+			 * Bind the click event with a proper handler.
+			 */
+			_bindAppendButtons: function() {
+				var that = this;
+				var $button = this.options.tree.next(".sgl-tree-append-button");
+				
+				$button.find(".sgl-tree-append-page-button").bind("click", function(){
+					var value = parseInt( $button.find(".sgl-tree-append-step-size").val() );
+							
+					if ( isNaN(value) ||  value <= 0 ) {														
+								value = that.options.stepSize;
+					} 							
+				
+					$button.find(".sgl-tree-append-step-size").val(value);
+					that.options.stepSize = value;
+					$.ajax({
+						"dataType": "script",
+						"url": that.options.appendRootsURL,
+						"data": [
+							"stepSize="+value
+						].join("&")
+					});
+							
+				});
+				
+				$button.find(".sgl-tree-append-all-button").bind("click", function(){
+					$.ajax({
+						"dataType": "script",
+						"url": that.options.appendRootsURL,
+						"data": [
+							"stepSize=0"
+						].join("&")
+					});
+				});
+			},
+			
+			_buttonHtml: function() {
+				return "" +
+					"<div class=\"sgl-tree-append-button\" >" +
+						"<div>" +
+							"<input type=\"text\" class=\"sgl-tree-append-step-size\" value=\""+this.options.stepSize+"\" />" +
+							"<span class=\"sgl-tree-append-page-button\"></span>" +
+							"<span class=\"sgl-tree-append-all-button\"></span>" +
+							"<span class=\"sgl-tree-append-status\">"+this.currentSize+"/"+this.options.maximumSize+"</span>" +
+						"</div>" +
+					"</div>";
+			}		
+		});
+	})(jQuery);'
+]
+
+{ #category : #created }
 SGLJsLibrary >> sglTreeJs [
 	^ '
 	;( function($) {
@@ -1251,18 +1342,27 @@ SGLJsLibrary >> sglTreeJs [
 				select: null,
 				toggleExpandURL: null,
 				toggleExpand: null,
-				maximumSize: 0,    // the maximum number of root nodes this tree can have;
-				stepSize:  0 // the number of roots added by an append operation
+				plugins: [],
+				append: {},
 			},
 			
 			_create: function() {
-				this._addMarkupAndBindingsForTree(this.element, 1);
-				this.currentSize = this.element.children(".sgl-tree-node").size();
+				var that = this;
+				
+				this.tree = this.element;
+				this._addMarkupAndBindingsForTree(this.tree, 1);				
+				
+				// Bind the plugins.
+				$.each(this.options.plugins, function(index, val){	
+					var options = that.options[val];
+					
+					options.tree = that.tree;	
+					that.element["sglTree_"+val](options);										
+				});				
 			},
 			
 			_init: function() {
-				this._handleSelectedNodesOption(this.options.selectedNodes, true);
-				this._addOrRemoveAppendButton();
+				this._handleSelectedNodesOption(this.options.selectedNodes, true);				
 			},
 			
 			_setOption: function(key, value) {
@@ -1345,65 +1445,7 @@ SGLJsLibrary >> sglTreeJs [
 				if (  (nodeTopOffset < listTopOffset) || ( listTopOffset + this.element.height() < nodeTopOffset + $node.height() ) ) {
 					this.element.scrollTo($node); 
 				}
-			},
-			
-			_addOrRemoveAppendButton: function() {
-				var isRendered = this.element.next(".sgl-tree-append-button").size();
-				var that = this;
-				var buttonHTML, $button;
-				
-				
-				if (isRendered) {
-					if ( this.currentSize >= this.options.maximumSize) {
-						this.element.next(".sgl-tree-append-button").remove();
-					} else {
-						this.element.next(".sgl-tree-append-button").find(".sgl-tree-append-status").html(this.currentSize+"/"+this.options.maximumSize);
-					}
-				} else {
-					if ( this.options.stepSize && this.currentSize < this.options.maximumSize ) {
-						buttonHTML = ""+
-							"<div class=\"sgl-tree-append-button\" >" +
-								"<div>" +
-									"<input type=\"text\" class=\"sgl-tree-append-step-size\" value=\""+this.options.stepSize+"\" />" +
-									"<span class=\"sgl-tree-append-page-button\"></span>" +
-									"<span class=\"sgl-tree-append-all-button\"></span>" +
-									"<span class=\"sgl-tree-append-status\">"+this.currentSize+"/"+this.options.maximumSize+"</span>" +
-								"</div>" +
-							"</div>";
-					
-						this.element.after(buttonHTML);
-						$button = this.element.next(".sgl-tree-append-button");
-						$button.find(".sgl-tree-append-page-button").bind("click", function(){
-							var value = parseInt($button.find(".sgl-tree-append-step-size").val());
-							
-							if ( isNaN(value) ||  value <= 0 ) {														
-								value = that.options.stepSize;
-							} 							
-				
-							$button.find(".sgl-tree-append-step-size").val(value);
-							that.options.stepSize = value;
-							$.ajax({
-								"dataType": "script",
-								"url": that.options.appendRootsURL,
-								"data": [
-									"stepSize="+value
-									].join("&")
-							});
-							
-						});
-						
-						$button.find(".sgl-tree-append-all-button").bind("click", function(){
-							$.ajax({
-								"dataType": "script",
-								"url": that.options.appendRootsURL,
-								"data": [
-									"stepSize=0"
-									].join("&")
-							});
-						});
-					}
-				}
-			},
+			},						
 			
 			_addMarkupAndBindingsForTree: function($tree, level) {
 				var that = this;
@@ -1453,6 +1495,7 @@ SGLJsLibrary >> sglTreeJs [
 					
 					$nodeContent.bind("click", function(event) {
 						that._handleSelectionClickEvent(event, $node);
+						return false;
 					});
 					
 					if ( ! $node.hasClass("sgl-tree-node-leaf") ) {
@@ -1597,14 +1640,13 @@ SGLJsLibrary >> sglTreeJs [
 				var that = this;
 				var addedChildren;
 				
-				this.element.append(data);
-				addedChildren = this.element.children(":not(.sgl-tree-node)");
+				this.tree.append(data);
+				addedChildren = this.tree.children(":not(.sgl-tree-node)");
 				addedChildren.each(function() {
 					that._addMarkupAndBindingsForNode($(this), 1);
 				});
-				
-				this.currentSize = this.element.children(".sgl-tree-node").size();
-				this._addOrRemoveAppendButton();
+												
+				this._trigger("append", 0, {content: data, type: "roots"});				
 			},
 			
 			toggleExpand: function(nodeOrId, triggerEvent, originalEvent) {
@@ -1633,7 +1675,8 @@ SGLJsLibrary >> sglTreeJs [
 			
 		}) ;
 	}) (jQuery) ;
-	'
+	',
+	self sglTreeAppendJs
 ]
 
 { #category : #uploaded }
