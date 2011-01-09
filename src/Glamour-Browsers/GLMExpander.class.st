@@ -30,13 +30,9 @@ GLMExpander >> addPaneFrom: aPort [
 GLMExpander >> innerPortEvent: aPortEvent [ 
 	 
 	aPortEvent portName = #entity ifFalse: [
+		"We resend the value to the outer pane"
 		"We don't want to resend the transmission, but use a new SimpleTransmission." 
-		(self pane port: aPortEvent portName) value: aPortEvent value]. 
-	aPortEvent port name = #selection ifTrue: [
-		(self panes reversed copyUpTo: aPortEvent pane) do: [ :each |  
-			self removeLastPane.
-			self announce: (GLMPaneRemoved pane: each fromBrowser: self) ]. 
-		self addPaneFromInner: aPortEvent port ]
+		(self pane port: aPortEvent portName) value: aPortEvent value]
 ]
 
 { #category : #events }
