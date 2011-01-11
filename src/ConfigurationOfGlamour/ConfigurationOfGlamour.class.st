@@ -398,7 +398,7 @@ ConfigurationOfGlamour >> default: spec [
 				spec
 					className: 'ConfigurationOfGrease';
 					file: 'ConfigurationOfGrease';
-					version: '1.0-alpha9.1';
+					version: '1.0.3';
 					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
 	]
 ]
