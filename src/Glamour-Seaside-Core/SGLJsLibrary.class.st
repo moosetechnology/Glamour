@@ -537,7 +537,7 @@ SGLJsLibrary >> glamourSeasideJs [
 			}
 	})(jQuery);
 	
-	'
+	', self sglExpanderJs
 ]
 
 { #category : #uploaded }
@@ -1008,6 +1008,153 @@ SGLJsLibrary >> scrollToJs [
 	};
 
 })( jQuery );'
+]
+
+{ #category : #created }
+SGLJsLibrary >> sglExpanderJs [
+	^ '
+	;( function($) {
+		$.widget("ui.sglExpander", {
+		
+			options: {	
+				event: "click",
+				header: "h3",	
+				spinner: "<em>Retrieving  data....</em>",
+				icons: {
+					header: "ui-icon-triangle-1-e",
+					headerSelected: "ui-icon-triangle-1-s"
+				},			
+			},
+		
+			_create: function() {	
+				var self = this,
+					options = self.options;
+					
+				self.element
+					.addClass( "sgl-expander" );
+				
+				self.headers = self.element.children( options.header ).each(function() {
+					self._initHeader( $(this) );
+				});		
+
+				self.running = [];															 									
+			},
+			
+			_initHeader: function( header ) {
+				var self = this,
+					options = self.options;
+				
+				header.addClass( "sgl-expander-header ui-helper-reset ui-state-default ui-corner-all" )
+					.bind( "mouseenter.expander", function() {
+						if ( options.disabled ) {
+							return;
+						}
+						$( this ).addClass( "ui-state-hover" );
+					})
+					.bind( "mouseleave.expander", function() {
+						if ( options.disabled ) {
+							return;
+						}
+						$( this ).removeClass( "ui-state-hover" );
+					})	
+				
+				if ( options.icons ) {
+					$( "<span></span>" )
+						.addClass( "ui-icon " + options.icons.header )
+						.prependTo( header );										
+				}		
+						
+				if ( options.event ) {
+					header.bind( options.event.split(" ").join(".expander ") +".expander", function(event) {						
+						self._clickHandler(this);
+						event.preventDefault();						
+					});
+				}		
+			},
+
+			_clickHandler: function( target ) {
+				var content, url,
+					self = this,
+					targetIndex = self._findIndex( target ),
+					clicked = $( target ),
+					options = self.options;
+				
+				if ( options.disabled || self.running[ targetIndex ] ) {
+					return;
+				}
+				
+				self.running[ targetIndex ] = true;
+				content = clicked.next()
+					.not(options.header);
+	
+				if ( content.size() == 0 ) {
+					url = clicked.children("a:first").attr("href");
+					clicked.children("a:first")
+						.attr("href", "#")
+						.hide()
+						.after("<a class=\"\">"+options.spinner+"</a>");										
+					
+					$.ajax({
+						"dataType": "html",
+						"url": url,		
+						"success": function(data, textStatus, XMLHttpRequest) {							
+							clicked.after("<div></div>");
+							clicked.next()
+								.addClass("sgl-expander-content ui-helper-reset ui-widget-content ui-corner-bottom")
+								.hide()
+								.html(data);
+							
+							clicked.children("a:first")
+								.show()
+								.next()
+								.remove();
+							
+							self._toggle(clicked, targetIndex);
+						},						
+					});		
+					
+					return ;								
+				}
+				
+				self._toggle(clicked, targetIndex);
+			},
+			
+			_findIndex: function( target ) {			
+				this.headers.each(function(index) {
+					if (this == target) {						
+						return index;
+					}						
+				});
+			},
+			
+			_toggle: function( header, headerIndex ) {
+				var options = this.options;
+			
+				header.toggleClass("ui-state-active")
+					.children( ".ui-icon" )
+					.toggleClass( options.icons.header )
+					.toggleClass( options.icons.headerSelected );
+				header.next()
+					.toggleClass("ui-expander-content-active")
+					.toggle();
+				
+				this.running[ headerIndex ] = false;
+			},
+			
+			addPane: function( header ) {
+				var self = this,
+					options = self.options;
+											
+				self.element
+					.children( ":last" )
+					.after( header );	
+						
+				self._initHeader( self.element.children( ":last" ) );
+				self.headers = self.element.children( options.header );				
+			},
+					
+		});
+	})(jQuery);'
 ]
 
 { #category : #created }

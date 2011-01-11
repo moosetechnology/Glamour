@@ -1,6 +1,11 @@
 Extension { #name : #JQueryInstance }
 
 { #category : #'*Glamour-Seaside-Core' }
+JQueryInstance >> glamourExpander [
+	^ self create: JQSGLExpander
+]
+
+{ #category : #'*Glamour-Seaside-Core' }
 JQueryInstance >> glamourHtml: aRenderable [
 	self call: 'glamourHtml' with: (self render: aRenderable)
 ]

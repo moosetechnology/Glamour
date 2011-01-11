@@ -287,6 +287,62 @@ SGLFileLibrary >> menuArrowwGif [
 	^ #(71 73 70 56 57 97 7 0 7 0 128 1 0 255 255 255 255 255 255 33 249 4 1 0 0 1 0 44 0 0 0 0 7 0 7 0 0 2 11 68 142 96 120 202 189 32 115 243 133 2 0 59) asByteArray
 ]
 
+{ #category : #created }
+SGLFileLibrary >> sglExpanderCss [
+	^ '
+	.sgl-expander {
+		width: 100%;
+		position: relative;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+	
+	.sgl-expander-header {
+		cursor: pointer;
+		margin-top: 1px;
+		position: relative;
+		border: 0 none !important
+	}
+	
+	.sgl-expander-header .ui-icon {
+		left: 0.5em;
+		margin-top: -8px;
+		position: absolute;
+		top: 50%;
+	}
+	
+	.sgl-expander-header a {		
+		display: block;
+		padding: 0.5em 0.5em 0.5em 2.2em;
+		font-size: 1em;
+	}
+	
+	.sgl-expander-content {
+		border: 0 none !important;
+		position: relative;
+		padding-left: 2px;
+	}
+	
+	.sgl-expander-content > * {
+		width: auto;
+		position: relative;
+		overflow: auto;		
+	}
+	
+	/*
+	.sgl-expander .ui-state-active a {
+		display: inline;
+		margin-top: -15px;
+		position: absolute;
+		top: 50%;
+	}*/
+	
+	.sgl-expander-content > .list-presentation, .sgl-expander-content > .glm-text-presentation{
+		display: block;
+	}
+	'
+]
+
 { #category : #uploaded }
 SGLFileLibrary >> smallToRightEndIconGif [
 	^ #(71 73 70 56 57 97 16 0 16 0 231 0 0 0 0 0 0 0 0 0 82 0 8 0 0 140 140 140 198 198 198 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 33 249 4 9 0 0 0 0 44 0 0 0 0 16 0 16 0 0 8 92 0 1 8 28 72 176 160 193 131 2 9 12 64 104 80 225 193 0 16 9 58 52 24 128 0 129 0 3 39 18 172 104 241 34 0 1 10 33 138 12 80 160 163 69 140 33 11 168 92 105 242 100 74 149 45 77 86 28 64 114 37 204 150 51 71 66 44 41 19 128 198 129 28 79 38 92 72 81 232 208 135 17 51 18 101 168 148 169 196 1 1 1 0 59) asByteArray
@@ -821,5 +877,6 @@ div.magritte textarea { height: 250px; }
 div.magritte table { width: 100%; padding: .3em 1em 0 .4em; }
 div.magritte input, div.magritte textarea { width: 100%; border: 1px solid #d3d3d3; background: #e6e6e6; }
 div.magritte .buttons { text-align: right; border-width: 1px 0 0 0; margin: .5em 0 0 0; padding: .3em 1em .5em .4em; }
-div.magritte .submit { display: inline; margin: .5em .4em .5em 0; cursor: pointer; padding: .2em .6em .3em .6em; line-height: 1.4em; width: auto; overflow: visible; border: 1px solid #d3d3d3; background: #e6e6e6 url(/seaside/files/JQUiSmoothnessTheme/uibgglass75e6e6e61x400.png) 50% 50% repeat-x; font-weight: normal; color: #555555; outline: none; }'
+div.magritte .submit { display: inline; margin: .5em .4em .5em 0; cursor: pointer; padding: .2em .6em .3em .6em; line-height: 1.4em; width: auto; overflow: visible; border: 1px solid #d3d3d3; background: #e6e6e6 url(/seaside/files/JQUiSmoothnessTheme/uibgglass75e6e6e61x400.png) 50% 50% repeat-x; font-weight: normal; color: #555555; outline: none; }
+', self sglExpanderCss
 ]
