@@ -221,7 +221,7 @@ ConfigurationOfGlamourSeaside >> default: spec [
 		spec blessing: #baseline.
 		spec repository: 'http://www.squeaksource.com/Glamour'.
 		spec package: 'Glamour-Seaside-Core' with: [
-			spec requires: #('Seaside' 'Glamour' 'JQWidgetBox-Core' 'JQWidgetBox-MbMenu-Core' 'Glamour-Morphic-Theme') ].
+			spec requires: #('Seaside' 'Glamour' 'JQWidgetBox-Core' 'JQWidgetBox-MbMenu-Core' 'JQWidgetBox-HoverIntent-Core' 'Glamour-Morphic-Theme') ].
 		spec package: 'Glamour-Seaside-Rendering' with: [
 			spec requires: #('Glamour-Seaside-Core') ].
 		spec package: 'Glamour-Seaside-Examples' with: [
