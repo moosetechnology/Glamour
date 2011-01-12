@@ -11,8 +11,7 @@ GLMMorphicExpanderRenderer >> render: aBrowser [
 	treeMorph := LazyMorphTreeMorph new.
 	treeMorph
 		makeLastColumnUnbounded;
-"		doubleClickSelector: #onDoubleClick;
-"		getMenuSelector: #menu:shifted:;
+		getMenuSelector: #menu:shifted:;
 		keystrokeActionSelector: #keyStroke:from:;
 		cornerStyle: treeMorph preferredCornerStyle;
 		borderStyle: (BorderStyle inset width: 1);
@@ -22,7 +21,29 @@ GLMMorphicExpanderRenderer >> render: aBrowser [
 		preferedPaneColor: Color white;	
 		model: treeModel;
 		nodeListSelector: #roots;
-		columns: ( OrderedCollection with: ( MorphTreeColumn new startWidth: 1000; rowMorphGetSelector: #elementColumn)).
+		columns: ( OrderedCollection with: (MorphTreeColumn new rowMorphGetSelector: #elementColumn)).
 	treeMorph vShowScrollBar.
 	^ treeMorph buildContents
+	
+"	| morph scroll panel expander |
+	panel := PanelMorph new.
+	panel 
+		fillStyle: Color transparent;
+		hResizing: #spaceFill;
+		vResizing: #shrinkWrap;
+		changeTableLayout;
+		layoutInset: 2;
+		cellInset: 2.
+	scroll := GeneralScrollPane new.
+	scroll 
+		changeScrollerTableLayout;
+		scrollTarget: panel.
+	aBrowser panes do: [:each |
+		expander := ExpanderMorph titleText: (each presentations titleValue ifNil: ['noname']).
+		morph := GLMMorphicWidgetRenderer new	renderPaneWithoutTitle: each.
+		morph 
+			borderStyle: (UITheme current buttonSelectedBorderStyleFor: morph).
+		expander addMorphBack: morph.
+		panel addMorph: expander	].
+	^ scroll"
 ]
