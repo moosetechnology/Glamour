@@ -207,8 +207,23 @@ GLMUITheme >> checkboxUnselectedForm [
 
 { #category : #'border-styles' }
 GLMUITheme >> configureWindowBorderFor: aWindow [
-	super configureWindowBorderFor: aWindow.
-	aWindow roundedCorners: #() "not even top"
+"	super configureWindowBorderFor: aWindow.
+	aWindow roundedCorners: #()"
+		| aStyle |
+	
+	
+	aStyle := 
+		SimpleBorder new 
+			color: (Color black alpha: 0.5);
+			width: 1.
+			
+	aWindow borderStyle: aStyle.
+]
+
+{ #category : #'as yet unclassified' }
+GLMUITheme >> configureWindowDropShadowFor: aWindow [
+
+	aWindow hasDropShadow: false
 ]
 
 { #category : #'label-styles' }
