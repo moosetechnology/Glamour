@@ -63,7 +63,8 @@ GLMUpdateMorphicTest >> testAnnouncerUnregistration [
 	self assert: (subscription at: TestAnnouncement) size = 3.
 	browser unregisterFromAllAnnouncements.
 	subscription := announcer instVarNamed: 'subscriptions'.
-	self deny: (subscription includesKey: TestAnnouncement)
+	self deny: (subscription includesKey: TestAnnouncement).
+	self assert: (announcer instVarNamed: 'subscriptions') isEmpty
 ]
 
 { #category : #testing }
