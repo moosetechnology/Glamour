@@ -741,19 +741,22 @@ GLMBasicExamples >> treeWithMenu [
 
 { #category : #updating }
 GLMBasicExamples >> updatableBrowser [
+	<glmBrowser: 'Updateable browser' input: '|collection|
+	collection := GLMAnnouncingCollection new.
+	collection add: 1; add: 2; add: 3.
+	collection'>
 	"
 	|collection|
 	collection := GLMAnnouncingCollection new.
 	collection add: 1; add: 2; add: 3.
-	self new updatableBrowser openOn: collection.
-	collection inspect"
+	self new updatableBrowser openOn: collection."
 	
 	| browser |
 	browser := GLMTabulator new.
-	browser column: #one; column: #two.
-	browser act: [:b | b entity add: (browser entity size + 1) ] entitled: 'Add an item in the collection'.
+	browser column: #automatic; column: #menu.
+	browser act: [:b | b entity add: (b entity size + 1) ] entitled: 'Add an item in the collection'.
 	browser act: [:b | b entity removeLast ] entitled: 'Remove last item from the collection'.
-	browser transmit to: #one; andShow: [ :a |
+	browser transmit to: #automatic; andShow: [ :a |
 		a title: 'Updated automatically'.
 		a stackedArrangement.
 		a list title: [:x | 'List: ', x size printString ];
@@ -769,7 +772,7 @@ GLMBasicExamples >> updatableBrowser [
 			painting: [:view :entity | 
 				view shape label.
 				view nodes: entity ] ].
-	browser transmit to: #two; andShow: [ :a |
+	browser transmit to: #menu; andShow: [ :a |
 		a title: 'Updated via menu'.
 		a stackedArrangement.
 		a list title: 'List';
