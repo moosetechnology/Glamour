@@ -124,33 +124,7 @@ GLMMorphicRenderer >> renderListingPresentation: aPresentation [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderMagrittePresentation: aMagrittePresentation [ 
-	| toShow description magritteMorph scrollPane |
-	toShow := aMagrittePresentation displayValue.
-	description := (aMagrittePresentation magritteDescription glamourValue: toShow) copy.
-	description morphClass: MASilentContainerMorph.
-	magritteMorph := (description asMorphOn: toShow)
-		addButtons;
-		morph.
-	scrollPane := GLMScrollPaneForHResize new.
-	scrollPane scroller
-		addMorph: magritteMorph
-		";
-		vResizing: #spaceFill;
-		hResizing: #spaceFill;
-		layoutChanged".
-	scrollPane layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ 25 corner: 0 @ 0)).
-
-	aMagrittePresentation when: GLMPresentationUpdated do: [:ann |
-		scrollPane scroller removeMorph: scrollPane scroller submorphs first.
-		toShow := aMagrittePresentation displayValue.
-		description := (aMagrittePresentation magritteDescription glamourValue: toShow) copy.
-		description morphClass: MASilentContainerMorph.
-		magritteMorph := (description asMorphOn: toShow)
-			addButtons;
-			morph.
-		scrollPane scroller addMorph: magritteMorph].
-
-	^ scrollPane
+	^ GLMMorphicMagritteRenderer render: aMagrittePresentation from: self
 ]
 
 { #category : #'rendering presentations' }
