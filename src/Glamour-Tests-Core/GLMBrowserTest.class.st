@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMBrowserTest >> testHasStatusbar [
 	| browser |
 	browser := GLMBrowser new.
@@ -15,7 +15,7 @@ GLMBrowserTest >> testHasStatusbar [
 	self assert: browser statusbarPane == browser panes first
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMBrowserTest >> testNoComposite [
 	| browser |
 	browser := GLMBrowser new.
@@ -23,7 +23,7 @@ GLMBrowserTest >> testNoComposite [
 	self assert: browser pane presentations first = browser.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMBrowserTest >> testStatusbarTransmissions [
 	| browser pane |
 	browser := GLMBrowser new.
@@ -37,7 +37,7 @@ GLMBrowserTest >> testStatusbarTransmissions [
 	self assert: (browser transmissions first presentations first isKindOf: GLMLabelPresentation)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMBrowserTest >> testStatusbarTransmissionsTriggered [
 	| browser pane |
 	browser := GLMTabulator new.
@@ -54,7 +54,7 @@ GLMBrowserTest >> testStatusbarTransmissionsTriggered [
 	self assert: (browser statusbarPane presentations first isKindOf: GLMLabelPresentation)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMBrowserTest >> testUnregisterAnnouncements [
 	| announcer presentation browser pane |
 	announcer := Announcer new.
@@ -71,7 +71,7 @@ GLMBrowserTest >> testUnregisterAnnouncements [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMBrowserTest >> testUnregisterAnnouncementsWhenRemovingPane [
 	| announcer presentation browser pane |
 	announcer := Announcer new.
