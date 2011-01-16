@@ -16,10 +16,18 @@ Class {
 		'presentation',
 		'announcement',
 		'announcerObjects',
-		'transformation'
+		'transformation',
+		'id'
 	],
 	#category : #'Glamour-Core'
 }
+
+{ #category : #'hack-for-announcements' }
+GLMUpdateAction >> = other [ 
+	self flag: 'see http://code.google.com/p/moose-technology/issues/detail?id=492'.
+	self species = other species ifFalse: [ ^false ].
+	^self id = other id
+]
 
 { #category : #accessing }
 GLMUpdateAction >> announcement [
@@ -49,6 +57,18 @@ GLMUpdateAction >> condition [
 { #category : #accessing }
 GLMUpdateAction >> condition: anObject [
 	condition := anObject
+]
+
+{ #category : #'hack-for-announcements' }
+GLMUpdateAction >> hash [ 
+	self flag: 'see http://code.google.com/p/moose-technology/issues/detail?id=492'.
+	^self species hash bitXor: self id hash
+]
+
+{ #category : #'hack-for-announcements' }
+GLMUpdateAction >> id [ 
+	self flag: 'see http://code.google.com/p/moose-technology/issues/detail?id=492'.
+	^id ifNil: [ id = UUID new asString ]
 ]
 
 { #category : #'initialize-release' }
@@ -98,6 +118,10 @@ GLMUpdateAction >> transformation: anObject [
 
 { #category : #public }
 GLMUpdateAction >> unregisterFromAllAnnouncements [
+	self flag: 'We use the equality unsubscription mechanism because of deep copying in Glamour'.
+	self flag: 'Old implementation:
 	[self announcerObjects do: [:each | 
-		each unsubscribe: self ]] on: Error do: [:e | ]
+		each unsubscribe: self ]] on: Error do: [:e | ]'.
+	self announcerObjects 
+		do: [:each | each unsubscribeNonIdentical: self ]
 ]

@@ -173,7 +173,9 @@ GLMBrowser >> transmissions [
 GLMBrowser >> unregisterFromAllAnnouncements [
 	super unregisterFromAllAnnouncements.
 	self panes do: [:each | 
-		each unregisterFromAllAnnouncements ]
+		each presentations unregisterFromAllAnnouncements ].
+	self transmissions do: [ :each | 
+		each destination pane unregisterFromAllAnnouncements ]
 ]
 
 { #category : #updating }

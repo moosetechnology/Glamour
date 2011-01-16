@@ -53,8 +53,10 @@ GLMCompositePresentation >> at: aNumber [
 
 { #category : #accessing }
 GLMCompositePresentation >> clear [
+	self unregisterFromAllAnnouncements.
 	arrangement := nil.
-	presentations := nil
+	presentations := nil.
+	
 ]
 
 { #category : #accessing }
