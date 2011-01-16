@@ -10,6 +10,9 @@ Output ports:
 Class {
 	#name : #GLMFinder,
 	#superclass : #GLMImplicitBrowser,
+	#instVars : [
+		'fixedSize'
+	],
 	#category : #'Glamour-Browsers'
 }
 
@@ -53,6 +56,16 @@ GLMFinder >> addPaneFromInner: aPort [
 				addPresentations: (each presentations collect: #copy)] . 
 	(realTransmissions select: [:each | each originatesAt: aPort]) 
 		do: [:each | each transmit]. 
+]
+
+{ #category : #accessing }
+GLMFinder >> fixedSize [
+	^ fixedSize ifNil: [fixedSize := true]
+]
+
+{ #category : #accessing }
+GLMFinder >> fixedSize: aBoolean [
+	fixedSize := aBoolean
 ]
 
 { #category : #events }
