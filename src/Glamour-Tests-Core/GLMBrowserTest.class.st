@@ -87,3 +87,23 @@ GLMBrowserTest >> testUnregisterAnnouncementsWhenRemovingPane [
 	self assert: (announcer instVarNamed: 'subscriptions') isEmpty.
 
 ]
+
+{ #category : #tests }
+GLMBrowserTest >> testUnregisterAnnouncementsWhenUpdatingPane [
+	| announcer browser  presentation |
+	
+	announcer := Announcer new.
+	browser := GLMTabulator new.
+	browser row: #one.
+	browser transmit 
+		to: #one;
+		andShow: [ :presenter |
+			(presentation := presenter list)
+				updateOn: TestAnnouncement from:  [ announcer ];
+				display: [ :start | start to: 10 ] ].
+	browser startOn: 1.
+	presentation registerAnnouncements.  
+	browser unregisterFromAllAnnouncements.
+
+	self assert: (announcer instVarNamed: 'subscriptions') isEmpty.
+]
