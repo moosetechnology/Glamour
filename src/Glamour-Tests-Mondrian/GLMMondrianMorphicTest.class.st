@@ -55,6 +55,22 @@ GLMMondrianMorphicTest >> testSelection [
 ]
 
 { #category : #testing }
+GLMMondrianMorphicTest >> testUnregisterFromAnnouncementsWhenUpdating [
+	| browser announcingCollection numberOfExecutions |
+	numberOfExecutions :=0.
+	announcingCollection := GLMAnnouncingCollection new.
+	browser := GLMTabulator new.
+	browser column: #mondrian.
+	browser transmit to: #mondrian; andShow: [:a |
+		a mondrian 
+			updateOn: GLMItemAdded from: [announcingCollection];
+			painting: [:view | numberOfExecutions := numberOfExecutions + 1 ]].
+	window := browser openOn: announcingCollection.
+	1 to: 3 do: [:each | announcingCollection add: each.].
+	self assert: numberOfExecutions  = 4 "it should not be 8"
+]
+
+{ #category : #testing }
 GLMMondrianMorphicTest >> testUpdate [
 	| browser canvas |
 	browser := GLMTabulator new.
