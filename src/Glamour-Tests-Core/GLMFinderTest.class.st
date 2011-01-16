@@ -13,6 +13,15 @@ GLMFinderTest >> testEmptyPanes [
 ]
 
 { #category : #tests }
+GLMFinderTest >> testFixedSize [
+	| browser | 
+	browser := GLMFinder new. 
+	self assert: browser fixedSize.
+	browser fixedSize: false.
+	self assert: browser fixedSize not	
+]
+
+{ #category : #tests }
 GLMFinderTest >> testPaneCreation [ 
 	| browser | 
 	browser := GLMFinder new. 
