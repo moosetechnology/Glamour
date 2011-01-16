@@ -5,11 +5,13 @@ Class {
 }
 
 { #category : #rendering }
-GLMMorphicFinderRenderer >> addMorphFromObject: anObject toContainer: aMorph [
-	aMorph addMorphBack: ((self renderObject: anObject)
+GLMMorphicFinderRenderer >> addMorphFromObject: anObject toContainer: aContainerMorph [
+	| renderedMorph |
+	renderedMorph := (self renderObject: anObject)
 				vResizing: #spaceFill;
 				hResizing: #shrinkWrap;
-				yourself).
+				yourself.
+	aContainerMorph addMorphBack: renderedMorph
 ]
 
 { #category : #rendering }
