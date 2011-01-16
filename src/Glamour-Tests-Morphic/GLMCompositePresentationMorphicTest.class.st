@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Morphic'
 }
 
-{ #category : #testing }
+{ #category : #tests }
 GLMCompositePresentationMorphicTest >> testAccordion [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
@@ -22,7 +22,7 @@ GLMCompositePresentationMorphicTest >> testAccordion [
 	self assert: compositeMorph submorphs last class = ExpanderMorph.
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMCompositePresentationMorphicTest >> testAccordionExpanded [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
@@ -37,7 +37,7 @@ GLMCompositePresentationMorphicTest >> testAccordionExpanded [
 	self assert: compositeMorph submorphs last expanded not.
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMCompositePresentationMorphicTest >> testAccordionWithTitle [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
@@ -57,7 +57,7 @@ GLMCompositePresentationMorphicTest >> testAccordionWithTitle [
 	self assert: compositeMorph contentMorph submorphs first submorphs first class = ExpanderMorph
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMCompositePresentationMorphicTest >> testFinder [
 	| finder |
 	finder := GLMFinder new.
@@ -72,7 +72,7 @@ GLMCompositePresentationMorphicTest >> testFinder [
 	self assert: (window submorphs last submorphs first submorphs first submorphs first isKindOf: LazyTabGroupMorph) 
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMCompositePresentationMorphicTest >> testOneStackedVerticallyWithTitle [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
@@ -93,7 +93,7 @@ GLMCompositePresentationMorphicTest >> testOneStackedVerticallyWithTitle [
 	self assert: compositeMorph contentMorph submorphs first submorphs first class = LazyTabGroupMorph
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMCompositePresentationMorphicTest >> testStackedVertically [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
@@ -110,7 +110,7 @@ GLMCompositePresentationMorphicTest >> testStackedVertically [
 	self assert: compositeMorph submorphs first class = LazyTabGroupMorph.
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMCompositePresentationMorphicTest >> testStackedVerticallyWithTitle [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
@@ -132,7 +132,7 @@ GLMCompositePresentationMorphicTest >> testStackedVerticallyWithTitle [
 	self assert: compositeMorph contentMorph submorphs first submorphs first class = LazyTabGroupMorph
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMCompositePresentationMorphicTest >> testTabs [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
@@ -146,7 +146,7 @@ GLMCompositePresentationMorphicTest >> testTabs [
 	self assert: compositeMorph lazyPages size = 2.
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMCompositePresentationMorphicTest >> testTabsWithTitle [
 	| browser compositeMorph |
 	browser := GLMTabulator new.

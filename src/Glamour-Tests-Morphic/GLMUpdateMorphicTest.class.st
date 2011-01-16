@@ -12,7 +12,7 @@ Class {
 	#category : #'Glamour-Tests-Morphic'
 }
 
-{ #category : #testing }
+{ #category : #tests }
 GLMUpdateMorphicTest >> setUp [
 	announcer := Announcer new.
 	entity := OrderedCollection with: 1 with: 2 with: 3.
@@ -37,7 +37,7 @@ GLMUpdateMorphicTest >> setUp [
 	tableMorph := window submorphs last submorphs second submorphs first submorphs last submorphs first submorphs first submorphs first.
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMUpdateMorphicTest >> testAdd [
 	entity add: 4.
 	announcer announce: TestAnnouncement.
@@ -47,7 +47,7 @@ GLMUpdateMorphicTest >> testAdd [
 
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMUpdateMorphicTest >> testAnnouncerUnregistration [
 	| subscription |
 	subscription := announcer instVarNamed: 'subscriptions'.
@@ -67,7 +67,7 @@ GLMUpdateMorphicTest >> testAnnouncerUnregistration [
 	self assert: (announcer instVarNamed: 'subscriptions') isEmpty
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMUpdateMorphicTest >> testInvalidateSelection [
 	(browser panes first port: #selection) value: 3.
 	entity removeLast.
@@ -76,7 +76,7 @@ GLMUpdateMorphicTest >> testInvalidateSelection [
 	self assert: listMorph model selection isNil
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMUpdateMorphicTest >> testRemove [
 	entity removeLast.
 	announcer announce: TestAnnouncement.
@@ -85,7 +85,7 @@ GLMUpdateMorphicTest >> testRemove [
 	self assert: tableMorph model roots size = 2.
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMUpdateMorphicTest >> testUpdateBrowserTitle [
 
 	browser title: 'something'.

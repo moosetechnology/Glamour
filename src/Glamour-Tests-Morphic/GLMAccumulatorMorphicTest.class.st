@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Morphic'
 }
 
-{ #category : #testing }
+{ #category : #tests }
 GLMAccumulatorMorphicTest >> testActiveEntity [
 	| browser tabs |
 	browser := GLMAccumulator new.
@@ -18,7 +18,7 @@ GLMAccumulatorMorphicTest >> testActiveEntity [
 	self assert: browser activeEntity = $d.
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMAccumulatorMorphicTest >> testCreation [
 	| browser |
 	browser := GLMAccumulator new.
@@ -27,7 +27,7 @@ GLMAccumulatorMorphicTest >> testCreation [
 	self assert: window submorphs last class = LazyTabGroupMorph.
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMAccumulatorMorphicTest >> testListInside [
 	| browser tabs firstTreeMorph |
 	browser := GLMAccumulator new.
@@ -39,7 +39,7 @@ GLMAccumulatorMorphicTest >> testListInside [
 	self assert: ((firstTreeMorph roots collect: #complexContents) collect: #item) = ($a to: $d) asArray
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMAccumulatorMorphicTest >> testPaneCreation [
 	| browser tabs |
 	browser := GLMAccumulator new.
@@ -52,7 +52,7 @@ GLMAccumulatorMorphicTest >> testPaneCreation [
 	self assert: tabs lazyPages size = 2
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMAccumulatorMorphicTest >> testSelectedTab [
 	| browser tabs |
 	browser := GLMAccumulator new.
@@ -68,7 +68,7 @@ GLMAccumulatorMorphicTest >> testSelectedTab [
 	self assert: tabs selectedPageIndex = 1
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMAccumulatorMorphicTest >> testTabTitle [
 	| browser tabs firstTabLabel |
 	browser := GLMAccumulator new.

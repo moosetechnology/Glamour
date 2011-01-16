@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Morphic'
 }
 
-{ #category : #testing }
+{ #category : #tests }
 GLMTreeMorphicTest >> testMultipleSelectionWithChange [
 	| browser firstTreeMorph secondTreeMorph treeNodeMorph lastTreeNodeMorph |
 	browser := GLMTabulator new.
@@ -28,7 +28,7 @@ GLMTreeMorphicTest >> testMultipleSelectionWithChange [
 	self assert: (secondTreeMorph model selection selectedNodePathList collect: [:each | each first item]) =  #(40 41) asOrderedCollection.
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMTreeMorphicTest >> testMultipleSelectionWithChangeFromModel [
 	| browser firstTreeMorph secondTreeMorph |
 	browser := GLMTabulator new.
@@ -50,7 +50,7 @@ GLMTreeMorphicTest >> testMultipleSelectionWithChangeFromModel [
 	self assert: firstTreeMorph ~= secondTreeMorph
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMTreeMorphicTest >> testTwoPanesMultipleSelectionWithChange [
 	| browser treeMorphOne treeNodeMorph treeMorphTwo |
 	browser := GLMTabulator new.
@@ -92,7 +92,7 @@ GLMTreeMorphicTest >> testTwoPanesMultipleSelectionWithChange [
 	self assert: ((browser paneNamed: #two) port: #selection) value = #(40 41) asOrderedCollection 
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMTreeMorphicTest >> testUpdateFromModel [
 	| browser  treeMorphOne1 treeMorphTwo1 treeMorphOne2 treeMorphTwo2 |
 	browser := GLMTabulator new.

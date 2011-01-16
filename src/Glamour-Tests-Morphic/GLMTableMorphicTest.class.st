@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Morphic'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMTableMorphicTest >> testColumnLabel [
 	| browser  tableMorphOne tableMorphTwo |
 	browser := GLMTabulator new.

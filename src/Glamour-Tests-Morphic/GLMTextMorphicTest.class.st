@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Morphic'
 }
 
-{ #category : #testing }
+{ #category : #tests }
 GLMTextMorphicTest >> testMultipleSelectionWithChange [
 	| browser textMorph textPresentation |
 	browser := GLMTabulator new.
