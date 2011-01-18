@@ -24,12 +24,7 @@ GLMFinder >> addPaneFrom: aPort [
 		addActiveOrigin: aPort; 
 		destination: (self panes last port: #entity); 
 		presentations: (self presentations copy); 
-		transmit.
-	self announce: 
-			(GLMPaneAdded 
-				pane: self panes last 
-				atPosition: self panes size 
-				inBrowser: self)
+		transmit
 ]
 
 { #category : #private }
@@ -101,9 +96,25 @@ GLMFinder >> innerPortEvent: aPortEvent [
 { #category : #events }
 GLMFinder >> outerPortEvent: aPortEvent [ 
 	 
+	| toReplace |
 	aPortEvent port name = #entity ifFalse: [^self]. 
-	panes := nil. 
-	self addPaneFrom: aPortEvent port
+	self panes isEmpty
+		ifFalse: [
+			toReplace := self panes first.
+			"self removeAllPanes."
+			panes := nil.
+			self addPaneFrom: aPortEvent port.
+			self announce: (GLMPaneReplaced 
+						oldPane: toReplace 
+						newPane: self panes first
+						fromBrowser: self ) ]
+		ifTrue: [
+			self addPaneFrom: aPortEvent port.
+			self announce: 
+				(GLMPaneAdded 
+					pane: self panes last 
+					atPosition: self panes size 
+					inBrowser: self)]
 ]
 
 { #category : #rendering }
