@@ -22,6 +22,18 @@ GLMFinderTest >> testFixedSize [
 ]
 
 { #category : #tests }
+GLMFinderTest >> testPaneAddedAnnouncement [
+	| browser count | 
+	count := 0.
+	browser := GLMFinder new. 
+	browser on: GLMPaneAdded do: [:ann | count := count + 1].
+	browser startOn: #a.
+	self assert: count = 1.
+	(browser panes first port: #selection) value: #b.
+	self assert: count = 2
+]
+
+{ #category : #tests }
 GLMFinderTest >> testPaneCreation [ 
 	| browser | 
 	browser := GLMFinder new. 
@@ -55,6 +67,41 @@ GLMFinderTest >> testPaneCreation [
 	self assert: browser panes size = 1. 
 	self assert: browser panes last browser == browser. 
 	self assert: (browser panes last port: #entity) value = #value5
+]
+
+{ #category : #tests }
+GLMFinderTest >> testPaneRemovedAnnouncement [
+	| browser count | 
+	count := 0.
+	browser := GLMFinder new. 
+	browser on: GLMPaneRemoved do: [:ann | count := count + 1].
+	browser startOn: #a.
+	self assert: count = 0.
+	(browser panes first port: #selection) value: #b.
+	self assert: count = 0.
+	(browser panes second port: #selection) value: #c.
+	self assert: count = 0.
+	(browser panes first port: #selection) value: #d.
+	self assert: count = 1.
+
+]
+
+{ #category : #tests }
+GLMFinderTest >> testPaneReplacedAnnouncement [
+	| browser count | 
+	count := 0.
+	browser := GLMFinder new. 
+	browser on: GLMPaneReplaced do: [:ann | count := count + 1].
+	browser startOn: #a.
+	self assert: count = 0.
+	(browser panes first port: #selection) value: #b.
+	self assert: count = 0.
+	(browser panes second port: #selection) value: #c.
+	self assert: count = 0.
+	(browser panes first port: #selection) value: #d.
+	self assert: count = 1.
+	browser entity: #e.
+	self assert: count = 2
 ]
 
 { #category : #tests }
