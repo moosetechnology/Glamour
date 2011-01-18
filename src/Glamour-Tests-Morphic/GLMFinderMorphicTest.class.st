@@ -37,9 +37,8 @@ GLMFinderMorphicTest >> testRemovingVariableSizePanes [
 GLMFinderMorphicTest >> testRemovingVariableSizePanesWhenChangingEntity [
 	| finder |
 	finder := GLMFinder new fixedSize: false.
-	window := finder openOn: 40.
+	window := finder openOn: #a.
 	self assert: window submorphs last scrollTarget submorphs size = 2.
-	finder entity: 41.
-	self assert: window submorphs last scrollTarget submorphs size = 2.
-
+	finder entity: #b.
+	self assert: window submorphs last scrollTarget submorphs size = 2
 ]
