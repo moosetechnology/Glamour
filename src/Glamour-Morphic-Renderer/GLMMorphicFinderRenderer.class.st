@@ -65,7 +65,10 @@ GLMMorphicFinderRenderer >> renderWithVariablePanes: aBrowser [
 		yourself.
 	aBrowser 
 		when: GLMPaneRemoved
-		do: [ :ann | container removeMorph: container submorphs last ].
+		do: [ :ann | 
+			container removeMorph: container submorphs last.
+			container removeMorph: container submorphs last
+			 ].
 	aBrowser 
 		when: GLMPaneAdded
 		do: [ :ann | 
@@ -74,6 +77,7 @@ GLMMorphicFinderRenderer >> renderWithVariablePanes: aBrowser [
 	aBrowser 
 		when: GLMPaneReplaced
 		do: [ :ann | 
+			container removeMorph: container submorphs last.
 			container removeMorph: container submorphs last.
 			self addMorphFromObject: ann newPane toContainer: container.
 			scrollPane hScrollbar glmAnimateValue: 1.0 duration: 200 ].
