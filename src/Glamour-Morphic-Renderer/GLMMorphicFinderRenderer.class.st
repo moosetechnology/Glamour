@@ -53,7 +53,7 @@ GLMMorphicFinderRenderer >> renderWithFixedPanes: aBrowser [
 { #category : #rendering }
 GLMMorphicFinderRenderer >> renderWithVariablePanes: aBrowser [
 	| container scrollPane |
-	container := GLMMorphic emptyMorph.
+	container := GLMMorphic containerMorph.
 	container 
 		changeTableLayout;
 		listDirection: #leftToRight;

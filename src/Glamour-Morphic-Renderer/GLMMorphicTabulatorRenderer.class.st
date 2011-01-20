@@ -7,7 +7,7 @@ Class {
 { #category : #rendering }
 GLMMorphicTabulatorRenderer >> render: aBrowser [
 	| container |
-	container := GLMMorphic emptyMorph.
+	container := GLMMorphic containerMorph.
 	aBrowser cell isRow 
 		ifTrue: 
 			[ self 
@@ -38,7 +38,7 @@ GLMMorphicTabulatorRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aMo
 				self 
 					renderCustomRow: each
 					ofPane: aPane
-					inUI: (pane := GLMMorphic emptyMorph)
+					inUI: (pane := GLMMorphic containerMorph)
 					inBrowser: aBrowser.
 				pane addPaneSplitters ].
 		pane layoutFrame: (LayoutFrame new
@@ -69,7 +69,7 @@ GLMMorphicTabulatorRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aMorph
 			ifFalse: [ self 
 					renderCustomColumn: each
 					ofPane: aPane
-					inUI: (pane := GLMMorphic emptyMorph)
+					inUI: (pane := GLMMorphic containerMorph)
 					inBrowser: aBrowser.
 				pane addPaneSplitters ].
 		pane layoutFrame: (LayoutFrame new

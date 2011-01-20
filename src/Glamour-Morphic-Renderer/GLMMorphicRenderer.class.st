@@ -38,7 +38,7 @@ GLMMorphicRenderer >> renderAccumulator: aBrowser [
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [ 
 	| container buttonModel button |
-	container := GLMMorphic emptyMorph.
+	container := GLMMorphic containerMorph.
 	anActionListPresentation allActions withIndexDo: 
 		[ :each :index | 
 		buttonModel := GLMButtonModel new.
@@ -96,7 +96,7 @@ GLMMorphicRenderer >> renderInputPresentation: aPresentation [
 	
 	| morph |
 	self flag: 'hook the cuis editor'.
-	morph := GLMMorphic emptyMorph.
+	morph := GLMMorphic containerMorph.
 	^ morph
 ]
 

@@ -91,7 +91,7 @@ GLMMorphicWidgetRenderer >> renderObject: anObject [
 { #category : #rendering }
 GLMMorphicWidgetRenderer >> renderPaneWithoutTitle: aPane [ 
 	| container |
-	container := GLMMorphic emptyMorph.
+	container := GLMMorphic containerMorph.
 	aPane when: GLMMatchingPresentationsChanged do: [ :ann | 
 		container
 			removeAllMorphs;
@@ -112,7 +112,7 @@ GLMMorphicWidgetRenderer >> renderPresentation: aPresentation [
 	| container offset dock presentationMorph |
 	aPresentation allActions isEmpty ifTrue: [ 
 		^ self renderObject: aPresentation ].
-	container := GLMMorphic emptyMorph.
+	container := GLMMorphic containerMorph.
 	offset := 0.
 	dock := self renderToolbarForPresentation: aPresentation inMorph: container.
 	offset := dock minExtent y.

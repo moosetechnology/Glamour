@@ -8,7 +8,7 @@ Class {
 GLMMorphicListingRenderer >> render: aPresentation [
 	| treeModel container treeMorph textInput |
 	treeModel := GLMTreeMorphModel new glamourPresentation: aPresentation.
-	container := GLMMorphic emptyMorph.
+	container := GLMMorphic containerMorph.
 	treeMorph := self treeMorphFor: treeModel and: aPresentation.
 	aPresentation allowsInput ifTrue: [
 		textInput := self textInputFor: treeModel withHelpMessage: aPresentation helpMessage.

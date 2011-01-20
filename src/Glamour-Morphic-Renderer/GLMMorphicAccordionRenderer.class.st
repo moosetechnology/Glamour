@@ -10,7 +10,7 @@ GLMMorphicAccordionRenderer >> render: aPresentation [
 	presentations := aPresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
 	presentations size = 1 ifTrue: [ ^ self renderPresentation: presentations first ].
-	container := GLMMorphic emptyMorph.
+	container := GLMMorphic containerMorph.
 	container changeTableLayout.
 	presentations do: [ :each | 
 		expander := self theme 

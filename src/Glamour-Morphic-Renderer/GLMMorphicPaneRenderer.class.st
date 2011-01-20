@@ -7,7 +7,7 @@ Class {
 { #category : #rendering }
 GLMMorphicPaneRenderer >> render: aPane [
 	| container |
-	container := GLMMorphic emptyMorph.
+	container := GLMMorphic containerMorph.
 	aPane when: GLMMatchingPresentationsChanged do: [ :ann | 
 		container
 			removeAllMorphs;

@@ -23,13 +23,20 @@ GLMMorphic class >> alignmentMorph: aCollectionOfMorphs [
 ]
 
 { #category : #'as yet unclassified' }
-GLMMorphic class >> emptyMorph [
+GLMMorphic class >> containerMorph [
 	^ PanelMorph new
 		layoutPolicy: ProportionalLayout new;
-		color: Color transparent;
+		fillStyle: (SolidFillStyle color: Color transparent);
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		borderWidth: 0;
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphic class >> emptyMorph [
+	^ self containerMorph
+		fillStyle: (SolidFillStyle color: Color veryLightGray slightlyLighter);
 		yourself
 ]
 
@@ -97,7 +104,7 @@ GLMMorphic class >> morphElement: anObject [
 	anObject isForm
 	ifTrue:[ ^ImageMorph new newForm: anObject ].
 	
-	^self emptyMorph
+	^self containerMorph
 ]
 
 { #category : #'as yet unclassified' }
