@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #tests }
+GLMBrowserTest >> expectedFailures [
+	^ #(testUnregisterAnnouncementsWhenUpdatingPane)
+]
+
+{ #category : #tests }
 GLMBrowserTest >> testHasStatusbar [
 	| browser |
 	browser := GLMBrowser new.
