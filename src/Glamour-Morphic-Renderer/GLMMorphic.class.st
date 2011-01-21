@@ -26,7 +26,6 @@ GLMMorphic class >> alignmentMorph: aCollectionOfMorphs [
 GLMMorphic class >> containerMorph [
 	^ PanelMorph new
 		layoutPolicy: ProportionalLayout new;
-		fillStyle: (SolidFillStyle color: Color transparent);
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		borderWidth: 0;
