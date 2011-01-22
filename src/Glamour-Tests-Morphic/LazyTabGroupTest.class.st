@@ -31,6 +31,25 @@ LazyTabGroupTest >> testIsRendered [
 ]
 
 { #category : #tests }
+LazyTabGroupTest >> testPageChangedAnnouncement [
+	| announcement |
+	announcement := 0.
+	tabs announcer when: LazyTabPageChanged do: [:ann | announcement := announcement + 1].
+	tabs selectedPageIndex: 1.
+	self assert: announcement = 1
+	
+]
+
+{ #category : #tests }
+LazyTabGroupTest >> testPageRemovedAnnouncement [
+	| announcement |
+	announcement := 0.
+	tabs announcer when: LazyTabPageRemoved do: [:ann | announcement := announcement + 1].
+	tabs removePage: tabs pages first.
+	self assert: announcement = 1
+]
+
+{ #category : #tests }
 LazyTabGroupTest >> testRemovePage [
 	tabs removePage: tabs pages first.
 	self assert: tabs pages size = 1
