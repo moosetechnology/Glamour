@@ -21,9 +21,17 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 		onPageIndexChange: [ :i | 
 			aPresentation pane lastActivePresentation: (aPresentation matchingPresentations at: i) ].
 	presentations do: [ :each | 
+"		tabs 
+			addLazyPage: [ self renderPresentation: each ]
+			label: (UITheme builder newRow: { (self titleOrIconOf: each in: tabs). (UITheme builder
+			newCloseControlFor: nil
+			action: [self halt]
+			help: 'Close this tab')})
+"
 		tabs 
 			addLazyPage: [ self renderPresentation: each ]
-			label: (self titleOrIconOf: each in: tabs) ].
+			label: (self titleOrIconOf: each in: tabs)
+			].
 	index := 1.
 	presentations withIndexDo: [ :each :i | 
 		aPresentation pane lastActivePresentation notNil and: [ 

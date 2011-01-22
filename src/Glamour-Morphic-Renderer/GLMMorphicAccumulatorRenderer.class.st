@@ -31,7 +31,7 @@ GLMMorphicAccumulatorRenderer >> render: aBrowser [
 		when: GLMPaneAdded
 		do: [ :ann | 
 			tabs addLazyPage: (self renderPaneWithoutTitle: ann pane) label: (self titleOrIconOf: ann pane presentations in: tabs).
-			tabs selectedPageIndex: tabs lazyPages size ].
-	tabs selectedPageIndex: tabs lazyPages size.
+			tabs selectedPageIndex: tabs pages size ].
+	tabs selectedPageIndex: tabs pages size.
 	^ tabs
 ]

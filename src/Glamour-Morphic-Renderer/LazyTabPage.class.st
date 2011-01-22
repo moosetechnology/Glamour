@@ -1,0 +1,51 @@
+Class {
+	#name : #LazyTabPage,
+	#superclass : #BorderedMorph,
+	#instVars : [
+		'actualPageMorph',
+		'labelMorph',
+		'lazyPageMorphCreation',
+		'toolbar'
+	],
+	#category : #'Glamour-Morphic-Renderer'
+}
+
+{ #category : #accessing }
+LazyTabPage >> actualPageMorph [
+	^ actualPageMorph ifNil: [actualPageMorph := self lazyPageMorphCreation value]
+]
+
+{ #category : #accessing }
+LazyTabPage >> actualPageMorph: anObject [
+	actualPageMorph := anObject
+]
+
+{ #category : #accessing }
+LazyTabPage >> labelMorph [
+	^ labelMorph
+]
+
+{ #category : #accessing }
+LazyTabPage >> labelMorph: anObject [
+	labelMorph := anObject
+]
+
+{ #category : #accessing }
+LazyTabPage >> lazyPageMorphCreation [
+	^ lazyPageMorphCreation
+]
+
+{ #category : #accessing }
+LazyTabPage >> lazyPageMorphCreation: anObject [
+	lazyPageMorphCreation := anObject
+]
+
+{ #category : #accessing }
+LazyTabPage >> toolbar [
+	^ toolbar
+]
+
+{ #category : #accessing }
+LazyTabPage >> toolbar: anObject [
+	toolbar := anObject
+]
