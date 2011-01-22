@@ -2,7 +2,8 @@ Class {
 	#name : #LazyTabGroupMorph,
 	#superclass : #TabGroupMorph,
 	#instVars : [
-		'onPageIndexChange'
+		'onPageIndexChange',
+		'announcer'
 	],
 	#category : #'Glamour-Morphic-Renderer'
 }
@@ -45,6 +46,11 @@ LazyTabGroupMorph >> addLazyPage: aBlock label: aStringOrMorph toolbar: aToolbar
 ]
 
 { #category : #accessing }
+LazyTabGroupMorph >> announcer [
+	^ announcer ifNil: [announcer := Announcer new]
+]
+
+{ #category : #accessing }
 LazyTabGroupMorph >> onPageIndexChange [
 	^ onPageIndexChange ifNil: [[:x | ]]
 ]
@@ -60,11 +66,19 @@ LazyTabGroupMorph >> pageAt: index [
 ]
 
 { #category : #'as yet unclassified' }
+LazyTabGroupMorph >> removePage: aMorph [
+	super removePage: aMorph.
+	self announcer announce: (LazyTabPageRemoved new tabs: self; page: aMorph)
+]
+
+{ #category : #'as yet unclassified' }
 LazyTabGroupMorph >> updatePageIndex: index [
 	"Change to the given page index."
 
-	|p|
+	| p oldPage |
+	
 	index = 0 ifTrue: [^ self].
+	oldPage := self tabSelectorMorph selectedTab.
 	p := self pageMorph.
 	p isNil
 		ifTrue: [self contentMorph addMorph: (self pageAt: index)]
@@ -73,5 +87,5 @@ LazyTabGroupMorph >> updatePageIndex: index [
 				by: (self pageAt: index)].
 	self pageMorph layoutChanged.
 	self adoptPaneColor: (self owner ifNil: [self]) paneColor.
-	self onPageIndexChange value: index
+	self announcer announce: (LazyTabPageChanged new tabs: self; page: (self pageAt: index); oldPage: oldPage)
 ]
