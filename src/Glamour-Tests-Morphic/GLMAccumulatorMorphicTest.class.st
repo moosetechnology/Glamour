@@ -47,9 +47,8 @@ GLMAccumulatorMorphicTest >> testPaneCreation [
 	window := browser openOn: $d.
 	tabs := window submorphs last.
 	self assert: tabs pages size = 1.
-	self assert: tabs lazyPages size = 1.
 	browser entity: $c.
-	self assert: tabs lazyPages size = 2
+	self assert: tabs pages size = 2
 ]
 
 { #category : #tests }
@@ -77,6 +76,6 @@ GLMAccumulatorMorphicTest >> testTabTitle [
 		a list display: [:x | $a to: x ]].
 	window := browser openOn: $d.
 	tabs := window submorphs last.
-	firstTabLabel := tabs tabSelectorMorph submorphs first submorphs first.
+	firstTabLabel := tabs tabSelectorMorph submorphs first submorphs first submorphs first.
 	self assert: firstTabLabel contents = 'd'.
 ]
