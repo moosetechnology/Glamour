@@ -20,6 +20,11 @@ LazyTabPage >> actualPageMorph: anObject [
 	actualPageMorph := anObject
 ]
 
+{ #category : #testing }
+LazyTabPage >> isRendered [
+	^ actualPageMorph notNil
+]
+
 { #category : #accessing }
 LazyTabPage >> labelMorph [
 	^ labelMorph
