@@ -52,6 +52,14 @@ LazyTabGroupTest >> testPageRemovedAnnouncement [
 ]
 
 { #category : #tests }
+LazyTabGroupTest >> testRemoveAllPages [
+	tabs removePage: tabs pages first.
+	tabs removePage: tabs pages first.
+	self assert: tabs pages isEmpty.
+	self assert: tabs contentMorph submorphs isEmpty
+]
+
+{ #category : #tests }
 LazyTabGroupTest >> testRemovePage [
 	tabs removePage: tabs pages first.
 	self assert: tabs pages size = 1
