@@ -87,5 +87,5 @@ LazyTabGroupMorph >> updatePageIndex: index [
 				by: (self pageAt: index)].
 	self pageMorph layoutChanged.
 	self adoptPaneColor: (self owner ifNil: [self]) paneColor.
-	self announcer announce: (LazyTabPageChanged new tabs: self; page: (self pageAt: index); oldPage: oldPage)
+	self announcer announce: (LazyTabPageChanged new tabs: self; page: (self pages at: index); oldPage: oldPage)
 ]

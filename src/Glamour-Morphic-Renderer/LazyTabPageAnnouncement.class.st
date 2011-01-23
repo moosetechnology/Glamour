@@ -19,6 +19,11 @@ LazyTabPageAnnouncement >> page: anObject [
 ]
 
 { #category : #accessing }
+LazyTabPageAnnouncement >> pageIndex [
+	^ self tabs pages indexOf: self page
+]
+
+{ #category : #accessing }
 LazyTabPageAnnouncement >> tabs [
 	^ tabs
 ]

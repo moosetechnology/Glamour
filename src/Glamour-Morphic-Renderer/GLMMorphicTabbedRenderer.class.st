@@ -11,15 +11,15 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 	presentations := aPresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
 	(presentations size = 1 and:[ presentations first hasTitleIcon not ])
-	ifTrue: [ ^ self renderWithTitleOrNil: presentations first ].
+		ifTrue: [ ^ self renderWithTitleOrNil: presentations first ].
 	tabs := LazyTabGroupMorph new.
 	tabs
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
 		cornerStyle: (self theme tabGroupCornerStyleIn: nil);
-		font: self theme buttonFont;
-		onPageIndexChange: [ :i | 
-			aPresentation pane lastActivePresentation: (aPresentation matchingPresentations at: i) ].
+		font: self theme buttonFont.
+	tabs announcer when: LazyTabPageChanged do: [:ann |
+		aPresentation pane lastActivePresentation: (aPresentation matchingPresentations at: (ann pageIndex)) ].
 	presentations do: [ :each | 
 "		tabs 
 			addLazyPage: [ self renderPresentation: each ]
