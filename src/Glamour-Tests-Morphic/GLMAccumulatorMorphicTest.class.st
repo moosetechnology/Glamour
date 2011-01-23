@@ -13,9 +13,25 @@ GLMAccumulatorMorphicTest >> testActiveEntity [
 	browser entity: $e.
 	window := browser openOn: $d.
 	tabs := window submorphs last.
+	browser entity: $c.
 	tabs selectedPageIndex: 1.
 	tabs update: #selectedIndex.
 	self assert: browser activeEntity = $d.
+]
+
+{ #category : #tests }
+GLMAccumulatorMorphicTest >> testCloseTab [
+	| browser tabs |
+	browser := GLMAccumulator new.
+	browser show: [:a | 
+		a title: [:x | x asString ].
+		a list display: [:x | $a to: x ]].
+	window := browser openOn: $d.
+	browser entity: $c.
+	tabs := window submorphs last.
+	self assert: browser panes size = 2.
+	tabs removePageIndex: 1.
+	self assert: browser panes size = 1.
 ]
 
 { #category : #tests }
