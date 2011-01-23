@@ -18,7 +18,9 @@ GLMMorphicAccumulatorRenderer >> render: aBrowser [
 		cornerStyle: (self theme tabGroupCornerStyleIn: nil);
 		font: self theme labelFont.
 	tabs announcer when: LazyTabPageChanged do: [:ann |  
-			aBrowser activeEntity: ((aBrowser panes at: ann pageIndex) port: #entity) value ].
+		aBrowser activeEntity: ((aBrowser panes at: ann pageIndex) port: #entity) value ].
+	tabs announcer when: LazyTabPageRemoved do: [:ann |  
+		aBrowser removePaneIndex: ann pageIndex ].
 	aBrowser panes do: [ :each | 
 		tabs 
 			addLazyPage: [ self renderPaneWithoutTitle: each ]

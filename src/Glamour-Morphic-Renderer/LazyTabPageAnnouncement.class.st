@@ -3,7 +3,8 @@ Class {
 	#superclass : #Announcement,
 	#instVars : [
 		'page',
-		'tabs'
+		'tabs',
+		'pageIndex'
 	],
 	#category : #'Glamour-Morphic-Renderer'
 }
@@ -20,7 +21,12 @@ LazyTabPageAnnouncement >> page: anObject [
 
 { #category : #accessing }
 LazyTabPageAnnouncement >> pageIndex [
-	^ self tabs pages indexOf: self page
+	^ pageIndex
+]
+
+{ #category : #accessing }
+LazyTabPageAnnouncement >> pageIndex: anObject [
+	pageIndex := anObject
 ]
 
 { #category : #accessing }

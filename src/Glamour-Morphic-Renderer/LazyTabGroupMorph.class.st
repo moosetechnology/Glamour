@@ -50,25 +50,22 @@ LazyTabGroupMorph >> announcer [
 	^ announcer ifNil: [announcer := Announcer new]
 ]
 
-{ #category : #accessing }
-LazyTabGroupMorph >> onPageIndexChange [
-	^ onPageIndexChange ifNil: [[:x | ]]
-]
-
-{ #category : #accessing }
-LazyTabGroupMorph >> onPageIndexChange: anObject [
-	onPageIndexChange := anObject
-]
-
 { #category : #'as yet unclassified' }
 LazyTabGroupMorph >> pageAt: index [
 	^ (self pages at: index ) actualPageMorph
 ]
 
 { #category : #'as yet unclassified' }
-LazyTabGroupMorph >> removePage: aMorph [
-	super removePage: aMorph.
-	self announcer announce: (LazyTabPageRemoved new tabs: self; page: aMorph)
+LazyTabGroupMorph >> removePage: aPage [
+	| removedPageIndex |
+	removedPageIndex := self pages indexOf: aPage.
+	super removePage: aPage.
+	self announcer announce: (LazyTabPageRemoved new tabs: self; page: aPage; pageIndex: removedPageIndex)
+]
+
+{ #category : #'as yet unclassified' }
+LazyTabGroupMorph >> removePageIndex: anInteger [
+	self removePage: (self pages at: anInteger)
 ]
 
 { #category : #'as yet unclassified' }
@@ -87,5 +84,5 @@ LazyTabGroupMorph >> updatePageIndex: index [
 				by: (self pageAt: index)].
 	self pageMorph layoutChanged.
 	self adoptPaneColor: (self owner ifNil: [self]) paneColor.
-	self announcer announce: (LazyTabPageChanged new tabs: self; page: (self pages at: index); oldPage: oldPage)
+	self announcer announce: (LazyTabPageChanged new tabs: self; page: (self pages at: index); oldPage: oldPage; pageIndex: index)
 ]
