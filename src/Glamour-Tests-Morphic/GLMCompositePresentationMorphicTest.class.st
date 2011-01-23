@@ -147,6 +147,22 @@ GLMCompositePresentationMorphicTest >> testTabs [
 ]
 
 { #category : #tests }
+GLMCompositePresentationMorphicTest >> testTabsLastActivePresentation [
+	| browser compositeMorph |
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit to: #one; andShow: [ :a | 
+		a list.
+		a text ].
+	window := browser openOn: 42.
+	compositeMorph := window submorphs last submorphs last submorphs last.
+	self assert: compositeMorph class = LazyTabGroupMorph.
+	compositeMorph selectedPageIndex: 2.
+	self assert: browser panes first lastActivePresentation notNil.
+	self assert: (browser panes first lastActivePresentation isKindOf: GLMTextPresentation)
+]
+
+{ #category : #tests }
 GLMCompositePresentationMorphicTest >> testTabsWithTitle [
 	| browser compositeMorph |
 	browser := GLMTabulator new.

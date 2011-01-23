@@ -76,6 +76,6 @@ GLMAccumulatorMorphicTest >> testTabTitle [
 		a list display: [:x | $a to: x ]].
 	window := browser openOn: $d.
 	tabs := window submorphs last.
-	firstTabLabel := tabs tabSelectorMorph submorphs first submorphs first submorphs first.
+	firstTabLabel := tabs tabSelectorMorph submorphs first submorphs first.
 	self assert: firstTabLabel contents = 'd'.
 ]
