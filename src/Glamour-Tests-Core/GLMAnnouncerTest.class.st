@@ -7,12 +7,12 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 GLMAnnouncerTest >> setUp [
 	announcer := GLMAnnouncer new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMAnnouncerTest >> testNestedSuspendAllWhile [
 	| announcement |
 	announcer
@@ -26,7 +26,7 @@ GLMAnnouncerTest >> testNestedSuspendAllWhile [
 	self assert: announcement isNil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMAnnouncerTest >> testSuspendAllWhile [
 	| announcement instance |
 	announcer

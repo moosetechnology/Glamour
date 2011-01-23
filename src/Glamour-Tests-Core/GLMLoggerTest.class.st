@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMLoggerTest >> testCustomInstance [
 	| memoryLogger |
 	self assert: GLMLogger instance == GLMLogger nullInstance.
@@ -15,7 +15,7 @@ GLMLoggerTest >> testCustomInstance [
 	self assert: GLMLogger instance == GLMLogger nullInstance
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMLoggerTest >> testDefault [
 	GLMLoggedObject withAllSubclassesDo: [ :each |
 		self assert: each new logger == GLMLogger nullInstance ]

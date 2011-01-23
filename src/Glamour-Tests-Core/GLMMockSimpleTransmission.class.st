@@ -13,27 +13,27 @@ GLMMockSimpleTransmission class >> new [
 	^super new initialize
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMMockSimpleTransmission >> initialize [
 	super initialize.
 	wasTransmited := false
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMMockSimpleTransmission >> transmit [
 
 	wasTransmited := true.
 	super transmit.
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMMockSimpleTransmission >> transmitIn: aContext [
 
 	wasTransmited := true.
 	super transmitIn: aContext
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMMockSimpleTransmission >> wasTransmited [
 	^wasTransmited
 ]

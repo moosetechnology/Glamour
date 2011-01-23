@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMNoBrowserTest >> testCreation [
 
 	self deny: GLMNoBrowser new isNil.

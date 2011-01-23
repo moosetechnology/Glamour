@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #testing }
+{ #category : #tests }
 GLMPortEventTest >> testCreation [
 	| anEvent |
 	anEvent := GLMPortEvent 
@@ -15,7 +15,7 @@ GLMPortEventTest >> testCreation [
 	self assert: anEvent transmissionContext isEmpty.
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMPortEventTest >> testCreationWithTransmissionContext [
 	| anEvent aContext|
 	aContext := OrderedCollection new.
@@ -28,7 +28,7 @@ GLMPortEventTest >> testCreationWithTransmissionContext [
 	self assert: anEvent transmissionContext = aContext.
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMPortEventTest >> testInterdependentPanesCycleBreak [
 	|browser outerCount oneCount |
 	outerCount := 0.
@@ -56,7 +56,7 @@ GLMPortEventTest >> testInterdependentPanesCycleBreak [
 	self assert: outerCount = 1.
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMPortEventTest >> testInterdependentPanesProperPorts [
 	|browser |
 	browser := GLMTabulator new.
@@ -88,7 +88,7 @@ GLMPortEventTest >> testInterdependentPanesProperPorts [
 	self assert: ((browser paneNamed: #three) port: #selection) value = nil.
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMPortEventTest >> testPortName [
 	| anEvent |
 	anEvent := GLMPortEvent 

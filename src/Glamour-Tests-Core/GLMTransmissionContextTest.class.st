@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #testing }
+{ #category : #tests }
 GLMTransmissionContextTest >> testCopy [
 	| context copy |
 	context := GLMTransmissionContext new.
@@ -16,7 +16,7 @@ GLMTransmissionContextTest >> testCopy [
 
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMTransmissionContextTest >> testForbiddenAnnouncements [
 	| context pane |
 	context := GLMTransmissionContext new.
@@ -26,7 +26,7 @@ GLMTransmissionContextTest >> testForbiddenAnnouncements [
 	self assert: (context canAnnounceMatchingPresentationsChanged: pane) not
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMTransmissionContextTest >> testInclues [
 	| context port |
 	port := GLMSimplePort new.

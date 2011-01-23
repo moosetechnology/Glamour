@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #testing }
+{ #category : #tests }
 GLMPortReferenceTest >> testOriginTransformedValue [
 	| port reference |
 	port := GLMSimplePort new value: 41.
@@ -12,7 +12,7 @@ GLMPortReferenceTest >> testOriginTransformedValue [
 	self assert: reference value = 42
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMPortReferenceTest >> testOriginValue [
 	| port reference |
 	port := GLMSimplePort new value: 42.

@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #testing }
+{ #category : #tests }
 GLMAccumulatorTest >> testCopy [
 	| accumulator presentation copiedAccumulator |
 	accumulator := GLMAccumulator new.
@@ -19,7 +19,7 @@ GLMAccumulatorTest >> testCopy [
 	self assert: copiedAccumulator transmissions first origins first pane == copiedAccumulator pane
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMAccumulatorTest >> testCustomTransmissions [
 	| accumulator presentation |
 	accumulator := GLMAccumulator new.
@@ -31,7 +31,7 @@ GLMAccumulatorTest >> testCustomTransmissions [
 	self assert: (accumulator pane port: #otherPort) value = 42.
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMAccumulatorTest >> testNoDuplicatePaneCreation [
 	| accumulator presentation |
 	accumulator := GLMAccumulator new.
@@ -45,7 +45,7 @@ GLMAccumulatorTest >> testNoDuplicatePaneCreation [
 	self assert: accumulator panes size = 2
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMAccumulatorTest >> testPaneAddedAnnouncement [
 	| accumulator presentation annoumcementsCount |
 	accumulator := GLMAccumulator new.
@@ -57,7 +57,7 @@ GLMAccumulatorTest >> testPaneAddedAnnouncement [
 	self assert: annoumcementsCount = 42
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMAccumulatorTest >> testPaneCreation [
 	| accumulator presentation |
 	accumulator := GLMAccumulator new.
@@ -76,7 +76,7 @@ GLMAccumulatorTest >> testPaneCreation [
 
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMAccumulatorTest >> testPaneRemovedAnnouncement [
 	| accumulator presentation annoumcementsCount |
 	accumulator := GLMAccumulator new.
@@ -90,7 +90,7 @@ GLMAccumulatorTest >> testPaneRemovedAnnouncement [
 	self assert: annoumcementsCount = 42
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMAccumulatorTest >> testPaneSelectedAnnouncement [
 	| accumulator presentation annoumcementsCount otherAnnoumcementsCount |
 	accumulator := GLMAccumulator new.
@@ -109,7 +109,7 @@ GLMAccumulatorTest >> testPaneSelectedAnnouncement [
 	self assert: otherAnnoumcementsCount = 0.
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMAccumulatorTest >> testPublishToOutside [
 	| accumulator presentation |
 	accumulator := GLMAccumulator new.
@@ -120,7 +120,7 @@ GLMAccumulatorTest >> testPublishToOutside [
 	self assert: (accumulator pane port: #selection) value = 42
 ]
 
-{ #category : #testing }
+{ #category : #tests }
 GLMAccumulatorTest >> testPublishToOutsideWhenEmbedded [
 	| browser accumulator actualAccumulator |
 	browser := GLMTabulator new.

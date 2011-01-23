@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMDyanmicPresentationTest >> testDefaultPresentation [
 	| dynamic |
 	dynamic := GLMDynamicPresentation new.
@@ -16,7 +16,7 @@ GLMDyanmicPresentationTest >> testDefaultPresentation [
 	self assert: dynamic currentPresentation pane == dynamic pane
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMDyanmicPresentationTest >> testPresentationTransformation [
 	| dynamic |
 	dynamic := GLMDynamicPresentation new.

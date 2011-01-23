@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMNewScriptingTest >> testBuildingNestedComposites [
 	| browser | 
 	browser := GLMTabulator new. 
@@ -22,7 +22,7 @@ GLMNewScriptingTest >> testBuildingNestedComposites [
 	self assert: (browser paneNamed: #one) presentations last size = 2
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMNewScriptingTest >> testBundleTransmission [
 	| browser transmission | 
 	browser := GLMTabulator new. 
@@ -42,7 +42,7 @@ GLMNewScriptingTest >> testBundleTransmission [
 	self assert: transmission transmissionStrategy presentations size = 2
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMNewScriptingTest >> testBundleTransmissionWithTransformation [
 	| browser | 
 	browser := GLMTabulator new. 
@@ -55,7 +55,7 @@ GLMNewScriptingTest >> testBundleTransmissionWithTransformation [
 	self assert: ((browser paneNamed: #two) port: #entity) value = 42
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMNewScriptingTest >> testEntity [
 	| browser | 
 	browser := GLMTabulator new. 
@@ -65,7 +65,7 @@ GLMNewScriptingTest >> testEntity [
 	self assert: ((browser paneNamed: #one) port: #entity) value = ($a to: $d)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMNewScriptingTest >> testNestedCompositesPaneReference [
 	| browser | 
 	browser := GLMTabulator new. 
@@ -83,7 +83,7 @@ GLMNewScriptingTest >> testNestedCompositesPaneReference [
 		self assert: each pane == (browser paneNamed: #one) ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMNewScriptingTest >> testSelectionValidation [
 	| browser |
 	browser := GLMTabulator new.
@@ -116,7 +116,7 @@ GLMNewScriptingTest >> testSelectionValidation [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMNewScriptingTest >> testSimpleTransmission [
 	| browser | 
 	browser := GLMTabulator new. 
@@ -137,7 +137,7 @@ GLMNewScriptingTest >> testSimpleTransmission [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMNewScriptingTest >> testSimpleTransmissionWithCondition [
 	| browser | 
 	browser := GLMTabulator new. 
@@ -152,7 +152,7 @@ GLMNewScriptingTest >> testSimpleTransmissionWithCondition [
 	self assert: ((browser paneNamed: #two) port: #port2) value notNil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMNewScriptingTest >> testSimpleTransmissionWithTransformation [
 	| browser | 
 	browser := GLMTabulator new. 
@@ -169,7 +169,7 @@ GLMNewScriptingTest >> testSimpleTransmissionWithTransformation [
 	self assert: ((browser paneNamed: #two) port: #port2) value = 42
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMNewScriptingTest >> testStartTabulator [
 	| browser | 
 	browser := GLMTabulator new. 
@@ -182,7 +182,7 @@ GLMNewScriptingTest >> testStartTabulator [
 	self assert: (browser paneNamed: #one) presentations size = 2
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMNewScriptingTest >> testStatusbar [
 	| browser |
 	browser := GLMTabulator withStatusbar.

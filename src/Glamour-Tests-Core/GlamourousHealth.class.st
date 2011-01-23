@@ -9,7 +9,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 GlamourousHealth class >> produceReport [
 	^ self new produceReport
 ]

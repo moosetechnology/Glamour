@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #testing }
+{ #category : #tests }
 GLMTextPresentationTest >> testSelectedText [
 	| presentation |
 	presentation := GLMTextPresentation new.

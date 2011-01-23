@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMHelperTest >> testAsGlamorousMultiValue [
 	self assert: (GLMMultiValue with: #(1 2 3)) = (#(1 2 3) asGlamorousMultiValue).
 	self assert: 
@@ -12,7 +12,7 @@ GLMHelperTest >> testAsGlamorousMultiValue [
 		(GLMMultiValue withAll: #(1 2 3))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMHelperTest >> testGlamourValue [
 	self assert: ([:a | a + 2 ] glamourValue: 40) = 42.
 	self assert: ([:a | a + 2 ] glamourValue: 40 asGlamorousMultiValue) = 42.

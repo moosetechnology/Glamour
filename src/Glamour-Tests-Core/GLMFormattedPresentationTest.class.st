@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMFormattedPresentationTest >> testFormat [
 	| presentation |
 	presentation := GLMFormatedPresentation new.

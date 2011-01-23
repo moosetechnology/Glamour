@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMMondrianPresentationTest >> testPaintingTakesPresentation [
 	| presentation viewRenderer  viewParameter mondrianParameter |
 	presentation := GLMMondrianPresentation new.

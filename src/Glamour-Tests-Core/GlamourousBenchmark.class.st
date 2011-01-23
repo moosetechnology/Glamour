@@ -8,7 +8,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 GlamourousBenchmark >> defaultBrowser [ 
 	| browser |
 	browser := GLMTabulator new.
@@ -27,7 +27,7 @@ GlamourousBenchmark >> defaultBrowser [
 	^ browser
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 GlamourousBenchmark >> defaultFinderBrowser [ 
 	"
 	self new defaultFinderBrowser openOn: 10
@@ -42,7 +42,7 @@ GlamourousBenchmark >> defaultFinderBrowser [
 	^ finder
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 GlamourousBenchmark >> measureOpeningTime [
 	| browser numberOfOpenings time |
 	numberOfOpenings := 15.
@@ -52,7 +52,7 @@ GlamourousBenchmark >> measureOpeningTime [
 	^ {numberOfOpenings . time}
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 GlamourousBenchmark >> measureSelectionTime [
 	"
 	self new measureSelectionTime 
@@ -60,7 +60,7 @@ GlamourousBenchmark >> measureSelectionTime [
 	^ self measureSelectionTimeForSize: 1000
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 GlamourousBenchmark >> measureSelectionTimeForSize: size [
 	"
 	self new measureSelectionTime 
@@ -76,7 +76,7 @@ GlamourousBenchmark >> measureSelectionTimeForSize: size [
 	^ {size . time}
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 GlamourousBenchmark >> measureSelectionTimeInFinderForSize: size [
 	"
 	self new measureSelectionTimeInFinderForSize: 20 
@@ -93,7 +93,7 @@ GlamourousBenchmark >> measureSelectionTimeInFinderForSize: size [
 	^ {size . time}
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 GlamourousBenchmark >> showOnlyBrowser [ 
 	| browser |
 	browser := GLMTabulator new.
@@ -115,7 +115,7 @@ GlamourousBenchmark >> showOnlyBrowser [
 	^ browser
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #utilities }
 GlamourousBenchmark >> showOnlyFinderBrowser [ 
 	"
 	self new showOnlyFinderBrowser openOn: 10

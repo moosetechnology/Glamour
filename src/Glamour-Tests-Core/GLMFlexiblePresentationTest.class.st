@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMFlexiblePresentationTest >> testDefault [
 	| browser |
 	browser := GLMTabulator new.
@@ -14,7 +14,7 @@ GLMFlexiblePresentationTest >> testDefault [
 	self assert: (browser panes first presentations first isKindOf: GLMFlexiblePresentation).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMFlexiblePresentationTest >> testDynamic [
 	| browser childBrowser |
 	childBrowser := GLMFinder new.

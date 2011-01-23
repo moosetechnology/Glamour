@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMCompositePresentationTest >> testAdd [
 	| composite |
 	composite := GLMCompositePresentation new.
@@ -13,14 +13,14 @@ GLMCompositePresentationTest >> testAdd [
 	self assert: composite presentations size = 1
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMCompositePresentationTest >> testCreation [
 	| composite |
 	composite := GLMCompositePresentation new.
 	self assert: composite isEmpty
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMCompositePresentationTest >> testEquality [
 	| composite1 composite2 presentations |
 	composite1 := GLMCompositePresentation new.
@@ -31,7 +31,7 @@ GLMCompositePresentationTest >> testEquality [
 	self assert: composite1 = composite2
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMCompositePresentationTest >> testPane [
 	| pane composite presentation |
 	pane := GLMPane new.
@@ -43,7 +43,7 @@ GLMCompositePresentationTest >> testPane [
 	self assert: composite first pane == pane
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMCompositePresentationTest >> testSimpleEquality [
 	| composite1 composite2 |
 	composite1 := GLMCompositePresentation new.
