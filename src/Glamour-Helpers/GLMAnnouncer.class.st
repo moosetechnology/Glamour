@@ -1,3 +1,6 @@
+"
+This is a specialization of the Announcer. The main added functionality is the ability to suspend the announcements from this announcer.
+"
 Class {
 	#name : #GLMAnnouncer,
 	#superclass : #Announcer,
@@ -19,22 +22,22 @@ GLMAnnouncer >> announce: anAnnouncement [
 	^ announcement
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMAnnouncer >> announcer [ 
 	^ self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMAnnouncer >> resetAnnouncer [
 	self reset
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #suspending }
 GLMAnnouncer >> suspendAll [
 	^ suspendAll ifNil: [ suspendAll := false ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #suspending }
 GLMAnnouncer >> suspendAllWhile: aBlock [
 	| previousSuspensionState |
 	previousSuspensionState := suspendAll.
