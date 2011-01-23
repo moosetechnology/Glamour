@@ -60,7 +60,9 @@ LazyTabGroupMorph >> removePage: aPage [
 	| removedPageIndex |
 	removedPageIndex := self pages indexOf: aPage.
 	super removePage: aPage.
-	self announcer announce: (LazyTabPageRemoved new tabs: self; page: aPage; pageIndex: removedPageIndex)
+	self announcer announce: (LazyTabPageRemoved new tabs: self; page: aPage; pageIndex: removedPageIndex).
+	self pages isEmpty ifTrue: [
+		self contentMorph removeAllMorphs]
 ]
 
 { #category : #'as yet unclassified' }

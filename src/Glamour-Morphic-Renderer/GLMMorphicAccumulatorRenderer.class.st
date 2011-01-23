@@ -24,7 +24,9 @@ GLMMorphicAccumulatorRenderer >> render: aBrowser [
 	aBrowser panes do: [ :each | 
 		tabs 
 			addLazyPage: [ self renderPaneWithoutTitle: each ]
-			label: (self titleOrIconOf: each presentations in: tabs) ].
+			label: (self titleOrIconOf: each presentations in: tabs)
+			toolbar: nil
+			collapsable: true ].
 	aBrowser 
 		when: GLMPaneSelected
 		do: [ :ann | 
@@ -32,7 +34,11 @@ GLMMorphicAccumulatorRenderer >> render: aBrowser [
 	aBrowser 
 		when: GLMPaneAdded
 		do: [ :ann | 
-			tabs addLazyPage: (self renderPaneWithoutTitle: ann pane) label: (self titleOrIconOf: ann pane presentations in: tabs).
+			tabs 
+				addLazyPage: (self renderPaneWithoutTitle: ann pane) 
+				label: (self titleOrIconOf: ann pane presentations in: tabs)
+				toolbar: nil
+				collapsable: true.
 			tabs selectedPageIndex: tabs pages size ].
 	tabs selectedPageIndex: tabs pages size.
 	^ tabs
