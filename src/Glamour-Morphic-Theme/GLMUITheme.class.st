@@ -288,6 +288,13 @@ GLMUITheme >> dropListNormalFillStyleFor: aDropList [
 	^ SolidFillStyle color: Color white
 ]
 
+{ #category : #'fill-styles' }
+GLMUITheme >> expanderTitleNormalFillStyleFor: anExpanderTitle [
+	"Return the normal expander title fillStyle for the given expander title."
+	
+	^ self buttonNormalFillStyleFor: anExpanderTitle
+]
+
 { #category : #private }
 GLMUITheme >> glamorousBaseColorFor: aButton [
 	^ self class baseColor
