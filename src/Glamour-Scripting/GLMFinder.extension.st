@@ -1,6 +1,17 @@
 Extension { #name : #GLMFinder }
 
 { #category : #'*Glamour-Scripting' }
+GLMFinder >> fixedSizePanes [
+	^ fixedSizePanes ifNil: [fixedSizePanes := 2]
+]
+
+{ #category : #'*Glamour-Scripting' }
+GLMFinder >> fixedSizePanes: anInteger [
+	self hasFixedSizePanes: true.
+	fixedSizePanes := anInteger
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMFinder >> fromPrevious: aPortSymbol [
 	self scriptTransmission addActiveOrigin: (GLMPort new name: aPortSymbol)
 ]
