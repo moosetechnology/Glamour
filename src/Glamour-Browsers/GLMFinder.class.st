@@ -11,7 +11,7 @@ Class {
 	#name : #GLMFinder,
 	#superclass : #GLMImplicitBrowser,
 	#instVars : [
-		'fixedSize'
+		'hasFixedSizePanes'
 	],
 	#category : #'Glamour-Browsers'
 }
@@ -54,13 +54,13 @@ GLMFinder >> addPaneFromInner: aPort [
 ]
 
 { #category : #accessing }
-GLMFinder >> fixedSize [
-	^ fixedSize ifNil: [fixedSize := true]
+GLMFinder >> hasFixedSizePanes [
+	^ hasFixedSizePanes ifNil: [hasFixedSizePanes := true]
 ]
 
 { #category : #accessing }
-GLMFinder >> fixedSize: aBoolean [
-	fixedSize := aBoolean
+GLMFinder >> hasFixedSizePanes: aBoolean [
+	hasFixedSizePanes := aBoolean
 ]
 
 { #category : #events }
