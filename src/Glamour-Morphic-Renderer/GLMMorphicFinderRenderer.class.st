@@ -35,6 +35,7 @@ GLMMorphicFinderRenderer >> renderWithFixedPanes: aBrowser [
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
 		yourself.
+	container maxPanes: aBrowser fixedSizePanes.
 	aBrowser 
 		when: GLMPaneRemoved
 		do: [ :ann | container popPane.].
