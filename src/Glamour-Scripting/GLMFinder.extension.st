@@ -17,3 +17,8 @@ GLMFinder >> using: aBlock [
 	self addTransmission: scriptTransmission. 
 	scriptTransmission := nil
 ]
+
+{ #category : #'*Glamour-Scripting' }
+GLMFinder >> variableSizePanes [
+	self hasFixedSizePanes: false
+]
