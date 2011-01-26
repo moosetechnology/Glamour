@@ -5,7 +5,8 @@ Class {
 		'sizing',
 		'transform',
 		'scrollBar',
-		'paneCount'
+		'paneCount',
+		'maxPanes'
 	],
 	#category : #'Glamour-Morphic-Renderer'
 }
@@ -72,6 +73,7 @@ GLMPaneScroller >> initialize [
 		initializeTransform;
 		initializeScrollbar.
 	paneCount := 0.
+	maxPanes := 2.
 ]
 
 { #category : #initialization }
@@ -146,7 +148,12 @@ GLMPaneScroller >> leftoverScrollRange [
 
 { #category : #configuration }
 GLMPaneScroller >> maxPanes [
-	^2
+	^ maxPanes
+]
+
+{ #category : #configuration }
+GLMPaneScroller >> maxPanes: anInteger [
+	maxPanes := anInteger
 ]
 
 { #category : #layout }
