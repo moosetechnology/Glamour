@@ -6,7 +6,7 @@ Class {
 
 { #category : #tests }
 GLMFinderMorphicTest >> testCreationVariableSize [
-	window := GLMFinder new fixedSize: false; openOn: 123.
+	window := GLMFinder new variableSizePanes; openOn: 123.
 	self assert: window submorphs last class = GeneralScrollPane
 ]
 
@@ -19,7 +19,7 @@ GLMFinderMorphicTest >> testFixedSize [
 { #category : #tests }
 GLMFinderMorphicTest >> testRemovingVariableSizePanes [
 	| finder |
-	finder := GLMFinder new fixedSize: false.
+	finder := GLMFinder new variableSizePanes.
 	window := finder openOn: 40.
 	self assert: window submorphs last scrollTarget submorphs size = 2.
 	(finder panes first port: #selection) value: 41.
@@ -36,7 +36,7 @@ GLMFinderMorphicTest >> testRemovingVariableSizePanes [
 { #category : #tests }
 GLMFinderMorphicTest >> testRemovingVariableSizePanesWhenChangingEntity [
 	| finder |
-	finder := GLMFinder new fixedSize: false.
+	finder := GLMFinder new variableSizePanes.
 	window := finder openOn: #a.
 	self assert: window submorphs last scrollTarget submorphs size = 2.
 	finder entity: #b.
