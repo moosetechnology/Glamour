@@ -22,7 +22,7 @@ GLMMorphicFinderRenderer >> addMorphFromObject: anObject toContainer: aContainer
 
 { #category : #rendering }
 GLMMorphicFinderRenderer >> render: aBrowser [
-	^ aBrowser fixedSize 
+	^ aBrowser hasFixedSizePanes 
 		ifTrue: [self renderWithFixedPanes: aBrowser]
 		ifFalse: [self renderWithVariablePanes: aBrowser ]
 ]
