@@ -11,7 +11,8 @@ Class {
 	#name : #GLMFinder,
 	#superclass : #GLMImplicitBrowser,
 	#instVars : [
-		'hasFixedSizePanes'
+		'hasFixedSizePanes',
+		'fixedSizePanes'
 	],
 	#category : #'Glamour-Browsers'
 }
