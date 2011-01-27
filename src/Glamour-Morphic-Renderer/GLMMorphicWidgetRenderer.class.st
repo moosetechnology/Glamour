@@ -101,8 +101,7 @@ GLMMorphicWidgetRenderer >> renderPaneWithoutTitle: aPane [
 			addMorph: (self renderPresentation: aPane presentations)
 			fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 			adoptPaneColor: container paneColor.
-		self renderer window fullBounds.
-		self renderer window refreshHorizontalScollbars ].
+		self renderer window fullBounds ].
 	container
 		addMorph: (self renderPresentation: aPane presentations)
 		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
@@ -160,8 +159,9 @@ GLMMorphicWidgetRenderer >> renderToolbarForPresentation: aPresentation inMorph:
 						menu := self menuIn: MenuMorph new for: aPresentation.
 						menu popUpEvent: self currentEvent in: aMorph world ];
 				setBalloonText: 'Menu' translated.
+			buttons do: [:each | dock addMorphBack: each ].
 			dock addMorphBack: menuButton.
-			buttons isEmpty ifFalse: [dock addMorphBack: tools] ]
+			"isEmpty ifFalse: [dock addMorphBack: tools]" ]
 		ifTrue: [ dock addAllMorphs: buttons ].
 	^ dock
 ]

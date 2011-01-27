@@ -1,6 +1,12 @@
+"
+This is the window in which the Glamour browsers are rendered in Morphic.
+"
 Class {
 	#name : #GLMSystemWindow,
 	#superclass : #StandardWindow,
+	#instVars : [
+		'toolbarBox'
+	],
 	#category : #'Glamour-Morphic-Renderer'
 }
 
@@ -20,7 +26,7 @@ GLMSystemWindow >> buildWindowMenu [
 						yourself ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'open/close' }
 GLMSystemWindow >> delete [
 	self model unregisterFromAllAnnouncements.
 	super delete
@@ -29,15 +35,11 @@ GLMSystemWindow >> delete [
 { #category : #building }
 GLMSystemWindow >> extent: aPoint [ 
 	super extent: aPoint.
-	self fullBounds.
-	self refreshHorizontalScollbars.
+	self fullBounds
 ]
 
-{ #category : #building }
-GLMSystemWindow >> refreshHorizontalScollbars [
-	self flag: 'this was somehow needed when the magritte form was embedded in a scroll pane'
-"	self allMorphsDo: 
-		[ :morph | 
-		(morph isKindOf: GLMScrollPaneForHResize) ifTrue: [ 
-			morph scroller submorphs anyOne width: morph scroller width - 20 ] ]"
+{ #category : #accessing }
+GLMSystemWindow >> toolbarBox: anObject [
+	toolbarBox := anObject.
+	self replacePane: menuBox with: toolbarBox
 ]
