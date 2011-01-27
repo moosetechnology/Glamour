@@ -10,7 +10,7 @@ GLMMorphicWindowRenderer >> render: aRenderable [
 	window := GLMSystemWindow new.
 	window model: aRenderable.
 	self setLabelOf: window for: aRenderable.
-	offset := 0.
+	offset := 4.
 	bottomOffset := 0.
 	(aRenderable allActions select: [:each | each hasIcon]) notEmpty ifTrue: [ 
 		dock := self renderToolbarForPresentation: aRenderable inMorph: window.

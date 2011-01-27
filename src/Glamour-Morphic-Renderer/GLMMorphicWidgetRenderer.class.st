@@ -139,8 +139,9 @@ GLMMorphicWidgetRenderer >> renderToolbarForPresentation: aPresentation inMorph:
 			getEnabled: nil
 			label: (AlphaImageMorph new image: each icon)
 			help: each title)
-			valueOfProperty: #noBorder ifAbsentPut: [true];
+			valueOfProperty: #noBorder ifAbsentPut: [true]; "this is a hack to tell the GLMUITheme to not draw the border and the fill"
 			valueOfProperty: #noFill ifAbsentPut: [true];
+			setProperty: #wantsKeyboardFocusNavigation toValue: false; "to disable the focus"
 			yourself ].
 	noIconActions := aPresentation allActions select: [:each | each hasTitle and: [each hasIcon not]].
 	tools := aMorph theme newToolbarIn: aMorph for: buttons.
