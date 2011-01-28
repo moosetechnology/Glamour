@@ -92,7 +92,7 @@ LazyTabGroupMorph >> initialize [
 LazyTabGroupMorph >> newHeaderMorph [
 	^ (self theme 
 			newRowIn: self theme
-			for: {self tabSelectorMorph fillStyle: (SolidFillStyle color: Color blue) . self toolbarMorph}) cellInset: 0; borderWidth: 0; fillStyle: (SolidFillStyle color: Color yellow)
+			for: {self tabSelectorMorph . self toolbarMorph}) cellInset: 0; cellPositioning: #bottomCenter; borderWidth: 0
 ]
 
 { #category : #'as yet unclassified' }
@@ -102,7 +102,6 @@ LazyTabGroupMorph >> newToolbarMorph [
 		borderStyle: (BorderStyle width: 0);
 		vResizing: #spaceFill;
 		hResizing: #shrinkWrap;
-		extent: 0@0;
 		cellPositioning: #center;
 		changeTableLayout;
 		cellInset: 0;
