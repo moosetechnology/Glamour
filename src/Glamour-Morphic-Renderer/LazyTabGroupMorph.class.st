@@ -159,9 +159,7 @@ LazyTabGroupMorph >> updatePageIndex: index [
 				ifTrue: [self toolbarMorph 
 								replaceSubmorph: self toolbarMorph submorphs first 
 								by: (self pages at: index) toolbar ]]
-		ifFalse: ["self toolbarMorph hasSubmorphs ifTrue: [
-				self toolbarMorph replaceSubmorph: self toolbarMorph submorphs first 
-								by: GLMMorphic containerMorph ] "].
+		ifFalse: [self toolbarMorph removeAllMorphs ].
 		
 	self headerMorph layoutChanged.
 	self pageMorph layoutChanged.
