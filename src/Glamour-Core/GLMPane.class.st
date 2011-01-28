@@ -133,6 +133,12 @@ GLMPane >> isAllowedToNotePresentationsChanged [
 	^ allowedToNotePresentationsChanged ifNil: [allowedToNotePresentationsChanged := true ]
 ]
 
+{ #category : #testing }
+GLMPane >> isLastActivePresentation: aPresentation [
+	^ self lastActivePresentation notNil and: [ 
+		aPresentation title = self lastActivePresentation title ]
+]
+
 { #category : #accessing }
 GLMPane >> lastActivePresentation [
 	^ lastActivePresentation
