@@ -20,6 +20,7 @@ GLMBasicExamples >> accumulator [
 	browser := GLMTabulator new.
 	acc := GLMAccumulator new.
 	acc show: [:a | 
+		a act: #inspect entitled: 'Inspect'.
 		a title: [:x | x asString]. 
 		a list title: 'List'; display: [:x | 1 to: x ].
 		a text title: 'Text'; display: [:x | 'This is an editor on ', x printString ].
