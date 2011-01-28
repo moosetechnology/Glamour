@@ -98,12 +98,12 @@ GLMMorphicWidgetRenderer >> renderPaneWithoutTitle: aPane [
 	aPane when: GLMMatchingPresentationsChanged do: [ :ann | 
 		container
 			removeAllMorphs;
-			addMorph: (self renderPresentation: aPane presentations)
+			addMorph: (self renderObject: aPane presentations)
 			fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 			adoptPaneColor: container paneColor.
 		self renderer window fullBounds ].
 	container
-		addMorph: (self renderPresentation: aPane presentations)
+		addMorph: (self renderObject: aPane presentations)
 		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		adoptPaneColor: container paneColor.
 	^ container
@@ -170,14 +170,14 @@ GLMMorphicWidgetRenderer >> renderToolbarForPresentation: aPresentation inMorph:
 { #category : #private }
 GLMMorphicWidgetRenderer >> renderWithTitle: aPresentation [
 	| morph |
-	morph := self renderPresentation: aPresentation.
+	morph := self renderObject: aPresentation.
 	^ self morph: morph withTitleOf: aPresentation
 ]
 
 { #category : #private }
 GLMMorphicWidgetRenderer >> renderWithTitleOrNil: aPresentation [
 	| morph |
-	morph := self renderPresentation: aPresentation.
+	morph := self renderObject: aPresentation.
 	^ self morph: morph withTitleOrNilOf: aPresentation
 ]
 
