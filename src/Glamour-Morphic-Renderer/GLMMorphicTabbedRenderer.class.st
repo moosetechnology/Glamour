@@ -21,22 +21,13 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 	tabs announcer when: LazyTabPageChanged do: [:ann |
 		aPresentation pane lastActivePresentation: (aPresentation matchingPresentations at: (ann pageIndex)) ].
 	presentations do: [ :each | 
-"		tabs 
-			addLazyPage: [ self renderPresentation: each ]
-			label: (UITheme builder newRow: { (self titleOrIconOf: each in: tabs). (UITheme builder
-			newCloseControlFor: nil
-			action: [self halt]
-			help: 'Close this tab')})
-"
 		tabs 
 			addLazyPage: [ self renderPresentation: each ]
-			label: (self titleOrIconOf: each in: tabs)
-			].
+			label: (self titleOrIconOf: each in: tabs) ].
 	index := 1.
 	presentations withIndexDo: [ :each :i | 
-		aPresentation pane lastActivePresentation notNil and: [ 
-			each title = aPresentation pane lastActivePresentation title ifTrue: [ 
-				index := i ] ] ].
+		(aPresentation pane isLastActivePresentation: each) 
+			ifTrue: [ index := i ] ].
 	tabs selectedPageIndex: index.
 	aPresentation when: GLMPresentationUpdated do: [:ann |
 		tabs clear.	
@@ -50,6 +41,5 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 					each title = aPresentation pane lastActivePresentation title ifTrue: [ 
 						index := i ] ] ].
 		tabs selectedPageIndex: index.].
-
 	^ tabs
 ]
