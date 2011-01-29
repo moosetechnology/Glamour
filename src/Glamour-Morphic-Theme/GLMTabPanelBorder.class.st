@@ -7,7 +7,7 @@ Class {
 	#category : #'Glamour-Morphic-Theme'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #drawing }
 GLMTabPanelBorder >> frameRectangle: aRectangle on: aCanvas [
 	"Draw the border taking the currently selected tab into account.
 	Only works for top-positioned tabs for the moment."

@@ -220,7 +220,7 @@ GLMUITheme >> configureWindowBorderFor: aWindow [
 	aWindow borderStyle: aStyle.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'border-styles' }
 GLMUITheme >> configureWindowDropShadowFor: aWindow [
 
 	aWindow hasDropShadow: false
