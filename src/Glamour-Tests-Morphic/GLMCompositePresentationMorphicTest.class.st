@@ -163,6 +163,25 @@ GLMCompositePresentationMorphicTest >> testTabsLastActivePresentation [
 ]
 
 { #category : #tests }
+GLMCompositePresentationMorphicTest >> testTabsWithActions [
+	| browser compositeMorph |
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit to: #one; andShow: [ :a | 
+		a list
+			act: #inspect entitled: 'Inspect'.
+		a text ].
+	window := browser openOn: 42.
+	compositeMorph := window submorphs last submorphs last submorphs last.
+	self assert: compositeMorph class = LazyTabGroupMorph.
+	self assert: compositeMorph toolbarMorph submorphs notEmpty.
+	compositeMorph selectedPageIndex: 2.
+	self assert: compositeMorph toolbarMorph submorphs isEmpty.
+	compositeMorph selectedPageIndex: 1.
+	self assert: compositeMorph toolbarMorph submorphs notEmpty
+]
+
+{ #category : #tests }
 GLMCompositePresentationMorphicTest >> testTabsWithTitle [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
