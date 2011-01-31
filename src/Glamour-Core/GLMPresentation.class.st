@@ -180,6 +180,11 @@ GLMPresentation >> entity: anObject [
 ]
 
 { #category : #testing }
+GLMPresentation >> hasActions [
+	^ self allActions notEmpty
+]
+
+{ #category : #testing }
 GLMPresentation >> hasTitle [
 	^ title notNil
 ]
