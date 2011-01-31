@@ -6,12 +6,9 @@ Class {
 
 { #category : #rendering }
 GLMMorphicAccumulatorRenderer >> render: aBrowser [
-
 	| tabs |
 	aBrowser panes isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
-"	presentations size = 1 ifTrue: [ 
-		^ self morph: (self render: presentations first) withTitleOrNilOf: aCompositePresentation ].
-"	tabs := LazyTabGroupMorph new.
+	tabs := LazyTabGroupMorph new.
 	tabs
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
