@@ -94,6 +94,20 @@ GLMCompositePresentationMorphicTest >> testOneStackedVerticallyWithTitle [
 ]
 
 { #category : #tests }
+GLMCompositePresentationMorphicTest >> testOneTabWithActions [
+	| browser compositeMorph |
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit to: #one; andShow: [ :a | 
+		a list
+			act: #inspect entitled: 'Inspect' ].
+	window := browser openOn: 42.
+	compositeMorph := window submorphs last submorphs last submorphs last.
+	self assert: compositeMorph class = PanelMorph.
+	self assert: compositeMorph submorphs size = 2
+]
+
+{ #category : #tests }
 GLMCompositePresentationMorphicTest >> testStackedVertically [
 	| browser compositeMorph |
 	browser := GLMTabulator new.
