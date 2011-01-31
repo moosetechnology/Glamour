@@ -30,7 +30,9 @@ GLMAccumulatorMorphicTest >> testCloseTab [
 	browser entity: $c.
 	tabs := window submorphs last.
 	self assert: browser panes size = 2.
+	self assert: tabs pageMorphs size = 2.
 	tabs removePageIndex: 1.
+	self assert: tabs pageMorphs size = 1.
 	self assert: browser panes size = 1.
 ]
 
