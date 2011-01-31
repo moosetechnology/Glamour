@@ -126,6 +126,19 @@ GLMPresentation >> morphicAct: aBlock on: aCharacter entitled: aString [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMPresentation >> morphicAct: aBlock on: aCharacter icon: anIcon entitled: aString [ 
+	 
+	self 
+		addAction: 
+			((GLMMorphicAction new) 
+				action: aBlock; 
+				shortcut: aCharacter; 
+				icon: anIcon;
+				title: aString; 
+				yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMPresentation >> morphicSelectionAct: aBlock entitled: aString [ 
 	 
 	self addSelectionAction: 
