@@ -1,3 +1,6 @@
+"
+This class holds a set of icons to be used in the Glamorous UI Theme.
+"
 Class {
 	#name : #GLMUIThemeIcons,
 	#superclass : #ThemeIcons,
@@ -182,4 +185,8 @@ GLMUIThemeIcons class >> windowMinimizeInactiveForm [
 { #category : #icons }
 GLMUIThemeIcons class >> windowMinimizeInactiveFormContents [
 	^ #( 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4286611584 4286611584 4286611584 4286611584 4286611584 4286611584 4286611584 4286611584 0 0 0 0 0 0 0 0 4286611584 4286611584 4286611584 4286611584 4286611584 4286611584 4286611584 4286611584 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0)
+]
+
+{ #category : #'see class side' }
+GLMUIThemeIcons >> seeClassSide [
 ]
