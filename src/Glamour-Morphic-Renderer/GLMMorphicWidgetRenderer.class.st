@@ -77,8 +77,25 @@ GLMMorphicWidgetRenderer >> morph: aMorph withTitleOf: aPresentation [
 
 { #category : #private }
 GLMMorphicWidgetRenderer >> morph: aMorph withTitleOrNilOf: aPresentation [
-	(aPresentation hasTitle or: [aPresentation hasTitleIcon]) ifFalse: [^ aMorph ].
+	(aPresentation hasTitle or: [aPresentation hasTitleIcon]) ifFalse: [
+		"we render at least the toolbar"
+		^ self morph: aMorph withToolbarOf: aPresentation ].
 	^ self morph: aMorph withTitleOf: aPresentation
+]
+
+{ #category : #private }
+GLMMorphicWidgetRenderer >> morph: aMorph withToolbarOf: aPresentation [
+	| container offset dock |
+	aPresentation hasActions ifFalse: [ ^ aMorph ].
+	container := GLMMorphic containerMorph.
+	offset := 0.
+	dock := self renderToolbarForPresentation: aPresentation inMorph: container.
+	offset := dock minExtent y.
+	container addMorph: dock fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 0) offsets: (0 @ 0 corner: 0 @ offset)).	
+	container 
+		addMorph: aMorph 
+		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ offset corner: 0 @ 0)).
+	^ container
 ]
 
 { #category : #rendering }
@@ -106,23 +123,6 @@ GLMMorphicWidgetRenderer >> renderPaneWithoutTitle: aPane [
 		addMorph: (self renderObject: aPane presentations)
 		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		adoptPaneColor: container paneColor.
-	^ container
-]
-
-{ #category : #private }
-GLMMorphicWidgetRenderer >> renderPresentationWithToolbar: aPresentation [
-	| container offset dock presentationMorph |
-	aPresentation allActions isEmpty ifTrue: [ 
-		^ self renderObject: aPresentation ].
-	container := GLMMorphic containerMorph.
-	offset := 0.
-	dock := self renderToolbarForPresentation: aPresentation inMorph: container.
-	offset := dock minExtent y.
-	container addMorph: dock fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 0) offsets: (0 @ 0 corner: 0 @ offset)).	
-	presentationMorph := self renderObject: aPresentation.
-	container 
-		addMorph: presentationMorph 
-		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ offset corner: 0 @ 0)).
 	^ container
 ]
 
@@ -179,6 +179,13 @@ GLMMorphicWidgetRenderer >> renderWithTitleOrNil: aPresentation [
 	| morph |
 	morph := self renderObject: aPresentation.
 	^ self morph: morph withTitleOrNilOf: aPresentation
+]
+
+{ #category : #private }
+GLMMorphicWidgetRenderer >> renderWithToolbar: aPresentation [
+	| presentationMorph |
+	presentationMorph := self renderObject: aPresentation.
+	^ self morph: presentationMorph withToolbarOf: aPresentation
 ]
 
 { #category : #accessing }

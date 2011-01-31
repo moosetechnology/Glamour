@@ -10,7 +10,7 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 	| presentations tabs index |
 	presentations := aPresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
-	(presentations size = 1 and:[ presentations first hasTitleIcon not ])
+	(presentations size = 1 and: [ presentations first hasTitleIcon not ])
 		ifTrue: [ ^ self renderWithTitleOrNil: presentations first ].
 	tabs := LazyTabGroupMorph new.
 	tabs
