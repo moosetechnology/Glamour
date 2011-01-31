@@ -9,6 +9,8 @@ GLMMorphicWindowRenderer >> render: aRenderable [
 	| dock offset bottomOffset statusbarMorph window |
 	window := GLMSystemWindow new.
 	window model: aRenderable.
+	window on: #keyStroke send: #handleKeyStroke: to: window.
+	self installActionsOnUI: window fromPresentation: aRenderable.
 	self setLabelOf: window for: aRenderable.
 	offset := 4.
 	bottomOffset := 0.

@@ -10,6 +10,12 @@ Class {
 	#category : #'Glamour-Morphic-Renderer'
 }
 
+{ #category : #announcement }
+GLMSystemWindow >> allKeystrokeActions [
+	^ (self model allActions, self model allSelectionActions) select: [ :action | 
+		action hasShortcut ]
+]
+
 { #category : #building }
 GLMSystemWindow >> buildWindowMenu [
 	| actions aMenu |
@@ -38,8 +44,22 @@ GLMSystemWindow >> extent: aPoint [
 	self fullBounds
 ]
 
+{ #category : #'event handling' }
+GLMSystemWindow >> handleKeyStroke: anEvent [
+	| action |
+	action := self allKeystrokeActions detect: [:a | 
+		anEvent commandKeyPressed and: [ 
+			a shortcut = anEvent keyCharacter ]] ifNone: [nil].
+	action ifNotNil: [ self announcer announce: (GLMKeyStroke action: action) ]
+]
+
 { #category : #accessing }
 GLMSystemWindow >> toolbarBox: anObject [
 	toolbarBox := anObject.
 	self replacePane: menuBox with: toolbarBox
+]
+
+{ #category : #announcement }
+GLMSystemWindow >> when: anAnnouncement do: aBlock [ 
+	^ self announcer when: anAnnouncement do: aBlock
 ]
