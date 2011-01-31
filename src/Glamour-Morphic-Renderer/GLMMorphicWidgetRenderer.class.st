@@ -110,7 +110,7 @@ GLMMorphicWidgetRenderer >> renderPaneWithoutTitle: aPane [
 ]
 
 { #category : #private }
-GLMMorphicWidgetRenderer >> renderPresentation: aPresentation [
+GLMMorphicWidgetRenderer >> renderPresentationWithToolbar: aPresentation [
 	| container offset dock presentationMorph |
 	aPresentation allActions isEmpty ifTrue: [ 
 		^ self renderObject: aPresentation ].

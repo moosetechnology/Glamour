@@ -134,7 +134,7 @@ GLMMorphicRenderer >> renderMondrianPresentation: aPresentation [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderMorphPresentation: aMorphPresentation [ 
-	^ aMorphPresentation displayValue
+	^ aMorphPresentation displayValue vResizing: #spaceFill; hResizing: #spaceFill
 ]
 
 { #category : #rendering }
