@@ -12,8 +12,11 @@ Class {
 
 { #category : #announcement }
 GLMSystemWindow >> allKeystrokeActions [
-	^ (self model allActions, self model allSelectionActions) select: [ :action | 
-		action hasShortcut ]
+	^ self model notNil 
+		ifTrue: [
+			(self model allActions, self model allSelectionActions) select: [ :action | 
+				action hasShortcut ]]
+		ifFalse: [#()]
 ]
 
 { #category : #building }
@@ -34,7 +37,7 @@ GLMSystemWindow >> buildWindowMenu [
 
 { #category : #'open/close' }
 GLMSystemWindow >> delete [
-	self model unregisterFromAllAnnouncements.
+	self model notNil ifTrue: [self model unregisterFromAllAnnouncements].
 	super delete
 ]
 
