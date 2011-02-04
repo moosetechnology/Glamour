@@ -43,5 +43,5 @@ GLMDynamicPresentation >> presentationTransformation: anObject [
 { #category : #rendering }
 GLMDynamicPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
-	^ self currentPresentation renderGlamorouslyOn: aRenderer
+	^ aRenderer renderDynamicPresentation: self
 ]
