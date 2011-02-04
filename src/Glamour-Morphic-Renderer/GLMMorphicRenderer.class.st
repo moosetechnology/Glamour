@@ -81,6 +81,11 @@ GLMMorphicRenderer >> renderDropDownListPresentation: aDropListPresentation [
 		vResizing: #shrinkWrap
 ]
 
+{ #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderDynamicPresentation: aPresentation [
+	^ GLMMorphicDynamicRenderer render: aPresentation from: self
+]
+
 { #category : #'rendering browsers' }
 GLMMorphicRenderer >> renderExpander: aBrowser [ 
 	^ GLMMorphicExpanderRenderer render: aBrowser from: self
