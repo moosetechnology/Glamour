@@ -10,12 +10,6 @@ GLMImplicitBrowser >> custom: aPresentation [
 ]
 
 { #category : #'*Glamour-Scripting' }
-GLMImplicitBrowser >> scriptTransmission [
-	^ scriptTransmission 
-		ifNil: [scriptTransmission := GLMTransmission new ensureBundleStrategy]
-]
-
-{ #category : #'*Glamour-Scripting' }
 GLMImplicitBrowser >> show: aBlock [
 	^ aBlock value: self presentations
 ]
