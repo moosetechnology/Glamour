@@ -3,7 +3,7 @@ We subclass the default PluggableShoutMorph just to raise the proper announcemen
 "
 Class {
 	#name : #GLMPluggableShoutMorph,
-	#superclass : #PluggableShoutMorph,
+	#superclass : #PluggableTextMorph,
 	#instVars : [
 		'announcer'
 	],
