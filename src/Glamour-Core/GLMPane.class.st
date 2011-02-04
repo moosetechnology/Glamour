@@ -1,12 +1,12 @@
 "
-A GLMPane represents the building blocks of a browser.
+A GLMPane represents the ""physical"" building block of a browser. A pane is presented using a composite presentation (held in the presentations instance var).
 
 Instance Variables
 	browser:		Browser
 	lastActivePresentation:		Presentation
-	name:		<Object>
+	name:		Symbol
 	ports:		Collection of Ports
-	presentations:		Collection of Presentations
+	presentations:		CompositePresentation
 "
 Class {
 	#name : #GLMPane,
