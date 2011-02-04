@@ -198,6 +198,23 @@ GLMPresentation >> populate: aPortSymbol icon: anIcon entitled: aString with: aB
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMPresentation >> populate: aPortSymbol icon: anIcon on: aCharacter entitled: aString with: aBlock [ 
+	 
+	self 
+		addAction: 
+			((GLMGenericAction new) 
+				action: 
+						((GLMPortUpdater new) 
+								portSymbol: aPortSymbol; 
+								valueBlock: aBlock; 
+								yourself); 
+				shortcut: aCharacter; 
+				icon: anIcon;
+				title: aString;
+				yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMPresentation >> populate: aPortSymbol on: aCharacter entitled: aString with: aBlock [ 
 	 
 	self 
