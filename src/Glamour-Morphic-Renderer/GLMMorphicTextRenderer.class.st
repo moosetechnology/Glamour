@@ -40,16 +40,16 @@ GLMMorphicTextRenderer >> render: aPresentation [
 { #category : #rendering }
 GLMMorphicTextRenderer >> smalltalkTextMorphForModel: textModel [
 	| morph |
-	morph := GLMPluggableShoutMorph
-		on: textModel
-		text: #text
-		accept: #accept:notifying:
-		readSelection: #selection
-		menu: #menu:shifted:.
+	morph := GLMPluggableShoutMorph new.
 	morph
 		styler: (SHTextStylerST80 new
 			view: morph;
 			yourself);
+		on: textModel
+			text: #text
+			accept: #accept:notifying:
+			readSelection: #selection
+			menu: #menu:shifted:;
 		onKeyStrokeSend: #keystroke:from: to: textModel;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		vResizing: #spaceFill;
