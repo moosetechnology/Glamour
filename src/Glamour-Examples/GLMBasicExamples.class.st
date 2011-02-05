@@ -46,7 +46,7 @@ GLMBasicExamples >> actionsFor: aPresentation [
 							ifFalse: [actions := OrderedCollection with: aPresentation selection ].
 	^ actions collect: [:i |
 					(GLMGenericAction new) 
-						action: [:each | Transcript show: 'Menu - Item', i printString; cr]; 
+						action: [:each | self inform: 'Menu - Item', i printString]; 
 						title: 'Menu - Item', i printString; 
 						yourself ]
 ]
@@ -527,13 +527,13 @@ GLMBasicExamples >> staticAndDynamicMenu [
 			title: 'List';
 			display: [:each | $a to: each];
 			dynamicActionsOnSelection: [:list | self actionsFor: list ];
-			selectionAct: [Transcript show: 'static action'; cr] entitled: 'Static action';
-			selectionAct: [Transcript show: 'static sub action'; cr] entitled: 'Static sub action' categorized: 'Sub menu'.
+			selectionAct: [self inform: 'static action'] entitled: 'Static action';
+			selectionAct: [self inform: 'static sub action'] entitled: 'Static sub action' categorized: 'Sub menu'.
 	finder text
 			title: 'Text';
 			display: [:each | 'Character ', each asString];
 			dynamicActionsOnSelection: [:text | OrderedCollection with: (GLMGenericAction new title: 'Print selection'; action: [Transcript show: text selection]; yourself) ];
-			selectionAct: [Transcript show: 'Text static action'] entitled: 'Static action'.
+			selectionAct: [self inform: 'Text static action'] entitled: 'Static action'.
 	^ finder
 ]
 
