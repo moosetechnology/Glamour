@@ -139,6 +139,23 @@ GLMPresentation >> morphicAct: aBlock on: aCharacter icon: anIcon entitled: aStr
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMPresentation >> morphicPopulate: aPortSymbol icon: anIcon on: aCharacter entitled: aString with: aBlock [ 
+	 
+	self 
+		addAction: 
+			((GLMMorphicAction new) 
+				action: 
+						((GLMPortUpdater new) 
+								portSymbol: aPortSymbol; 
+								valueBlock: aBlock; 
+								yourself); 
+				shortcut: aCharacter; 
+				icon: anIcon;
+				title: aString;
+				yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMPresentation >> morphicSelectionAct: aBlock entitled: aString [ 
 	 
 	self addSelectionAction: 
