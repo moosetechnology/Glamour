@@ -1,7 +1,9 @@
 "
-A GLMPresentation is the abstract class for the hierarchy of presentations. A presentation specifies how the pane is going to be displayed. It typically reads at least the #entity port of a pane and populates at least the #selection port.
+A GLMPresentation is the abstract class for the hierarchy of presentations. A presentation specifies how the pane (held in the pane instance variable) is going to be displayed. It typically reads at least the #entity port of a pane and populates at least the #selection port.
 
-updateActions holds a collection of GLMUpdateAction that are used to update the presentation via announcements
+updateActions holds a collection of GLMUpdateAction that are used to update the presentation via announcements.
+
+Because Glamour has a prototype-based design it relies on copying the presentations before installing them in panes (via transmissions). The parentPrototype instance variable keeps track of the presentation from which the current one was copied.
 "
 Class {
 	#name : #GLMPresentation,
@@ -29,16 +31,6 @@ Class {
 	#category : #'Glamour-Core'
 }
 
-{ #category : #comparison }
-GLMPresentation >> = aPresentation [
-	self flag: 'A presentation should not be equal with its copies'.
-	^ self == aPresentation.
-	"Using the code bellow leads to wrong behaviour in GLMPane>>notingPresentationChangeDo: 
-	as a presentation becomes equal with its copies." 
-	"^ self class = aPresentation class and: [
-		self rootPrototype == aPresentation rootPrototype ]"
-]
-
 { #category : #accessing }
 GLMPresentation >> acceptsSelection [
 	"this flag is used to specify whether the presentation
@@ -53,6 +45,7 @@ GLMPresentation >> acceptsSelection: aBoolean [
 
 { #category : #accessing }
 GLMPresentation >> actions [
+	"These are actions that make sense for the entire presentation."
 	actions ifNil: [actions := OrderedCollection new].
 	^ actions
 ]
@@ -154,12 +147,16 @@ GLMPresentation >> doValidate: anObject on: aPort [
 
 { #category : #accessing }
 GLMPresentation >> dynamicActions [
+	"These are actions that make sense for the entire presentation.
+	They are dynamic in the sense that they will be evaluated lazily by the renderer"
 	dynamicActionsBlock isNil ifTrue: [ ^ OrderedCollection new ].
 	^ dynamicActionsBlock glamourValue: self
 ]
 
 { #category : #accessing }
 GLMPresentation >> dynamicActionsOnSelection [
+	"These are actions that make sense only in the context of values held in the selection port.
+	They are dynamic in the sense that they will be evaluated lazily by the renderer"
 	selectionDynamicActionsBlock isNil ifTrue: [ ^ OrderedCollection new ].
 	^ selectionDynamicActionsBlock glamourValue: self
 ]
@@ -250,8 +247,10 @@ GLMPresentation >> parentPrototype [
 ]
 
 { #category : #copying }
-GLMPresentation >> parentPrototype: anObject [
-	parentPrototype := anObject
+GLMPresentation >> parentPrototype: aPresentation [
+	"used to keep track of the (prototype) presentation from which
+	the current one was copied"
+	parentPrototype := aPresentation
 ]
 
 { #category : #copying }
@@ -319,6 +318,7 @@ GLMPresentation >> selection: anObject [
 
 { #category : #accessing }
 GLMPresentation >> selectionActions [
+	"These are actions that make sense only in the context of values held in the selection port."
 	^ selectionActions ifNil: [ selectionActions := OrderedCollection new ]
 ]
 
@@ -470,6 +470,8 @@ GLMPresentation >> usesImplicitNotNil [
 
 { #category : #validation }
 GLMPresentation >> validate: anObject on: aPort [ 
+	"This gets triggered when aPort wants to be changed.
+	The presentation has a chance to veto the value."
 	self shouldValidate ifFalse: [ ^ true ].
 	^ self doValidate: anObject on: aPort.
 ]
