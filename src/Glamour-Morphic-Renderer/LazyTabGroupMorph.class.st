@@ -61,7 +61,7 @@ LazyTabGroupMorph >> headerMorph: anObject [
 	headerMorph := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 LazyTabGroupMorph >> initialize [
 	"Initialize the receiver."
 
