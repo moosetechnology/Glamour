@@ -272,15 +272,3 @@ GLMPane >> unregisterFromAllAnnouncements [
 GLMPane >> update [ 
 	self presentations do: [:each | each update ]
 ]
-
-{ #category : #announcements }
-GLMPane >> whenMatchingPresentationsChanged: aBlock [ 
-	 
-	^self when: GLMMatchingPresentationsChanged do: aBlock
-]
-
-{ #category : #announcements }
-GLMPane >> whenPresentationsChanged: aBlock [ 
-	 
-	^self when: GLMPresentationsChanged do: aBlock
-]
