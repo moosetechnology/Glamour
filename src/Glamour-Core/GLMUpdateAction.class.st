@@ -21,6 +21,15 @@ Class {
 	#category : #'Glamour-Core'
 }
 
+{ #category : #'announcement handling' }
+GLMUpdateAction >> actOn: anAnnouncement [
+	| allowedToTrigger |
+	allowedToTrigger := self condition glamourValue: (	
+							anAnnouncement asGlamorousMultiValue, 
+							self presentation entity asGlamorousMultiValue).
+	allowedToTrigger ifTrue: [ self presentation update ]
+]
+
 { #category : #accessing }
 GLMUpdateAction >> announcement [
 	^ announcement
@@ -77,10 +86,8 @@ GLMUpdateAction >> presentation: anObject [
 GLMUpdateAction >> registerInPresentation [
 	self announcerObjects do: [: announcerObject |
 		announcerObject notNil ifTrue: [
-			announcerObject on: self announcement do: [ :ann | 
-			| allowedToTrigger |
-			allowedToTrigger := self condition glamourValue: (ann asGlamorousMultiValue, self presentation entity asGlamorousMultiValue).
-			allowedToTrigger ifTrue: [ self presentation update ] ].
+			announcerObject on: self announcement send: #actOn: to: self.
+			
 			"we remember the announcer object to be able to 
 			unregister from it when the presentation goes away"
 			self presentation registeredAnnouncers add: announcerObject ] ]

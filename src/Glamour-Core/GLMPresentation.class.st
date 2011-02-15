@@ -4,6 +4,9 @@ A GLMPresentation is the abstract class for the hierarchy of presentations. A pr
 updateActions holds a collection of GLMUpdateAction that are used to update the presentation via announcements.
 
 Because Glamour has a prototype-based design it relies on copying the presentations before installing them in panes (via transmissions). The parentPrototype instance variable keeps track of the presentation from which the current one was copied.
+
+It raises:
+- GLMContextChanged to let the world know that something has changed in the containing pane. This is typically used by the renderer to update the rendering
 "
 Class {
 	#name : #GLMPresentation,
@@ -474,11 +477,6 @@ GLMPresentation >> validate: anObject on: aPort [
 	The presentation has a chance to veto the value."
 	self shouldValidate ifFalse: [ ^ true ].
 	^ self doValidate: anObject on: aPort.
-]
-
-{ #category : #announcements }
-GLMPresentation >> whenContextChanged: aBlock [
-	^ self when: GLMContextChanged do: aBlock
 ]
 
 { #category : #enumeration }
