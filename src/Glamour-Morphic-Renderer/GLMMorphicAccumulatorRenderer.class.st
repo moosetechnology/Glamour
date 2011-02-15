@@ -10,7 +10,7 @@ Class {
 { #category : #rendering }
 GLMMorphicAccumulatorRenderer >> actOnPaneAdded: ann [ 
 	tabs 
-		addLazyPage: (self renderPaneWithoutTitle: ann pane) 
+		addLazyPage: (GLMMorphicPaneWithoutTitleRenderer new render: ann pane) 
 		label: (self titleOrIconOf: ann pane presentations in: tabs)
 		toolbar: nil
 		collapsable: true.
@@ -37,7 +37,7 @@ GLMMorphicAccumulatorRenderer >> render: aBrowser [
 		aBrowser removePaneIndex: ann pageIndex ].
 	aBrowser panes do: [ :each | 
 		tabs 
-			addLazyPage: [ self renderPaneWithoutTitle: each ]
+			addLazyPage: [ GLMMorphicPaneWithoutTitleRenderer new render: each ]
 			label: (self titleOrIconOf: each presentations in: tabs)
 			toolbar: (self renderToolbarForPresentation: each presentations inMorph: tabs )
 			collapsable: true ].

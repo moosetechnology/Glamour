@@ -30,7 +30,7 @@ GLMMorphicWindowRenderer >> render: aRenderable [
 "		window addMorph: dock fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 0) offsets: (0 @ 0 corner: 0 @ offset))" ].
 	aRenderable hasStatusbar
 		ifTrue: [ 
-			statusbarMorph := self renderPaneWithoutTitle: aRenderable statusbarPane.
+			statusbarMorph := GLMMorphicPaneWithoutTitleRenderer render: aRenderable statusbarPane from: self renderer.
 			bottomOffset := (0 - (LabelMorph contents: 'XXX') minHeight) * 1.2.
 			window
 				addMorph: statusbarMorph

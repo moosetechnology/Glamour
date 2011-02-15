@@ -17,7 +17,7 @@ GLMMorphicStackerRenderer >> render: aBrowser [
 	aBrowser panes do: [ :each | 
 		self flag: 'add toolbar'.
 		tabs 
-			addLazyPage: [ self renderPaneWithoutTitle: each ]
+			addLazyPage: [ GLMMorphicPaneWithoutTitleRenderer new render: each ]
 			label: (self titleOrIconOf: each presentations in: tabs)
 			toolbar: (self renderToolbarForPresentation: each presentations inMorph: tabs) ].
 	tabs selectedPageIndex: 1.

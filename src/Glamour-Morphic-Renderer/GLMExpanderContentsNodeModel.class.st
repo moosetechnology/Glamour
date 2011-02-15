@@ -21,7 +21,7 @@ GLMExpanderContentsNodeModel >> containerNode: anObject [
 GLMExpanderContentsNodeModel >> elementColumn [
 	| row morph |
 	
-	morph := GLMMorphicWidgetRenderer new	renderPaneWithoutTitle: self containerNode item.
+	morph := GLMMorphicPaneWithoutTitleRenderer new render: self containerNode item.
 	morph 
 		borderStyle: (UITheme current buttonSelectedBorderStyleFor: morph).
 

@@ -108,24 +108,6 @@ GLMMorphicWidgetRenderer >> renderObject: anObject [
 	^ self renderer render: anObject 
 ]
 
-{ #category : #rendering }
-GLMMorphicWidgetRenderer >> renderPaneWithoutTitle: aPane [ 
-	| container |
-	container := GLMMorphic containerMorph.
-	aPane when: GLMMatchingPresentationsChanged do: [ :ann | 
-		container
-			removeAllMorphs;
-			addMorph: (self renderObject: aPane presentations)
-			fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
-			adoptPaneColor: container paneColor.
-		self renderer window fullBounds ].
-	container
-		addMorph: (self renderObject: aPane presentations)
-		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
-		adoptPaneColor: container paneColor.
-	^ container
-]
-
 { #category : #private }
 GLMMorphicWidgetRenderer >> renderToolbarForPresentation: aPresentation inMorph: aMorph [
 	| dock tools buttons noIconActions |
