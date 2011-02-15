@@ -5,11 +5,6 @@ Class {
 }
 
 { #category : #testing }
-GLMMondrianMorphicTest >> expectedFailures [
-	^ #(testUnregisterFromAnnouncementsWhenUpdating)
-]
-
-{ #category : #testing }
 GLMMondrianMorphicTest >> testFigureSelection [
 	| browser canvas |
 	browser := GLMTabulator new.
