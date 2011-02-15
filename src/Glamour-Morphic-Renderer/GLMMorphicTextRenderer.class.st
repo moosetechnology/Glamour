@@ -1,12 +1,28 @@
 Class {
 	#name : #GLMMorphicTextRenderer,
 	#superclass : #GLMMorphicWidgetRenderer,
+	#instVars : [
+		'textModel',
+		'textMorph'
+	],
 	#category : #'Glamour-Morphic-Renderer'
 }
 
 { #category : #rendering }
+GLMMorphicTextRenderer >> actOnContextChanged: ann [ 
+	ann property = #selectionInterval
+		ifTrue: [ textMorph setSelection: ann value ]
+]
+
+{ #category : #rendering }
+GLMMorphicTextRenderer >> actOnPresentationUpdated: ann [ 
+	textModel text: ann presentation formatedDisplayValue.
+	textModel changed: #text
+]
+
+{ #category : #rendering }
 GLMMorphicTextRenderer >> render: aPresentation [
-	| textMorph toShow textModel |
+	| toShow |
 	toShow := aPresentation formatedDisplayValue.
 	textModel := (GLMTextModel new)
 						text: toShow;
@@ -24,16 +40,8 @@ GLMMorphicTextRenderer >> render: aPresentation [
 	self installActionsOnUI: textModel fromPresentation: aPresentation.
 	aPresentation selectedTextBlock: [ textMorph textMorph editor selection ].
 	aPresentation textBlock: [ textMorph textMorph editor text ].
-	aPresentation
-		when: GLMPresentationUpdated
-		do: [ :ann | 
-			textModel text: aPresentation formatedDisplayValue.
-			textModel changed: #text ].
-	aPresentation
-		when: GLMContextChanged
-		do: [ :ann | 
-			ann property = #selectionInterval
-				ifTrue: [ textMorph setSelection: ann value ] ].
+	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
+	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
 	^ textMorph
 ]
 

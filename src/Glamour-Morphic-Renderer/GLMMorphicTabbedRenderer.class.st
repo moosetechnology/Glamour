@@ -1,13 +1,34 @@
 Class {
 	#name : #GLMMorphicTabbedRenderer,
 	#superclass : #GLMMorphicCompositeRenderer,
+	#instVars : [
+		'tabs'
+	],
 	#category : #'Glamour-Morphic-Renderer'
 }
 
 { #category : #rendering }
+GLMMorphicTabbedRenderer >> actOnPresentationUpdated: ann [
+	| index presentations |
+	presentations := ann presentation matchingPresentations.
+	tabs clear.	
+	presentations do: [ :each | 
+		tabs 
+			addLazyPage: [ self renderObject: each ]
+			label: (self titleOrIconOf: each in: tabs)
+			toolbar: (self renderToolbarForPresentation: each inMorph: tabs ) ].
+	index := 1.
+	presentations withIndexDo: [ :each :i | 
+		ann presentation pane lastActivePresentation notNil and: [ 
+			each title = ann presentation pane lastActivePresentation title ifTrue: [ 
+				index := i ] ] ].
+	tabs selectedPageIndex: index.
+]
+
+{ #category : #rendering }
 GLMMorphicTabbedRenderer >> render: aPresentation [
 
-	| presentations tabs index |
+	| presentations index |
 	presentations := aPresentation matchingPresentations.
 	presentations isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
 	(presentations size = 1 and: [ presentations first hasTitleIcon not ])
@@ -30,18 +51,6 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 		(aPresentation pane isLastActivePresentation: each) 
 			ifTrue: [ index := i ] ].
 	tabs selectedPageIndex: index.
-	aPresentation when: GLMPresentationUpdated do: [:ann |
-		tabs clear.	
-		presentations do: [ :each | 
-			tabs 
-				addLazyPage: [ self renderObject: each ]
-				label: (self titleOrIconOf: each in: tabs)
-				toolbar: (self renderToolbarForPresentation: each inMorph: tabs ) ].
-			index := 1.
-			presentations withIndexDo: [ :each :i | 
-				aPresentation pane lastActivePresentation notNil and: [ 
-					each title = aPresentation pane lastActivePresentation title ifTrue: [ 
-						index := i ] ] ].
-		tabs selectedPageIndex: index.].
+	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
 	^ tabs
 ]

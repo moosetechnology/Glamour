@@ -1,12 +1,20 @@
 Class {
 	#name : #GLMMorphicWindowRenderer,
 	#superclass : #GLMMorphicWidgetRenderer,
+	#instVars : [
+		'window'
+	],
 	#category : #'Glamour-Morphic-Renderer'
 }
 
 { #category : #rendering }
+GLMMorphicWindowRenderer >> actOnPresentationUpdated: ann [
+		self setLabelOf: window for: ann presentation
+]
+
+{ #category : #rendering }
 GLMMorphicWindowRenderer >> render: aRenderable [
-	| dock offset bottomOffset statusbarMorph window |
+	| dock offset bottomOffset statusbarMorph |
 	window := GLMSystemWindow new.
 	window model: aRenderable.
 	window on: #keyStroke send: #handleKeyStroke: to: window.
@@ -32,8 +40,7 @@ GLMMorphicWindowRenderer >> render: aRenderable [
 		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ offset corner: 0 @ bottomOffset)).
 	(self theme isKindOf: UIThemeWatery)
 		ifFalse: [ aRenderable colorValue ifNotNil: [ window paneColor: aRenderable colorValue ] ].
-	aRenderable when: GLMPresentationUpdated do: [ :ann |
-		self setLabelOf: window for: aRenderable. ].
+	aRenderable on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
 	^ window
 ]
 
