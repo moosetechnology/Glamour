@@ -34,8 +34,10 @@ GLMScriptingTest >> testAllowNil [
 			display: [ :one :two | one asString, two asString];
 			allowNil ].
 	browser startOn: 42.
-	(browser paneNamed: #details) whenPresentationsChanged: [:a | presentationsChanged := true ].
-	(browser paneNamed: #details) whenMatchingPresentationsChanged: [:a | matchingPresentationsChanged := true ].
+	(browser paneNamed: #details) when: GLMPresentationsChanged do: [:a | 
+		presentationsChanged := true ].
+	(browser paneNamed: #details) when: GLMMatchingPresentationsChanged do: [:a |
+		matchingPresentationsChanged := true ].
 	presentationsChanged := false.
 	matchingPresentationsChanged := false.
 

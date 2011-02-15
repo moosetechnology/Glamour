@@ -151,7 +151,7 @@ GLMPaneTest >> testPresentations [
 	presentation := GLMPresentation new. 
 	self assert: pane presentations isEmpty. 
 	announcement := nil. 
-	pane whenPresentationsChanged: [:ann | announcement := ann]. 
+	pane when: GLMPresentationsChanged do: [:ann | announcement := ann]. 
 	pane addPresentation: presentation. 
 	self assert: pane presentations size = 1. 
 	self assert: pane presentations first == presentation. 
@@ -179,7 +179,7 @@ GLMPaneTest >> testSimplePresentations [
 	presentation := GLMPresentation new. 
 	self assert: pane presentations isEmpty. 
 	announcement := nil. 
-	pane whenPresentationsChanged: [:ann | announcement := ann]. 
+	pane when: GLMPresentationsChanged do: [:ann | announcement := ann]. 
 	pane addPresentation: presentation. 
 	self assert: pane presentations size = 1. 
 	self assert: pane presentations first == presentation. 
