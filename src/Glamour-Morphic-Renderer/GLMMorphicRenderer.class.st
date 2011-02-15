@@ -93,7 +93,9 @@ GLMMorphicRenderer >> renderExpander: aBrowser [
 
 { #category : #'rendering browsers' }
 GLMMorphicRenderer >> renderFinder: aBrowser [ 
-	^ GLMMorphicFinderRenderer render: aBrowser from: self
+	^ aBrowser hasFixedSizePanes 
+		ifTrue: [GLMMorphicFixedPanesFinderRenderer render: aBrowser from: self]
+		ifFalse: [GLMMorphicVariablePanesFinderRenderer render: aBrowser from: self]
 ]
 
 { #category : #'rendering presentations' }

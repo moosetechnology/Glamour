@@ -1,8 +1,17 @@
 Class {
 	#name : #GLMMorphicMagritteRenderer,
 	#superclass : #GLMMorphicWidgetRenderer,
+	#instVars : [
+		'scrollPane'
+	],
 	#category : #'Glamour-Morphic-Renderer'
 }
+
+{ #category : #rendering }
+GLMMorphicMagritteRenderer >> actOnPresentationUpdated: ann [
+	scrollPane removeMorph: scrollPane submorphs last.
+	scrollPane scrollTarget: (self magritteMorphFrom: ann presentation) 
+]
 
 { #category : #rendering }
 GLMMorphicMagritteRenderer >> magritteMorphFrom: aMagrittePresentation [
@@ -21,17 +30,12 @@ GLMMorphicMagritteRenderer >> magritteMorphFrom: aMagrittePresentation [
 ]
 
 { #category : #rendering }
-GLMMorphicMagritteRenderer >> render: aMagrittePresentation [
-	| scrollPane | 
-		.
+GLMMorphicMagritteRenderer >> render: aMagrittePresentation [		.
 	scrollPane := GeneralScrollPane new.
 	scrollPane changeScrollerTableLayout.
 	scrollPane scrollTarget: (self magritteMorphFrom: aMagrittePresentation).
 	scrollPane layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ 25 corner: 0 @ 0)).
 
-	aMagrittePresentation when: GLMPresentationUpdated do: [:ann |
-		scrollPane removeMorph: scrollPane submorphs last.
-		scrollPane scrollTarget: (self magritteMorphFrom: aMagrittePresentation) ].
-
+	aMagrittePresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
 	^ scrollPane
 ]
