@@ -6,7 +6,8 @@ updateActions holds a collection of GLMUpdateAction that are used to update the 
 Because Glamour has a prototype-based design it relies on copying the presentations before installing them in panes (via transmissions). The parentPrototype instance variable keeps track of the presentation from which the current one was copied.
 
 It raises:
-- GLMContextChanged to let the world know that something has changed in the containing pane. This is typically used by the renderer to update the rendering
+- GLMContextChanged to let the world know that something has changed in the containing pane. This is typically used by the renderer to update the rendering.
+- GLMPresentationUpdated to let the world know that the presentations wants to be updated because of reasons other than the pane context changed.
 "
 Class {
 	#name : #GLMPresentation,
