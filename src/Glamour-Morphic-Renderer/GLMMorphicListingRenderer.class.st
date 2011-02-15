@@ -1,12 +1,28 @@
 Class {
 	#name : #GLMMorphicListingRenderer,
 	#superclass : #GLMMorphicWidgetRenderer,
+	#instVars : [
+		'treeMorph',
+		'treeModel'
+	],
 	#category : #'Glamour-Morphic-Renderer'
 }
 
 { #category : #rendering }
+GLMMorphicListingRenderer >> actOnContextChanged: anAnnouncement [ 
+	anAnnouncement property = #selection ifTrue: [ 
+		treeModel announcer suspendAllWhile: [
+			treeMorph model explicitSelection: anAnnouncement value ] ] 
+]
+
+{ #category : #rendering }
+GLMMorphicListingRenderer >> actOnUpdatedPresentation: anAnnouncement [
+	treeMorph model updateRoots
+]
+
+{ #category : #rendering }
 GLMMorphicListingRenderer >> render: aPresentation [
-	| treeModel container treeMorph textInput |
+	| container textInput |
 	treeModel := GLMTreeMorphModel new glamourPresentation: aPresentation.
 	container := GLMMorphic containerMorph.
 	treeMorph := self treeMorphFor: treeModel and: aPresentation.
@@ -26,12 +42,8 @@ GLMMorphicListingRenderer >> render: aPresentation [
 		aPresentation strongSelection: ann strongSelectionValue ].
 	
 	"When the glamour model changes, we want to update the morph"
-	aPresentation when: GLMContextChanged do: [ :ann | 
-			ann property = #selection ifTrue: [ 
-				treeModel announcer suspendAllWhile: [
-					treeMorph model explicitSelection: ann value ] ] ].
-	aPresentation when: GLMPresentationUpdated do: [ :ann |
-		treeMorph model updateRoots ].
+	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
+	aPresentation on: GLMPresentationUpdated send: #actOnUpdatedPresentation: to: self.
 
 	^ container
 ]
