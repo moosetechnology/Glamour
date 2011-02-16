@@ -138,7 +138,7 @@ GLMUITheme class >> setPreferredShoutColors [
 			(#false 									(red muchDarker))
 			(#nil 									(red muchDarker))
 			(#thisContext 							(cyan muchDarker darker))
-			(#return 								(red muchDarker) bold)
+			(#return 								(cyan muchDarker darker) bold)
 			(patternArg 							(blue muchDarker)) 
 			(methodArg 							(blue muchDarker))
 			(blockPatternArg 						(blue muchDarker))
