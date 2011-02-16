@@ -6,19 +6,19 @@ MOViewRenderer >> openWithStatusbar [
 	browser := GLMTabulator withStatusbar.
 	browser title: 'Mondrian painting'.
 	browser column: #painting.
-	browser transmit to: #painting; andShow: [ :a | 
-		a mondrian 
-			view: self;
-			act: [:m | m canvas exportAsPNG] entitled: 'Export as PNG';
-			act: [:m | 
-				m canvas root decreaseZoom.
-				m canvas  changed ] 
+	browser 
+			act: [:b | (b paneNamed: #painting) presentations first canvas exportAsPNG] entitled: 'Export as PNG';
+			act: [:b | 
+				(b paneNamed: #painting) presentations first canvas root decreaseZoom.
+				(b paneNamed: #painting) presentations first canvas changed ] 
 			icon: MondrianIcons mondrianZoomOut
 			entitled: 'Zoom out';
-			act: [:m | 
-				m canvas root increaseZoom.
-				m canvas root updateWindow ] 
+			act: [:b | 
+				(b paneNamed: #painting) presentations first canvas root increaseZoom.
+				(b paneNamed: #painting) presentations first canvas root updateWindow ] 
 			icon: MondrianIcons mondrianZoomIn 
-			entitled: 'Zoom in'.].
+			entitled: 'Zoom in'.
+	browser transmit to: #painting; andShow: [ :a | 
+		a mondrian view: self ].
 	^ browser openOn: self
 ]
