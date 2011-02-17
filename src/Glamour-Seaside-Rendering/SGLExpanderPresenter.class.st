@@ -4,6 +4,11 @@ Class {
 	#category : #'Glamour-Seaside-Rendering'
 }
 
+{ #category : #rendering }
+SGLExpanderPresenter >> actOnPaneAdded: anAnnouncement [
+	self addPane: anAnnouncement pane
+]
+
 { #category : #callbacks }
 SGLExpanderPresenter >> addPane: aPane [
 	self renderer 
@@ -15,11 +20,8 @@ SGLExpanderPresenter >> addPane: aPane [
 
 { #category : #initialization }
 SGLExpanderPresenter >> initializeFor: aBrowser [
-
 	super initializeFor: aBrowser.
-	self browser 
-		when: GLMPaneAdded
-		do: [ :ann | self addPane: ann pane ].
+	self browser on: GLMPaneAdded send: #actOnPaneAdded: to: self.
 ]
 
 { #category : #'jQuery-scripts' }

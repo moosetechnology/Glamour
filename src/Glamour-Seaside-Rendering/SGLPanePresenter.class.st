@@ -7,6 +7,15 @@ Class {
 	#category : #'Glamour-Seaside-Rendering'
 }
 
+{ #category : #rendering }
+SGLPanePresenter >> actOnMatchingPresentationChanged: anAnnouncement [ 
+	self renderer
+		scriptFor: pane
+		put: ((self renderer html jQuery id: (self renderer uuidFor: pane))
+			glamourHtml: [ :aRenderer |
+				self renderPaneOn: aRenderer])
+]
+
 { #category : #initialization }
 SGLPanePresenter >> initializeFor: aPane [
 	pane := aPane
@@ -14,12 +23,10 @@ SGLPanePresenter >> initializeFor: aPane [
 
 { #category : #rendering }
 SGLPanePresenter >> renderContentOn: html [
-	pane whenMatchingPresentationsChanged: [ :ann |
-		self renderer
-			scriptFor: pane
-			put: ((html jQuery id: (self renderer uuidFor: pane))
-				glamourHtml: [ :aRenderer |
-					self renderPaneOn: aRenderer]) ].
+	pane 
+		on: GLMMatchingPresentationsChanged 
+		send: #actOnMatchingPresentationChanged: 
+		to: self.
 	self renderPaneOn: html
 	
 

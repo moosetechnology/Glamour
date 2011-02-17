@@ -11,8 +11,8 @@ Class {
 }
 
 { #category : #'instance-creation' }
-SGLRenderer class >> in: aComponent on: html [
-	^ self basicNew initializeIn: aComponent on: html
+SGLRenderer class >> in: aComponent on: aCanvas [
+	^ self basicNew initializeIn: aComponent on: aCanvas
 ]
 
 { #category : #accessing }
@@ -21,8 +21,8 @@ SGLRenderer >> html [
 ]
 
 { #category : #accessing }
-SGLRenderer >> html: aRenderer [
-	html := aRenderer
+SGLRenderer >> html: aCanvas [
+	html := aCanvas
 ]
 
 { #category : #initialization }
@@ -33,10 +33,10 @@ SGLRenderer >> initialize [
 ]
 
 { #category : #initialization }
-SGLRenderer >> initializeIn: aComponent on: aRenderer [
+SGLRenderer >> initializeIn: aComponent on: aCanvas [
 	self initialize.
 	component := aComponent.
-	html := aRenderer
+	html := aCanvas
 ]
 
 { #category : #rendering }
@@ -45,8 +45,8 @@ SGLRenderer >> render: aRenderable [
 ]
 
 { #category : #rendering }
-SGLRenderer >> render: aRenderable on: aRenderer [
-	html := aRenderer.
+SGLRenderer >> render: aRenderable on: aCanvas [
+	html := aCanvas.
 	aRenderable renderGlamorouslyOn: self
 ]
 
@@ -64,6 +64,11 @@ SGLRenderer >> renderAccumulator: aBrowser [
 SGLRenderer >> renderActionListPresentation: anActionListPresentation [ 
 	self flag: 'To implement'.
 	self renderEmptyPresentation 
+]
+
+{ #category : #rendering }
+SGLRenderer >> renderDynamicPresentation: aPresentation [
+	html render: (SGLDynamicPresenter for: aPresentation from: self)
 ]
 
 { #category : #rendering }

@@ -9,6 +9,19 @@ Class {
 	#category : #'Glamour-Seaside-Rendering'
 }
 
+{ #category : #rendering }
+SGLTreePresenter >> actOnContextChanged: anAnnouncement [
+	anAnnouncement property = #selection ifTrue: [ 
+		model announcer suspendAllWhile: [
+			model explicitSelection: anAnnouncement value.
+			self updateSelectedNodes ] ]
+]
+
+{ #category : #rendering }
+SGLTreePresenter >> actOnUpdatedPresentation: anAnnouncement [
+	model updateRoots
+]
+
 { #category : #accessing }
 SGLTreePresenter >> associateNode: aNode withId: anId [
 	nodesId at: aNode ifAbsentPut: anId
@@ -48,13 +61,8 @@ SGLTreePresenter >> initializeFor: aPresentation [
 	nodesId := Dictionary new.
 	
 	"When the glamour model changes, we want to update the morph"
-	aPresentation when: GLMContextChanged do: [ :ann | 
-			ann property = #selection ifTrue: [ 
-				model announcer suspendAllWhile: [
-					model explicitSelection: ann value.
-					self updateSelectedNodes ] ] ].
-	aPresentation when: GLMPresentationUpdated do: [ :ann |
-		model updateRoots ].
+	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
+	aPresentation on: GLMPresentationUpdated send: #actOnUpdatedPresentation: to: self.
 	
 ]
 

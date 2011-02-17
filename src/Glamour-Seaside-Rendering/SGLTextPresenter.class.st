@@ -18,6 +18,14 @@ Class {
 	#category : #'Glamour-Seaside-Rendering'
 }
 
+{ #category : #rendering }
+SGLTextPresenter >> actOnContextChanged: anAnnouncement [
+	( #(#text #selectionInterval #selectedText) includes:  anAnnouncement property) 
+		ifTrue: [
+			model announcer suspendAllWhile: [
+				self perform: ( ('update', anAnnouncement property asString capitalized) , ':' ) asSymbol with: anAnnouncement value ] ]
+]
+
 { #category : #accessing }
 SGLTextPresenter >> htmlId [
 	^ htmlId
@@ -40,12 +48,8 @@ SGLTextPresenter >> initializeFor: aPresentation [
 	model := SGLTextModel for: aPresentation.
 	
 	"When the glamour model changes, we want to update the presenter"
-	aPresentation when: GLMContextChanged do: [ :ann | 
-		( #(#text #selectionInterval #selectedText) includes:  ann property) 
-			ifTrue: [
-				model announcer suspendAllWhile: [
-					self perform: ( ('update', ann property asString capitalized) , ':' ) asSymbol with: ann value ] ] ].
-	aPresentation when: GLMPresentationUpdated do: [:ann | ].
+	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
+	"aPresentation when: GLMPresentationUpdated do: [:ann | ]."
 	
 ]
 

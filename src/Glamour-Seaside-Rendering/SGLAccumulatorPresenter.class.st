@@ -4,6 +4,16 @@ Class {
 	#category : #'Glamour-Seaside-Rendering'
 }
 
+{ #category : #rendering }
+SGLAccumulatorPresenter >> actOnPaneAdded: anAnnouncement [
+	self addPane: anAnnouncement pane
+]
+
+{ #category : #rendering }
+SGLAccumulatorPresenter >> actOnPaneSelected: anAnnouncement [
+	self selectPaneAt: anAnnouncement position
+]
+
 { #category : #callbacks }
 SGLAccumulatorPresenter >> addPane: aPane [
 	|tabs|
@@ -53,12 +63,8 @@ SGLAccumulatorPresenter >> onSelectScriptWith: html [
 
 { #category : #initialization }
 SGLAccumulatorPresenter >> registerAnnouncers [
-	self browser 
-		when: GLMPaneAdded
-		do: [ :ann | self addPane: ann pane ].
-	self browser 
-		when: GLMPaneSelected
-		do: [ :ann | self selectPaneAt: ann position ].
+	self browser on: GLMPaneAdded send: #actOnPaneAdded: to: self.
+	self browser on: GLMPaneSelected send: #actOnPaneSelected: to: self.
 ]
 
 { #category : #rendering }

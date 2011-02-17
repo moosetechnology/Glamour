@@ -4,6 +4,21 @@ Class {
 	#category : #'Glamour-Seaside-Rendering'
 }
 
+{ #category : #rendering }
+SGLFinderPresenter >> actOnPaneAdded: anAnnouncement [
+	self addPane: anAnnouncement pane
+]
+
+{ #category : #rendering }
+SGLFinderPresenter >> actOnPaneRemoved: anAnnouncement [
+	self removePane: anAnnouncement pane
+]
+
+{ #category : #rendering }
+SGLFinderPresenter >> actOnPaneReplaced: anAnnouncement [
+	self replaceLastPaneWith: anAnnouncement newPane 
+]
+
 { #category : #callbacks }
 SGLFinderPresenter >> addPane: aPane [
 	self renderer 
@@ -21,15 +36,9 @@ SGLFinderPresenter >> initializeFor: aBrowser [
 
 { #category : #initialization }
 SGLFinderPresenter >> registerAnnouncers [
-	self browser 
-		when: GLMPaneRemoved
-		do: [ :ann | self removePane: ann pane ].
-	self browser
-		when: GLMPaneAdded
-		do: [ :ann | self addPane: ann pane ].
-	self browser
-		when: GLMPaneReplaced
-		do: [ :ann | self replaceLastPaneWith: ann newPane ]
+	self browser on: GLMPaneAdded send: #actOnPaneAdded: to: self.
+	self browser on: GLMPaneRemoved send: #actOnPaneRemoved: to: self.
+	self browser on: GLMPaneReplaced send: #actOnPaneReplaced: to: self.
 ]
 
 { #category : #callbacks }
