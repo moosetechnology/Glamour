@@ -53,6 +53,11 @@ GLMTextModel >> selectSilently: anIndex [
 	self changed: #selection
 ]
 
+{ #category : #accessing }
+GLMTextModel >> selectedClassOrMetaClass [
+	^ self highlightSmalltalkContext
+]
+
 { #category : #callbacks }
 GLMTextModel >> selection [
 	^ self glamourPresentation selectionInterval ifNil: [1 to: 0]
