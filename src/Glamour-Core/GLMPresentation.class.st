@@ -30,7 +30,8 @@ Class {
 		'registeredAnnouncers',
 		'updateActions',
 		'selectionActions',
-		'selectionDynamicActionsBlock'
+		'selectionDynamicActionsBlock',
+		'implicitAllNil'
 	],
 	#category : #'Glamour-Core'
 }
@@ -214,10 +215,12 @@ GLMPresentation >> limitsAmount [
 
 { #category : #testing }
 GLMPresentation >> matches [ 
-	^ (self usesImplicitNotNil 
-		ifTrue: [GLMAllNotNilCondition new glamourValue: self entity] 
-		ifFalse: [GLMSomeNotNilCondition new glamourValue: self entity]
-	) and: [
+	^ (self usesImplicitAllNil
+	    ifTrue:[ GLMAllNilCondition new glamourValue: self entity ]
+	    ifFalse:[ self usesImplicitNotNil 
+			ifTrue: [GLMAllNotNilCondition new glamourValue: self entity] 
+			ifFalse: [GLMSomeNotNilCondition new glamourValue: self entity] ]
+		) and: [
 			(self condition glamourValue: self entity) = true]
 ]
 
@@ -449,9 +452,21 @@ GLMPresentation >> updateOn: anAnnouncement fromAll: aBlockOrSymbol [
 ]
 
 { #category : #accessing }
+GLMPresentation >> useExplicitAllNil [ 
+	 
+	implicitAllNil := true
+]
+
+{ #category : #accessing }
 GLMPresentation >> useExplicitNotNil [ 
 	 
 	implicitNotNil := false
+]
+
+{ #category : #accessing }
+GLMPresentation >> useImplicitAllNil [ 
+	 
+	implicitAllNil := true
 ]
 
 { #category : #accessing }
@@ -464,6 +479,12 @@ GLMPresentation >> useImplicitNotNil [
 GLMPresentation >> usesExplicitNotNil [ 
 	 
 	^self usesImplicitNotNil not
+]
+
+{ #category : #testing }
+GLMPresentation >> usesImplicitAllNil [
+	 
+	^implicitAllNil ifNil: [implicitAllNil := false ]
 ]
 
 { #category : #testing }
