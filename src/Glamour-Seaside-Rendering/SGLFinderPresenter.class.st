@@ -24,8 +24,7 @@ SGLFinderPresenter >> addPane: aPane [
 	self renderer 
 		scriptFor: self browser 
 		add: ((self renderer html jQuery id: (self renderer uuidFor: self browser))
-			append: [ :aRenderer | self renderPane: aPane on: aRenderer ]).
-	self updateAnimationScriptForPane: aPane
+			glamourFinder addPane: [ :aRenderer | self renderPane: aPane on: aRenderer ]).
 ]
 
 { #category : #initialization }
@@ -54,8 +53,8 @@ SGLFinderPresenter >> removePane: aPane [
 { #category : #rendering }
 SGLFinderPresenter >> renderContentOn: html [
 	html div
-		id: (self renderer uuidFor: self browser); 
-		class: 'ui-widget'; class: 'finder';
+		id: (self renderer uuidFor: self browser); 		
+		script: (html jQuery new glamourFinder);
 		with: [
 			self browser panes 
 				do: [ :each | self renderPane: each on: html ] ] .
@@ -64,7 +63,6 @@ SGLFinderPresenter >> renderContentOn: html [
 { #category : #rendering }
 SGLFinderPresenter >> renderPane: aPane on: html [
 	html div
-		class: 'finder-pane ui-widget ui-widget-content';
 		id: (self renderer uuidFor: aPane);
 		with: [ self renderer render: aPane ]
 ]
