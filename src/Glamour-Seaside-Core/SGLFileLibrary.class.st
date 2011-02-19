@@ -343,6 +343,34 @@ SGLFileLibrary >> sglExpanderCss [
 	'
 ]
 
+{ #category : #created }
+SGLFileLibrary >> sglFinderCss [
+	^ '
+	.finder-container {
+		overflow-x: auto;
+		overflow-y: hidden;
+		height: 100%;
+	}
+
+	.sgl-finder {
+		position: relative;
+		overflow-x: auto;
+		width: 100%;
+	}
+	
+	.sgl-finder-pane {
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		overflow: hidden;
+	}
+
+	.sgl-finder-pane > * {
+		
+	}
+	'
+]
+
 { #category : #uploaded }
 SGLFileLibrary >> smallToRightEndIconGif [
 	^ #(71 73 70 56 57 97 16 0 16 0 231 0 0 0 0 0 0 0 0 0 82 0 8 0 0 140 140 140 198 198 198 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 33 249 4 9 0 0 0 0 44 0 0 0 0 16 0 16 0 0 8 92 0 1 8 28 72 176 160 193 131 2 9 12 64 104 80 225 193 0 16 9 58 52 24 128 0 129 0 3 39 18 172 104 241 34 0 1 10 33 138 12 80 160 163 69 140 33 11 168 92 105 242 100 74 149 45 77 86 28 64 114 37 204 150 51 71 66 44 41 19 128 198 129 28 79 38 92 72 81 232 208 135 17 51 18 101 168 148 169 196 1 1 1 0 59) asByteArray
@@ -353,7 +381,7 @@ SGLFileLibrary >> smallToRightIconGif [
 	^ #(71 73 70 56 57 97 16 0 16 0 231 0 0 0 0 0 0 0 0 0 82 0 140 140 140 198 198 198 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 33 249 4 9 0 0 0 0 44 0 0 0 0 16 0 16 0 0 8 72 0 1 8 28 72 176 160 193 131 8 19 42 12 192 80 225 192 0 3 6 4 112 8 49 162 68 0 2 4 50 220 24 128 128 197 136 19 53 18 24 73 242 35 72 145 35 77 126 12 217 145 100 74 147 44 57 118 132 153 176 226 201 133 55 23 54 116 200 179 39 128 128 0 59) asByteArray
 ]
 
-{ #category : #uploaded }
+{ #category : #created }
 SGLFileLibrary >> styleCss [
 	^ '/* html */
 	
@@ -446,42 +474,6 @@ input, select, textarea {
 	outline: none;
 	display: block;
 	background-color: transparent;
-}
-
-/* layout */
-
-.finder-container {
-	overflow-x: auto;
-	overflow-y: hidden;
-	height: 100%;
-}
-
-div.finder {
-	width: 100%;
-	height: 98%;
-	overflow-x: auto;
-	position: relative;
-	display: -webkit-box; display: -moz-box; display: box;
-	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
-	-webkit-box-orient: horizontal; -moz-box-orient: horizontal; box-orient: horizontal;
-}
-div.finder > div.finder-pane {
-	min-width: 150px;
-	max-width: 500px;
-	height: 100%;
-	width: 100%;
-	display: -webkit-box; display: -moz-box; display: box;
-	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
-	-webkit-box-orient: horizontal; -moz-box-orient: horizontal; box-orient: horizontal;
-	margin-right: 5px;
-}
-
-div.finder-pane > * {
-	overflow: auto;
-	width: auto;
-	height: 100%;
-	max-width: 500px;
-	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 }
 
 /* Acumulator */
@@ -879,4 +871,5 @@ div.magritte input, div.magritte textarea { width: 100%; border: 1px solid #d3d3
 div.magritte .buttons { text-align: right; border-width: 1px 0 0 0; margin: .5em 0 0 0; padding: .3em 1em .5em .4em; }
 div.magritte .submit { display: inline; margin: .5em .4em .5em 0; cursor: pointer; padding: .2em .6em .3em .6em; line-height: 1.4em; width: auto; overflow: visible; border: 1px solid #d3d3d3; background: #e6e6e6 url(/seaside/files/JQUiSmoothnessTheme/uibgglass75e6e6e61x400.png) 50% 50% repeat-x; font-weight: normal; color: #555555; outline: none; }
 ', self sglExpanderCss
+ , self sglFinderCss
 ]

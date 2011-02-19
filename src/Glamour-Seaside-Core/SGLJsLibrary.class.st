@@ -503,7 +503,7 @@ SGLJsLibrary >> glamourSeasideJs [
 	})(jQuery);
 	
 	(function($){
-		$.glamour.setElementDimensions =  function(element, width, height) {
+		$.glamour.setElementDimensions =  function(element, width, height, stopNotification) {
 				var paddingLR, paddingTB;
 				var marginLR = 0, marginTB = 0;
 				var borderLR, borderTB;
@@ -531,13 +531,14 @@ SGLJsLibrary >> glamourSeasideJs [
 				element.height(height < 0 ? 0: height);
 				
 				//console.log(element.attr("id")+" seted dimensions");
-				if (!$.browser.msie) {
+				if (!$.browser.msie && ! stopNotification) {
 					element.triggerHandler("resize");
 				}
 			}
 	})(jQuery);
 	
 	', self sglExpanderJs
+	 , self sglFinderJs
 ]
 
 { #category : #uploaded }
@@ -1155,6 +1156,125 @@ SGLJsLibrary >> sglExpanderJs [
 					
 		});
 	})(jQuery);'
+]
+
+{ #category : #created }
+SGLJsLibrary >> sglFinderJs [
+	^ '
+	;( function($) {
+		$.widget("ui.sglFinder", {
+		
+			options: {
+				duration: 500,
+				splitterSize: 5,						
+			},
+		
+			_create: function() {	
+				var self = this;				
+					
+				self.element
+					.addClass( "sgl-finder ui-widget" );	
+				self.element							
+					.children( "div" )
+					.addClass( "sgl-finder-pane ui-widget" );																																												
+						
+				self._resizePanes();
+				self.element.bind("resize", function() {
+					self._resizePanes();
+					return false;
+				});	 									
+			},
+			
+			_resizePanes: function() {				
+				var self = this,
+					options = self.options,					
+					panes, accumulatedWidth,
+					paneWidth, paneHeight;
+			
+				panes = self.element.children( ".sgl-finder-pane" );			
+				paneHeight = self.element.height();
+				
+				if ( panes.size() == 1 ) {
+					paneWidth = self.element.width();
+				} else {
+					paneWidth = Math.floor( ( self.element.width() - options.splitterSize ) / 2 );
+				}								
+				
+				accumulatedWidth = 0;																															
+				panes.each(function(index){
+					var pane = $(this);									
+				
+					pane 
+						.height(paneHeight)
+						.width(paneWidth)
+						.css("left", accumulatedWidth);	
+					accumulatedWidth += paneWidth + options.splitterSize;						
+					$.glamour.setElementDimensions( pane.children(":first"), paneWidth, paneHeight );
+				});	
+									
+				if ( self._scrollHeight(self.element) != 0 ) {																	
+					paneHeight = paneHeight - self._scrollHeight(self.element);
+					panes.each(function(index){
+						var pane = $(this);									
+				
+						pane.height(paneHeight);										
+						$.glamour.setElementDimensions( pane.children(":first"), paneWidth, paneHeight );
+					});	
+				}																			
+			},								
+			
+			/**
+			 * Add a pane at the end of the finder.
+			 *
+			 * To resize the pane the following logic is used:
+			 *  		- if only two panels are used they are resized by calling _resizePanes();
+			 *         - if there are three panels they are also resized by calling _resizePanes() as scrolls have appeared;
+			 *         - if theere are more then three panels then only the dimensions of the new one are changed;
+			 */
+			addPane: function( content ) {
+				var self = this,
+					options = self.options,
+					lastPane, panes, paneWidth, paneHeight;
+					
+				// Add the pane and append to it the required classes.
+				self.element.append(content);	
+				lastPane = self.element
+					.children( ".sgl-finder-pane:last" )
+					.next()					
+					.addClass( "sgl-finder-pane ui-widget" );				
+				
+				// Resize the new pane.												
+				panes = self.element.children( ".sgl-finder-pane" );	
+				if ( panes.size() == 2 || panes.size() == 3 ) {
+					// Resize all the panes as the first pane occupies all the space or because scrolls have appeared.
+					self._resizePanes();					
+				} else {
+					// Set only the dimensions of the new pane.
+					paneWidth =  ( self.element.width() - options.splitterSize ) / 2;
+					paneHeight = self.element.children(":first").height();
+					lastPane
+						.width( paneWidth )
+						.height( paneHeight )
+						.css( "left", (paneWidth + options.splitterSize) * (panes.size() - 1) );
+					$.glamour.setElementDimensions( lastPane.children(":first"), paneWidth, paneHeight );																				
+				}																									
+																													
+				self.element.scrollTo( lastPane, options.duration );
+			},
+			
+			removeLastPane: function() {																						
+			},
+			
+			replaceLastPane: function() {																						
+			},
+			
+			_scrollHeight: function(element) {
+				return element.get(0).scrollHeight - element.get(0).clientHeight;
+			}
+					
+		});
+	})(jQuery);
+	'
 ]
 
 { #category : #created }

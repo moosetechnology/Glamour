@@ -6,6 +6,11 @@ JQueryInstance >> glamourExpander [
 ]
 
 { #category : #'*Glamour-Seaside-Core' }
+JQueryInstance >> glamourFinder [
+	^ self create: JQSGLFinder
+]
+
+{ #category : #'*Glamour-Seaside-Core' }
 JQueryInstance >> glamourHtml: aRenderable [
 	self call: 'glamourHtml' with: (self render: aRenderable)
 ]
