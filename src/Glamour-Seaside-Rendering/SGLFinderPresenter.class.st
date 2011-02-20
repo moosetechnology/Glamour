@@ -11,7 +11,7 @@ SGLFinderPresenter >> actOnPaneAdded: anAnnouncement [
 
 { #category : #rendering }
 SGLFinderPresenter >> actOnPaneRemoved: anAnnouncement [
-	self removePane: anAnnouncement pane
+	self removeLastPane
 ]
 
 { #category : #rendering }
@@ -41,18 +41,16 @@ SGLFinderPresenter >> registerAnnouncers [
 ]
 
 { #category : #callbacks }
-SGLFinderPresenter >> removePane: aPane [
+SGLFinderPresenter >> removeLastPane [
 	self renderer 
 		scriptFor: self browser 
 		add: ((self renderer html jQuery id: (self renderer uuidFor: self browser))
-			contents;
-			filter: ':last';
-			remove)
+			glamourFinder removeLastPane)
 ]
 
 { #category : #rendering }
 SGLFinderPresenter >> renderContentOn: html [
-	html div
+	html div		
 		id: (self renderer uuidFor: self browser); 		
 		script: (html jQuery new glamourFinder);
 		with: [
@@ -62,25 +60,15 @@ SGLFinderPresenter >> renderContentOn: html [
 
 { #category : #rendering }
 SGLFinderPresenter >> renderPane: aPane on: html [
-	html div
+	html div		
 		id: (self renderer uuidFor: aPane);
 		with: [ self renderer render: aPane ]
 ]
 
 { #category : #callbacks }
 SGLFinderPresenter >> replaceLastPaneWith: newPane [
-	self renderer scriptFor: self browser 
-		add: ((self renderer html jQuery id: (self renderer uuidFor: browser))
-			contents;
-			filter: ':last';
-			replaceWith: [ :aRenderer | self renderPane: newPane on: aRenderer ]).
-	self updateAnimationScriptForPane: newPane
-]
-
-{ #category : #private }
-SGLFinderPresenter >> updateAnimationScriptForPane: aPane [
 	self renderer 
 		scriptFor: self browser 
-		add: ( ( self renderer html jQuery id: (
-			self renderer uuidFor: self browser) ) glamourScrollTo target: ( '#', (self renderer uuidFor: aPane) ); duration: 500 ) 
+		add: ((self renderer html jQuery id: (self renderer uuidFor: self browser))
+			glamourFinder replaceLastPane: [ :aRenderer | self renderPane: newPane on: aRenderer ])
 ]

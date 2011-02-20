@@ -202,7 +202,7 @@ SGLRenderer >> scriptFor: anObject put: aScript [
 { #category : #script }
 SGLRenderer >> updateScript: aScript [
 	aScript addAll: scripts values.
-	aScript add: (JSStream on: 'Glamour.resize()').
+	"aScript add: (JSStream on: 'Glamour.resize()')."
 	scripts := GRSmallDictionary new
 ]
 
