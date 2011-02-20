@@ -1161,6 +1161,9 @@ SGLJsLibrary >> sglExpanderJs [
 { #category : #created }
 SGLJsLibrary >> sglFinderJs [
 	^ '
+	/**
+	 *
+	 */
 	;( function($) {
 		$.widget("ui.sglFinder", {
 		
@@ -1179,12 +1182,15 @@ SGLJsLibrary >> sglFinderJs [
 					.addClass( "sgl-finder-pane ui-widget" );																																												
 						
 				self._resizePanes();
-				self.element.bind("resize", function() {
+				self.element.bind("resize", function() {					
 					self._resizePanes();
 					return false;
 				});	 									
 			},
 			
+			/**
+			 *
+			 */
 			_resizePanes: function() {				
 				var self = this,
 					options = self.options,					
@@ -1200,6 +1206,7 @@ SGLJsLibrary >> sglFinderJs [
 					paneWidth = Math.floor( ( self.element.width() - options.splitterSize ) / 2 );
 				}								
 				
+				// Resize the panes.
 				accumulatedWidth = 0;																															
 				panes.each(function(index){
 					var pane = $(this);									
@@ -1208,15 +1215,16 @@ SGLJsLibrary >> sglFinderJs [
 						.height(paneHeight)
 						.width(paneWidth)
 						.css("left", accumulatedWidth);	
-					accumulatedWidth += paneWidth + options.splitterSize;						
+					accumulatedWidth += paneWidth + options.splitterSize;											
 					$.glamour.setElementDimensions( pane.children(":first"), paneWidth, paneHeight );
 				});	
-									
+						
+				// If a horizontal scrollbar has appeared resize the height of the panes to eliminated it.
 				if ( self._scrollHeight(self.element) != 0 ) {																	
 					paneHeight = paneHeight - self._scrollHeight(self.element);
 					panes.each(function(index){
-						var pane = $(this);									
-				
+						var pane = $(this);		
+																						
 						pane.height(paneHeight);										
 						$.glamour.setElementDimensions( pane.children(":first"), paneWidth, paneHeight );
 					});	
@@ -1224,32 +1232,87 @@ SGLJsLibrary >> sglFinderJs [
 			},								
 			
 			/**
-			 * Add a pane at the end of the finder.
+			 * Append the given content as a new pane at the end of the finder, 
+			 * resize the panes if necessary and scroll to make it visible.	
 			 *
-			 * To resize the pane the following logic is used:
-			 *  		- if only two panels are used they are resized by calling _resizePanes();
-			 *         - if there are three panels they are also resized by calling _resizePanes() as scrolls have appeared;
-			 *         - if theere are more then three panels then only the dimensions of the new one are changed;
+			 * The scroll functionality does not work properly on Firefox.			
 			 */
 			addPane: function( content ) {
 				var self = this,
-					options = self.options,
-					lastPane, panes, paneWidth, paneHeight;
-					
-				// Add the pane and append to it the required classes.
-				self.element.append(content);	
+					options = self.options, lastPane;
+									
+				self.element.append(content);								
+				lastPane = self._initLastPane();				
+				self._resizeLastPane( lastPane );																																																										
+				self.element.scrollTo( lastPane, options.duration );
+			},
+			
+			/**
+			 *  Remove the last pane of the finder.			 
+			 */
+			removeLastPane: function() {
+				var self = this;
+				
+				// Only remove the pane.
+				self.element
+					.children( ".sgl-finder-pane:last" )
+					.remove();																							
+			},
+			
+			/**
+			 *  Replace the last pane of the finder with the new one.
+			 */
+			replaceLastPane: function( newPaneContent ) {																						
+				var self = this,
+					options = self.options, lastPane;
+				
+				self.element
+					.children( ".sgl-finder-pane:last" )
+					.replaceWith( newPaneContent );
+				lastPane = self._initLastPane();				
+				self._resizeLastPane( lastPane );
+				self.element.scrollTo( lastPane, 0 );			
+			},
+			
+			/**
+			 *  Initializes the last pane by adding the required classes.
+			 *
+			 *  @return
+			 *		a jQuery object representing the new pane
+			 */
+			_initLastPane: function( content ) {
+				var self = this,
+					lastPane;
+									
 				lastPane = self.element
 					.children( ".sgl-finder-pane:last" )
 					.next()					
-					.addClass( "sgl-finder-pane ui-widget" );				
-				
+					.addClass( "sgl-finder-pane ui-widget" );	
+						
+				return lastPane;
+			},
+			
+			/**
+			 * Helper function called after adding/replacing the last pane.
+			 * Depending on the structure of the finder all panes may be resized.
+			 *
+			 * To resize the panes the following logic is used:
+			 *  		- if only two panels are used they are resized by calling _resizePanes();
+			 *         - if there are three panels they are also resized by calling _resizePanes() as scrolls have appeared;
+			 *         - if there are more then three panels then only the dimensions of the new one are changed;
+			 */
+			_resizeLastPane: function( lastPane ) {
+				var self = this,
+					options = self.options,
+					panes, paneWidth, paneHeight;
+			
 				// Resize the new pane.												
 				panes = self.element.children( ".sgl-finder-pane" );	
 				if ( panes.size() == 2 || panes.size() == 3 ) {
-					// Resize all the panes as the first pane occupies all the space or because scrolls have appeared.
+					// Resize all the panes as the first pane occupies all the space or because scrolls have appeared.					
 					self._resizePanes();					
 				} else {
-					// Set only the dimensions of the new pane.
+					// Set only the dimensions of the new pane based on the dimensions of the first pane.
 					paneWidth =  ( self.element.width() - options.splitterSize ) / 2;
 					paneHeight = self.element.children(":first").height();
 					lastPane
@@ -1257,20 +1320,12 @@ SGLJsLibrary >> sglFinderJs [
 						.height( paneHeight )
 						.css( "left", (paneWidth + options.splitterSize) * (panes.size() - 1) );
 					$.glamour.setElementDimensions( lastPane.children(":first"), paneWidth, paneHeight );																				
-				}																									
-																													
-				self.element.scrollTo( lastPane, options.duration );
-			},
-			
-			removeLastPane: function() {																						
-			},
-			
-			replaceLastPane: function() {																						
+				}
 			},
 			
 			_scrollHeight: function(element) {
 				return element.get(0).scrollHeight - element.get(0).clientHeight;
-			}
+			},
 					
 		});
 	})(jQuery);
@@ -1299,7 +1354,7 @@ SGLJsLibrary >> sglResizeJs [
 				var layoutOptions = {}
 													
 				this._initPanes();				
-					
+				
 				if ( this.element.children().size() > 1 ) {					
 					layoutOptions.splitHorizontal = this.options.splitHorizontal;
 					layoutOptions.splitVertical = this.options.splitVertical;
@@ -1309,14 +1364,14 @@ SGLJsLibrary >> sglResizeJs [
 					
 					this._cacheContainerDimensions();
 					
-					this.element.splitter(layoutOptions);
+					this.element.splitter(layoutOptions);					
 					this.element.triggerHandler("sglResize", [this._computeNewPosition(true)]);	
 										
 					this._cachePaneDimensions("paneA");
 					this._cachePaneDimensions("paneB");
 					
-					this.element.resize(function(){							
-						that._resizePanes();
+					this.element.resize(function(){													
+						that._resizePanes();						
 						return false; //Stop bubbling
 					});					
 										
@@ -1334,7 +1389,7 @@ SGLJsLibrary >> sglResizeJs [
 				}	
 				
 				this._bindPaneContentChanged("paneA");
-				this._setPaneContentDimensions("paneA", true);
+				this._setPaneContentDimensions("paneA", true);							
 			},
 			
 			/**
@@ -1432,14 +1487,15 @@ SGLJsLibrary >> sglResizeJs [
 				var containerSize;
 				var oneSpanSize, ration;
 								
-				containerSize = (this.options.splitVertical ? this.element.width() :  this.element.height());	 
+				containerSize = (this.options.splitVertical ? this.element.width() :  this.element.height());	 				
 				containerSize -=  5*this.options._containedImbrication + 5;
 				
-				if (init) {
-					//console.log("containerSize: "+containerSize);
+				if (init) {					
+					//console.log("haba: "+containerSize);
 					oneSpanSize = containerSize / (this.options.paneASpan + this.options.paneBSpan);
 					newPosition = oneSpanSize * this.options.paneASpan;	
 					//console.log(this.element.attr("id")+" do resize to: "+newPosition);	
+					//console.log("computed position: "+Math.round(newPosition <= 0 ? 1 : newPosition));
 					return Math.round(newPosition <= 0 ? 1 : newPosition);
 				} 
 				
@@ -2068,15 +2124,16 @@ SGLJsLibrary >> splitterJs [
 		}[vh], args);
 
 		// Create jQuery object closures for splitter and both panes
-		var splitter = $(this).css({position: "relative"});
+		var splitter = $(this).css({position: "relative"});		
 		var panes = $(">*", splitter[0]).css({
 			position: "absolute", 			// positioned inside splitter container
 			"z-index": "1",					// splitbar is positioned above
 			"-moz-outline-style": "none"	// don''t show dotted outline
 		});
+		
 		var A = $(panes[0]);		// left  or top
 		var B = $(panes[1]);		// right or bottom
-
+		
 		// Focuser element, provides keyboard support; title is shown by Opera accessKeys
 		var focuser = $(''<a href="javascript:void(0)"></a>'')
 			.attr({accessKey: opts.accessKey, tabIndex: opts.tabIndex, title: opts.splitbarClass})
@@ -2117,6 +2174,7 @@ SGLJsLibrary >> splitterJs [
 		var initPos = A._init;
 		if ( !isNaN(B._init) )	// recalc initial B size as an offset from the top or left side
 			initPos = splitter[0][opts.pxSplit] - splitter._PBA - B._init - bar._DA;
+		
 		if ( opts.cookie ) {
 			if ( !$.cookie )
 				alert(''jQuery.splitter(): jQuery cookie plugin required'');

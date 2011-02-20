@@ -366,7 +366,7 @@ SGLFileLibrary >> sglFinderCss [
 	}
 
 	.sgl-finder-pane > * {
-		
+		position: relative;
 	}
 	'
 ]
