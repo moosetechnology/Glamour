@@ -241,8 +241,10 @@ ConfigurationOfGlamourSeaside >> default: spec [
 		spec group: 'Core' with: #(
 						'Glamour-Seaside-Core'
 						'Glamour-Seaside-Rendering').
+		spec group: 'Examples' with: #(						
+						'Glamour-Seaside-Examples').
 		spec group: 'Tests' with: #(						
-						'Glamour-Seaside-Tests'). 
+						'SeasideTesting'). 
 		spec
 			project: 'Glamour' with: [
 				spec
