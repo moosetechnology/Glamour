@@ -227,7 +227,7 @@ ConfigurationOfGlamourSeaside >> default: spec [
 		spec package: 'Glamour-Seaside-Examples' with: [
 			spec requires: #('Seaside' 'Glamour-Seaside-Rendering') ].
 		spec package: 'Glamour-Seaside-Tests' with: [
-			spec requires: #('Glamour-Seaside-Rendering' 'SeasideTesting') ].
+			spec requires: #('Glamour-Seaside-Rendering' 'SeasideTesting' 'WebTester') ].
 		spec package: 'JQWidgetBox-Core' with: [
 			spec requires: #('Seaside').
 			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
@@ -267,6 +267,13 @@ ConfigurationOfGlamourSeaside >> default: spec [
 					version: '1.0.3-baseline';
 					loads: #('SimulatedBrowserTesting');
 					repository: 'http://www.squeaksource.com/SeasideTesting' ].
+		spec
+			project: 'WebTester' with: [
+				spec
+					className: 'ConfigurationOfWebTester';
+					file: 'ConfigurationOfWebTester';
+					version: '1.2';
+					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
 		spec ]
 ]
 
