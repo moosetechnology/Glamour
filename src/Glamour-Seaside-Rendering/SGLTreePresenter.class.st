@@ -162,7 +162,7 @@ SGLTreePresenter >> onSelectActionURLForANodeWith: html [
 SGLTreePresenter >> renderContentOn: html [
 	self initializeModelSelection: html.
 	(self widgetContainerWith: html)
-		class: 'list-presentation';
+		class: 'sgl-tree-presentation';
 		id: self htmlId;
 		with: [
 			self renderInitialRootNodesOn: html ]
