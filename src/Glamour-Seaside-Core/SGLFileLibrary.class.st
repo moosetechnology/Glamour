@@ -337,7 +337,7 @@ SGLFileLibrary >> sglExpanderCss [
 		top: 50%;
 	}*/
 	
-	.sgl-expander-content > .list-presentation, .sgl-expander-content > .glm-text-presentation{
+	.sgl-expander-content > .sgl-tree-presentation, .sgl-expander-content > .glm-text-presentation{
 		display: block;
 	}
 	'
@@ -532,25 +532,25 @@ input, select, textarea {
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 }
 
-.list-presentation {
+.sgl-tree-presentation {
 	display: -webkit-box; display: -moz-box; display: box;
 	-webkit-box-align: stretch; -moz-box-align: stretch; box-align: stretch;
 	-webkit-box-orient: vertical; -moz-box-orient: vertical; box-orient: vertical;
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 }
 
-.list-presentation > ul {
+.sgl-tree-presentation > ul {
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 	overflow: auto;
 	min-height: 10px;
 	min-width: 10px;
 }
 
-.list-presentation > ul > li {
+.sgl-tree-presentation > ul > li {
 	-webkit-box-flex: 1; -moz-box-flex: 1; box-flex: 1;
 }
 
-.list-presentation > input {
+.sgl-tree-presentation > input {
 	height: 25px;
 	background-color: #EBEBEB;
 	-webkit-box-flex: 0; -moz-box-flex: 0; box-flex: 0;
