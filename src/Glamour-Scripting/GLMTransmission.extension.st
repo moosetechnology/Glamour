@@ -31,6 +31,11 @@ GLMTransmission >> from: aPaneSymbol port: aPortSymbol [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMTransmission >> from: aPaneSymbol port: aPortSymbol transformed: aBlock [
+	^ (self from: (GLMPortIdentifier pane: aPaneSymbol port: aPortSymbol)) transformation: aBlock
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMTransmission >> from: aPort transformed: aBlock [
 	^ (self addActiveOrigin: (self browser resolveOriginPort: aPort)) transformation: aBlock
 ]
