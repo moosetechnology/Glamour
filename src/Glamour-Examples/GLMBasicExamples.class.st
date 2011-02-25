@@ -52,6 +52,39 @@ GLMBasicExamples >> actionsFor: aPresentation [
 ]
 
 { #category : #others }
+GLMBasicExamples >> allowAllNil [
+	<glmBrowser: 'Allowing all nil' input: '5'>
+	"self new allowAllNil openOn: 5"
+	| browser |
+	 
+	browser := GLMTabulator new.
+	browser 
+		column: [: c | c row: #one; row: #two];
+		column: #details.
+	browser showOn: #one; using: [
+		browser tree 
+			display:[ :x| 1 to: x ];
+			allowDeselection ].
+	browser showOn: #two; using: [
+		browser tree 
+			display: #(a b c);
+			allowDeselection].
+	browser showOn: #details; from: #one; from: #two; using: [
+		browser text 
+			display: [ :one :two | 'At least one is nil: ', one asString, '-', two asString];
+			allowNil.
+		browser text 
+			display: [ :one :two | 'All are nil: ', one asString, '-',  two asString];
+			allowAllNil ].
+		
+	"if you need initial display"
+	browser transmit to: #details; andShow: [:a | 
+		a text display: [:x | 'All are nil'  ] ].
+	
+	^ browser
+]
+
+{ #category : #others }
 GLMBasicExamples >> allowNil [
 	<glmBrowser: 'Allowing nil' input: '42'>
 	"self new allowNil openOn: 42"
