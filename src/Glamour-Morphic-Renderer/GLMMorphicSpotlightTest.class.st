@@ -17,12 +17,12 @@ GLMMorphicSpotlightTest >> testCreation [
 
 	methodRequest := GLMCompletionRequest new 
 			prompt: 'Object Selectors';
-			searchBlock: [ :string | Object selectors select: [:e| '*', string, '*' match: e asString] ];
+			searchBlock: [ :string | Object selectors select: [:e| string, '*' match: e asString] ];
 			labelBlock: [ :e | e ].
 
 	thirdRequest := GLMCompletionRequest new 
 			prompt: 'Other Selectors';
-			searchBlock: [ :string | Object selectors select: [:e| string, '*' match: e asString] ];
+			searchBlock: [ :string | Class selectors select: [:e| string, '*' match: e asString] ];
 			labelBlock: [ :e | e ].
 			
 	(composite 

@@ -8,7 +8,8 @@ Class {
 		'listValues',
 		'listLabels',
 		'listIndex',
-		'answer'
+		'answer',
+		'parent'
 	],
 	#category : #'Glamour-Morphic-Renderer-Spotter'
 }
@@ -16,6 +17,11 @@ Class {
 { #category : #'instance creation' }
 GLMMorphicSingleSpotlight class >> on: aRequest [
 	^ self basicNew initializeOn: aRequest
+]
+
+{ #category : #'instance creation' }
+GLMMorphicSingleSpotlight class >> on: aRequest parent: parent [
+	^ self basicNew initializeOn: aRequest parent: parent
 ]
 
 { #category : #'instance creation' }
@@ -51,6 +57,11 @@ GLMMorphicSingleSpotlight >> defaultFocusMorph [
 	^ textMorph
 ]
 
+{ #category : #morphic }
+GLMMorphicSingleSpotlight >> deselect [
+	self listIndex: 0.  
+]
+
 { #category : #callbacks }
 GLMMorphicSingleSpotlight >> doubleClick [
 	self ok
@@ -83,6 +94,13 @@ GLMMorphicSingleSpotlight >> initializeOn: aRequest [
 
 ]
 
+{ #category : #initialization }
+GLMMorphicSingleSpotlight >> initializeOn: aRequest parent: theParent [
+	parent := theParent.
+	self initializeOn: aRequest.
+
+]
+
 { #category : #testing }
 GLMMorphicSingleSpotlight >> isAssisted [
 	^ self model assisted
@@ -102,6 +120,8 @@ GLMMorphicSingleSpotlight >> listIndex [
 
 { #category : #'accessing-list' }
 GLMMorphicSingleSpotlight >> listIndex: anInteger [
+	anInteger isZero not ifTrue: [
+		parent selectionIn: self.].
 	listIndex = anInteger
 		ifTrue: [ ^ self ].
 	listIndex := anInteger.
@@ -124,6 +144,7 @@ GLMMorphicSingleSpotlight >> listSelection [
 
 { #category : #'accessing-list' }
 GLMMorphicSingleSpotlight >> listSelection: anObject [
+
 	self listIndex: (listValues indexOf: anObject ifAbsent: [ 0 ])
 ]
 
@@ -194,6 +215,16 @@ GLMMorphicSingleSpotlight >> ok [
 		ifTrue: [ self text ]
 		ifFalse: [ self listSelection ].
 	^ super ok
+]
+
+{ #category : #accessing }
+GLMMorphicSingleSpotlight >> parent [
+	^ parent
+]
+
+{ #category : #accessing }
+GLMMorphicSingleSpotlight >> parent: anObject [
+	parent := anObject
 ]
 
 { #category : #'accessing-text' }

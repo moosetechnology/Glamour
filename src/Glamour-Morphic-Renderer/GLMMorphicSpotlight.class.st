@@ -79,7 +79,7 @@ GLMMorphicSpotlight >> newContentMorph [
 GLMMorphicSpotlight >> newListMorphs [
 	| list |
 	self model requests do: [:each | 
-		list := (GLMMorphicSingleSpotlight on: each).
+		list := (GLMMorphicSingleSpotlight on: each parent: self).
 		self childrenMorphs add: list ].
 	^ childrenMorphs collect: #newListMorph
 ]
@@ -97,6 +97,26 @@ GLMMorphicSpotlight >> newTextMorph [
 	textMorph textMorph
 		on: #keyStroke send: #editorKeyStroke: to: self.
 	^ textMorph
+]
+
+{ #category : #accessing }
+GLMMorphicSpotlight >> ok [
+	| nonEmpty |
+	nonEmpty := (self childrenMorphs select: [:e| e listIndex isZero not]).
+	nonEmpty size = 1 ifTrue: [
+			answer := nonEmpty first listSelection 
+		] .
+	
+	
+	^ super ok
+]
+
+{ #category : #callbacks }
+GLMMorphicSpotlight >> selectionIn: singleSpotlight [
+
+	(self childrenMorphs reject: [:e| e = singleSpotlight] ) do: [:e| 
+			e deselect.
+		]
 ]
 
 { #category : #accessing }
