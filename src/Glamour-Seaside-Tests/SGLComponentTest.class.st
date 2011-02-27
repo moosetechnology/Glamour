@@ -27,6 +27,21 @@ SGLComponentTest class >> webTesterTestRessourceClass [
 	^ WtSeleniumWebTesterTestResource.
 ]
 
+{ #category : #actions }
+SGLComponentTest >> clickAndPause: anElement [
+	anElement fireEvent: 'click'.
+	self pause.
+	
+]
+
+{ #category : #actions }
+SGLComponentTest >> clickAndPauseNodeWithIndex: anInteger fromTree: anXpath [
+	| listElement |
+	
+	listElement := self elementByXPath: anXpath, '/ul[contains(@class, "sgl-tree-root")]/*[', anInteger asString ,']/*'.
+	self clickAndPause: listElement.
+]
+
 { #category : #accessing }
 SGLComponentTest >> componentUrl [
 	^self class defaultAppRoot , self class componentPath.
@@ -61,4 +76,19 @@ SGLComponentTest >> tearDown [
 { #category : #accessing }
 SGLComponentTest >> timeToWaitInMillis [
 	^ 10000
+]
+
+{ #category : #selectors }
+SGLComponentTest >> treePresentationSelector [
+	^ 'div[contains(@class, "sgl-tree-presentation")]'.
+]
+
+{ #category : #selectors }
+SGLComponentTest >> treeRootNodeSelectorWithIndex: anIndex [
+	^ self treeRootSelector, '/*[', anIndex asString , ']'
+]
+
+{ #category : #selectors }
+SGLComponentTest >> treeRootSelector [
+	^ self treePresentationSelector, '/ul[contains(@class, "sgl-tree-root")]'.
 ]

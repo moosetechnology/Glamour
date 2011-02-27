@@ -3,8 +3,7 @@ Class {
 	#superclass : #SGLComponentTest,
 	#instVars : [
 		'finderSelector',
-		'paneSelector',
-		'treePresentationSelector'
+		'paneSelector'
 	],
 	#category : #'Glamour-Seaside-Tests'
 }
@@ -12,6 +11,11 @@ Class {
 { #category : #accessing }
 SGLSimpleFinderComponentTest class >> component [ 
 	^ SGLSimpleFinderTestComponent new.
+]
+
+{ #category : #accessing }
+SGLSimpleFinderComponentTest >> fullFinderSelector [
+	^ '//', finderSelector
 ]
 
 { #category : #accessing }
@@ -25,32 +29,55 @@ SGLSimpleFinderComponentTest >> setUp [
 	
 	finderSelector := 'body/div[contains(@class, "sgl-finder")]'.
 	paneSelector := 'div[contains(@class, "sgl-finder-pane")]'.
-	treePresentationSelector := 'div[contains(@class, "sgl-tree-presentation")]'.
+]
+
+{ #category : #testing }
+SGLSimpleFinderComponentTest >> testAddMultiplePanes [
+	| newPane |
+	
+	self clickAndPauseNodeWithIndex: 20 fromTree: self fullPaneSelector, '/', self treePresentationSelector.
+	self clickAndPauseNodeWithIndex: 10 fromTree: self fullPaneSelector, '[2]/', self treePresentationSelector.
+	self clickAndPauseNodeWithIndex: 5 fromTree: self fullPaneSelector, '[3]/', self treePresentationSelector.
+	
+	newPane := self elementByXPath: self fullPaneSelector, '[4]'.  
+	self should: newPane isPresent.
+	
 ]
 
 { #category : #testing }
 SGLSimpleFinderComponentTest >> testAddOnePane [
-	| listElement newPane treePresentation |
+	| newPane |
+
+	self clickAndPauseNodeWithIndex: 20 fromTree: self fullPaneSelector, '/', self treePresentationSelector.
 	
-	listElement := self elementByXPath: '//ul[contains(@class, "sgl-tree-root")]/*[20]/*'.
-	listElement fireEvent: 'click'.
-	self pause.
-	
-	"The new pane should be present"
 	newPane := self elementByXPath: self fullPaneSelector, '[2]'.  
 	self should: newPane isPresent.
 	
-	"The new pane should contain a tree presentation"
-	treePresentation := self elementByXPath: self fullPaneSelector, '[2]', '/', treePresentationSelector.  
-	self should: treePresentation isPresent
+]
+
+{ #category : #testing }
+SGLSimpleFinderComponentTest >> testContentAfterAddingOnePane [
+	| treePresentation lastTreeElement notPresentTreeElement |
 	
+	self clickAndPauseNodeWithIndex: 20 fromTree: self fullPaneSelector, '/', self treePresentationSelector.
+	
+	"The new pane should contain a tree presentation"
+	treePresentation := self elementByXPath: self fullPaneSelector, '[2]', '/', self treePresentationSelector.  
+	self should: treePresentation isPresent.
+	
+	"The text presentation should contain 20 elements"
+	lastTreeElement := self elementByXPath: self fullPaneSelector, '[2]', '/', (self treeRootNodeSelectorWithIndex: 20).
+	self should: lastTreeElement isPresent.
+	
+	notPresentTreeElement := self elementByXPath: self fullPaneSelector, '[2]', '/', (self treeRootNodeSelectorWithIndex: 21).
+	self shouldnt: notPresentTreeElement isPresent 
 ]
 
 { #category : #testing }
 SGLSimpleFinderComponentTest >> testFinderIsPresent [
 	| finder |
 	
-	finder := self divByXPath: '//', finderSelector.	
+	finder := self divByXPath: self fullFinderSelector.
 	self should: finder isPresent
 ]
 
@@ -69,7 +96,34 @@ SGLSimpleFinderComponentTest >> testOneFinderPaneIsPresent [
 SGLSimpleFinderComponentTest >> testPaneContentIsPresent [
 	| paneContent |
 	
-	paneContent := self divByXPath: self fullPaneSelector, '/', treePresentationSelector.
+	paneContent := self divByXPath: self fullPaneSelector, '/', self treePresentationSelector.
 	self should: paneContent isPresent.
 
+]
+
+{ #category : #testing }
+SGLSimpleFinderComponentTest >> testReplaceAndRemovePanes [
+	| listElement |
+	
+	self clickAndPauseNodeWithIndex: 50 fromTree: self fullPaneSelector, '/', self treePresentationSelector.
+	self clickAndPauseNodeWithIndex: 10 fromTree: self fullPaneSelector, '[2]/', self treePresentationSelector.
+	self clickAndPauseNodeWithIndex: 10 fromTree: self fullPaneSelector, '[3]/', self treePresentationSelector.
+	self clickAndPauseNodeWithIndex: 1 fromTree: self fullPaneSelector, '[4]/', self treePresentationSelector.
+	self clickAndPauseNodeWithIndex: 30 fromTree: self fullPaneSelector, '[2]/', self treePresentationSelector.
+	
+	listElement := self elementByXPath: self fullPaneSelector, '[3]', '/', (self treeRootNodeSelectorWithIndex: 30).  
+	self should: listElement isPresent.
+	
+]
+
+{ #category : #testing }
+SGLSimpleFinderComponentTest >> testReplacePane [
+	| listElement |
+	
+	self clickAndPauseNodeWithIndex: 10 fromTree: self fullPaneSelector, '/', self treePresentationSelector.
+	self clickAndPauseNodeWithIndex: 30 fromTree: self fullPaneSelector, '/', self treePresentationSelector.
+	
+	listElement := self elementByXPath: self fullPaneSelector, '[2]', '/', (self treeRootNodeSelectorWithIndex: 20).  
+	self should: listElement isPresent.
+	
 ]
