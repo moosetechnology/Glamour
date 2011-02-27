@@ -1,5 +1,5 @@
 Class {
-	#name : #GLMMorphicSingleSpotlight,
+	#name : #GLMMorphicSingleSpotter,
 	#superclass : #DialogWindow,
 	#instVars : [
 		'textMorph',
@@ -15,60 +15,60 @@ Class {
 }
 
 { #category : #'instance creation' }
-GLMMorphicSingleSpotlight class >> on: aRequest [
+GLMMorphicSingleSpotter class >> on: aRequest [
 	^ self basicNew initializeOn: aRequest
 ]
 
 { #category : #'instance creation' }
-GLMMorphicSingleSpotlight class >> on: aRequest parent: parent [
+GLMMorphicSingleSpotter class >> on: aRequest parent: parent [
 	^ self basicNew initializeOn: aRequest parent: parent
 ]
 
 { #category : #'instance creation' }
-GLMMorphicSingleSpotlight class >> openOn: aRequest [
+GLMMorphicSingleSpotter class >> openOn: aRequest [
 	^ UITheme builder openModal: (self on: aRequest)
 ]
 
 { #category : #accessing }
-GLMMorphicSingleSpotlight >> answer [
+GLMMorphicSingleSpotter >> answer [
 	"Answer the result of the dialog or nil, if this dialog has been cancelled."
 	
 	^ answer
 ]
 
 { #category : #callbacks }
-GLMMorphicSingleSpotlight >> arrowKey: anEvent from: aMorph [
+GLMMorphicSingleSpotter >> arrowKey: anEvent from: aMorph [
 	"Ignore this request."
 ]
 
 { #category : #actions }
-GLMMorphicSingleSpotlight >> cancel [
+GLMMorphicSingleSpotter >> cancel [
 	answer := nil.
 	^ super cancel
 ]
 
 { #category : #callbacks }
-GLMMorphicSingleSpotlight >> clickIconAt: anInteger [
+GLMMorphicSingleSpotter >> clickIconAt: anInteger [
 	"Ignore this request."
 ]
 
 { #category : #morphic }
-GLMMorphicSingleSpotlight >> defaultFocusMorph [
+GLMMorphicSingleSpotter >> defaultFocusMorph [
 	^ textMorph
 ]
 
 { #category : #morphic }
-GLMMorphicSingleSpotlight >> deselect [
+GLMMorphicSingleSpotter >> deselect [
 	self listIndex: 0.  
 ]
 
 { #category : #callbacks }
-GLMMorphicSingleSpotlight >> doubleClick [
+GLMMorphicSingleSpotter >> doubleClick [
 	self ok
 ]
 
 { #category : #callbacks }
-GLMMorphicSingleSpotlight >> editorKeyStroke: anEvent [
+GLMMorphicSingleSpotter >> editorKeyStroke: anEvent [
 	anEvent keyCharacter = Character arrowDown ifTrue: [
 		self listIndex: (self listIndex + 1 min: listValues size).
 		^ true ].
@@ -79,12 +79,12 @@ GLMMorphicSingleSpotlight >> editorKeyStroke: anEvent [
 ]
 
 { #category : #callbacks }
-GLMMorphicSingleSpotlight >> iconAt: anIndex [
+GLMMorphicSingleSpotter >> iconAt: anIndex [
 	^ model iconFor: (listValues at: anIndex ifAbsent: [ ^ nil ])
 ]
 
 { #category : #initialization }
-GLMMorphicSingleSpotlight >> initializeOn: aRequest [
+GLMMorphicSingleSpotter >> initializeOn: aRequest [
 	model := aRequest.
 	listValues := listLabels := #().
 	listIndex := 0.
@@ -95,31 +95,31 @@ GLMMorphicSingleSpotlight >> initializeOn: aRequest [
 ]
 
 { #category : #initialization }
-GLMMorphicSingleSpotlight >> initializeOn: aRequest parent: theParent [
+GLMMorphicSingleSpotter >> initializeOn: aRequest parent: theParent [
 	parent := theParent.
 	self initializeOn: aRequest.
 
 ]
 
 { #category : #testing }
-GLMMorphicSingleSpotlight >> isAssisted [
+GLMMorphicSingleSpotter >> isAssisted [
 	^ self model assisted
 ]
 
 { #category : #testing }
-GLMMorphicSingleSpotlight >> isEnabled [
+GLMMorphicSingleSpotter >> isEnabled [
 	^ self model assisted
 		ifTrue: [ self text isEmptyOrNil not ]
 		ifFalse: [ self listIndex > 0 ]
 ]
 
 { #category : #'accessing-list' }
-GLMMorphicSingleSpotlight >> listIndex [
+GLMMorphicSingleSpotter >> listIndex [
 	^ listIndex
 ]
 
 { #category : #'accessing-list' }
-GLMMorphicSingleSpotlight >> listIndex: anInteger [
+GLMMorphicSingleSpotter >> listIndex: anInteger [
 	anInteger isZero not ifTrue: [
 		parent selectionIn: self.].
 	listIndex = anInteger
@@ -133,28 +133,28 @@ GLMMorphicSingleSpotlight >> listIndex: anInteger [
 ]
 
 { #category : #'accessing-list' }
-GLMMorphicSingleSpotlight >> listLabels [
+GLMMorphicSingleSpotter >> listLabels [
 	^ listLabels
 ]
 
 { #category : #'accessing-list' }
-GLMMorphicSingleSpotlight >> listSelection [
+GLMMorphicSingleSpotter >> listSelection [
 	^ listValues at: self listIndex ifAbsent: [ nil ]
 ]
 
 { #category : #'accessing-list' }
-GLMMorphicSingleSpotlight >> listSelection: anObject [
+GLMMorphicSingleSpotter >> listSelection: anObject [
 
 	self listIndex: (listValues indexOf: anObject ifAbsent: [ 0 ])
 ]
 
 { #category : #'accessing-list' }
-GLMMorphicSingleSpotlight >> listValues [
+GLMMorphicSingleSpotter >> listValues [
 	^ listValues
 ]
 
 { #category : #'accessing-list' }
-GLMMorphicSingleSpotlight >> listValues: aCollection [
+GLMMorphicSingleSpotter >> listValues: aCollection [
 	| previous |
 	previous := self listSelection.
 	listValues := aCollection asArray.
@@ -164,7 +164,7 @@ GLMMorphicSingleSpotlight >> listValues: aCollection [
 ]
 
 { #category : #morphic }
-GLMMorphicSingleSpotlight >> newContentMorph [
+GLMMorphicSingleSpotter >> newContentMorph [
 	^ (self newColumn: { self newTextMorph. self newListMorph })
 		minWidth: 320;
 		minHeight: 200;
@@ -172,7 +172,7 @@ GLMMorphicSingleSpotlight >> newContentMorph [
 ]
 
 { #category : #morphic }
-GLMMorphicSingleSpotlight >> newListMorph [
+GLMMorphicSingleSpotter >> newListMorph [
 	listMorph := OBPluggableListMorph
 		on: self
 		list: #listLabels
@@ -190,12 +190,12 @@ GLMMorphicSingleSpotlight >> newListMorph [
 ]
 
 { #category : #morphic }
-GLMMorphicSingleSpotlight >> newOKButton [
+GLMMorphicSingleSpotter >> newOKButton [
 	^ self newOKButtonFor: self getEnabled: #isEnabled
 ]
 
 { #category : #morphic }
-GLMMorphicSingleSpotlight >> newTextMorph [
+GLMMorphicSingleSpotter >> newTextMorph [
 	textMorph := self
 		newTextEntryFor: self
 		getText: #text
@@ -210,7 +210,7 @@ GLMMorphicSingleSpotlight >> newTextMorph [
 ]
 
 { #category : #actions }
-GLMMorphicSingleSpotlight >> ok [
+GLMMorphicSingleSpotter >> ok [
 	answer := self model assisted
 		ifTrue: [ self text ]
 		ifFalse: [ self listSelection ].
@@ -218,22 +218,22 @@ GLMMorphicSingleSpotlight >> ok [
 ]
 
 { #category : #accessing }
-GLMMorphicSingleSpotlight >> parent [
+GLMMorphicSingleSpotter >> parent [
 	^ parent
 ]
 
 { #category : #accessing }
-GLMMorphicSingleSpotlight >> parent: anObject [
+GLMMorphicSingleSpotter >> parent: anObject [
 	parent := anObject
 ]
 
 { #category : #'accessing-text' }
-GLMMorphicSingleSpotlight >> text [
+GLMMorphicSingleSpotter >> text [
 	^ text
 ]
 
 { #category : #'accessing-text' }
-GLMMorphicSingleSpotlight >> text: aString [
+GLMMorphicSingleSpotter >> text: aString [
 	text = aString
 		ifTrue: [ ^ self ].
 	text := aString.

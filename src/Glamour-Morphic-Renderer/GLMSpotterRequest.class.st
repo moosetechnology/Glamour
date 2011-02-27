@@ -1,5 +1,5 @@
 Class {
-	#name : #GLMCompositeCompletionRequest,
+	#name : #GLMSpotterRequest,
 	#superclass : #Notification,
 	#instVars : [
 		'requests',
@@ -10,47 +10,47 @@ Class {
 }
 
 { #category : #'initialize-release' }
-GLMCompositeCompletionRequest >> add: aRequest [
+GLMSpotterRequest >> add: aRequest [
 	requests add: aRequest 
 ]
 
 { #category : #accessing }
-GLMCompositeCompletionRequest >> default [
+GLMSpotterRequest >> default [
 	^ default
 ]
 
 { #category : #accessing }
-GLMCompositeCompletionRequest >> default: anObject [
+GLMSpotterRequest >> default: anObject [
 	default := anObject
 ]
 
 { #category : #'initialize-release' }
-GLMCompositeCompletionRequest >> defaultAction [
-	^(GLMMorphicSpotlight openOn: self) answer
+GLMSpotterRequest >> defaultAction [
+	^(GLMMorphicSpotter openOn: self) answer
 ]
 
 { #category : #'initialize-release' }
-GLMCompositeCompletionRequest >> handleWith: anObject [
+GLMSpotterRequest >> handleWith: anObject [
 	^ anObject handleCompletionRequest: self
 ]
 
 { #category : #'initialize-release' }
-GLMCompositeCompletionRequest >> initialize [
+GLMSpotterRequest >> initialize [
 	super initialize.
 	requests := OrderedCollection new.
 ]
 
 { #category : #accessing }
-GLMCompositeCompletionRequest >> prompt [
+GLMSpotterRequest >> prompt [
 	^ prompt
 ]
 
 { #category : #accessing }
-GLMCompositeCompletionRequest >> prompt: anObject [
+GLMSpotterRequest >> prompt: anObject [
 	prompt := anObject
 ]
 
 { #category : #accessing }
-GLMCompositeCompletionRequest >> requests [
+GLMSpotterRequest >> requests [
 	^requests 
 ]

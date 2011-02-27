@@ -1,26 +1,26 @@
 Class {
-	#name : #GLMMorphicSpotlightTest,
+	#name : #GLMMorphicSpotterTest,
 	#superclass : #TestCase,
 	#category : #'Glamour-Morphic-Renderer-Spotter'
 }
 
 { #category : #'as yet unclassified' }
-GLMMorphicSpotlightTest >> testCreation [
+GLMMorphicSpotterTest >> testCreation [
 	| composite classRequest methodRequest thirdRequest |
-	composite  := GLMCompositeCompletionRequest new.
+	composite  := GLMSpotterRequest new.
 
-	classRequest := GLMCompletionRequest new 
+	classRequest := GLMSingleSpotterRequest new 
 			prompt: 'Find Class';
 			searchBlock: [ :string | OBCmdFindClass new findClassIn: Smalltalk pattern: string ];
 			labelBlock: [ :class | class name ];
 			iconBlock: [ :class | class browserIcon ].
 
-	methodRequest := GLMCompletionRequest new 
+	methodRequest := GLMSingleSpotterRequest new 
 			prompt: 'Object Selectors';
 			searchBlock: [ :string | Object selectors select: [:e| string, '*' match: e asString] ];
 			labelBlock: [ :e | e ].
 
-	thirdRequest := GLMCompletionRequest new 
+	thirdRequest := GLMSingleSpotterRequest new 
 			prompt: 'Other Selectors';
 			searchBlock: [ :string | Class selectors select: [:e| string, '*' match: e asString] ];
 			labelBlock: [ :e | e ].
@@ -30,14 +30,4 @@ GLMMorphicSpotlightTest >> testCreation [
 		add: methodRequest;
 		add: thirdRequest;
 				signal) inspect.
-]
-
-{ #category : #'as yet unclassified' }
-GLMMorphicSpotlightTest >> testCreationOriginal [
-	OBCompletionRequest new
-			prompt: 'Find Class';
-			searchBlock: [ :string | OBCmdFindClass new findClassIn: Smalltalk pattern: string ];
-			labelBlock: [ :class | class name ];
-			iconBlock: [ :class | class browserIcon ];
-			signal.
 ]

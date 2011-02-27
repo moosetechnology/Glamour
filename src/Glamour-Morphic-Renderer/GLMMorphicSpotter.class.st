@@ -1,5 +1,5 @@
 Class {
-	#name : #GLMMorphicSpotlight,
+	#name : #GLMMorphicSpotter,
 	#superclass : #DialogWindow,
 	#instVars : [
 		'textMorph',
@@ -11,37 +11,37 @@ Class {
 }
 
 { #category : #'instance creation' }
-GLMMorphicSpotlight class >> on: aRequest [
+GLMMorphicSpotter class >> on: aRequest [
 	^ self basicNew initializeOn: aRequest
 ]
 
 { #category : #'instance creation' }
-GLMMorphicSpotlight class >> openOn: aRequest [
+GLMMorphicSpotter class >> openOn: aRequest [
 	^ UITheme builder openModal: (self on: aRequest)
 ]
 
 { #category : #accessing }
-GLMMorphicSpotlight >> answer [
+GLMMorphicSpotter >> answer [
 	^ answer
 ]
 
 { #category : #accessing }
-GLMMorphicSpotlight >> answer: anObject [
+GLMMorphicSpotter >> answer: anObject [
 	answer := anObject
 ]
 
 { #category : #accessing }
-GLMMorphicSpotlight >> childrenMorphs [
+GLMMorphicSpotter >> childrenMorphs [
 	^ childrenMorphs
 ]
 
 { #category : #accessing }
-GLMMorphicSpotlight >> childrenMorphs: anObject [
+GLMMorphicSpotter >> childrenMorphs: anObject [
 	childrenMorphs := anObject
 ]
 
 { #category : #callbacks }
-GLMMorphicSpotlight >> editorKeyStroke: anEvent [
+GLMMorphicSpotter >> editorKeyStroke: anEvent [
 "	anEvent keyCharacter = Character arrowDown ifTrue: [
 		self listIndex: (self listIndex + 1 min: listValues size).
 		^ true ].
@@ -52,13 +52,13 @@ GLMMorphicSpotlight >> editorKeyStroke: anEvent [
 ]
 
 { #category : #initialization }
-GLMMorphicSpotlight >> initialize [ 
+GLMMorphicSpotter >> initialize [ 
 	childrenMorphs := OrderedCollection new.
 	super initialize
 ]
 
 { #category : #initialization }
-GLMMorphicSpotlight >> initializeOn: aRequest [
+GLMMorphicSpotter >> initializeOn: aRequest [
 	model := aRequest.
 	self initialize.
 	self title: aRequest prompt.
@@ -67,7 +67,7 @@ GLMMorphicSpotlight >> initializeOn: aRequest [
 ]
 
 { #category : #morphic }
-GLMMorphicSpotlight >> newContentMorph [
+GLMMorphicSpotter >> newContentMorph [
 	^ (self newColumn: 
 			((OrderedCollection with: self newTextMorph) addAll: self newListMorphs; yourself) )
 		minWidth: 320;
@@ -76,16 +76,16 @@ GLMMorphicSpotlight >> newContentMorph [
 ]
 
 { #category : #morphic }
-GLMMorphicSpotlight >> newListMorphs [
+GLMMorphicSpotter >> newListMorphs [
 	| list |
 	self model requests do: [:each | 
-		list := (GLMMorphicSingleSpotlight on: each parent: self).
+		list := (GLMMorphicSingleSpotter on: each parent: self).
 		self childrenMorphs add: list ].
 	^ childrenMorphs collect: #newListMorph
 ]
 
 { #category : #morphic }
-GLMMorphicSpotlight >> newTextMorph [
+GLMMorphicSpotter >> newTextMorph [
 	textMorph := self
 		newTextEntryFor: self
 		getText: #text
@@ -100,7 +100,7 @@ GLMMorphicSpotlight >> newTextMorph [
 ]
 
 { #category : #accessing }
-GLMMorphicSpotlight >> ok [
+GLMMorphicSpotter >> ok [
 	| nonEmpty |
 	nonEmpty := (self childrenMorphs select: [:e| e listIndex isZero not]).
 	nonEmpty size = 1 ifTrue: [
@@ -112,7 +112,7 @@ GLMMorphicSpotlight >> ok [
 ]
 
 { #category : #callbacks }
-GLMMorphicSpotlight >> selectionIn: singleSpotlight [
+GLMMorphicSpotter >> selectionIn: singleSpotlight [
 
 	(self childrenMorphs reject: [:e| e = singleSpotlight] ) do: [:e| 
 			e deselect.
@@ -120,12 +120,12 @@ GLMMorphicSpotlight >> selectionIn: singleSpotlight [
 ]
 
 { #category : #accessing }
-GLMMorphicSpotlight >> text [
+GLMMorphicSpotter >> text [
 	^ text
 ]
 
 { #category : #accessing }
-GLMMorphicSpotlight >> text: aString [
+GLMMorphicSpotter >> text: aString [
 	text = aString
 		ifTrue: [ ^ self ].
 	text := aString.
@@ -134,11 +134,11 @@ GLMMorphicSpotlight >> text: aString [
 ]
 
 { #category : #accessing }
-GLMMorphicSpotlight >> textMorph [
+GLMMorphicSpotter >> textMorph [
 	^ textMorph
 ]
 
 { #category : #accessing }
-GLMMorphicSpotlight >> textMorph: anObject [
+GLMMorphicSpotter >> textMorph: anObject [
 	textMorph := anObject
 ]
