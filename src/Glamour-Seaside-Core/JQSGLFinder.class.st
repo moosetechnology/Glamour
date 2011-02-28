@@ -1,3 +1,6 @@
+"
+I transform the selected elements into Finder widgets.
+"
 Class {
 	#name : #JQSGLFinder,
 	#superclass : #JQWidget,

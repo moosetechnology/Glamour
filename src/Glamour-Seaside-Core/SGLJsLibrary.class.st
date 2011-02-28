@@ -536,9 +536,10 @@ SGLJsLibrary >> glamourSeasideJs [
 				}
 			}
 	})(jQuery);
-	
-	', self sglExpanderJs
-	 , self sglFinderJs
+	'
+	, self sglUtilsJs 
+	, self sglExpanderJs
+	, self sglFinderJs
 ]
 
 { #category : #uploaded }
@@ -1021,6 +1022,7 @@ SGLJsLibrary >> sglExpanderJs [
 				event: "click",
 				header: "h3",	
 				spinner: "<em>Retrieving  data....</em>",
+				paneHeight: 200,
 				icons: {
 					header: "ui-icon-triangle-1-e",
 					headerSelected: "ui-icon-triangle-1-s"
@@ -1103,6 +1105,7 @@ SGLJsLibrary >> sglExpanderJs [
 							clicked.next()
 								.addClass("sgl-expander-content ui-helper-reset ui-widget-content ui-corner-bottom")
 								.hide()
+								//.height(options.paneHeight)
 								.html(data);
 							
 							clicked.children("a:first")
@@ -1162,7 +1165,53 @@ SGLJsLibrary >> sglExpanderJs [
 SGLJsLibrary >> sglFinderJs [
 	^ '
 	/**
+	 * Plugin that makes the selected elements Finder widgets.
 	 *
+	 * The widget behaves in the following way:
+	 * 		- if only one pane is present it will fill all the available space;
+	 *		- if more then one pane is present each one will have a height
+	 *		  equal to the height of the container; the width of a pane is set 
+	 *		  so that the width of two panes plus the distance between them
+	 *            is equal with the width of the container;
+	 *         - when the container is resized all its panes are resized as well;
+	 *         - when a pane is resized it also resizes its content and notifies it
+	 *           by triggering a "resize" event (on the content of the pane);
+	 *
+	 * Available methods:
+	 *		- addPane
+	 *		- removeLastPane
+	 *		- replaceLastPane
+	 * 
+	 * Options:
+	 *		- splitterSize: the distance between two panes in pixels;
+	 *	      - duration: the duration of the scroll animation used when adding a new pane;
+	 *
+	 * Depends uppon:
+	 *		- sglScrollHeight
+	 *		- scrollTo
+	 *		- glamour.setElementDimensions
+	 *
+	 * The markup of the container should have the following structure:
+	 * 		<div>					-- the container
+	 *			<div>                     -- a pane
+	 *				<div>...<div>    -- the content of the pane
+	 *			</div>
+	 *			<div>                     -- a pane
+	 *				<div>...<div>    -- the content of the pane
+	 *			</div>
+	 *			.....
+	 *		</div>
+	 *
+	 *  Based on this the following markup will be generated:
+	 *		<div class="sgl-finder ui-widget">					
+	 *			<div class="sgl-finder-pane ui-widget">                   
+	 *				<div>...<div>    
+	 *			</div>
+	 *			<div class="sgl-finder-pane ui-widget">                    
+	 *				<div>...<div>   
+	 *			</div>
+	 *			.....
+	 *		</div>
 	 */
 	;( function($) {
 		$.widget("ui.sglFinder", {
@@ -1189,7 +1238,7 @@ SGLJsLibrary >> sglFinderJs [
 			},
 			
 			/**
-			 *
+			 * Helper function called for resizing the panes of the finder. 
 			 */
 			_resizePanes: function() {				
 				var self = this,
@@ -1220,8 +1269,8 @@ SGLJsLibrary >> sglFinderJs [
 				});	
 						
 				// If a horizontal scrollbar has appeared resize the height of the panes to eliminated it.
-				if ( self._scrollHeight(self.element) != 0 ) {																	
-					paneHeight = paneHeight - self._scrollHeight(self.element);
+				if ( self.element.sglScrollHeight() != 0 ) {																	
+					paneHeight = paneHeight - self.element.sglScrollHeight();
 					panes.each(function(index){
 						var pane = $(this);		
 																						
@@ -1235,7 +1284,10 @@ SGLJsLibrary >> sglFinderJs [
 			 * Append the given content as a new pane at the end of the finder, 
 			 * resize the panes if necessary and scroll to make it visible.	
 			 *
-			 * The scroll functionality does not work properly on Firefox.			
+			 * The scroll functionality does not work properly on Firefox.
+			 *
+			 * @param content
+			 *		html representing the content of the new pane;		
 			 */
 			addPane: function( content ) {
 				var self = this,
@@ -1261,6 +1313,9 @@ SGLJsLibrary >> sglFinderJs [
 			
 			/**
 			 *  Replace the last pane of the finder with the new one.
+			 *
+			 * @param newPaneContent
+			 *		html representing the new content of the last pane;
 			 */
 			replaceLastPane: function( newPaneContent ) {																						
 				var self = this,
@@ -1280,7 +1335,7 @@ SGLJsLibrary >> sglFinderJs [
 			 *  @return
 			 *		a jQuery object representing the new pane
 			 */
-			_initLastPane: function( content ) {
+			_initLastPane: function( ) {
 				var self = this,
 					lastPane;
 									
@@ -1297,9 +1352,12 @@ SGLJsLibrary >> sglFinderJs [
 			 * Depending on the structure of the finder all panes may be resized.
 			 *
 			 * To resize the panes the following logic is used:
-			 *  		- if only two panels are used they are resized by calling _resizePanes();
-			 *         - if there are three panels they are also resized by calling _resizePanes() as scrolls have appeared;
-			 *         - if there are more then three panels then only the dimensions of the new one are changed;
+			 *  		- if only two panes are used they are resized by calling _resizePanes();
+			 *         - if there are three panes they are also resized by calling _resizePanes() as scrolls have appeared;
+			 *         - if there are more then three panes then only the dimensions of the last one are changed;
+			 *
+			 * @param lastPane
+			 *		jQuery object representing the last pane;
 			 */
 			_resizeLastPane: function( lastPane ) {
 				var self = this,
@@ -1321,11 +1379,7 @@ SGLJsLibrary >> sglFinderJs [
 						.css( "left", (paneWidth + options.splitterSize) * (panes.size() - 1) );
 					$.glamour.setElementDimensions( lastPane.children(":first"), paneWidth, paneHeight );																				
 				}
-			},
-			
-			_scrollHeight: function(element) {
-				return element.get(0).scrollHeight - element.get(0).clientHeight;
-			},
+			},						
 					
 		});
 	})(jQuery);
@@ -2000,6 +2054,17 @@ SGLJsLibrary >> sglTreeJs [
 	}) (jQuery) ;
 	',
 	self sglTreeAppendJs
+]
+
+{ #category : #created }
+SGLJsLibrary >> sglUtilsJs [
+	^ '
+		;(function($) {
+    			$.fn.sglScrollHeight = function() {
+       			return this.get(0).scrollHeight - this.get(0).clientHeight
+    			}
+		})(jQuery);
+	'
 ]
 
 { #category : #uploaded }
