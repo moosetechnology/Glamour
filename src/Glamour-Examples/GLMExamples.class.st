@@ -6,26 +6,29 @@ Class {
 
 { #category : #accessing }
 GLMExamples class >> browser [
-	"self browseExamples"
 	| browser |
 	browser := GLMTabulator new.
 	browser title: self title.
 	browser column: #titles; column: #example span: 4.
-	browser showOn: #titles; using: [
-		browser list
-			display: [:list | list asSortedCollection: [:a :b | 
-				(a argumentAt: 1) < (b argumentAt: 1)] ];
+	browser transmit to: #titles; andShow: [:a |
+		a list
+			title: 'Examples';
+			display: [:list | list asSortedCollection: [:x :y | 
+				(x argumentAt: 1) < (y argumentAt: 1)] ];
 			format: [:each | each argumentAt: 1]].
-	browser showOn: #example; from: #titles; using: [
-		browser dynamic
+	browser transmit to: #example; from: #titles; andShow: [:a |
+		a dynamic
 			title: 'Browser';
 			presentation: [ :some :each | 
 				some custom: ((self new perform: each selector) startOn: (Compiler evaluate: (each argumentAt: 2) logged: false))].
-		browser text 
+		a text 
 			title: 'Source code';
+			act: [:text :pragma | StandardToolSet browse: self selector: pragma selector ] 
+				icon: GLMUIThemeExtraIcons glamorousBrowse
+				entitled: 'Browse';
 			forSmalltalk: self;
-			display: [:each | self sourceCodeAt: each selector]].	
-	^ browser.
+			display: [:pragma | self sourceCodeAt: pragma selector]].	
+	^ browser
 ]
 
 { #category : #accessing }
