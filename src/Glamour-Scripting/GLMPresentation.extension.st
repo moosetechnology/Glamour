@@ -35,6 +35,18 @@ GLMPresentation >> act: aBlock icon: anIcon entitled: aString [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMPresentation >> act: aBlock icon: anIcon on: aCharacter entitled: aString [
+	self 
+		addAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				shortcut: aCharacter; 				
+				icon: anIcon;
+				title: aString;
+				yourself)
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMPresentation >> act: aBlock on: aCharacter [ 
 	 
 	self 
