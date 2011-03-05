@@ -1,3 +1,12 @@
+"
+A presentation displaying text.
+
+Instance Variables:
+	selectedTextBlock	<ProtoObject>
+	highlightSmalltalk	<Boolean>
+	highlightSmalltalkContext	<Object>
+	textBlock	<ProtoObject | PseudoContext>
+"
 Class {
 	#name : #GLMTextPresentation,
 	#superclass : #GLMTextualPresentation,
