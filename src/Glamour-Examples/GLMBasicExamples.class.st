@@ -474,7 +474,7 @@ GLMBasicExamples >> simpleFinderWithMenu [
 	"self new simpleFinderWithMenu openOn: $z"
 
 	| finder |
-	finder := GLMFinder new.
+	finder := GLMFinder new variableSizePanes.
 	finder list
 			title: 'List';
 			display: [:each | $a to: each];
