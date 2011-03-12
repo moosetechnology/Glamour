@@ -5,11 +5,6 @@ Class {
 }
 
 { #category : #tests }
-GLMBrowserTest >> expectedFailures [
-	^ #(testUnregisterAnnouncementsWhenUpdatingPane)
-]
-
-{ #category : #tests }
 GLMBrowserTest >> testHasStatusbar [
 	| browser |
 	browser := GLMBrowser new.
@@ -95,7 +90,7 @@ GLMBrowserTest >> testUnregisterAnnouncementsWhenRemovingPane [
 
 { #category : #tests }
 GLMBrowserTest >> testUnregisterAnnouncementsWhenUpdatingPane [
-	| announcer browser  presentation |
+	| announcer browser |
 	
 	announcer := Announcer new.
 	browser := GLMTabulator new.
@@ -103,12 +98,35 @@ GLMBrowserTest >> testUnregisterAnnouncementsWhenUpdatingPane [
 	browser transmit 
 		to: #one;
 		andShow: [ :presenter |
-			(presentation := presenter list)
+			(presenter list)
 				updateOn: TestAnnouncement from:  [ announcer ];
 				display: [ :start | start to: 10 ] ].
 	browser startOn: 1.
-	presentation registerAnnouncements.  
+	browser panes first presentations first registerAnnouncements.  
 	browser unregisterFromAllAnnouncements.
 
 	self assert: (announcer instVarNamed: 'subscriptions') isEmpty.
+]
+
+{ #category : #tests }
+GLMBrowserTest >> testUnregisterAnnouncementsWhenUpdatingPane2 [
+	| announcer browser announcer2 |
+	
+	announcer := Announcer new.
+	announcer2 := Announcer new.
+	browser := GLMTabulator new.
+	browser row: #one.
+	browser transmit 
+		to: #one;
+		andShow: [ :presenter |
+			(presenter list)
+				updateOn: TestAnnouncement fromAll:  [{announcer .  nil.  announcer2 }];
+				display: [ :start | start to: 10 ]. ].
+	browser startOn: 1.
+	browser panes first presentations first registerAnnouncements.  
+	
+	browser unregisterFromAllAnnouncements.
+
+	self assert: (announcer instVarNamed: 'subscriptions') isEmpty.
+	self assert: (announcer2 instVarNamed: 'subscriptions') isEmpty.
 ]
