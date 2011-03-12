@@ -105,6 +105,6 @@ GLMUpdateAction >> transformation: anObject [
 
 { #category : #public }
 GLMUpdateAction >> unregisterFromAllAnnouncements [
-	[self announcerObjects do: [:each | 
-		each unsubscribe: self ]] on: Error do: [:e | ]
+	self announcerObjects do: [:each | 
+		[each unsubscribe: self] on: Error do: [:e | e resume]] 
 ]
