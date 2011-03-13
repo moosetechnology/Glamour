@@ -468,6 +468,16 @@ GLMBasicExamples >> simpleExpander [
 	^ browser
 ]
 
+{ #category : #table }
+GLMBasicExamples >> simpleFinder [
+	<glmBrowser: 'Simple Finder' input: '100'>
+	"self new simpleTable openOn: 100"
+	| finder |	
+	finder := GLMFinder new.
+	finder list display: [ :x | 1 to: x ].
+	^ finder
+]
+
 { #category : #'actions examples' }
 GLMBasicExamples >> simpleFinderWithMenu [
 	<glmBrowser: 'Browser menu' input: '$z'>
