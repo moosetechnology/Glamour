@@ -109,7 +109,7 @@ GLMBrowserTest >> testUnregisterAnnouncementsWhenUpdatingPane [
 ]
 
 { #category : #tests }
-GLMBrowserTest >> testUnregisterAnnouncementsWhenUpdatingPane2 [
+GLMBrowserTest >> testUnregisterAnnouncementsWhenUpdatingPaneWithTwoAnnouncers [
 	| announcer browser announcer2 |
 	
 	announcer := Announcer new.
