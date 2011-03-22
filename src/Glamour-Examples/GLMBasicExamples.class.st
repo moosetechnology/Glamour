@@ -295,6 +295,25 @@ GLMBasicExamples >> listsWithUpdatedSelection [
 ]
 
 { #category : #others }
+GLMBasicExamples >> magritte [
+	<glmBrowser: 'Magritte' input: '''something'''>
+	"self new magritte openOn: 'something'"
+	| container browser |
+	container := MAContainer new.
+	container add: (
+		MAStringDescription new
+			label: 'Something';
+			accessor: MAIdentityAccessor new;
+			yourself).
+	browser := GLMTabulator new.
+	browser row: #one.
+	browser transmit to: #one; andShow:[ :a |
+		a magritte
+			description: [:x | container] ].
+	^ browser
+]
+
+{ #category : #others }
 GLMBasicExamples >> mondrianPainting [
 	<glmBrowser: 'Mondrian painting' input: '100'>
 	"self new mondrianPainting openOn: 100"
