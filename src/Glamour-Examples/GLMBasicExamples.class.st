@@ -296,20 +296,23 @@ GLMBasicExamples >> listsWithUpdatedSelection [
 
 { #category : #others }
 GLMBasicExamples >> magritte [
-	<glmBrowser: 'Magritte' input: '''something'''>
+	<glmBrowser: 'Magritte presentation' input: '''something'''>
 	"self new magritte openOn: 'something'"
-	| container browser |
-	container := MAContainer new.
-	container add: (
-		MAStringDescription new
-			label: 'Something';
-			accessor: MAIdentityAccessor new;
-			yourself).
+	| browser |
 	browser := GLMTabulator new.
 	browser row: #one.
 	browser transmit to: #one; andShow:[ :a |
 		a magritte
-			description: [:x | container] ].
+			title: 'Title';
+			description: [:x | 
+				| container |
+				container := MAContainer new.
+				container add: (
+					MAStringDescription new
+						label: 'Something';
+						accessor: MAIdentityAccessor new;
+						yourself).
+				container ] ].
 	^ browser
 ]
 
@@ -460,6 +463,18 @@ GLMBasicExamples >> multipleTabs [
 	^ finder
 ]
 
+{ #category : #text }
+GLMBasicExamples >> populatePortAction [
+	<glmBrowser: 'Populate port action' input: 'String withAll: ''Select a piece of text and open on the next pane via the contextual menu or by pressing Modifier+o. Otherwise just open the complete copy of the current text on the next pane via the menu or by pressing Modifier+l.'''>
+	"self new populatePortAction openOn: 'Select a piece of text and open on the next pane either with the overall button, or via the context menu'"
+	| browser |
+	browser := GLMFinder new.
+	browser text
+		selectionPopulate: #selection on: $o entitled: 'Open selection on next pane' with: [:text | text selectedText ];
+		populate: #selection icon: GLMUIThemeExtraIcons glamorousRight on: $l entitled: 'Open complete text on next pane' with: [:text | text text ].
+	^ browser 
+]
+
 { #category : #actionlist }
 GLMBasicExamples >> simpleActionList [
 	<glmBrowser: 'Action list' input: '#(1 2 3)'>	
@@ -489,7 +504,7 @@ GLMBasicExamples >> simpleExpander [
 
 { #category : #table }
 GLMBasicExamples >> simpleFinder [
-	<glmBrowser: 'Simple Finder' input: '100'>
+	<glmBrowser: 'Finder' input: '100'>
 	"self new simpleTable openOn: 100"
 	| finder |	
 	finder := GLMFinder new.
@@ -819,7 +834,7 @@ GLMBasicExamples >> treeWithMenu [
 ]
 
 { #category : #updating }
-GLMBasicExamples >> updatableBrowser [
+GLMBasicExamples >> updateableBrowser [
 	<glmBrowser: 'Updateable browser' input: '|collection|
 	collection := GLMAnnouncingCollection new.
 	collection add: 1; add: 2; add: 3.
@@ -828,7 +843,7 @@ GLMBasicExamples >> updatableBrowser [
 	|collection|
 	collection := GLMAnnouncingCollection new.
 	collection add: 1; add: 2; add: 3.
-	self new updatableBrowser openOn: collection."
+	self new updateableBrowser openOn: collection."
 	
 	| browser |
 	browser := GLMTabulator new.
@@ -865,16 +880,4 @@ GLMBasicExamples >> updatableBrowser [
 				view shape label.
 				view nodes: entity ] ].
 	^ browser
-]
-
-{ #category : #text }
-GLMBasicExamples >> updateAction [
-	<glmBrowser: 'Update action' input: 'String withAll: ''Select a piece of text and open on the next pane via the contextual menu or by pressing Modifier+o. Otherwise just open the complete copy of the current text on the next pane via the menu or by pressing Modifier+l.'''>
-	"self new updateAction openOn: 'Select a piece of text and open on the next pane'"
-	| browser |
-	browser := GLMFinder new.
-	browser text
-		populate: #selection on: $o entitled: 'Open selection on next pane' with: [:text | text selectedText ];
-		populate: #selection on: $l entitled: 'Open complete text on next pane' with: [:text | text text ].
-	^ browser 
 ]
