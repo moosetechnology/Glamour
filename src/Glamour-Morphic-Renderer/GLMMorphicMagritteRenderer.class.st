@@ -36,7 +36,7 @@ GLMMorphicMagritteRenderer >> magritteMorphFrom: aMagrittePresentation [
 	description := (aMagrittePresentation magritteDescription glamourValue: toShow) copy.
 	description morphClass: self class containerMorphClass.
 	magritteMorph := (description asMorphOn: toShow)
-		"addButtons;"
+		addButtons;
 		morph.
 	magritteMorph
 		hResizing: #spaceFill;
