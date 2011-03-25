@@ -2,10 +2,26 @@ Class {
 	#name : #GLMMorphicMagritteRenderer,
 	#superclass : #GLMMorphicWidgetRenderer,
 	#instVars : [
-		'scrollPane'
+		'scrollPane',
+		'containerMorphClass'
+	],
+	#classInstVars : [
+		'containerMorphClass'
 	],
 	#category : #'Glamour-Morphic-Renderer'
 }
+
+{ #category : #accessing }
+GLMMorphicMagritteRenderer class >> containerMorphClass [
+
+	^ containerMorphClass ifNil: [containerMorphClass := MASilentContainerMorph]
+]
+
+{ #category : #accessing }
+GLMMorphicMagritteRenderer class >> containerMorphClass: aClass [ 
+
+	containerMorphClass := aClass
+]
 
 { #category : #rendering }
 GLMMorphicMagritteRenderer >> actOnPresentationUpdated: ann [
@@ -18,9 +34,9 @@ GLMMorphicMagritteRenderer >> magritteMorphFrom: aMagrittePresentation [
 	| toShow description magritteMorph |
 	toShow := aMagrittePresentation displayValue.
 	description := (aMagrittePresentation magritteDescription glamourValue: toShow) copy.
-	description morphClass: MASilentContainerMorph.
+	description morphClass: self class containerMorphClass.
 	magritteMorph := (description asMorphOn: toShow)
-		addButtons;
+		"addButtons;"
 		morph.
 	magritteMorph
 		hResizing: #spaceFill;

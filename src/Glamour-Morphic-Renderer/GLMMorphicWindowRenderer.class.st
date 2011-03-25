@@ -15,7 +15,7 @@ GLMMorphicWindowRenderer >> actOnPresentationUpdated: ann [
 { #category : #rendering }
 GLMMorphicWindowRenderer >> render: aRenderable [
 	| dock offset bottomOffset statusbarMorph |
-	window := GLMSystemWindow new.
+	window := GLMSystemWindow new model:aRenderable .
 	window model: aRenderable.
 	window on: #keyStroke send: #handleKeyStroke: to: window.
 	self installActionsOnUI: window fromPresentation: aRenderable.
