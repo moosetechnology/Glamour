@@ -15,7 +15,8 @@ Class {
 	#instVars : [
 		'transmissions',
 		'panes',
-		'statusPane'
+		'statusPane',
+		'initialExtent'
 	],
 	#category : #'Glamour-Core'
 }
@@ -67,6 +68,18 @@ GLMBrowser >> hasStatusbar: aBoolean [
 	aBoolean ifTrue: [
 		statusPane := self addPane: (GLMPane new name: self class defaultStatusbarPane) ]
 	
+]
+
+{ #category : #accessing }
+GLMBrowser >> initialExtent [
+
+	^ initialExtent ifNil: [ initialExtent := RealEstateAgent standardWindowExtent]
+]
+
+{ #category : #accessing }
+GLMBrowser >> initialExtent: aPoint [
+
+	initialExtent := aPoint
 ]
 
 { #category : #'initialize-release' }
