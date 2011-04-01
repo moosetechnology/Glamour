@@ -19,6 +19,12 @@ Class {
 	#category : #'Glamour-Morphic-Renderer'
 }
 
+{ #category : #callbacks }
+GLMMorphicRenderer >> actOnWizardClosed: ann [
+
+	self window delete
+]
+
 { #category : #opening }
 GLMMorphicRenderer >> open: aRenderable [
 	window := GLMMorphicWindowRenderer render: aRenderable from: self.
@@ -182,6 +188,20 @@ GLMMorphicRenderer >> renderTextPresentation: aTextPresentation [
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderTreePresentation: aPresentation [ 
 	^ GLMMorphicTreeRenderer render: aPresentation from: self
+]
+
+{ #category : #'rendering browsers' }
+GLMMorphicRenderer >> renderValidator: aBrowser [ 
+	^ GLMMorphicValidatorRenderer new render: aBrowser from: self
+]
+
+{ #category : #'rendering browsers' }
+GLMMorphicRenderer >> renderWizard: aGLMWizard [
+
+	|tmpRenderer|
+	tmpRenderer :=  GLMMorphicWizardRenderer new.
+	aGLMWizard  setSpecificAnnouncementActionsTo: tmpRenderer.  
+	^ tmpRenderer render: aGLMWizard
 ]
 
 { #category : #accessing }
