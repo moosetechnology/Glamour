@@ -419,7 +419,7 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Scripting' with: [spec requires: #('Glamour-Presentations' 'Glamour-Browsers' 'Glamour-Core' 'Mondrian for Glamour')];
 			package: 'Glamour-Tests-Core' ;
 			package: 'Glamour-Morphic-Widgets' with: [spec requires: #('Shout')];
-			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Glamour-Morphic-Widgets')];
+			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core')];
 			package: 'Glamour-Morphic-Theme';
 			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
 			package: 'Glamour-Examples' ;
