@@ -12,7 +12,7 @@ GLMBasicExamples class >> title [
 	^ 'Basic Examples'
 ]
 
-{ #category : #others }
+{ #category : #browsers }
 GLMBasicExamples >> accumulator [
 	<glmBrowser: 'Accumulator' input: '42'>
 	"self new accumulator openOn: 42"
@@ -444,25 +444,6 @@ GLMBasicExamples >> multipleFinderWithFilterAndSearch [
 	^ finder 
 ]
 
-{ #category : #'tabs examples' }
-GLMBasicExamples >> multipleTabs [
-	<glmBrowser: 'Tabs' input: '1'>
-	"self new multipleTabs openOn: 1"
-	
-	| finder |
-	finder := GLMFinder new.
-	(1 to: 3) do: [:i | 
-		finder text
-			title: i printString;
-			display: [:x | i printString].
-		finder text
-			titleIcon: MenuIcons smallFindIcon;
-			display: [:x | i printString]
-	].
-	
-	^ finder
-]
-
 { #category : #text }
 GLMBasicExamples >> populatePortAction [
 	<glmBrowser: 'Populate port action' input: 'String withAll: ''Select a piece of text and open on the next pane via the contextual menu or by pressing Modifier+o. Otherwise just open the complete copy of the current text on the next pane via the menu or by pressing Modifier+l.'''>
@@ -502,10 +483,10 @@ GLMBasicExamples >> simpleExpander [
 	^ browser
 ]
 
-{ #category : #table }
+{ #category : #browsers }
 GLMBasicExamples >> simpleFinder [
 	<glmBrowser: 'Finder' input: '100'>
-	"self new simpleTable openOn: 100"
+	"self new simpleFinder openOn: 100"
 	| finder |	
 	finder := GLMFinder new.
 	finder list display: [ :x | 1 to: x ].
@@ -648,6 +629,47 @@ GLMBasicExamples >> tableWithIcons [
 			icon: [:x | MenuIcons helpIcon ]].
 	browser transmit to: #two; from: #one; andShow: [:a | a text ].
 	^ browser
+]
+
+{ #category : #'tabs examples' }
+GLMBasicExamples >> tabsWithDifferentActions [
+	<glmBrowser: 'Tabs with different actions' input: 42>
+	"self new tabsWithDifferentActions openOn: 42"
+	
+	| browser |
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit to: #one; andShow: [:a | 
+		a text
+			display: 'Switch between tabs to check the toolbars on the right';
+			title: 'Tab with multiple actions';
+			act: [:x | x inspect] icon: GLMUIThemeExtraIcons glamorousInspect entitled: 'Inspect with icon';
+			act: [:x | x printString inspect] icon: GLMUIThemeExtraIcons glamorousBrowse entitled: 'Print it and inspect with icon';
+			act: [:x | x inspect] entitled: 'Inspect without icon';
+			act: [:x | x printString inspect] entitled: 'Print it and inspect without icon'.
+		a text 
+			display: 'Switch between tabs to check the toolbars on the right';
+			title: 'Tab without actions' ].
+	^ browser
+]
+
+{ #category : #'tabs examples' }
+GLMBasicExamples >> tabsWithDifferentLabels [
+	<glmBrowser: 'Tabs with different labels' input: '1'>
+	"self new multipleTabs openOn: 1"
+	
+	| finder |
+	finder := GLMFinder new.
+	(1 to: 3) do: [:i | 
+		finder text
+			title: i printString;
+			display: [:x | i printString].
+		finder text
+			titleIcon: MenuIcons smallFindIcon;
+			display: [:x | i printString]
+	].
+	
+	^ finder
 ]
 
 { #category : #others }
