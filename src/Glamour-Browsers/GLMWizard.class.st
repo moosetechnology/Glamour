@@ -104,6 +104,7 @@ GLMWizard >> computePaneValidator [
 	tmpPresentation := (self stepToUse moValue: self).
 	tmpValidator := GLMValidator new.
 	tmpValidator show: [:a | a custom: tmpPresentation]. 
+	tmpValidator startOn: self entity.
 	^ tmpValidator 
 
 ]
@@ -114,14 +115,11 @@ GLMWizard >> computePaneWith: aValidator [
 	|tmpPane|
 	tmpPane := GLMPane in: self.
 	tmpPane addPresentation: aValidator.
-	"self addPresentation: aValidator."
-	"GLMTransmission new
-		ensureBundleStrategy;
-		addActiveOrigin: (self pane port: #entity); 
-		destination: (tmpPane port: #entity); 
-		transmit".
+	
 	(tmpPane port: #entity) value:  (self pane port: #entity) value.
-		
+	tmpPane presentations presentations do: [:aPresentation |
+		(aPresentation pane port: #entity) value: (self pane port: #entity) value
+		].
 	self title: self stepToUseName.
 	^ tmpPane 
 	
@@ -323,6 +321,11 @@ GLMWizard >> setAsCurrentPane: aGLMPane [
 
 	self removeAllPanes.
 	self panes add: aGLMPane.
+	"GLMTransmission new
+		ensureBundleStrategy;
+		addActiveOrigin: (self pane port: #entity); 
+		destination: (aGLMPane port: #entity); 
+		transmit."
 	self title: self stepToUseName 
 	
 ]
