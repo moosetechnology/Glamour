@@ -88,14 +88,14 @@ LazyTabGroupMorph >> initialize [
 	self tabSelectorMorph addDependent: self"
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 LazyTabGroupMorph >> newHeaderMorph [
 	^ (self theme 
 			newRowIn: self theme
 			for: {self tabSelectorMorph . self toolbarMorph}) cellInset: 0; cellPositioning: #bottomCenter; borderWidth: 0
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 LazyTabGroupMorph >> newToolbarMorph [
 	^ PanelMorph new
 		fillStyle: (SolidFillStyle color: Color transparent);
@@ -108,12 +108,12 @@ LazyTabGroupMorph >> newToolbarMorph [
 		yourself 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 LazyTabGroupMorph >> pageAt: index [
 	^ (self pages at: index ) actualPageMorph
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 LazyTabGroupMorph >> removePage: aPage [
 	| removedPageIndex |
 	removedPageIndex := self pages indexOf: aPage.
@@ -123,7 +123,7 @@ LazyTabGroupMorph >> removePage: aPage [
 		self contentMorph removeAllMorphs]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 LazyTabGroupMorph >> removePageIndex: anInteger [
 	self removePage: (self pages at: anInteger)
 ]
@@ -138,7 +138,7 @@ LazyTabGroupMorph >> toolbarMorph: anObject [
 	toolbarMorph := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 LazyTabGroupMorph >> updatePageIndex: index [
 	"Change to the given page index, update the toolbar and send the announcement"
 
