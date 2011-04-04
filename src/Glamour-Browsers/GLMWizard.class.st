@@ -14,10 +14,57 @@ Class {
 		'externalCancelButtonAction',
 		'externalNextButtonAction',
 		'externalPreviousButtonAction',
-		'externalTerminateButtonAction'
+		'externalTerminateButtonAction',
+		'stepsDictionary',
+		'stepsAndPanes'
 	],
 	#category : #'Glamour-Browsers'
 }
+
+{ #category : #examples }
+GLMWizard class >> genericStepWithGenericSizeExample [
+
+	"self genericStepWithGenericSizeExample"
+	| wizard |
+	wizard := GLMWizard new.
+	(wizard genericStep: #step)
+		show: [:a | 
+		a list
+			display: [:aNumber | 1 to: aNumber] 
+		] ;
+		name: 'Wizard pane';
+		size: [:aNumber | aNumber].
+	wizard openOn: 4.
+
+]
+
+{ #category : #examples }
+GLMWizard class >> linkedStepsExample [
+
+	"self linkedStepsExample"
+	| wizard |
+	wizard := GLMWizard new.
+	(wizard step: #step1) 
+		show: [:a |
+			a list
+				display: [:aList |
+					aList
+					].
+			];
+		name: 'first pane'
+		.
+	(wizard step: #step2) 
+		from: #step1; 
+		show: [:a |
+			a list
+				display: [:aNumber |
+					1 to: aNumber
+					]
+			];
+		name: 'second pane'.
+	wizard openOn: (1 to: 100).
+
+]
 
 { #category : #examples }
 GLMWizard class >> simpleExample [
@@ -25,10 +72,42 @@ GLMWizard class >> simpleExample [
 	"self simpleExample"
 	| wizard |
 	wizard := GLMWizard new.
-	wizard size: 1.
-	wizard genericStep: [:a | GLMTextPresentation new ].
+	(wizard genericStep: #step)
+		show: [:a | 
+		a list
+			display: [:list | list] 
+		] ;
+		name: 'Wizard pane';
+		size: 2.
 	wizard openOn: (1 to: 100).
 
+]
+
+{ #category : #private }
+GLMWizard >> addPaneFrom: aPort [ 
+	self panes addLast: self computePane.
+	GLMTransmission new
+		ensureBundleStrategy;
+		addActiveOrigin: aPort; 
+		destination: (self panes last port: #entity); 
+		presentations: (self presentations copy); 
+		transmit
+]
+
+{ #category : #testing }
+GLMWizard >> atBeginning [
+
+	^ self currentIndex = 1 and: [
+		self stepToUse atBeginning
+		]
+]
+
+{ #category : #testing }
+GLMWizard >> atEnd [
+
+	^ self currentIndex = self steps size and: [
+		self stepToUse atEnd
+		]
 ]
 
 { #category : #'building internal' }
@@ -76,35 +155,22 @@ GLMWizard >> computeMiddlePaneValidator [
 { #category : #'building pane' }
 GLMWizard >> computePane [
 
-	self currentIndex > 1
-		ifTrue: [
-			self currentIndex < (self valueOf: self size)
-				ifTrue: [
-					^( self computePaneWith: self computeMiddlePaneValidator)
-					]
-				ifFalse: [
-					^ self computePaneWith: self computeLastPaneValidator 
-					] 
-			]
-		ifFalse: [
-			(self valueOf: self size) > 1
-				ifTrue: [
-					^ self computePaneWith: self computeFirstPaneValidator
-					]
-				ifFalse: [
-					^ self computePaneWith: self computeSinglePaneValidator
-					]
-			]
+	self hasUniquePane ifTrue: [^ self computePaneWith: self computeSinglePaneValidator].
+	self atBeginning ifTrue: [^ self computePaneWith: self computeFirstPaneValidator].
+	self atEnd ifTrue: [^ self computePaneWith: self computeLastPaneValidator].
+	^( self computePaneWith: self computeMiddlePaneValidator).
+	
+
 ]
 
 { #category : #'building internal' }
 GLMWizard >> computePaneValidator [
 
 	|tmpPresentation tmpValidator|
-	tmpPresentation := (self stepToUse moValue: self).
+	tmpPresentation := (self stepToUse presentationBlock moValue: self).
 	tmpValidator := GLMValidator new.
 	tmpValidator show: [:a | a custom: tmpPresentation]. 
-	tmpValidator startOn: self entity.
+	"tmpValidator startOn: self entity."
 	^ tmpValidator 
 
 ]
@@ -115,14 +181,9 @@ GLMWizard >> computePaneWith: aValidator [
 	|tmpPane|
 	tmpPane := GLMPane in: self.
 	tmpPane addPresentation: aValidator.
-	
-	(tmpPane port: #entity) value:  (self pane port: #entity) value.
-	tmpPane presentations presentations do: [:aPresentation |
-		(aPresentation pane port: #entity) value: (self pane port: #entity) value
-		].
-	self title: self stepToUseName.
+	(tmpPane port: #entity) value:  self stepToUse input.
+	self title: self stepToUse name.
 	^ tmpPane 
-	
 ]
 
 { #category : #'building internal' }
@@ -138,7 +199,7 @@ GLMWizard >> computeSinglePaneValidator [
 { #category : #accessing }
 GLMWizard >> currentIndex [
 
-	^ currentIndex
+	^ currentIndex ifNil: [currentIndex := 1]
 ]
 
 { #category : #accessing }
@@ -147,11 +208,23 @@ GLMWizard >> currentIndex: anInteger [
 	currentIndex := anInteger
 ]
 
+{ #category : #accessing }
+GLMWizard >> currentStep [ 
+
+	^ self steps at: self currentIndex
+]
+
+{ #category : #'accessing - scripting' }
+GLMWizard >> defaultStepName [
+
+	^'default_step_name'
+]
+
 { #category : #'accessing ports' }
 GLMWizard >> entity: anObject [
 
 	super entity: anObject.
-	self initializeWizard
+	self updateWhenNext
 ]
 
 { #category : #'accessing - buttons actions ' }
@@ -207,26 +280,26 @@ GLMWizard >> forwardSign [
 	^ 'Next >>'
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - scripting' }
 GLMWizard >> genericStep [
 
-	^ genericStep
+	|tmpSymbol|
+	tmpSymbol := (self defaultStepName, self steps size asString) asSymbol.
+	self steps add: tmpSymbol.
+	^ self stepsDictionary at: tmpSymbol put: GLMWizardGenericStep new.
 ]
 
-{ #category : #accessing }
-GLMWizard >> genericStep: aBlock [
+{ #category : #'accessing - scripting' }
+GLMWizard >> genericStep: aSymbol [ 
 
-	"add a unique step that will be used each time we want to open a new pane"
-
-	genericStep := '' -> aBlock 
+	self steps add: (aSymbol).
+	^ self stepsDictionary at: aSymbol put: GLMWizardGenericStep new.
 ]
 
-{ #category : #accessing }
-GLMWizard >> genericStep: aBlock named: anotherBlock [
+{ #category : #testing }
+GLMWizard >> hasUniquePane [
 
-	"add a unique step that will be used each time we want to open a new pane. the name of the each pane will also be computed each time using anotherBlock"
-
-	genericStep := anotherBlock -> aBlock 
+	^ self steps size = 1 and: [self stepToUse size = 1]
 ]
 
 { #category : #'initialize-release' }
@@ -236,16 +309,10 @@ GLMWizard >> initialize [
 	scriptTransmission := GLMTransmission new.
 ]
 
-{ #category : #'building pane' }
-GLMWizard >> initializeWizard [
-
-	self currentIndex: 1.
-	self setAsCurrentPane: self computePane  
-]
-
 { #category : #events }
 GLMWizard >> innerPortEvent: aPortEvent [ 
 
+	"self halt."
 	aPortEvent portName = #entity ifTrue: [
 		
 		]
@@ -259,14 +326,44 @@ GLMWizard >> nextButtonAction [
 ]
 
 { #category : #'building pane' }
+GLMWizard >> notifyAndAddNewPane: aGLMPane [
+
+	|oldPane   tmpPanes|
+	tmpPanes := self stepsAndPanes at: self currentStep ifAbsentPut: [OrderedCollection new].
+	tmpPanes addLast: aGLMPane.  
+	"self panes addLast: aGLMPane".
+	self announce: (GLMPaneAdded new
+							pane: aGLMPane;
+							browser: self;
+							yourself ) 
+	
+]
+
+{ #category : #'building pane' }
+GLMWizard >> notifyAndRemoveCurrentPane [
+
+	|oldPane   tmpPanes|
+	tmpPanes := self stepsAndPanes at: self currentStep ifAbsentPut: [OrderedCollection new].
+	oldPane :=  tmpPanes last.
+	tmpPanes removeLast.
+	self announce: (GLMPaneRemoved new
+							pane: oldPane;
+							browser: self;
+							yourself ) 
+	
+]
+
+{ #category : #'building pane' }
 GLMWizard >> notifyAndSetAsCurrentPane: aGLMPane [
 
-	|oldPane|
-	oldPane := self panes anyOne.
-	self setAsCurrentPane: aGLMPane.  
+	|oldPane   tmpPanes|
+	tmpPanes := self stepsAndPanes at: self currentStep ifAbsentPut: [OrderedCollection new].
+	tmpPanes removeLast.
+	tmpPanes addLast: aGLMPane.
+	"self panes addLast: aGLMPane. " 
 	self announce: (GLMPaneReplaced 
 							oldPane: oldPane 
-							newPane: self panes anyOne
+							newPane: tmpPanes last
 							fromBrowser: self ) 
 	
 ]
@@ -301,6 +398,14 @@ GLMWizard >> onTerminateDo: aBlock [
 	self externalTerminateButtonAction: aBlock
 ]
 
+{ #category : #events }
+GLMWizard >> outerPortEvent: aPortEvent [ 
+	 
+	| toReplace |
+	"self halt."
+	
+]
+
 { #category : #'accessing - buttons actions ' }
 GLMWizard >> previousButtonAction [
 
@@ -316,20 +421,6 @@ GLMWizard >> renderGlamorouslyOn: aRenderer [
 	^ aRenderer renderWizard: self
 ]
 
-{ #category : #'building pane' }
-GLMWizard >> setAsCurrentPane: aGLMPane [
-
-	self removeAllPanes.
-	self panes add: aGLMPane.
-	"GLMTransmission new
-		ensureBundleStrategy;
-		addActiveOrigin: (self pane port: #entity); 
-		destination: (aGLMPane port: #entity); 
-		transmit."
-	self title: self stepToUseName 
-	
-]
-
 { #category : #'building internal' }
 GLMWizard >> setFirstPaneButtonsTo: aValidator [
 
@@ -339,6 +430,20 @@ GLMWizard >> setFirstPaneButtonsTo: aValidator [
 	aValidator validator: self forwardSign act: [:input |
 		self nextButtonAction 
 		] populatePorts: #(#selection).
+]
+
+{ #category : #'building pane' }
+GLMWizard >> setInputToStep: aGLMWiizardStep [
+
+	self stepToUse previousStep isNil
+		ifTrue: [
+			self stepToUse input: (self pane port: #entity) value.
+			]
+		ifFalse: [
+			self stepToUse input: ((self stepsAndPanes at: self stepToUse previousStep) last port: #selection) value.
+			].
+	
+			
 ]
 
 { #category : #'building internal' }
@@ -390,59 +495,58 @@ GLMWizard >> setSpecificAnnouncementActionsTo: aRenderer [
 		]
 ]
 
-{ #category : #accessing }
-GLMWizard >> size [
-
-	^ wizardSize
-]
-
-{ #category : #accessing }
-GLMWizard >> size: aBlockOrAnInteger [
-
-	"enable the user to specify the size of a wizard with aBlock. As the size of the wizard might change after opening it, we need to be able to ckeck this size each time we open a pane, to know if it's the last one"
-	wizardSize := aBlockOrAnInteger
-]
-
 { #category : #announcements }
 GLMWizard >> specificAnnouncementActions [
 
 	^ specificAnnouncementActions ifNil: [specificAnnouncementActions := Dictionary new]
 ]
 
-{ #category : #accessing }
-GLMWizard >> step: aBlock [
+{ #category : #'accessing - scripting' }
+GLMWizard >> step [
 
-	self steps add: '' -> aBlock.
+
+	|tmpSymbol|
+	tmpSymbol := (self defaultStepName, self steps size asString) asSymbol.
+	self steps add: tmpSymbol.
+	^ self stepsDictionary at: tmpSymbol put: GLMWizardStep new.
 ]
 
-{ #category : #accessing }
-GLMWizard >> step: aBlock named: aString [
+{ #category : #'accessing - scripting' }
+GLMWizard >> step: aSymbol [ 
 
-	self steps add: aString -> aBlock.
+	self steps add: (aSymbol).
+	^ self stepsDictionary at: aSymbol put: GLMWizardStep new.
 ]
 
 { #category : #private }
 GLMWizard >> stepToUse [
 
-	self genericStep ifNil: [
-		^ (self steps at: self currentIndex) value
-		].
-	^ self genericStep value 
-]
-
-{ #category : #private }
-GLMWizard >> stepToUseName [
-
-	self genericStep ifNil: [
-		^ (self steps at: self currentIndex) key
-		].
-	^ (self valueOf: self genericStep key) 
+	^ self stepsDictionary at: (self steps at: self currentIndex) 
+		
 ]
 
 { #category : #accessing }
 GLMWizard >> steps [
 
 	^ steps ifNil: [steps := OrderedCollection new]
+]
+
+{ #category : #accessing }
+GLMWizard >> stepsAndPanes [
+
+	^ stepsAndPanes ifNil: [stepsAndPanes := Dictionary new]
+]
+
+{ #category : #accessing }
+GLMWizard >> stepsAndPanesDictionary [
+
+	^ stepsDictionary ifNil: [stepsDictionary := Dictionary new]
+]
+
+{ #category : #accessing }
+GLMWizard >> stepsDictionary [
+
+	^ stepsDictionary ifNil: [stepsDictionary := Dictionary new]
 ]
 
 { #category : #'accessing - buttons actions ' }
@@ -464,16 +568,28 @@ GLMWizard >> updatePane [
 GLMWizard >> updateWhenNext [
 
 	|tmpPane|
-	self currentIndex: self currentIndex + 1.
-	self notifyAndSetAsCurrentPane: self computePane.
+	self halt.
+	self stepToUse atEnd
+		ifTrue: [self currentIndex: self currentIndex + 1].
+	self stepToUse incrementNumberOfDisplay.
+	self setInputToStep: self stepToUse.  
+	tmpPane := self computePane.
+	self notifyAndAddNewPane: self computePane.
 ]
 
 { #category : #'building pane' }
 GLMWizard >> updateWhenPrevious [
 
 	|tmpPane|
-	self currentIndex: self currentIndex - 1.
-	self notifyAndSetAsCurrentPane: self computePane.
+	self notifyAndRemoveCurrentPane.
+	self halt.
+	self stepToUse atBeginning 
+		ifTrue: [
+			self stepToUse decrementNumberOfDisplay.
+			self currentIndex: self currentIndex - 1].
+	self stepToUse decrementNumberOfDisplay.
+	self stepToUse input: self entity.
+	self notifyAndSetAsCurrentPane: (self stepsAndPanes at: self currentStep) last .
 ]
 
 { #category : #private }

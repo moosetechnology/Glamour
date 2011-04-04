@@ -136,10 +136,11 @@ GLMValidator >> validator: aString act: aBlock [
 	self addButtonAction:   
 			((GLMGenericAction new) 
 				action: [:tmpBrowser |
-					aBlock value: tmpBrowser.
+					
 					tmpBrowser panes first ports do: [:aPort |
 						tmpBrowser explicitlyInnerPortNamed: aPort name
-						]
+						].
+					aBlock value: tmpBrowser.
 					]; 
 				title: aString; 
 				yourself).
@@ -152,10 +153,11 @@ GLMValidator >> validator: aString act: aBlock populatePorts: aCollectionOfPorts
 	self addButtonAction:   
 			((GLMGenericAction new) 
 				action: [:tmpBrowser |
-					aBlock value: tmpBrowser.
+					
 					aCollectionOfPorts do: [:aSymbol |
 						tmpBrowser explicitlyInnerPortNamed: aSymbol.  
- 						]
+ 						].
+					aBlock value: tmpBrowser.
 					]; 
 				title: aString; 
 				yourself).
