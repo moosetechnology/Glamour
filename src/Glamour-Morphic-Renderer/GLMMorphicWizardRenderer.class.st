@@ -11,14 +11,12 @@ Class {
 
 { #category : #rendering }
 GLMMorphicWizardRenderer >> actOnPaneAdded: ann [
+	container removeMorph: container submorphs last.
 	self addMorphFromObject: ann pane toContainer: container.
-	scrollPane hScrollbar glmAnimateValue: 1.0 duration: 2000
 ]
 
 { #category : #rendering }
 GLMMorphicWizardRenderer >> actOnPaneRemoved: ann [
-	container removeMorph: container submorphs last.
-	container removeMorph: container submorphs last
 ]
 
 { #category : #rendering }
@@ -83,6 +81,6 @@ GLMMorphicWizardRenderer >> render: aBrowser [
 		scrollTarget: container;
 		yourself.
 	self registerAnnouncementsFor: aBrowser.  
-	self addMorphFromObject: aBrowser panes anyOne toContainer: container .
+	self addMorphFromObject: (aBrowser stepsAndPanes at: aBrowser currentStep) last toContainer: container .
 	^ scrollPane
 ]
