@@ -568,7 +568,6 @@ GLMWizard >> updatePane [
 GLMWizard >> updateWhenNext [
 
 	|tmpPane|
-	self halt.
 	self stepToUse atEnd
 		ifTrue: [self currentIndex: self currentIndex + 1].
 	self stepToUse incrementNumberOfDisplay.
@@ -582,12 +581,13 @@ GLMWizard >> updateWhenPrevious [
 
 	|tmpPane|
 	self notifyAndRemoveCurrentPane.
-	self halt.
 	self stepToUse atBeginning 
 		ifTrue: [
 			self stepToUse decrementNumberOfDisplay.
-			self currentIndex: self currentIndex - 1].
-	self stepToUse decrementNumberOfDisplay.
+			self currentIndex: self currentIndex - 1]
+		ifFalse: [
+			self stepToUse decrementNumberOfDisplay.
+			].
 	self stepToUse input: self entity.
 	self notifyAndSetAsCurrentPane: (self stepsAndPanes at: self currentStep) last .
 ]
