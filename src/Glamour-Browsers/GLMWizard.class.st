@@ -309,15 +309,6 @@ GLMWizard >> initialize [
 	scriptTransmission := GLMTransmission new.
 ]
 
-{ #category : #events }
-GLMWizard >> innerPortEvent: aPortEvent [ 
-
-	"self halt."
-	aPortEvent portName = #entity ifTrue: [
-		
-		]
-]
-
 { #category : #'accessing - buttons actions ' }
 GLMWizard >> nextButtonAction [
 
@@ -399,11 +390,17 @@ GLMWizard >> onTerminateDo: aBlock [
 ]
 
 { #category : #events }
-GLMWizard >> outerPortEvent: aPortEvent [ 
-	 
-	| toReplace |
-	"self halt."
+GLMWizard >> populateInputOfStep: aGLMWiizardStep [
+
+	self stepToUse previousStep isNil
+		ifTrue: [
+			self stepToUse input: (self pane port: #entity) value.
+			]
+		ifFalse: [
+			self stepToUse input: ((self stepsAndPanes at: self stepToUse previousStep) last port: #selection) value.
+			].
 	
+			
 ]
 
 { #category : #'accessing - buttons actions ' }
@@ -430,20 +427,6 @@ GLMWizard >> setFirstPaneButtonsTo: aValidator [
 	aValidator validator: self forwardSign act: [:input |
 		self nextButtonAction 
 		] populatePorts: #(#selection).
-]
-
-{ #category : #'building pane' }
-GLMWizard >> setInputToStep: aGLMWiizardStep [
-
-	self stepToUse previousStep isNil
-		ifTrue: [
-			self stepToUse input: (self pane port: #entity) value.
-			]
-		ifFalse: [
-			self stepToUse input: ((self stepsAndPanes at: self stepToUse previousStep) last port: #selection) value.
-			].
-	
-			
 ]
 
 { #category : #'building internal' }
@@ -557,26 +540,29 @@ GLMWizard >> terminateButtonAction [
 		
 ]
 
-{ #category : #'building pane' }
+{ #category : #events }
 GLMWizard >> updatePane [
 
 	|tmpPane|
 	self notifyAndSetAsCurrentPane: self computePane.
 ]
 
-{ #category : #'building pane' }
+{ #category : #events }
 GLMWizard >> updateWhenNext [
 
 	|tmpPane|
+	self populateInputOfStep: self stepToUse.  
 	self stepToUse atEnd
-		ifTrue: [self currentIndex: self currentIndex + 1].
+		ifTrue: [
+			self currentIndex: self currentIndex + 1.
+			self populateInputOfStep: self stepToUse.  
+			].
 	self stepToUse incrementNumberOfDisplay.
-	self setInputToStep: self stepToUse.  
 	tmpPane := self computePane.
 	self notifyAndAddNewPane: self computePane.
 ]
 
-{ #category : #'building pane' }
+{ #category : #events }
 GLMWizard >> updateWhenPrevious [
 
 	|tmpPane|
