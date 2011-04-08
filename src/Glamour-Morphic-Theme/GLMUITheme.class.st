@@ -9,13 +9,16 @@ self beCurrent.
 "
 Class {
 	#name : #GLMUITheme,
-	#superclass : #UIThemeWatery2,
+	#superclass : #UITheme,
+	#instVars : [
+		'windowActiveDropShadowStyle'
+	],
 	#category : #'Glamour-Morphic-Theme'
 }
 
 { #category : #accessing }
 GLMUITheme class >> baseColor [
-	^ Color r: 190 g: 190 b: 190 range: 255
+	^ (Color r: 190 g: 190 b: 190 range: 255)
 ]
 
 { #category : #accessing }
@@ -67,6 +70,13 @@ GLMUITheme class >> importIcons: icons fromFolder: aString inClass: aClass categ
 				aClass methodEnd.
 			aClass class compile: method classified: aCategory ].
 	aClass initialize
+]
+
+{ #category : #testing }
+GLMUITheme class >> isAbstract [
+	"Answer whether the receiver is considered to be abstract."
+
+	^false
 ]
 
 { #category : #accessing }
@@ -215,13 +225,6 @@ GLMUITheme class >> setPreferredShoutColors [
 { #category : #settings }
 GLMUITheme class >> setPreferredWorldBackground [
 	"self setPreferredWorldBackground"
-	"World color: (
-		(GradientFillStyle 
-			ramp: { 0.0 -> Color white.  1.0 -> Color gray})
-			origin: 50 @ 50;
-			direction: 800@0;
-			normal: 0@800;
-		radial: true)"
 	World color: Color white
 ]
 
@@ -346,6 +349,85 @@ GLMUITheme >> configureWindowBorderFor: aWindow [
 GLMUITheme >> configureWindowDropShadowFor: aWindow [
 
 	aWindow hasDropShadow: false
+]
+
+{ #category : #'label-styles' }
+GLMUITheme >> configureWindowLabelAreaFor: aWindow [
+	"Configure the label area for the given window."
+
+	|padding|
+	padding := 0.
+	aWindow labelArea
+		addMorphBack: (Morph new extent: aWindow class borderWidth @ 0).
+	aWindow hasCloseBox ifTrue: [aWindow addCloseBox. padding := padding + 1].
+	aWindow hasCollapseBox ifTrue: [aWindow addCollapseBox. padding := padding + 1].
+	aWindow hasExpandBox ifTrue: [aWindow addExpandBox. padding := padding + 1].
+	aWindow hasMenuBox ifTrue: [padding := padding - 1].
+	aWindow labelArea
+		addMorphBack: (Morph new extent: aWindow class borderWidth @ 0; hResizing: #spaceFill).
+	aWindow basicLabel ifNotNil: [:label | aWindow labelArea addMorphBack: label; hResizing: #shrinkWrap].
+	aWindow labelArea
+		addMorphBack: (Morph new extent: aWindow class borderWidth @ 0; hResizing: #spaceFill).
+	padding > 0 ifTrue: [
+		aWindow labelArea
+			addMorphBack: (Morph new extent: (aWindow boxExtent x * padding) @ 0)].
+	aWindow hasMenuBox ifTrue: [aWindow addMenuControl].
+	aWindow labelArea
+		addMorphBack: (Morph new extent: aWindow class borderWidth @ 0)
+]
+
+{ #category : #'label-styles' }
+GLMUITheme >> createCollapseBoxFor: aSystemWindow [
+	"Answer a button for minimising the window."
+	
+	|form msb|
+	form := self windowMinimizeForm.
+	msb := MultistateButtonMorph new extent: form extent.
+	msb activeEnabledNotOverUpFillStyle: (ImageFillStyle form: form).
+	form := self windowMinimizePassiveForm.
+	msb extent: form extent.
+	msb passiveEnabledNotOverUpFillStyle: (ImageFillStyle form: form).
+	form := self windowMinimizeOverForm.
+	msb extent: form extent.
+	msb
+		activeEnabledOverUpFillStyle: (ImageFillStyle form: form);
+		passiveEnabledOverUpFillStyle: (ImageFillStyle form: form).
+	form := self windowMinimizePassiveForm.
+	msb
+		extent: form extent;
+		activeEnabledOverDownFillStyle: (ImageFillStyle form: form);
+		passiveEnabledOverDownFillStyle: (ImageFillStyle form: form);
+		addUpAction: [aSystemWindow collapseBoxHit];
+		setBalloonText: 'Collapse this window' translated;
+		extent: aSystemWindow boxExtent.
+	^msb
+]
+
+{ #category : #'label-styles' }
+GLMUITheme >> createExpandBoxFor: aSystemWindow [
+	"Answer a button for maximising/restoring the window."
+	
+	|form msb|
+	form := self windowMaximizeForm.
+	msb := MultistateButtonMorph new extent: form extent.
+	msb activeEnabledNotOverUpFillStyle: (ImageFillStyle form: form).
+	form := self windowMaximizePassiveForm.
+	msb extent: form extent.
+	msb passiveEnabledNotOverUpFillStyle: (ImageFillStyle form: form).
+	form := self windowMaximizeOverForm.
+	msb extent: form extent.
+	msb
+		activeEnabledOverUpFillStyle: (ImageFillStyle form: form);
+		passiveEnabledOverUpFillStyle: (ImageFillStyle form: form).
+	form := self windowMaximizePassiveForm.
+	msb
+		extent: form extent;
+		activeEnabledOverDownFillStyle: (ImageFillStyle form: form);
+		passiveEnabledOverDownFillStyle: (ImageFillStyle form: form);
+		addUpAction: [aSystemWindow expandBoxHit];
+		setBalloonText: 'Expand to full screen' translated;
+		extent: aSystemWindow boxExtent.
+	^msb
 ]
 
 { #category : #'label-styles' }
@@ -490,6 +572,22 @@ GLMUITheme >> initialize [
 	self windowActiveDropShadowStyle: #nodiffuse
 ]
 
+{ #category : #'initialize-release' }
+GLMUITheme >> initializeForms [
+	"Initialize the receiver's image forms."
+
+	|inactiveForm|
+	super initializeForms.
+	inactiveForm := self newWindowInactiveControlForm.
+	self forms
+		at: #windowCloseOver put: self newWindowCloseOverForm;
+		at: #windowMinimizeOver put: self newWindowMinimizeOverForm;
+		at: #windowMaximizeOver put: self newWindowMaximizeOverForm;
+		at: #windowClosePassive put: inactiveForm;
+		at: #windowMinimizePassive put: inactiveForm;
+		at: #windowMaximizePassive put: inactiveForm
+]
+
 { #category : #'fill-styles' }
 GLMUITheme >> listDisabledFillStyleFor: aList [
 	"Return the disabled fillStyle for the given list."
@@ -515,6 +613,34 @@ GLMUITheme >> newCheckboxMarkerForm [
 	"Answer a new checkbox marker form."
 
 	^GLMUIThemeIcons checkboxMarkerForm
+]
+
+{ #category : #'morph creation' }
+GLMUITheme >> newCloseControlIn: aThemedMorph for: aModel action: aValuable help: helpText [
+	"Answer a button for closing things."
+	
+	|form msb|
+	form := self windowCloseForm.
+	msb := MultistateButtonMorph new extent: form extent.
+	msb activeEnabledNotOverUpFillStyle: (ImageFillStyle form: form).
+	form := self windowClosePassiveForm.
+	msb extent: form extent.
+	msb activeDisabledNotOverUpFillStyle: (ImageFillStyle form: form).
+	msb passiveEnabledNotOverUpFillStyle: (ImageFillStyle form: form).
+	msb passiveDisabledNotOverUpFillStyle: (ImageFillStyle form: form).
+	form := self windowCloseOverForm.
+	msb extent: form extent.
+	msb
+		activeEnabledOverUpFillStyle: (ImageFillStyle form: form);
+		passiveEnabledOverUpFillStyle: (ImageFillStyle form: form).
+	form := self windowClosePassiveForm.
+	msb
+		extent: form extent;
+		activeEnabledOverDownFillStyle: (ImageFillStyle form: form);
+		passiveEnabledOverDownFillStyle: (ImageFillStyle form: form);
+		addUpAction: aValuable;
+		setBalloonText: helpText.
+	^msb
 ]
 
 { #category : #'morph creation' }
@@ -545,6 +671,28 @@ GLMUITheme >> newRadioMarkerForm [
 	^Form extent: 12@12 depth: 32
 ]
 
+{ #category : #'initialize-release' }
+GLMUITheme >> newTreeExpandedForm [
+	"Answer a new form for an expanded tree item."
+
+	^(Form
+	extent: 9@9
+	depth: 32
+	fromArray: #( 1049135240 2290649224 2290649224 2290649224 2290649224 2290649224 2290649224 2290649224 1200130184 478709896 4169697416 4287137928 4287137928 4287137928 4287137928 4287137928 4236806280 646482056 16777215 2508753032 4287137928 4287137928 4287137928 4287137928 4287137928 2726856840 16777215 16777215 495487112 4186474632 4287137928 4287137928 4287137928 4236806280 612927624 16777215 16777215 16777215 2542307464 4287137928 4287137928 4287137928 2676525192 16777215 16777215 16777215 16777215 478709896 4169697416 4287137928 4220029064 579373192 16777215 16777215 16777215 16777215 16777215 2424866952 4287137928 2626193544 16777215 16777215 16777215 16777215 16777215 16777215 394823816 4018702472 529041544 16777215 16777215 16777215 16777215 16777215 16777215 16777215 864585864 16777215 16777215 16777215 16777215)
+	offset: 0@0)
+]
+
+{ #category : #'initialize-release' }
+GLMUITheme >> newTreeUnexpandedForm [
+	"Answer a new form for an unexpanded tree item."
+
+	^(Form
+	extent: 9@9
+	depth: 32
+	fromArray: #( 1049135240 461932680 16777215 16777215 16777215 16777215 16777215 16777215 16777215 2324203656 4152920200 2458421384 428378248 16777215 16777215 16777215 16777215 16777215 2357758088 4287137928 4287137928 4152920200 2408089736 394823816 16777215 16777215 16777215 2391312520 4287137928 4287137928 4287137928 4287137928 4119365768 2324203656 344492168 16777215 2408089736 4287137928 4287137928 4287137928 4287137928 4287137928 4287137928 3968370824 780699784 2391312520 4287137928 4287137928 4287137928 4287137928 4236806280 2659747976 529041544 16777215 2357758088 4287137928 4287137928 4253583496 2810742920 646482056 16777215 16777215 16777215 2324203656 4253583496 2777188488 696813704 16777215 16777215 16777215 16777215 16777215 1200130184 663259272 16777215 16777215 16777215 16777215 16777215 16777215 16777215)
+	offset: 0@0)
+]
+
 { #category : #forms }
 GLMUITheme >> newWindowCloseForm [
 	"Answer a new form for a window close box."
@@ -557,6 +705,17 @@ GLMUITheme >> newWindowCloseOverForm [
 	"Answer a new form for a window menu box."
 
 	^ self newWindowCloseForm
+]
+
+{ #category : #'initialize-release' }
+GLMUITheme >> newWindowInactiveControlForm [
+	"Answer a new form for an inactive window control box."
+
+	^(Form
+	extent: 16@16
+	depth: 32
+	fromArray: #( 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4291677645 4288585374 4286085240 4284243036 4284243036 4286085240 4288585374 4291677645 0 0 0 0 0 0 0 4289572269 4285756275 4286479998 4288716960 4289835441 4289835441 4288716960 4286479998 4285756275 4289572269 0 0 0 0 0 4289506476 4284835173 4287335307 4290559164 4292598747 4293322470 4293322470 4292598747 4290559164 4287335307 4284703587 4289506476 0 0 0 4291546059 4285493103 4286414205 4288980132 4291217094 4292335575 4292598747 4292598747 4292335575 4291282887 4288980132 4286282619 4285493103 4291546059 0 0 4288980132 4285361517 4287466893 4288782753 4289835441 4290295992 4290295992 4290427578 4290164406 4289835441 4288782753 4287466893 4285361517 4288980132 0 0 4286282619 4286611584 4288059030 4288716960 4289177511 4289572269 4289835441 4289835441 4289703855 4289374890 4288782753 4288059030 4286611584 4286282619 0 0 4285164138 4287664272 4288782753 4289374890 4289835441 4290427578 4290624957 4290624957 4290559164 4290032820 4289374890 4288914339 4287664272 4285164138 0 0 4285361517 4288322202 4289703855 4290295992 4290822336 4291414473 4291677645 4291677645 4291414473 4291085508 4290427578 4289703855 4288453788 4285624689 0 0 4287072135 4288716960 4290427578 4291217094 4291677645 4292203989 4292598747 4292598747 4292335575 4291809231 4291217094 4290427578 4288716960 4287203721 0 0 4288980132 4288256409 4290624957 4291677645 4292335575 4292927712 4293256677 4293256677 4293059298 4292598747 4291809231 4290822336 4288256409 4289177511 0 0 4291677645 4287664272 4290295992 4292006610 4293059298 4293454056 4293585642 4293585642 4293454056 4293125091 4292203989 4290427578 4287730065 4291677645 0 0 4293256677 4290032820 4288124823 4291217094 4292796126 4293322470 4293717228 4293717228 4293454056 4292927712 4291677645 4288256409 4290032820 4293256677 0 0 0 4293454056 4290032820 4288322202 4289967027 4291546059 4292598747 4292664540 4291677645 4290295992 4288716960 4290032820 4293454056 0 0 0 0 0 4293322470 4292203989 4289835441 4288782753 4288322202 4288453788 4288980132 4289835441 4292335575 4293322470 0 0 0 0 0 0 0 4293059298 4293585642 4293717228 4293585642 4293585642 4293585642 4293585642 4293059298 0 0 0 0)
+	offset: 0@0)
 ]
 
 { #category : #forms }
@@ -656,6 +815,15 @@ GLMUITheme >> scrollbarNormalFillStyleFor: aScrollbar [
 	
 	^ "(self glamorousBaseColorFor: aScrollbar) muchLighter"
 	Color r: 245 g: 245 b: 245 range: 255
+]
+
+{ #category : #'border-styles-scrollbars' }
+GLMUITheme >> scrollbarNormalThumbBorderStyleFor: aScrollbar [
+	"Return the normal thumb borderStyle for the given scrollbar."
+
+	^ BorderStyle simple
+		width: 0;
+		baseColor: Color transparent
 ]
 
 { #category : #'fill-styles-scrollbars' }
@@ -789,6 +957,13 @@ GLMUITheme >> textEditorNormalBorderStyleFor: aTextEditor [
 	^self buttonNormalBorderStyleFor: aTextEditor
 ]
 
+{ #category : #'basic-colors' }
+GLMUITheme >> treeLineWidth [
+	"Answer the width of the tree lines."
+
+	^0
+]
+
 { #category : #scrollbars }
 GLMUITheme >> verticesForSimpleArrow: aRectangle [ 
 	"PRIVATE - answer a collection of vertices to draw a simple arrow"
@@ -811,6 +986,12 @@ GLMUITheme >> verticesForSimpleArrow: aRectangle [
 "	^ super verticesForSimpleArrow: aRectangle "
 ]
 
+{ #category : #accessing }
+GLMUITheme >> windowActiveDropShadowStyle: anObject [
+	"Set the value of windowActiveDropShadowStyle"
+	windowActiveDropShadowStyle := anObject
+]
+
 { #category : #'fill-styles' }
 GLMUITheme >> windowActiveFillStyleFor: aWindow [
 	"We do not want the lighting effect when the window goes inactive"
@@ -819,7 +1000,15 @@ GLMUITheme >> windowActiveFillStyleFor: aWindow [
 
 { #category : #'fill-styles' }
 GLMUITheme >> windowActiveTitleFillStyleFor: aWindow [
-	^ self glamorousNormalFillStyleFor: aWindow height: aWindow labelHeight
+	^ "self glamorousNormalFillStyleFor: aWindow height: aWindow labelHeight"
+	self windowActiveFillStyleFor: aWindow  
+]
+
+{ #category : #'label-styles' }
+GLMUITheme >> windowCloseOverForm [
+	"Answer the form to use for mouse over window close buttons"
+
+	^self forms at: #windowCloseOver ifAbsent: [Form extent: 16@16 depth: Display depth]
 ]
 
 { #category : #forms }
@@ -841,6 +1030,13 @@ GLMUITheme >> windowInactiveTitleFillStyleFor: aWindow [
 	^self windowActiveTitleFillStyleFor: aWindow
 ]
 
+{ #category : #'label-styles' }
+GLMUITheme >> windowMaximizeOverForm [
+	"Answer the form to use for mouse over window maximize buttons"
+
+	^self forms at: #windowMaximizeOver ifAbsent: [Form extent: 16@16 depth: Display depth]
+]
+
 { #category : #forms }
 GLMUITheme >> windowMaximizePassiveForm [
 	"Answer the form to use for passive (background) window maximize/restore buttons"
@@ -853,6 +1049,13 @@ GLMUITheme >> windowMenuPassiveForm [
 	"Answer the form to use for passive (background) window menu buttons"
 
 	^self newWindowMenuPassiveForm
+]
+
+{ #category : #'label-styles' }
+GLMUITheme >> windowMinimizeOverForm [
+	"Answer the form to use for mouse over window minimize buttons"
+
+	^self forms at: #windowMinimizeOver ifAbsent: [Form extent: 16@16 depth: Display depth]
 ]
 
 { #category : #forms }
