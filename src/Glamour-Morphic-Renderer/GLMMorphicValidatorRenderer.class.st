@@ -31,7 +31,7 @@ GLMMorphicValidatorRenderer >> render: aBrowser [
 			action: #execute
 			label: #buttonLabel)
 		].
-	^ GLMMorphicValidatorPaneRenderer new buttons: tmpButtons; render: aBrowser panes anyOne
+	^ (GLMMorphicValidatorPaneRenderer new buttons: tmpButtons; render: aBrowser panes anyOne)
 	
 ]
 
