@@ -903,3 +903,35 @@ GLMBasicExamples >> updateableBrowser [
 				view nodes: entity ] ].
 	^ browser
 ]
+
+{ #category : #browsers }
+GLMBasicExamples >> validator [
+	<glmBrowser: 'Validator' input: '100'>
+	"self new validator openOn: 100"
+
+	| finder validator |
+	finder := GLMFinder new.
+	validator := GLMValidator new.
+	validator validator: 'Ok' act: [:x | ].
+	validator show: [:a | a list display: [:x | 1 to: x ]].
+	finder show: [:a | a custom: validator].
+	^ finder
+]
+
+{ #category : #browsers }
+GLMBasicExamples >> validatorDynamic [
+	<glmBrowser: 'Dynamic validator' input: '100'>
+	"self new validatorDynamic openOn: 100"
+
+	| finder validator |
+	finder := GLMFinder new.
+	validator := GLMValidator new.
+	validator validator: 'Ok' act: [:x | ].
+	validator show: [:a | 
+		a dynamic display: [:x |
+			GLMListPresentation new display: [:y | 1 to: y]
+			]  
+		].
+	finder show: [:a | a custom: validator].
+	^ finder
+]
