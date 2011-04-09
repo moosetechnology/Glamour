@@ -9,36 +9,6 @@ Class {
 	#category : #'Glamour-Browsers'
 }
 
-{ #category : #examples }
-GLMValidator class >> example [
-
-	"self example"
-	| finder validator |
-	finder := GLMFinder new.
-	validator := GLMValidator new.
-	validator validator: 'Ok' act: [:x | ].
-	validator show: [:a | a list display: [:x | 1 to: x ]].
-	finder show: [:a |
- 	      a custom: validator].
-	finder openOn: 100
-]
-
-{ #category : #examples }
-GLMValidator class >> exampleDynamic [
-
-	"self exampleDynamic"
-	| finder validator |
-	finder := GLMFinder new.
-	validator := GLMValidator new.
-	validator validator: 'Ok' act: [:x | ].
-	validator show: [:a | 
-		a dynamic display: [:collection |
-			GLMListPresentation new display: [:tmp | collection]
-			]  
-		].
-	validator openOn: #(1 2 3 4)
-]
-
 { #category : #accessing }
 GLMValidator >> addButtonAction: aGLMGenericAction [
 
