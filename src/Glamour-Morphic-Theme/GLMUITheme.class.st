@@ -9,16 +9,13 @@ self beCurrent.
 "
 Class {
 	#name : #GLMUITheme,
-	#superclass : #UITheme,
-	#instVars : [
-		'windowActiveDropShadowStyle'
-	],
+	#superclass : #UIThemeWatery2,
 	#category : #'Glamour-Morphic-Theme'
 }
 
 { #category : #accessing }
 GLMUITheme class >> baseColor [
-	^ (Color r: 190 g: 190 b: 190 range: 255)
+	^ (Color r: 200 g: 200 b: 200 range: 255)
 ]
 
 { #category : #accessing }
@@ -33,7 +30,7 @@ GLMUITheme class >> baseSelectionColor [
 
 { #category : #accessing }
 GLMUITheme class >> darkBaseColor [
-	^ Color r: 180 g: 180 b: 180 range: 255
+	^ Color r: 190 g: 190 b: 190 range: 255
 ]
 
 { #category : #private }
@@ -81,7 +78,7 @@ GLMUITheme class >> isAbstract [
 
 { #category : #accessing }
 GLMUITheme class >> lightBaseColor [
-	^ Color r: 200 g: 200 b: 200 range: 255
+	^ Color r: 220 g: 220 b: 220 range: 255
 ]
 
 { #category : #accessing }
@@ -274,7 +271,7 @@ GLMUITheme >> buttonNormalBorderStyleFor: aButton [
 	| outerColor innerColor |
 	(aButton valueOfProperty: #noBorder ifAbsent: [false]) ifTrue: [
 		^ SimpleBorder new width: 0; baseColor: Color transparent ].
-	outerColor := self glamorousDarkBaseColorFor: aButton.
+	outerColor := self glamorousBaseColorFor: aButton.
 	^SimpleBorder new
 					width: 1;
 					baseColor: outerColor
@@ -535,17 +532,18 @@ GLMUITheme >> glamorousLightSelectionColorFor: aMorph [
 GLMUITheme >> glamorousNormalFillStyleFor: aMorph height: anInteger [
 	"Return the normal button fillStyle for the given button."
 	
-	| baseColor |
+"	| baseColor |
 	baseColor := self glamorousBaseColorFor: aMorph.
 	^ self glamorousNormalFillStyleWithBaseColor: baseColor for: aMorph height: anInteger
+"
 
+	^ SolidFillStyle color: (self glamorousLightColorFor: aMorph)
 ]
 
 { #category : #private }
-GLMUITheme >> glamorousNormalFillStyleWithBaseColor: aColor for: aMorph height: anInteger [
-	
+GLMUITheme >> glamorousNormalFillStyleWithBaseColor: aColor for: aMorph height: anInteger [	
 	| top bottom |
-	top := aColor twiceLighter.
+	top := aColor darker.
 	bottom := aColor.
 	^(GradientFillStyle ramp: {
 			0.0->top.
@@ -830,10 +828,11 @@ GLMUITheme >> scrollbarNormalThumbBorderStyleFor: aScrollbar [
 GLMUITheme >> scrollbarNormalThumbFillStyleFor: aScrollbar [
 	"Return the normal scrollbar fillStyle for the given scrollbar."
 	
-	^ (self glamorousNormalFillStyleWithBaseColor: aScrollbar paneColor for:  aScrollbar height: aScrollbar height)
+	"^ (self glamorousNormalFillStyleWithBaseColor: aScrollbar paneColor for:  aScrollbar height: aScrollbar height)
 		direction: (aScrollbar bounds isWide
 			ifTrue: [0 @ aScrollbar height]
-			ifFalse: [aScrollbar width @ 0])
+			ifFalse: [aScrollbar width @ 0])"
+	^ self glamorousNormalFillStyleFor: aScrollbar height: aScrollbar height
 ]
 
 { #category : #'border-styles-scrollbars' }
