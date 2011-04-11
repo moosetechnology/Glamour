@@ -17,7 +17,7 @@ GLMMorphicDynamicRenderer >> actOnPresentationUpdated: anAnnouncement [
 
 { #category : #rendering }
 GLMMorphicDynamicRenderer >> render: aPresentation [
-	container := GLMMorphic emptyMorph.
+	container := GLMMorphic containerMorph.
 	container 
 		addMorph: (self renderObject: aPresentation currentPresentation) 
 		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1)).
