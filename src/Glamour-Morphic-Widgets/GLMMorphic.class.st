@@ -35,7 +35,7 @@ GLMMorphic class >> containerMorph [
 { #category : #'as yet unclassified' }
 GLMMorphic class >> emptyMorph [
 	^ self containerMorph
-		fillStyle: (SolidFillStyle color: Color veryLightGray slightlyLighter);
+		fillStyle: (SolidFillStyle color: (Color r: 220 g: 220 b: 220 range: 255) );
 		yourself
 ]
 
