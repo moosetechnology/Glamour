@@ -58,6 +58,11 @@ GLMBrowser >> addTransmission: aTransmission [
 	^ self transmissions addLast: aTransmission
 ]
 
+{ #category : #events }
+GLMBrowser >> close [
+	self announce: (GLMBrowserClosed new)
+]
+
 { #category : #accessing }
 GLMBrowser >> hasStatusbar [
 	^ statusPane notNil
