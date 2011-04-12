@@ -935,3 +935,20 @@ GLMBasicExamples >> validatorDynamic [
 	finder show: [:a | a custom: validator].
 	^ finder
 ]
+
+{ #category : #browsers }
+GLMBasicExamples >> wizard [
+	<glmBrowser: 'Wizard' input: '100'>
+	"self new wizard openOn: 100"
+
+	| wizard |
+	wizard := GLMWizard new.
+	(wizard genericStep: #step)
+		show: [:a | 
+		a list
+			display: [:list | 1 to: 100] 
+		] ;
+		name: 'Wizard pane';
+		size: 2.
+	^ wizard
+]
