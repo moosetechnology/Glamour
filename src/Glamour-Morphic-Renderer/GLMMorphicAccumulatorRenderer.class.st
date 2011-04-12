@@ -43,6 +43,7 @@ GLMMorphicAccumulatorRenderer >> render: aBrowser [
 			collapsable: true ].
 	aBrowser on: GLMPaneSelected send: #actOnPaneSelected: to: self.
 	aBrowser on: GLMPaneAdded send: #actOnPaneAdded: to: self.
+	aBrowser on: GLMBrowserClosed send: #actOnBrowserClosed: to: self.
 	tabs selectedPageIndex: tabs pages size.
 	^ tabs
 ]

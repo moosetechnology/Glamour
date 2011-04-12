@@ -19,12 +19,6 @@ Class {
 	#category : #'Glamour-Morphic-Renderer'
 }
 
-{ #category : #callbacks }
-GLMMorphicRenderer >> actOnWizardClosed: ann [
-
-	self window delete
-]
-
 { #category : #opening }
 GLMMorphicRenderer >> open: aRenderable [
 	window := GLMMorphicWindowRenderer render: aRenderable from: self.

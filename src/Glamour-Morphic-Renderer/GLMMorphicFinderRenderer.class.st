@@ -29,7 +29,9 @@ GLMMorphicFinderRenderer >> registerAnnouncementsFor: aBrowser [
 	aBrowser 
 		on: GLMPaneAdded send: #actOnPaneAdded: to: self.
 	aBrowser 
-		on: GLMPaneReplaced send: #actOnPaneReplaced: to: self
+		on: GLMPaneReplaced send: #actOnPaneReplaced: to: self.
+	aBrowser 
+		on: GLMBrowserClosed send: #actOnBrowserClosed: to: self.
 ]
 
 { #category : #rendering }

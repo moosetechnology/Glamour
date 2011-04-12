@@ -21,7 +21,7 @@ GLMMorphicTabulatorRenderer >> render: aBrowser [
 				ofPane: aBrowser pane
 				inUI: container
 				inBrowser: aBrowser ].
-
+	aBrowser on: GLMBrowserClosed send: #actOnBrowserClosed: to: self.
 	^ container
 ]
 
