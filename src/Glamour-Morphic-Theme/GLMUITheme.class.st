@@ -15,7 +15,7 @@ Class {
 
 { #category : #accessing }
 GLMUITheme class >> baseColor [
-	^ (Color r: 200 g: 200 b: 200 range: 255)
+	^ (Color r: 190 g: 190 b: 190 range: 255)
 ]
 
 { #category : #accessing }
@@ -30,7 +30,7 @@ GLMUITheme class >> baseSelectionColor [
 
 { #category : #accessing }
 GLMUITheme class >> darkBaseColor [
-	^ Color r: 190 g: 190 b: 190 range: 255
+	^ Color r: 180 g: 180 b: 180 range: 255
 ]
 
 { #category : #private }
@@ -271,7 +271,7 @@ GLMUITheme >> buttonNormalBorderStyleFor: aButton [
 	| outerColor innerColor |
 	(aButton valueOfProperty: #noBorder ifAbsent: [false]) ifTrue: [
 		^ SimpleBorder new width: 0; baseColor: Color transparent ].
-	outerColor := self glamorousBaseColorFor: aButton.
+	outerColor := self glamorousDarkBaseColorFor: aButton.
 	^SimpleBorder new
 					width: 1;
 					baseColor: outerColor
