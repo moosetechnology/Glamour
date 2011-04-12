@@ -438,7 +438,9 @@ ConfigurationOfGlamour >> default: spec [
 				spec requires: 'Magritte-Model' ];
 			package: 'Glamour-Mondrian-Presentations' with: [spec requires: 'Mondrian for Glamour'];
 			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte-Morph' 'Magritte-Pharo-Model')];
-			package: 'Glamour-Tests-Mondrian' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Mondrian-Presentations')].
+			package: 'Glamour-EyeSee-Presentations' with: [spec requires: 'EyeSee for Glamour'];
+			package: 'Glamour-Tests-Mondrian' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Mondrian-Presentations')];
+			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')].
 
 		spec group: 'Core' with: #(
 						'Glamour-Announcements'
@@ -454,13 +456,18 @@ ConfigurationOfGlamour >> default: spec [
 						'Glamour-Morphic-Theme').
 		spec group: 'Extras' with: #(
 						'Glamour-Mondrian-Presentations'
-						'Glamour-Magritte-Presentations').
-		spec group: 'Tests' with: #(
+						'Glamour-Magritte-Presentations'
+						'Glamour-EyeSee-Presentations').
+		spec group: 'Core Tests' with: #(
 						'Glamour-Tests-Core'
 						'Glamour-Examples'
 						'Glamour-Tests-Morphic'). 
-		spec group: 'ExtrasTests' with: #(
-						'Glamour-Tests-Mondrian').	
+		spec group: 'Tests' with: #(
+						'Glamour-Tests-Core'
+						'Glamour-Examples'
+						'Glamour-Tests-Morphic'
+						'Glamour-Tests-Mondrian'
+						'Glamour-Tests-EyeSee'). 
 		spec
 			project: 'Shout' with: [
 				spec
@@ -475,6 +482,13 @@ ConfigurationOfGlamour >> default: spec [
 					file: 'ConfigurationOfMondrian';
 					version: 'default';
 					repository: 'http://www.squeaksource.com/Mondrian' ].
+		spec
+			project: 'EyeSee for Glamour' with: [
+				spec
+					className: 'ConfigurationOfEyeSee';
+					file: 'ConfigurationOfEyeSee';
+					version: 'default';
+					repository: 'http://www.squeaksource.com/EyeSee' ].
 		spec
 			project: 'Grease' with: [
 				spec
