@@ -99,6 +99,7 @@ GLMUITheme class >> newDefaultSettings [
 		standardColorsOnly: true;
 		autoSelectionColor: false;
 		preferRoundCorner: false;
+		fadedBackgroundWindows: false;
 		flatMenu: true
 ]
 
