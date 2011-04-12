@@ -63,12 +63,6 @@ GLMValidator >> buttonActions [
 ]
 
 { #category : #events }
-GLMValidator >> close [
-
-	self announce: (GLMBrowserClosed new)
-]
-
-{ #category : #events }
 GLMValidator >> explicitlyInnerPortNamed: aPortName [ .  
 
 	aPortName = #entity ifFalse: [
@@ -101,8 +95,6 @@ GLMValidator >> outerPortEvent: aPortEvent [
 
 { #category : #rendering }
 GLMValidator >> renderGlamorouslyOn: aRenderer [ 
-
-	self on: GLMBrowserClosed send: #actOnWizardClosed: to: aRenderer.
 	^ aRenderer renderValidator: self
 ]
 

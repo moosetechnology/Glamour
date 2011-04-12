@@ -423,8 +423,6 @@ GLMWizard >> previousButtonAction [
 
 { #category : #rendering }
 GLMWizard >> renderGlamorouslyOn: aRenderer [ 
- 
-	self on: GLMBrowserClosed send: #actOnWizardClosed: to: aRenderer.
 	^ aRenderer renderWizard: self
 ]
 
