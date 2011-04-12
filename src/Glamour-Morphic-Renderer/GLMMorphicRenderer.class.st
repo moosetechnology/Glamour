@@ -97,6 +97,11 @@ GLMMorphicRenderer >> renderExpander: aBrowser [
 	^ GLMMorphicExpanderRenderer render: aBrowser from: self
 ]
 
+{ #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderEyeSeePresentation: aPresentation [
+	^ GLMMorphicEyeSeeRenderer render: aPresentation from: self
+]
+
 { #category : #'rendering browsers' }
 GLMMorphicRenderer >> renderFinder: aBrowser [ 
 	^ aBrowser hasFixedSizePanes 
