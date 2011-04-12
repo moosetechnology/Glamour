@@ -29,6 +29,11 @@ GLMTPresentationBuilder >> dynamic [
 ]
 
 { #category : #'*glamour-scripting-presentations' }
+GLMTPresentationBuilder >> eyesee [
+	^ self custom: GLMEyeSeePresentation new
+]
+
+{ #category : #'*glamour-scripting-presentations' }
 GLMTPresentationBuilder >> finder [
 	^ self custom: GLMFinder new
 ]
