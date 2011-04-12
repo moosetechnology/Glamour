@@ -10,8 +10,8 @@ Class {
 
 { #category : #private }
 GLMMorphicEyeSeeRenderer >> actOnContextChanged: ann [
-	ann property = #selection ifTrue: [ 
-		eyeseeCanvas selected: (eyeseeCanvas root deepFindNodeWithEntity: ann value) ]
+	"ann property = #selection ifTrue: [ 
+		eyeseeCanvas selected: (eyeseeCanvas root deepFindNodeWithEntity: ann value) ]"
 ]
 
 { #category : #private }
