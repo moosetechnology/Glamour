@@ -200,7 +200,7 @@ GLMMorphicRenderer >> renderWizard: aGLMWizard [
 	|tmpRenderer|
 	tmpRenderer :=  GLMMorphicWizardRenderer new.
 	aGLMWizard  setSpecificAnnouncementActionsTo: tmpRenderer.  
-	^ tmpRenderer render: aGLMWizard
+	^ (tmpRenderer renderer: self) render: aGLMWizard
 ]
 
 { #category : #accessing }
