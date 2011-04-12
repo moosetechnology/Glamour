@@ -92,13 +92,13 @@ GLMAbstractWizardStep >> presentationBlock: aBlock [
 { #category : #accessing }
 GLMAbstractWizardStep >> previousStep [
 
-	^ previousStep
+	^ previousStep ifNil: [previousStep := OrderedCollection new]
 ]
 
 { #category : #accessing }
 GLMAbstractWizardStep >> previousStep: aSymbol [
 
-	previousStep := aSymbol
+	self previousStep add: aSymbol
 ]
 
 { #category : #scripting }
