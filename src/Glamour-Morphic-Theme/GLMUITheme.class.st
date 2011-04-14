@@ -778,6 +778,12 @@ GLMUITheme >> progressBarProgressFillStyleFor: aProgressBar [
 	^ (self glamorousLightSelectionColorFor: aProgressBar)
 ]
 
+{ #category : #'fill-styles' }
+GLMUITheme >> progressFillStyleFor: aProgress [
+	"Return the progress fillStyle for the given progress morph."
+	^ self windowActiveFillStyleFor: aProgress  
+]
+
 { #category : #forms }
 GLMUITheme >> radioButtonForm [
 	"Answer the form to use for a normal radio button."
