@@ -189,19 +189,25 @@ GLMMorphicWidgetRenderer >> theme [
 GLMMorphicWidgetRenderer >> titleOrIconOf: aPresentation in: container [
 	^ aPresentation hasTitleIcon 
 		ifTrue: [
-			self theme 
+			| image |
+			image := self theme 
 					newImageIn: container
-					form: aPresentation titleIconValue ]
-		ifFalse: [ aPresentation titleValue ifNil: [''] ].
+					form: aPresentation titleIconValue.
+			aPresentation titleValue isNil ifFalse: [
+				image setBalloonText: aPresentation titleValue maxLineLength: 10 ]  ]
+		ifFalse: [ aPresentation titleValue ifNil: [''] ]
 ]
 
 { #category : #private }
 GLMMorphicWidgetRenderer >> titleOrIconOrNilOf: aPresentation in: container [
 	^ aPresentation hasTitleIcon 
 		ifTrue: [
-			self theme 
+			| image |
+			image := self theme 
 					newImageIn: container
-					form: aPresentation titleIconValue ]
+					form: aPresentation titleIconValue.
+			aPresentation titleValue isNil ifFalse: [
+				image setBalloonText: aPresentation titleValue maxLineLength: 10 ]  ]
 		ifFalse: [ 
 			aPresentation hasTitle 
 				ifTrue: [ aPresentation titleValue ]
