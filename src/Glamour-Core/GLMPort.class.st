@@ -60,6 +60,14 @@ GLMPort >> receive: aTransmission in: aContext [
 	self subclassResponsibility
 ]
 
+{ #category : #accessing }
+GLMPort >> transientValue: anObject [ 
+	| previousValue |
+	previousValue := self value. 
+	self value: anObject.
+	self value: previousValue
+]
+
 { #category : #validation }
 GLMPort >> validate: anObject [ 
 
