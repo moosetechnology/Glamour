@@ -5,17 +5,21 @@ Class {
 }
 
 { #category : #tests }
-GLMPortTest >> testPanePort [ 
-	 
-	| port | 
-	port := GLMTestPane new port: #port1. 
-	self assert: port seenTransmissions isEmpty. 
-	port value: 42. 
-"	self assert: port seenTransmissions size = 0. 
-	self assert: port seenTransmissions first origin value = 42. 
-	self assert: port seenTransmissions first origin ~= port. 
-	self assert: port seenTransmissions first destination == port. 
-	self assert: port value = 42"
+GLMPortTest >> testPanePortTransmissionCallingReceiveIn [
+	| originPort destinationPort transmission | 
+	originPort := GLMTestPane new port: #originPort. 
+	destinationPort := GLMTestPane new port: #destinationPort. 
+	self assert: destinationPort seenTransmissions isEmpty. 
+	transmission := GLMTransmission new 
+		addActiveOrigin: originPort; 
+		destination: destinationPort; 
+		transformation: [:x | x + 1].
+	originPort value: 41.
+	transmission transmit.
+	self assert: destinationPort seenTransmissions size = 1.
+	self assert: destinationPort seenTransmissions first origins first value = 41. 
+	self assert: destinationPort seenTransmissions first destination == destinationPort. 
+	self assert: destinationPort value = 42
 ]
 
 { #category : #tests }
@@ -47,6 +51,17 @@ GLMPortTest >> testPresentationBoundPort [
 ]
 
 { #category : #tests }
+GLMPortTest >> testResetValue [
+	 
+	| port | 
+	port := GLMTestPane new port: #port1. 
+	port value: 42.
+	self assert: port value = 42.
+	port resetValue.
+	self assert: port value isNil
+]
+
+{ #category : #tests }
 GLMPortTest >> testSimplePort [ 
 	 
 	| port | 
@@ -56,4 +71,16 @@ GLMPortTest >> testSimplePort [
 	self assert: port name = #foo. 
 	self assert: port value = 42. 
 	self assert: port hasPane not
+]
+
+{ #category : #tests }
+GLMPortTest >> testTransientValue [
+	 
+	| port | 
+	port := GLMSimplePort new. 
+	port name: #foo. 
+	port value: 42. 
+	self assert: port value = 42.
+	port transientValue: 43.
+	self assert: port value = 42
 ]
