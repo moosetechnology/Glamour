@@ -19,6 +19,11 @@ GLMSimplePort >> receive: aTransmission in: aContext [
 ]
 
 { #category : #accessing }
+GLMSimplePort >> silentValue: anObject [
+	value := anObject
+]
+
+{ #category : #accessing }
 GLMSimplePort >> value [ 
 	 
 	^value
@@ -27,5 +32,5 @@ GLMSimplePort >> value [
 { #category : #accessing }
 GLMSimplePort >> value: anObject in: aContext [
 	aContext addPort: self.
-	value := anObject
+	self silentValue: anObject  
 ]

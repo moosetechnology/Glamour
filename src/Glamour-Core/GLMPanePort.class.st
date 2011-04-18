@@ -24,7 +24,7 @@ GLMPanePort >> changeValueTo: anObject in: aTransmissionContext [
 	| oldValue | 
 	oldValue := self value.
 	self pane notingPresentationChangeDo: [
-		value := anObject. 
+		self silentValue: anObject.  
 		self pane portEvent: 
 					(GLMPortEvent 
 						on: self
@@ -70,6 +70,11 @@ GLMPanePort >> receive: aTransmission in: aContext [
 { #category : #accessing }
 GLMPanePort >> resetValue [
 	self value: nil
+]
+
+{ #category : #accessing }
+GLMPanePort >> silentValue: anObject [
+	value := anObject
 ]
 
 { #category : #accessing }

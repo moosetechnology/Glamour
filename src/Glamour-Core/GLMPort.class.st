@@ -61,11 +61,17 @@ GLMPort >> receive: aTransmission in: aContext [
 ]
 
 { #category : #accessing }
+GLMPort >> silentValue: anObject [
+	"This is meant to be used internally"
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 GLMPort >> transientValue: anObject [ 
 	| previousValue |
 	previousValue := self value. 
 	self value: anObject.
-	self value: previousValue
+	self silentValue: previousValue
 ]
 
 { #category : #validation }

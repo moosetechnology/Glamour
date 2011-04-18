@@ -56,6 +56,11 @@ GLMPresentationBoundPort >> receive: aTransmission in: aContext [
 ]
 
 { #category : #accessing }
+GLMPresentationBoundPort >> silentValue: anObject [ 
+	self port silentValue: anObject    
+]
+
+{ #category : #accessing }
 GLMPresentationBoundPort >> value [ 
 	self flag: 'checking for #entity is rather not elegant, but it is a solution to not affect the other custom ports that will probably be desired to be populated in other ways.'.
 	^ self name == #entity ifTrue: [
