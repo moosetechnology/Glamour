@@ -100,6 +100,7 @@ GLMUITheme class >> newDefaultSettings [
 		autoSelectionColor: false;
 		preferRoundCorner: false;
 		fadedBackgroundWindows: false;
+		secondarySelectionColor: self veryLightSelectionColor;
 		flatMenu: true
 ]
 
@@ -233,7 +234,7 @@ GLMUITheme class >> themeName [
 
 { #category : #accessing }
 GLMUITheme class >> veryLightSelectionColor [
-	^ Color r: 218 g: 234 b: 250 range: 255
+	^ Color r: 240 g: 240 b: 240 range: 255
 ]
 
 { #category : #'border-styles-buttons' }
