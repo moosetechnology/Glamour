@@ -26,16 +26,16 @@ GLMMorphicEyeSeeRenderer >> eyeseeCanvasFor: aPresentation [
 	| eyeseeRenderer |
 	eyeseeRenderer := aPresentation eyeseeRenderer.
 	aPresentation renderOn: eyeseeRenderer.
-	eyeseeCanvas := aPresentation canvas.
-	eyeseeCanvas announcer 
-			when: MOElementSelection
-			do: [ :ann | aPresentation selection: ann element model ].
-	eyeseeCanvas announcer
-			when: MOMouseEnter
-			do: [ :ann | aPresentation status: ann element model ].
-	eyeseeCanvas announcer
-			when: MOMouseLeave
+	eyeseeRenderer interaction 
+			when: ESElementSelection
+			do: [ :ann | aPresentation selection: ann element ].
+	eyeseeRenderer interaction 
+			when: ESElementDeselection
+			do: [ :ann | aPresentation status: ann element ].
+	eyeseeRenderer interaction 
+			when: ESMouseLeave
 			do: [ :ann | aPresentation status: nil ].
+	eyeseeCanvas := aPresentation canvas.
 	canvasScrollPane scroller addMorph: eyeseeCanvas
 ]
 
