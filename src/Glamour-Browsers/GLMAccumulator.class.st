@@ -11,7 +11,6 @@ Input ports:
 - entityToSelect
 
 Output ports:
-- selection
 - activeEntity
 "
 Class {
