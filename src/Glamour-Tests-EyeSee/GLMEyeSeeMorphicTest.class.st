@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #tests }
+GLMEyeSeeMorphicTest >> expectedFailures [
+	^ #(testUnregisterFromAnnouncementsWhenUpdating)
+]
+
+{ #category : #tests }
 GLMEyeSeeMorphicTest >> testSelection [
 	| browser canvas |
 	browser := GLMTabulator new.
