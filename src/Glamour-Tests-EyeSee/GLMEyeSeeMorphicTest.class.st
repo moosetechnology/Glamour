@@ -33,7 +33,7 @@ GLMEyeSeeMorphicTest >> testSpawn [
 		a eyesee diagram: [:renderer :input | 
 			renderer verticalBarDiagram y: #value; models: (1 to: input) ]].
 	window := browser openOn: 42.
-
+	World doOneCycle.
 	canvas := window submorphs last submorphs first submorphs first submorphs first submorphs first.
 	self assert: (canvas isKindOf: ESCanvas).
 ]
