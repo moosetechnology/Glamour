@@ -5,7 +5,8 @@ Class {
 		'renderer',
 		'canvas',
 		'diagramBlock',
-		'eyeSeeRenderer'
+		'eyeSeeRenderer',
+		'selectedElement'
 	],
 	#category : #'Glamour-EyeSee-Presentations'
 }
@@ -55,4 +56,16 @@ GLMEyeSeePresentation >> renderOn: aRenderer [
 				ifTrue: [(GLMMultiValue with: aRenderer) , self entity , (GLMMultiValue with: self)] 
 				ifFalse: [GLMMultiValue with: aRenderer with: self entity with: self]).
 	self canvas: aRenderer canvas
+]
+
+{ #category : #accessing }
+GLMEyeSeePresentation >> selectedElement [ 
+
+	^ selectedElement 
+]
+
+{ #category : #accessing }
+GLMEyeSeePresentation >> selectedElement: anElement [
+
+	^ selectedElement := anElement 
 ]
