@@ -61,6 +61,15 @@ SGLBasicExamples >> differentComposites [
 ]
 
 { #category : #others }
+SGLBasicExamples >> eyeseeBarDiagram [
+	"
+		self new eyeseeBarDiagram openOn: #(5 2 10 6 12 8)
+	"
+	<glmBrowser: 'EyeSee interactive bar chart' input: '#(5 2 10 6 12 8)'>
+	^ GLMBasicExamples new eyeseeBarDiagram
+]
+
+{ #category : #others }
 SGLBasicExamples >> listWithTags [
 	"
 		self new listWithTags openOn: (1 to: 103)
