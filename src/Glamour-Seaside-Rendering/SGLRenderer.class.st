@@ -86,6 +86,11 @@ SGLRenderer >> renderExpander: aBrowser [
 	html render: (SGLExpanderPresenter for: aBrowser from: self)
 ]
 
+{ #category : #'rendering presentations' }
+SGLRenderer >> renderEyeSeePresentation: aPresentation [
+	html render: (SGLEyeSeePresenter for: aPresentation from: self)
+]
+
 { #category : #'rendering browsers' }
 SGLRenderer >> renderFinder: aBrowser [
 	html render: (SGLFinderPresenter for: aBrowser from: self)
