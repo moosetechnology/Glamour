@@ -10,7 +10,6 @@ Class {
 
 { #category : #rendering }
 GLMMorphicMagritteRenderer >> actOnPresentationUpdated: ann [
-	scrollPane removeMorph: scrollPane submorphs last.
 	scrollPane scrollTarget: (self magritteMorphFrom: ann presentation) 
 ]
 
