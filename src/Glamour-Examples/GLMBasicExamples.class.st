@@ -681,7 +681,7 @@ GLMBasicExamples >> tabsWithDifferentActions [
 { #category : #'tabs examples' }
 GLMBasicExamples >> tabsWithDifferentLabels [
 	<glmBrowser: 'Tabs with different labels' input: '1'>
-	"self new multipleTabs openOn: 1"
+	"self new tabsWithDifferentLabels openOn: 1"
 	
 	| finder |
 	finder := GLMFinder new.
