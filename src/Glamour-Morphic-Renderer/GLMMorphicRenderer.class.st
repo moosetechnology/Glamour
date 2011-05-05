@@ -191,7 +191,11 @@ GLMMorphicRenderer >> renderTreePresentation: aPresentation [
 
 { #category : #'rendering browsers' }
 GLMMorphicRenderer >> renderValidator: aBrowser [ 
-	^ GLMMorphicValidatorRenderer new render: aBrowser from: self
+
+	| tmpValidatorRenderer |
+	tmpValidatorRenderer :=  GLMMorphicValidatorRenderer new.
+	aBrowser  setSpecificAnnouncementActionsTo: tmpValidatorRenderer.  
+	^ tmpValidatorRenderer render: aBrowser from: self
 ]
 
 { #category : #'rendering browsers' }
