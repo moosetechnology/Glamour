@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'hasFixedSizePanes',
 		'fixedSizePanes',
-		'buttonActions'
+		'buttonActions',
+		'specificAnnouncementActions'
 	],
 	#category : #'Glamour-Browsers'
 }
@@ -83,6 +84,12 @@ GLMValidator >> innerPortEvent: aPortEvent [
 
 ]
 
+{ #category : #announcements }
+GLMValidator >> on: anAnnouncementClass send: aSelector [
+
+	self specificAnnouncementActions at: anAnnouncementClass  put: aSelector 
+]
+
 { #category : #events }
 GLMValidator >> outerPortEvent: aPortEvent [ 
 	
@@ -96,6 +103,20 @@ GLMValidator >> outerPortEvent: aPortEvent [
 { #category : #rendering }
 GLMValidator >> renderGlamorouslyOn: aRenderer [ 
 	^ aRenderer renderValidator: self
+]
+
+{ #category : #announcements }
+GLMValidator >> setSpecificAnnouncementActionsTo: aRenderer [
+
+	self specificAnnouncementActions keysAndValuesDo: [:anAnnouncementClass :aSymbol |
+		self on: anAnnouncementClass send: aSymbol to: aRenderer.
+		]
+]
+
+{ #category : #announcements }
+GLMValidator >> specificAnnouncementActions [
+
+	^ specificAnnouncementActions ifNil: [specificAnnouncementActions := Dictionary new]
 ]
 
 { #category : #accessing }
