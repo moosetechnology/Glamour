@@ -13,8 +13,8 @@ GLMExamples class >> browser [
 	browser transmit to: #titles; andShow: [:a |
 		a list
 			title: 'Examples';
-			display: [:list | list asSortedCollection: [:x :y | 
-				(x argumentAt: 1) < (y argumentAt: 1)] ];
+			display: [:list | list ];
+			sorted: [:x :y | (x argumentAt: 1) < (y argumentAt: 1)];
 			format: [:each | each argumentAt: 1]].
 	browser transmit to: #example; from: #titles; andShow: [:a |
 		a dynamic
