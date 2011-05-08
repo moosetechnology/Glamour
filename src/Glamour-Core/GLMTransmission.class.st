@@ -57,6 +57,26 @@ GLMTransmission >> addPresentations: aCollection [
 	self transmissionStrategy addPresentations: aCollection
 ]
 
+{ #category : #scripting }
+GLMTransmission >> andShow: aBlock [
+	self ensureBundleStrategy.
+	self origins isEmpty ifTrue: [self from: #outer->#entity].
+	aBlock value: self transmissionStrategy presentations
+]
+
+{ #category : #scripting }
+GLMTransmission >> andShowIfNone: aBlock [
+	self ensureNoOverrideBundleStrategy.
+	self origins isEmpty ifTrue: [self from: #outer->#entity].
+	aBlock value: self transmissionStrategy presentations
+]
+
+{ #category : #scripting }
+GLMTransmission >> andShowWithoutOverride: aBlock [
+	self deprecated: 'Please use andShowIfNone: instead'.
+	^ self andShowIfNone: aBlock
+]
+
 { #category : #accessing }
 GLMTransmission >> browser [
 	^ browser
@@ -131,6 +151,41 @@ GLMTransmission >> ensureNoOverrideBundleStrategy [
 		self transmissionStrategy: (GLMPresentIfNoneStrategy of: self) ]
 ]
 
+{ #category : #scripting }
+GLMTransmission >> from: aPort [
+	"Ideally this method would be implemented as
+	^ self from: aPaneSymbol port: #selection.
+	
+	The problem is that beforehand we only had from: which could receive either a symbol for the pane, or an association for the port. This was bad, and now Glamour offers from:port:, but there are still legacy cases of from: being called with an association."
+
+	^ self addActiveOrigin: (self browser resolveOriginPort: aPort)
+]
+
+{ #category : #scripting }
+GLMTransmission >> from: aPaneSymbol port: aPortSymbol [
+	^ self from: (GLMPortIdentifier pane: aPaneSymbol port: aPortSymbol)
+]
+
+{ #category : #scripting }
+GLMTransmission >> from: aPaneSymbol port: aPortSymbol transformed: aBlock [
+	^ (self from: (GLMPortIdentifier pane: aPaneSymbol port: aPortSymbol)) transformation: aBlock
+]
+
+{ #category : #scripting }
+GLMTransmission >> from: aPort transformed: aBlock [
+	^ (self addActiveOrigin: (self browser resolveOriginPort: aPort)) transformation: aBlock
+]
+
+{ #category : #scripting }
+GLMTransmission >> fromOutside: aPortSymbol [
+	^ self fromOutsidePort: aPortSymbol
+]
+
+{ #category : #scripting }
+GLMTransmission >> fromOutsidePort: aPortSymbol [
+	^ self from: #outer->aPortSymbol
+]
+
 { #category : #'initialize-release' }
 GLMTransmission >> initialize [
 	super initialize.
@@ -169,6 +224,11 @@ GLMTransmission >> passiveOrigins [
 		collect: [:each | each port]
 ]
 
+{ #category : #scripting }
+GLMTransmission >> passivelyFrom: aPort [
+	^ self addPassiveOrigin: (self browser resolveOriginPort: aPort)
+]
+
 { #category : #copying }
 GLMTransmission >> postCopy [
 	origins := origins collect: [:each | each copy ].
@@ -200,6 +260,31 @@ GLMTransmission >> printOn: aStream [
 	
 ]
 
+{ #category : #scripting }
+GLMTransmission >> to: aPort [
+	"Ideally this method would be implemented as
+	^ self to: aPaneSymbol port: #entiity.
+	
+	The problem is that beforehand we only had from: which could receive either a symbol for the pane, or an association for the port. This was bad, and now Glamour offers to:port:, but there are still legacy cases of to: being called with an association."
+
+	^ self destination: (self browser resolveDestinationPort: aPort)
+]
+
+{ #category : #scripting }
+GLMTransmission >> to: aPaneSymbol port: aPortSymbol [
+	^ self to: (GLMPortIdentifier pane: aPaneSymbol port: aPortSymbol)
+]
+
+{ #category : #scripting }
+GLMTransmission >> toOutside: aPortSymbol [
+	^ self toOutsidePort: aPortSymbol
+]
+
+{ #category : #scripting }
+GLMTransmission >> toOutsidePort: aPortSymbol [
+	^ self to: #outer->aPortSymbol
+]
+
 { #category : #accessing }
 GLMTransmission >> transformation [
 	^ transformation
@@ -209,6 +294,11 @@ GLMTransmission >> transformation [
 GLMTransmission >> transformation: anObject [ 
 	 
 	transformation := anObject
+]
+
+{ #category : #scripting }
+GLMTransmission >> transformed: aBlock [
+	self transformation: aBlock
 ]
 
 { #category : #accessing }
@@ -243,4 +333,9 @@ GLMTransmission >> value [
 	^ self transformation isNil 
 		ifTrue: [ originalValue ] 
 		ifFalse: [ self transformation glamourValue: originalValue ]
+]
+
+{ #category : #scripting }
+GLMTransmission >> when: aBlock [
+	self condition: aBlock
 ]

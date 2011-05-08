@@ -18,6 +18,15 @@ GLMImplicitBrowser >> addPresentation: aPresentation [
 	self presentations add: aPresentation
 ]
 
+{ #category : #scripting }
+GLMImplicitBrowser >> custom: aPresentation [ 
+	 
+	scriptTransmission isNil 
+		ifTrue: [self addPresentation: aPresentation] 
+		ifFalse: [self scriptTransmission addPresentation: aPresentation]. 
+	^aPresentation
+]
+
 { #category : #accessing }
 GLMImplicitBrowser >> presentations [ 
 	 
@@ -28,4 +37,9 @@ GLMImplicitBrowser >> presentations [
 GLMImplicitBrowser >> scriptTransmission [
 	^ scriptTransmission 
 		ifNil: [scriptTransmission := GLMTransmission new ensureBundleStrategy]
+]
+
+{ #category : #scripting }
+GLMImplicitBrowser >> show: aBlock [
+	^ aBlock value: self presentations
 ]

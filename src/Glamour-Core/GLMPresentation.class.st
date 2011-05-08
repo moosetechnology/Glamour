@@ -48,11 +48,99 @@ GLMPresentation >> acceptsSelection: aBoolean [
 	acceptsSelection := aBoolean
 ]
 
+{ #category : #scripting }
+GLMPresentation >> act: aBlock entitled: aString [ 
+	 
+	self 
+		addAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				title: aString; 
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> act: aBlock entitled: aString categorized: anotherString [
+	 
+	self 
+		addAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				title: aString; 
+				category: anotherString;
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> act: aBlock icon: anIcon entitled: aString [
+	self 
+		addAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				icon: anIcon;
+				title: aString;
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> act: aBlock icon: anIcon on: aCharacter entitled: aString [
+	self 
+		addAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				shortcut: aCharacter; 				
+				icon: anIcon;
+				title: aString;
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> act: aBlock on: aCharacter [ 
+	 
+	self 
+		addAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				shortcut: aCharacter; 
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> act: aBlock on: aCharacter entitled: aString [ 
+	 
+	self 
+		addAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				shortcut: aCharacter; 
+				title: aString; 
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> act: aBlock on: aCharacter entitled: aString categorized: anotherString [ 
+	 
+	self 
+		addAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				shortcut: aCharacter; 
+				title: aString; 
+				category: anotherString;
+				yourself)
+]
+
 { #category : #accessing }
 GLMPresentation >> actions [
 	"These are actions that make sense for the entire presentation."
 	actions ifNil: [actions := OrderedCollection new].
 	^ actions
+]
+
+{ #category : #scripting }
+GLMPresentation >> actions: aBlock [ 
+	self deprecated: 'use dynamicActionsOnSelection: for contextual actions, and dynamicActions for presentation-wide actions'.
+	^ self dynamicActionsOnSelection: aBlock 
 ]
 
 { #category : #accessing }
@@ -74,6 +162,16 @@ GLMPresentation >> allActions [
 { #category : #accessing }
 GLMPresentation >> allSelectionActions [ 
 	^ self selectionActions, self dynamicActionsOnSelection
+]
+
+{ #category : #scripting }
+GLMPresentation >> allowAllNil [
+	^ self useExplicitAllNil
+]
+
+{ #category : #scripting }
+GLMPresentation >> allowNil [
+	^ self useExplicitNotNil
 ]
 
 { #category : #accessing }
@@ -136,6 +234,12 @@ GLMPresentation >> defaultValidate: anObject on: aPort [
 	^ true
 ]
 
+{ #category : #scripting }
+GLMPresentation >> display: aBlock [ 
+	 
+	self transformation: aBlock
+]
+
 { #category : #'accessing values' }
 GLMPresentation >> displayValue [
 	^ self transformation glamourValue: self entity
@@ -157,6 +261,11 @@ GLMPresentation >> dynamicActions [
 	They are dynamic in the sense that they will be evaluated lazily by the renderer"
 	dynamicActionsBlock isNil ifTrue: [ ^ OrderedCollection new ].
 	^ dynamicActionsBlock glamourValue: self
+]
+
+{ #category : #scripting }
+GLMPresentation >> dynamicActions: aBlock [ 
+	dynamicActionsBlock := aBlock
 ]
 
 { #category : #accessing }
@@ -225,6 +334,112 @@ GLMPresentation >> matches [
 			(self condition glamourValue: self entity) = true]
 ]
 
+{ #category : #scripting }
+GLMPresentation >> morphicAct: aBlock entitled: aString [ 
+	 
+	self addAction: 
+			((GLMMorphicAction new) 
+				action: aBlock; 
+				title: aString; 
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> morphicAct: aBlock icon: anIcon entitled: aString [ 
+	 
+	self addAction: 
+			((GLMMorphicAction new) 
+				action: aBlock; 
+				title: aString; 
+				icon: anIcon;
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> morphicAct: aBlock on: aCharacter entitled: aString [ 
+	 
+	self 
+		addAction: 
+			((GLMMorphicAction new) 
+				action: aBlock; 
+				shortcut: aCharacter; 
+				title: aString; 
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> morphicAct: aBlock on: aCharacter icon: anIcon entitled: aString [ 
+	 
+	self 
+		addAction: 
+			((GLMMorphicAction new) 
+				action: aBlock; 
+				shortcut: aCharacter; 
+				icon: anIcon;
+				title: aString; 
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> morphicPopulate: aPortSymbol icon: anIcon on: aCharacter entitled: aString with: aBlock [ 
+	 
+	self 
+		addAction: 
+			((GLMMorphicAction new) 
+				action: 
+						((GLMPortUpdater new) 
+								portSymbol: aPortSymbol; 
+								valueBlock: aBlock; 
+								yourself); 
+				shortcut: aCharacter; 
+				icon: anIcon;
+				title: aString;
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> morphicSelectionAct: aBlock entitled: aString [ 
+	 
+	self addSelectionAction: 
+			((GLMMorphicAction new) 
+				action: aBlock; 
+				title: aString; 
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> morphicSelectionAct: aBlock icon: anIcon entitled: aString [
+	self 
+		addSelectionAction: 
+			((GLMMorphicAction new) 
+				action: aBlock; 
+				icon: anIcon;
+				title: aString;
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> noSelection [
+	self acceptsSelection: false
+]
+
+{ #category : #scripting }
+GLMPresentation >> noTitle [
+	title := nil
+]
+
+{ #category : #scripting }
+GLMPresentation >> open: aBlock on: aCharacter entitled: aString [ 
+	 
+	self 
+		addAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				shortcut: aCharacter; 
+				title: aString; 
+				yourself)
+]
+
 { #category : #events }
 GLMPresentation >> outerPortEvent: aPortEvent [
 	self announce: (GLMContextChanged new
@@ -259,6 +474,67 @@ GLMPresentation >> parentPrototype: aPresentation [
 	"used to keep track of the (prototype) presentation from which
 	the current one was copied"
 	parentPrototype := aPresentation
+]
+
+{ #category : #scripting }
+GLMPresentation >> populate: aPortSymbol icon: anIcon entitled: aString with: aBlock [ 
+	 
+	self 
+		addAction: 
+			((GLMGenericAction new) 
+				action: 
+						((GLMPortUpdater new) 
+								portSymbol: aPortSymbol; 
+								valueBlock: aBlock; 
+								yourself); 
+				icon: anIcon; 
+				title: aString;
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> populate: aPortSymbol icon: anIcon on: aCharacter entitled: aString with: aBlock [ 
+	 
+	self 
+		addAction: 
+			((GLMGenericAction new) 
+				action: 
+						((GLMPortUpdater new) 
+								portSymbol: aPortSymbol; 
+								valueBlock: aBlock; 
+								yourself); 
+				shortcut: aCharacter; 
+				icon: anIcon;
+				title: aString;
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> populate: aPortSymbol on: aCharacter entitled: aString with: aBlock [ 
+	 
+	self 
+		addAction: 
+			((GLMGenericAction new) 
+				action: 
+						((GLMPortUpdater new) 
+								portSymbol: aPortSymbol; 
+								valueBlock: aBlock; 
+								yourself); 
+				shortcut: aCharacter; 
+				title: aString;
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> populate: aPortSymbol on: aCharacter with: aBlock [
+	self addAction: 
+			((GLMGenericAction new) 
+				action: ((GLMPortUpdater new) 
+								portSymbol: aPortSymbol; 
+								valueBlock: aBlock; 
+								yourself); 
+				shortcut: aCharacter; 
+				yourself)
 ]
 
 { #category : #copying }
@@ -324,6 +600,63 @@ GLMPresentation >> selection: anObject [
 	(self pane port: #selection) value: (self postTransformation glamourValue: anObject)
 ]
 
+{ #category : #scripting }
+GLMPresentation >> selectionAct: aBlock entitled: aString [ 
+	 
+	self 
+		addSelectionAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				title: aString; 
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> selectionAct: aBlock entitled: aString categorized: anotherString [
+	 
+	self 
+		addSelectionAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				title: aString; 
+				category: anotherString;
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> selectionAct: aBlock icon: anIcon entitled: aString [
+	self 
+		addSelectionAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				icon: anIcon;
+				title: aString;
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> selectionAct: aBlock on: aCharacter [ 
+	 
+	self 
+		addSelectionAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				shortcut: aCharacter; 
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> selectionAct: aBlock on: aCharacter entitled: aString [ 
+	 
+	self 
+		addSelectionAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				shortcut: aCharacter; 
+				title: aString; 
+				yourself)
+]
+
 { #category : #accessing }
 GLMPresentation >> selectionActions [
 	"These are actions that make sense only in the context of values held in the selection port."
@@ -335,9 +668,30 @@ GLMPresentation >> selectionActions: anObject [
 	selectionActions := anObject
 ]
 
+{ #category : #scripting }
+GLMPresentation >> selectionPopulate: aPortSymbol on: aCharacter entitled: aString with: aBlock [ 
+	 
+	self 
+		addSelectionAction: 
+			((GLMGenericAction new) 
+				action: 
+						((GLMPortUpdater new) 
+								portSymbol: aPortSymbol; 
+								valueBlock: aBlock; 
+								yourself); 
+				shortcut: aCharacter; 
+				title: aString;
+				yourself)
+]
+
 { #category : #accessing }
 GLMPresentation >> selectionTransformation: anObject [ 
 	postTransformation := anObject
+]
+
+{ #category : #scripting }
+GLMPresentation >> send: aBlock [ 
+	self selectionTransformation: aBlock
 ]
 
 { #category : #'accessing validation' }
@@ -500,6 +854,18 @@ GLMPresentation >> validate: anObject on: aPort [
 	The presentation has a chance to veto the value."
 	self shouldValidate ifFalse: [ ^ true ].
 	^ self doValidate: anObject on: aPort.
+]
+
+{ #category : #scripting }
+GLMPresentation >> when: aBlock [ 
+	 
+	self condition: aBlock
+]
+
+{ #category : #scripting }
+GLMPresentation >> whenKindOf: aClass [ 
+	 
+	self when: [:each | each isKindOf: aClass]
 ]
 
 { #category : #enumeration }

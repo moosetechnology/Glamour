@@ -26,6 +26,11 @@ GLMBrowser class >> defaultStatusbarPane [
 	^ #'_statusbar'
 ]
 
+{ #category : #scripting }
+GLMBrowser class >> withStatusbar [
+	^ self new addStatusbar
+]
+
 { #category : #accessing }
 GLMBrowser >> addDefaultStatusbarTransmissionFrom: aPane [
 	| defaultTransmission |
