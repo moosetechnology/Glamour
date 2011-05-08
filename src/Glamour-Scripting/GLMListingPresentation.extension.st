@@ -31,6 +31,11 @@ GLMListingPresentation >> showOnly: aBlock [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMListingPresentation >> sorted [
+	sortBlock := [:a :b | a < b]
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMListingPresentation >> sorted: aBlock [
 	sortBlock := aBlock  
 ]
