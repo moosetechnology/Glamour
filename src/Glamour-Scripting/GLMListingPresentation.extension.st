@@ -31,6 +31,11 @@ GLMListingPresentation >> showOnly: aBlock [
 ]
 
 { #category : #'*Glamour-Scripting' }
+GLMListingPresentation >> sorted: aBlock [
+	sortBlock := aBlock  
+]
+
+{ #category : #'*Glamour-Scripting' }
 GLMListingPresentation >> tags: anObject [
 	"Displays a tag along the node with a text and/or an icon, as returned when evaluating anObject. Clicking on such a node's' tag would remove all nodes that don't have this tag (this behavior can be changed by sending the #tagsFilter: message)"
 	tagsBlock := anObject.
