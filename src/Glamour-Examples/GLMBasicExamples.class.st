@@ -374,8 +374,8 @@ GLMBasicExamples >> mondrianPainting [
 
 { #category : #others }
 GLMBasicExamples >> morphIcons [
-	<glmBrowser: 'Morph icons' input: 'GLMUIThemeExtraIcons class selectors select: [:each | (GLMUIThemeExtraIcons perform: each) isForm ]'>
-	"self new morphIcons openOn: (GLMUIThemeExtraIcons class selectors select: [:each | (each endsWith: 'Icon') and: [(GLMUIThemeExtraIcons perform: each) isForm ]])"
+	<glmBrowser: 'Morph icons' input: 'GLMUIThemeExtraIcons class selectors select: [:each | (each beginsWith: ''glamorous'') and: [(GLMUIThemeExtraIcons perform: each) isForm ]]'>
+	"self new morphIcons openOn: (GLMUIThemeExtraIcons class selectors select: [:each | (each beginsWith: 'glamorous') and: [(GLMUIThemeExtraIcons perform: each) isForm ]])"
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #list; column: #preview.
