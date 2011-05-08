@@ -24,7 +24,8 @@ Class {
 		'tagsFilterBlock',
 		'allowsDeselection',
 		'tagsStyle',
-		'helpMessage'
+		'helpMessage',
+		'sortBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -75,6 +76,13 @@ GLMListingPresentation >> childrenValueOf: anObject atLevel: anInteger [
 GLMListingPresentation >> columns [
 	self flag: 'this is rather hackish, but needed to treat list and tree in the same way.'.
 	^ OrderedCollection new
+]
+
+{ #category : #'accessing values' }
+GLMListingPresentation >> displayValue [
+	^ sortBlock 
+		ifNil: [super displayValue]
+		ifNotNil: [super displayValue sorted: sortBlock]
 ]
 
 { #category : #accessing }
@@ -139,6 +147,16 @@ GLMListingPresentation >> selectionPath [
 { #category : #accessing }
 GLMListingPresentation >> selectionPath: anObject [
 	(self pane port: #selectionPath) value: anObject
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> sortBlock [
+	^ sortBlock
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> sortBlock: anObject [
+	sortBlock := anObject
 ]
 
 { #category : #accessing }
