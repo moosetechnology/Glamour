@@ -7,6 +7,11 @@ Class {
 	#category : #'Glamour-Presentations'
 }
 
+{ #category : #scripting }
+GLMActionListPresentation >> beHorizontal [
+	self isHorizontal: true
+]
+
 { #category : #accessing }
 GLMActionListPresentation >> isHorizontal [
 	^ isHorizontal ifNil: [isHorizontal := false]

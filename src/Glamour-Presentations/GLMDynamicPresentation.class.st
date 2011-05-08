@@ -30,6 +30,11 @@ GLMDynamicPresentation >> initialize [
 	presentationTransformation := [ :aComposite :each | aComposite add: each ]
 ]
 
+{ #category : #scripting }
+GLMDynamicPresentation >> presentation: aBlock [
+	self presentationTransformation: aBlock
+]
+
 { #category : #accessing }
 GLMDynamicPresentation >> presentationTransformation [
 	^ presentationTransformation
@@ -44,4 +49,9 @@ GLMDynamicPresentation >> presentationTransformation: anObject [
 GLMDynamicPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
 	^ aRenderer renderDynamicPresentation: self
+]
+
+{ #category : #scripting }
+GLMDynamicPresentation >> with: aBlock [
+	self presentationTransformation: aBlock
 ]
