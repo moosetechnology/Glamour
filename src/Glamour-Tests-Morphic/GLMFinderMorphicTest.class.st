@@ -41,6 +41,29 @@ GLMFinderMorphicTest >> testFixedSize [
 ]
 
 { #category : #tests }
+GLMFinderMorphicTest >> testMultiplePresentationsValidation [
+	| browser |
+	browser := GLMFinder new.
+	browser list.
+	browser text.
+	window := browser openOn: ($a to: $d).
+	(browser panes first port: #selection) value: $z.
+	self assert: (browser panes first port: #selection) value = $z
+]
+
+{ #category : #tests }
+GLMFinderMorphicTest >> testNoSelection [
+	| browser treeMorph treeNodeMorph  |
+	browser := GLMFinder new.
+	browser tree noSelection.
+	window := browser openOn: ($a to: $d).
+	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
+	treeNodeMorph := treeMorph scroller submorphs first.
+	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	self assert: browser panes size = 1
+]
+
+{ #category : #tests }
 GLMFinderMorphicTest >> testOneFixedSizePane [
 	| finder |
 	finder := GLMFinder new fixedSizePanes: 1.
@@ -80,4 +103,13 @@ GLMFinderMorphicTest >> testRemovingVariableSizePanesWhenChangingEntity [
 	self assert: window submorphs last scrollTarget submorphs size = 2.
 	finder entity: #b.
 	self assert: window submorphs last scrollTarget submorphs size = 2
+]
+
+{ #category : #tests }
+GLMFinderMorphicTest >> testSpawnFinder [
+	| browser |
+	browser := GLMFinder new.
+	window := browser openOn: ($a to: $d).
+	self repeatAssert: [window submorphs last class] equals: GLMPaneScroller.
+
 ]
