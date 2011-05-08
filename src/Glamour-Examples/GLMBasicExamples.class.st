@@ -374,18 +374,18 @@ GLMBasicExamples >> mondrianPainting [
 
 { #category : #others }
 GLMBasicExamples >> morphIcons [
-	<glmBrowser: 'Morph icons' input: 'ThemeIcons class selectors select: [:each | (ThemeIcons perform: each) isForm ]'>
-	"self new morphIcons openOn: (ThemeIcons class selectors select: [:each | (each endsWith: 'Icon') and: [(ThemeIcons perform: each) isForm ]])"
+	<glmBrowser: 'Morph icons' input: 'GLMUIThemeExtraIcons class selectors select: [:each | (GLMUIThemeExtraIcons perform: each) isForm ]'>
+	"self new morphIcons openOn: (GLMUIThemeExtraIcons class selectors select: [:each | (each endsWith: 'Icon') and: [(GLMUIThemeExtraIcons perform: each) isForm ]])"
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #list; column: #preview.
-	browser title: 'OBMorphicIcons'.
+	browser title: 'Glamorous Icons'.
 	browser showOn: #list; using: [
 		browser list ].
 	browser showOn: #preview; from: #list; using: [
 		browser morph
 			display: [:symbol | 
-				(ThemeIcons iconNamed: symbol) asMorph ] ].
+				(GLMUIThemeExtraIcons perform: symbol) asMorph ] ].
 	^ browser
 ]
 
@@ -412,7 +412,7 @@ GLMBasicExamples >> multiInitialSelection [
 
 { #category : #'actions examples' }
 GLMBasicExamples >> multipleActions [
-	<glmBrowser: 'Multiple actions' input: 'This example shows how multiple actions are rendered.'>
+	<glmBrowser: 'Multiple actions' input: '''This example shows how multiple actions are rendered.'''>
 	"self new multipleActions openOn: 'This example shows how multiple actions are rendered.'"
 	|browser |
 	browser := GLMTabulator new.
