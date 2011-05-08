@@ -40,3 +40,21 @@ GLMCustomColumn >> isColumn [
 	 
 	^true
 ]
+
+{ #category : #scripting }
+GLMCustomColumn >> row: aBlockOrSymbol [ 
+	 
+	^self addRow: aBlockOrSymbol
+]
+
+{ #category : #scripting }
+GLMCustomColumn >> row: aBlockOrSymbol size: anInteger [ 
+	 
+	^self addRow: aBlockOrSymbol size: anInteger
+]
+
+{ #category : #scripting }
+GLMCustomColumn >> row: aBlockOrSymbol span: anInteger [ 
+	 
+	^self addRow: aBlockOrSymbol span: anInteger
+]

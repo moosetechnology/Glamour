@@ -54,6 +54,22 @@ GLMFinder >> addPaneFromInner: aPort [
 		do: [:each | each transmit]. 
 ]
 
+{ #category : #scripting }
+GLMFinder >> fixedSizePanes [
+	^ fixedSizePanes ifNil: [fixedSizePanes := 2]
+]
+
+{ #category : #scripting }
+GLMFinder >> fixedSizePanes: anInteger [
+	self hasFixedSizePanes: true.
+	fixedSizePanes := anInteger
+]
+
+{ #category : #scripting }
+GLMFinder >> fromPrevious: aPortSymbol [
+	self scriptTransmission addActiveOrigin: (GLMPort new name: aPortSymbol)
+]
+
 { #category : #accessing }
 GLMFinder >> hasFixedSizePanes [
 	^ hasFixedSizePanes ifNil: [hasFixedSizePanes := true]
@@ -118,7 +134,25 @@ GLMFinder >> outerPortEvent: aPortEvent [
 					inBrowser: self)]
 ]
 
+{ #category : #scripting }
+GLMFinder >> passivelyFromPrevious: aPortSymbol [
+	self scriptTransmission addPassiveOrigin: (GLMPort new name: aPortSymbol)
+]
+
 { #category : #rendering }
 GLMFinder >> renderGlamorouslyOn: aRenderer [ 
 	^ aRenderer renderFinder: self
+]
+
+{ #category : #scripting }
+GLMFinder >> using: aBlock [ 
+	 
+	aBlock value. 
+	self addTransmission: scriptTransmission. 
+	scriptTransmission := nil
+]
+
+{ #category : #scripting }
+GLMFinder >> variableSizePanes [
+	self hasFixedSizePanes: false
 ]

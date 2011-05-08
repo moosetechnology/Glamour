@@ -35,6 +35,24 @@ GLMCustomRow >> addColumn: aBlockOrSymbol span: anInteger [
 	^(self addColumn: aBlockOrSymbol) span: anInteger; size: 0
 ]
 
+{ #category : #scripting }
+GLMCustomRow >> column: aBlockOrSymbol [ 
+	 
+	^self addColumn: aBlockOrSymbol
+]
+
+{ #category : #scripting }
+GLMCustomRow >> column: aBlockOrSymbol size: anInteger [ 
+	 
+	^self addColumn: aBlockOrSymbol size: anInteger
+]
+
+{ #category : #scripting }
+GLMCustomRow >> column: aBlockOrSymbol span: anInteger [ 
+	 
+	^self addColumn: aBlockOrSymbol span: anInteger
+]
+
 { #category : #testing }
 GLMCustomRow >> isRow [ 
 	 

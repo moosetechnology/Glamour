@@ -64,8 +64,58 @@ GLMTabulator >> cellOrRow [
 	^cell ifNil: [cell := GLMCustomRow new browser: self]
 ]
 
+{ #category : #scripting }
+GLMTabulator >> column: aBlockOrSymbol [ 
+	 
+	^self addColumn: aBlockOrSymbol
+]
+
+{ #category : #scripting }
+GLMTabulator >> column: aBlockOrSymbol size: anInteger [ 
+	 
+	^self addColumn: aBlockOrSymbol size: anInteger
+]
+
+{ #category : #scripting }
+GLMTabulator >> column: aBlockOrSymbol span: anInteger [ 
+	 
+	^self addColumn: aBlockOrSymbol span: anInteger
+]
+
+{ #category : #scripting }
+GLMTabulator >> initializeScriptingDefaults [ 
+	 
+	super initializeScriptingDefaults. 
+	self cell isNil ifTrue: [self addColumn: #pane].
+	self transmissions 
+		detect: [ :each | each originatesAt: (self pane port: #entity) ]
+		ifNone: [
+			self 
+				showOn: (self panes first port: #entity);
+				from: #outer->#entity;
+				using: [ self custom: GLMFlexiblePresentation new ] ]
+]
+
 { #category : #rendering }
 GLMTabulator >> renderGlamorouslyOn: aRenderer [ 
 	 
 	^aRenderer renderTabulator: self
+]
+
+{ #category : #scripting }
+GLMTabulator >> row: aBlockOrSymbol [ 
+	 
+	^self addRow: aBlockOrSymbol
+]
+
+{ #category : #scripting }
+GLMTabulator >> row: aBlockOrSymbol size: anInteger [ 
+	 
+	^self addRow: aBlockOrSymbol size: anInteger
+]
+
+{ #category : #scripting }
+GLMTabulator >> row: aBlockOrSymbol span: anInteger [ 
+	 
+	^self addRow: aBlockOrSymbol span: anInteger
 ]
