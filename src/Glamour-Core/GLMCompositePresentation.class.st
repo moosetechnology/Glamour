@@ -20,6 +20,11 @@ GLMCompositePresentation >> = aPresentation [
 		self presentations = aPresentation presentations ]
 ]
 
+{ #category : #scripting }
+GLMCompositePresentation >> accordionArrangement [
+	^ self arrangement: GLMAccordionArrangement new
+]
+
 { #category : #accessing }
 GLMCompositePresentation >> add: aPresentation [
 	^ self presentations add: aPresentation
@@ -60,6 +65,11 @@ GLMCompositePresentation >> clear [
 { #category : #accessing }
 GLMCompositePresentation >> collect: aBlock [
 	^ self copy presentations: (self presentations collect: aBlock ); yourself
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> custom: aPresentation [
+	^ self add: aPresentation
 ]
 
 { #category : #accessing }
@@ -141,6 +151,21 @@ GLMCompositePresentation >> size [
 	^ self presentations size
 ]
 
+{ #category : #scripting }
+GLMCompositePresentation >> stackedArrangement [
+	^ self stackedVerticallyArrangement
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> stackedVerticallyArrangement [
+	^ self arrangement: (GLMStackedVerticallyArrangement of: self)
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> tabbedArrangement [
+	^ self arrangement: GLMTabbedArrangement new
+]
+
 { #category : #announcements }
 GLMCompositePresentation >> unregisterFromAllAnnouncements [
 	super unregisterFromAllAnnouncements.
@@ -153,6 +178,11 @@ GLMCompositePresentation >> update [
 		(self validate: each value on: each) ifFalse: [each resetValue] ].
 	self presentations do: [ :each | each update ].
 	self announce: (GLMPresentationUpdated new presentation: self).
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> verticallyStackedArrangement [
+	^ self stackedVerticallyArrangement
 ]
 
 { #category : #accessing }

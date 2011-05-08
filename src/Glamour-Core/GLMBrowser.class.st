@@ -68,6 +68,24 @@ GLMBrowser >> close [
 	self announce: (GLMBrowserClosed new)
 ]
 
+{ #category : #scripting }
+GLMBrowser >> context [
+
+	^OrderedCollection new
+]
+
+{ #category : #scripting }
+GLMBrowser >> custom: aPresentation [ 
+	 
+	self subclassResponsibility
+]
+
+{ #category : #scripting }
+GLMBrowser >> defaultRenderer [ 
+	 
+	^GLMRenderer subclasses first new
+]
+
 { #category : #accessing }
 GLMBrowser >> hasStatusbar [
 	^ statusPane notNil
@@ -98,6 +116,43 @@ GLMBrowser >> initialize [
 	panes := OrderedCollection new.
 	transmissions := OrderedCollection new.
 	statusPane := nil.
+]
+
+{ #category : #scripting }
+GLMBrowser >> initializeScriptingDefaults [ 
+	"Initialize some default behavior if the user did not explcitly script it. 
+ 
+	Subclasses can use this to create a default startup transmission or show 
+	a default pane or something like that." 
+	
+	^self
+]
+
+{ #category : #scripting }
+GLMBrowser >> open [ 
+	 
+	^self openWith: self defaultRenderer
+]
+
+{ #category : #scripting }
+GLMBrowser >> openOn: anObject [ 
+	 
+	^self 
+		openOn: anObject 
+		with: self defaultRenderer
+]
+
+{ #category : #scripting }
+GLMBrowser >> openOn: anObject with: aRenderer [ 
+	 
+	self startOn: anObject. 
+	^aRenderer open: self
+]
+
+{ #category : #scripting }
+GLMBrowser >> openWith: aRenderer [ 
+	 
+	^self openOn: nil with: aRenderer
 ]
 
 { #category : #events }
@@ -183,6 +238,24 @@ GLMBrowser >> resolvePort: aPortReference defaultPortName: aSymbol [
 			(self paneNamed: aPortReference paneName) port: aPortReference portName].
 ]
 
+{ #category : #scripting }
+GLMBrowser >> screenshot: aFilenameString on: anObject after: aBlock [
+	 
+	| window |
+	window := self openOn: anObject.
+	aBlock glamourValue: self asGlamorousMultiValue.
+	World doOneCycle.
+	PNGReadWriter putForm: window imageForm onFileNamed: aFilenameString.
+	^ window
+]
+
+{ #category : #scripting }
+GLMBrowser >> startOn: anObject [ 
+	 
+	self initializeScriptingDefaults. 
+	self entity: anObject
+]
+
 { #category : #accessing }
 GLMBrowser >> statusbarPane [
 	^ statusPane
@@ -196,6 +269,11 @@ GLMBrowser >> statusbarPresentation [
 { #category : #accessing }
 GLMBrowser >> transmissions [ 
 	^ transmissions
+]
+
+{ #category : #scripting }
+GLMBrowser >> transmit [
+	^ self addTransmission: (GLMTransmission new browser: self; yourself)
 ]
 
 { #category : #updating }
