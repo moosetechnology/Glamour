@@ -21,14 +21,15 @@ GLMTextMorphicTest >> testMultipleSelectionWithChange [
 	| browser textMorph textPresentation |
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser transmit to: #one; andShow: [ :a | a text display: '123456789'].
+	(browser transmit)
+		to: #one;
+		andShow: [ :a | a text display: '123456789' ].
 	window := browser openOn: 4.
-
 	textMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
 	self assert: textMorph selection isEmpty.
 	textPresentation := (browser paneNamed: #one) presentations first.
 	textPresentation selectionInterval: (2 to: 5).
-	self assert: textMorph selection asString = '2345'
+	self assert: textMorph selection asString equals: '2345'
 ]
 
 { #category : #tests }
@@ -38,11 +39,13 @@ GLMTextMorphicTest >> testUnregisterFromAnnouncementsWhenUpdating [
 	announcingCollection := GLMAnnouncingCollection new.
 	browser := GLMTabulator new.
 	browser column: #text.
-	browser transmit to: #text; andShow: [:a |
-		a text 
-			updateOn: GLMItemAdded from: [announcingCollection];
-			display: [ numberOfExecutions := numberOfExecutions + 1]].
+	(browser transmit)
+		to: #text;
+		andShow: [ :a | 
+					(a text)
+						updateOn: GLMItemAdded from: [ announcingCollection ];
+						display: [ numberOfExecutions := numberOfExecutions + 1 ] ].
 	window := browser openOn: announcingCollection.
-	1 to: 3 do: [:each | announcingCollection add: each.].
-	self assert: numberOfExecutions  = 4 "it should not be 8"
+	1 to: 3 do: [ :each | announcingCollection add: each ].
+	self assert: numberOfExecutions equals: 4	"it should not be 8"
 ]

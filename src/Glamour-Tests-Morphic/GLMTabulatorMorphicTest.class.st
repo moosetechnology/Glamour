@@ -8,21 +8,29 @@ Class {
 GLMTabulatorMorphicTest >> testMultipleInitialSelection [
 	| browser firstTreeMorph secondTreeMorph |
 	browser := GLMTabulator new.
-	browser column: #one; column: #two.
-	browser showOn: #one; using: [
-		browser tree
-			beMultiple;
-			display: [:x | 1 to: x * 3]].
-	browser showOn: #two; from: #one; using: [
-		browser list ].
+	browser
+		column: #one;
+		column: #two.
+	browser
+		showOn: #one;
+		using: [ 
+					(browser tree)
+						beMultiple;
+						display: [ :x | 1 to: x * 3 ] ].
+	browser
+		showOn: #two;
+		from: #one;
+		using: [ browser list ].
 	window := browser openOn: 5.
 	(browser panes first port: #selection) value: #(2 5 3).
 	firstTreeMorph := window submorphs last submorphs second submorphs first submorphs first.
 	secondTreeMorph := window submorphs last submorphs last submorphs first submorphs first.
 	self assert: firstTreeMorph model selection notNil.
-	self assert: firstTreeMorph model selection selectedItemOrItemsOrNil size = 3.
+	self assert: firstTreeMorph model selection selectedItemOrItemsOrNil size equals: 3.
 	self assert: secondTreeMorph model selection isNil.
-	self assert: (secondTreeMorph model roots collect: #item) asSet = firstTreeMorph model selection selectedItemOrItemsOrNil asSet
+	self
+		assert: (secondTreeMorph model roots collect: #item) asSet
+		equals: firstTreeMorph model selection selectedItemOrItemsOrNil asSet
 ]
 
 { #category : #tests }
