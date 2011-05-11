@@ -9,9 +9,15 @@ Class {
 
 { #category : #private }
 GLMMorphicTest >> find: aClass in: aMorph [
-	"Explores aMorph hierarchy of sub morphs to find a morph whose class is aClass"
-	aMorph allMorphsDo: [:each | (each class = aClass) ifTrue: [^ each]].
-	^ nil 
+	"Explores aMorph hierarchy of sub morphs to find a morph whose class inherits from aClass"
+	^ self findSatisfying: [:morph | morph isKindOf: aClass ] in: aMorph  
+]
+
+{ #category : #private }
+GLMMorphicTest >> findSatisfying: aBlock in: aMorph [
+	"Explores aMorph hierarchy of sub morphs to find a morph who satisfies aBlock"
+	aMorph allMorphsDo: [:each | (aBlock value: each) ifTrue: [^ each]].
+	self fail.
 ]
 
 { #category : #private }

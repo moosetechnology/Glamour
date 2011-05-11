@@ -4,9 +4,33 @@ Class {
 	#category : #'Glamour-Tests-Morphic'
 }
 
+{ #category : #private }
+GLMCompositePresentationMorphicTest >> compositeMorph [
+	^ window submorphs last submorphs last submorphs last
+]
+
+{ #category : #private }
+GLMCompositePresentationMorphicTest >> compositePanel [
+	|composite|
+	composite := self compositeMorph.
+	self assert: (composite isKindOf: PanelMorph).
+	self assert: (composite submorphs allSatisfy: [:morph | morph isKindOf: ExpanderMorph]).
+	^ composite
+
+]
+
+{ #category : #private }
+GLMCompositePresentationMorphicTest >> compositeTabGroup [
+	|composite|
+	composite := self compositeMorph.
+	self assert: (composite isKindOf: LazyTabGroupMorph).
+	^ composite
+
+]
+
 { #category : #tests }
 GLMCompositePresentationMorphicTest >> testAccordion [
-	| browser compositeMorph |
+	| browser |
 	browser := GLMTabulator new.
 	browser column: #one.
 	(browser transmit)
@@ -16,17 +40,15 @@ GLMCompositePresentationMorphicTest >> testAccordion [
 					a list title: 'List'.
 					a text title: 'Text' ].
 	window := browser openOn: 42.
-	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph class equals: PanelMorph.
-	self assert: compositeMorph submorphs notEmpty.
-	self assert: compositeMorph submorphs size equals: 2.
-	self assert: compositeMorph submorphs first class equals: ExpanderMorph.
-	self assert: compositeMorph submorphs last class equals: ExpanderMorph
+	self assert: self compositePanel submorphs notEmpty.
+	self assert: self compositePanel submorphs size equals: 2.
+	self assert: self compositePanel submorphs first class equals: ExpanderMorph.
+	self assert: self compositePanel submorphs last class equals: ExpanderMorph
 ]
 
 { #category : #tests }
 GLMCompositePresentationMorphicTest >> testAccordionExpanded [
-	| browser compositeMorph |
+	| browser |
 	browser := GLMTabulator new.
 	browser column: #one.
 	browser transmit to: #one; andShow: [ :a | 
@@ -34,14 +56,13 @@ GLMCompositePresentationMorphicTest >> testAccordionExpanded [
 		a list title: 'List'.
 		a text title: 'Text'].
 	window := browser openOn: 42.
-	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph submorphs first expanded.
-	self assert: compositeMorph submorphs last expanded not.
+	self assert: self compositePanel submorphs first expanded.
+	self assert: self compositePanel submorphs last expanded not.
 ]
 
 { #category : #tests }
 GLMCompositePresentationMorphicTest >> testAccordionWithTitle [
-	| browser compositeMorph |
+	| browser |
 	browser := GLMTabulator new.
 	browser column: #one.
 	(browser transmit)
@@ -52,13 +73,11 @@ GLMCompositePresentationMorphicTest >> testAccordionWithTitle [
 					a list.
 					a text ].
 	window := browser openOn: 42.
-	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph class equals: LazyTabGroupMorph.
-	self assert: compositeMorph submorphs notEmpty.
-	self assert: compositeMorph submorphs size equals: 2.
-	self assert: compositeMorph contentMorph class equals: PanelMorph.
-	self assert: compositeMorph contentMorph submorphs first submorphs size equals: 2.
-	self assert: compositeMorph contentMorph submorphs first submorphs first class equals: ExpanderMorph
+	self assert: self compositeTabGroup submorphs notEmpty.
+	self assert: self compositeTabGroup submorphs size equals: 2.
+	self assert: self compositeTabGroup contentMorph class equals: PanelMorph.
+	self assert: self compositeTabGroup contentMorph submorphs first submorphs size equals: 2.
+	self assert: self compositeTabGroup contentMorph submorphs first submorphs first class equals: ExpanderMorph
 ]
 
 { #category : #tests }
@@ -74,12 +93,12 @@ GLMCompositePresentationMorphicTest >> testFinder [
 	self assert: finder presentations size equals: 2.
 	self assert: (finder presentations arrangement isKindOf: GLMStackedVerticallyArrangement).
 	window := finder openOn: (1 to: 42).
-	self assert: (window submorphs last submorphs first submorphs first submorphs first isKindOf: LazyTabGroupMorph)
+	self find: LazyTabGroupMorph in: window.
 ]
 
 { #category : #tests }
 GLMCompositePresentationMorphicTest >> testOneStackedVerticallyWithTitle [
-	| browser compositeMorph |
+	| browser |
 	browser := GLMTabulator new.
 	browser column: #one.
 	(browser transmit)
@@ -89,34 +108,31 @@ GLMCompositePresentationMorphicTest >> testOneStackedVerticallyWithTitle [
 					a title: 'title'.
 					a list ].
 	window := browser openOn: 42.
-	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph class equals: LazyTabGroupMorph.
-	self assert: compositeMorph submorphs notEmpty.
-	self assert: compositeMorph submorphs size equals: 2.
-	self assert: compositeMorph contentMorph class equals: PanelMorph.
-	self assert: compositeMorph contentMorph submorphs size equals: 1.
-	self assert: compositeMorph contentMorph submorphs first class equals: PanelMorph.
-	self assert: compositeMorph contentMorph submorphs first submorphs size equals: 1.
-	self assert: compositeMorph contentMorph submorphs first submorphs first class equals: LazyTabGroupMorph
+	self assert: self compositeTabGroup submorphs notEmpty.
+	self assert: self compositeTabGroup submorphs size equals: 2.
+	self assert: self compositeTabGroup contentMorph class equals: PanelMorph.
+	self assert: self compositeTabGroup contentMorph submorphs size equals: 1.
+	self assert: self compositeTabGroup contentMorph submorphs first class equals: PanelMorph.
+	self assert: self compositeTabGroup contentMorph submorphs first submorphs size equals: 1.
+	self assert: self compositeTabGroup contentMorph submorphs first submorphs first class equals: LazyTabGroupMorph
 ]
 
 { #category : #tests }
 GLMCompositePresentationMorphicTest >> testOneTabWithActions [
-	| browser compositeMorph |
+	| browser |
 	browser := GLMTabulator new.
 	browser column: #one.
 	(browser transmit)
 		to: #one;
 		andShow: [ :a | a list act: #inspect entitled: 'Inspect' ].
 	window := browser openOn: 42.
-	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph class equals: PanelMorph.
-	self assert: compositeMorph submorphs size equals: 2
+	self assert: self compositeMorph class equals: PanelMorph.
+	self assert: self compositeMorph submorphs size equals: 2
 ]
 
 { #category : #tests }
 GLMCompositePresentationMorphicTest >> testStackedVertically [
-	| browser compositeMorph |
+	| browser |
 	browser := GLMTabulator new.
 	browser column: #one.
 	(browser transmit)
@@ -126,16 +142,15 @@ GLMCompositePresentationMorphicTest >> testStackedVertically [
 					a list title: 'list'.
 					a text title: 'text' ].
 	window := browser openOn: 42.
-	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph class equals: PanelMorph.
-	self assert: compositeMorph submorphs size equals: 2.
-	self assert: compositeMorph submorphs size equals: 2.
-	self assert: compositeMorph submorphs first class equals: LazyTabGroupMorph
+	self assert: self compositeMorph class equals: PanelMorph.
+	self assert: self compositeMorph submorphs size equals: 2.
+	self assert: self compositeMorph submorphs size equals: 2.
+	self assert: self compositeMorph submorphs first class equals: LazyTabGroupMorph
 ]
 
 { #category : #tests }
 GLMCompositePresentationMorphicTest >> testStackedVerticallyWithTitle [
-	| browser compositeMorph |
+	| browser |
 	browser := GLMTabulator new.
 	browser column: #one.
 	(browser transmit)
@@ -146,20 +161,18 @@ GLMCompositePresentationMorphicTest >> testStackedVerticallyWithTitle [
 					a list title: 'list'.
 					a text title: 'text' ].
 	window := browser openOn: 42.
-	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph class equals: LazyTabGroupMorph.
-	self assert: compositeMorph submorphs notEmpty.
-	self assert: compositeMorph submorphs size equals: 2.
-	self assert: compositeMorph contentMorph class equals: PanelMorph.
-	self assert: compositeMorph contentMorph submorphs size equals: 1.
-	self assert: compositeMorph contentMorph submorphs first class equals: PanelMorph.
-	self assert: compositeMorph contentMorph submorphs first submorphs size equals: 2.
-	self assert: compositeMorph contentMorph submorphs first submorphs first class equals: LazyTabGroupMorph
+	self assert: self compositeTabGroup submorphs notEmpty.
+	self assert: self compositeTabGroup submorphs size equals: 2.
+	self assert: self compositeTabGroup contentMorph class equals: PanelMorph.
+	self assert: self compositeTabGroup contentMorph submorphs size equals: 1.
+	self assert: self compositeTabGroup contentMorph submorphs first class equals: PanelMorph.
+	self assert: self compositeTabGroup contentMorph submorphs first submorphs size equals: 2.
+	self assert: self compositeTabGroup contentMorph submorphs first submorphs first class equals: LazyTabGroupMorph
 ]
 
 { #category : #tests }
 GLMCompositePresentationMorphicTest >> testTabs [
-	| browser compositeMorph |
+	| browser |
 	browser := GLMTabulator new.
 	browser column: #one.
 	(browser transmit)
@@ -168,14 +181,12 @@ GLMCompositePresentationMorphicTest >> testTabs [
 					a list.
 					a text ].
 	window := browser openOn: 42.
-	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph class equals: LazyTabGroupMorph.
-	self assert: compositeMorph pages size equals: 2
+	self assert: self compositeTabGroup pages size equals: 2
 ]
 
 { #category : #tests }
 GLMCompositePresentationMorphicTest >> testTabsLastActivePresentation [
-	| browser compositeMorph |
+	| browser |
 	browser := GLMTabulator new.
 	browser column: #one.
 	(browser transmit)
@@ -184,16 +195,14 @@ GLMCompositePresentationMorphicTest >> testTabsLastActivePresentation [
 					a list.
 					a text ].
 	window := browser openOn: 42.
-	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph class equals: LazyTabGroupMorph.
-	compositeMorph selectedPageIndex: 2.
+	self compositeTabGroup selectedPageIndex: 2.
 	self assert: browser panes first lastActivePresentation notNil.
 	self assert: (browser panes first lastActivePresentation isKindOf: GLMTextPresentation)
 ]
 
 { #category : #tests }
 GLMCompositePresentationMorphicTest >> testTabsWithActions [
-	| browser compositeMorph |
+	| browser |
 	browser := GLMTabulator new.
 	browser column: #one.
 	(browser transmit)
@@ -202,18 +211,16 @@ GLMCompositePresentationMorphicTest >> testTabsWithActions [
 					a list act: #inspect entitled: 'Inspect'.
 					a text ].
 	window := browser openOn: 42.
-	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph class equals: LazyTabGroupMorph.
-	self assert: compositeMorph toolbarMorph submorphs notEmpty.
-	compositeMorph selectedPageIndex: 2.
-	self assert: compositeMorph toolbarMorph submorphs isEmpty.
-	compositeMorph selectedPageIndex: 1.
-	self assert: compositeMorph toolbarMorph submorphs notEmpty
+	self assert: self compositeTabGroup toolbarMorph submorphs notEmpty.
+	self compositeTabGroup selectedPageIndex: 2.
+	self assert: self compositeTabGroup toolbarMorph submorphs isEmpty.
+	self compositeTabGroup selectedPageIndex: 1.
+	self assert: self compositeTabGroup toolbarMorph submorphs notEmpty
 ]
 
 { #category : #tests }
 GLMCompositePresentationMorphicTest >> testTabsWithTitle [
-	| browser compositeMorph |
+	| browser |
 	browser := GLMTabulator new.
 	browser column: #one.
 	(browser transmit)
@@ -223,18 +230,16 @@ GLMCompositePresentationMorphicTest >> testTabsWithTitle [
 					a list.
 					a text ].
 	window := browser openOn: 42.
-	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph class equals: LazyTabGroupMorph.
-	self assert: compositeMorph submorphs size equals: 2.
-	self assert: compositeMorph submorphs first class equals: PanelMorph.
-	self assert: compositeMorph submorphs first submorphs size equals: 1.
-	self assert: compositeMorph submorphs first submorphs first class equals: LazyTabGroupMorph.
-	self assert: compositeMorph submorphs first submorphs first pages size equals: 2
+	self assert: self compositeTabGroup submorphs size equals: 2.
+	self assert: self compositeTabGroup submorphs first class equals: PanelMorph.
+	self assert: self compositeTabGroup submorphs first submorphs size equals: 1.
+	self assert: self compositeTabGroup submorphs first submorphs first class equals: LazyTabGroupMorph.
+	self assert: self compositeTabGroup submorphs first submorphs first pages size equals: 2
 ]
 
 { #category : #tests }
 GLMCompositePresentationMorphicTest >> testTabsWithTitleIconWithoutTitle [
-	| browser compositeMorph |
+	| browser |
 	browser := GLMTabulator new.
 	browser column: #one.
 	(browser transmit)
@@ -244,11 +249,9 @@ GLMCompositePresentationMorphicTest >> testTabsWithTitleIconWithoutTitle [
 					a list.
 					a text ].
 	window := browser openOn: 42.
-	compositeMorph := window submorphs last submorphs last submorphs last.
-	self assert: compositeMorph class equals: LazyTabGroupMorph.
-	self assert: compositeMorph submorphs size equals: 2.
-	self assert: compositeMorph submorphs first class equals: PanelMorph.
-	self assert: compositeMorph submorphs first submorphs size equals: 1.
-	self assert: compositeMorph submorphs first submorphs first class equals: LazyTabGroupMorph.
-	self assert: compositeMorph submorphs first submorphs first pages size equals: 2
+	self assert: self compositeTabGroup submorphs size equals: 2.
+	self assert: self compositeTabGroup submorphs first class equals: PanelMorph.
+	self assert: self compositeTabGroup submorphs first submorphs size equals: 1.
+	self assert: self compositeTabGroup submorphs first submorphs first class equals: LazyTabGroupMorph.
+	self assert: self compositeTabGroup submorphs first submorphs first pages size equals: 2
 ]
