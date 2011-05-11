@@ -8,6 +8,13 @@ Class {
 }
 
 { #category : #private }
+GLMMorphicTest >> find: aClass in: aMorph [
+	"Explores aMorph hierarchy of sub morphs to find a morph whose class is aClass"
+	aMorph allMorphsDo: [:each | (each class = aClass) ifTrue: [^ each]].
+	^ nil 
+]
+
+{ #category : #private }
 GLMMorphicTest >> repeatAssert: aBlock equals: aResult [
 
 	self assert: (self wait: 0.5 until: aBlock evaluatesTo: aResult)

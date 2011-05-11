@@ -6,25 +6,21 @@ Class {
 
 { #category : #tests }
 GLMTreeMorphicTest >> testChildrenBlock [
-
-	| browser check treeMorph treeNodeMorph |
+	| browser check |
 	browser := GLMFinder new.
 	check := false.
 	browser tree
-		children: [:each | check := true. #()].
+		children: [ :each | 
+			check := true.
+			#() ].
 	window := browser openOn: ($a to: $d).
 	World doOneCycle.
-	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
-	treeNodeMorph := treeMorph scroller submorphs first.
-	self assert: treeMorph class = LazyMorphTreeMorph.
-	self send: treeMorph mouseUpOnItem: treeNodeMorph.
-	self repeatAssert: [check] equals: true
-	
+	"this line seems useless: self send: self tree mouseUpOnItem: self treeRoots first."
+	self repeatAssert: [ check ] equals: true
 ]
 
 { #category : #tests }
 GLMTreeMorphicTest >> testChildrenBlockTakesEntity [
-
 	| browser receivedEntity |
 	browser := GLMFinder new.
 	receivedEntity := nil.
@@ -38,87 +34,77 @@ GLMTreeMorphicTest >> testChildrenBlockTakesEntity [
 
 { #category : #tests }
 GLMTreeMorphicTest >> testTreeAllowDeseletion [
-	| browser treeMorph treeNodeMorph |	
+	| browser treeNodeMorph |	
 	browser := GLMFinder new.
 	browser list allowDeselection.
 	window := browser openOn: ($a to: $d).
-	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
-	treeNodeMorph := treeMorph scroller submorphs first.
-	self send: treeMorph mouseUpOnItem: treeNodeMorph.
-	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	treeNodeMorph := self treeRoots first.
+	self send: self tree mouseUpOnItem: treeNodeMorph.
+	self send: self tree mouseUpOnItem: treeNodeMorph.
 	self assert: (browser panes first port: #selection) value isNil
 ]
 
 { #category : #tests }
 GLMTreeMorphicTest >> testTreeDefaultAllowDeseletion [
-	| browser treeMorph treeNodeMorph |
+	| browser treeNodeMorph |
 	browser := GLMFinder new.
 	browser tree.
 	window := browser openOn: ($a to: $d).
-	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
-	treeNodeMorph := treeMorph scroller submorphs first.
-	self send: treeMorph mouseUpOnItem: treeNodeMorph.
-	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	treeNodeMorph := self treeRoots first.
+	self send: self tree mouseUpOnItem: treeNodeMorph.
+	self send: self tree mouseUpOnItem: treeNodeMorph.
 	self assert: (browser panes first port: #selection) value = $a.
 ]
 
 { #category : #tests }
 GLMTreeMorphicTest >> testTreeMultipleSelection [
-	| browser treeMorph treeNodeMorph lastTreeNodeMorph |
+	| browser treeNodeMorph lastTreeNodeMorph |
 	browser := GLMFinder new.
 	browser tree beMultiple.
 	window := browser openOn: ($a to: $d).
-	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
-	treeNodeMorph := treeMorph scroller submorphs first.
-	lastTreeNodeMorph := treeMorph scroller submorphs last.
-	self send: treeMorph mouseUpOnItem: treeNodeMorph.
-	self send: treeMorph mouseUpWithShift: true onItem: lastTreeNodeMorph.
+	treeNodeMorph := self treeRoots first.
+	lastTreeNodeMorph := self treeRoots last.
+	self send: self tree mouseUpOnItem: treeNodeMorph.
+	self send: self tree mouseUpWithShift: true onItem: lastTreeNodeMorph.
 	self assert: (browser panes first port: #selection) value notNil.
-	self assert: (browser panes first port: #selection) value asSet = ($a to: $d) asSet
+	self assert: (browser panes first port: #selection) value asSet equals: ($a to: $d) asSet
 ]
 
 { #category : #tests }
 GLMTreeMorphicTest >> testTreeMultipleSelectionWithCancellation [
-
-	| browser treeMorph treeNodeMorph lastTreeNodeMorph |
+	| browser treeNodeMorph lastTreeNodeMorph |
 	browser := GLMFinder new.
 	browser tree beMultiple allowDeselection.
 	window := browser openOn: ($a to: $d).
-	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
-	treeNodeMorph := treeMorph scroller submorphs first.
-	lastTreeNodeMorph := treeMorph scroller submorphs last.
-	self send: treeMorph mouseUpOnItem: treeNodeMorph.
-	self send: treeMorph mouseUpWithShift: true onItem: lastTreeNodeMorph.
-	self send: treeMorph mouseUpOnItem: treeNodeMorph.
-	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	treeNodeMorph := self treeRoots first.
+	lastTreeNodeMorph := self treeRoots last.
+	self send: self tree mouseUpOnItem: treeNodeMorph.
+	self send: self tree mouseUpWithShift: true onItem: lastTreeNodeMorph.
+	self send: self tree mouseUpOnItem: treeNodeMorph.
+	self send: self tree mouseUpOnItem: treeNodeMorph.
 	self assert: (browser panes first port: #selection) value isNil
 ]
 
 { #category : #tests }
 GLMTreeMorphicTest >> testTreeSelection [
-
-	| browser treeMorph treeNodeMorph |
+	| browser treeNodeMorph |
 	browser := GLMFinder new.
 	browser tree.
 	window := browser openOn: ($a to: $d).
-	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
-	treeNodeMorph := treeMorph scroller submorphs first.
-	self assert: treeMorph class = LazyMorphTreeMorph.
-	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	treeNodeMorph := self treeRoots first.
+	self send: self tree mouseUpOnItem: treeNodeMorph.
 	self assert: (browser panes first port: #selection) value = $a
 ]
 
 { #category : #tests }
 GLMTreeMorphicTest >> testTreeSelectionCancellation [
-
-	| browser treeMorph treeNodeMorph |
+	| browser treeNodeMorph |
 	browser := GLMFinder new.
 	browser tree allowDeselection.
 	window := browser openOn: ($a to: $d).
-	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
-	treeNodeMorph := treeMorph scroller submorphs first.
-	self send: treeMorph mouseUpOnItem: treeNodeMorph.
-	self send: treeMorph mouseUpOnItem: treeNodeMorph.
+	treeNodeMorph := self treeRoots first.
+	self send: self tree mouseUpOnItem: treeNodeMorph.
+	self send: self tree mouseUpOnItem: treeNodeMorph.
 	self assert: (browser panes first port: #selection) value isNil
 ]
 
@@ -138,33 +124,55 @@ GLMTreeMorphicTest >> testTreeWithDisplay [
 
 { #category : #tests }
 GLMTreeMorphicTest >> testTreeWithTags [
-	|browser model treeMorph oddNode line3 oddTag someNode secondSome |
+	"Creates a tree and tag some nodes. Then click on a tag and see if the unmatched nodes disappear"
+
+	| browser model oddNode lineWithNumber3 someNode secondSome |
 	model := Dictionary new.
 	model at: #some put: #(1 2 3 4).
 	model at: #even put: #(2 6 8).
 	model at: #odd put: #(3 7 9).
-	
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser transmit to: #one; andShow: [ :a |
-		browser tree
-			display: [model keys];  
-			children: [:key | key isNumber ifFalse: [model at: key] ];
-			tags: [:item | item isNumber ifTrue: [item even ifTrue: [#('even')] ifFalse: [#('odd')]] ifFalse: [#()]]].  
-	window := browser openOn: model. 
+	(browser transmit)
+		to: #one;
+		andShow: [ :a | 
+					(browser tree)
+						display: [ model keys ];
+						children: [ :key | 
+									key isNumber
+										ifFalse: [ model at: key ] ];
+						tags: [ :item | 
+									item isNumber
+										ifTrue: [ 
+											item even
+												ifTrue: [ #('even') ]
+												ifFalse: [ #('odd') ] ]
+										ifFalse: [ #() ] ] ].
+	window := browser openOn: model.
 	World doOneCycle.
-	treeMorph := window submorphs last submorphs first submorphs first submorphs first.
-	self assert: treeMorph class equals: LazyMorphTreeMorph.
-	oddNode := treeMorph scroller submorphs second.	
-	oddNode toggleExpandedState. 
+	oddNode := self treeRoots second.	
+	
+	oddNode toggleExpandedState. "Simulate a click on the node's arrow to expand the node and make sub nodes visible"
+
 	World doOneCycle.
-	line3 := treeMorph scroller submorphs third.
-	oddTag := line3 submorphs second submorphs first submorphs first submorphs second.
-	oddTag doButtonAction.  
+	lineWithNumber3 := self treeRoots third.
+	(self find: SimpleButtonMorph in: lineWithNumber3) doButtonAction. "Simulate a click on the 'odd' tag to make even numbers disappear"
+	
 	World doOneCycle.
-	someNode := treeMorph scroller submorphs first.
+	someNode := self treeRoots first.
 	someNode toggleExpandedState.
 	World doOneCycle.
-	secondSome := treeMorph scroller submorphs third submorphs second submorphs first submorphs first submorphs first.
-	self assert: secondSome text asString equals: '3'.
+	secondSome := self find: TextMorph in: self treeRoots third.
+	self assert: secondSome text asString equals: '3'
+]
+
+{ #category : #private }
+GLMTreeMorphicTest >> tree [
+	^ self find: LazyMorphTreeMorph in: window
+]
+
+{ #category : #private }
+GLMTreeMorphicTest >> treeRoots [
+	"Returns the roots of the tree included in the current window. It looks like morphic creates new collections when the tree is refreshed which means different calls to this method may return different objects."
+	^ self tree scroller submorphs
 ]
