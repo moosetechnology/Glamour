@@ -205,6 +205,11 @@ GLMTreeMorphModel >> onDoubleClick [
 		(self selection ifNotNil: [self selection selectedItemOrItemsOrNil]))
 ]
 
+{ #category : #actions }
+GLMTreeMorphModel >> resetChildrenContents [ 
+	self roots do: [:each | each resetContentsRecursively]
+]
+
 { #category : #'search and filtering' }
 GLMTreeMorphModel >> resetInput [
 
@@ -285,6 +290,7 @@ GLMTreeMorphModel >> toggleFilteringByTag: aTag [
 	(self shouldFilterByTag: aTag) 
 		ifTrue: [self tagsToFilterBy remove: aTag ]
 		ifFalse: [self tagsToFilterBy add: aTag].
+	self resetChildrenContents.
 	self changed: #roots
 ]
 

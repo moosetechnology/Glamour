@@ -9,6 +9,16 @@ Class {
 	#category : #'Glamour-Morphic-Widgets'
 }
 
+{ #category : #accessing }
+GLMTreeMorphNodeModel >> allContents [
+	^ self childrenItems
+		collect: [ :d | 
+			(self class with: d)
+				parentNode: self;
+				containerTree: self containerTree;
+				yourself ]
+]
+
 { #category : #callbacks }
 GLMTreeMorphNodeModel >> buttonForTag: each filter: filter [
 	| button |
@@ -41,14 +51,7 @@ GLMTreeMorphNodeModel >> containerTree: anObject [
 
 { #category : #accessing }
 GLMTreeMorphNodeModel >> contents [
-	| allContents |
-	^ contents ifNil: 
-		[ allContents := self childrenItems collect: [ :d | 
-			(self class with: d)
-				parentNode: self;
-				containerTree: self containerTree;
-				yourself ].
-		contents := allContents select: [ :each | each shouldBeDisplayed ] ]
+	^ contents ifNil: [ contents := self allContents select: [ :each | each shouldBeDisplayed ] ]
 ]
 
 { #category : #accessing }
@@ -146,6 +149,17 @@ GLMTreeMorphNodeModel >> pathIn: aCollection [
 GLMTreeMorphNodeModel >> printOn: aStream [
 	aStream nextPutAll: 'a NodeModel with '.
 	aStream nextPutAll: self item printString.
+]
+
+{ #category : #actions }
+GLMTreeMorphNodeModel >> resetContents [
+	contents := nil
+]
+
+{ #category : #actions }
+GLMTreeMorphNodeModel >> resetContentsRecursively [ 
+	self resetContents.
+	self allContents do: [:each | each resetContentsRecursively]
 ]
 
 { #category : #callbacks }
