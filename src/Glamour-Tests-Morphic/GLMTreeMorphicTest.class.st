@@ -135,3 +135,36 @@ GLMTreeMorphicTest >> testTreeWithDisplay [
 	window := browser openOn: #something -> treeCollection.
 	self assert: browser panes first presentations first displayValue == treeCollection
 ]
+
+{ #category : #tests }
+GLMTreeMorphicTest >> testTreeWithTags [
+	|browser model treeMorph oddNode line3 oddTag someNode secondSome |
+	model := Dictionary new.
+	model at: #some put: #(1 2 3 4).
+	model at: #even put: #(2 6 8).
+	model at: #odd put: #(3 7 9).
+	
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit to: #one; andShow: [ :a |
+		browser tree
+			display: [model keys];  
+			children: [:key | key isNumber ifFalse: [model at: key] ];
+			tags: [:item | item isNumber ifTrue: [item even ifTrue: [#('even')] ifFalse: [#('odd')]] ifFalse: [#()]]].  
+	window := browser openOn: model. 
+	World doOneCycle.
+	treeMorph := window submorphs last submorphs first submorphs first submorphs first.
+	self assert: treeMorph class equals: LazyMorphTreeMorph.
+	oddNode := treeMorph scroller submorphs second.	
+	oddNode toggleExpandedState. 
+	World doOneCycle.
+	line3 := treeMorph scroller submorphs third.
+	oddTag := line3 submorphs second submorphs first submorphs first submorphs second.
+	oddTag doButtonAction.  
+	World doOneCycle.
+	someNode := treeMorph scroller submorphs first.
+	someNode toggleExpandedState.
+	World doOneCycle.
+	secondSome := treeMorph scroller submorphs third submorphs second submorphs first submorphs first submorphs first.
+	self assert: secondSome text asString equals: '3'.
+]
