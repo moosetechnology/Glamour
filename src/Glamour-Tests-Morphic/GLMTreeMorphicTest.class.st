@@ -15,7 +15,6 @@ GLMTreeMorphicTest >> testChildrenBlock [
 			#() ].
 	window := browser openOn: ($a to: $d).
 	World doOneCycle.
-	"this line seems useless: self send: self tree mouseUpOnItem: self treeRoots first."
 	self repeatAssert: [ check ] equals: true
 ]
 
