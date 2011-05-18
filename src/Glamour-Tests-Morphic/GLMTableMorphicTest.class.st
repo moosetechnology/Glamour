@@ -20,30 +20,19 @@ GLMTableMorphicTest >> testColumnBlockTakesEntity [
 
 { #category : #tests }
 GLMTableMorphicTest >> testColumnLabel [
-	| browser tableMorphOne tableMorphTwo |
+	| browser tableMorph |
 	browser := GLMTabulator new.
-	browser
-		column: #one;
-		column: #two.
+	browser column: #one.
 	(browser transmit)
 		to: #one;
 		andShow: [ :a | 
 					(a table)
 						display: [ :x | x - 3 to: x ];
-						column: 'Column' evaluated: [ :x | x asString ] ].
-	(browser transmit)
-		to: #two;
-		from: #one;
-		andShow: [ :a | 
-					(a table)
-						display: [ :x | x * 10 to: x * 10 + 2 ];
+						column: 'Column' evaluated: [ :x | x asString ];
 						column: [ :x | 'Number ' , x asString ] evaluated: #asString ].
 	window := browser openOn: 4.
-	tableMorphOne := window submorphs last submorphs second submorphs first submorphs first.
-	self assert: (tableMorphOne model roots collect: #item) equals: #(1 2 3 4).
-	self assert: tableMorphOne columns first header label equals: 'Column'.
-	((browser paneNamed: #one) port: #selection) value: 2.
-	tableMorphTwo := window submorphs last submorphs last submorphs first submorphs first.
-	self assert: (tableMorphTwo model roots collect: #item) equals: #(20 21 22).
-	self assert: tableMorphTwo columns first header label equals: 'Number 2'
+	tableMorph := self find: LazyMorphTreeMorph in: window.
+	self assert: (tableMorph model roots collect: #item) equals: #(1 2 3 4).
+	self assert: tableMorph columns first header label equals: 'Column'.
+	self assert: tableMorph columns last header label equals: 'Number 4'
 ]

@@ -148,18 +148,18 @@ GLMListMorphicTest >> testUpdateFromModel [
 		from: #one;
 		andShow: [ :a | a list display: [ :x | x * 10 to: x * 10 + 2 ] ].
 	window := browser openOn: 4.
-	treeMorphOne1 := window submorphs last submorphs second submorphs first submorphs first.
+	treeMorphOne1 := self find: LazyMorphTreeMorph in: window.
 	self assert: (treeMorphOne1 model roots collect: #item) equals: #(1 2 3 4).
 	((browser paneNamed: #one) port: #selection) value: 2.
-	treeMorphTwo1 := window submorphs last submorphs last submorphs first submorphs first.
+	treeMorphTwo1 := self findLast: LazyMorphTreeMorph in: window.
 	self assert: (treeMorphTwo1 model roots collect: #item) equals: #(20 21 22).
 	browser entity: 8.
-	treeMorphOne2 := window submorphs last submorphs second submorphs first submorphs first.
+	treeMorphOne2 := self find: LazyMorphTreeMorph in: window.
 	self assert: (treeMorphOne2 model roots collect: #item) equals: #(5 6 7 8).
 	self assert: treeMorphOne1 ~= treeMorphOne2.
 	self assert: window submorphs last submorphs last submorphs first submorphs isEmpty.
 	((browser paneNamed: #one) port: #selection) value: 5.
-	treeMorphTwo2 := window submorphs last submorphs last submorphs first submorphs first.
+	treeMorphTwo2 := self findLast: LazyMorphTreeMorph in: window.
 	self assert: (treeMorphTwo2 model roots collect: #item) equals: #(50 51 52).
 	self assert: treeMorphTwo1 ~= treeMorphTwo2
 ]
