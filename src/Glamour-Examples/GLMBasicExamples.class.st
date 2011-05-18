@@ -437,11 +437,13 @@ GLMBasicExamples >> multipleFinderWithFilter [
 			title: 'List';
 			beMultiple;
 			dynamicActions: [:list | self actionsFor: list];
-			filterOn: [:text :each | Compiler evaluate: '| each | each := self. ', text for: each logged: false ].
+			filterOn: [:text :each | Compiler evaluate: '| each | each := self. ', text for: each logged: false ];
+			helpMessage:  'Enter a filtering request (e.g., "each > $f")'. 
 	finder tree
 			title: 'Tree';
 			dynamicActions: [:list | self actionsFor: list];
-			filterOn: [:text :each | Compiler evaluate: '| each | each := self. ', text for: each logged: false ].
+			filterOn: [:text :each | Compiler evaluate: '| each | each := self. ', text for: each logged: false ];
+			helpMessage:  'Enter a filtering request (e.g., "each > $f")'.
 	^ finder 
 ]
 
@@ -460,12 +462,14 @@ GLMBasicExamples >> multipleFinderWithFilterAndSearch [
 			title: 'With filter';
 			beMultiple;
 			dynamicActions: [:list | self actionsFor: list];
-			filterOn: [:text :each | (Compiler evaluate: '[:each | ', text, ']') value: each].
+			filterOn: [:text :each | (Compiler evaluate: '[:each | ', text, ']') value: each];
+			helpMessage:  'Enter a filtering request (e.g., "each > 10")'.
 	finder list
 			title: 'With search';
 			beMultiple;
 			dynamicActions: [:list | self actionsFor: list];
-			searchOn: [:text :each | (Compiler evaluate: '[:each | ', text, ']') value: each].
+			searchOn: [:text :each | (Compiler evaluate: '[:each | ', text, ']') value: each];
+			helpMessage:  'Enter a search request (e.g., "each > 10")'.
 	^ finder 
 ]
 
