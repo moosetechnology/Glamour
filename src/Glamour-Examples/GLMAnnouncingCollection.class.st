@@ -39,7 +39,7 @@ GLMAnnouncingCollection >> includes: anObject [
 
 { #category : #initialization }
 GLMAnnouncingCollection >> initialize [
-
+	super initialize.
 	collection := OrderedCollection new
 ]
 
