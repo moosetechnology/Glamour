@@ -33,6 +33,7 @@ GLMLoggedObject >> announce: anAnnouncement [
 
 { #category : #'initialize-release' }
 GLMLoggedObject >> initialize [ 
+	super initialize.
 	logger := GLMLogger instance 
 ]
 
