@@ -133,7 +133,7 @@ GLMFinderTest >> testPortPublishing [
 
 { #category : #tests }
 GLMFinderTest >> testUnregisterAnnouncementsWhenRemovingPane [
-	| announcer browser presentation |
+	| announcer browser presentation actualFirstPresentation actualLastPresentation |
 	announcer := Announcer new.
 	browser := GLMFinder new.
 	presentation := GLMPresentation new.
@@ -141,15 +141,27 @@ GLMFinderTest >> testUnregisterAnnouncementsWhenRemovingPane [
 	browser addPresentation: presentation.
 	presentation updateOn: TestAnnouncement from: [ announcer ].
 	browser entity: #value1.
-	browser panes first presentations first registerAnnouncements.
-	self assert: ((announcer instVarNamed: 'subscriptions') at: TestAnnouncement) size = 1.
-	self assert: ((announcer instVarNamed: 'subscriptions') at: TestAnnouncement) first receiver presentation = browser panes first presentations first.
-	self assert: ((announcer instVarNamed: 'subscriptions') at: TestAnnouncement) first receiver presentation == browser panes first presentations first.
+
+	actualFirstPresentation := browser panes first presentations first.
+	actualFirstPresentation registerAnnouncements.
+	self assert: announcer numberOfSubscriptions = 1.
+	self assert: announcer subscriptions glmSubscriptions anyOne announcementClass = TestAnnouncement.
+	self assert: announcer subscriptions glmSubscriptions anyOne subscriber presentation = actualFirstPresentation.
+	self assert: announcer subscriptions glmSubscriptions anyOne subscriber presentation == actualFirstPresentation.
+
 	(browser panes first port: #selection) value: #value2.
 	browser panes last presentations first registerAnnouncements.
-	self assert: ((announcer instVarNamed: 'subscriptions') at: TestAnnouncement) size = 2.
-	self assert: ((announcer instVarNamed: 'subscriptions') at: TestAnnouncement) last receiver presentation = browser panes last presentations first.
-	self assert: ((announcer instVarNamed: 'subscriptions') at: TestAnnouncement) last receiver presentation == browser panes last presentations first.
+	actualLastPresentation := browser panes last presentations first.
+	self assert: announcer numberOfSubscriptions = 2.
+	self assert: (announcer subscriptions glmSubscriptions allSatisfy:  [:each | each announcementClass = TestAnnouncement]).
+	self assert: (announcer subscriptions glmSubscriptions anySatisfy:  [:each | each subscriber presentation = actualFirstPresentation]).
+	self assert: (announcer subscriptions glmSubscriptions anySatisfy:  [:each | each subscriber presentation == actualFirstPresentation]).
+
 	(browser panes first port: #selection) value: #value3.
-	self assert: ((announcer instVarNamed: 'subscriptions') at: TestAnnouncement) size = 1.
+	actualLastPresentation := browser panes last presentations first.
+	"because we removed the other pane"
+	self assert: announcer numberOfSubscriptions = 1.
+	self assert: announcer subscriptions glmSubscriptions anyOne announcementClass = TestAnnouncement.
+	self assert: announcer subscriptions glmSubscriptions anyOne subscriber presentation = actualFirstPresentation.
+	self assert: announcer subscriptions glmSubscriptions anyOne subscriber presentation == actualFirstPresentation.
 ]

@@ -71,10 +71,10 @@ GLMPresentationTest >> testCopyAnnouncements [
 	| presentation newPresentation |
 	presentation := GLMPresentation new.
 	presentation when: GLMContextChanged do: [:ann | self fail ].
-	self assert: (presentation instVarNamed: #subscriptions) size = 1.
+	self assert: presentation numberOfSubscriptions = 1.
 	newPresentation := presentation copy.
 	newPresentation announce: GLMContextChanged.
-	self assert: (newPresentation instVarNamed: #subscriptions) isNil
+	self assert: newPresentation numberOfSubscriptions = 0
 ]
 
 { #category : #tests }
@@ -267,9 +267,9 @@ GLMPresentationTest >> testUnregisterAnnouncements [
 	presentation := GLMPresentation new.
 	presentation updateOn: TestAnnouncement from: [ announcer ].
 	presentation registerAnnouncements.
-	self assert: (announcer instVarNamed: 'subscriptions') size = 1.
+	self assert: announcer numberOfSubscriptions = 1.
 	presentation unregisterFromAllAnnouncements.
-	self assert: (announcer instVarNamed: 'subscriptions') isEmpty.
+	self assert: announcer numberOfSubscriptions = 0
 
 ]
 
@@ -281,13 +281,13 @@ GLMPresentationTest >> testUnregisterAnnouncementsWhenEntityChanges [
 	presentation updateOn: TestAnnouncement from: [ announcer1 ].
 	presentation entity: 1.
 	presentation registerAnnouncements.
-	self assert: (announcer1 instVarNamed: 'subscriptions') size = 1.
+	self assert: announcer1 numberOfSubscriptions = 1.
 	presentation entity: 2.
-	self assert: (announcer1 instVarNamed: 'subscriptions') isEmpty.
+	self assert: announcer1 numberOfSubscriptions = 0.
 	presentation registerAnnouncements.
-	self assert: (announcer1 instVarNamed: 'subscriptions') size = 1.
+	self assert: announcer1 numberOfSubscriptions = 1.
 	presentation entity: nil.
-	self assert: (announcer1 instVarNamed: 'subscriptions') isEmpty.
+	self assert: announcer1 numberOfSubscriptions = 0
 
 
 	

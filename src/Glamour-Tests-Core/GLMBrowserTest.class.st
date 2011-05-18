@@ -65,9 +65,9 @@ GLMBrowserTest >> testUnregisterAnnouncements [
 	browser addPane: pane.
 	presentation updateOn: TestAnnouncement from: [ announcer ].
 	presentation registerAnnouncements.
-	self assert: (announcer instVarNamed: 'subscriptions') size = 1.
+	self assert: announcer subscriptions numberOfSubscriptions = 1.
 	browser unregisterFromAllAnnouncements.
-	self assert: (announcer instVarNamed: 'subscriptions') isEmpty.
+	self assert: announcer subscriptions numberOfSubscriptions = 0
 
 ]
 
@@ -82,9 +82,9 @@ GLMBrowserTest >> testUnregisterAnnouncementsWhenRemovingPane [
 	browser addPane: pane.
 	presentation updateOn: TestAnnouncement from: [ announcer ].
 	presentation registerAnnouncements.
-	self assert: (announcer instVarNamed: 'subscriptions') size = 1.
+	self assert: announcer subscriptions numberOfSubscriptions = 1.
 	browser removePane: pane.
-	self assert: (announcer instVarNamed: 'subscriptions') isEmpty.
+	self assert: announcer subscriptions numberOfSubscriptions = 0
 
 ]
 
@@ -105,7 +105,7 @@ GLMBrowserTest >> testUnregisterAnnouncementsWhenUpdatingPane [
 	browser panes first presentations first registerAnnouncements.  
 	browser unregisterFromAllAnnouncements.
 
-	self assert: (announcer instVarNamed: 'subscriptions') isEmpty.
+	self assert: announcer subscriptions numberOfSubscriptions = 0
 ]
 
 { #category : #tests }
@@ -127,6 +127,6 @@ GLMBrowserTest >> testUnregisterAnnouncementsWhenUpdatingPaneWithTwoAnnouncers [
 	
 	browser unregisterFromAllAnnouncements.
 
-	self assert: (announcer instVarNamed: 'subscriptions') isEmpty.
-	self assert: (announcer2 instVarNamed: 'subscriptions') isEmpty.
+	self assert: announcer subscriptions numberOfSubscriptions = 0.
+	self assert: announcer2 subscriptions numberOfSubscriptions = 0
 ]
