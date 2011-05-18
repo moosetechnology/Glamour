@@ -49,16 +49,17 @@ GLMMorphicListingRenderer >> render: aPresentation [
 ]
 
 { #category : #private }
-GLMMorphicListingRenderer >> textInputFor: treeModel withHelpMessage: helpStringMessage [
+GLMMorphicListingRenderer >> textInputFor:  aTreeModel withHelpMessage: helpStringMessage [
 	| textInput |
 	textInput := self theme 
 			newTextEntryIn: nil
-			for: treeModel
+			for: aTreeModel
 			get: #inputText
 			set: #inputText:
 			class: String
 			getEnabled: #inputTextEnabled
 			help: helpStringMessage.
+	textInput askBeforeDiscardingEdits: false.
 	textInput layoutFrame: (LayoutFrame 
 				fractions: (0 @ 1 corner: 1 @ 1)
 				offsets: (0 @ -24 corner: 0 @ 0)).
