@@ -12,14 +12,8 @@ Class {
 
 { #category : #announce }
 GLMAnnouncer >> announce: anAnnouncement [
-	| announcement |
-	announcement := anAnnouncement asAnnouncement.
-	subscriptions ifNil: [ ^ announcement ].
-	self suspendAll ifTrue: [ ^ announcement ].
-	subscriptions keysAndValuesDo: [ :class :actions |
-		(class handles: announcement) 
-			ifTrue: [ actions valueWithArguments: (Array with: announcement) ] ].
-	^ announcement
+	self suspendAll ifTrue: [ ^ anAnnouncement asAnnouncement ].
+	^ super announce: anAnnouncement
 ]
 
 { #category : #accessing }
@@ -29,7 +23,7 @@ GLMAnnouncer >> announcer [
 
 { #category : #accessing }
 GLMAnnouncer >> resetAnnouncer [
-	self reset
+	registry reset
 ]
 
 { #category : #suspending }
