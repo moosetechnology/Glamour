@@ -174,24 +174,24 @@ GLMBasicExamples >> dashboard [
 	
 	tmpBrowser transmit to: #first; andShow: [:a |
 		a list
-			display: [:i | #(a b c d e)];
+			display: [:i | #(a b c d e f g)];
 			yourself
 		].
 	tmpBrowser transmit to: #second; andShow: [:a |
 		a list
-			display: [:i | #(a b c d e)]
+			display: [:i | #(a b c d e f g)]
 		].
 	tmpBrowser transmit to: #third; andShow: [:a |
 		a list
-			display: [:i | #(a b c d e)]
+			display: [:i | #(a b c d e f g)]
 		].
 	tmpBrowser transmit to: #fourth; andShow: [:a |
 		a list
-			display: [:i | #(a b c d e)]
+			display: [:i | #(a b c d e f g)]
 		].
 	tmpBrowser transmit to: #fifth; andShow: [:a |
 		a list
-			display: [:i | #(a b c d e)]
+			display: [:i | #(a b c d e f g h i j k l m n o p q r s t u v w x y z)]
 		].
 	^ tmpBrowser
 ]
@@ -231,6 +231,30 @@ GLMBasicExamples >> dashboardWithSpecificExtents [
 	tmpBrowser transmit to: #fifth; andShow: [:a |
 		a list
 			display: [:i | #(a b c d e)]
+		].
+	^ tmpBrowser
+]
+
+{ #category : #browsers }
+GLMBasicExamples >> dashboardsInDashboard [
+
+	<glmBrowser: 'Dashboards in dashboard' input: '100'>
+	"self new dashboard openOn: 100"
+	
+	|tmpBrowser|
+	tmpBrowser := GLMDashboard new.
+	tmpBrowser addPaneNamed: #dashboard.
+	tmpBrowser addPaneNamed: #second.
+	tmpBrowser addPaneNamed: #third.
+	
+	tmpBrowser transmit to: #dashboard; andShow: [:a |
+		a custom: (self dashboard)
+		].
+	tmpBrowser transmit to: #second; andShow: [:a |
+		a custom: (self dashboard)
+		].
+	tmpBrowser transmit to: #third; andShow: [:a |
+		a custom: (self dashboard)
 		].
 	^ tmpBrowser
 ]
