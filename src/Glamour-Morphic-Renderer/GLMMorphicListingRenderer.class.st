@@ -67,15 +67,15 @@ GLMMorphicListingRenderer >> textInputFor:  aTreeModel withHelpMessage: helpStri
 ]
 
 { #category : #private }
-GLMMorphicListingRenderer >> treeMorphFor: treeModel and: aPresentation [
-	| treeMorph columns |
-	treeMorph := LazyMorphTreeMorph new.
-	treeMorph
+GLMMorphicListingRenderer >> treeMorphFor: tmpTreeModel and: aPresentation [
+	| tmpTreeMorph columns |
+	tmpTreeMorph := LazyMorphTreeMorph new.
+	tmpTreeMorph
 		makeLastColumnUnbounded;
 		doubleClickSelector: #onDoubleClick;
 		getMenuSelector: #menu:shifted:;
 		keystrokeActionSelector: #keyStroke:from:;
-		cornerStyle: treeMorph preferredCornerStyle;
+		cornerStyle: tmpTreeMorph preferredCornerStyle;
 		borderStyle: (BorderStyle inset width: 1);
 		autoDeselection: aPresentation allowsDeselection;
 		hResizing: #spaceFill;
@@ -94,15 +94,15 @@ GLMMorphicListingRenderer >> treeMorphFor: treeModel and: aPresentation [
 					arguments: #(); 
 					yourself ].
 		].
-	treeMorph
+	tmpTreeMorph
 		preferedPaneColor: Color white;	
-		model: treeModel;
+		model: tmpTreeModel;
 		nodeListSelector: #roots;
 		columns: columns.
 	aPresentation isMultiple 
-		ifTrue: [treeMorph beMultiple] 
-		ifFalse: [treeMorph beSingle].
-	treeModel chunkSize: aPresentation amountToShow.
-	treeMorph vShowScrollBar.
-	^ treeMorph buildContents
+		ifTrue: [tmpTreeMorph beMultiple] 
+		ifFalse: [tmpTreeMorph beSingle].
+	tmpTreeModel chunkSize: aPresentation amountToShow.
+	tmpTreeMorph vShowScrollBar.
+	^ tmpTreeMorph buildContents
 ]

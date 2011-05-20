@@ -111,13 +111,17 @@ GLMMorphicDashboardRenderer >> render: aBrowser [
 { #category : #private }
 GLMMorphicDashboardRenderer >> renderPane: aPane inUI: aMorph from: aGLMDashboard [
 
-	| pane totalSpans currentSpanPosition currentOffset |
+	| pane totalSpans currentSpanPosition currentOffset tmpExtent|
 	pane := self renderObject: (aPane). 
 	"pane
 		hResizing: #rigid;
 		vResizing: #rigid."
 	aGLMDashboard extentStrategy initializePane: pane. 
-	pane extent: (aGLMDashboard extentOfPaneNamed: aPane name).  
+	"self haltIf: [aPane name = #dashboard]."
+	(pane extent y > (aGLMDashboard extentOfPaneNamed: aPane name) y)
+		ifFalse: [
+			pane extent: (aGLMDashboard extentOfPaneNamed: aPane name). 
+			].
 	aMorph addMorph: pane.
 
 ]
