@@ -58,45 +58,29 @@ GLMMorphicDashboardRenderer >> render: aBrowser [
 	container := PanelMorph new.
 	firstColumnContainer  
 		fillStyle: Color transparent;
-		"hResizing: #shrinkWrap;
-		vResizing: #shrinkWrap;"
 		fillStyle: Color transparent;
 		changeTableLayout;
-		"extent: (self firstColumnMaxCellSizeFrom: aBrowser);"
 		cellPositioning: #topRight;
-		"cellPositioning: #topLeft;  
-		cellSpacing: #none;
-		listCentering: #bottomRight;
-		listSpacing: #none;
-		rubberBandCells: true;"
 		layoutInset: 2;
-		"maxCellSize: 400@200;
-		minCellSize: 400@150;"
 		maxCellSize: (self firstColumnMaxCellSizeFrom: aBrowser) ;
 		"minCellSize: 20@20 ;"
-		"minCellSize: (self firstColumnMaxCellSizeFrom: aBrowser);"
 		cellInset: 2.
 		
 	secondColumnContainer   
 		fillStyle: Color transparent;
-		"hResizing: #spaceFill;
-		vResizing: #spaceFill;"
 		changeTableLayout;
 		cellPositioning: #topLeft; 
 		layoutInset: 2;
-		"maxCellSize: 400@200;
-		minCellSize: 400@150;"
 		maxCellSize: (self secondColumnMaxCellSizeFrom: aBrowser) ;
 		"minCellSize: (self secondColumnMaxCellSizeFrom: aBrowser);"
 		cellInset: 2.
 		
 	container   
 		fillStyle: Color transparent;
-		"hResizing: #shrinkWrap;
-		vResizing: #shrinkWrap;"
 		changeTableLayout;
 		extent: 200@200;
 		layoutInset: 2;
+		cellPositioning: #topLeft;
 		"maxCellSize: 400@200;
 		minCellSize: 400@150;"
 		listDirection: #leftToRight;
