@@ -23,7 +23,8 @@ GLMDashboardTest >> testPanes [
 GLMDashboardTest >> testPanesAndExtents [
 	 
 	| layout | 
-	layout := GLMDashboard new. 
+	layout := GLMDashboard new.
+	layout rigidStrategy. 
 	layout addPaneNamed: #one extent: 20@45.
 	layout addPaneNamed: #two extent: 50@10.
 	layout addPaneNamed: #three extent: 20@40.
