@@ -58,8 +58,8 @@ GLMMorphicDashboardRenderer >> render: aBrowser [
 	container := PanelMorph new.
 	firstColumnContainer  
 		fillStyle: Color transparent;
-		hResizing: #shrinkWrap;
-		vResizing: #shrinkWrap;
+		"hResizing: #shrinkWrap;
+		vResizing: #shrinkWrap;"
 		fillStyle: Color transparent;
 		changeTableLayout;
 		"extent: (self firstColumnMaxCellSizeFrom: aBrowser);"
@@ -79,8 +79,8 @@ GLMMorphicDashboardRenderer >> render: aBrowser [
 		
 	secondColumnContainer   
 		fillStyle: Color transparent;
-		hResizing: #spaceFill;
-		vResizing: #spaceFill;
+		"hResizing: #spaceFill;
+		vResizing: #spaceFill;"
 		changeTableLayout;
 		cellPositioning: #topLeft; 
 		layoutInset: 2;
@@ -92,8 +92,8 @@ GLMMorphicDashboardRenderer >> render: aBrowser [
 		
 	container   
 		fillStyle: Color transparent;
-		hResizing: #shrinkWrap;
-		vResizing: #shrinkWrap;
+		"hResizing: #shrinkWrap;
+		vResizing: #shrinkWrap;"
 		changeTableLayout;
 		extent: 200@200;
 		layoutInset: 2;
@@ -101,7 +101,10 @@ GLMMorphicDashboardRenderer >> render: aBrowser [
 		minCellSize: 400@150;"
 		listDirection: #leftToRight;
 		cellInset: 2.
-		
+	
+	aBrowser extentStrategy initializeContainer: container.
+	aBrowser extentStrategy initializeFirstColumn: firstColumnContainer.
+	aBrowser extentStrategy initializeSecondColumn: secondColumnContainer.
 	scrollPane := GeneralScrollPane new.
 	scrollPane 
 		changeScrollerTableLayout;
@@ -126,10 +129,10 @@ GLMMorphicDashboardRenderer >> renderPane: aPane inUI: aMorph from: aGLMDashboar
 
 	| pane totalSpans currentSpanPosition currentOffset |
 	pane := self renderObject: (aPane). 
-	pane
+	"pane
 		hResizing: #rigid;
-		vResizing: #rigid.
-	
+		vResizing: #rigid."
+	aGLMDashboard extentStrategy initializePane: pane. 
 	pane extent: (aGLMDashboard extentOfPaneNamed: aPane name).  
 	aMorph addMorph: pane.
 
