@@ -204,6 +204,7 @@ GLMBasicExamples >> dashboardWithSpecificExtents [
 	
 	|tmpBrowser|
 	tmpBrowser := GLMDashboard new.
+	tmpBrowser rigidStrategy.
 	tmpBrowser addPaneNamed: #first extent: 300@200.
 	tmpBrowser addPaneNamed: #second extent: 200@200.
 	tmpBrowser addPaneNamed: #third extent: 200@300.
