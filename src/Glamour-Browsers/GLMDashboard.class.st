@@ -2,7 +2,8 @@ Class {
 	#name : #GLMDashboard,
 	#superclass : #GLMExplicitBrowser,
 	#instVars : [
-		'panesExtents'
+		'panesExtents',
+		'extentStrategy'
 	],
 	#category : #'Glamour-Browsers'
 }
@@ -35,6 +36,24 @@ GLMDashboard >> extentOfPaneNamed: aSymbol [
 		]
 ]
 
+{ #category : #accessing }
+GLMDashboard >> extentStrategy [
+
+	^ extentStrategy ifNil: [extentStrategy := GLMFillWidthStrategy new].
+]
+
+{ #category : #accessing }
+GLMDashboard >> extentStrategy: aGLMDashboardExtentStrategy [
+
+	extentStrategy := aGLMDashboardExtentStrategy.
+]
+
+{ #category : #scripting }
+GLMDashboard >> fillWidthStrategy [
+
+	self extentStrategy: GLMFillWidthStrategy new 
+]
+
 { #category : #scripting }
 GLMDashboard >> initializeScriptingDefaults [ 
 	 
@@ -58,4 +77,10 @@ GLMDashboard >> panesExtents [
 GLMDashboard >> renderGlamorouslyOn: aRenderer [ 
 	 
 	^aRenderer renderDashbord: self
+]
+
+{ #category : #scripting }
+GLMDashboard >> rigidStrategy [
+
+	self extentStrategy: GLMRigidStrategy new 
 ]
