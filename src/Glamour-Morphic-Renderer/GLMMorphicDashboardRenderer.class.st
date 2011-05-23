@@ -118,10 +118,11 @@ GLMMorphicDashboardRenderer >> renderPane: aPane inUI: aMorph from: aGLMDashboar
 		vResizing: #rigid."
 	aGLMDashboard extentStrategy initializePane: pane. 
 	"self haltIf: [aPane name = #dashboard]."
-	(pane extent y > (aGLMDashboard extentOfPaneNamed: aPane name) y)
+	"(pane extent y > (aGLMDashboard extentOfPaneNamed: aPane name) y)
 		ifFalse: [
 			pane extent: (aGLMDashboard extentOfPaneNamed: aPane name). 
-			].
+			]."
+	pane extent: (aGLMDashboard extentOfPaneNamed: aPane name). 
 	aMorph addMorph: pane.
 
 ]
