@@ -446,7 +446,7 @@ GLMWizard >> setLastPaneButtonsTo: aValidator [
 	aValidator validator: self backSign act: [:input |
 		self previousButtonAction
 		].
-	aValidator validator: 'Terminate' act:  [:input |
+	aValidator validator: 'Finish' act:  [:input |
 		self terminateButtonAction
 		].
 ]
@@ -472,7 +472,7 @@ GLMWizard >> setSinglePaneButtonsTo: aValidator [
 	aValidator validator: 'Cancel' act: [:input |
 		self cancelButtonAction
 		].
-	aValidator validator: 'Terminate' act: [:input |
+	aValidator validator: 'Finish' act: [:input |
 		self terminateButtonAction
 		].
 	
