@@ -69,7 +69,7 @@ GLMMorphicListingRenderer >> textInputFor:  aTreeModel withHelpMessage: helpStri
 { #category : #private }
 GLMMorphicListingRenderer >> treeMorphFor: tmpTreeModel and: aPresentation [
 	| tmpTreeMorph columns |
-	tmpTreeMorph := LazyMorphTreeMorph new.
+	tmpTreeMorph := MorphTreeMorph new.
 	tmpTreeMorph
 		makeLastColumnUnbounded;
 		doubleClickSelector: #onDoubleClick;

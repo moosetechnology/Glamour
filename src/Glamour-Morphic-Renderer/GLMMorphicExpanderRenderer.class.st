@@ -38,7 +38,7 @@ GLMMorphicExpanderRenderer >> renderWithExpanders: aBrowser [
 GLMMorphicExpanderRenderer >> renderWithTree: aBrowser [
 	| treeMorph treeModel |
 	treeModel := GLMExpanderTreeMorphModel new glamourExpander: aBrowser.
-	treeMorph := LazyMorphTreeMorph new.
+	treeMorph := MorphTreeMorph new.
 	treeMorph
 		makeLastColumnUnbounded;
 		getMenuSelector: #menu:shifted:;
