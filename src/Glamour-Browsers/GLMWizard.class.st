@@ -312,8 +312,9 @@ GLMWizard >> initialize [
 { #category : #'accessing - buttons actions ' }
 GLMWizard >> nextButtonAction [
 
-		self externalNextButtonAction value: self entity.
-		self updateWhenNext 
+		self externalNextButtonAction value: self entity. 
+		self updateWhenNext.
+		
 ]
 
 { #category : #'building pane' }
@@ -560,12 +561,13 @@ GLMWizard >> updateWhenNext [
 
 	|tmpPane|
 	self populateInputOfStep: self stepToUse.  
-	self stepToUse atEnd
+	self stepToUse incrementNumberOfDisplay.
+	self stepToUse overEnd
 		ifTrue: [
 			self currentIndex: self currentIndex + 1.
 			self populateInputOfStep: self stepToUse.  
 			].
-	self stepToUse incrementNumberOfDisplay.
+	
 	tmpPane := self computePane.
 	self notifyAndAddNewPane: self computePane.
 ]
@@ -575,13 +577,11 @@ GLMWizard >> updateWhenPrevious [
 
 	|tmpPane|
 	self notifyAndRemoveCurrentPane.
-	self stepToUse atBeginning 
+	self stepToUse decrementNumberOfDisplay.
+	self stepToUse overBegining 
 		ifTrue: [
-			self stepToUse decrementNumberOfDisplay.
-			self currentIndex: self currentIndex - 1]
-		ifFalse: [
-			self stepToUse decrementNumberOfDisplay.
-			].
+			
+			self currentIndex: self currentIndex - 1].
 	self stepToUse input: self entity.
 	self notifyAndSetAsCurrentPane: (self stepsAndPanes at: self currentStep) last .
 ]

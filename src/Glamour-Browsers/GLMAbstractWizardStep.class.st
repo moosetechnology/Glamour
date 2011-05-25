@@ -77,6 +77,18 @@ GLMAbstractWizardStep >> numberOfDisplay: aNumber [
 	numberOfDisplay := aNumber
 ]
 
+{ #category : #testing }
+GLMAbstractWizardStep >> overBeginning [ 
+
+	^ self numberOfDisplay < 1
+]
+
+{ #category : #testing }
+GLMAbstractWizardStep >> overEnd [
+
+	^ self size < self numberOfDisplay 
+]
+
 { #category : #accessing }
 GLMAbstractWizardStep >> presentationBlock [
 
