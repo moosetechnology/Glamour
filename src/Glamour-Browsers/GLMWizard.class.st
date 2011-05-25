@@ -177,13 +177,12 @@ GLMWizard >> computePaneValidator [
 
 { #category : #'building pane' }
 GLMWizard >> computePaneWith: aValidator [
-
-	|tmpPane|
+	| tmpPane |
 	tmpPane := GLMPane in: self.
 	tmpPane addPresentation: aValidator.
-	(tmpPane port: #entity) value:  self stepToUse input.
-	self title: self stepToUse name.
-	^ tmpPane 
+	(tmpPane port: #entity) value: self stepToUse input.
+	self updateBrowserTitle.
+	^ tmpPane
 ]
 
 { #category : #'building internal' }
@@ -550,6 +549,12 @@ GLMWizard >> terminateButtonAction [
 ]
 
 { #category : #events }
+GLMWizard >> updateBrowserTitle [
+	self title: self stepToUse name.
+	self update
+]
+
+{ #category : #events }
 GLMWizard >> updatePane [
 
 	|tmpPane|
@@ -570,6 +575,7 @@ GLMWizard >> updateWhenNext [
 	
 	tmpPane := self computePane.
 	self notifyAndAddNewPane: self computePane.
+	
 ]
 
 { #category : #events }
@@ -578,12 +584,13 @@ GLMWizard >> updateWhenPrevious [
 	|tmpPane|
 	self notifyAndRemoveCurrentPane.
 	self stepToUse decrementNumberOfDisplay.
-	self stepToUse overBegining 
+	self stepToUse overBeginning 
 		ifTrue: [
 			
 			self currentIndex: self currentIndex - 1].
 	self stepToUse input: self entity.
 	self notifyAndSetAsCurrentPane: (self stepsAndPanes at: self currentStep) last .
+	self updateBrowserTitle.
 ]
 
 { #category : #private }
