@@ -17,7 +17,7 @@ GLMTabulatorMorphicTest >> testMultipleInitialSelection [
 						display: [ :x | 1 to: x * 3 ] ].
 	window := browser openOn: 5.
 	(browser panes first port: #selection) value: #(2 5 3).
-	firstTreeMorph := self find: LazyMorphTreeMorph in: window.
+	firstTreeMorph := self find: MorphTreeMorph in: window.
 	self assert: firstTreeMorph model selection notNil.
 	self assert: firstTreeMorph model selection selectedItemOrItemsOrNil size equals: 3.
 ]
@@ -33,7 +33,7 @@ GLMTabulatorMorphicTest >> testSpawnTabulator [
 		window submorphs last 
 					submorphs last 
 						submorphs last 
-							submorphs last class] equals: LazyMorphTreeMorph.
+							submorphs last class] equals: MorphTreeMorph.
 
 ]
 

@@ -34,5 +34,5 @@ GLMDynamicMorphicTest >> testUpdate [
 	browser update.
 	dynamicContainerMorph := window submorphs last submorphs first submorphs first.
 	self assert: (dynamicContainerMorph isKindOf: PanelMorph).
-	self assert: (dynamicContainerMorph submorphs first submorphs first isKindOf: LazyMorphTreeMorph)
+	self assert: (dynamicContainerMorph submorphs first submorphs first isKindOf: MorphTreeMorph)
 ]

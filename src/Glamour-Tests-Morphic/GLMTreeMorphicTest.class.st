@@ -167,7 +167,7 @@ GLMTreeMorphicTest >> testTreeWithTags [
 
 { #category : #private }
 GLMTreeMorphicTest >> tree [
-	^ self find: LazyMorphTreeMorph in: window
+	^ self find: MorphTreeMorph in: window
 ]
 
 { #category : #private }

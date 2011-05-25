@@ -10,7 +10,7 @@ GLMExpanderMorphicTest >> testCreation [
 	browser := GLMExpander new.
 	browser show: [ :a | a text ].
 	window := browser openOn: #(#a #b #c).
-	self assert: window submorphs last class equals: LazyMorphTreeMorph.
+	self assert: window submorphs last class equals: MorphTreeMorph.
 	self assert: window submorphs last roots size equals: 3.
 	self assert: window submorphs last roots first complexContents class equals: GLMExpanderLabelNodeModel.
 	self assert: window submorphs last roots first complexContents contents size equals: 1.
