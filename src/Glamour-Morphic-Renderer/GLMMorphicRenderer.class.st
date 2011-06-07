@@ -58,7 +58,7 @@ GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [
 ]
 
 { #category : #'rendering browsers' }
-GLMMorphicRenderer >> renderDashbord: aBrowser [ 
+GLMMorphicRenderer >> renderDashboard: aBrowser [ 
 	^ GLMMorphicDashboardRenderer render: aBrowser from: self
 ]
 
