@@ -62,7 +62,7 @@ GLMMorphicDashboardRenderer >> render: aBrowser [
 		changeTableLayout;
 		cellPositioning: #topRight;
 		layoutInset: 2;
-		maxCellSize: (self firstColumnMaxCellSizeFrom: aBrowser) ;
+		"maxCellSize: (self firstColumnMaxCellSizeFrom: aBrowser) ;"
 		"minCellSize: 20@20 ;"
 		cellInset: 2.
 		
@@ -71,7 +71,7 @@ GLMMorphicDashboardRenderer >> render: aBrowser [
 		changeTableLayout;
 		cellPositioning: #topLeft; 
 		layoutInset: 2;
-		maxCellSize: (self secondColumnMaxCellSizeFrom: aBrowser) ;
+		"maxCellSize: (self secondColumnMaxCellSizeFrom: aBrowser) ;"
 		"minCellSize: (self secondColumnMaxCellSizeFrom: aBrowser);"
 		cellInset: 2.
 		
@@ -116,13 +116,13 @@ GLMMorphicDashboardRenderer >> renderPane: aPane inUI: aMorph from: aGLMDashboar
 	"pane
 		hResizing: #rigid;
 		vResizing: #rigid."
-	aGLMDashboard extentStrategy initializePane: pane. 
+	
+	
 	"self haltIf: [aPane name = #dashboard]."
-	"(pane extent y > (aGLMDashboard extentOfPaneNamed: aPane name) y)
-		ifFalse: [
-			pane extent: (aGLMDashboard extentOfPaneNamed: aPane name). 
-			]."
-	pane extent: (aGLMDashboard extentOfPaneNamed: aPane name). 
+	"pane extent: (aGLMDashboard extentOfPaneNamed: aPane name). "
+	aGLMDashboard extentStrategy initializePane: pane.
+	pane extent: ((aGLMDashboard extentOfPaneNamed: aPane name) moValue: pane). 
+	"self haltIf: [pane submorphs contains: [:a | a isKindOf: GeneralScrollPane]]."
 	aMorph addMorph: pane.
 
 ]

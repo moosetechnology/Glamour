@@ -16,3 +16,9 @@ ScrollBar >> glmAnimateValue: aNumber duration: anInteger [
 				self setValue: aNumber ]
 					fork ]
 ]
+
+{ #category : #'*glamour-morphic-renderer' }
+ScrollBar >> setOptimalResizing [
+	self hResizing: #rigid.
+	self vResizing: #rigid
+]
