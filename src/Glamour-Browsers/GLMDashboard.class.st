@@ -32,7 +32,7 @@ GLMDashboard >> extentOfPaneNamed: aSymbol [
 
 	^ self panesExtents at: aSymbol ifAbsent: [
 		"default extent for a pane"
-		self defaultPaneExtent 		
+		#glamourOptimalExtent
 		]
 ]
 
