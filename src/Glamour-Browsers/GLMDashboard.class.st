@@ -76,7 +76,7 @@ GLMDashboard >> panesExtents [
 { #category : #rendering }
 GLMDashboard >> renderGlamorouslyOn: aRenderer [ 
 	 
-	^aRenderer renderDashbord: self
+	^aRenderer renderDashboard: self
 ]
 
 { #category : #scripting }
