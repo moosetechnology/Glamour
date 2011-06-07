@@ -11,7 +11,7 @@ Morph >> glamourOptimalExtent [
 
 	|tmpOldResizing tmpResult|
 	tmpOldResizing := self setOptimalResizingStrategyAndReturnOldOne. 
-	tmpResult := self glamourMinExtent.
+	tmpResult := self minExtent.
 	self returnToOldResizingStrategy:  tmpOldResizing.
 	^ tmpResult 
 ]
