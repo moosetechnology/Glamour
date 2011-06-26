@@ -736,7 +736,7 @@ GLMBasicExamples >> staticAndDynamicMenu [
 	finder text
 			title: 'Text';
 			display: [:each | 'Character ', each asString];
-			dynamicActionsOnSelection: [:text | OrderedCollection with: (GLMGenericAction new title: 'Print selection'; action: [Transcript show: text selection]; yourself) ];
+			dynamicActionsOnSelection: [:text | OrderedCollection with: (GLMGenericAction new title: 'Print selection'; action: [Transcript show: text selectedText]; yourself) ];
 			selectionAct: [self inform: 'Text static action'] entitled: 'Static action'.
 	^ finder
 ]
