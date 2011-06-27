@@ -38,6 +38,28 @@ GLMFinderMorphicTest >> testDefaultFixedSizePanes [
 ]
 
 { #category : #tests }
+GLMFinderMorphicTest >> testFinderWithEmbeddedBrowser [
+
+	| navigator finder tree1 tree2 |
+	navigator := GLMTabulator new.
+	navigator row: #content.
+	navigator transmit to: #content; andShow: [:a | a list display: #allSuperclasses].
+	navigator transmit from: #content; toOutsidePort: #selection.
+	finder := GLMFinder new.
+	finder show: [:a | a custom: navigator].
+
+	window := finder openOn: String.
+	(finder panes first port: #selection) value: Collection.
+
+	tree1 := self find: MorphTreeMorph in: window submorphs last submorphs last submorphs first.
+	tree2 := self findLast: MorphTreeMorph in: window submorphs last submorphs last submorphs last.
+	self assert: tree1 notNil.
+	self assert: tree2 notNil.
+	self assert: tree1 ~= tree2.
+	self assert: tree1 model glamourPresentation ~= tree2 model glamourPresentation
+]
+
+{ #category : #tests }
 GLMFinderMorphicTest >> testFixedSize [
 	window := GLMFinder new openOn: 123.
 	self assert: window submorphs last class equals: GLMPaneScroller
