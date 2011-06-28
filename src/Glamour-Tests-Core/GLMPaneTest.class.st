@@ -10,6 +10,18 @@ GLMPaneTest >> expectedFailures [
 ]
 
 { #category : #tests }
+GLMPaneTest >> testCopyAnnouncements [
+
+	| pane newPane |
+	pane := GLMPane new.
+	pane when: GLMPresentationsChanged do: [:ann | self fail ].
+	self assert: pane numberOfSubscriptions = 1.
+	newPane := pane copy.
+	newPane announce: GLMPresentationsChanged.
+	self assert: newPane numberOfSubscriptions = 0
+]
+
+{ #category : #tests }
 GLMPaneTest >> testCreation [
 	 
 	| aPane | 
