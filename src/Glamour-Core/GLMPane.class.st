@@ -226,6 +226,7 @@ GLMPane >> ports [
 GLMPane >> postCopy [
 	| newPort |
 	super postCopy.
+	self resetAnnouncer.
 	ports := ports collect: [:each | 
 		newPort := each copy.
 		newPort pane: self.
