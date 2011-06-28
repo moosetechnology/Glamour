@@ -56,13 +56,16 @@ GLMFinderMorphicTest >> testFinderWithEmbeddedBrowser [
 
 	window := finder openOn: String.
 	(finder panes first port: #selection) value: Collection.
+	
+	self assert: finder panes first presentations first ~= finder panes last presentations first.
 
 	tree1 := self find: MorphTreeMorph in: window submorphs last submorphs last submorphs first.
 	tree2 := self findLast: MorphTreeMorph in: window submorphs last submorphs last submorphs last.
 	self assert: tree1 notNil.
 	self assert: tree2 notNil.
 	self assert: tree1 ~= tree2.
-	self assert: tree1 model glamourPresentation ~= tree2 model glamourPresentation
+	self assert: tree1 model glamourPresentation pane ~= tree2 model glamourPresentation pane.
+	self assert: tree1 model glamourPresentation ~= tree2 model glamourPresentation.
 ]
 
 { #category : #tests }
