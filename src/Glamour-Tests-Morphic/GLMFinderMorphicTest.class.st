@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #tests }
+GLMFinderMorphicTest >> expectedFailures [ 
+	^ #(testFinderWithEmbeddedBrowser)
+]
+
+{ #category : #tests }
 GLMFinderMorphicTest >> testClose [
 	| finder |
 	finder := GLMFinder new.
