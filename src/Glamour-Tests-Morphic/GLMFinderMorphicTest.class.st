@@ -32,6 +32,7 @@ GLMFinderMorphicTest >> testDefaultFixedSizePanes [
 	| finder container |
 	finder := GLMFinder new.
 	window := finder openOn: 40.
+	window width: 501.
 	container := self find: TransformMorph in: window.
 	self assert: container submorphs first width equals: window submorphs last width.
 	(finder panes first port: #selection) value: 42.
