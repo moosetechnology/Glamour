@@ -43,8 +43,9 @@ GLMFinderMorphicTest >> testFinderWithEmbeddedBrowser [
 
 	| navigator finder tree1 tree2 |
 	navigator := GLMTabulator new.
-	navigator row: #content.
+	navigator row: #content; row: #details.
 	navigator transmit to: #content; andShow: [:a | a list display: #allSuperclasses].
+	navigator transmit from: #content; to: #details; andShow: [ :a | a text ].
 	navigator transmit from: #content; toOutsidePort: #selection.
 	finder := GLMFinder new.
 	finder show: [:a | a custom: navigator].

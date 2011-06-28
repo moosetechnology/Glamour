@@ -25,12 +25,11 @@ GLMTextMorphicTest >> testMultipleSelectionWithChange [
 		to: #one;
 		andShow: [ :a | a text display: '123456789' ].
 	window := browser openOn: 4.
-	textMorph := self find: PluggableTextMorph in: window.
-	self assert: textMorph selectionInterval isEmpty.
+	textMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
+	self assert: textMorph selection isEmpty.
 	textPresentation := (browser paneNamed: #one) presentations first.
 	textPresentation selectionInterval: (2 to: 5).
-	self assert: textMorph selectedContents asString equals: '2345'.
-	self assert: textPresentation selectedText equals: '2345'
+	self assert: textMorph selection asString equals: '2345'
 ]
 
 { #category : #tests }
