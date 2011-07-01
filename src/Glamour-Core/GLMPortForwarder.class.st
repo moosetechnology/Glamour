@@ -60,5 +60,5 @@ GLMPortForwarder >> setPane: aPane [
 GLMPortForwarder >> stopHandlingFromPort:  aPortSymbol [
 	|fromPort| 
 	fromPort := pane port: aPortSymbol.
-	self removeAllSuchThat:  [:each | each fromPort = fromPort]
+	forwards removeAllSuchThat:  [:each | each fromPort = fromPort]
 ]
