@@ -119,14 +119,7 @@ GLMMorphicRenderer >> renderInputPresentation: aPresentation [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderLabelPresentation: aLabelPresentation [ 
-	| morph | 
-	morph := (LabelMorph contents: aLabelPresentation formatedDisplayValue) 
-			layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
-			vResizing: #spaceFill;
-			hResizing: #spaceFill;
-			font: StandardFonts haloFont;
-			yourself.
-	^morph
+	^ GLMMorphicLabelRenderer render: aLabelPresentation from: self
 ]
 
 { #category : #'rendering presentations' }
