@@ -24,19 +24,26 @@ GLMNewScriptingTest >> testBuildingNestedComposites [
 
 { #category : #tests }
 GLMNewScriptingTest >> testBundleTransmission [
-	| browser transmission | 
-	browser := GLMTabulator new. 
-	browser column: #one; column: #two; column: #three. 
-	browser transmit from: #one -> #port1; from: #two -> #port2; to: #three -> #port3; andShow: [ :a |
-		a list.
-		a table ].
+	| browser transmission |
+	browser := GLMTabulator new.
+	browser
+		column: #one;
+		column: #two;
+		column: #three.
+	(browser transmit)
+		from: #one port: #port1;
+		from: #two port: #port2;
+		to: #three -> #port3;
+		andShow: [ :a | 
+					a list.
+					a table ].
 	transmission := browser transmissions first.
 	self assert: browser transmissions size = 1.
 	self assert: transmission browser == browser.
-	self assert: (transmission transmissionStrategy isKindOf: GLMReplacePresentationsStrategy). 
+	self assert: (transmission transmissionStrategy isKindOf: GLMReplacePresentationsStrategy).
 	self assert: transmission origins size = 2.
-	self assert: transmission origins first = ((browser paneNamed: #one) port: #port1). 
-	self assert: transmission origins last = ((browser paneNamed: #two) port: #port2). 
+	self assert: transmission origins first = ((browser paneNamed: #one) port: #port1).
+	self assert: transmission origins last = ((browser paneNamed: #two) port: #port2).
 	self assert: transmission destination = ((browser paneNamed: #three) port: #port3).
 	self assert: (transmission transmissionStrategy presentations isKindOf: GLMCompositePresentation).
 	self assert: transmission transmissionStrategy presentations size = 2
@@ -118,32 +125,42 @@ GLMNewScriptingTest >> testSelectionValidation [
 
 { #category : #tests }
 GLMNewScriptingTest >> testSimpleTransmission [
-	| browser | 
-	browser := GLMTabulator new. 
-	browser column: #one; column: #two. 
-	browser transmit from: #one -> #port1; fromOutside: #outerPort; to: #two -> #port2.
-	browser transmit from: #one -> #port3; toOutside: #anotherOuterPort.
+	| browser |
+	browser := GLMTabulator new.
+	browser
+		column: #one;
+		column: #two.
+	(browser transmit)
+		from: #one port: #port1;
+		fromOutside: #outerPort;
+		to: #two -> #port2.
+	(browser transmit)
+		from: #one port: #port3;
+		toOutside: #anotherOuterPort.
 	self assert: browser transmissions size = 2.
 	self assert: browser transmissions first browser == browser.
-	self assert: (browser transmissions first transmissionStrategy isKindOf: GLMNoStrategy). 
-	self assert: browser transmissions first origins first = ((browser paneNamed: #one) port: #port1). 
-	self assert: browser transmissions first origins last = (browser pane port: #outerPort). 
+	self assert: (browser transmissions first transmissionStrategy isKindOf: GLMNoStrategy).
+	self assert: browser transmissions first origins first = ((browser paneNamed: #one) port: #port1).
+	self assert: browser transmissions first origins last = (browser pane port: #outerPort).
 	self assert: browser transmissions first destination = ((browser paneNamed: #two) port: #port2).
-
 	self assert: browser transmissions last browser == browser.
 	self assert: (browser transmissions last transmissionStrategy isKindOf: GLMNoStrategy).
 	self assert: browser transmissions last origins first = ((browser paneNamed: #one) port: #port3).
-	self assert: browser transmissions last destination = (browser pane port: #anotherOuterPort).
-
+	self assert: browser transmissions last destination = (browser pane port: #anotherOuterPort)
 ]
 
 { #category : #tests }
 GLMNewScriptingTest >> testSimpleTransmissionWithCondition [
-	| browser | 
-	browser := GLMTabulator new. 
-	browser column: #one; column: #two. 
-	browser transmit from: #one -> #port1; fromOutside: #entity; to: #two -> #port2; when: [:one :outer | 
-		one notNil and: [outer notNil and: [one + outer = 42]]].
+	| browser |
+	browser := GLMTabulator new.
+	browser
+		column: #one;
+		column: #two.
+	(browser transmit)
+		from: #one port: #port1;
+		fromOutside: #entity;
+		to: #two -> #port2;
+		when: [ :one :outer | one notNil and: [ outer notNil and: [ one + outer = 42 ] ] ].
 	browser startOn: 2.
 	self assert: ((browser paneNamed: #two) port: #port2) value isNil.
 	((browser paneNamed: #one) port: #port1) value: 39.
@@ -154,15 +171,17 @@ GLMNewScriptingTest >> testSimpleTransmissionWithCondition [
 
 { #category : #tests }
 GLMNewScriptingTest >> testSimpleTransmissionWithTransformation [
-	| browser | 
-	browser := GLMTabulator new. 
-	browser column: #one; column: #two. 
-	browser transmit 
-		from: #one -> #port1; 
-		fromOutside: #entity; 
-		to: #two -> #port2; 
-		when: [:one :outer | one notNil and: [outer notNil]];
-		transformed: [:one :outer | one + outer].
+	| browser |
+	browser := GLMTabulator new.
+	browser
+		column: #one;
+		column: #two.
+	(browser transmit)
+		from: #one port: #port1;
+		fromOutside: #entity;
+		to: #two -> #port2;
+		when: [ :one :outer | one notNil and: [ outer notNil ] ];
+		transformed: [ :one :outer | one + outer ].
 	browser startOn: 2.
 	self assert: ((browser paneNamed: #two) port: #port2) value isNil.
 	((browser paneNamed: #one) port: #port1) value: 40.

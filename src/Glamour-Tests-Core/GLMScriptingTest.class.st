@@ -166,26 +166,23 @@ GLMScriptingTest >> testMorphicActionDefinition [
 
 { #category : #tests }
 GLMScriptingTest >> testNestedBrowserEntity [
-	 
-	| browser innerBrowser realInnerBrowser | 
-	browser := GLMTabulator new. 
-	browser column: #one. 
-	innerBrowser := GLMTabulator new. 
-	innerBrowser column: #innerOne. 
-	innerBrowser 
+	| browser innerBrowser realInnerBrowser |
+	browser := GLMTabulator new.
+	browser column: #one.
+	innerBrowser := GLMTabulator new.
+	innerBrowser column: #innerOne.
+	innerBrowser
 		showOn: #innerOne;
-		from: #outer->#entity;
-		using: [innerBrowser text]. 
-	browser 
-		showOn: #one; 
-		using: [
-			(browser custom: innerBrowser)
-				display: [:x | x + 2 ]]. 
-	browser startOn: 40. 
+		from: #outer port: #entity;
+		using: [ innerBrowser text ].
+	browser
+		showOn: #one;
+		using: [ (browser custom: innerBrowser) display: [ :x | x + 2 ] ].
+	browser startOn: 40.
 	realInnerBrowser := (browser paneNamed: #one) presentations first.
-	self assert: ((browser paneNamed: #one) port: #entity) value = 40. 
+	self assert: ((browser paneNamed: #one) port: #entity) value = 40.
 	self assert: (realInnerBrowser pane port: #entity) value = 40.
-	self assert: ((realInnerBrowser paneNamed: #innerOne) port: #entity) value = 42.
+	self assert: ((realInnerBrowser paneNamed: #innerOne) port: #entity) value = 42
 ]
 
 { #category : #tests }
@@ -216,23 +213,22 @@ GLMScriptingTest >> testNestedBrowserOther [
 ]
 
 { #category : #tests }
-GLMScriptingTest >> testNestedBrowserWithExplicitTransmission [ 
-	 
-	| browser innerBrowser realInnerBrowser | 
-	browser := GLMTabulator new. 
-	browser column: #one. 
-	innerBrowser := GLMTabulator new. 
-	innerBrowser column: #innerOne. 
-	innerBrowser 
-		showOn: #innerOne; 
-		from: #outer -> #entity; 
-		using: [innerBrowser text]. 
-	browser 
-		showOn: #one; 
-		using: [browser custom: innerBrowser]. 
-	browser startOn: 42. 
+GLMScriptingTest >> testNestedBrowserWithExplicitTransmission [
+	| browser innerBrowser realInnerBrowser |
+	browser := GLMTabulator new.
+	browser column: #one.
+	innerBrowser := GLMTabulator new.
+	innerBrowser column: #innerOne.
+	innerBrowser
+		showOn: #innerOne;
+		from: #outer port: #entity;
+		using: [ innerBrowser text ].
+	browser
+		showOn: #one;
+		using: [ browser custom: innerBrowser ].
+	browser startOn: 42.
 	realInnerBrowser := (browser paneNamed: #one) presentations first.
-	self assert: ((browser paneNamed: #one) port: #entity) value = 42. 
+	self assert: ((browser paneNamed: #one) port: #entity) value = 42.
 	self assert: ((realInnerBrowser paneNamed: #innerOne) port: #entity) value = 42
 ]
 
@@ -385,15 +381,16 @@ GLMScriptingTest >> testSimpleTransmission [
 
 { #category : #tests }
 GLMScriptingTest >> testSimpleTransmissionsToOuter [
-	 
-	| browser | 
-	browser := GLMTabulator new. 
-	browser column: #one. 
-	browser sendTo: #outer->#increased from: #outer->#entity with: [ :x | x + 1 ].
-	browser showOn: #one; from: #outer->#increased; using: [browser text].
+	| browser |
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser sendTo: #outer -> #increased from: #outer -> #entity with: [ :x | x + 1 ].
+	browser
+		showOn: #one;
+		from: #outer port: #increased;
+		using: [ browser text ].
 	browser startOn: 41.
 	self assert: ((browser paneNamed: #one) port: #entity) value = 42
-
 ]
 
 { #category : #tests }
@@ -525,20 +522,24 @@ GLMScriptingTest >> testTwoTransmissionsWithOnlyOneEvent [
 ]
 
 { #category : #tests }
-GLMScriptingTest >> testUpdateAction [ 
-	 
-	| browser | 
-	browser := GLMTabulator new. 
-	browser column: #one; column: #two. 
-	browser showOn: #one; using: [
-		browser list populate: #foo on: $m with: [:list :input | 42]]. 
-	browser showOn: #two; from: #one -> #foo; using: [browser text]. 
-	browser startOn: #(1 2 3). 
-	self assert: browser panes first presentations size = 1. 
-	self assert: browser panes last presentations isEmpty. 
-	browser panes first presentations first actions first 
-		actOn: browser panes first presentations first. 
-	self assert: browser panes second presentations size = 1. 
+GLMScriptingTest >> testUpdateAction [
+	| browser |
+	browser := GLMTabulator new.
+	browser
+		column: #one;
+		column: #two.
+	browser
+		showOn: #one;
+		using: [ browser list populate: #foo on: $m with: [ :list :input | 42 ] ].
+	browser
+		showOn: #two;
+		from: #one port: #foo;
+		using: [ browser text ].
+	browser startOn: #(1 2 3).
+	self assert: browser panes first presentations size = 1.
+	self assert: browser panes last presentations isEmpty.
+	browser panes first presentations first actions first actOn: browser panes first presentations first.
+	self assert: browser panes second presentations size = 1.
 	self assert: browser panes second presentations first entity = 42
 ]
 
