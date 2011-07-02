@@ -39,6 +39,29 @@ GLMFinderMorphicTest >> testDefaultFixedSizePanes [
 ]
 
 { #category : #tests }
+GLMFinderMorphicTest >> testEmbeddedBrowserRefreshesRendering [
+
+	| navigator finder firstNavigator textMorph1 textMorph2 |
+	navigator := GLMTabulator new.
+	navigator row: #content; row: #details.
+	navigator transmit to: #content; andShow: [:a | a list display: [:x | 1 to: x ]].
+	navigator transmit from: #content; to: #details; andShow: [ :a | a text ].
+	navigator transmit from: #content; toOutsidePort: #selection.
+	finder := GLMFinder new.
+	finder show: [:a | a custom: navigator].
+
+	window := finder openOn: 42.
+	firstNavigator := finder panes first presentations first.
+	(firstNavigator panes first port: #selection) value: 41.
+	textMorph1 := self find: PluggableTextMorph in: window submorphs last submorphs last submorphs first.
+	self assert: textMorph1 model text = '41'.
+
+	(firstNavigator panes first port: #selection) value: 42.
+	textMorph2 := self find: PluggableTextMorph in: window submorphs last submorphs last submorphs first.
+	self assert: textMorph2 model text = '42'
+]
+
+{ #category : #tests }
 GLMFinderMorphicTest >> testFinderWithEmbeddedBrowser [
 
 	| navigator finder tree1 tree2 |

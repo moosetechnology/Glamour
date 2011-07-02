@@ -70,14 +70,14 @@ GLMUpdateInterdependentPanesTest >> testInterdependentPanesShouldUpdateTheFocusT
 							with: [ :list | list selection ] ].	"	browser showOn: #four; from: #three; using: [browser text allowNil]."
 	(browser transmit)
 		to: #outer -> #focus;
-		from: #three port: #focus.
+		from: #three -> #focus.
 	(browser transmit)
 		to: #one -> #selection;
-		from: #outer port: #focus;
+		from: #outer -> #focus;
 		transformed: [ :x | x + 1 ].
 	(browser transmit)
 		to: #two -> #selection;
-		from: #outer port: #focus;
+		from: #outer -> #focus;
 		transformed: [ :x | x + 2 ].
 	window := browser openOn: 5.
 	((browser paneNamed: #one) port: #selection) value: 3.
@@ -122,14 +122,14 @@ GLMUpdateInterdependentPanesTest >> testInterdependentPanesShouldUpdateTheFocusT
 							with: [ :list | list selection ] ].	"	browser showOn: #four; from: #three; using: [browser text allowNil]."
 	(browser transmit)
 		to: #outer -> #focus;
-		from: #three port: #focus.
+		from: #three -> #focus.
 	(browser transmit)
 		to: #one -> #selection;
-		from: #outer port: #focus;
+		from: #outer -> #focus;
 		transformed: [ :x | x + 1 ].
 	(browser transmit)
 		to: #two -> #selection;
-		from: #outer port: #focus;
+		from: #outer -> #focus;
 		transformed: [ :x | x + 2 ].
 	window := browser openOn: 5.
 	((browser paneNamed: #one) port: #selection) value: 3.
