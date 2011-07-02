@@ -172,12 +172,12 @@ GLMScriptingTest >> testNestedBrowserEntity [
 	innerBrowser := GLMTabulator new.
 	innerBrowser column: #innerOne.
 	innerBrowser
-		showOn: #innerOne;
+		transmit to: #innerOne;
 		from: #outer port: #entity;
-		using: [ innerBrowser text ].
+		andShow: [:a | a text ].
 	browser
-		showOn: #one;
-		using: [ (browser custom: innerBrowser) display: [ :x | x + 2 ] ].
+		transmit to: #one;
+		andShow: [:a | (a custom: innerBrowser) display: [ :x | x + 2 ] ].
 	browser startOn: 40.
 	realInnerBrowser := (browser paneNamed: #one) presentations first.
 	self assert: ((browser paneNamed: #one) port: #entity) value = 40.
@@ -220,12 +220,12 @@ GLMScriptingTest >> testNestedBrowserWithExplicitTransmission [
 	innerBrowser := GLMTabulator new.
 	innerBrowser column: #innerOne.
 	innerBrowser
-		showOn: #innerOne;
+		transmit to: #innerOne;
 		from: #outer port: #entity;
-		using: [ innerBrowser text ].
+		andShow: [:a | a text ].
 	browser
-		showOn: #one;
-		using: [ browser custom: innerBrowser ].
+		transmit to: #one;
+		andShow: [:a | a custom: innerBrowser ].
 	browser startOn: 42.
 	realInnerBrowser := (browser paneNamed: #one) presentations first.
 	self assert: ((browser paneNamed: #one) port: #entity) value = 42.
@@ -386,9 +386,9 @@ GLMScriptingTest >> testSimpleTransmissionsToOuter [
 	browser column: #one.
 	browser sendTo: #outer -> #increased from: #outer -> #entity with: [ :x | x + 1 ].
 	browser
-		showOn: #one;
+		transmit to: #one;
 		from: #outer port: #increased;
-		using: [ browser text ].
+		andShow: [ :a | a text ].
 	browser startOn: 41.
 	self assert: ((browser paneNamed: #one) port: #entity) value = 42
 ]
@@ -529,12 +529,12 @@ GLMScriptingTest >> testUpdateAction [
 		column: #one;
 		column: #two.
 	browser
-		showOn: #one;
-		using: [ browser list populate: #foo on: $m with: [ :list :input | 42 ] ].
+		transmit to: #one;
+		andShow: [:a | a list populate: #foo on: $m with: [ :list :input | 42 ] ].
 	browser
-		showOn: #two;
+		transmit to: #two;
 		from: #one port: #foo;
-		using: [ browser text ].
+		andShow: [ :a | a text ].
 	browser startOn: #(1 2 3).
 	self assert: browser panes first presentations size = 1.
 	self assert: browser panes last presentations isEmpty.
