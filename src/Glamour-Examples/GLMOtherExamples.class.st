@@ -88,7 +88,7 @@ browser startOn: ''asdasd'''"
 	browser transmit to: #browser; from: #script; andShow: [ :a |
 		a dynamic
 			display: [:script | 
-				[(Compiler evaluate: 'browser := self.', script for: nil logged: false)] on: Error do: [:err | GLMTextPresentation new title: 'Error'; display: err printString] ]].
+				[(Compiler evaluate: '| browser | browser := self.', script for: nil logged: false)] on: Error do: [:err | GLMTextPresentation new title: 'Error'; display: err printString] ]].
 	^ browser
 ]
 
@@ -112,7 +112,7 @@ view treeLayout'"
 		a mondrian
 			title: 'Mondrian painting';
 			painting: [ :view :script | 
-						(Compiler evaluate: 'view := self.', script for: view logged: false)  ];
+						(Compiler evaluate: '| view | view := self.', script for: view inspect logged: false) inspect  ];
 			act: [:m | m canvas exportAsPNG] entitled: 'Export as PNG';
 			act: [:m | 
 				m canvas root decreaseZoom.
