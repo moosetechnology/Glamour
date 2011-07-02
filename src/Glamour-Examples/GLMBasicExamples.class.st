@@ -316,12 +316,12 @@ GLMBasicExamples >> doubleClick [
 		column: #one;
 		column: #two.
 	browser
-		showOn: #one;
-		using: [ browser list display: [ :x | 1 to: x ] ].
+		transmit to: #one;
+		andShow: [ :a | a list display: [ :x | 1 to: x ] ].
 	browser
-		showOn: #two;
+		transmit to: #two;
 		from: #one port: #strongSelection;
-		using: [ browser list display: [ :x | 1 to: x ] ].
+		andShow: [:a |  a list display: [ :x | 1 to: x ] ].
 	^ browser
 ]
 
