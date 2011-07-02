@@ -91,9 +91,10 @@ GLMTabulator >> initializeScriptingDefaults [
 		detect: [ :each | each originatesAt: (self pane port: #entity) ]
 		ifNone: [ 
 			self
-				showOn: (self panes first port: #entity);
+				transmit 
+				to: (self panes first port: #entity);
 				from: #outer port: #entity;
-				using: [ self custom: GLMFlexiblePresentation new ] ]
+				andShow: [ :a | a custom: GLMFlexiblePresentation new ] ]
 ]
 
 { #category : #rendering }
