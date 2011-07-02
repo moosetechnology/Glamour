@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #tests }
+GLMPresentationTest >> expectedFailures [ 
+	^ #(testToSendAs)
+]
+
+{ #category : #tests }
 GLMPresentationTest >> testActions [
 	| listing |
 	listing := GLMPresentation new.
