@@ -44,13 +44,22 @@ GLMExplicitBrowser >> from: anOriginPortReference [
 ]
 
 { #category : #scripting }
+GLMExplicitBrowser >> from: aPane port: aPort [
+	"send this message after showOn: to specify an origin for the Transmission. 
+	you can cascade several from: to specify additional origins" 
+	 
+	self lastTransmission 
+		addActiveOrigin: (self resolveOriginPort: aPane -> aPort)
+]
+
+{ #category : #scripting }
 GLMExplicitBrowser >> fromOutside: aPortName [
 	 ^ self fromOutsidePort: aPortName
 ]
 
 { #category : #scripting }
 GLMExplicitBrowser >> fromOutsidePort: aPortName [
-	 ^ self from: #outer->aPortName
+	^ self from: #outer port: aPortName
 ]
 
 { #category : #events }
@@ -143,10 +152,11 @@ GLMExplicitBrowser >> updateContextWith: aPane [
 ]
 
 { #category : #scripting }
-GLMExplicitBrowser >> using: aBlock [ 
+GLMExplicitBrowser >> using: aBlock [
 	"this message should be sent after showOn: and a sequence of from: messages. 
-	the using: message takes a block as a parameter to specify the presentations that accompany the Transmission" 
-	 
-	aBlock value. 
-	self lastTransmission origins isEmpty ifTrue: [self from: #outer->#entity]
+	the using: message takes a block as a parameter to specify the presentations that accompany the Transmission"
+
+	aBlock value.
+	self lastTransmission origins isEmpty
+		ifTrue: [ self from: #outer port: #entity ]
 ]

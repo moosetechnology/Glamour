@@ -20,33 +20,20 @@ Class {
 		'actions',
 		'condition',
 		'implicitNotNil',
-		'postTransformation',
 		'dynamicActionsBlock',
 		'color',
 		'customValidation',
 		'shouldValidate',
-		'acceptsSelection',
 		'parentPrototype',
 		'registeredAnnouncers',
 		'updateActions',
 		'selectionActions',
 		'selectionDynamicActionsBlock',
-		'implicitAllNil'
+		'implicitAllNil',
+		'portForwarder'
 	],
 	#category : #'Glamour-Core'
 }
-
-{ #category : #accessing }
-GLMPresentation >> acceptsSelection [
-	"this flag is used to specify whether the presentation
-	is allowed to populate the selection port or not"
-	^ acceptsSelection ifNil: [acceptsSelection := true]
-]
-
-{ #category : #accessing }
-GLMPresentation >> acceptsSelection: aBoolean [
-	acceptsSelection := aBoolean
-]
 
 { #category : #scripting }
 GLMPresentation >> act: aBlock entitled: aString [ 
@@ -420,7 +407,7 @@ GLMPresentation >> morphicSelectionAct: aBlock icon: anIcon entitled: aString [
 
 { #category : #scripting }
 GLMPresentation >> noSelection [
-	self acceptsSelection: false
+	self portForwarder stopHandlingFromPort: #selection
 ]
 
 { #category : #scripting }
@@ -537,6 +524,19 @@ GLMPresentation >> populate: aPortSymbol on: aCharacter with: aBlock [
 				yourself)
 ]
 
+{ #category : #accessing }
+GLMPresentation >> portForwarder [
+	^ portForwarder
+		ifNil: [portForwarder := GLMPortForwarder pane: self pane.
+			  self standardPorts
+				do: [:portSymbol |
+					  portForwarder
+						addForwardFrom: portSymbol
+						to: portSymbol
+						andTransformWith: #yourself].
+				portForwarder]
+]
+
 { #category : #copying }
 GLMPresentation >> postCopy [
 	super postCopy.
@@ -547,12 +547,6 @@ GLMPresentation >> postCopy [
 			presentation: self;
 			yourself
 		]
-]
-
-{ #category : #accessing }
-GLMPresentation >> postTransformation [
-	"this is used for transforming the object before updating the selection"
-	^ postTransformation ifNil: [postTransformation := #yourself]
 ]
 
 { #category : #printing }
@@ -594,10 +588,9 @@ GLMPresentation >> selection [
 ]
 
 { #category : #'accessing ports' }
-GLMPresentation >> selection: anObject [ 
-	self acceptsSelection ifFalse: [^ self].
+GLMPresentation >> selection: anObject [
 	self flag: 'perhaps it would be better to provide 2 ports: a transformed one and a normal onewsho'.
-	(self pane port: #selection) value: (self postTransformation glamourValue: anObject)
+	self portForwarder handle: anObject fromPort: #selection.
 ]
 
 { #category : #scripting }
@@ -685,13 +678,23 @@ GLMPresentation >> selectionPopulate: aPortSymbol on: aCharacter entitled: aStri
 ]
 
 { #category : #accessing }
-GLMPresentation >> selectionTransformation: anObject [ 
-	postTransformation := anObject
+GLMPresentation >> selectionTransformation: aBlock [ 
+	self standardPorts 
+		do: [:portSymbol |
+				self portForwarder
+					addForwardFrom: portSymbol
+					to:  portSymbol
+					andTransformWith: aBlock]
 ]
 
 { #category : #scripting }
 GLMPresentation >> send: aBlock [ 
 	self selectionTransformation: aBlock
+]
+
+{ #category : #scripting }
+GLMPresentation >> send: aBlock as: aPortSymbol [ 
+	self portForwarder addForwardFrom: #selection to: aPortSymbol andTransformWith: aBlock
 ]
 
 { #category : #'accessing validation' }
@@ -705,9 +708,14 @@ GLMPresentation >> shouldValidate: aBoolean [
 ]
 
 { #category : #'accessing ports' }
+GLMPresentation >> standardPorts [
+	^ #(selection status strongSelection)
+]
+
+{ #category : #'accessing ports' }
 GLMPresentation >> status: anObject [ 
 	self flag: 'what kind of transformation should we want here?'.
-	(self pane port: #status) value: (self postTransformation glamourValue: anObject)
+	self portForwarder forward:  anObject  fromPort: #status.
 ]
 
 { #category : #'accessing ports' }
@@ -717,7 +725,7 @@ GLMPresentation >> strongSelection [
 
 { #category : #'accessing ports' }
 GLMPresentation >> strongSelection: anObject [
-	(self pane port: #strongSelection) value: (self postTransformation glamourValue: anObject)
+	self portForwarder handle: anObject fromPort: #strongSelection.
 ]
 
 { #category : #accessing }
