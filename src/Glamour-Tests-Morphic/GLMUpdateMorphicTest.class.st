@@ -9,8 +9,7 @@ Class {
 		'listMorph',
 		'tableMorph',
 		'listLabelMorph',
-		'unupdatedListMorph',
-		'labelMorph'
+		'unupdatedListMorph'
 	],
 	#category : #'Glamour-Tests-Morphic'
 }
@@ -48,24 +47,14 @@ GLMUpdateMorphicTest >> setUp [
 		a list 
 			title: 'Not updated automatically';
 			shouldValidate: true.
-		a label 
-			display: [:x | x isEmpty ifTrue: ['#()'] ifFalse: [x last]];
-			updateOn: TestAnnouncement from: [ announcer ].			
 			 ].
 	browser showOn: #two; from: #one; using: [browser text].
 	window := browser openOn: entity.
-	listLabelMorph := 			window submorphs last submorphs second submorphs first submorphs 
-									first tabSelectorMorph submorphs first submorphs first.
-	listMorph := 				window submorphs last submorphs second submorphs first submorphs 
-									first submorphs first submorphs first submorphs first.
-	treeMorph := 				window submorphs last submorphs second submorphs first submorphs 
-									second submorphs first submorphs first submorphs first.
-	tableMorph := 				window submorphs last submorphs second submorphs first submorphs 
-									third submorphs first submorphs first submorphs first.
-	unupdatedListMorph := 	window submorphs last submorphs second submorphs first submorphs 
-									fifth submorphs first submorphs first submorphs first.
-	labelMorph := 				window submorphs last submorphs second submorphs first submorphs 
-									last submorphs first submorphs first.
+	listLabelMorph := window submorphs last submorphs second submorphs first submorphs first tabSelectorMorph submorphs first submorphs first.
+	listMorph := window submorphs last submorphs second submorphs first submorphs first submorphs first submorphs first submorphs first.
+	treeMorph := window submorphs last submorphs second submorphs first submorphs second submorphs first submorphs first submorphs first.
+	tableMorph := window submorphs last submorphs second submorphs first submorphs third submorphs first submorphs first submorphs first.
+	unupdatedListMorph := window submorphs last submorphs second submorphs first submorphs last submorphs first submorphs first submorphs first.
 ]
 
 { #category : #tests }
@@ -74,8 +63,7 @@ GLMUpdateMorphicTest >> testAdd [
 	announcer announce: TestAnnouncement.
 	self assert: listMorph model roots size equals: 4.
 	self assert: treeMorph model roots size equals: 4.
-	self assert: tableMorph model roots size equals: 4.
-	self assert: labelMorph contents equals: '4'
+	self assert: tableMorph model roots size equals: 4
 ]
 
 { #category : #tests }
@@ -91,13 +79,13 @@ GLMUpdateMorphicTest >> testAddAndUpdateBrowserManually [
 
 { #category : #tests }
 GLMUpdateMorphicTest >> testAnnouncerUnregistration [
-	self assert: announcer numberOfSubscriptions = 5.
+	self assert: announcer numberOfSubscriptions = 4.
 	browser entity: #($a $b).
-	self assert: announcer numberOfSubscriptions = 5.
+	self assert: announcer numberOfSubscriptions = 4.
 	browser entity: #($d).
-	self assert: announcer numberOfSubscriptions = 5.
+	self assert: announcer numberOfSubscriptions = 4.
 	browser entity: #().
-	self assert: announcer numberOfSubscriptions = 5.
+	self assert: announcer numberOfSubscriptions = 4.
 	browser unregisterFromAllAnnouncements.
 	self assert: announcer numberOfSubscriptions = 0
 ]
@@ -117,8 +105,7 @@ GLMUpdateMorphicTest >> testRemove [
 	announcer announce: TestAnnouncement.
 	self assert: listMorph model roots size equals: 2.
 	self assert: treeMorph model roots size equals: 2.
-	self assert: tableMorph model roots size equals: 2.
-	self assert: labelMorph contents equals: '2'
+	self assert: tableMorph model roots size equals: 2
 ]
 
 { #category : #tests }
