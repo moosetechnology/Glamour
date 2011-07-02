@@ -211,4 +211,6 @@ GLMFinderTest >> testValidSubscriptionsInComplexBrowser [
 	self assert: details1 presentations first displayValue equals: Collection.
 	details2 := tabulator2 panes second.
 	self assert: details2 presentations first displayValue equals: Object.
+	self assert: content1 presentations first displayValue size equals: 5. "5 superclasses of String".
+	self assert: content2 presentations first displayValue size equals: 2. "2 superclasses of Collection".
 ]
