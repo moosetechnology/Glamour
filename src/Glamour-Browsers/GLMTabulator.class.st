@@ -83,16 +83,16 @@ GLMTabulator >> column: aBlockOrSymbol span: anInteger [
 ]
 
 { #category : #scripting }
-GLMTabulator >> initializeScriptingDefaults [ 
-	 
-	super initializeScriptingDefaults. 
-	self cell isNil ifTrue: [self addColumn: #pane].
-	self transmissions 
+GLMTabulator >> initializeScriptingDefaults [
+	super initializeScriptingDefaults.
+	self cell isNil
+		ifTrue: [ self addColumn: #pane ].
+	self transmissions
 		detect: [ :each | each originatesAt: (self pane port: #entity) ]
-		ifNone: [
-			self 
+		ifNone: [ 
+			self
 				showOn: (self panes first port: #entity);
-				from: #outer->#entity;
+				from: #outer port: #entity;
 				using: [ self custom: GLMFlexiblePresentation new ] ]
 ]
 

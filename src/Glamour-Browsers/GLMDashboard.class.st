@@ -55,15 +55,14 @@ GLMDashboard >> fillWidthStrategy [
 ]
 
 { #category : #scripting }
-GLMDashboard >> initializeScriptingDefaults [ 
-	 
-	super initializeScriptingDefaults. 
-	self transmissions 
+GLMDashboard >> initializeScriptingDefaults [
+	super initializeScriptingDefaults.
+	self transmissions
 		detect: [ :each | each originatesAt: (self pane port: #entity) ]
-		ifNone: [
-			self 
+		ifNone: [ 
+			self
 				showOn: (self panes first port: #entity);
-				from: #outer->#entity;
+				from: #outer port: #entity;
 				using: [ self custom: GLMFlexiblePresentation new ] ]
 ]
 
