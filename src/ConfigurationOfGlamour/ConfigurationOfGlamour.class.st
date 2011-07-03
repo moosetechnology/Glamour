@@ -499,7 +499,7 @@ ConfigurationOfGlamour >> default: spec [
 				spec
 					className: 'ConfigurationOfShout';
 					file: 'ConfigurationOfShout';
-					version: '1.2.2';
+					version: '1.3';
 					repository: 'http://www.squeaksource.com/MetacelloRepository' ].					
 		spec
 			project: 'Mondrian for Glamour' with: [
