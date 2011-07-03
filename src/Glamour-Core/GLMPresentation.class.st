@@ -20,20 +20,33 @@ Class {
 		'actions',
 		'condition',
 		'implicitNotNil',
+		'postTransformation',
 		'dynamicActionsBlock',
 		'color',
 		'customValidation',
 		'shouldValidate',
+		'acceptsSelection',
 		'parentPrototype',
 		'registeredAnnouncers',
 		'updateActions',
 		'selectionActions',
 		'selectionDynamicActionsBlock',
-		'implicitAllNil',
-		'portForwarder'
+		'implicitAllNil'
 	],
 	#category : #'Glamour-Core'
 }
+
+{ #category : #accessing }
+GLMPresentation >> acceptsSelection [
+	"this flag is used to specify whether the presentation
+	is allowed to populate the selection port or not"
+	^ acceptsSelection ifNil: [acceptsSelection := true]
+]
+
+{ #category : #accessing }
+GLMPresentation >> acceptsSelection: aBoolean [
+	acceptsSelection := aBoolean
+]
 
 { #category : #scripting }
 GLMPresentation >> act: aBlock entitled: aString [ 
@@ -407,7 +420,7 @@ GLMPresentation >> morphicSelectionAct: aBlock icon: anIcon entitled: aString [
 
 { #category : #scripting }
 GLMPresentation >> noSelection [
-	self portForwarder stopHandlingFromPort: #selection
+	self acceptsSelection: false
 ]
 
 { #category : #scripting }
@@ -524,19 +537,6 @@ GLMPresentation >> populate: aPortSymbol on: aCharacter with: aBlock [
 				yourself)
 ]
 
-{ #category : #accessing }
-GLMPresentation >> portForwarder [
-	^ portForwarder
-		ifNil: [portForwarder := GLMPortForwarder pane: self pane.
-			  self standardPorts
-				do: [:portSymbol |
-					  portForwarder
-						addForwardFrom: portSymbol
-						to: portSymbol
-						andTransformWith: #yourself].
-				portForwarder]
-]
-
 { #category : #copying }
 GLMPresentation >> postCopy [
 	super postCopy.
@@ -549,12 +549,23 @@ GLMPresentation >> postCopy [
 		]
 ]
 
+{ #category : #accessing }
+GLMPresentation >> postTransformation [
+	"this is used for transforming the object before updating the selection"
+	^ postTransformation ifNil: [postTransformation := #yourself]
+]
+
 { #category : #printing }
 GLMPresentation >> printOn: aStream [
 	super printOn: aStream.
-	aStream nextPutAll: '(id=', self identityHash printString.
-	aStream nextPutAll: ' title=', self titleValue asString.
-	aStream nextPutAll: ' pane=', self pane printString , ')'
+	aStream
+		nextPutAll: '(id=';
+		nextPutAll: self identityHash printString;
+		nextPutAll: ' title=';
+		nextPutAll: self titleValue asString;
+		nextPutAll: ' pane=';
+		nextPutAll: self pane printString;
+		nextPutAll: ')'
 ]
 
 { #category : #updating }
@@ -588,9 +599,10 @@ GLMPresentation >> selection [
 ]
 
 { #category : #'accessing ports' }
-GLMPresentation >> selection: anObject [
+GLMPresentation >> selection: anObject [ 
+	self acceptsSelection ifFalse: [^ self].
 	self flag: 'perhaps it would be better to provide 2 ports: a transformed one and a normal onewsho'.
-	self portForwarder handle: anObject fromPort: #selection.
+	(self pane port: #selection) value: (self postTransformation glamourValue: anObject)
 ]
 
 { #category : #scripting }
@@ -678,23 +690,13 @@ GLMPresentation >> selectionPopulate: aPortSymbol on: aCharacter entitled: aStri
 ]
 
 { #category : #accessing }
-GLMPresentation >> selectionTransformation: aBlock [ 
-	self standardPorts 
-		do: [:portSymbol |
-				self portForwarder
-					addForwardFrom: portSymbol
-					to:  portSymbol
-					andTransformWith: aBlock]
+GLMPresentation >> selectionTransformation: anObject [ 
+	postTransformation := anObject
 ]
 
 { #category : #scripting }
 GLMPresentation >> send: aBlock [ 
 	self selectionTransformation: aBlock
-]
-
-{ #category : #scripting }
-GLMPresentation >> send: aBlock as: aPortSymbol [ 
-	self portForwarder addForwardFrom: #selection to: aPortSymbol andTransformWith: aBlock
 ]
 
 { #category : #'accessing validation' }
@@ -708,14 +710,9 @@ GLMPresentation >> shouldValidate: aBoolean [
 ]
 
 { #category : #'accessing ports' }
-GLMPresentation >> standardPorts [
-	^ #(selection status strongSelection)
-]
-
-{ #category : #'accessing ports' }
 GLMPresentation >> status: anObject [ 
 	self flag: 'what kind of transformation should we want here?'.
-	self portForwarder forward:  anObject  fromPort: #status.
+	(self pane port: #status) value: (self postTransformation glamourValue: anObject)
 ]
 
 { #category : #'accessing ports' }
@@ -725,7 +722,7 @@ GLMPresentation >> strongSelection [
 
 { #category : #'accessing ports' }
 GLMPresentation >> strongSelection: anObject [
-	self portForwarder handle: anObject fromPort: #strongSelection.
+	(self pane port: #strongSelection) value: (self postTransformation glamourValue: anObject)
 ]
 
 { #category : #accessing }

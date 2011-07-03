@@ -31,10 +31,10 @@ GLMPortEvent class >> on: aPort previouslyValued: anObject in: aTransmissionCont
 ]
 
 { #category : #testing }
-GLMPortEvent >> hasChanged [ 
-	"Answer whether the port value changed due to the event." 
-	 
-	^(self value == self oldValue) not
+GLMPortEvent >> hasChanged [
+	"Answer whether the port value changed due to the event."
+
+	^ self value ~~ self oldValue
 ]
 
 { #category : #'initialize-release' }

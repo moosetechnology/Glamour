@@ -60,16 +60,14 @@ GLMTransmission >> addPresentations: aCollection [
 { #category : #scripting }
 GLMTransmission >> andShow: aBlock [
 	self ensureBundleStrategy.
-	self origins isEmpty
-		ifTrue: [ self from: #outer port: #entity ].
+	self origins isEmpty ifTrue: [self from: #outer->#entity].
 	aBlock value: self transmissionStrategy presentations
 ]
 
 { #category : #scripting }
 GLMTransmission >> andShowIfNone: aBlock [
 	self ensureNoOverrideBundleStrategy.
-	self origins isEmpty
-		ifTrue: [ self from: #outer port: #entity ].
+	self origins isEmpty ifTrue: [self from: #outer->#entity].
 	aBlock value: self transmissionStrategy presentations
 ]
 
@@ -185,7 +183,7 @@ GLMTransmission >> fromOutside: aPortSymbol [
 
 { #category : #scripting }
 GLMTransmission >> fromOutsidePort: aPortSymbol [
-	^ self from: #outer port: aPortSymbol
+	^ self from: #outer->aPortSymbol
 ]
 
 { #category : #'initialize-release' }

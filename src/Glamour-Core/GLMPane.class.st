@@ -254,7 +254,8 @@ GLMPane >> printOn: aStream [
 	aStream
 		nextPut: $(;
 		nextPutAll: self identityHash printString;
-		nextPutAll: ' ', self name;
+		space;
+		nextPutAll: self name;
 		nextPut: $)
 ]
 
