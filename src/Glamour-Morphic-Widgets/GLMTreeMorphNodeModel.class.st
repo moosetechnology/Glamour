@@ -56,9 +56,11 @@ GLMTreeMorphNodeModel >> contents [
 
 { #category : #accessing }
 GLMTreeMorphNodeModel >> displayText [
-	^ UITheme current 
+	^ (UITheme current 
 		newTextIn: World
-		text: (self containerTree glamourPresentation formatedDisplayValueOf: self item) 
+		text: (self containerTree glamourPresentation formatedDisplayValueOf: self item))
+			backgroundColor: self textBackgroundColor;
+			yourself
 ]
 
 { #category : #callbacks }
@@ -70,7 +72,7 @@ GLMTreeMorphNodeModel >> elementColumn [
 	tags withIndexDo:[ :each :index | 
 			row addLast: (self buttonForTag: each 
 									  filter: (tagsFilter at: index ifAbsentPut:[ each ])) ].
-	^ UITheme current newRowIn: World for: row
+	^ (UITheme current newRowIn: World for: row).
 ]
 
 { #category : #testing }
@@ -207,6 +209,11 @@ GLMTreeMorphNodeModel >> tagsColumn [
 	tags isEmpty ifFalse: [
 		^ self buttonForTag: tags last filter: tags last ].
 	^ RectangleMorph new
+]
+
+{ #category : #accessing }
+GLMTreeMorphNodeModel >> textBackgroundColor [
+	^ self containerTree glamourPresentation textBackgroundColorFor: self item
 ]
 
 { #category : #callbacks }
