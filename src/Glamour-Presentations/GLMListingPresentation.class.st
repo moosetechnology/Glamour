@@ -25,7 +25,8 @@ Class {
 		'allowsDeselection',
 		'tagsStyle',
 		'helpMessage',
-		'sortBlock'
+		'sortBlock',
+		'textBackgroundColor'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -258,6 +259,23 @@ GLMListingPresentation >> tagsFor: anObject to: operation [
 GLMListingPresentation >> tagsStyle [
 
 	^tagsStyle ifNil:[ self grayRoundedTags. tagsStyle ]
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> textBackgroundColor [
+
+	^ textBackgroundColor ifNil: [textBackgroundColor := Color transparent]
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> textBackgroundColor:  aBlockOrAColor [
+
+	textBackgroundColor := aBlockOrAColor
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> textBackgroundColorFor: anObject [
+	^ self textBackgroundColor glamourValue: (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue)
 ]
 
 { #category : #accessing }
