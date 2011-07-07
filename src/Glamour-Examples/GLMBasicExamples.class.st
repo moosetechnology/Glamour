@@ -422,6 +422,29 @@ GLMBasicExamples >> interdependentPanes [
 ]
 
 { #category : #'explicit selection' }
+GLMBasicExamples >> listsInDashboardWithUpdatedSelection [
+	"self new listsWithUpdatedSelection openOn: 10"
+	<glmBrowser: 'Updated selection in dashboard' input: '10'>
+	| browser |
+	browser := GLMDashboard new.
+	browser addPaneNamed: #one; addPaneNamed: #two; addPaneNamed: #three.
+	browser showOn: #one; using: [
+		browser tree
+			display: [:x | 1 to: x ]].
+	browser showOn: #two; using: [
+		browser tree
+			display: [:x | 1 to: x + 2 ]].
+	browser showOn: #three; using: [
+		browser tree
+			beMultiple;
+			display: [:x | 1 to: x ]].
+	browser sendTo: #two->#selection from: #one with: [:x | x + 2].
+	browser sendTo: #one->#selection from: #two with: [:x | x - 2].
+	browser sendTo: #three->#selection from: #two with: [:x | (1 to: (x - 2)) ].
+	^ browser
+]
+
+{ #category : #'explicit selection' }
 GLMBasicExamples >> listsWithUpdatedSelection [
 	"self new listsWithUpdatedSelection openOn: 10"
 	<glmBrowser: 'Updated selection' input: '10'>
