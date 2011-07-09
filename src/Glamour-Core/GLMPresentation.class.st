@@ -877,3 +877,8 @@ GLMPresentation >> whenKindOf: aClass [
 GLMPresentation >> withAllDo: aBlock [
 	^ aBlock value: self
 ]
+
+{ #category : #enumeration }
+GLMPresentation >> withAllPanesAndPresentationsDo: aBlock [
+	^ aBlock value: self
+]
