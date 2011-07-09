@@ -363,7 +363,6 @@ ConfigurationOfGlamour >> baseline21: spec [
 			package: 'Glamour-Core' with: [spec requires: #('Glamour-Helpers' 'Glamour-Announcements')];
 			package: 'Glamour-Presentations'  with: [spec requires: #('Glamour-Core')];
 			package: 'Glamour-Browsers'  with: [spec requires: #('Glamour-Core')];
-			package: 'Glamour-Scripting' with: [spec requires: #('Glamour-Presentations' 'Glamour-Browsers' 'Glamour-Core' 'Mondrian for Glamour')];
 			package: 'Glamour-Tests-Core' ;
 			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Shout')];
 			package: 'Glamour-Morphic-Theme';
@@ -392,7 +391,6 @@ ConfigurationOfGlamour >> baseline21: spec [
 						'Glamour-Core'
 						'Glamour-Presentations'
 						'Glamour-Browsers'
-						'Glamour-Scripting'
 						'Glamour-Examples'
 						'Glamour-Tools').
 		spec group: 'Morphic' with: #(
