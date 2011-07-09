@@ -185,8 +185,14 @@ GLMCompositePresentation >> verticallyStackedArrangement [
 	^ self stackedVerticallyArrangement
 ]
 
-{ #category : #accessing }
+{ #category : #enumerating }
 GLMCompositePresentation >> withAllDo: aBlock [
 	super withAllDo: aBlock.
 	self do: aBlock
+]
+
+{ #category : #enumerating }
+GLMCompositePresentation >> withAllPanesAndPresentationsDo: aBlock [
+	super withAllPanesAndPresentationsDo: aBlock.
+	self do: [:each | each withAllPanesAndPresentationsDo: aBlock ]
 ]
