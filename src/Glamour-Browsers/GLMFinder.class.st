@@ -1,8 +1,6 @@
 "
 A GLMFinder models a browsers that behaves like the Mac Finder: whenever the selection port is set on one pane, a new one is created to the right with the selection as entity. The Finder opens the first pane on the entity.
 
-The Finder communicates with the Renderer 
-
 Input ports:
 - entity: this is passed to the first pane
 
@@ -23,7 +21,7 @@ Class {
 GLMFinder >> addPaneFrom: aPort [ 
 	self panes addLast: (GLMPane in: self).
 	GLMTransmission new
-		ensureBundleStrategy;
+		ensureReplacePresentationsStrategy;
 		addActiveOrigin: aPort; 
 		destination: (self panes last port: #entity); 
 		presentations: (self presentations copy); 
@@ -37,13 +35,13 @@ GLMFinder >> addPaneFromInner: aPort [
 	self panes isEmpty ifFalse: [lastActivePresentation := self panes last lastActivePresentation ].
 	self panes addLast: ( (GLMPane in: self) lastActivePresentation: lastActivePresentation; yourself).
 	GLMTransmission new
-		ensureBundleStrategy;
+		ensureReplacePresentationsStrategy;
 		addActiveOrigin: aPort; 
 		destination: (self panes last port: #entity); 
 		presentations: (self presentations copy); 
 		transmit. 
 	realTransmissions := self transmissions collect: [:each |  
-			newTransmission := GLMTransmission new ensureBundleStrategy. 
+			newTransmission := GLMTransmission new ensureReplacePresentationsStrategy. 
 			each activeOrigins do: [:eachPort | 
 				newTransmission addActiveOrigin: (aPort pane port: eachPort name)]. 
 			each passiveOrigins do: [:eachPort | 
@@ -95,7 +93,7 @@ GLMFinder >> innerPortEvent: aPortEvent [
 			self removeLastPane.
 			self announce: (GLMPaneRemoved pane: each fromBrowser: self) ].
 		index <= 1 
-			ifTrue: [
+			ifTrue: [ 
 				self addPaneFromInner: aPortEvent port.
 				self announce: 
 					(GLMPaneAdded 
@@ -105,8 +103,7 @@ GLMFinder >> innerPortEvent: aPortEvent [
 			ifFalse: [
 				toReplace := self removeLastPane.
 				self addPaneFromInner: aPortEvent port.
-				self announce: 
-					(GLMPaneReplaced 
+				self announce: (GLMPaneReplaced 
 							oldPane: toReplace 
 							newPane: self panes last
 							fromBrowser: self ) ] 

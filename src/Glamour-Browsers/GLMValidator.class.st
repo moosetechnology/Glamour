@@ -22,7 +22,7 @@ GLMValidator >> addPaneFrom: aPort [
 	self panes isEmpty ifTrue: [
 		self panes addLast: (GLMPane in: self).
 		GLMTransmission new
-			ensureBundleStrategy;
+			ensureReplacePresentationsStrategy;
 			addActiveOrigin: aPort; 
 			destination: (self panes last port: #entity); 
 			presentations: (self presentations copy); 
@@ -38,13 +38,13 @@ GLMValidator >> addPaneFromInner: aPort [
 	self panes isEmpty ifFalse: [lastActivePresentation := self panes last lastActivePresentation ].
 	self panes addLast: ( (GLMPane in: self) lastActivePresentation: lastActivePresentation; yourself).
 	GLMTransmission new
-		ensureBundleStrategy;
+		ensureReplacePresentationsStrategy;
 		addActiveOrigin: aPort; 
 		destination: (self panes last port: #entity); 
 		presentations: (self presentations copy); 
 		transmit. 
 	realTransmissions := self transmissions collect: [:each |  
-			newTransmission := GLMTransmission new ensureBundleStrategy. 
+			newTransmission := GLMTransmission new ensureReplacePresentationsStrategy. 
 			each activeOrigins do: [:eachPort | 
 				newTransmission addActiveOrigin: (aPort pane port: eachPort name)]. 
 			each passiveOrigins do: [:eachPort | 

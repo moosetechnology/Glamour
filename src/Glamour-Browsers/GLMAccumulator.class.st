@@ -35,7 +35,7 @@ GLMAccumulator >> addPaneFrom: aPort [
 	(self tryToSelectPaneFrom: aPort) ifTrue: [ ^ self ].
 	self panes addLast: (GLMPane in: self).
 	GLMTransmission new
-		ensureBundleStrategy;
+		ensureReplacePresentationsStrategy;
 		addActiveOrigin: aPort; 
 		destination: (self panes last port: #entity); 
 		presentations: (self presentations copy); 

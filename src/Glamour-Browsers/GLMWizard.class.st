@@ -87,7 +87,7 @@ GLMWizard class >> simpleExample [
 GLMWizard >> addPaneFrom: aPort [ 
 	self panes addLast: self computePane.
 	GLMTransmission new
-		ensureBundleStrategy;
+		ensureReplacePresentationsStrategy;
 		addActiveOrigin: aPort; 
 		destination: (self panes last port: #entity); 
 		presentations: (self presentations copy); 

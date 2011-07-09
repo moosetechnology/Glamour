@@ -14,7 +14,7 @@ Class {
 GLMExpander >> addPaneFrom: aPort [ 
 	self panes addLast: (GLMPane in: self).
 	GLMTransmission new
-		ensureBundleStrategy;
+		ensureReplacePresentationsStrategy;
 		addActiveOrigin: aPort; 
 		destination: (self panes last port: #entity); 
 		presentations: (self presentations copy); 
