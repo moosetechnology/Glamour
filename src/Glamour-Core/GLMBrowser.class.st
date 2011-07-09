@@ -35,7 +35,7 @@ GLMBrowser class >> withStatusbar [
 GLMBrowser >> addDefaultStatusbarTransmissionFrom: aPane [
 	| defaultTransmission |
 	defaultTransmission := GLMTransmission new
-		ensureBundleStrategy;
+		ensureReplacePresentationsStrategy;
 		addActiveOrigin: (aPane port: #status); 
 		destination: (self statusbarPane port: #entity); 
 		addPresentation: self statusbarPresentation; 
@@ -287,10 +287,4 @@ GLMBrowser >> unregisterFromAllAnnouncements [
 GLMBrowser >> update [ 
 	self panes do: [:each | each update ].
 	self announce: (GLMPresentationUpdated new presentation: self).
-]
-
-{ #category : #enumerating }
-GLMBrowser >> withAllPanesAndPresentationsDo: aBlock [
-	super withAllPanesAndPresentationsDo: aBlock.
-	self panes do: [:each | each withAllPanesAndPresentationsDo: aBlock ]
 ]

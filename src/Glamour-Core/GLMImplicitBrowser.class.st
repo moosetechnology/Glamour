@@ -36,7 +36,7 @@ GLMImplicitBrowser >> presentations [
 { #category : #accessing }
 GLMImplicitBrowser >> scriptTransmission [
 	^ scriptTransmission 
-		ifNil: [scriptTransmission := GLMTransmission new ensureBundleStrategy]
+		ifNil: [scriptTransmission := GLMTransmission new ensureReplacePresentationsStrategy]
 ]
 
 { #category : #scripting }

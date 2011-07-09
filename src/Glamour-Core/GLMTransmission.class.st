@@ -59,14 +59,14 @@ GLMTransmission >> addPresentations: aCollection [
 
 { #category : #scripting }
 GLMTransmission >> andShow: aBlock [
-	self ensureBundleStrategy.
+	self ensureReplacePresentationsStrategy.
 	self origins isEmpty ifTrue: [self from: #outer->#entity].
 	aBlock value: self transmissionStrategy presentations
 ]
 
 { #category : #scripting }
 GLMTransmission >> andShowIfNone: aBlock [
-	self ensureNoOverrideBundleStrategy.
+	self ensurePresentIfNoneStrategy.
 	self origins isEmpty ifTrue: [self from: #outer->#entity].
 	aBlock value: self transmissionStrategy presentations
 ]
@@ -140,15 +140,15 @@ GLMTransmission >> destination: aPort [
 ]
 
 { #category : #accessing }
-GLMTransmission >> ensureBundleStrategy [
-	self transmissionStrategy class = GLMReplacePresentationsStrategy ifFalse: [
-		self transmissionStrategy: (GLMReplacePresentationsStrategy of: self) ]
+GLMTransmission >> ensurePresentIfNoneStrategy [
+	self transmissionStrategy class = GLMPresentIfNoneStrategy ifFalse: [
+		self transmissionStrategy: (GLMPresentIfNoneStrategy of: self) ]
 ]
 
 { #category : #accessing }
-GLMTransmission >> ensureNoOverrideBundleStrategy [
-	self transmissionStrategy class = GLMPresentIfNoneStrategy ifFalse: [
-		self transmissionStrategy: (GLMPresentIfNoneStrategy of: self) ]
+GLMTransmission >> ensureReplacePresentationsStrategy [
+	self transmissionStrategy class = GLMReplacePresentationsStrategy ifFalse: [
+		self transmissionStrategy: (GLMReplacePresentationsStrategy of: self) ]
 ]
 
 { #category : #scripting }

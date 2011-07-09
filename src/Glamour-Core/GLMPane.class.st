@@ -274,18 +274,3 @@ GLMPane >> unregisterFromAllAnnouncements [
 GLMPane >> update [ 
 	self presentations do: [:each | each update ]
 ]
-
-{ #category : #enumerating }
-GLMPane >> withAllPanesAndPresentationsDo: aBlock [
-	aBlock value: self.
-	self presentations withAllPanesAndPresentationsDo: aBlock
-]
-
-{ #category : #enumerating }
-GLMPane >> withAllPresentations [
-	| result |
-	result := OrderedCollection new.
-	self withAllPanesAndPresentationsDo: [:each |
-		(each isKindOf: GLMPresentation) ifTrue: [ result add: each ]].
-	^ result
-]

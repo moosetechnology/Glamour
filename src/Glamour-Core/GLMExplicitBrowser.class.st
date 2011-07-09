@@ -132,7 +132,7 @@ GLMExplicitBrowser >> showOn: aDestinationPane [
 	 
 	self addTransmission: (
 		GLMTransmission new
-			ensureBundleStrategy;
+			ensureReplacePresentationsStrategy;
 			destination: (self resolveDestinationPort: aDestinationPane); 
 			yourself)
 ]
