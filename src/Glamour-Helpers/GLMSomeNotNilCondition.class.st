@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Helpers'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #glamour }
 GLMSomeNotNilCondition >> glamourValueWithArgs: anArray [ 
 	 
 	^anArray anySatisfy: [:each | each notNil]
