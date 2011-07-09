@@ -10,6 +10,18 @@ GLMPaneTest >> expectedFailures [
 ]
 
 { #category : #tests }
+GLMPaneTest >> testAllRecursivePresentations [
+	| browser |
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit to: #one; andShow: [:a | a text ].
+	browser startOn: 42.
+	self assert: browser panes first withAllPresentations size = 2.
+	self assert: browser pane withAllPresentations size = 4.
+	
+]
+
+{ #category : #tests }
 GLMPaneTest >> testCopyAnnouncements [
 
 	| pane newPane |
@@ -28,6 +40,14 @@ GLMPaneTest >> testCreation [
 	aPane := GLMPane named: 1 in: 2. 
 	self assert: aPane name = 1.
 	self assert: aPane browser = 2.
+]
+
+{ #category : #tests }
+GLMPaneTest >> testDefaultCompositePresentation [
+
+ 	| pane |
+	pane := GLMPane named: 'test'. 
+	self assert: (pane presentations isKindOf: GLMCompositePresentation)
 ]
 
 { #category : #tests }
