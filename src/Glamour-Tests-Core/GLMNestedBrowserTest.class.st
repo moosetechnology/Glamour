@@ -65,7 +65,7 @@ GLMNestedBrowserTest >> testCondition [
 				transformation: [:x | x = 42 ifFalse: [self fail. 42 ] ifTrue: [84] ];
 				condition: [:x | x = 42].
 	browser1 addNewPane name: 'pane1'. 
-	transmission1 := GLMTransmission new ensureBundleStrategy.
+	transmission1 := GLMTransmission new ensureReplacePresentationsStrategy.
 	transmission1 transmissionStrategy addPresentation: browser2. 
 	browser1 addTransmission: (transmission1
 				addActiveOrigin: (GLMPresentationBoundPort new 
@@ -102,7 +102,7 @@ GLMNestedBrowserTest >> testEntityPropogation [
 	browser2 title: 'browser2'. 
 	browser1 addNewPane name: 'pane1'. 
 	browser2 addNewPane name: 'innerpane 1'.	"Jumpstart presentation for outer browser." 
-	transmission1 := GLMTransmission new ensureBundleStrategy.
+	transmission1 := GLMTransmission new ensureReplacePresentationsStrategy.
 	transmission1 transmissionStrategy addPresentation: browser2. 
 	browser1 addTransmission: (transmission1
 				addActiveOrigin: (GLMPresentationBoundPort new 
@@ -111,7 +111,7 @@ GLMNestedBrowserTest >> testEntityPropogation [
 								yourself); 
 				destination: (browser1 panes first port: #entity); 
 				yourself).	"Jumpstart presentation for inner browser." 
-	transmission2 := GLMTransmission new ensureBundleStrategy.
+	transmission2 := GLMTransmission new ensureReplacePresentationsStrategy.
 	transmission2 transmissionStrategy addPresentation: presentation. 
 	browser2 addTransmission: (transmission2
 				addActiveOrigin: (GLMPresentationBoundPort new
@@ -154,7 +154,7 @@ GLMNestedBrowserTest >> testInnerTransmissions [
 	browser2 addNewPane name: 'innerpane 1'.	"Jumpstart presentation for outer browser." 
 	browser1 addTransmission: 
 			(GLMTransmission new
-				ensureBundleStrategy;
+				ensureReplacePresentationsStrategy;
 				addActiveOrigin: 
 						((GLMPresentationBoundPort new) 
 								presentation: browser1; 
@@ -165,7 +165,7 @@ GLMNestedBrowserTest >> testInnerTransmissions [
 				yourself).	"Jumpstart presentation for inner browser." 
 	browser2 addTransmission: 
 			(GLMTransmission new
-				ensureBundleStrategy;
+				ensureReplacePresentationsStrategy;
 				addActiveOrigin: 
 						((GLMPresentationBoundPort new) 
 								presentation: browser2; 

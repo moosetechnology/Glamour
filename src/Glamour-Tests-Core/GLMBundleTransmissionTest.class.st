@@ -70,7 +70,7 @@ GLMBundleTransmissionTest >> testPresentations [
 	"Tests that the presentations are set up correctly." 
 	 
 	| transmission presentation1 presentation2 presentation3 | 
-	transmission := GLMTransmission new ensureBundleStrategy. 
+	transmission := GLMTransmission new ensureReplacePresentationsStrategy. 
 	transmission addActiveOrigin: (GLMSimplePort new name: #port1; value: 1). 
 	transmission addPassiveOrigin: (GLMSimplePort new name: #port2; value: 2). 
 	transmission destination: (GLMSimplePort new name: #port3). 

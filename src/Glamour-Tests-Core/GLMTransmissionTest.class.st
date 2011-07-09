@@ -10,7 +10,7 @@ GLMTransmissionTest >> testBundleStrategy [
 	pane1 := GLMPane named: 'pane1'.
 	pane2 := GLMPane named: 'pane2'.
 	transmission := GLMTransmission new.
-	transmission "ensureNoOverrideBundleStrategy" ensureBundleStrategy.
+	transmission "ensureNoOverrideBundleStrategy" ensureReplacePresentationsStrategy.
 	transmission addActiveOrigin: (pane1 port: #port1). 
 	transmission destination: (pane2 port: #port2). 
 	transmission addPresentation: GLMPresentation new.
@@ -48,7 +48,7 @@ GLMTransmissionTest >> testNoOverrideStrategy [
 	pane1 := GLMPane named: 'pane1'.
 	pane2 := GLMPane named: 'pane2'.
 	transmission := GLMTransmission new.
-	transmission ensureNoOverrideBundleStrategy.
+	transmission ensurePresentIfNoneStrategy.
 	transmission addActiveOrigin: (pane1 port: #port1). 
 	transmission destination: (pane2 port: #port2). 
 	transmission addPresentation: GLMPresentation new.

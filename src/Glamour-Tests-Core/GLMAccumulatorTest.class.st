@@ -138,7 +138,7 @@ GLMAccumulatorTest >> testPublishToOutsideWhenEmbedded [
 			yourself).
 	browser addColumn: #one.
 	browser addTransmission: (GLMTransmission new 
-			ensureNoOverrideBundleStrategy;
+			ensurePresentIfNoneStrategy;
 			addActiveOrigin: (GLMPresentationBoundPort new
 								presentation: browser; 
 								name: #entity; 
