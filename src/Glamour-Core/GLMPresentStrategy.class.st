@@ -1,5 +1,5 @@
 "
-The abstract strategy that deals with setting of presenations on the pane of the destination port.
+The abstract strategy that deals with setting of presentations on the pane of the destination port.
 "
 Class {
 	#name : #GLMPresentStrategy,

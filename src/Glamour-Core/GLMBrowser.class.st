@@ -288,9 +288,3 @@ GLMBrowser >> update [
 	self panes do: [:each | each update ].
 	self announce: (GLMPresentationUpdated new presentation: self).
 ]
-
-{ #category : #enumerating }
-GLMBrowser >> withAllPanesAndPresentationsDo: aBlock [
-	super withAllPanesAndPresentationsDo: aBlock.
-	self panes do: [:each | each withAllPanesAndPresentationsDo: aBlock ]
-]

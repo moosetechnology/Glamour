@@ -171,6 +171,7 @@ GLMPane >> name: aString [
 
 { #category : #private }
 GLMPane >> notingPresentationChangeDo: aBlock [
+	"Executes aBlock. If during the execution of the block one of my presentations change, I will emit announces. I also take care of not entering an infinite loop."
 	| oldPresentations oldMatchingPresentations | 
 	self isAllowedToNotePresentationsChanged ifFalse: [
 		aBlock value.
@@ -273,19 +274,4 @@ GLMPane >> unregisterFromAllAnnouncements [
 { #category : #updating }
 GLMPane >> update [ 
 	self presentations do: [:each | each update ]
-]
-
-{ #category : #enumerating }
-GLMPane >> withAllPanesAndPresentationsDo: aBlock [
-	aBlock value: self.
-	self presentations withAllPanesAndPresentationsDo: aBlock
-]
-
-{ #category : #enumerating }
-GLMPane >> withAllPresentations [
-	| result |
-	result := OrderedCollection new.
-	self withAllPanesAndPresentationsDo: [:each |
-		(each isKindOf: GLMPresentation) ifTrue: [ result add: each ]].
-	^ result
 ]
