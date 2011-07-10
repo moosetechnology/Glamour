@@ -33,27 +33,30 @@ GLMBrowser >> viewTree [
 
 { #category : #'*glamour-tools' }
 GLMBrowser >> viewTreeOn: view [
-	super viewTreeOn: view.
+	| edges1 edges2 |
 	
 	view shape umlClassWithTitle: #name.
-	view nodes: self panes forEach: [ :each |
+	view nodes: self pane withAllPanes forEach: [ :each |
 		view shape label text: #name.
 		view nodes: each ports.
 		view verticalLineLayout gapSize: 2 ].
 	
-	self panes do: [ :eachPane | 
-		eachPane presentations presentations do: [:eachPresentation | 
-			eachPresentation viewTreeOn: view ] ].
+	view shape label text: [:p | (p class name removePrefix: 'GLM') removeSuffix: 'Presentation' ].
+	view nodes: (self withAllPresentations reject: [:each | each isKindOf: GLMCompositePresentation]).
 
 	view shape verticalOrthogonalLine color: Color lightGray. 	
-	view edges: self panes from: #yourself toAll: [:each | each presentations presentations ].
+	edges1 := view edges: self pane withAllPanes from: #yourself toAll: [:each | each presentations presentations ].
 
 	view shape verticalOrthogonalLine color: Color lightGray. 
-	view edges: self panes from: self to: #yourself.
+	edges2 := view edges: self pane withAllPanes from: #browser to: #yourself.
 
-	view treeLayout layered
-"	view 
-		edges: self transmissions 
+	view treeLayout layered userDefinedEdges: (edges1, edges2).
+
+	view shape line color: Color blue. 
+	view 
+		edges: ((self withAllPresentations select: [:each | each isKindOf: GLMBrowser]) flatCollect: [:each | each transmissions])
 		fromAll: #origins
-		to: #destination"
+		to: #destination.
+		view shape line color: Color blue
+
 ]
