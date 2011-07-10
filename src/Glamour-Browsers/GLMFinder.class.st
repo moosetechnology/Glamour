@@ -1,6 +1,8 @@
 "
 A GLMFinder models a browsers that behaves like the Mac Finder: whenever the selection port is set on one pane, a new one is created to the right with the selection as entity. The Finder opens the first pane on the entity.
 
+The Finder communicates with the Renderer 
+
 Input ports:
 - entity: this is passed to the first pane
 
@@ -96,7 +98,7 @@ GLMFinder >> innerPortEvent: aPortEvent [
 			self removeLastPane.
 			self announce: (GLMPaneRemoved pane: each fromBrowser: self) ].
 		index <= 1 
-			ifTrue: [ 
+			ifTrue: [
 				self addPaneFromInner: aPortEvent port.
 				self announce: 
 					(GLMPaneAdded 
@@ -106,7 +108,8 @@ GLMFinder >> innerPortEvent: aPortEvent [
 			ifFalse: [
 				toReplace := self removeLastPane.
 				self addPaneFromInner: aPortEvent port.
-				self announce: (GLMPaneReplaced 
+				self announce: 
+					(GLMPaneReplaced 
 							oldPane: toReplace 
 							newPane: self panes last
 							fromBrowser: self ) ] 
