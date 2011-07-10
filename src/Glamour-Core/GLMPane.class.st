@@ -228,6 +228,7 @@ GLMPane >> postCopy [
 	| newPort |
 	super postCopy.
 	self resetAnnouncer.
+	self flag: 'self unregisterFromAllAnnouncements?'.
 	ports := ports collect: [:each | 
 		newPort := each copy.
 		newPort pane: self.
