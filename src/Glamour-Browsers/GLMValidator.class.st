@@ -2,8 +2,6 @@ Class {
 	#name : #GLMValidator,
 	#superclass : #GLMImplicitBrowser,
 	#instVars : [
-		'hasFixedSizePanes',
-		'fixedSizePanes',
 		'buttonActions',
 		'specificAnnouncementActions'
 	],

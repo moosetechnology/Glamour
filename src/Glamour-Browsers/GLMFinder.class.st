@@ -1,8 +1,6 @@
 "
 A GLMFinder models a browsers that behaves like the Mac Finder: whenever the selection port is set on one pane, a new one is created to the right with the selection as entity. The Finder opens the first pane on the entity.
 
-The Finder communicates with the Renderer 
-
 Input ports:
 - entity: this is passed to the first pane
 
@@ -21,37 +19,40 @@ Class {
 
 { #category : #private }
 GLMFinder >> addPaneFrom: aPort [ 
-	self panes addLast: (GLMPane in: self).
+	"This method adds a new pane at the end of the finder."
+	|newPane|
+	newPane := self panes addLast: (GLMPane in: self).
 	GLMTransmission new
 		ensureReplacePresentationsStrategy;
 		addActiveOrigin: aPort; 
-		destination: (self panes last port: #entity); 
+		destination: (newPane port: #entity); 
 		presentations: (self presentations copy); 
 		transmit
 ]
 
 { #category : #private }
 GLMFinder >> addPaneFromInner: aPort [ 
-	| newTransmission realTransmissions lastActivePresentation |
+	"This method adds a new pane at the end of the finder. Data comes from a port that is in a pane inside the current browser."
+	| newTransmission newPane realTransmissions lastActivePresentation |
 	"the lastActivePresentation is needed for knowing what presentation to show by default"
-	self panes isEmpty ifFalse: [lastActivePresentation := self panes last lastActivePresentation ].
-	self panes addLast: ( (GLMPane in: self) lastActivePresentation: lastActivePresentation; yourself).
+	lastActivePresentation := self panes isEmpty ifTrue: [nil] ifFalse: [ self panes last lastActivePresentation ].
+	newPane := self panes addLast: ( (GLMPane in: self) lastActivePresentation: lastActivePresentation; yourself).
 	GLMTransmission new
 		ensureReplacePresentationsStrategy;
 		addActiveOrigin: aPort; 
-		destination: (self panes last port: #entity); 
+		destination: (newPane port: #entity); 
 		presentations: (self presentations copy); 
 		transmit. 
-	realTransmissions := self transmissions collect: [:each |  
+	realTransmissions := self transmissions collect: [:oldTransmission |  
 			newTransmission := GLMTransmission new ensureReplacePresentationsStrategy. 
-			each activeOrigins do: [:eachPort | 
+			oldTransmission activeOrigins do: [:eachPort | 
 				newTransmission addActiveOrigin: (aPort pane port: eachPort name)]. 
-			each passiveOrigins do: [:eachPort | 
+			oldTransmission passiveOrigins do: [:eachPort | 
 				newTransmission addPassiveOrigin: (aPort pane port: eachPort name)]. 
 			newTransmission 
-				destination: (self panes last port: #entity); 
+				destination: (newPane port: #entity); 
 				addPresentations: (self presentations collect: #copy);
-				addPresentations: (each presentations collect: #copy)] . 
+				addPresentations: (oldTransmission presentations collect: #copy)] . 
 	(realTransmissions select: [:each | each originatesAt: aPort]) 
 		do: [:each | each transmit]. 
 ]
@@ -95,7 +96,7 @@ GLMFinder >> innerPortEvent: aPortEvent [
 			self removeLastPane.
 			self announce: (GLMPaneRemoved pane: each fromBrowser: self) ].
 		index <= 1 
-			ifTrue: [
+			ifTrue: [ 
 				self addPaneFromInner: aPortEvent port.
 				self announce: 
 					(GLMPaneAdded 
@@ -105,8 +106,7 @@ GLMFinder >> innerPortEvent: aPortEvent [
 			ifFalse: [
 				toReplace := self removeLastPane.
 				self addPaneFromInner: aPortEvent port.
-				self announce: 
-					(GLMPaneReplaced 
+				self announce: (GLMPaneReplaced 
 							oldPane: toReplace 
 							newPane: self panes last
 							fromBrowser: self ) ] 
