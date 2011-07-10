@@ -879,6 +879,15 @@ GLMPresentation >> withAllDo: aBlock [
 	^ aBlock value: self
 ]
 
+{ #category : #enumerating }
+GLMPresentation >> withAllPanes [
+	| result |
+	result := OrderedCollection new.
+	self withAllPanesAndPresentationsDo: [:each |
+		(each isKindOf: GLMPane) ifTrue: [ result add: each ]].
+	^ result
+]
+
 { #category : #enumeration }
 GLMPresentation >> withAllPanesAndPresentationsDo: aBlock [
 	^ aBlock value: self

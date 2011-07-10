@@ -277,6 +277,15 @@ GLMPane >> update [
 ]
 
 { #category : #enumerating }
+GLMPane >> withAllPanes [
+	| result |
+	result := OrderedCollection new.
+	self withAllPanesAndPresentationsDo: [:each |
+		(each isKindOf: GLMPane) ifTrue: [ result add: each ]].
+	^ result
+]
+
+{ #category : #enumerating }
 GLMPane >> withAllPanesAndPresentationsDo: aBlock [
 	aBlock value: self.
 	self presentations withAllPanesAndPresentationsDo: aBlock
