@@ -1,6 +1,41 @@
 Extension { #name : #GLMBrowser }
 
 { #category : #'*glamour-tools' }
+GLMBrowser >> viewAnnouncements [
+
+	| view |
+	
+	view := MOViewRenderer new.
+	self viewAnnouncementsOn: view.
+	view open
+]
+
+{ #category : #'*glamour-tools' }
+GLMBrowser >> viewAnnouncementsOn: view [
+	view shape rectangle withoutBorder.
+	view node: 'Glamour' forIt: [
+		self viewTreeOn: view ].
+	view shape rectangle withoutBorder.
+	view node: 'Announced objects' forIt: [
+		view shape label text: [:p | (p class name removePrefix: 'GLM') removeSuffix: 'Renderer' ].
+		view nodes: 
+			(self pane withAllPanes flatCollect: [:each | 
+			(each instVarNamed: 'registry') glmSubscriptions collect: [:eachSub | eachSub subscriber]]) asSet.
+		view shape label text: [:p | (p class name removePrefix: 'GLM') removeSuffix: 'Renderer' ].
+		view nodes: 
+			(self pane withAllPresentations flatCollect: [:each | 
+			(each instVarNamed: 'registry') glmSubscriptions collect: [:eachSub | eachSub subscriber]]) asIdentitySet.
+		view verticalLineLayout ].
+	
+	view shape line color: Color red.
+	view edges: self pane withAllPanes from: #yourself toAll: [:each | 
+			(each instVarNamed: 'registry') glmSubscriptions collect: [:eachSub | eachSub subscriber]].
+	view shape line color: Color red.
+	view edges: self pane withAllPresentations from: #yourself toAll: [:each | 
+			(each instVarNamed: 'registry') glmSubscriptions collect: [:eachSub | eachSub subscriber]]
+]
+
+{ #category : #'*glamour-tools' }
 GLMBrowser >> viewNestedOn: view [
 	view shape umlClassWithTitle: #name.
 	view nodes: self panes forEach: [:each |
