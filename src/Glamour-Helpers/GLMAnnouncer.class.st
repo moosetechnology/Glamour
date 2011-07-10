@@ -22,6 +22,11 @@ GLMAnnouncer >> announcer [
 ]
 
 { #category : #accessing }
+GLMAnnouncer >> glmSubscriptions [
+	^ registry glmSubscriptions
+]
+
+{ #category : #accessing }
 GLMAnnouncer >> resetAnnouncer [
 	registry reset
 ]
