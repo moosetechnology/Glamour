@@ -213,6 +213,12 @@ GLMBrowser >> removePane: aPane [
 	self panes remove: aPane
 ]
 
+{ #category : #announcements }
+GLMBrowser >> resetAnnouncer [
+	super resetAnnouncer.
+	self panes do: [:each | each resetAnnouncer ]
+]
+
 { #category : #'scripting-private' }
 GLMBrowser >> resolveDestinationPort: aPortReference [ 
 	self flag: 'this is a temporary hack due to initializeScripting transmitting directly a port'.

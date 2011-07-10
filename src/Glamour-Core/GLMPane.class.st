@@ -228,7 +228,8 @@ GLMPane >> postCopy [
 	| newPort |
 	super postCopy.
 	self resetAnnouncer.
-	self flag: 'self unregisterFromAllAnnouncements?'.
+	self unregisterFromAllAnnouncements.
+	presentations := presentations copy.
 	ports := ports collect: [:each | 
 		newPort := each copy.
 		newPort pane: self.
@@ -265,6 +266,12 @@ GLMPane >> printOn: aStream [
 GLMPane >> renderGlamorouslyOn: aRenderer [ 
 	 
 	^aRenderer renderPane: self
+]
+
+{ #category : #announcements }
+GLMPane >> resetAnnouncer [
+	super resetAnnouncer.
+	self presentations do: [ :each | each resetAnnouncer ]
 ]
 
 { #category : #updating }

@@ -541,8 +541,9 @@ GLMPresentation >> populate: aPortSymbol on: aCharacter with: aBlock [
 { #category : #copying }
 GLMPresentation >> postCopy [
 	super postCopy.
-	self resetAnnouncer.
 	pane := nil.
+	self resetAnnouncer.
+	self unregisterFromAllAnnouncements.
 	updateActions := updateActions collect: [:each | 
 		each copy 
 			presentation: self;
@@ -571,6 +572,7 @@ GLMPresentation >> printOn: aStream [
 
 { #category : #updating }
 GLMPresentation >> registerAnnouncements [
+	"this method is called from the rendering code"
 	self flag: 'The announcements should potentially be interested in any ports, not just in entity'.
 	updateActions do: [:each | each registerInPresentation ].
 ]
