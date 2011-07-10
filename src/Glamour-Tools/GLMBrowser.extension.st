@@ -20,19 +20,19 @@ GLMBrowser >> viewAnnouncementsOn: view [
 		view shape label text: [:p | (p class name removePrefix: 'GLM') removeSuffix: 'Renderer' ].
 		view nodes: 
 			(self pane withAllPanes flatCollect: [:each | 
-			(each instVarNamed: 'registry') glmSubscriptions collect: [:eachSub | eachSub subscriber]]) asSet.
+			each glmSubscriptions collect: [:eachSub | eachSub subscriber]]) asSet.
 		view shape label text: [:p | (p class name removePrefix: 'GLM') removeSuffix: 'Renderer' ].
 		view nodes: 
 			(self pane withAllPresentations flatCollect: [:each | 
-			(each instVarNamed: 'registry') glmSubscriptions collect: [:eachSub | eachSub subscriber]]) asIdentitySet.
+			each glmSubscriptions collect: [:eachSub | eachSub subscriber]]) asIdentitySet.
 		view verticalLineLayout ].
 	
 	view shape line color: Color red.
 	view edges: self pane withAllPanes from: #yourself toAll: [:each | 
-			(each instVarNamed: 'registry') glmSubscriptions collect: [:eachSub | eachSub subscriber]].
+			each glmSubscriptions collect: [:eachSub | eachSub subscriber]].
 	view shape line color: Color red.
 	view edges: self pane withAllPresentations from: #yourself toAll: [:each | 
-			(each instVarNamed: 'registry') glmSubscriptions collect: [:eachSub | eachSub subscriber]]
+			each glmSubscriptions collect: [:eachSub | eachSub subscriber]]
 ]
 
 { #category : #'*glamour-tools' }
@@ -68,7 +68,7 @@ GLMBrowser >> viewTree [
 
 { #category : #'*glamour-tools' }
 GLMBrowser >> viewTreeOn: view [
-	| edges1 edges2 |
+	| edges1 edges2 edges3 edges4 |
 	
 	view shape umlClassWithTitle: #name.
 	view nodes: self pane withAllPanes forEach: [ :each |
@@ -77,19 +77,26 @@ GLMBrowser >> viewTreeOn: view [
 		view verticalLineLayout gapSize: 2 ].
 	
 	view shape label text: [:p | (p class name removePrefix: 'GLM') removeSuffix: 'Presentation' ].
-	view nodes: (self withAllPresentations reject: [:each | each isKindOf: GLMCompositePresentation]).
+	view nodes: self pane withAllPresentations.
 
 	view shape verticalOrthogonalLine color: Color lightGray. 	
-	edges1 := view edges: self pane withAllPanes from: #yourself toAll: [:each | each presentations presentations ].
+	edges1 := view edges: self pane withAllPanes from: #yourself to: [:each | each presentations ].
 
 	view shape verticalOrthogonalLine color: Color lightGray. 
 	edges2 := view edges: self pane withAllPanes from: #browser to: #yourself.
 
-	view treeLayout layered userDefinedEdges: (edges1, edges2).
+	view shape verticalOrthogonalLine color: Color lightGray. 
+	edges3 := view edges: (self pane withAllPresentations select: [:each | each isKindOf: GLMDynamicPresentation]) from: #yourself to: #cachedPresentation.
+
+	view shape verticalOrthogonalLine color: Color lightGray.
+	edges4 := view edges: (self pane withAllPresentations select: [:each | each isKindOf: GLMCompositePresentation]) from: #yourself toAll: #presentations.
+
+
+	view treeLayout layered userDefinedEdges: (edges1, edges2, edges3, edges4).
 
 	view shape line color: Color blue. 
 	view 
-		edges: ((self withAllPresentations select: [:each | each isKindOf: GLMBrowser]) flatCollect: [:each | each transmissions])
+		edges: ((self pane withAllPresentations select: [:each | each isKindOf: GLMBrowser]) flatCollect: [:each | each transmissions])
 		fromAll: #origins
 		to: #destination.
 		view shape line color: Color blue
