@@ -7,10 +7,16 @@ Class {
 	#name : #GLMDynamicPresentation,
 	#superclass : #GLMPresentation,
 	#instVars : [
-		'presentationTransformation'
+		'presentationTransformation',
+		'cachedPresentation'
 	],
 	#category : #'Glamour-Presentations'
 }
+
+{ #category : #rendering }
+GLMDynamicPresentation >> cachedPresentation [
+	^ cachedPresentation
+]
 
 { #category : #rendering }
 GLMDynamicPresentation >> currentPresentation [ 
@@ -20,6 +26,7 @@ GLMDynamicPresentation >> currentPresentation [
 			composite asGlamorousMultiValue, 
 			self displayValue asGlamorousMultiValue).
 	composite pane: self pane.
+	cachedPresentation := composite.
 	^ composite
 "	^ self displayValue pane: self pane"
 ]
@@ -54,4 +61,10 @@ GLMDynamicPresentation >> renderGlamorouslyOn: aRenderer [
 { #category : #scripting }
 GLMDynamicPresentation >> with: aBlock [
 	self presentationTransformation: aBlock
+]
+
+{ #category : #enumerating }
+GLMDynamicPresentation >> withAllPanesAndPresentationsDo: aBlock [
+	super withAllPanesAndPresentationsDo: aBlock.
+	self cachedPresentation withAllPanesAndPresentationsDo: aBlock
 ]
