@@ -878,3 +878,17 @@ GLMPresentation >> whenKindOf: aClass [
 GLMPresentation >> withAllDo: aBlock [
 	^ aBlock value: self
 ]
+
+{ #category : #enumeration }
+GLMPresentation >> withAllPanesAndPresentationsDo: aBlock [
+	^ aBlock value: self
+]
+
+{ #category : #enumerating }
+GLMPresentation >> withAllPresentations [
+	| result |
+	result := OrderedCollection new.
+	self withAllPanesAndPresentationsDo: [:each |
+		(each isKindOf: GLMPresentation) ifTrue: [ result add: each ]].
+	^ result
+]
