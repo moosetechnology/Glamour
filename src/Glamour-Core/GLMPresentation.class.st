@@ -544,7 +544,7 @@ GLMPresentation >> postCopy [
 	pane := nil.
 	registry := registry copy.
 	self resetAnnouncer.
-	self unregisterFromAllAnnouncements.
+	self flag: 'self unregisterFromAllAnnouncements.'.
 	updateActions := updateActions collect: [:each | 
 		each copy 
 			presentation: self;
