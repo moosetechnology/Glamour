@@ -5,11 +5,6 @@ Class {
 }
 
 { #category : #tests }
-GLMFinderMorphicTest >> expectedFailures [ 
-	^ #(testEmbeddedBrowserRefreshesRendering )
-]
-
-{ #category : #tests }
 GLMFinderMorphicTest >> testClose [
 	| finder |
 	finder := GLMFinder new.
