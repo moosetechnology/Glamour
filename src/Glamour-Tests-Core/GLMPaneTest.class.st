@@ -34,6 +34,27 @@ GLMPaneTest >> testCopyAnnouncements [
 ]
 
 { #category : #tests }
+GLMPaneTest >> testCopyAnnouncementsDoNotRaise [
+
+	| pane newPane |
+	pane := GLMPane new.
+	pane when: GLMPresentationsChanged do: [:ann | self fail ].
+	self assert: pane numberOfSubscriptions = 1.
+	newPane := pane copy.
+	newPane announce: GLMPresentationsChanged.
+	self assert: newPane numberOfSubscriptions = 0
+]
+
+{ #category : #tests }
+GLMPaneTest >> testCopyNotTheSameRegistry [
+
+	| pane newPane |
+	pane := GLMPane new.
+	newPane := pane copy.
+	self assert: pane glmSubscriptions ~~ newPane glmSubscriptions
+]
+
+{ #category : #tests }
 GLMPaneTest >> testCreation [
 	 
 	| aPane | 

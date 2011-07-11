@@ -71,7 +71,7 @@ GLMPresentationTest >> testContext [
 ]
 
 { #category : #tests }
-GLMPresentationTest >> testCopyAnnouncements [
+GLMPresentationTest >> testCopyAnnouncementsDoNotRaise [
 
 	| presentation newPresentation |
 	presentation := GLMPresentation new.
@@ -80,6 +80,15 @@ GLMPresentationTest >> testCopyAnnouncements [
 	newPresentation := presentation copy.
 	newPresentation announce: GLMContextChanged.
 	self assert: newPresentation numberOfSubscriptions = 0
+]
+
+{ #category : #tests }
+GLMPresentationTest >> testCopyNotTheSameRegistry [
+
+	| presentation newPresentation |
+	presentation := GLMPresentation new.
+	newPresentation := presentation copy.
+	self assert: presentation glmSubscriptions ~~ newPresentation glmSubscriptions
 ]
 
 { #category : #tests }
