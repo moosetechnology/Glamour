@@ -210,7 +210,11 @@ GLMPresentation >> condition: anObject [
 
 { #category : #copying }
 GLMPresentation >> copy [
+	"we are overriding the copy method simply to retain the tree of all prototype presentations. 
+	this is useful for debugging."
+
 	| copy |
+	self flag: 'perhaps this should be replaced with smarter analysys mechanisms'.
 	copy := super copy.
 	copy parentPrototype: self.
 	^ copy
@@ -542,8 +546,6 @@ GLMPresentation >> populate: aPortSymbol on: aCharacter with: aBlock [
 GLMPresentation >> postCopy [
 	super postCopy.
 	pane := nil.
-	registry := registry copy.
-	self resetAnnouncer.
 	self flag: 'self unregisterFromAllAnnouncements.'.
 	updateActions := updateActions collect: [:each | 
 		each copy 

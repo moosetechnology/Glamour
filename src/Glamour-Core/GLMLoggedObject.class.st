@@ -46,3 +46,9 @@ GLMLoggedObject >> logger [
 GLMLoggedObject >> logger: anObject [
 	logger := anObject
 ]
+
+{ #category : #copying }
+GLMLoggedObject >> postCopy [ 
+	super postCopy.
+	self resetAnnouncer
+]
