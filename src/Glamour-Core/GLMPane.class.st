@@ -229,7 +229,7 @@ GLMPane >> postCopy [
 	super postCopy.
 	registry := registry copy.
 	self resetAnnouncer.
-	self unregisterFromAllAnnouncements.
+	self flag: 'self unregisterFromAllAnnouncements ?'.
 	presentations := presentations copy.
 	ports := ports collect: [:each | 
 		newPort := each copy.
