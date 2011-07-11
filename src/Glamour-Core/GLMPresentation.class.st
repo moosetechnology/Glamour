@@ -542,6 +542,7 @@ GLMPresentation >> populate: aPortSymbol on: aCharacter with: aBlock [
 GLMPresentation >> postCopy [
 	super postCopy.
 	pane := nil.
+	registry := registry copy.
 	self resetAnnouncer.
 	self unregisterFromAllAnnouncements.
 	updateActions := updateActions collect: [:each | 
