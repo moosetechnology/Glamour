@@ -26,6 +26,12 @@ GLMAnnouncer >> glmSubscriptions [
 	^ registry glmSubscriptions
 ]
 
+{ #category : #copying }
+GLMAnnouncer >> postCopy [
+	super postCopy.
+	registry := registry copy.
+]
+
 { #category : #accessing }
 GLMAnnouncer >> resetAnnouncer [
 	registry reset
