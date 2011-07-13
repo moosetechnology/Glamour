@@ -213,7 +213,7 @@ GLMTreeMorphNodeModel >> tagsColumn [
 
 { #category : #accessing }
 GLMTreeMorphNodeModel >> textBackgroundColor [
-	^ self containerTree glamourPresentation textBackgroundColorFor: self item
+	^ (self containerTree glamourPresentation textBackgroundColorFor: self item) morphicColor 
 ]
 
 { #category : #callbacks }
