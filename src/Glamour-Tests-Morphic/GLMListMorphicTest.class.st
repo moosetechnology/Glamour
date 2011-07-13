@@ -118,8 +118,8 @@ GLMListMorphicTest >> testTextBackgroundColor [
 					(a list)
 						display: [ :x | 1 to: x];
 						textBackgroundColor: [:aNumber | (aNumber isDivisibleBy: 2)
-							ifTrue: [Color green]
-							ifFalse: [Color red]
+							ifTrue: [GLMGreenColor new]
+							ifFalse: [GLMRedColor new]
 							 ]. ].
 						
 	window := browser openOn: 4.
