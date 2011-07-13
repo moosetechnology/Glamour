@@ -264,7 +264,7 @@ GLMListingPresentation >> tagsStyle [
 { #category : #accessing }
 GLMListingPresentation >> textBackgroundColor [
 
-	^ textBackgroundColor ifNil: [textBackgroundColor := Color transparent]
+	^ textBackgroundColor ifNil: [textBackgroundColor := GLMTransparentColor new]
 ]
 
 { #category : #accessing }
