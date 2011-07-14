@@ -12,6 +12,7 @@ GLMSmalltalkEditor >> storeSelectionInParagraph [
 	super storeSelectionInParagraph.
 	self morph ifNotNil: [
 		self morph editView 
-			announceSelectionFrom: self startIndex 
+			announceSelection: self selection
+			from: self startIndex 
 			to: self stopIndex - 1 ]
 ]

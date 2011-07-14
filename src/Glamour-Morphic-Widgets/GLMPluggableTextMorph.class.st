@@ -11,6 +11,15 @@ Class {
 }
 
 { #category : #'interactive error protocol' }
+GLMPluggableTextMorph >> announceSelection: aString from: start to: stop [
+	self announcer announce: (
+		GLMSelectedTextChanged new 
+			start: start; 
+			end: stop;
+			selectedText: aString )
+]
+
+{ #category : #'interactive error protocol' }
 GLMPluggableTextMorph >> announceSelectionFrom: start to: stop [
 	self announcer announce: (GLMSelectedTextChanged new start: start; end: stop)
 ]
