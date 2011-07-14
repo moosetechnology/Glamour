@@ -883,14 +883,18 @@ GLMBasicExamples >> textPortsExamples [
 	browser := GLMTabulator new.
 	browser
 		row: #main;
-		row: [ :r | r column: #selected; column: #full ].
+		row: [ :r | r column: #selectionInterval; column: #selectedText; column: #full ].
 	(browser transmit)
 		to: #main;
 		andShow: [ :a | a text ].
 	(browser transmit)
-		to: #selected;
+		to: #selectionInterval;
 		from: #main port: #selectionInterval;
 		andShow: [ :a | a text title: '#selectionInterval port' ].
+	(browser transmit)
+		to: #selectedText;
+		from: #main port: #selectedText;
+		andShow: [ :a | a text title: '#selectedText port' ].
 	(browser transmit)
 		to: #full;
 		from: #main port: #text;
@@ -899,7 +903,7 @@ GLMBasicExamples >> textPortsExamples [
 ]
 
 { #category : #text }
-GLMBasicExamples >> textSelectionInterval [
+GLMBasicExamples >> textSelection [
 	<glmBrowser: 'Text selection' input: '(1 to: 100)'>
 	"	|browser |
 		browser := self new textSelectionInterval.
