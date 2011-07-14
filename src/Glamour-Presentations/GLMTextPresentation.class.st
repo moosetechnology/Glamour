@@ -14,7 +14,8 @@ Class {
 		'selectedTextBlock',
 		'highlightSmalltalk',
 		'highlightSmalltalkContext',
-		'textBlock'
+		'textBlock',
+		'variableBindingsBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -78,4 +79,14 @@ GLMTextPresentation >> textBlock [
 { #category : #accessing }
 GLMTextPresentation >> textBlock: anObject [ 
 	textBlock := anObject
+]
+
+{ #category : #accessing }
+GLMTextPresentation >> variableBindings [
+	^ variableBindingsBlock glamourValue: self entity
+]
+
+{ #category : #accessing }
+GLMTextPresentation >> variableBindings: aBlock [
+	^ variableBindingsBlock := aBlock
 ]
