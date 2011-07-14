@@ -39,7 +39,7 @@ GLMMorphicTextRenderer >> render: aPresentation [
 	textModel text: textMorph textMorph asText.
 	self installActionsOnUI: textModel fromPresentation: aPresentation.
 	
-	textMorph announcer on: GLMSelectedTextChanged do: [:ann | self halt].
+"	textMorph announcer on: GLMSelectedTextChanged do: [:ann | self halt]."
 	
 	aPresentation selectedTextBlock: [ textMorph textMorph editor selection ].
 	aPresentation textBlock: [ textMorph textMorph editor text ].
