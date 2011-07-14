@@ -38,9 +38,9 @@ GLMTextModel >> highlightSmalltalkContext: anObject [
 
 { #category : #callbacks }
 GLMTextModel >> keystroke: anEvent from: aMorph [
-	anEvent anyModifierKeyPressed ifTrue: [ super keystroke: anEvent keyCharacter from: aMorph ].
+	anEvent anyModifierKeyPressed ifTrue: [ ^ super keystroke: anEvent from: aMorph ].
 	self glamourPresentation text: self text.
-
+	^ false
 ]
 
 { #category : #callbacks }

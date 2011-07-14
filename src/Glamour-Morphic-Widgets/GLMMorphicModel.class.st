@@ -39,10 +39,13 @@ GLMMorphicModel >> initialize [
 ]
 
 { #category : #callbacks }
-GLMMorphicModel >> keystroke: aChar from: aMorph [
+GLMMorphicModel >> keystroke: anEvent from: aMorph [
 	| action |
-	action := self allKeystrokeActions detect: [:a | a shortcut = aChar] ifNone: [nil].
-	action ifNotNil: [ self announce: (GLMKeyStroke action: action) ].
+	action := self allKeystrokeActions detect: [:a | a shortcut = anEvent keyCharacter] ifNone: [nil].
+	action ifNotNil: [ 
+		self announce: (GLMKeyStroke action: action).
+		^ true ].
+	^ false
 ]
 
 { #category : #callbacks }
