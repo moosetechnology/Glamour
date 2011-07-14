@@ -24,7 +24,7 @@ GLMMorphicTextRenderer >> actOnPresentationUpdated: ann [
 GLMMorphicTextRenderer >> render: aPresentation [
 	| toShow |
 	toShow := aPresentation formatedDisplayValue.
-	textModel := (GLMTextModel new)
+	textModel := GLMTextModel new
 						text: toShow;
 						glamourPresentation: aPresentation;
 						highlightSmalltalk: aPresentation highlightSmalltalk;
@@ -38,6 +38,9 @@ GLMMorphicTextRenderer >> render: aPresentation [
 	we get the reference to the mutable text object :) :)"
 	textModel text: textMorph textMorph asText.
 	self installActionsOnUI: textModel fromPresentation: aPresentation.
+	
+	textMorph announcer on: GLMSelectedTextChanged do: [:ann | self halt].
+	
 	aPresentation selectedTextBlock: [ textMorph textMorph editor selection ].
 	aPresentation textBlock: [ textMorph textMorph editor text ].
 	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
@@ -48,7 +51,7 @@ GLMMorphicTextRenderer >> render: aPresentation [
 { #category : #rendering }
 GLMMorphicTextRenderer >> smalltalkTextMorphForModel: aTextModel [
 	| morph styler |
-	morph := GLMPluggableShoutMorph new.
+	morph := GLMPluggableTextMorph new.
 	styler := SHTextStylerST80 new
 			view: morph;
 			yourself.
@@ -69,14 +72,14 @@ GLMMorphicTextRenderer >> smalltalkTextMorphForModel: aTextModel [
 ]
 
 { #category : #rendering }
-GLMMorphicTextRenderer >> textMorphForModel: textModel [
-	^ (PluggableTextMorph
-		on: textModel
+GLMMorphicTextRenderer >> textMorphForModel:  aTextModel [
+	^ (GLMPluggableTextMorph
+		on: aTextModel
 		text: #text
 		accept: #accept:notifying:
 		readSelection: #selection
 		menu: #menu:shifted:)
-		onKeyStrokeSend: #keystroke:from: to: textModel;
+		onKeyStrokeSend: #keystroke:from: to: aTextModel;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
