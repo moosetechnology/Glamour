@@ -876,29 +876,25 @@ GLMBasicExamples >> taggedTree [
 
 { #category : #text }
 GLMBasicExamples >> textPortsExamples [
-	"
-		self new textPortsExamples openOn: 'Type and select to see the results previewed.'
-	"
+	<glmBrowser: 'Text ports' input: '''Type and select to see the results previewed.'''>
+	"self new textPortsExamples openOn: 'Type and select to see the results previewed.'"
 
 	| browser |
 	browser := GLMTabulator new.
 	browser
 		row: #main;
-		row: [ :r | 
-					r
-						column: #selected;
-						column: #full ].
+		row: [ :r | r column: #selected; column: #full ].
 	(browser transmit)
 		to: #main;
 		andShow: [ :a | a text ].
 	(browser transmit)
 		to: #selected;
-		from: #main port: #selectedText;
-		andShow: [ :a | a text ].
+		from: #main port: #selectionInterval;
+		andShow: [ :a | a text title: '#selectionInterval port' ].
 	(browser transmit)
 		to: #full;
 		from: #main port: #text;
-		andShow: [ :a | a text ].
+		andShow: [ :a | a text title: '#text port'].
 	^ browser
 ]
 
