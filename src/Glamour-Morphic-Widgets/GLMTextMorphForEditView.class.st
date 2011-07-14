@@ -11,6 +11,5 @@ Class {
 GLMTextMorphForEditView >> keyStroke: anEvent [
 	| isHandledByModel |
 	isHandledByModel := self editView model keystroke: anEvent from: self editView.
-"	(anEvent anyModifierKeyPressed and: [ isHandledByModel ] )"
 	isHandledByModel ifFalse: [ super keyStroke: anEvent ]
 ]
