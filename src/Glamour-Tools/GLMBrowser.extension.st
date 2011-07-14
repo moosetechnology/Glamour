@@ -15,7 +15,7 @@ GLMBrowser >> viewAnnouncementsOn: view [
 	view shape rectangle withoutBorder.
 	view node: 'Glamour' forIt: [
 		self viewTreeOn: view ].
-	view shape rectangle withoutBorder.
+	view shape umlClassWithTitle: #yourself.
 	view node: 'Announced objects' forIt: [
 		view shape label text: [:p | (p class name removePrefix: 'GLM') removeSuffix: 'Renderer' ].
 		view nodes: 
@@ -27,12 +27,19 @@ GLMBrowser >> viewAnnouncementsOn: view [
 			each glmSubscriptions collect: [:eachSub | eachSub subscriber]]) asIdentitySet.
 		view verticalLineLayout ].
 	
-	view shape line color: Color red.
+	view shape line 
+			color: Color red twiceLighter;
+			fromPositions: #(rightCenter);
+			toPositions: #(leftCenter).
 	view edges: self pane withAllPanes from: #yourself toAll: [:each | 
 			each glmSubscriptions collect: [:eachSub | eachSub subscriber]].
-	view shape line color: Color red.
+	view shape line 
+			color: Color red twiceLighter;
+			fromPositions: #(rightCenter);
+			toPositions: #(leftCenter).
 	view edges: self pane withAllPresentations from: #yourself toAll: [:each | 
-			each glmSubscriptions collect: [:eachSub | eachSub subscriber]]
+			each glmSubscriptions collect: [:eachSub | eachSub subscriber]].
+	view horizontalLineLayout horizontalGap: 50
 ]
 
 { #category : #'*glamour-tools' }
