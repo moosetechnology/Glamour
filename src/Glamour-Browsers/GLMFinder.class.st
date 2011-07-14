@@ -23,7 +23,7 @@ Class {
 GLMFinder >> addPaneFrom: aPort [ 
 	"This method adds a new pane at the end of the finder."
 	|newPane|
-	newPane := self panes addLast: (GLMPane in: self).
+	newPane := self panes addLast: (GLMPane named: (self panes size + 1) asString in: self).
 	GLMTransmission new
 		ensureReplacePresentationsStrategy;
 		addActiveOrigin: aPort; 
@@ -38,7 +38,7 @@ GLMFinder >> addPaneFromInner: aPort [
 	| newTransmission newPane realTransmissions lastActivePresentation |
 	"the lastActivePresentation is needed for knowing what presentation to show by default"
 	lastActivePresentation := self panes isEmpty ifTrue: [nil] ifFalse: [ self panes last lastActivePresentation ].
-	newPane := self panes addLast: ( (GLMPane in: self) lastActivePresentation: lastActivePresentation; yourself).
+	newPane := self panes addLast: ( (GLMPane named: (self panes size + 1) asString in: self) lastActivePresentation: lastActivePresentation; yourself).
 	GLMTransmission new
 		ensureReplacePresentationsStrategy;
 		addActiveOrigin: aPort; 
