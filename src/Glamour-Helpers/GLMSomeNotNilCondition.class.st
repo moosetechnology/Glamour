@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMSomeNotNilCondition,
-	#superclass : #Object,
+	#superclass : #GLMCondition,
 	#category : #'Glamour-Helpers'
 }
 

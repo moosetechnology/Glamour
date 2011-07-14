@@ -5,7 +5,7 @@ We use this as a default condition for presentations. Usually, you will want to 
 "
 Class {
 	#name : #GLMAllNotNilCondition,
-	#superclass : #Object,
+	#superclass : #GLMCondition,
 	#category : #'Glamour-Helpers'
 }
 
