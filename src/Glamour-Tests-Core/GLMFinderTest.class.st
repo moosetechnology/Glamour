@@ -70,6 +70,17 @@ GLMFinderTest >> testPaneCreation [
 ]
 
 { #category : #tests }
+GLMFinderTest >> testPaneName [
+	| browser | 
+	browser := GLMFinder new. 
+	browser addPresentation: (GLMPresentation new title: 'presentation1'). 
+	(browser pane port: #entity) value: #value1. 
+	self assert: browser panes first name = '1'.
+	(browser panes first port: #selection) value: #value2.
+	self assert: browser panes last name = '2'
+]
+
+{ #category : #tests }
 GLMFinderTest >> testPaneRemovedAnnouncement [
 	| browser count | 
 	count := 0.

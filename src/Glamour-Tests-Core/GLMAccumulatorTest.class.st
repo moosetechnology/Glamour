@@ -77,6 +77,18 @@ GLMAccumulatorTest >> testPaneCreation [
 ]
 
 { #category : #tests }
+GLMAccumulatorTest >> testPaneName [
+	| accumulator presentation |
+	accumulator := GLMAccumulator new.
+	presentation := GLMPresentation new.
+	accumulator addPresentation: presentation.
+	accumulator entity: 41.
+	self assert: accumulator panes first name = '1'.
+	accumulator entity: 42.
+	self assert: accumulator panes last name = '2'.
+]
+
+{ #category : #tests }
 GLMAccumulatorTest >> testPaneRemovedAnnouncement [
 	| accumulator presentation annoumcementsCount |
 	accumulator := GLMAccumulator new.
