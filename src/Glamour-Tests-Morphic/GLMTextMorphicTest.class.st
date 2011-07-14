@@ -13,7 +13,7 @@ GLMTextMorphicTest >> testForSmalltalk [
 	window := browser openOn: 4.
 
 	textMorph := window submorphs last submorphs first submorphs first.
-	self assert: (textMorph isKindOf: GLMPluggableShoutMorph)
+	self assert: (textMorph isKindOf: GLMPluggableTextMorph)
 ]
 
 { #category : #tests }
