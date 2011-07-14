@@ -5,12 +5,22 @@ Class {
 }
 
 { #category : #tests }
+GLMDyanmicPresentationTest >> testCachedPresentation [
+	| dynamic currentPresentation |
+	dynamic := GLMDynamicPresentation new.
+	dynamic entity: 42.
+	dynamic transformation: [ :entity | GLMTextPresentation new ].
+	currentPresentation := dynamic currentPresentation.
+
+	self assert: dynamic cachedPresentation == currentPresentation
+]
+
+{ #category : #tests }
 GLMDyanmicPresentationTest >> testDefaultPresentation [
 	| dynamic |
 	dynamic := GLMDynamicPresentation new.
 	dynamic entity: 42.
-	dynamic transformation: [ :entity |
-		GLMTextPresentation new ].
+	dynamic transformation: [ :entity | GLMTextPresentation new ].
 	self assert: dynamic currentPresentation presentations size = 1.
 	self assert: (dynamic currentPresentation presentations first isKindOf: GLMTextPresentation).
 	self assert: dynamic currentPresentation pane == dynamic pane
