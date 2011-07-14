@@ -29,6 +29,7 @@ GLMMorphicTextRenderer >> render: aPresentation [
 						glamourPresentation: aPresentation;
 						highlightSmalltalk: aPresentation highlightSmalltalk;
 						highlightSmalltalkContext: aPresentation highlightSmalltalkContext.
+	aPresentation variableBindings do: [:each | textModel addVariableBinding: each].
 	textMorph := aPresentation highlightSmalltalk 
 			ifTrue: [self smalltalkTextMorphForModel: textModel]
 			ifFalse: [self textMorphForModel: textModel].
@@ -59,6 +60,7 @@ GLMMorphicTextRenderer >> smalltalkTextMorphForModel: aTextModel [
 	morph := GLMPluggableTextMorph new.
 	styler := SHTextStylerST80 new
 			view: morph;
+			workspace: textModel;
 			yourself.
 	morph
 		styler: styler;
