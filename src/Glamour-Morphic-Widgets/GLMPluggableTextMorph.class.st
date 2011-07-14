@@ -10,6 +10,11 @@ Class {
 	#category : #'Glamour-Morphic-Widgets'
 }
 
+{ #category : #'interactive error protocol' }
+GLMPluggableTextMorph >> announceSelectionFrom: start to: stop [
+	self announcer announce: (GLMSelectedTextChanged new start: start; end: stop)
+]
+
 { #category : #accessing }
 GLMPluggableTextMorph >> announcer [
 	^ announcer ifNil: [announcer := GLMAnnouncer new]

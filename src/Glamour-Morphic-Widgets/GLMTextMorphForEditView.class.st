@@ -7,6 +7,13 @@ Class {
 	#category : #'Glamour-Morphic-Widgets'
 }
 
+{ #category : #private }
+GLMTextMorphForEditView >> editorClass [
+	"Answer the class used to create the receiver's editor"
+	
+	^GLMSmalltalkEditor
+]
+
 { #category : #callbacks }
 GLMTextMorphForEditView >> keyStroke: anEvent [
 	| isHandledByModel |

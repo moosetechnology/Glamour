@@ -20,6 +20,11 @@ GLMSelectedTextChanged >> end: anObject [
 ]
 
 { #category : #accessing }
+GLMSelectedTextChanged >> interval [
+	^ self start to: self end
+]
+
+{ #category : #accessing }
 GLMSelectedTextChanged >> selectedText [
 	^ selectedText
 ]
