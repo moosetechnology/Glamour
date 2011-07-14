@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'text',
 		'highlightSmalltalk',
-		'highlightSmalltalkContext'
+		'highlightSmalltalkContext',
+		'variableBindings'
 	],
 	#category : #'Glamour-Morphic-Widgets'
 }
@@ -14,6 +15,21 @@ GLMTextModel >> accept: aText notifying: anObject [
 	aText asString withBlanksTrimmed ifEmpty: [^self].
 	self text: aText.
 	self changed: #text
+]
+
+{ #category : #accessing }
+GLMTextModel >> addVariableBinding: anAssociation [
+	self variableBindings at: anAssociation key put: anAssociation value
+]
+
+{ #category : #accessing }
+GLMTextModel >> bindingOf: aSymbol [
+	^ self variableBindings associationAt: aSymbol ifAbsent: [nil]
+]
+
+{ #category : #accessing }
+GLMTextModel >> hasBindingOf: aSymbol [
+	^ self variableBindings includesKey: aSymbol
 ]
 
 { #category : #accessing }
@@ -80,4 +96,14 @@ GLMTextModel >> text [
 GLMTextModel >> text: aTextOrString [
 	text := aTextOrString.
 	self glamourPresentation ifNotNil: [ :presentation | presentation text: text ]
+]
+
+{ #category : #accessing }
+GLMTextModel >> variableBindings [
+	^ variableBindings ifNil: [variableBindings := Dictionary new]
+]
+
+{ #category : #accessing }
+GLMTextModel >> variableBindings: anObject [
+	variableBindings := anObject
 ]
