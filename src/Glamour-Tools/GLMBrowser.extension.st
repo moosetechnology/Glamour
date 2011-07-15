@@ -70,7 +70,7 @@ GLMBrowser >> viewTree [
 	
 	view := MOViewRenderer new.
 	self viewTreeOn: view.
-	view open
+	view openWithStatusbar
 ]
 
 { #category : #'*glamour-tools' }

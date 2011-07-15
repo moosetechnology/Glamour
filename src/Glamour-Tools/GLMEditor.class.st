@@ -1,7 +1,8 @@
 "
-self openOn: '| browser |
+self openOn: 
+'| browser |
 browser := GLMTabulator new.
-browser startOn: 42'
+browser startOn: 42'.
 "
 Class {
 	#name : #GLMEditor,
@@ -19,10 +20,9 @@ GLMEditor >> buildBrowser [
 			title: 'Editor';
 			forSmalltalk;
 			populate: #selection icon: GLMUIThemeExtraIcons glamorousAccept on: $s entitled: 'Open (s)' with: [:text | text text]].
-	browser transmit to: #browser; from: #source; andShow: [ :a |
+	browser transmit to: #browser; from: #source; transformed: [:source | (Compiler evaluate: source logged: false)]; andShow: [ :a |
 		a dynamic
 			title: 'Preview';
-			display: [:source | 
-				(Compiler evaluate: source logged: false)]].
+			act: [:dynamic | dynamic cachedPresentation presentations first viewTree ] entitled: 'View browser tree' ].
 	^ browser
 ]
