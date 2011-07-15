@@ -146,13 +146,13 @@ GLMBrowser >> openOn: anObject [
 GLMBrowser >> openOn: anObject with: aRenderer [ 
 	 
 	self startOn: anObject. 
-	^aRenderer open: self
+	^ self openWith: aRenderer
 ]
 
 { #category : #scripting }
 GLMBrowser >> openWith: aRenderer [ 
 	 
-	^self openOn: nil with: aRenderer
+	^ aRenderer open: self
 ]
 
 { #category : #events }
