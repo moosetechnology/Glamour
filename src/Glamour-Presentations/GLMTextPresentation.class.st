@@ -83,7 +83,7 @@ GLMTextPresentation >> textBlock: anObject [
 
 { #category : #accessing }
 GLMTextPresentation >> variableBindings [
-	^ variableBindingsBlock glamourValue: self entity
+	^ (variableBindingsBlock glamourValue: self entity) ifNil: [OrderedCollection new]
 ]
 
 { #category : #accessing }
