@@ -72,27 +72,6 @@ GLMOtherExamples >> fileFinder [
 ]
 
 { #category : #'pier examples' }
-GLMOtherExamples >> glamourEditor [
-	"self new glamourEditor openOn: 'browser := GLMTabulator new.
-browser startOn: ''asdasd'''"
-	| browser |
-	browser := GLMTabulator new.
-	browser title: 'Glamour Editor'.
-	browser row: #browser span: 10; row: #script span: 4.
-	browser transmit to: #script; andShow: [ :a |
-		a text
-			forSmalltalk;
-			title: 'Glamour script';
-			display: [:script | script ];
-			populate: #selection icon: GLMUIThemeExtraIcons glamorousAccept on: $o entitled: 'Generate browser' with: [:text | text text ] ].
-	browser transmit to: #browser; from: #script; andShow: [ :a |
-		a dynamic
-			display: [:script | 
-				[(Compiler evaluate: '| browser | browser := self.', script for: nil logged: false)] on: Error do: [:err | GLMTextPresentation new title: 'Error'; display: err printString] ]].
-	^ browser
-]
-
-{ #category : #'pier examples' }
 GLMOtherExamples >> pierFinder [
 	"
 		self new pierFinder openOn: PRKernel instances anyOne root.
