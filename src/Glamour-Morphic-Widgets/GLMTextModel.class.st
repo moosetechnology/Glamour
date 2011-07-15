@@ -33,6 +33,11 @@ GLMTextModel >> hasBindingOf: aSymbol [
 ]
 
 { #category : #accessing }
+GLMTextModel >> hasBindingThatBeginsWith: aString [
+	^ self variableBindings keys anySatisfy: [:each | each beginsWith: aString]
+]
+
+{ #category : #accessing }
 GLMTextModel >> highlightSmalltalk [
 	^ highlightSmalltalk
 ]
