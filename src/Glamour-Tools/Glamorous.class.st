@@ -18,7 +18,7 @@ Glamorous class >> editor [
 		a text
 			title: 'Editor';
 			forSmalltalk;
-			populate: #selection on: $o entitled: 'Open (o)' with: [:text | text text]].
+			populate: #selection on: $s entitled: 'Open (o)' with: [:text | text text]].
 	browser transmit to: #browser; from: #source; andShow: [ :a |
 		a dynamic
 			title: 'Preview';
