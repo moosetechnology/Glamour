@@ -5,13 +5,13 @@ view edgesFrom: [:x | x // 3 ].
 view treeLayout'
 "
 Class {
-	#name : #GlamorousEasel,
+	#name : #GLMMondrianEasel,
 	#superclass : #GLMBrowserTemplate,
 	#category : #'Glamour-Tools'
 }
 
 { #category : #building }
-GlamorousEasel >> buildBrowser [
+GLMMondrianEasel >> buildBrowser [
 	browser := GLMTabulator new.
 	browser title: 'Simple Mondrian Easel'.
 	browser row: #painting span: 10; row: #script span: 4.
