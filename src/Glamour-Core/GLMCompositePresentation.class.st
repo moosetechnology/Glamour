@@ -13,13 +13,6 @@ Class {
 	#category : #'Glamour-Core'
 }
 
-{ #category : #comparison }
-GLMCompositePresentation >> = aPresentation [
-	self flag: 'perhaps we want to add all variables here, not just presentations'.
-	^ self class = aPresentation class and: [
-		self presentations = aPresentation presentations ]
-]
-
 { #category : #scripting }
 GLMCompositePresentation >> accordionArrangement [
 	^ self arrangement: GLMAccordionArrangement new
