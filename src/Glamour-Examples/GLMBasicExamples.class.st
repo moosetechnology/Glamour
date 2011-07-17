@@ -14,28 +14,46 @@ GLMBasicExamples class >> title [
 
 { #category : #browsers }
 GLMBasicExamples >> accumulator [
-	<glmBrowser: 'Accumulator' input: '42'>
 	"self new accumulator openOn: 42"
+
+	<glmBrowser: 'Accumulator' input: '42'>
 	| browser acc |
 	browser := GLMTabulator new.
 	acc := GLMAccumulator new.
-	acc show: [:a | 
-		a act: #inspect entitled: 'Inspect'.
-		a title: [:x | x asString]. 
-		a list title: 'List'; display: [:x | 1 to: x ].
-		a text title: 'Text'; display: [:x | 'This is an editor on ', x printString ].
-		].
-	browser column: [:c | c row: #one span: 4; row: #two]; column: #three.
-	browser transmit to: #one; andShow: [:a | 
-		a list display: [:x | x to: 10 * x]].
-	browser transmit from: #one; to: #two; andShow: [:a |
-		a text display: [:x | 'You have selected ', x printString, '. Double cick to open to the right']].
-	browser transmit from: #one->#strongSelection; to: #three; andShowIfNone: [:a |
-		a custom: acc ].
-	browser transmit from: #one; to: #three->#entityToSelect.
-	browser transmit from: #three->#activeEntity; to: #one->#selection.
+	acc
+		show: [ :a | 
+			a act: #inspect entitled: 'Inspect'.
+			a title: [ :x | x asString ].
+			(a list)
+				title: 'List';
+				display: [ :x | 1 to: x ].
+			(a text)
+				title: 'Text';
+				display: [ :x | 'This is an editor on ' , x printString ] ].
+	browser
+		column: [ :c | 
+					c
+						row: #one span: 4;
+						row: #two ];
+		column: #three.
+	(browser transmit)
+		to: #one;
+		andShow: [ :a | a list display: [ :x | x to: 10 * x ] ].
+	(browser transmit)
+		from: #one;
+		to: #two;
+		andShow: [ :a | a text display: [ :x | 'You have selected ' , x printString , '. Double cick to open to the right' ] ].
+	(browser transmit)
+		from: #one port: #strongSelection;
+		to: #three;
+		andShowIfNone: [ :a | a custom: acc ].
+	(browser transmit)
+		from: #one;
+		to: #three -> #entityToSelect.
+	(browser transmit)
+		from: #three port: #activeEntity;
+		to: #one -> #selection.
 	^ browser
-	
 ]
 
 { #category : #private }
@@ -289,15 +307,21 @@ GLMBasicExamples >> differentComposites [
 
 { #category : #others }
 GLMBasicExamples >> doubleClick [
-	<glmBrowser: 'Double click' input: '100'>
 	"self new doubleClick openOn: 100"
+
+	<glmBrowser: 'Double click' input: '100'>
 	| browser |
 	browser := GLMTabulator new.
-	browser column: #one; column: #two.
-	browser showOn: #one; using: [
-		browser list display: [:x | 1 to: x]].
-	browser showOn: #two; from: #one->#strongSelection; using: [
-		browser list display: [:x | 1 to: x]].
+	browser
+		column: #one;
+		column: #two.
+	browser
+		transmit to: #one;
+		andShow: [ :a | a list display: [ :x | 1 to: x ] ].
+	browser
+		transmit to: #two;
+		from: #one port: #strongSelection;
+		andShow: [:a |  a list display: [ :x | 1 to: x ] ].
 	^ browser
 ]
 
@@ -408,6 +432,29 @@ GLMBasicExamples >> interdependentPanes [
 	browser showOn: #one; from: #two; using: [
 		browser list
 			display: [:x | 1 to: x * 3]].
+	^ browser
+]
+
+{ #category : #'explicit selection' }
+GLMBasicExamples >> listsInDashboardWithUpdatedSelection [
+	"self new listsWithUpdatedSelection openOn: 10"
+	<glmBrowser: 'Updated selection in dashboard' input: '10'>
+	| browser |
+	browser := GLMDashboard new.
+	browser addPaneNamed: #one; addPaneNamed: #two; addPaneNamed: #three.
+	browser showOn: #one; using: [
+		browser tree
+			display: [:x | 1 to: x ]].
+	browser showOn: #two; using: [
+		browser tree
+			display: [:x | 1 to: x + 2 ]].
+	browser showOn: #three; using: [
+		browser tree
+			beMultiple;
+			display: [:x | 1 to: x ]].
+	browser sendTo: #two->#selection from: #one with: [:x | x + 2].
+	browser sendTo: #one->#selection from: #two with: [:x | x - 2].
+	browser sendTo: #three->#selection from: #two with: [:x | (1 to: (x - 2)) ].
 	^ browser
 ]
 
@@ -712,26 +759,32 @@ GLMBasicExamples >> starBrowser [
 	| browser accumulator |
 	browser := GLMTabulator new.
 	browser title: 'StarBrowser Light'.
-	browser column: #tree; column: #browser span: 4.
-	browser showOn: #tree; using: [ browser list ].
+	browser
+		column: #tree;
+		column: #browser span: 4.
+	browser
+		showOn: #tree;
+		using: [ browser list ].
 	accumulator := GLMAccumulator new.
-	accumulator show: [ :a |
-		a title: [:object | object printString ].
-		a morph
-			display: [ :object |
-				| model |
-				" create omnibrowser model "
-				model := object isBehavior
-					ifTrue: [ OBHierarchyBrowser onClass: object ]
-					ifFalse: [ OBImplementorsBrowser root: (OBSelectorNode on: object) ].
-				" create omnibrowser morph, but get rid of window "
-				PanelMorph new
-					layoutPolicy: ProportionalLayout new;
-					addAllMorphs: (OBMorphBuilder build: model) paneMorphs;
-					yourself ] ].
-	browser transmit to: #browser; from: #tree->#strongSelection; andShowIfNone: [ :a |
-		a custom: accumulator ].
-	^ browser 
+	accumulator
+		show: [ :a | 
+			a title: [ :object | object printString ].
+			a morph
+				display: [ :object | 
+					| model |
+					" create omnibrowser model "
+					model := object isBehavior
+						ifTrue: [ OBHierarchyBrowser onClass: object ]
+						ifFalse: [ OBImplementorsBrowser root: (OBSelectorNode on: object) ].	" create omnibrowser morph, but get rid of window "
+					(PanelMorph new)
+						layoutPolicy: ProportionalLayout new;
+						addAllMorphs: (OBMorphBuilder build: model) paneMorphs;
+						yourself ] ].
+	(browser transmit)
+		to: #browser;
+		from: #tree port: #strongSelection;
+		andShowIfNone: [ :a | a custom: accumulator ].
+	^ browser
 ]
 
 { #category : #'actions examples' }
@@ -750,7 +803,7 @@ GLMBasicExamples >> staticAndDynamicMenu [
 	finder text
 			title: 'Text';
 			display: [:each | 'Character ', each asString];
-			dynamicActionsOnSelection: [:text | OrderedCollection with: (GLMGenericAction new title: 'Print selection'; action: [Transcript show: text selection]; yourself) ];
+			dynamicActionsOnSelection: [:text | OrderedCollection with: (GLMGenericAction new title: 'Print selection'; action: [Transcript show: text selectedText]; yourself) ];
 			selectionAct: [self inform: 'Text static action'] entitled: 'Static action'.
 	^ finder
 ]
@@ -837,20 +890,34 @@ GLMBasicExamples >> taggedTree [
 
 { #category : #text }
 GLMBasicExamples >> textPortsExamples [
-	"
-		self new textPortsExamples openOn: 'Type and select to see the results previewed.'
-	"
+	<glmBrowser: 'Text ports' input: '''Type and select to see the results previewed.'''>
+	"self new textPortsExamples openOn: 'Type and select to see the results previewed.'"
+
 	| browser |
 	browser := GLMTabulator new.
-	browser row: #main; row: [:r | r column: #selected; column: #full].
-	browser transmit to: #main; andShow: [:a | a text].
-	browser transmit to: #selected; from: #main->#selectedText; andShow: [:a | a text].
-	browser transmit to: #full; from: #main->#text; andShow: [:a | a text].
+	browser
+		row: #main;
+		row: [ :r | r column: #selectionInterval; column: #selectedText; column: #full ].
+	(browser transmit)
+		to: #main;
+		andShow: [ :a | a text ].
+	(browser transmit)
+		to: #selectionInterval;
+		from: #main port: #selectionInterval;
+		andShow: [ :a | a text title: '#selectionInterval port' ].
+	(browser transmit)
+		to: #selectedText;
+		from: #main port: #selectedText;
+		andShow: [ :a | a text title: '#selectedText port' ].
+	(browser transmit)
+		to: #full;
+		from: #main port: #text;
+		andShow: [ :a | a text title: '#text port'].
 	^ browser
 ]
 
 { #category : #text }
-GLMBasicExamples >> textSelectionInterval [
+GLMBasicExamples >> textSelection [
 	<glmBrowser: 'Text selection' input: '(1 to: 100)'>
 	"	|browser |
 		browser := self new textSelectionInterval.
@@ -875,25 +942,41 @@ GLMBasicExamples >> textSelectionInterval [
 
 { #category : #others }
 GLMBasicExamples >> threeInterdependentPanes [
-	<glmBrowser: 'Three inter-dependent panes' input: '5'>
 	"self new threeInterdependentPanes openOn: 5"
-	|browser |
 
+	<glmBrowser: 'Three inter-dependent panes' input: '5'>
+	| browser |
 	browser := GLMTabulator new.
-	browser column: #one; column: #two; column: #three.
-	browser transmit to: #one; andShow: [ :a |
-		a tree
-			display: [:x | 1 to: x]].
-	browser transmit to: #two; from: #one; andShow: [ :a | 
-		a tree
-			display: [:x | 1 to: x*2]].
-	browser transmit to: #three; from: #two; andShow: [ :a | 
-		a tree
-			display: [:x | 1 to: x*3];
-			populate: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
-	browser transmit toOutside: #focus; from: #three->#focus.
-	browser transmit to: #one->#selection; from: #outer->#focus.
-	browser transmit to: #two->#selection; from: #outer->#focus.
+	browser
+		column: #one;
+		column: #two;
+		column: #three.
+	(browser transmit)
+		to: #one;
+		andShow: [ :a | a tree display: [ :x | 1 to: x ] ].
+	(browser transmit)
+		to: #two;
+		from: #one;
+		andShow: [ :a | a tree display: [ :x | 1 to: x * 2 ] ].
+	(browser transmit)
+		to: #three;
+		from: #two;
+		andShow: [ :a | 
+					(a tree)
+						display: [ :x | 1 to: x * 3 ];
+						populate: #focus
+							on: $f
+							entitled: 'Focus'
+							with: [ :list | list selection ] ].
+	(browser transmit)
+		toOutside: #focus;
+		from: #three port: #focus.
+	(browser transmit)
+		to: #one -> #selection;
+		from: #outer port: #focus.
+	(browser transmit)
+		to: #two -> #selection;
+		from: #outer port: #focus.
 	^ browser
 ]
 
@@ -913,22 +996,36 @@ GLMBasicExamples >> treeWithAmountFiltering [
 
 { #category : #'explicit selection' }
 GLMBasicExamples >> treeWithChildrenByLevel [
-	<glmBrowser: 'Tree with children by level' input: '(1 to: 5)'>
 	"
 		self new treeWithChildrenByLevel openOn: #(1 2 3 4 5)
 	"
-	|browser |
 
+	<glmBrowser: 'Tree with children by level' input: '(1 to: 5)'>
+	| browser |
 	browser := GLMTabulator new.
-	browser column: #one; column: [:c | c row: #two; row: #three].
-	browser transmit to: #one; andShow: [ :a |
-		browser tree
-			title: 'Tree';
-			children: [:item :x :level | level > 1 ifTrue: [#()] ifFalse: [1 to: item ] ] "Children must return a collection"].
-	browser transmit to: #two; from: #one; andShow: [:a | 
-		a text title: 'Selection preview' ].
-	browser transmit to: #three; from: #one->#selectionPath; andShow: [:a | 
-		a text title: 'Selection path preview'].
+	browser
+		column: #one;
+		column: [ :c | 
+					c
+						row: #two;
+						row: #three ].
+	(browser transmit)
+		to: #one;
+		andShow: [ :a | 
+					(browser tree)
+						title: 'Tree';
+						children: [ :item :x :level | 
+									level > 1
+										ifTrue: [ #() ]
+										ifFalse: [ 1 to: item ] ]	"Children must return a collection" ].
+	(browser transmit)
+		to: #two;
+		from: #one;
+		andShow: [ :a | a text title: 'Selection preview' ].
+	(browser transmit)
+		to: #three;
+		from: #one port: #selectionPath;
+		andShow: [ :a | a text title: 'Selection path preview' ].
 	^ browser
 ]
 
@@ -967,19 +1064,32 @@ GLMBasicExamples >> treeWithInitialSelection [
 		}.
 		(browser panes first port: #selection) value: $a->{}.
 	"
-	|browser |
 
+	| browser |
 	browser := GLMTabulator new.
-	browser column: #one; column: [:c | c row: #two; row: #three].
-	browser transmit to: #one; andShow: [ :a |
-		a tree
-			title: 'first tree';
-			children: [:x | x value ].
-		a tree
-			title: 'second tree';
-			children: [:x | x value ]].
-	browser transmit to: #two; from: #one; andShow: [ :a | browser text title: 'Selection preview' ].
-	browser transmit to: #three; from: #one->#selectionPath; andShow: [ :a | a text title: 'Selection path preview'].
+	browser
+		column: #one;
+		column: [ :c | 
+					c
+						row: #two;
+						row: #three ].
+	(browser transmit)
+		to: #one;
+		andShow: [ :a | 
+					(a tree)
+						title: 'first tree';
+						children: [ :x | x value ].
+					(a tree)
+						title: 'second tree';
+						children: [ :x | x value ] ].
+	(browser transmit)
+		to: #two;
+		from: #one;
+		andShow: [ :a | browser text title: 'Selection preview' ].
+	(browser transmit)
+		to: #three;
+		from: #one port: #selectionPath;
+		andShow: [ :a | a text title: 'Selection path preview' ].
 	^ browser
 ]
 
