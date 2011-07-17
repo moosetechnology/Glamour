@@ -40,21 +40,21 @@ GLMSTBrowserExample >> categoriesOn: browser [
 
 { #category : #building }
 GLMSTBrowserExample >> classesOn: browser [
-	browser
-		showOn: #class;
-		from: #outer port: #entity;
-		from: #category;
-		using: [ 
-					(browser list)
-						title: 'Instance';
-						display: [ :environment :category | (environment classes select: [ :each | each isMeta not ]) select: [ :each | each category = category ] ];
-						sorted: [ :a :b | a name < b name ];
-						format: [ :class | class name ].
-					(browser list)
-						title: 'Class';
-						display: [ :environment :category | (environment classes select: [ :each | each isMeta ]) select: [ :each | each theNonMetaClass category = category ] ];
-						sorted: [ :a :b | a name < b name ];
-						format: [ :class | class theNonMetaClass name ] ]
+	browser showOn: #class; from: #outer -> #entity; from: #category; using: [
+		browser list
+			title: 'Instance';
+			display: [ :environment :category | 
+				((environment classes select: [ :each | each isMeta not ])
+					select: [ :each | each category = category ])];
+			sorted: [ :a :b | a name < b name ];
+			format: [ :class | class name ].
+		browser list
+			title: 'Class';
+			display: [ :environment :category | 
+				((environment classes select: [ :each | each isMeta ])
+					select: [ :each | each theNonMetaClass category = category ])];
+			sorted: [ :a :b | a name < b name ] ;
+			format: [ :class | class theNonMetaClass name ] ]
 ]
 
 { #category : #accessing }
@@ -64,35 +64,26 @@ GLMSTBrowserExample >> model [
 
 { #category : #building }
 GLMSTBrowserExample >> protocolsOn: browser [
-	browser
-		showOn: #protocol;
-		from: #outer port: #entity;
-		from: #class;
-		using: [ 
-					(browser list)
-						when: [ :environment :class | class notNil ];
-						display: [ :environment :class | environment protocolsFor: class ];
-						sorted ]
+	browser showOn: #protocol; from: #outer -> #entity; from: #class; using: [
+		browser list
+			when: [ :environment :class | class notNil ];
+			display: [ :environment :class | (environment protocolsFor: class) ];
+			sorted ]
 ]
 
 { #category : #building }
 GLMSTBrowserExample >> selectorsOn: browser [
-	browser
-		showOn: #selector;
-		from: #outer port: #entity;
-		from: #class;
-		from: #protocol;
-		using: [ 
-					(browser list)
-						useExplicitNotNil;
-						when: [ :environment :class :protocol | class notNil and: [ protocol notNil ] ];
-						display: [ :environment :class :protocol | environment selectorsFor: protocol in: class ];
-						sorted.
-					(browser list)
-						useExplicitNotNil;
-						when: [ :environment :class :protocol | class notNil and: [ protocol isNil ] ];
-						display: [ :environment :class :protocol | environment selectorsForClass: class ];
-						sorted ]
+	browser showOn: #selector; from: #outer -> #entity; from: #class; from: #protocol; using: [
+		browser list
+			useExplicitNotNil;
+			when: [ :environment :class :protocol | class notNil and: [ protocol notNil ] ];
+			display: [ :environment :class :protocol | (environment selectorsFor: protocol in: class)  ];
+			sorted.
+		browser list
+			useExplicitNotNil;
+			when: [ :environment :class :protocol | class notNil and: [ protocol isNil ] ];
+			display: [ :environment :class :protocol | (environment selectorsForClass: class) ];
+			sorted ]
 ]
 
 { #category : #building }
