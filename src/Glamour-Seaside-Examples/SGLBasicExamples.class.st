@@ -119,7 +119,7 @@ SGLBasicExamples >> multipleTabs [
 		self new multipleTabs openOn: 1
 	"
 	<glmBrowser: 'Tabs' input: '1'>
-	^ GLMBasicExamples new multipleTabs
+	^ GLMBasicExamples new tabsWithDifferentActions
 ]
 
 { #category : #others }
