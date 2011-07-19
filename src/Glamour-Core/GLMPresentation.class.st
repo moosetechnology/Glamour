@@ -607,8 +607,8 @@ GLMPresentation >> selection [
 { #category : #'accessing ports' }
 GLMPresentation >> selection: anObject [ 
 	self acceptsSelection ifFalse: [^ self].
-	self flag: 'perhaps it would be better to provide 2 ports: a transformed one and a normal onewsho'.
-	(self pane port: #selection) value: (self postTransformation glamourValue: anObject)
+	(self pane port: #rawSelection) value: anObject.
+	(self pane port: #selection) value: (self postTransformation glamourValue: anObject).
 ]
 
 { #category : #scripting }
