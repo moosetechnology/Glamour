@@ -4,9 +4,9 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GLMPresentationTest >> expectedFailures [ 
-	^ #(testToSendMultipleValue testToSendAs)
+	^ #(testToSendMultipleValue)
 ]
 
 { #category : #tests }
