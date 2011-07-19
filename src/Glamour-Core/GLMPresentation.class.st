@@ -31,7 +31,7 @@ Class {
 		'selectionActions',
 		'selectionDynamicActionsBlock',
 		'implicitAllNil',
-		'rawSelectionTransmission'
+		'rawSelectionTransmissions'
 	],
 	#category : #'Glamour-Core'
 }
@@ -147,6 +147,23 @@ GLMPresentation >> actions: aBlock [
 GLMPresentation >> addAction: anAction [ 
 	 
 	self actions addLast: anAction
+]
+
+{ #category : #transmitting }
+GLMPresentation >> addRawSelectionTransmissionTo: aPortSymbol [
+	^ rawSelectionTransmissions
+		add:
+			((GLMTransmission new)
+				addActiveOrigin:
+						((GLMPresentationBoundPort new)
+								name: #rawSelection;
+								presentation: self;
+								yourself);
+				destination:
+						((GLMPresentationBoundPort new)
+								name: aPortSymbol;
+								presentation: self;
+								yourself))
 ]
 
 { #category : #accessing }
@@ -314,17 +331,8 @@ GLMPresentation >> hasTitleIcon [
 GLMPresentation >> initialize [
 	super initialize.
 	updateActions := OrderedCollection new.
-	rawSelectionTransmission := (GLMTransmission new)
-		addActiveOrigin:
-				((GLMPresentationBoundPort new)
-						name: #rawSelection;
-						presentation: self;
-						yourself);
-		destination:
-				((GLMPresentationBoundPort new)
-						name: #selection;
-						presentation: self;
-						yourself)
+	rawSelectionTransmissions := IdentitySet new.
+	self addRawSelectionTransmissionTo: #selection
 ]
 
 { #category : #events }
@@ -563,15 +571,15 @@ GLMPresentation >> postCopy [
 			(each copy)
 				presentation: self;
 				yourself ].
-	rawSelectionTransmission := rawSelectionTransmission copy.
-	rawSelectionTransmission originReferences do: [:portRef | portRef port presentation: self].
-	rawSelectionTransmission destination presentation: self
+	rawSelectionTransmissions := rawSelectionTransmissions collect: [:each | each copy].
+	rawSelectionTransmissions do: [:transmission | transmission originReferences do: [:portRef | portRef port presentation: self]].
+	rawSelectionTransmissions do: [:transmission | transmission destination presentation: self]
 ]
 
 { #category : #accessing }
 GLMPresentation >> postTransformation [
 	"this is used for transforming the object before updating the selection"
-	^ rawSelectionTransmission transformation ifNil: [#yourself]
+	^ self selectionTransmission transformation ifNil: [#yourself]
 ]
 
 { #category : #printing }
@@ -585,6 +593,13 @@ GLMPresentation >> printOn: aStream [
 		nextPutAll: ' pane=';
 		nextPutAll: self pane printString;
 		nextPutAll: ')'
+]
+
+{ #category : #transmitting }
+GLMPresentation >> rawSelectionTransmissionFor: aPortSymbol ifNone: ifNoneBlock [
+	^ rawSelectionTransmissions
+		detect: [ :transmission | transmission destination port name = aPortSymbol ]
+		ifNone: ifNoneBlock
 ]
 
 { #category : #updating }
@@ -622,7 +637,7 @@ GLMPresentation >> selection [
 GLMPresentation >> selection: anObject [ 
 	self acceptsSelection ifFalse: [^ self].
 	(self pane port: #rawSelection) value: anObject.
-	rawSelectionTransmission transmit
+	rawSelectionTransmissions do: #transmit
 ]
 
 { #category : #scripting }
@@ -711,12 +726,25 @@ GLMPresentation >> selectionPopulate: aPortSymbol on: aCharacter entitled: aStri
 
 { #category : #accessing }
 GLMPresentation >> selectionTransformation: anObject [ 
-	rawSelectionTransmission transformation: anObject 
+	self selectionTransmission 	transformation: anObject 
+]
+
+{ #category : #transmitting }
+GLMPresentation >> selectionTransmission [
+	^ self rawSelectionTransmissionFor: #selection ifNone: [nil]
 ]
 
 { #category : #scripting }
 GLMPresentation >> send: aBlock [ 
 	self selectionTransformation: aBlock
+]
+
+{ #category : #scripting }
+GLMPresentation >> send: aBlock as: aPortSymbol [
+	(self
+			rawSelectionTransmissionFor: aPortSymbol
+			ifNone: [ self addRawSelectionTransmissionTo: aPortSymbol ])
+		transformation: aBlock
 ]
 
 { #category : #'accessing validation' }
