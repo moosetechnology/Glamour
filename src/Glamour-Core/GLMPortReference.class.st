@@ -21,6 +21,11 @@ GLMPortReference >> port: aPort [
 	port := aPort
 ]
 
+{ #category : #'as yet unclassified' }
+GLMPortReference >> postCopy [ 
+	port := port copy
+]
+
 { #category : #printing }
 GLMPortReference >> printOn: aStream [
 	super printOn: aStream.

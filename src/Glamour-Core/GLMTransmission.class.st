@@ -237,6 +237,7 @@ GLMTransmission >> passivelyFrom: aPort [
 { #category : #copying }
 GLMTransmission >> postCopy [
 	origins := origins collect: [:each | each copy ].
+	destination := destination copy.
 	transmissionStrategy := transmissionStrategy copy.
 	transmissionStrategy transmission: self
 ]
