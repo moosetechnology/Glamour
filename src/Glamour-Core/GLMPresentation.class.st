@@ -312,13 +312,8 @@ GLMPresentation >> hasTitleIcon [
 
 { #category : #'initialize-release' }
 GLMPresentation >> initialize [
-	super initialize.	
+	super initialize.
 	updateActions := OrderedCollection new.
-	self initializeRawSelectionTransmission.
-]
-
-{ #category : #'initialize-release' }
-GLMPresentation >> initializeRawSelectionTransmission [
 	rawSelectionTransmission := (GLMTransmission new)
 		addActiveOrigin:
 				((GLMPresentationBoundPort new)
@@ -568,7 +563,9 @@ GLMPresentation >> postCopy [
 			(each copy)
 				presentation: self;
 				yourself ].
-	self initializeRawSelectionTransmission
+	rawSelectionTransmission := rawSelectionTransmission copy.
+	rawSelectionTransmission originReferences do: [:portRef | portRef port presentation: self].
+	rawSelectionTransmission destination presentation: self
 ]
 
 { #category : #accessing }
