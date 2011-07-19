@@ -66,6 +66,12 @@ SGLRenderer >> renderActionListPresentation: anActionListPresentation [
 	self renderEmptyPresentation 
 ]
 
+{ #category : #'rendering browsers' }
+SGLRenderer >> renderDashboard: aBrowser [
+	html render: (SGLDashboardPresenter for: aBrowser from: self)
+
+]
+
 { #category : #rendering }
 SGLRenderer >> renderDynamicPresentation: aPresentation [
 	html render: (SGLDynamicPresenter for: aPresentation from: self)
@@ -106,6 +112,15 @@ SGLRenderer >> renderLabelPresentation: aLabelPresentation [
 
 { #category : #'rendering presentations' }
 SGLRenderer >> renderListPresentation: aPresentation [
+	| listPresenter |
+	listPresenter := (SGLTreePresenter for: aPresentation from: self).
+	listPresenter htmlId: (self uuidFor: aPresentation).
+	html render: listPresenter
+]
+
+{ #category : #'rendering presentations' }
+SGLRenderer >> renderListWithBackgroundColorPresentation: aPresentation [
+	"for now just use the 'standard' list renderer."
 	| listPresenter |
 	listPresenter := (SGLTreePresenter for: aPresentation from: self).
 	listPresenter htmlId: (self uuidFor: aPresentation).

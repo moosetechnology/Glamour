@@ -62,7 +62,7 @@ SGLTabulatorPresenter >> renderTableLayoutRow: aCell fromIndex: index withSpan: 
 		script: (self resizeVerticalScriptWithCell: currentCell withSpan:  span - currentCell span on: html);
 		with: [
 			(aCell children size > 0) ifTrue: [
-				 self renderTableRow: (aCell children at: index) on: html.
+				self renderTableRow: (aCell children at: index) on: html.
 				(aCell children size = 1) ifFalse: [		
 					(aCell children size = (index + 1)) 
 						ifTrue: [ self renderTableRow: (aCell children at: index+1) on: html ] 
