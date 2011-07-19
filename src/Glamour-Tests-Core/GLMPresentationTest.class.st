@@ -260,6 +260,21 @@ GLMPresentationTest >> testTitle [
 ]
 
 { #category : #tests }
+GLMPresentationTest >> testToRawSelection [
+	| presentation |
+	presentation := GLMPresentation new.
+
+	presentation selection: 1.
+	self assert: (presentation pane port: #selection) value equals: 1.
+	self assert: (presentation pane port: #rawSelection) value equals: 1.
+	
+	presentation selectionTransformation: [ :num  | num + 1].
+	presentation selection: 1.
+	self assert: (presentation pane port: #selection) value equals: 2.
+	self assert: (presentation pane port: #rawSelection) value equals: 1.
+]
+
+{ #category : #tests }
 GLMPresentationTest >> testToSend [
 	| presentation |
 	presentation := GLMPresentation new.
