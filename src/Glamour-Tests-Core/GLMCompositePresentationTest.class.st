@@ -10,7 +10,7 @@ GLMCompositePresentationTest >> testAdd [
 	composite := GLMCompositePresentation new.
 	composite add: GLMPresentation new.
 	self assert: composite isEmpty not.
-	self assert: composite presentations size = 1
+	self assert: composite presentations size equals: 1
 ]
 
 { #category : #tests }

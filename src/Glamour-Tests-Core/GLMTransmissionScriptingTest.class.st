@@ -19,27 +19,27 @@ GLMTransmissionScriptingTest >> setUp [
 { #category : #tests }
 GLMTransmissionScriptingTest >> testFrom [
 	browser transmit from: #one.
-	self assert: browser transmissions first origins first pane = browser panes first.
-	self assert: browser transmissions first origins first name = GLMPortIdentifier defaultOriginPortName
+	self assert: browser transmissions first origins first pane equals: browser panes first.
+	self assert: browser transmissions first origins first name equals: GLMPortIdentifier defaultOriginPortName
 ]
 
 { #category : #tests }
 GLMTransmissionScriptingTest >> testFromPort [
 	browser transmit from: #one port: #port.
-	self assert: browser transmissions first origins first pane = browser panes first.
-	self assert: browser transmissions first origins first name = #port
+	self assert: browser transmissions first origins first pane equals: browser panes first.
+	self assert: browser transmissions first origins first name equals: #port
 ]
 
 { #category : #tests }
 GLMTransmissionScriptingTest >> testTo [
 	browser transmit to: #one.
-	self assert: browser transmissions first destination pane = browser panes first.
-	self assert: browser transmissions first destination name = GLMPortIdentifier defaultTargetPortName
+	self assert: browser transmissions first destination pane equals: browser panes first.
+	self assert: browser transmissions first destination name equals: GLMPortIdentifier defaultTargetPortName
 ]
 
 { #category : #tests }
 GLMTransmissionScriptingTest >> testToPort [
 	browser transmit to: #one port: #port.
-	self assert: browser transmissions first destination pane = browser panes first.
-	self assert: browser transmissions first destination name = #port
+	self assert: browser transmissions first destination pane equals: browser panes first.
+	self assert: browser transmissions first destination name equals: #port
 ]

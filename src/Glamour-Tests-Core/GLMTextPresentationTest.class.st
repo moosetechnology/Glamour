@@ -8,7 +8,7 @@ Class {
 GLMTextPresentationTest >> testSelectedText [
 	| presentation |
 	presentation := GLMTextPresentation new.
-	self assert: (presentation selectedText = '').
-	presentation selectedTextBlock: ['selection'].
-	self assert: (presentation selectedText = 'selection')
+	self assert: presentation selectedText equals: ''.
+	presentation selectedTextBlock: [ 'selection' ].
+	self assert: presentation selectedText equals: 'selection'
 ]

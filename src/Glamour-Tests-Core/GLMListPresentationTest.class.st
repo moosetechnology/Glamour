@@ -19,10 +19,9 @@ GLMListPresentationTest >> testCustomValidation [
 	pane := GLMPane named: 'test'.
 	presentation := GLMPresentation new.
 	pane addPresentation: presentation.
-	presentation customValidation: [ :object :aport :entity | 
-		aport ~= #selection or: [object = (entity last + 40)] ].
+	presentation customValidation: [ :object :aport :entity | aport ~= #selection or: [ object = (entity last + 40) ] ].
 	presentation entity: (OrderedCollection with: 1 with: 2).
-	self assert: presentation entity last = 2.
+	self assert: presentation entity last equals: 2.
 	self assert: (presentation validate: 42 on: (pane port: #selection))
 ]
 
@@ -43,9 +42,9 @@ GLMListPresentationTest >> testToSend [
 	| list |
 	list := GLMListPresentation new.
 	list selectionTransformation: [ :x | x + 1 ].
-	list entity: ( 1 to: 100 ).
+	list entity: (1 to: 100).
 	list selection: 41.
-	self assert: list selection = 42
+	self assert: list selection equals: 42
 ]
 
 { #category : #tests }
@@ -72,9 +71,9 @@ GLMListPresentationTest >> testValidatePorts [
 	presentation shouldValidate: true.
 	presentation entity: #(1 2).
 	presentation selection: 2.
-	self assert: presentation selection = 2.
-	presentation selection: 3."this should be invalid"
-	self assert: presentation selection = 2
+	self assert: presentation selection equals: 2.
+	presentation selection: 3.	"this should be invalid"
+	self assert: presentation selection equals: 2
 ]
 
 { #category : #tests }

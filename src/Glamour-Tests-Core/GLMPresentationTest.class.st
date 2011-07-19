@@ -25,8 +25,8 @@ GLMPresentationTest >> testAllActions [
 	self assert: listing hasActions not.
 	listing addAction: GLMAction new.
 	listing addAction: GLMAction new.
-	listing dynamicActions: [:p | OrderedCollection with: GLMAction new with: GLMAction new  with: GLMAction new ].
-	self assert: listing allActions size = 5.
+	listing dynamicActions: [ :p | OrderedCollection with: GLMAction new with: GLMAction new with: GLMAction new ].
+	self assert: listing allActions size equals: 5.
 	self assert: listing hasActions
 ]
 
@@ -36,50 +36,46 @@ GLMPresentationTest >> testAllSelectionActions [
 	listing := GLMPresentation new.
 	listing addSelectionAction: GLMAction new.
 	listing addSelectionAction: GLMAction new.
-	listing dynamicActionsOnSelection: [:p | OrderedCollection with: GLMAction new with: GLMAction new  with: GLMAction new ].
-	self assert: listing allSelectionActions size = 5
+	listing
+		dynamicActionsOnSelection: [ :p | OrderedCollection with: GLMAction new with: GLMAction new with: GLMAction new ].
+	self assert: listing allSelectionActions size equals: 5
 ]
 
 { #category : #tests }
-GLMPresentationTest >> testAnnouncement [ 
-	 
-	| pane presentation announcement | 
-	pane := GLMPane named: 'test'. 
-	presentation := GLMPresentation new. 
-	pane addPresentation: presentation. 
-	announcement := nil. 
-	presentation 
-		when: GLMContextChanged 
-		do: [:ann | announcement := ann]. 
-	(pane port: #entity) value: 42. 
-	self assert: announcement notNil. 
-	self assert: announcement property = #entity. 
-	self assert: announcement value = 42
+GLMPresentationTest >> testAnnouncement [
+	| pane presentation announcement |
+	pane := GLMPane named: 'test'.
+	presentation := GLMPresentation new.
+	pane addPresentation: presentation.
+	announcement := nil.
+	presentation when: GLMContextChanged do: [ :ann | announcement := ann ].
+	(pane port: #entity) value: 42.
+	self assert: announcement notNil.
+	self assert: announcement property equals: #entity.
+	self assert: announcement value equals: 42
 ]
 
 { #category : #tests }
-GLMPresentationTest >> testContext [ 
-	 
-	| pane presentation | 
-	pane := GLMPane named: 'test'. 
-	presentation := GLMPresentation new. 
-	pane addPresentation: presentation. 
-	presentation selection: 42. 
-	self assert: (pane port: #selection) value equals: 42. 
-	(pane port: #entity) value: 'foo'. 
-	self assert: presentation entity = 'foo'
+GLMPresentationTest >> testContext [
+	| pane presentation |
+	pane := GLMPane named: 'test'.
+	presentation := GLMPresentation new.
+	pane addPresentation: presentation.
+	presentation selection: 42.
+	self assert: (pane port: #selection) value equals: 42.
+	(pane port: #entity) value: 'foo'.
+	self assert: presentation entity equals: 'foo'
 ]
 
 { #category : #tests }
 GLMPresentationTest >> testCopyAnnouncementsDoNotRaise [
-
 	| presentation newPresentation |
 	presentation := GLMPresentation new.
-	presentation when: GLMContextChanged do: [:ann | self fail ].
-	self assert: presentation numberOfSubscriptions = 1.
+	presentation when: GLMContextChanged do: [ :ann | self fail ].
+	self assert: presentation numberOfSubscriptions equals: 1.
 	newPresentation := presentation copy.
 	newPresentation announce: GLMContextChanged.
-	self assert: newPresentation numberOfSubscriptions = 0
+	self assert: newPresentation numberOfSubscriptions equals: 0
 ]
 
 { #category : #tests }
@@ -93,15 +89,14 @@ GLMPresentationTest >> testCopyNotTheSameRegistry [
 
 { #category : #tests }
 GLMPresentationTest >> testCopyRootPrototype [
-
 	| presentation newPresentation yetAnotherPresentation |
 	presentation := GLMPresentation new.
 	newPresentation := presentation copy.
-	self assert: newPresentation rootPrototype = presentation.
-	self assert: newPresentation parentPrototype = presentation.
+	self assert: newPresentation rootPrototype equals: presentation.
+	self assert: newPresentation parentPrototype equals: presentation.
 	yetAnotherPresentation := newPresentation copy.
-	self assert: yetAnotherPresentation rootPrototype = presentation.
-	self assert: yetAnotherPresentation parentPrototype = newPresentation
+	self assert: yetAnotherPresentation rootPrototype equals: presentation.
+	self assert: yetAnotherPresentation parentPrototype equals: newPresentation
 ]
 
 { #category : #tests }
@@ -125,18 +120,17 @@ GLMPresentationTest >> testDefaultPane [
 ]
 
 { #category : #tests }
-GLMPresentationTest >> testDisplay [ 
-	 
-	| presentation | 
-	presentation := GLMPresentation new. 
-	presentation entity: #foo. 
-	self assert: presentation displayValue = #foo. 
-	presentation entity: #(#foo #bar). 
-	self assert: presentation displayValue = #(#foo #bar). 
-	presentation entity: (GLMMultiValue withAll: #(#foo #bar)). 
-	self assert: presentation displayValue = #foo. 
-	presentation transformation: [:first :second | (first , second) asSymbol]. 
-	self assert: presentation displayValue = #foobar
+GLMPresentationTest >> testDisplay [
+	| presentation |
+	presentation := GLMPresentation new.
+	presentation entity: #foo.
+	self assert: presentation displayValue equals: #foo.
+	presentation entity: #(#foo #bar).
+	self assert: presentation displayValue equals: #(#foo #bar).
+	presentation entity: (GLMMultiValue withAll: #(#foo #bar)).
+	self assert: presentation displayValue equals: #foo.
+	presentation transformation: [ :first :second | (first , second) asSymbol ].
+	self assert: presentation displayValue equals: #foobar
 ]
 
 { #category : #tests }
@@ -195,44 +189,43 @@ GLMPresentationTest >> testImplicitNotNilMultipleValues [
 ]
 
 { #category : #tests }
-GLMPresentationTest >> testMatching [ 
-	 
-	| presentation | 
-	presentation := GLMPresentation new. 
-	self assert: presentation usesImplicitNotNil. 
-	(presentation pane port: #entity) value: (GLMMultiValue withAll: #(nil 1)). 
+GLMPresentationTest >> testMatching [
+	| presentation |
+	presentation := GLMPresentation new.
+	self assert: presentation usesImplicitNotNil.
+	(presentation pane port: #entity) value: (GLMMultiValue withAll: #(nil 1)).
 	self assert: presentation matches not.
-	(presentation pane port: #entity) value: 1. 
-	self assert: presentation matches. 
-	presentation useExplicitNotNil. 
-	self assert: presentation usesImplicitNotNil not. 
-	(presentation pane port: #entity) value: (GLMMultiValue withAll: #(nil 1)). 
-	self assert: presentation matches. 
-	(presentation pane port: #entity) value: 1. 
-	self assert: presentation matches. 
-	presentation condition: [:x | x > 1]. 
-	presentation useImplicitNotNil. 
-	self assert: presentation usesImplicitNotNil. 
-	(presentation pane port: #entity) value: nil. 
-	self assert: presentation matches not. 
-	(presentation pane port: #entity) value: 1. 
-	self assert: presentation matches not. 
-	(presentation pane port: #entity) value: 2. 
-	self assert: presentation matches. 
-	presentation useExplicitNotNil. 
-	(presentation pane port: #entity) value: 1. 
-	self assert: presentation matches not. 
-	(presentation pane port: #entity) value: 2. 
-	self assert: presentation matches. 
-	self assert: presentation usesImplicitNotNil not. 
-	[(presentation pane port: #entity) value: (GLMMultiValue withAll: #(nil 1)). 
-	presentation matches. 
-	self signalFailure: 'Should have raised error'] 
-		on: MessageNotUnderstood 
-		do: 
-			[:err |  
-			self assert: err message selector = #>. 
-			self assert: err message arguments = (Array with: 1)]
+	(presentation pane port: #entity) value: 1.
+	self assert: presentation matches.
+	presentation useExplicitNotNil.
+	self assert: presentation usesImplicitNotNil not.
+	(presentation pane port: #entity) value: (GLMMultiValue withAll: #(nil 1)).
+	self assert: presentation matches.
+	(presentation pane port: #entity) value: 1.
+	self assert: presentation matches.
+	presentation condition: [ :x | x > 1 ].
+	presentation useImplicitNotNil.
+	self assert: presentation usesImplicitNotNil.
+	(presentation pane port: #entity) value: nil.
+	self assert: presentation matches not.
+	(presentation pane port: #entity) value: 1.
+	self assert: presentation matches not.
+	(presentation pane port: #entity) value: 2.
+	self assert: presentation matches.
+	presentation useExplicitNotNil.
+	(presentation pane port: #entity) value: 1.
+	self assert: presentation matches not.
+	(presentation pane port: #entity) value: 2.
+	self assert: presentation matches.
+	self assert: presentation usesImplicitNotNil not.
+	[ 
+	(presentation pane port: #entity) value: (GLMMultiValue withAll: #(nil 1)).
+	presentation matches.
+	self signalFailure: 'Should have raised error' ]
+		on: MessageNotUnderstood
+		do: [ :err | 
+			self assert: err message selector equals: #>.
+			self assert: err message arguments equals: (Array with: 1) ]
 ]
 
 { #category : #tests }
@@ -253,20 +246,19 @@ GLMPresentationTest >> testSetup [
 ]
 
 { #category : #tests }
-GLMPresentationTest >> testTitle [ 
-	 
-	| presentation | 
-	presentation := GLMPresentation new. 
-	presentation entity: #foo. 
+GLMPresentationTest >> testTitle [
+	| presentation |
+	presentation := GLMPresentation new.
+	presentation entity: #foo.
 	self assert: presentation titleValue isNil.
 	presentation title: '41'.
-	self assert: presentation titleValue = '41'.
-	presentation entity: '4'. 
-	presentation title: [:x | x , '2']. 
-	self assert: presentation titleValue = '42'. 
-	presentation entity: (GLMMultiValue withAll: #('4' '3')). 
-	presentation title: [:first :second | first , second]. 
-	self assert: presentation titleValue = '43'
+	self assert: presentation titleValue equals: '41'.
+	presentation entity: '4'.
+	presentation title: [ :x | x , '2' ].
+	self assert: presentation titleValue equals: '42'.
+	presentation entity: (GLMMultiValue withAll: #('4' '3')).
+	presentation title: [ :first :second | first , second ].
+	self assert: presentation titleValue equals: '43'
 ]
 
 { #category : #tests }
@@ -304,10 +296,10 @@ GLMPresentationTest >> testToSendAs [
 	presentation selection: #foo.
 	self assert: presentation selection equals: #foo.
 	self assert: (presentation pane port: #newport) value equals: nil.
-	presentation send: [ :num  | num + 1] as: #newport.
+	presentation send: [ :num | num + 1 ] as: #newport.
 	presentation selection: 1.
 	self assert: (presentation pane port: #newport) value equals: 2.
-	self assert: presentation selection = 1
+	self assert: presentation selection equals: 1
 ]
 
 { #category : #tests }
@@ -326,10 +318,9 @@ GLMPresentationTest >> testUnregisterAnnouncements [
 	presentation := GLMPresentation new.
 	presentation updateOn: TestAnnouncement from: [ announcer ].
 	presentation registerAnnouncements.
-	self assert: announcer numberOfSubscriptions = 1.
+	self assert: announcer numberOfSubscriptions equals: 1.
 	presentation unregisterFromAllAnnouncements.
-	self assert: announcer numberOfSubscriptions = 0
-
+	self assert: announcer numberOfSubscriptions equals: 0
 ]
 
 { #category : #tests }
@@ -340,60 +331,48 @@ GLMPresentationTest >> testUnregisterAnnouncementsWhenEntityChanges [
 	presentation updateOn: TestAnnouncement from: [ announcer1 ].
 	presentation entity: 1.
 	presentation registerAnnouncements.
-	self assert: announcer1 numberOfSubscriptions = 1.
+	self assert: announcer1 numberOfSubscriptions equals: 1.
 	presentation entity: 2.
-	self assert: announcer1 numberOfSubscriptions = 0.
+	self assert: announcer1 numberOfSubscriptions equals: 0.
 	presentation registerAnnouncements.
-	self assert: announcer1 numberOfSubscriptions = 1.
+	self assert: announcer1 numberOfSubscriptions equals: 1.
 	presentation entity: nil.
-	self assert: announcer1 numberOfSubscriptions = 0
-
-
-	
+	self assert: announcer1 numberOfSubscriptions equals: 0
 ]
 
 { #category : #tests }
 GLMPresentationTest >> testUpdate [
 	| col pane presentation |
-	col := OrderedCollection with: 1 with: 2. 
-	pane := GLMPane named: 'test'. 
+	col := OrderedCollection with: 1 with: 2.
+	pane := GLMPane named: 'test'.
 	presentation := GLMListPresentation new.
 	pane addPresentation: presentation.
 	presentation entity: col.
 	presentation shouldValidate: true.
 	presentation update.
 	presentation selection: 2.
-	self assert: presentation selection = 2.
+	self assert: presentation selection equals: 2.
 	col removeLast.
 	presentation update.
 	self assert: presentation selection isNil
-
 ]
 
 { #category : #tests }
-GLMPresentationTest >> testUpdateConditionallyTriggered [ 
+GLMPresentationTest >> testUpdateConditionallyTriggered [
 	| pane presentation announcer timesTriggered |
-	pane := GLMPane named: 'test'. 
+	pane := GLMPane named: 'test'.
 	(pane port: #entity) value: 40.
 	presentation := GLMPresentation new.
 	announcer := Announcer new.
 	pane addPresentation: presentation.
 	timesTriggered := 0.
-	presentation when: GLMPresentationUpdated do: [:announcement | 
-		timesTriggered := timesTriggered + 1].
-
-	presentation 
-		updateOn: TestAnnouncement 
-		from: [:x | announcer ]
-		when: [ :ann :entity | ann parameter + entity = 42].
+	presentation when: GLMPresentationUpdated do: [ :announcement | timesTriggered := timesTriggered + 1 ].
+	presentation updateOn: TestAnnouncement from: [ :x | announcer ] when: [ :ann :entity | ann parameter + entity = 42 ].
 	presentation registerAnnouncements.
-	
 	announcer announce: (TestAnnouncement new parameter: 0).
-	self assert: timesTriggered = 0.
-
+	self assert: timesTriggered equals: 0.
 	announcer announce: (TestAnnouncement new parameter: 2).
-	self assert: timesTriggered = 1
-
+	self assert: timesTriggered equals: 1
 ]
 
 { #category : #tests }
@@ -422,8 +401,8 @@ GLMPresentationTest >> testUpdateOnFromAllPortsUpdate [
 { #category : #tests }
 GLMPresentationTest >> testUpdateOnPortsUpdate [
 	| col pane presentation announcer |
-	col := OrderedCollection with: 1 with: 2. 
-	pane := GLMPane named: 'test'. 
+	col := OrderedCollection with: 1 with: 2.
+	pane := GLMPane named: 'test'.
 	presentation := GLMListPresentation new.
 	announcer := Announcer new.
 	pane addPresentation: presentation.
@@ -432,30 +411,26 @@ GLMPresentationTest >> testUpdateOnPortsUpdate [
 	presentation shouldValidate: true.
 	presentation registerAnnouncements.
 	presentation selection: 2.
-	self assert: presentation selection = 2.
+	self assert: presentation selection equals: 2.
 	col removeLast.
 	announcer announce: TestAnnouncement.
 	self assert: presentation selection isNil
-
 ]
 
 { #category : #tests }
 GLMPresentationTest >> testUpdateOnTriggered [
 	| pane presentation announcer timesTriggered |
-	pane := GLMPane named: 'test'. 
+	pane := GLMPane named: 'test'.
 	presentation := GLMPresentation new.
 	announcer := Announcer new.
 	pane addPresentation: presentation.
 	timesTriggered := 0.
-	presentation when: GLMPresentationUpdated do: [:announcement | timesTriggered := timesTriggered + 1].
-
+	presentation when: GLMPresentationUpdated do: [ :announcement | timesTriggered := timesTriggered + 1 ].
 	presentation updateOn: TestAnnouncement from: #yourself.
 	presentation entity: announcer.
 	presentation registerAnnouncements.
-	
 	announcer announce: TestAnnouncement.
-	self assert: timesTriggered = 1
-
+	self assert: timesTriggered equals: 1
 ]
 
 { #category : #tests }

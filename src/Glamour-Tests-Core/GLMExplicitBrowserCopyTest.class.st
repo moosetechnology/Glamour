@@ -37,31 +37,26 @@ GLMExplicitBrowserCopyTest >> testEquality [
 
 { #category : #tests }
 GLMExplicitBrowserCopyTest >> testPanes [
-	self assert: copiedBrowser panes size = 2.
+	self assert: copiedBrowser panes size equals: 2.
 	self assert: copiedBrowser panes first ~~ browser panes first.
 	self assert: copiedBrowser panes last ~~ browser panes last.
-
 	self assert: copiedBrowser panes first browser == copiedBrowser.
 	self assert: copiedBrowser panes last browser == copiedBrowser.
-
-	self assert: copiedBrowser panes first ports size = 1.
-	self assert: copiedBrowser panes first ports first name = #selection.
+	self assert: copiedBrowser panes first ports size equals: 1.
+	self assert: copiedBrowser panes first ports first name equals: #selection.
 	self assert: copiedBrowser panes first ports first pane == copiedBrowser panes first.
-
-	self assert: copiedBrowser panes last ports size = 2.
-	self assert: copiedBrowser panes last ports first name = #selection.
-	self assert: copiedBrowser panes last ports last name = #entity.
+	self assert: copiedBrowser panes last ports size equals: 2.
+	self assert: copiedBrowser panes last ports first name equals: #selection.
+	self assert: copiedBrowser panes last ports last name equals: #entity
 ]
 
 { #category : #tests }
 GLMExplicitBrowserCopyTest >> testTrasmissions [
-	self assert: copiedBrowser transmissions size = 2.
+	self assert: copiedBrowser transmissions size equals: 2.
 	self assert: copiedBrowser transmissions first ~~ browser transmissions first.
 	self assert: copiedBrowser transmissions last ~~ browser transmissions last.
-
 	self assert: (copiedBrowser transmissions first destination pane browser isKindOf: GLMNoBrowser).
 	self assert: copiedBrowser transmissions last destination pane browser == copiedBrowser.
-	
-	self assert: (copiedBrowser transmissions first origins first pane browser == copiedBrowser).
+	self assert: copiedBrowser transmissions first origins first pane browser == copiedBrowser.
 	self assert: copiedBrowser transmissions last origins first pane browser == copiedBrowser
 ]

@@ -11,9 +11,8 @@ GLMTransmissionContextTest >> testCopy [
 	context addPort: GLMSimplePort new.
 	copy := context copy.
 	self assert: copy ~~ context.
-	self assert: copy ports = context ports.
-	self assert: copy ports ~~ context ports.
-
+	self assert: copy ports equals: context ports.
+	self assert: copy ports ~~ context ports
 ]
 
 { #category : #tests }
