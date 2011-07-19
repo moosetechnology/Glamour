@@ -20,7 +20,6 @@ Class {
 		'actions',
 		'condition',
 		'implicitNotNil',
-		'postTransformation',
 		'dynamicActionsBlock',
 		'color',
 		'customValidation',
@@ -31,7 +30,8 @@ Class {
 		'updateActions',
 		'selectionActions',
 		'selectionDynamicActionsBlock',
-		'implicitAllNil'
+		'implicitAllNil',
+		'rawSelectionTransmission'
 	],
 	#category : #'Glamour-Core'
 }
@@ -313,7 +313,23 @@ GLMPresentation >> hasTitleIcon [
 { #category : #'initialize-release' }
 GLMPresentation >> initialize [
 	super initialize.	
-	updateActions := OrderedCollection new
+	updateActions := OrderedCollection new.
+	self initializeRawSelectionTransmission.
+]
+
+{ #category : #'initialize-release' }
+GLMPresentation >> initializeRawSelectionTransmission [
+	rawSelectionTransmission := (GLMTransmission new)
+		addActiveOrigin:
+				((GLMPresentationBoundPort new)
+						name: #rawSelection;
+						presentation: self;
+						yourself);
+		destination:
+				((GLMPresentationBoundPort new)
+						name: #selection;
+						presentation: self;
+						yourself)
 ]
 
 { #category : #events }
@@ -547,17 +563,18 @@ GLMPresentation >> postCopy [
 	super postCopy.
 	pane := nil.
 	self flag: 'self unregisterFromAllAnnouncements.'.
-	updateActions := updateActions collect: [:each | 
-		each copy 
-			presentation: self;
-			yourself
-		]
+	updateActions := updateActions
+		collect: [ :each | 
+			(each copy)
+				presentation: self;
+				yourself ].
+	self initializeRawSelectionTransmission
 ]
 
 { #category : #accessing }
 GLMPresentation >> postTransformation [
 	"this is used for transforming the object before updating the selection"
-	^ postTransformation ifNil: [postTransformation := #yourself]
+	^ rawSelectionTransmission transformation ifNil: [#yourself]
 ]
 
 { #category : #printing }
@@ -608,7 +625,7 @@ GLMPresentation >> selection [
 GLMPresentation >> selection: anObject [ 
 	self acceptsSelection ifFalse: [^ self].
 	(self pane port: #rawSelection) value: anObject.
-	(self pane port: #selection) value: (self postTransformation glamourValue: anObject).
+	rawSelectionTransmission transmit
 ]
 
 { #category : #scripting }
@@ -697,7 +714,7 @@ GLMPresentation >> selectionPopulate: aPortSymbol on: aCharacter entitled: aStri
 
 { #category : #accessing }
 GLMPresentation >> selectionTransformation: anObject [ 
-	postTransformation := anObject
+	rawSelectionTransmission transformation: anObject 
 ]
 
 { #category : #scripting }
