@@ -3,6 +3,8 @@ A GLMPresentation is the abstract class for the hierarchy of presentations. A pr
 
 updateActions holds a collection of GLMUpdateAction that are used to update the presentation via announcements.
 
+rawSelectionTransmissions holds a collection of transmission whose origins are this presentation's #rawSelection port. Destinations of this transmissions are on the pane. This collection always contains at least one transmission to the pane's #selection port. To transform the values travelling through this transmission use #send:. To add new transmissions, use #send:as:.
+
 Because Glamour has a prototype-based design it relies on copying the presentations before installing them in panes (via transmissions). The parentPrototype instance variable keeps track of the presentation from which the current one was copied.
 
 It raises:
@@ -576,12 +578,6 @@ GLMPresentation >> postCopy [
 	rawSelectionTransmissions do: [:transmission | transmission destination presentation: self]
 ]
 
-{ #category : #accessing }
-GLMPresentation >> postTransformation [
-	"this is used for transforming the object before updating the selection"
-	^ self selectionTransmission transformation ifNil: [#yourself]
-]
-
 { #category : #printing }
 GLMPresentation >> printOn: aStream [
 	super printOn: aStream.
@@ -634,7 +630,8 @@ GLMPresentation >> selection [
 ]
 
 { #category : #'accessing ports' }
-GLMPresentation >> selection: anObject [ 
+GLMPresentation >> selection: anObject [
+	"Tell the pane about the new selection. This method is called when the user changes a view's selection' (e.g., he clicks on an element in a list morph)." 
 	self acceptsSelection ifFalse: [^ self].
 	(self pane port: #rawSelection) value: anObject.
 	rawSelectionTransmissions do: #transmit
@@ -724,7 +721,13 @@ GLMPresentation >> selectionPopulate: aPortSymbol on: aCharacter entitled: aStri
 				yourself)
 ]
 
-{ #category : #accessing }
+{ #category : #transmitting }
+GLMPresentation >> selectionTransformation [
+	"this is used for transforming the object before updating the selection"
+	^ self selectionTransmission transformation ifNil: [#yourself]
+]
+
+{ #category : #transmitting }
 GLMPresentation >> selectionTransformation: anObject [ 
 	self selectionTransmission 	transformation: anObject 
 ]
@@ -760,7 +763,7 @@ GLMPresentation >> shouldValidate: aBoolean [
 { #category : #'accessing ports' }
 GLMPresentation >> status: anObject [ 
 	self flag: 'what kind of transformation should we want here?'.
-	(self pane port: #status) value: (self postTransformation glamourValue: anObject)
+	(self pane port: #status) value: (self selectionTransformation glamourValue: anObject)
 ]
 
 { #category : #'accessing ports' }
@@ -770,7 +773,7 @@ GLMPresentation >> strongSelection [
 
 { #category : #'accessing ports' }
 GLMPresentation >> strongSelection: anObject [
-	(self pane port: #strongSelection) value: (self postTransformation glamourValue: anObject)
+	(self pane port: #strongSelection) value: (self selectionTransformation glamourValue: anObject)
 ]
 
 { #category : #accessing }
