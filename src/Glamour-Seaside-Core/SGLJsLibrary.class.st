@@ -541,7 +541,6 @@ SGLJsLibrary >> glamourSeasideJs [
 	, self sglExpanderJs
 	, self sglFinderJs
 	, self sglDashboardJs 
-	, self sglDashboardContainerJs 
 ]
 
 { #category : #uploaded }
@@ -1012,26 +1011,6 @@ SGLJsLibrary >> scrollToJs [
 	};
 
 })( jQuery );'
-]
-
-{ #category : #created }
-SGLJsLibrary >> sglDashboardContainerJs [
-	^ '
-	;( function($) {
-		$.widget("ui.sglDashboardContainer", {
-		
-			options: {				
-			},
-		
-		_create: function() {
-				var that = this;
-				this._setChildrenDimensions();	
-			},
-			
-			
-			
-		});
-	})(jQuery);'
 ]
 
 { #category : #created }
