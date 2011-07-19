@@ -33,8 +33,8 @@ GLMTransmissionTest >> testCopy [
 	transmission destination: port2.
 	transmission addActiveOrigin: port1.
 	newTransmission := transmission copy.
-	self assert: newTransmission destination == transmission destination.
-	self assert: newTransmission origins first == transmission origins first.
+	self assert: newTransmission destination ~~ transmission destination.
+	self assert: newTransmission origins first ~~ transmission origins first.
 ]
 
 { #category : #tests }
