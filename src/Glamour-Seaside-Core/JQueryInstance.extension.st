@@ -1,6 +1,18 @@
 Extension { #name : #JQueryInstance }
 
 { #category : #'*Glamour-Seaside-Core' }
+JQueryInstance >> glamourDashboard [
+
+	^ self create: JQSGLDashboard
+]
+
+{ #category : #'*Glamour-Seaside-Core' }
+JQueryInstance >> glamourDashboardContainer [
+
+	^ self create: JQSGLDashboardContainer
+]
+
+{ #category : #'*Glamour-Seaside-Core' }
 JQueryInstance >> glamourExpander [
 	^ self create: JQSGLExpander
 ]

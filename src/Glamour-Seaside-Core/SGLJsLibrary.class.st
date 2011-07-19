@@ -540,6 +540,8 @@ SGLJsLibrary >> glamourSeasideJs [
 	, self sglUtilsJs 
 	, self sglExpanderJs
 	, self sglFinderJs
+	, self sglDashboardJs 
+	, self sglDashboardContainerJs 
 ]
 
 { #category : #uploaded }
@@ -1010,6 +1012,66 @@ SGLJsLibrary >> scrollToJs [
 	};
 
 })( jQuery );'
+]
+
+{ #category : #created }
+SGLJsLibrary >> sglDashboardContainerJs [
+	^ '
+	;( function($) {
+		$.widget("ui.sglDashboardContainer", {
+		
+			options: {				
+			},
+		
+		_create: function() {
+				var that = this;
+				this._setChildrenDimensions();	
+			},
+			
+			
+			
+		});
+	})(jQuery);'
+]
+
+{ #category : #created }
+SGLJsLibrary >> sglDashboardJs [
+	^ '
+	;( function($) {
+		$.widget("ui.sglDashboard", {
+		
+			options: {				
+			},
+		
+			_create: function() {
+				var that = this;
+				this._setChildrenDimensions();
+				
+				this.element.bind("resize", function(){					
+					that._setChildrenDimensions();
+				});
+				
+			},
+			
+			/**
+			 * Set the dimensions of the panes contained by the stack pane.
+			 */
+			_setChildrenDimensions: function() {				
+				var children = this.element.children();
+				var index, childrenSize = children.size();
+				var childHeight = Math.round( this.element.height() / childrenSize );
+								
+				if ( childrenSize > 0 ) {
+					for ( index = 0 ; index < childrenSize - 1; index++ ) {			
+						$.glamour.setElementDimensions( $(children[index]), this.element.width(), childHeight );					
+					}
+					// The height of the last pane must be equal with the remaining height.
+					$.glamour.setElementDimensions( $(children[index]), this.element.width(),  this.element.height() - (childrenSize - 1) * childHeight );				
+				}
+			}
+			
+		});
+	})(jQuery);'
 ]
 
 { #category : #created }
