@@ -437,6 +437,7 @@ ConfigurationOfGlamour >> default: spec [
 		spec blessing: #baseline.
 		spec repository: 'http://www.squeaksource.com/Glamour'.
 		spec 
+			package: 'CollectionExtensions' with: [spec repository: 'http://www.squeaksource.com/CollectionExtensions'];
 			package: 'Glamour-Announcements' ;
 			package: 'Glamour-Helpers' ;
 			package: 'Glamour-Core' with: [spec requires: #('Glamour-Helpers' 'Glamour-Announcements')];
@@ -448,7 +449,7 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Morphic-Theme';
 			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
 			package: 'Glamour-Examples' ;
-			package: 'Glamour-Tools';
+			package: 'Glamour-Tools' with: [spec requires: 'CollectionExtensions'];
 			package: 'Magritte-Model' with: [
 				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
 				spec requires: 'Grease'];
