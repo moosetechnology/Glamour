@@ -1,7 +1,7 @@
 Extension { #name : #MOViewRenderer }
 
 { #category : #'*glamour-mondrian-presentations' }
-MOViewRenderer >> openWithStatusbar [
+MOViewRenderer >> asBrowserWithStatusbar [
 	| browser |
 	browser := GLMTabulator withStatusbar.
 	browser title: 'Mondrian painting'.
@@ -20,5 +20,10 @@ MOViewRenderer >> openWithStatusbar [
 			entitled: 'Zoom in'.
 	browser transmit to: #painting; andShow: [ :a | 
 		a mondrian view: self ].
-	^ browser openOn: self
+	^ browser
+]
+
+{ #category : #'*glamour-mondrian-presentations' }
+MOViewRenderer >> openWithStatusbar [
+	^ self asBrowserWithStatusbar openOn: self
 ]
