@@ -188,23 +188,17 @@ GLMExplicitBrowserTest >> testTransmissionBundle [
 	browser addPane: pane3. 
 	browser addTransmission: transmission. 
 	self assert: pane3 presentations size = 1. 
-	self assert: pane3 presentations first == presentation1.	"The first should not trigger any transmission (passive) 
-	but the second should." 
+	self assert: pane3 presentations first == presentation1.
+	
 	pane2 presentations first selection: #foo. 
+	self assert: (pane2 port: #selection) seenTransmissions size equals: 1. 
+	self assert: (pane3 port: #entity) seenTransmissions size equals: 0.
+
 	pane1 presentations first selection: #bar. 
-	self assert: (pane1 port: #selection) seenTransmissions size = 0. 
-	self assert: (pane2 port: #selection) seenTransmissions size = 0. 
-	"self 
-		assert: (pane1 port: #selection) seenTransmissions first ~~ transmission. 
-	self 
-		assert: (pane2 port: #selection) seenTransmissions first ~~ transmission." 
-	self assert: (pane3 port: #entity) seenTransmissions size = 1. 
-	"self assert: (pane3 port: #entity) seenTransmissions first ~~ transmission." 
-	"self assert: (pane3 port: #entity) seenTransmissions first value = nil. "
+	self assert: (pane1 port: #selection) seenTransmissions size = 1. 
+	self assert: (pane3 port: #entity) seenTransmissions size = 1.
 	self assert: (pane3 port: #entity) seenTransmissions last == transmission. 
-	self 
-		assert: 
-			(pane3 port: #entity) value = (GLMMultiValue withAll: #(#bar #foo)). 
+	self assert: (pane3 port: #entity) value = (GLMMultiValue withAll: #(#bar #foo)). 
 	self assert: pane3 presentations size = 1. 
 	self assert: pane3 presentations first rootPrototype = presentation2
 ]
