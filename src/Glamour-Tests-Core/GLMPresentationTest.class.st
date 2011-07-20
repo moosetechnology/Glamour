@@ -105,8 +105,8 @@ GLMPresentationTest >> testCopyTheTransformation [
 	presentation := GLMPresentation new.
 	presentation selectionTransformation: [:each | each + 1].
 	newPresentation := presentation copy.
-	self assert: (presentation postTransformation value: 1) equals: 2.
-	self assert: (newPresentation postTransformation value: 1) equals: 2.
+	self assert: (presentation selectionTransformation value: 1) equals: 2.
+	self assert: (newPresentation selectionTransformation value: 1) equals: 2.
 ]
 
 { #category : #tests }
