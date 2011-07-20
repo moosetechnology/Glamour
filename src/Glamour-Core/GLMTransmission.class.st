@@ -345,3 +345,9 @@ GLMTransmission >> value [
 GLMTransmission >> when: aBlock [
 	self condition: aBlock
 ]
+
+{ #category : #scripting }
+GLMTransmission >> whenKindOf: aClass [ 
+	 
+	self when: [:each | each isKindOf: aClass]
+]
