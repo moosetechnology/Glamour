@@ -83,3 +83,12 @@ GLMTransmissionContext >> ports: anObject [
 GLMTransmissionContext >> postCopy [
 	ports := ports copy
 ]
+
+{ #category : #printing }
+GLMTransmissionContext >> printOn: aStream [ 
+	super printOn: aStream.
+	aStream nextPut: $(.
+	ports printOn: aStream.
+	aStream nextPut: $)
+
+]
