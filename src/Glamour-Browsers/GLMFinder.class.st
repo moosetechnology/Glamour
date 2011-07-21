@@ -120,6 +120,7 @@ GLMFinder >> innerPortEvent: aPortEvent [
 GLMFinder >> outerPortEvent: aPortEvent [ 
 	 
 	| toReplace |
+	super outerPortEvent: aPortEvent.
 	aPortEvent port name = #entity ifFalse: [^self]. 
 	self panes isEmpty
 		ifFalse: [
