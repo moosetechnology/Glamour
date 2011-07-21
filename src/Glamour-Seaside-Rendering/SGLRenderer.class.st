@@ -119,15 +119,6 @@ SGLRenderer >> renderListPresentation: aPresentation [
 ]
 
 { #category : #'rendering presentations' }
-SGLRenderer >> renderListWithBackgroundColorPresentation: aPresentation [
-	"for now just use the 'standard' list renderer."
-	| listPresenter |
-	listPresenter := (SGLTreePresenter for: aPresentation from: self).
-	listPresenter htmlId: (self uuidFor: aPresentation).
-	html render: listPresenter
-]
-
-{ #category : #'rendering presentations' }
 SGLRenderer >> renderMagrittePresentation: aPresentation [
 	| form |
 	form := aPresentation displayValue asComponent

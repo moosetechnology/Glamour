@@ -199,9 +199,21 @@ SGLTreePresenter >> renderNode: aNode fromLevel: level on: html [
 
 { #category : #rendering }
 SGLTreePresenter >> renderNodeTitleFor: aNode on: html [
-	html div: [ 
+
+	html div
+		script: (html jQuery this css: 
+				(aNode displayText cssDictionary)
+					);
+		with: [ 
 			html span: [
-					html span: aNode displayText. 
+					html span
+						script: (html jQuery this css: 
+							(Dictionary new
+								at: 'background-color' put: ((self model glamourPresentation textBackgroundColorFor: aNode item) glmAsHtmlColor);
+								yourself
+								)
+							);
+						with: aNode displayText. 
 					self renderTagsOf: aNode on: html ] ]
 ]
 
