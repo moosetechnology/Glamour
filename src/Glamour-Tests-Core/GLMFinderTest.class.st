@@ -13,6 +13,15 @@ GLMFinderTest >> testEmptyPanes [
 ]
 
 { #category : #tests }
+GLMFinderTest >> testExplicitTransmission [
+	| finder |
+	finder := GLMFinder new.
+	finder transmit fromOutsidePort: #entity; toOutsidePort: #selection.
+	finder startOn: 42.
+	self assert: (finder pane port: #selection) value equals: 42
+]
+
+{ #category : #tests }
 GLMFinderTest >> testFixedSize [
 	| browser | 
 	browser := GLMFinder new. 
