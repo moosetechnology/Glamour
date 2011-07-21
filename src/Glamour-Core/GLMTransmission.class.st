@@ -234,6 +234,11 @@ GLMTransmission >> passivelyFrom: aPort [
 	^ self addPassiveOrigin: (self browser resolveOriginPort: aPort)
 ]
 
+{ #category : #scripting }
+GLMTransmission >> passivelyFrom: aPaneSymbol port: aPortSymbol [
+	^ self passivelyFrom: (GLMPortIdentifier pane: aPaneSymbol port: aPortSymbol)
+]
+
 { #category : #copying }
 GLMTransmission >> postCopy [
 	origins := origins collect: [:each | each copy ].
