@@ -202,7 +202,7 @@ SGLTreePresenter >> renderNodeTitleFor: aNode on: html [
 
 	html div
 		script: (html jQuery this css: 
-				(aNode displayText cssDictionary)
+				(aNode displayText cssDictionaryForFullText)
 					);
 		with: [ 
 			html span: [
@@ -213,7 +213,13 @@ SGLTreePresenter >> renderNodeTitleFor: aNode on: html [
 								yourself
 								)
 							);
-						with: aNode displayText. 
+						with: [
+							1 to: aNode displayText size do: [:tmpIndex |
+								html span 
+									script: (html jQuery this css: (aNode displayText cssDictionaryAt: tmpIndex));
+									with: (aNode displayText at: tmpIndex) asString
+								]
+							].
 					self renderTagsOf: aNode on: html ] ]
 ]
 
