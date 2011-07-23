@@ -34,7 +34,8 @@ GLMMorphicAccumulatorRenderer >> render: aBrowser [
 	tabs announcer on: LazyTabPageChanged do: [:ann |  
 		aBrowser activeEntity: ((aBrowser panes at: ann pageIndex) port: #entity) value ].
 	tabs announcer on: LazyTabPageRemoved do: [:ann |  
-		aBrowser removePaneIndex: ann pageIndex ].
+		aBrowser removePaneIndex: ann pageIndex.
+		aBrowser panes isEmpty ifTrue: [aBrowser activeEntity: nil] ].
 	aBrowser panes do: [ :each | 
 		tabs 
 			addLazyPage: [ GLMMorphicPaneWithoutTitleRenderer new render: each ]
