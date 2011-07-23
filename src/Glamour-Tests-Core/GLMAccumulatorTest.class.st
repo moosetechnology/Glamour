@@ -175,3 +175,15 @@ GLMAccumulatorTest >> testPublishToOutsideWhenEmbedded [
 	self assert: (actualAccumulator pane port: #anotherPort) value notNil.
 	self assert: (actualAccumulator pane port: #anotherPort) value equals: 42
 ]
+
+{ #category : #tests }
+GLMAccumulatorTest >> testRemovePaneIndex [
+	| accumulator presentation |
+	accumulator := GLMAccumulator new.
+	presentation := GLMPresentation new.
+	accumulator addPresentation: presentation.
+	accumulator entity: 42.
+	accumulator entity: 43.
+	accumulator removePaneIndex: 2.
+	self assert: accumulator panes size = 1
+]
