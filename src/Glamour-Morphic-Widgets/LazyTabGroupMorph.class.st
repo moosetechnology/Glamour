@@ -123,7 +123,7 @@ LazyTabGroupMorph >> removePage: aPage [
 			tabs: self; 
 			page: aPage; 
 			pageIndex: removedPageIndex;
-			newIndex: self tabSelectorMorph).
+			newIndex: self tabSelectorMorph selectedIndex).
 	self pages isEmpty 
 		ifTrue: [ self contentMorph removeAllMorphs ]
 ]
