@@ -48,7 +48,7 @@ LazyTabGroupMorph >> addLazyPage: aBlock label: aStringOrMorph toolbar: aToolbar
 
 { #category : #accessing }
 LazyTabGroupMorph >> announcer [
-	^ announcer ifNil: [announcer := Announcer new]
+	^ announcer ifNil: [announcer := GLMAnnouncer new]
 ]
 
 { #category : #accessing }
@@ -117,10 +117,15 @@ LazyTabGroupMorph >> pageAt: index [
 LazyTabGroupMorph >> removePage: aPage [
 	| removedPageIndex |
 	removedPageIndex := self pages indexOf: aPage.
-	super removePage: aPage.
-	self announcer announce: (LazyTabPageRemoved new tabs: self; page: aPage; pageIndex: removedPageIndex).
-	self pages isEmpty ifTrue: [
-		self contentMorph removeAllMorphs]
+	self announcer suspendAllWhile: [ super removePage: aPage ].
+	self announcer announce: 
+		(LazyTabPageRemoved new 
+			tabs: self; 
+			page: aPage; 
+			pageIndex: removedPageIndex;
+			newIndex: self tabSelectorMorph).
+	self pages isEmpty 
+		ifTrue: [ self contentMorph removeAllMorphs ]
 ]
 
 { #category : #private }
