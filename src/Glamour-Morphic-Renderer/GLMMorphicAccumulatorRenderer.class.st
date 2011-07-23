@@ -22,6 +22,21 @@ GLMMorphicAccumulatorRenderer >> actOnPaneSelected: anAnnouncement [
 	tabs selectedPageIndex: anAnnouncement position
 ]
 
+{ #category : #'as yet unclassified' }
+GLMMorphicAccumulatorRenderer >> removePage: aPage [
+	| removedPageIndex |
+	removedPageIndex := self pages indexOf: aPage.
+	self announcer suspendAllWhile: [ super removePage: aPage ].
+	self announcer announce: 
+		(LazyTabPageRemoved new 
+			tabs: self; 
+			page: aPage; 
+			pageIndex: removedPageIndex;
+			newIndex: self tabSelectorMorph selectedIndex).
+	self pages isEmpty 
+		ifTrue: [ self contentMorph removeAllMorphs ]
+]
+
 { #category : #rendering }
 GLMMorphicAccumulatorRenderer >> render: aBrowser [
 	aBrowser panes isEmpty ifTrue: [ ^ GLMMorphic emptyMorph ].
@@ -35,7 +50,9 @@ GLMMorphicAccumulatorRenderer >> render: aBrowser [
 		aBrowser activeEntity: ((aBrowser panes at: ann pageIndex) port: #entity) value ].
 	tabs announcer on: LazyTabPageRemoved do: [:ann |  
 		aBrowser removePaneIndex: ann pageIndex.
-		aBrowser panes isEmpty ifTrue: [aBrowser activeEntity: nil] ].
+		aBrowser panes isEmpty 
+				ifTrue: [aBrowser activeEntity: nil]
+				ifFalse: [aBrowser activeEntity: ((aBrowser panes at: ann newIndex) port: #entity) value] ].
 	aBrowser panes do: [ :each | 
 		tabs 
 			addLazyPage: [ GLMMorphicPaneWithoutTitleRenderer new render: each ]
