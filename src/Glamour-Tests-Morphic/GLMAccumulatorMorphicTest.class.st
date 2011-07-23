@@ -71,6 +71,19 @@ GLMAccumulatorMorphicTest >> testPaneCreation [
 ]
 
 { #category : #tests }
+GLMAccumulatorMorphicTest >> testPaneRemoval [
+	| browser |
+	browser := GLMAccumulator new.
+	browser show: [ :a | a list display: [ :x | $a to: x ] ].
+	window := browser openOn: $d.
+	self assert: browser activeEntity = $d.	
+	browser entity: $c.
+	self assert: browser activeEntity = $c.
+	self tabGroup removePageIndex: 2.
+	self assert: browser activeEntity = $d
+]
+
+{ #category : #tests }
 GLMAccumulatorMorphicTest >> testSelectedTab [
 	| browser |
 	browser := GLMAccumulator new.
