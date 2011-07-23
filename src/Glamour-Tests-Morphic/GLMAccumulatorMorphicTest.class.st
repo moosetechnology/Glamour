@@ -80,7 +80,9 @@ GLMAccumulatorMorphicTest >> testPaneRemoval [
 	browser entity: $c.
 	self assert: browser activeEntity = $c.
 	self tabGroup removePageIndex: 2.
-	self assert: browser activeEntity = $d
+	self assert: browser activeEntity = $d.
+	self tabGroup removePageIndex: 1.
+	self assert: browser activeEntity isNil
 ]
 
 { #category : #tests }
