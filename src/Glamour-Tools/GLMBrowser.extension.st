@@ -64,6 +64,44 @@ GLMBrowser >> viewNestedOn: view [
 ]
 
 { #category : #'*glamour-tools' }
+GLMBrowser >> viewSketch [
+
+	| view |
+	
+	view := MOViewRenderer new.
+	self viewSketchOn: view.
+	view openWithStatusbar
+]
+
+{ #category : #'*glamour-tools' }
+GLMBrowser >> viewSketchOn: view [
+	| simpleName viewBrowser allTransmissions inTransmission|
+	simpleName := [ :each | (each class name removePrefix: 'GLM') removeSuffix: 'Presentation' ].
+	allTransmissions := (self withAllPresentations select: [ :each | each isKindOf: GLMBrowser ]) flatCollect: #transmissions.
+	inTransmission := [:port | allTransmissions anySatisfy: [:tr | (tr origins includes: port) or: [tr destination = port]]].
+	viewBrowser := [ :browser | 
+	view shape umlClassWithTitle: simpleName.
+	view
+		node: browser
+		forIt: [ 
+			view
+				nodes: browser panes
+				forEach: [ :inPane | 
+					view nodes: (inPane ports select: inTransmission).
+					view shape label text: simpleName.
+					view
+						nodes: inPane presentations presentations
+						forEach: [ :inPresentation | 
+							(inPresentation isKindOf: GLMBrowser)
+								ifTrue: [ viewBrowser value: inPresentation ] ] ].
+			((browser isKindOf: GLMTabulator) and: [ browser cell isSplitIntoRows ])
+				ifTrue: [ view verticalLineLayout gapSize: 2 ] ] ].
+	viewBrowser value: self.
+	view shape line color: Color blue.
+	view edges: allTransmissions fromAll: #origins to: #destination
+]
+
+{ #category : #'*glamour-tools' }
 GLMBrowser >> viewTree [
 
 	| view |
