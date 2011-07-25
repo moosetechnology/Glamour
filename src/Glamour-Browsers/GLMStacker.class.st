@@ -7,12 +7,17 @@ Class {
 	#category : #'Glamour-Browsers'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #scripting }
 GLMStacker >> aPane: aBlockOrSymbol [
 	^ self addNewPaneNamed: aBlockOrSymbol
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #scripting }
+GLMStacker >> panes: blocksOrSymbols [
+	^ blocksOrSymbols do: [:each | self aPane: each]
+]
+
+{ #category : #rendering }
 GLMStacker >> renderGlamorouslyOn: aRenderer [ 
 	^aRenderer renderStacker: self
 ]
