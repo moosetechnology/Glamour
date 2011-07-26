@@ -465,6 +465,13 @@ GLMUITheme >> createMenuBoxFor: aSystemWindow [
 	^msb
 ]
 
+{ #category : #defaults }
+GLMUITheme >> dialogWindowPreferredCornerStyleFor: aDialogWindow [
+	"Answer the preferred corner style for the given dialog."
+
+	^#square
+]
+
 { #category : #'fill-styles' }
 GLMUITheme >> dockingBarNormalFillStyleFor: aToolDockingBar [
 	^ SolidFillStyle color: Color transparent
