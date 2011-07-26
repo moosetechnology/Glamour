@@ -38,16 +38,19 @@ GLMBasicExamples >> accumulator [
 		from: #one;
 		to: #two;
 		andShow: [ :a | a text display: [ :x | 'You have selected ' , x printString , '. Double cick to open to the right' ] ].
+	"When double-clicking on a number in the list, opens a new tab on the right side"
 	(browser transmit)
 		from: #one port: #strongSelection;
 		to: #three;
 		andShowIfNone: [ :a | a custom: acc ].
+	"When a number is selected in the list and a corresponding tab already exists on the right side, select the tab"
 	(browser transmit)
 		from: #one;
-		to: #three -> #entityToSelect.
+		to: #three port: #entityToSelect.
+	"When a tab is selected on the right side, select the equivalent line in the first pane"
 	(browser transmit)
 		from: #three port: #activeEntity;
-		to: #one -> #selection.
+		to: #one port: #selection.
 	^ browser
 ]
 
@@ -322,40 +325,39 @@ GLMBasicExamples >> doubleClick [
 
 { #category : #'explicit selection' }
 GLMBasicExamples >> dropDownList [
-	"	| browser |
-		browser := self new dropDownList.
-		browser openOn: 5. "
+	"self new dropDownList openOn: 5"
+
+	<glmBrowser: 'Drop-down' input: '5'>
 	|browser |
 
 	browser := GLMTabulator new.
-	browser row: #one  size: 30; row: #two.
-	browser showOn: #one; using: [
-		browser dropDownList
+	browser row: #one size: 30; row: #two.
+	browser transmit to: #one; andShow: [:a |
+		a dropDownList
 			display: [:x | 1 to: x ];
 			format: [:number | Text string: number printString attribute: TextColor red]].
-	browser showOn: #two; from: #one; using: [
-		browser list
-			display: [:x | 1 to: x asNumber * 2]].
+	browser transmit from: #one; to: #two; andShow: [:a |
+		a list
+			display: [:x | 1 to: x * 2]].
 	^ browser
 ]
 
 { #category : #'explicit selection' }
 GLMBasicExamples >> dropDownListWithInitialValue [
-	"	| browser |
-		browser := self new dropDownListWithInitialValue.
-		browser openOn: 5.
-		((browser paneNamed: #one) port: #selection) value: 12. "
+	"self new dropDownListWithInitialValue openOn: 5"
+
+	<glmBrowser: 'Drop-down with initial value' input: '5'>
 	|browser |
 
 	browser := GLMTabulator new.
 	browser row: #one  size: 30; row: #two.
-	browser showOn: #one; using: [
-		browser dropDownList
+	browser transmit to: #one; andShow: [:a |
+		a dropDownList
 			display: [:x | (1 to: x) + 10 ];
-		   selectedIndex: 2 ].
-	browser showOn: #two; from: #one; using: [
-		browser list
-			display: [:x | 1 to: x asNumber ]].
+			selectedIndex: 2 ].
+	browser transmit from: #one; to: #two; andShow: [:a |
+		a list
+			display: [:x | 1 to: x ]].
 	^ browser
 ]
 
