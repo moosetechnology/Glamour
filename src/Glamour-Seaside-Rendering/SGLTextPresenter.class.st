@@ -104,7 +104,6 @@ SGLTextPresenter >> renderTextAreaOn: html [
 		id: htmlId;
 		value: self model glamourPresentation formatedDisplayValue;
 		script: (self initializationScriptWith: html)
-			
 ]
 
 { #category : #callbacks }

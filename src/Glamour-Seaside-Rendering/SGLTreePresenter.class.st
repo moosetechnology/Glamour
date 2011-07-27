@@ -14,7 +14,8 @@ SGLTreePresenter >> actOnContextChanged: anAnnouncement [
 	anAnnouncement property = #selection ifTrue: [ 
 		model announcer suspendAllWhile: [
 			model explicitSelection: anAnnouncement value.
-			self updateSelectedNodes ] ]
+			self updateSelectedNodes.
+			 ] ]
 ]
 
 { #category : #rendering }
@@ -63,7 +64,6 @@ SGLTreePresenter >> initializeFor: aPresentation [
 	"When the glamour model changes, we want to update the morph"
 	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
 	aPresentation on: GLMPresentationUpdated send: #actOnUpdatedPresentation: to: self.
-	
 ]
 
 { #category : #initialization }
@@ -132,6 +132,14 @@ SGLTreePresenter >> onClickActionForTag: aTag of: aNode with: html [
 ]
 
 { #category : #'jQuery-scripts' }
+SGLTreePresenter >> onDoubleClickActionOn: aNode with: html [
+
+	^ html jQuery ajax script: [:s | 
+		self model glamourPresentation strongSelection: aNode item
+			] 
+]
+
+{ #category : #'jQuery-scripts' }
 SGLTreePresenter >> onExpandToggledActionForANodeWith: html [
 	^ html jQuery ajax 
 		sglTreeCallbackToggleExpand: [ :event :script |
@@ -173,7 +181,7 @@ SGLTreePresenter >> renderContentOn: html [
 SGLTreePresenter >> renderInitialRootNodesOn: html [
 	|amountToFilterBy| 
 	amountToFilterBy := self model amountToFilterBy.
-	html unorderedList   
+	html unorderedList  
 		id: html nextId;
 		script: (self treeInitializationScriptWith: html);
 		with: [ self renderRootNodesFrom: 1 to: ( amountToFilterBy isZero ifTrue: [self model roots size] ifFalse: [amountToFilterBy] ) on: html ]
@@ -184,17 +192,19 @@ SGLTreePresenter >> renderNode: aNode fromLevel: level on: html [
 	|children|
 	self associateNode: aNode withId: html nextId.
 	children := aNode contents.
-	html listItem  
-		id: (self idOfNode: aNode);
-		"class: 'sgl-tree-node';"
-		"class: 'sgl-tree-node-leaf' if: children size == 0;"
-		"class: 'sgl-tree-node-opened' if: (children size > 0 and: [aNode expanded]);"
-		class: 'sgl-tree-node-closed' if: (children size > 0 and: [aNode expanded not]);
-		with: [
-			self renderNodeTitleFor: aNode on: html.
-			(children size > 0 and: [ aNode expanded ] ) ifTrue: [ 
-				self renderNodes: children asListFromLevel: level+1 on: html.
-				aNode markChildrenAsRendered ] ]
+	
+			html listItem  
+			onDoubleClick: (self onDoubleClickActionOn: aNode with: html);
+			id: (self idOfNode: aNode);
+			"class: 'sgl-tree-node';"
+			"class: 'sgl-tree-node-leaf' if: children size == 0;"
+			"class: 'sgl-tree-node-opened' if: (children size > 0 and: [aNode expanded]);"
+			class: 'sgl-tree-node-closed' if: (children size > 0 and: [aNode expanded not]);
+			with: [
+				self renderNodeTitleFor: aNode on: html.
+				(children size > 0 and: [ aNode expanded ] ) ifTrue: [ 
+					self renderNodes: children asListFromLevel: level+1 on: html.
+					aNode markChildrenAsRendered ] ]
 ]
 
 { #category : #rendering }
@@ -205,7 +215,8 @@ SGLTreePresenter >> renderNodeTitleFor: aNode on: html [
 				(aNode displayText cssDictionaryForFullText)
 					);
 		with: [ 
-			html span: [
+			html span	
+				with: [
 					html span
 						script: (html jQuery this css: 
 							(Dictionary new

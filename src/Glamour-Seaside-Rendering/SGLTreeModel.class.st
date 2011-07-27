@@ -57,13 +57,15 @@ SGLTreeModel >> explicitSelection: anObject [
 { #category : #selection }
 SGLTreeModel >> explicitlySelectItem: anObject [ 
 	(self selectedItem isNil and: [ anObject isNil ]) ifTrue: [ ^ self ].
-	anObject isNil ifTrue: [self selection: nil].
+	anObject isNil ifTrue: [self selection: (MorphTreeMorphSingleSelection new selectedNodePath: nil)].
 	self roots do: [:eachRoot |
 		eachRoot withContentsDo: [:each |
 			each item = anObject ifTrue: [
 				"each expandParentPath."
 				self selectNodePath: each path.
-				^ self]]]
+				^ self]
+			].
+		].
 ]
 
 { #category : #selection }
