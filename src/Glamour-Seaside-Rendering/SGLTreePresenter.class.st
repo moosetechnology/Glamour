@@ -135,7 +135,8 @@ SGLTreePresenter >> onClickActionForTag: aTag of: aNode with: html [
 SGLTreePresenter >> onDoubleClickActionOn: aNode with: html [
 
 	^ html jQuery ajax script: [:s | 
-		self model glamourPresentation strongSelection: aNode item
+		self model glamourPresentation strongSelection: aNode item.
+		self renderer updateScript: s
 			] 
 ]
 
