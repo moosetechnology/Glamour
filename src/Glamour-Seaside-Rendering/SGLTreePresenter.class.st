@@ -41,6 +41,11 @@ SGLTreePresenter >> explicitSelection: aNodeOrCollection [
 		ifFalse: [ self model selectNodePath: aNodeOrCollection path]
 ]
 
+{ #category : #rendering }
+SGLTreePresenter >> fullTextCssScriptForNode: aNode With: html [
+	^ html jQuery this css: aNode displayText cssDictionaryForFullText
+]
+
 { #category : #accessing }
 SGLTreePresenter >> htmlId [
 	^ htmlId
@@ -210,29 +215,22 @@ SGLTreePresenter >> renderNode: aNode fromLevel: level on: html [
 
 { #category : #rendering }
 SGLTreePresenter >> renderNodeTitleFor: aNode on: html [
-
-	html div
-		script: (html jQuery this css: 
-				(aNode displayText cssDictionaryForFullText)
-					);
+	(html div)
+		script: (self fullTextCssScriptForNode: aNode With: html);
 		with: [ 
-			html span	
-				with: [
-					html span
-						script: (html jQuery this css: 
-							(Dictionary new
-								at: 'background-color' put: ((self model glamourPresentation textBackgroundColorFor: aNode item) glmAsHtmlColor);
-								yourself
-								)
-							);
-						with: [
-							1 to: aNode displayText size do: [:tmpIndex |
-								html span 
+			html span
+				with: [ 
+					(html span)
+						script: (self textBackgroundColorScriptFor: aNode with: html);
+						with: [ 
+							1 to: aNode displayText size do: [ :tmpIndex | 
+								(html span)
 									script: (html jQuery this css: (aNode displayText cssDictionaryAt: tmpIndex));
-									with: (aNode displayText at: tmpIndex) asString
-								]
-							].
-					self renderTagsOf: aNode on: html ] ]
+									with: (aNode displayText at: tmpIndex) asString ] 
+								].
+					self renderTagsOf: aNode on: html
+					] 
+				]
 ]
 
 { #category : #rendering }
@@ -302,6 +300,15 @@ SGLTreePresenter >> selectedIds [
 					unrenderedNode markChildrenAsRendered ].
 			ids add: (self idOfNode: node) ] ] ].
 	^ ids
+]
+
+{ #category : #rendering }
+SGLTreePresenter >> textBackgroundColorScriptFor: aNode with: html [
+	^ html jQuery this
+		css:
+			((Dictionary new)
+				at: 'background-color' put: (self model glamourPresentation textBackgroundColorFor: aNode item) glmAsHtmlColor;
+				yourself)
 ]
 
 { #category : #private }
