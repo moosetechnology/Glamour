@@ -1062,7 +1062,7 @@ SGLJsLibrary >> sglDashboardColumnJs [
 		$.widget("ui.sglDashboardColumn", {
 		
 			options: {	
-				cellHeight: [200 , 200 , 200 , 200 , 200 , 200 ],
+				cellHeight: [],
 			},
 		
 			_create: function() {
