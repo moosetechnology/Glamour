@@ -7,6 +7,18 @@ JQueryInstance >> glamourDashboard [
 ]
 
 { #category : #'*Glamour-Seaside-Core' }
+JQueryInstance >> glamourDashboardCell [
+
+	^ self create: JQSGLDashboardCell
+]
+
+{ #category : #'*Glamour-Seaside-Core' }
+JQueryInstance >> glamourDashboardColumn [
+
+	^ self create: JQSGLDashboardColumn
+]
+
+{ #category : #'*Glamour-Seaside-Core' }
 JQueryInstance >> glamourExpander [
 	^ self create: JQSGLExpander
 ]

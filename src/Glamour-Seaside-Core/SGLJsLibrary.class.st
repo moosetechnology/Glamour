@@ -541,6 +541,8 @@ SGLJsLibrary >> glamourSeasideJs [
 	, self sglExpanderJs
 	, self sglFinderJs
 	, self sglDashboardJs 
+	, self sglDashboardCellJs 
+	, self sglDashboardColumnJs
 ]
 
 { #category : #uploaded }
@@ -1011,6 +1013,87 @@ SGLJsLibrary >> scrollToJs [
 	};
 
 })( jQuery );'
+]
+
+{ #category : #created }
+SGLJsLibrary >> sglDashboardCellJs [
+	^ '
+	;( function($) {
+		$.widget("ui.sglDashboardCell", {
+		
+			options: {	
+			},
+		
+			_create: function() {
+				var that = this;
+				this._setChildrenDimensions();
+				
+				this.element.bind("resize", function(){					
+					that._setChildrenDimensions();
+				});
+				
+			},
+			
+			/**
+			 * Set the dimensions of the panes contained by the stack pane.
+			 */
+			_setChildrenDimensions: function() {				
+				var children = this.element.children();
+				var index, childrenSize = children.size();
+				var childHeight = Math.round( this.element.height() / childrenSize );			
+				if ( childrenSize > 0 ) {
+					for ( index = 0 ; index < childrenSize - 1; index++ ) {			
+						$.glamour.setElementDimensions( $(children[index]), this.element.width(), childHeight );					
+					}
+					// The height of the last pane must be equal with the remaining height.
+					$.glamour.setElementDimensions( $(children[index]), this.element.width(),  this.element.height() - (childrenSize - 1) * childHeight );				
+				}
+			},
+			
+			
+		});
+	})(jQuery);'
+]
+
+{ #category : #created }
+SGLJsLibrary >> sglDashboardColumnJs [
+	^ '
+	;( function($) {
+		$.widget("ui.sglDashboardColumn", {
+		
+			options: {	
+				cellHeight: [200 , 200 , 200 , 200 , 200 , 200 ],
+			},
+		
+			_create: function() {
+				var that = this;
+				this._setChildrenDimensions();
+				
+				this.element.bind("resize", function(){					
+					that._setChildrenDimensions();
+				});
+				
+			},
+			
+			/**
+			 * Set the dimensions of the panes contained by the stack pane.
+			 */
+			_setChildrenDimensions: function() {				
+				var children = this.element.children();
+				var index, childrenSize = children.size();
+				var childHeight = 200 ;
+								
+				if ( childrenSize > 0 ) {
+					for ( index = 0 ; index < childrenSize - 1; index++ ) {			
+						$.glamour.setElementDimensions( $(children[index]), this.element.width(), this.options.cellHeight[index]);					
+					}
+					// The height of the last pane must be equal with the remaining height.
+					$.glamour.setElementDimensions( $(children[index]), this.element.width(), childHeight);				
+				}
+			}
+			
+		});
+	})(jQuery);'
 ]
 
 { #category : #created }
