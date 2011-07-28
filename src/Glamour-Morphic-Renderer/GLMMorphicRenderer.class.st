@@ -75,7 +75,7 @@ GLMMorphicRenderer >> renderDropDownListPresentation: aDropListPresentation [
 	"When the morph changes, we want to update the glamour model"
 	listModel announcer on: GLMDropDownListMorphSelectionChanged do: [ :ann | 	
 		aDropListPresentation selection: ann selectionValue ].
-	
+	listModel selectionIndex: aDropListPresentation selectedIndex.
 	^(MorphDropListMorph
 			on: listModel
 			list: #list
