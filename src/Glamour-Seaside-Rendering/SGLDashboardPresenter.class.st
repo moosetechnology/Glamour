@@ -17,13 +17,21 @@ SGLDashboardPresenter >> firstColumnPanesFrom: aGLMDashboard [
 	^ tmpResult
 ]
 
+{ #category : #private }
+SGLDashboardPresenter >> heightsOfPanes: aCollectionOfPanes [
+
+	^ (aCollectionOfPanes collect: [:each |
+		((self browser extentOfPaneNamed: each name) moValue: each) y
+		]) asArray
+]
+
 { #category : #rendering }
 SGLDashboardPresenter >> renderColumnPane: aPane on: html [
 
 	| tag |
 	tag := html div.
 	tag 
-		script: html jQuery new glamourDashboard;
+		script: (html jQuery new glamourDashboardCell);
 		with: [ self render: aPane on: html].
 ]
 
@@ -48,14 +56,18 @@ SGLDashboardPresenter >> renderMainDivOn: html [
 
 	html div 
 		script: (self resizeAndSplitVerticalyScriptOn: html);
+		script: (html jQuery this css: (Dictionary new 
+			at: 'overflow' put: 'auto';
+			yourself));
 		with: [
 			html div
-				script: html jQuery new glamourDashboard;
-				with: [self renderColumnWith: (self firstColumnPanesFrom: self browser) on: html.
-			].
+				script: (html jQuery new glamourDashboardColumn cellHeight: (self heightsOfPanes: (self firstColumnPanesFrom: self browser) ) );
+				with: [
+					self renderColumnWith: (self firstColumnPanesFrom: self browser) on: html.
+				].
 				
 			html div 
-				script: html jQuery new glamourDashboard;
+				script: (html jQuery new glamourDashboardColumn cellHeight: (self heightsOfPanes: (self secondColumnPanesFrom: self browser) ));
 				with: [self renderColumnWith: (self secondColumnPanesFrom: self browser) on: html.]  
 			]
 	
