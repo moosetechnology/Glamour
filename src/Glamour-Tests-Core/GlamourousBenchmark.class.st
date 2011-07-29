@@ -14,14 +14,14 @@ GlamourousBenchmark >> defaultBrowser [
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
 
-	browser showOn: #one; using: [
-		browser list
+	browser transmit to: #one; andShow: [ :a |
+		a list
 			display: [:x | 1 to: x * 3] ].
-	browser showOn: #two; from: #one; using: [
-		browser list
+	browser transmit to: #two; from: #one; andShow: [ :a |
+		a list
 			display: [:x | 1 to: x * 3] ].
-	browser showOn: #one; from: #two; using: [
-		browser list
+	browser transmit to: #one; from: #two; andShow: [ :a |
+		a list
 			display: [:x | 1 to: x * 3] ].
 
 	^ browser
@@ -99,16 +99,16 @@ GlamourousBenchmark >> showOnlyBrowser [
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
 
-	browser showOn: #one; using: [
-		browser list
+	browser transmit to: #one; andShow: [ :a |
+		a list
 			display: [:x | 1 to: x * 3];
 			showOnly: 50].
-	browser showOn: #two; from: #one; using: [
-		browser list
+	browser transmit to: #two; from: #one; andShow: [ :a |
+		a list
 			display: [:x | 1 to: x * 3];
 			showOnly: 50].
-	browser showOn: #one; from: #two; using: [
-		browser list
+	browser transmit to: #one; from: #two; andShow: [ :a |
+		a list
 			display: [:x | 1 to: x * 3];
 			showOnly: 50].
 
