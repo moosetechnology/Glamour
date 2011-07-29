@@ -18,17 +18,17 @@ GLMUpdateInterdependentPanesTest >> testAllowNil [
 						row: #two ];
 		column: #details.
 	browser
-		showOn: #one;
-		using: [ browser tree display: #(1 2 3) ].
+		transmit to: #one;
+		andShow: [ :a | a tree display: #(1 2 3) ].
 	browser
-		showOn: #two;
-		using: [ browser tree display: #(#a #b #c) ].
+		transmit to: #two;
+		andShow: [ :a | a tree display: #(#a #b #c) ].
 	browser
-		showOn: #details;
+		transmit to: #details;
 		from: #one;
 		from: #two;
-		using: [ 
-					(browser text)
+		andShow: [ :a | 
+					(a text)
 						display: [ :one :two | one asString , two asString ];
 						allowNil ].
 	window := browser openOn: 42.
