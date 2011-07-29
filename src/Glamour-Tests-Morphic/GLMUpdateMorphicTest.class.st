@@ -52,7 +52,7 @@ GLMUpdateMorphicTest >> setUp [
 			display: [:x | x isEmpty ifTrue: ['#()'] ifFalse: [x last]];
 			updateOn: TestAnnouncement from: [ announcer ].			
 			 ].
-	browser showOn: #two; from: #one; using: [browser text].
+	browser transmit to: #two; from: #one; andShow: [ :a | a text].
 	window := browser openOn: entity.
 	listLabelMorph := 			window submorphs last submorphs second submorphs first submorphs 
 									first tabSelectorMorph submorphs first submorphs first.
