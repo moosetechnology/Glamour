@@ -56,6 +56,7 @@ GLMMorphicDashboardRenderer >> render: aBrowser [
 	firstColumnContainer := PanelMorph new.
 	secondColumnContainer := PanelMorph new.
 	container := PanelMorph new.
+	aBrowser defaultPaneExtent: #glamourOptimalExtent.
 	firstColumnContainer  
 		fillStyle: Color transparent;
 		fillStyle: Color transparent;
