@@ -10,11 +10,11 @@ GLMScriptingTest >> testActionDefinition [
 	browser := GLMTabulator new.
 	browser column: #one.
 	browser
-		showOn: #one;
-		using: [ 
-					browser text act: [  ] entitled: ''.
-					browser list act: [  ] entitled: ''.
-					browser tree act: [  ] entitled: '' ].
+		transmit to: #one;
+		andShow: [ :a | 
+					a text act: [  ] entitled: ''.
+					a list act: [  ] entitled: ''.
+					a tree act: [  ] entitled: '' ].
 	browser startOn: #(42).
 	browser panes first presentations do: [ :each | self assert: each actions size equals: 1 ]
 ]
@@ -30,17 +30,17 @@ GLMScriptingTest >> testAllowNil [
 						row: #two ];
 		column: #details.
 	browser
-		showOn: #one;
-		using: [ browser tree display: #(1 2 3) ].
+		transmit to: #one;
+		andShow: [ :a | a tree display: #(1 2 3) ].
 	browser
-		showOn: #two;
-		using: [ browser tree display: #(#a #b #c) ].
+		transmit to: #two;
+		andShow: [ :a | a tree display: #(#a #b #c) ].
 	browser
-		showOn: #details;
+		transmit to: #details;
 		from: #one;
 		from: #two;
-		using: [ 
-					(browser text)
+		andShow: [ :a | 
+					(a text)
 						display: [ :one :two | one asString , two asString ];
 						allowNil ].
 	browser startOn: 42.
@@ -72,11 +72,11 @@ GLMScriptingTest >> testConditionalPresentation [
 		column: #one;
 		column: #two.
 	browser
-		showOn: #two;
+		transmit to: #two;
 		from: #one;
-		using: [ 
-					browser text when: [ :x | x = 42 ].
-					browser list when: [ :x | x > 42 ] ].
+		andShow: [ :a | 
+					a text when: [ :x | x = 42 ].
+					a list when: [ :x | x > 42 ] ].
 	((browser paneNamed: #one) port: #selection) value: 42.
 	self assert: (browser paneNamed: #two) matchingPresentations size equals: 1.
 	self assert: ((browser paneNamed: #two) matchingPresentations first isKindOf: GLMTextPresentation).
@@ -91,9 +91,9 @@ GLMScriptingTest >> testDynamicActions [
 	browser := GLMTabulator new.
 	browser column: #one.
 	browser
-		showOn: #one;
-		using: [ 
-					(browser list)
+		transmit to: #one;
+		andShow: [ :a | 
+					(a list)
 						display: [ :x | 1 to: x ];
 						dynamicActions: [ :list | 
 									(1 to: list selection)
@@ -115,8 +115,8 @@ GLMScriptingTest >> testEntityInUpdateAction [
 	browser := GLMTabulator new.
 	browser column: #one.
 	browser
-		showOn: #one;
-		using: [ browser text populate: #foo on: $m with: [ :list :input | inputFromActionBlock := input ] ].
+		transmit to: #one;
+		andShow: [ :a | a text populate: #foo on: $m with: [ :list :input | inputFromActionBlock := input ] ].
 	browser startOn: 42.
 	browser panes first presentations first actions first actOn: browser panes first presentations first.
 	self assert: inputFromActionBlock equals: 42
@@ -158,11 +158,11 @@ GLMScriptingTest >> testMorphicActionDefinition [
 	browser := GLMTabulator new.
 	browser column: #one.
 	browser
-		showOn: #one;
-		using: [ 
-					browser text morphicAct: [  ] entitled: ''.
-					browser list morphicAct: [  ] entitled: ''.
-					browser tree morphicAct: [  ] entitled: '' ].
+		transmit to: #one;
+		andShow: [ :a | 
+					a text morphicAct: [  ] entitled: ''.
+					a list morphicAct: [  ] entitled: ''.
+					a tree morphicAct: [  ] entitled: '' ].
 	browser startOn: #(42).
 	browser panes first presentations do: [ :each | self assert: each actions size equals: 1 ]
 ]
@@ -198,18 +198,16 @@ GLMScriptingTest >> testNestedBrowserOther [
 	innerBrowser := GLMTabulator new.
 	innerBrowser column: #innerOne.
 	innerBrowser
-		showOn: #innerOne;
-		using: [ 
-					"		from: #outer->#entity;"
-					innerBrowser text ].
-	innerBrowser sendToOutside: #selection from: #innerOne.
+		transmit to: #innerOne;
+		andShow: [ :a | a text ].
+	innerBrowser transmit toOutsidePort: #selection; from: #innerOne.
 	browser
-		showOn: #one;
-		using: [ (browser custom: innerBrowser) display: [ :x | x + 2 ] ].
+		transmit to: #one;
+		andShow: [ :a | (a custom: innerBrowser) display: [ :x | x + 2 ] ].
 	browser
-		showOn: #two;
+		transmit to: #two;
 		from: #one;
-		using: [ browser text ].
+		andShow: [ :a | a text ].
 	browser startOn: 40.
 	realInnerBrowser := (browser paneNamed: #one) presentations first.
 	self assert: ((browser paneNamed: #one) port: #entity) value equals: 40.
@@ -248,12 +246,12 @@ GLMScriptingTest >> testOuterEntity [
 		column: #one;
 		column: #two.
 	browser
-		showOn: #one;
-		using: [ browser text ].
+		transmit to: #one;
+		andShow: [ :a | a text ].
 	browser
-		showOn: #two;
-		fromOutside: #entity;
-		using: [ browser text ].
+		transmit to: #two;
+		fromOutsidePort: #entity;
+		andShow: [ :a | a text ].
 	browser startOn: 42.
 	self assert: browser transmissions first origins anyOne name equals: #entity.
 	self assert: browser transmissions last origins anyOne name equals: #entity.
@@ -290,13 +288,13 @@ GLMScriptingTest >> testPublishingToOutsideAndInsideFinder [
 		column: #one;
 		column: #two.
 	innerBrowser
-		showOn: #one;
-		using: [ innerBrowser list display: [ :x | 1 to: 43 ] ].
+		transmit to: #one;
+		andShow: [ :a | a list display: [ :x | 1 to: 43 ] ].
 	innerBrowser
-		showOn: #two;
+		transmit to: #two;
 		from: #one;
-		using: [ innerBrowser text ].
-	innerBrowser sendToOutside: #selection from: #one -> #selection.
+		andShow: [ :a | a text ].
+	innerBrowser transmit toOutsidePort: #selection; from: #one port: #selection.
 	finder custom: innerBrowser.
 	self assert: innerBrowser transmissions size equals: 3.
 	self assert: innerBrowser transmissions second origins first pane == innerBrowser panes first.
@@ -315,9 +313,9 @@ GLMScriptingTest >> testPublishingToOutsideFinder [
 	innerBrowser := GLMTabulator new.
 	innerBrowser column: #any.
 	innerBrowser
-		showOn: #any;
-		using: [ innerBrowser list display: [ :x | 1 to: 43 ] ].
-	innerBrowser sendToOutside: #selection from: #any -> #selection.
+		transmit to: #any;
+		andShow: [ :a | a list display: [ :x | 1 to: 43 ] ].
+	innerBrowser transmit toOutsidePort: #selection; from: #any port: #selection.
 	finder custom: innerBrowser.
 	finder startOn: 43.
 	self assert: (finder panes first port: #entity) value equals: 43.
@@ -402,8 +400,8 @@ GLMScriptingTest >> testStartTransmission [
 		column: #one;
 		column: #two.
 	browser
-		showOn: #one;
-		using: [ browser list ].
+		transmit to: #one;
+		andShow: [ :a | a list ].
 	self assert: browser transmissions size equals: 1.
 	self assert: (browser paneNamed: #one) presentations isEmpty.
 	self assert: (browser paneNamed: #two) presentations isEmpty.
@@ -420,12 +418,12 @@ GLMScriptingTest >> testStartWithOnlyJumpStart [
 		column: #one;
 		column: #two.
 	browser
-		showOn: #one;
-		using: [ browser list ].
+		transmit to: #one;
+		andShow: [ :a | a list ].
 	browser
-		showOn: #two;
+		transmit to: #two;
 		from: #one;
-		using: [ browser text ].
+		andShow: [ :a | a text ].
 	self assert: browser transmissions size equals: 2.
 	self assert: (browser paneNamed: #one) presentations isEmpty.
 	self assert: (browser paneNamed: #two) presentations isEmpty.
@@ -470,10 +468,10 @@ GLMScriptingTest >> testTransmissionWithTwoOrigins [
 		column: #two;
 		column: #three.
 	browser
-		showOn: #three;
+		transmit to: #three;
 		from: #one;
 		from: #two;
-		using: [ browser text ].
+		andShow: [ :a | a text ].
 	((browser paneNamed: #one) port: #selection) value: 42.
 	self assert: ((browser paneNamed: #three) port: #entity) value first equals: 42.
 	self assert: ((browser paneNamed: #three) port: #entity) value last equals: nil.
@@ -494,13 +492,13 @@ GLMScriptingTest >> testTwoTransmissionsWithOnlyOneEvent [
 		column: #two;
 		column: #three.
 	browser
-		showOn: #two;
+		transmit to: #two;
 		from: #one;
-		using: [ browser list ].
+		andShow: [ :a | a list ].
 	browser
-		showOn: #three;
+		transmit to: #three;
 		from: #two;
-		using: [ browser text ].
+		andShow: [ :a | a text ].
 	self assert: browser transmissions size equals: 2.
 	self assert: (browser paneNamed: #one) presentations isEmpty.
 	self assert: (browser paneNamed: #two) presentations isEmpty.
@@ -544,8 +542,8 @@ GLMScriptingTest >> testUpdateYourselfOn [
 	entity := OrderedCollection with: 1 with: 2 with: 3.
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser showOn: #one; using: [
-		presentation := browser list 
+	browser transmit to: #one; andShow: [ :a |
+		presentation := a list 
 			updateOn: TestAnnouncement from: [ announcer ];
 			shouldValidate: true ].
 	browser startOn: entity.

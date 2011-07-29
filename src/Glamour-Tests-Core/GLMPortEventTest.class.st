@@ -34,24 +34,24 @@ GLMPortEventTest >> testInterdependentPanesCycleBreak [
 		column: #two;
 		column: #three.
 	browser
-		showOn: #one;
-		using: [ browser list display: [ :x | 1 to: x ] ].
+		transmit to: #one;
+		andShow: [ :a | a list display: [ :x | 1 to: x ] ].
 	browser
-		showOn: #two;
+		transmit to: #two;
 		from: #one;
-		using: [ browser list display: [ :x | 1 to: x * 2 ] ].
+		andShow: [ :a | a list display: [ :x | 1 to: x * 2 ] ].
 	browser
-		showOn: #three;
+		transmit to: #three;
 		from: #two;
-		using: [ 
-					(browser list)
+		andShow: [ :a |  
+					(a list)
 						display: [ :x | 1 to: x * 3 ];
 						populate: #focus
 							on: $f
 							entitled: 'Focus'
 							with: [ :list | list selection ] ].
-	browser sendTo: #outer -> #focus from: #three -> #focus with: [ :x | outerCount := outerCount + 1 ].
-	browser sendTo: #one -> #selection from: #outer -> #focus with: [ :x | oneCount := oneCount + 1 ].
+	browser transmit toOutsidePort: #focus; from: #three port: #focus; transformed: [ :x | outerCount := outerCount + 1 ].
+	browser transmit to: #one port: #selection; fromOutsidePort: #focus; transformed: [ :x | oneCount := oneCount + 1 ].
 	browser startOn: 5.
 	((browser paneNamed: #one) port: #selection) value: 3.
 	((browser paneNamed: #two) port: #selection) value: 6.
@@ -70,25 +70,25 @@ GLMPortEventTest >> testInterdependentPanesProperPorts [
 		column: #two;
 		column: #three.
 	browser
-		showOn: #one;
-		using: [ browser list display: [ :x | 1 to: x ] ].
+		transmit to: #one;
+		andShow: [ :a | a list display: [ :x | 1 to: x ] ].
 	browser
-		showOn: #two;
+		transmit to: #two;
 		from: #one;
-		using: [ browser list display: [ :x | 1 to: x * 2 ] ].
+		andShow: [ :a | a list display: [ :x | 1 to: x * 2 ] ].
 	browser
-		showOn: #three;
+		transmit to: #three;
 		from: #two;
-		using: [ 
-					(browser list)
+		andShow: [ :a | 
+					(a list)
 						display: [ :x | 1 to: x * 3 ];
 						populate: #focus
 							on: $f
 							entitled: 'Focus'
 							with: [ :list | list selection ] ].
-	browser sendTo: #outer -> #focus from: #three -> #focus.
-	browser sendTo: #one -> #selection from: #outer -> #focus with: [ :x | x + 1 ].
-	browser sendTo: #two -> #selection from: #outer -> #focus with: [ :x | x + 2 ].
+	browser transmit toOutsidePort: #focus; from: #three port: #focus.
+	browser transmit to: #one port: #selection; fromOutsidePort: #focus; transformed: [ :x | x + 1 ].
+	browser transmit to: #two port: #selection; fromOutsidePort: #focus; transformed: [ :x | x + 2 ].
 	browser startOn: 5.
 	((browser paneNamed: #one) port: #selection) value: 3.
 	((browser paneNamed: #two) port: #selection) value: 6.
