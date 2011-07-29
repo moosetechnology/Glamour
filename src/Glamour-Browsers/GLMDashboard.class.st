@@ -3,7 +3,8 @@ Class {
 	#superclass : #GLMExplicitBrowser,
 	#instVars : [
 		'panesExtents',
-		'extentStrategy'
+		'extentStrategy',
+		'defaultPaneExtent'
 	],
 	#category : #'Glamour-Browsers'
 }
@@ -24,7 +25,14 @@ GLMDashboard >> addPaneNamed: aSymbol extent: aPoint [
 { #category : #accessing }
 GLMDashboard >> defaultPaneExtent [
 
-	^ 300@150
+	^ defaultPaneExtent ifNil: [defaultPaneExtent := 300@150]
+]
+
+{ #category : #accessing }
+GLMDashboard >> defaultPaneExtent: anObject [
+
+	"so that each renderer can make specific the way to compute the default extent"
+	defaultPaneExtent := anObject
 ]
 
 { #category : #accessing }
@@ -32,7 +40,8 @@ GLMDashboard >> extentOfPaneNamed: aSymbol [
 
 	^ self panesExtents at: aSymbol ifAbsent: [
 		"default extent for a pane"
-		#glamourOptimalExtent
+		"#glamourOptimalExtent"
+		self defaultPaneExtent
 		]
 ]
 
