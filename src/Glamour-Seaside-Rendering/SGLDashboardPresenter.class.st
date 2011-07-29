@@ -21,7 +21,7 @@ SGLDashboardPresenter >> firstColumnPanesFrom: aGLMDashboard [
 SGLDashboardPresenter >> heightsOfPanes: aCollectionOfPanes [
 
 	^ (aCollectionOfPanes collect: [:each |
-		((self browser extentOfPaneNamed: each name) moValue: each) y
+		(self browser extentOfPaneNamed: each name) y
 		]) asArray
 ]
 
