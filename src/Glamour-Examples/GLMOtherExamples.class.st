@@ -38,17 +38,17 @@ GLMOtherExamples >> fileExplorer [
 	browser 
 		column: #folders;
 		column: [ :col | col row: #files span: 2; row: #preview ] span: 2. 
-	browser showOn: #folders; using: [
-		browser tree 
+	browser transmit to: #folders; andShow: [ :a | 
+		a tree 
 			title: 'Folders'; 
 			children: [ :fd | fd directoryNames collect: [ :each | FileDirectory on: fd pathName, fd pathNameDelimiter asString, each ] ]; 
 			format: [ :folder | folder localName ] ].
-	browser showOn: #files; from: #folders; using: [
-		browser list 
+	browser transmit to: #files; from: #folders; andShow: [ :a |
+		a list 
 			format: [ :fd | fd localName ]; 
 			display: [ :fd | fd fileNames collect: [:each | FileDirectory on: fd pathName, fd pathNameDelimiter asString, each ] ] ].
-	browser showOn: #preview; from: #files; using: [
-		browser text
+	browser transmit to: #preview; from: #files; andShow: [ :a |
+		a text
 			display: [ :file | file fullName ] ].
 	^ browser
 ]
@@ -103,14 +103,14 @@ GLMOtherExamples >> pierTreeEditor [
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #navigation; column: #editor span: 4.
-	browser showOn: #navigation; using: [
-		browser tree
+	browser transmit to: #navigation; andShow: [ :a |
+		a tree
 			children: [:each | each enumerator contents];
 			format: [:each | each title ];
 			title: 'Navigation'.
 	].
-	browser showOn: #editor; from: #navigation; using: [
-		browser magritte
+	browser transmit to: #editor; from: #navigation; andShow: [ :a | 
+		a magritte
 			title: 'Editor'.
 	].
 	^ browser 

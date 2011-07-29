@@ -77,19 +77,19 @@ GLMBasicExamples >> allowAllNil [
 	browser 
 		column: [: c | c row: #one; row: #two];
 		column: #details.
-	browser showOn: #one; using: [
-		browser tree 
+	browser transmit to: #one; andShow: [ :a |
+		a tree 
 			display:[ :x| 1 to: x ];
 			allowDeselection ].
-	browser showOn: #two; using: [
-		browser tree 
+	browser transmit to: #two; andShow: [ :a | 
+		a tree 
 			display: #(a b c);
 			allowDeselection].
-	browser showOn: #details; from: #one; from: #two; using: [
-		browser text 
+	browser transmit to: #details; from: #one; from: #two; andShow: [ :a |
+		a text 
 			display: [ :one :two | 'At least one is nil: ', one asString, '-', two asString];
 			allowNil.
-		browser text 
+		a text 
 			display: [ :one :two | 'All are nil: ', one asString, '-',  two asString];
 			allowAllNil ].
 		
@@ -109,16 +109,16 @@ GLMBasicExamples >> allowNil [
 	browser 
 		column: [: c | c row: #one; row: #two];
 		column: #details.
-	browser showOn: #one; using: [
-		browser tree 
+	browser transmit to: #one; andShow: [ :a |
+		a tree 
 			display: #(1 2 3);
 			allowDeselection ].
-	browser showOn: #two; using: [
-		browser tree 
+	browser transmit to: #two; andShow: [ :a | 
+		a tree 
 			display: #(a b c);
 			allowDeselection].
-	browser showOn: #details; from: #one; from: #two; using: [
-		browser text 
+	browser transmit to: #details; from: #one; from: #two; andShow: [ :a | 
+		a text 
 			display: [ :one :two | one asString, two asString];
 			allowNil ].
 	^ browser
@@ -148,14 +148,14 @@ GLMBasicExamples >> compoundTaggedTree [
 	|browser |
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [ :a | 
+		a tree
 			title: 'Combined Tags';
 			tags: [:each | { {MenuIcons perform: (each, 'Icon') asSymbol . each asString }}].
-		browser tree
+		a tree
 			title: 'Image Tags';
 			tags: [:each | { MenuIcons perform: (each, 'Icon') asSymbol}].
-		browser tree
+		a tree
 			title: 'Combined Tags - Filter by image';
 			tags: [:each | 
 				{ each == #help 
@@ -164,7 +164,7 @@ GLMBasicExamples >> compoundTaggedTree [
 			tagsFilter: [:each | 
 				{ each == #help 
 						ifTrue:[ MenuIcons smallDeleteIcon ] ifFalse:[ MenuIcons smallOkIcon ] } ].
-		browser tree
+		a tree
 			title: 'Combined Tags - Filter by label';
 			tags: [:each | 
 				{ {MenuIcons perform: (each, 'Icon') asSymbol.
@@ -394,7 +394,7 @@ GLMBasicExamples >> fixSizePanes [
 	browser := GLMTabulator new.
 	browser row: #variable; row: #fix size: 20.
 	browser transmit to: #fix; andShow: [ :a | a label display: 'Fix size'].
-	browser showOn: #variable; using: [browser text display: 'Variable size'].
+	browser transmit to: #variable; andShow: [ :a | a text display: 'Variable size'].
 	^ browser 
 ]
 
@@ -405,8 +405,8 @@ GLMBasicExamples >> formatAsWords [
 	| browser |
 	browser := GLMTabulator new.
 	browser row: #list.
-	browser showOn: #list; using: [
-		browser tree
+	browser transmit to: #list; andShow: [ :a |
+		a tree
 			format: [ :x | x asWords];
 			display: [:x | x]].
 	^ browser 
@@ -417,41 +417,41 @@ GLMBasicExamples >> interdependentPanes [
 	<glmBrowser: 'Two inter-dependent panes' input: '5'>
 	"self new interdependentPanes openOn: 5"
 	|browser |
-
+	self flag: 'this example does not work'.
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
-	browser showOn: #one; using: [
-		browser list
+	browser transmit to: #one; andShow: [ :a | 
+		a list
 			display: [:x | 1 to: x * 3]].
-	browser showOn: #two; from: #one; using: [
-		browser list
+	browser transmit to: #two; from: #one; andShow: [ :a | 
+		a list
 			display: [:x | 1 to: x * 3]].
-	browser showOn: #one; from: #two; using: [
-		browser list
+	browser transmit to: #one; from: #two; andShow: [ :a | 
+		a list
 			display: [:x | 1 to: x * 3]].
 	^ browser
 ]
 
 { #category : #'explicit selection' }
 GLMBasicExamples >> listsInDashboardWithUpdatedSelection [
-	"self new listsWithUpdatedSelection openOn: 10"
+	"self new listsInDashboardWithUpdatedSelection openOn: 10"
 	<glmBrowser: 'Updated selection in dashboard' input: '10'>
 	| browser |
 	browser := GLMDashboard new.
 	browser addPaneNamed: #one; addPaneNamed: #two; addPaneNamed: #three.
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [ :a | 
+		a tree
 			display: [:x | 1 to: x ]].
-	browser showOn: #two; using: [
-		browser tree
+	browser transmit to: #two; andShow: [ :a | 
+		a tree
 			display: [:x | 1 to: x + 2 ]].
-	browser showOn: #three; using: [
-		browser tree
+	browser transmit to: #three; andShow: [ :a |
+		a tree
 			beMultiple;
 			display: [:x | 1 to: x ]].
-	browser sendTo: #two->#selection from: #one with: [:x | x + 2].
-	browser sendTo: #one->#selection from: #two with: [:x | x - 2].
-	browser sendTo: #three->#selection from: #two with: [:x | (1 to: (x - 2)) ].
+	browser transmit to: #two port: #selection; from: #one; transformed: [:x | x + 2].
+	browser transmit to: #one port: #selection; from: #two; transformed: [:x | x - 2].
+	browser transmit to: #three port: #selection; from: #two; transformed: [:x | (1 to: (x - 2)) ].
 	^ browser
 ]
 
@@ -462,19 +462,19 @@ GLMBasicExamples >> listsWithUpdatedSelection [
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two; column: #three.
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [ :a | 
+		a tree
 			display: [:x | 1 to: x ]].
-	browser showOn: #two; using: [
-		browser tree
+	browser transmit to: #two; andShow: [ :a | 
+		a tree
 			display: [:x | 1 to: x + 2 ]].
-	browser showOn: #three; using: [
-		browser tree
+	browser transmit to: #three; andShow: [ :a |
+		a tree
 			beMultiple;
 			display: [:x | 1 to: x ]].
-	browser sendTo: #two->#selection from: #one with: [:x | x + 2].
-	browser sendTo: #one->#selection from: #two with: [:x | x - 2].
-	browser sendTo: #three->#selection from: #two with: [:x | (1 to: (x - 2)) ].
+	browser transmit to: #two port: #selection; from: #one; transformed: [:x | x + 2].
+	browser transmit to: #one port: #selection; from: #two; transformed: [:x | x - 2].
+	browser transmit to: #three port: #selection; from: #two; transformed: [:x | (1 to: (x - 2)) ].
 	^ browser
 ]
 
@@ -513,16 +513,16 @@ GLMBasicExamples >> mondrianPainting [
 	browser act: [:b | 
 		(b paneNamed: #one) inspect ] entitled: 'Inspect'.
 	browser column: #one; column: #two.
-	browser showOn: #one; using: [
-		browser mondrian 
+	browser transmit to: #one; andShow: [ :a |
+		a mondrian 
 			title: 'Numbers in Mondrian tree';
 			painting: [:view :number | 
 			view shape label.
 			view nodes: (1 to: items ).
 			view edgesFrom: [:x | x // 3 ].
 			view horizontalTreeLayout ]].
-	browser showOn: #two; from: #one; using: [
-		browser mondrian 
+	browser transmit to: #two; from: #one; andShow: [ :a |
+		a mondrian 
 			title: 'Numbers in Mondrian list';
 			painting: [:view :number |
 				view shape rectangle width: 20; text: #printString; withoutBorder.
@@ -539,10 +539,11 @@ GLMBasicExamples >> morphIcons [
 	browser := GLMTabulator new.
 	browser column: #list; column: #preview.
 	browser title: 'Glamorous Icons'.
-	browser showOn: #list; using: [
-		browser list ].
-	browser showOn: #preview; from: #list; using: [
-		browser morph
+	browser transmit to: #list; andShow: [ :a | 
+		a list title: 'GLMUIThemeExtraIcons' ].
+	browser transmit to: #preview; from: #list; andShow: [ :a |
+		a morph
+			title: [:symbol | symbol];
 			display: [:symbol | 
 				(GLMUIThemeExtraIcons perform: symbol) asMorph ] ].
 	^ browser
@@ -560,12 +561,12 @@ GLMBasicExamples >> multiInitialSelection [
 
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [ :a |
+		a tree
 			beMultiple;
 			display: [:x | 1 to: x * 3]].
-	browser showOn: #two; from: #one; using: [
-		browser list ].
+	browser transmit to: #two; from: #one; andShow: [ :a |
+		a list ].
 	^ browser
 ]
 
@@ -651,8 +652,8 @@ GLMBasicExamples >> simpleActionList [
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser showOn: #one; using: [
-		browser actionList
+	browser transmit to: #one; andShow: [ :a |
+		a actionList
 			act: [:entity | Transcript show: entity ] entitled: 'Transcript';
 			act: [:entity | entity inspect ] entitled: 'Inspect'].
 	^ browser
@@ -722,12 +723,12 @@ GLMBasicExamples >> singleInitialSelection [
 
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [ :a |
+		a tree
 			display: [:x | 1 to: x];
 			format: [:number | Text string: number printString attribute: TextColor red]].
-	browser showOn: #two; from: #one; using: [
-		browser list
+	browser transmit to: #two; from: #one; andShow: [ :a |
+		a list
 			display: [:x | 1 to: x * 2]].
 	^ browser
 ]
@@ -760,8 +761,8 @@ GLMBasicExamples >> starBrowser [
 		column: #tree;
 		column: #browser span: 4.
 	browser
-		showOn: #tree;
-		using: [ browser list ].
+		transmit to: #tree;
+		andShow: [ :a | a list ].
 	accumulator := GLMAccumulator new.
 	accumulator
 		show: [ :a | 
