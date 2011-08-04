@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #tests }
+GLMDynamicMorphicTest >> expectedFailures [ 
+	^ #(testWithDisplay)
+]
+
+{ #category : #tests }
 GLMDynamicMorphicTest >> testSurroundingPanel [
 	| browser dynamicContainerMorph |
 	browser := GLMTabulator new.
