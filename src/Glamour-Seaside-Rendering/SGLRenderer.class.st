@@ -195,6 +195,12 @@ SGLRenderer >> renderTreePresentation: aPresentation [
 	html render: treePresenter
 ]
 
+{ #category : #'rendering browsers' }
+SGLRenderer >> renderValidator: aBrowser [
+	html render: (SGLValidatorPresenter for: aBrowser from: self)
+
+]
+
 { #category : #'rendering presentations' }
 SGLRenderer >> renderWorkspacePresentation: aWorkspacePresentation [
 	self renderTextPresentation: aWorkspacePresentation
