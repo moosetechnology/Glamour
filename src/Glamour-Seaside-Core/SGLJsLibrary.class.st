@@ -545,6 +545,7 @@ SGLJsLibrary >> glamourSeasideJs [
 	, self sglDashboardColumnJs
 	, self sglValidatorJs 
 	, self sglValidatorBrowserJs 
+	, self sglWizardJs 
 ]
 
 { #category : #uploaded }
@@ -2255,6 +2256,39 @@ SGLJsLibrary >> sglValidatorJs [
 				// The height of the last pane is the buttons height.
 				$.glamour.setElementDimensions( $(children[1]), this.element.width(),  this.options.buttonsHeight );	
 				
+			}
+			
+		});
+	})(jQuery);'
+]
+
+{ #category : #created }
+SGLJsLibrary >> sglWizardJs [
+	^ '
+	;( function($) {
+		$.widget("ui.sglWizard", {
+		
+			options: {	
+			},
+		
+			_create: function() {
+				var that = this;
+				this._setChildrenDimensions();
+				
+				this.element.bind("resize", function(){					
+					that._setChildrenDimensions();
+				});
+				
+			},
+			
+			/**
+			 * Set the dimensions of the panes contained by the stack pane.
+			 */
+			_setChildrenDimensions: function() {				
+				var children = this.element.children();
+				
+				$.glamour.setElementDimensions( $(children[0]), this.element.width(), this.element.height());					
+								
 			}
 			
 		});

@@ -74,3 +74,9 @@ JQueryInstance >> glamourValidatorBrowser [
 
 	^ self create: JQSGLValidatorBrowser
 ]
+
+{ #category : #'*Glamour-Seaside-Core' }
+JQueryInstance >> glamourWizard [
+
+	^ self create: JQSGLWizard
+]
