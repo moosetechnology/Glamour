@@ -16,6 +16,12 @@ SGLRenderer class >> in: aComponent on: aCanvas [
 ]
 
 { #category : #accessing }
+SGLRenderer >> component [
+
+	^ component
+]
+
+{ #category : #accessing }
 SGLRenderer >> html [
 	^ html
 ]

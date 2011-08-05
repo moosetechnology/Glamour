@@ -9,6 +9,8 @@ Class {
 
 { #category : #callback }
 SGLWizardPresenter >> actOnBrowserClosed: ann [
+
+	self renderer component answer
 ]
 
 { #category : #callback }
@@ -17,13 +19,23 @@ SGLWizardPresenter >> actOnPaneAdded: ann [
 	self renderer 
 		scriptFor: self browser 
 		add:
-			((self renderer html jQuery id: self mainId) load
+			(
+			(self renderer html jQuery id: self mainId) parent "load"
          			html: [ :r | 
-            		self render: (self browser stepsAndPanes at: self browser currentStep) last on: r]).
-	self renderer 
+						r div
+							id: self mainId;
+							script: (r jQuery new glamourWizard);
+							with: [
+								self render: (self browser stepsAndPanes at: self browser currentStep) last on: r 
+								]
+							
+					]
+			).
+			
+	"self renderer 
 		scriptFor: self browser 
 		add:
-			((self renderer html jQuery id: self mainId) call: '_setChildrenDimensions')
+			((self renderer html jQuery id: self mainId) call: 'resize')"
 ]
 
 { #category : #callback }
@@ -32,9 +44,18 @@ SGLWizardPresenter >> actOnPaneRemoved: ann [
 	self renderer 
 		scriptFor: self browser 
 		add:
-			((self renderer html jQuery id: self mainId) load
+			(
+			(self renderer html jQuery id: self mainId) parent "load"
          			html: [ :r | 
-            		self render: (self browser stepsAndPanes at: self browser currentStep) last on: r])
+						r div
+							id: self mainId;
+							script: (r jQuery new glamourWizard);
+							with: [
+								self render: (self browser stepsAndPanes at: self browser currentStep) last on: r 
+								]
+							
+					]
+			).
 ]
 
 { #category : #callback }
@@ -43,13 +64,18 @@ SGLWizardPresenter >> actOnPaneReplaced: ann [
 	self renderer 
 		scriptFor: self browser 
 		add:
-			((self renderer html jQuery id: self mainId) load
+			(
+			(self renderer html jQuery id: self mainId) parent "load"
          			html: [ :r | 
-            		self render: (self browser stepsAndPanes at: self browser currentStep) last on: r]).
-	self renderer 
-		scriptFor: self browser 
-		add:
-			((self renderer html jQuery id: self mainId) glamourResize)
+						r div
+							id: self mainId;
+							script: (r jQuery new glamourWizard);
+							with: [
+								self render: (self browser stepsAndPanes at: self browser currentStep) last on: r 
+								]
+							
+					]
+			).
 ]
 
 { #category : #accessing }
