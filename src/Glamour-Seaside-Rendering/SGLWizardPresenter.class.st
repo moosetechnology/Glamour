@@ -2,58 +2,54 @@ Class {
 	#name : #SGLWizardPresenter,
 	#superclass : #SGLBrowserPresenter,
 	#instVars : [
-		'rendered',
-		'html',
 		'mainId'
 	],
 	#category : #'Glamour-Seaside-Rendering'
 }
 
 { #category : #callback }
+SGLWizardPresenter >> actOnBrowserClosed: ann [
+]
+
+{ #category : #callback }
 SGLWizardPresenter >> actOnPaneAdded: ann [
 
-	rendered := rendered + 1.
 	self renderer 
 		scriptFor: self browser 
-		add: "((self  html javascript refresh))"
-
-			((html jQuery id: self mainId) load
+		add:
+			((self renderer html jQuery id: self mainId) load
          			html: [ :r | 
-            		 r render: self ])
+            		self render: (self browser stepsAndPanes at: self browser currentStep) last on: r]).
+	self renderer 
+		scriptFor: self browser 
+		add:
+			((self renderer html jQuery id: self mainId) call: '_setChildrenDimensions')
 ]
 
 { #category : #callback }
 SGLWizardPresenter >> actOnPaneRemoved: ann [
-	self renderer
-		scriptFor: self browser
+
+	self renderer 
+		scriptFor: self browser 
 		add:
-			((self renderer html jQuery ajax)
-						script: [:s | 
-							self renderer updateScript: s
-							])
+			((self renderer html jQuery id: self mainId) load
+         			html: [ :r | 
+            		self render: (self browser stepsAndPanes at: self browser currentStep) last on: r])
 ]
 
 { #category : #callback }
 SGLWizardPresenter >> actOnPaneReplaced: ann [
-	"self renderer
-		scriptFor: self browser
-		add:"
-			((self renderer html jQuery ajax)
-						script: [:s | 
-							self renderer updateScript: s
-							])
-]
 
-{ #category : #accessing }
-SGLWizardPresenter >> html [
-
-	^ html
-]
-
-{ #category : #accessing }
-SGLWizardPresenter >> html: anObject [
-
-	html := anObject
+	self renderer 
+		scriptFor: self browser 
+		add:
+			((self renderer html jQuery id: self mainId) load
+         			html: [ :r | 
+            		self render: (self browser stepsAndPanes at: self browser currentStep) last on: r]).
+	self renderer 
+		scriptFor: self browser 
+		add:
+			((self renderer html jQuery id: self mainId) glamourResize)
 ]
 
 { #category : #accessing }
@@ -82,18 +78,15 @@ SGLWizardPresenter >> registerAnnouncementsFor: aBrowser [
 ]
 
 { #category : #rendering }
-SGLWizardPresenter >> renderContentOn:  tmpHtml [
+SGLWizardPresenter >> renderContentOn:  html [
 
-	rendered ifNil: [rendered := 0].
-	self html:  tmpHtml.
 	self registerAnnouncementsFor: self browser.
-	"self halt."
 	self mainId: html nextId.
-	tmpHtml div
+	html div
 		id: self mainId;
-		script: html jQuery new glamourStack;
+		script: html jQuery new glamourWizard;
 		with: [
-			self render: (self browser stepsAndPanes at: self browser currentStep) last on: tmpHtml
+			self render: (self browser stepsAndPanes at: self browser currentStep) last on: html
 			]
 	
 ]
