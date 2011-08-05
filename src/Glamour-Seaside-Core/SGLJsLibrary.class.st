@@ -544,6 +544,7 @@ SGLJsLibrary >> glamourSeasideJs [
 	, self sglDashboardCellJs 
 	, self sglDashboardColumnJs
 	, self sglValidatorJs 
+	, self sglValidatorBrowserJs 
 ]
 
 { #category : #uploaded }
@@ -2193,6 +2194,37 @@ SGLJsLibrary >> sglUtilsJs [
 ]
 
 { #category : #created }
+SGLJsLibrary >> sglValidatorBrowserJs [
+	^ '
+	;( function($) {
+		$.widget("ui.sglValidatorBrowser", {
+		
+			options: {	
+				buttonsHeight: null,
+			},
+		
+			_create: function() {
+				var that = this;
+				this._setChildrenDimensions();
+				
+				this.element.bind("resize", function(){					
+					that._setChildrenDimensions();
+				});
+			},
+			
+			/**
+			 * Set the dimensions of the panes contained by the stack pane.
+			 */
+			_setChildrenDimensions: function() {
+				var children = this.element.children();
+				$.glamour.setElementDimensions( $(children[0]), this.element.width(), this.element.height());
+			}
+			
+		});
+	})(jQuery);'
+]
+
+{ #category : #created }
 SGLJsLibrary >> sglValidatorJs [
 	^ '
 	;( function($) {
@@ -2217,14 +2249,11 @@ SGLJsLibrary >> sglValidatorJs [
 			 */
 			_setChildrenDimensions: function() {				
 				var children = this.element.children();
-				var index, childrenSize = children.size();
-				var childHeight = 200 ;
-								
-			
-					// The height of the presentation inside the validator.
-					$.glamour.setElementDimensions( $(children[1]), this.element.width(), 200);		
-					// The height remaining for the buttons.
-					$.glamour.setElementDimensions( $(children[2]), this.element.width(), 200);				
+				
+				$.glamour.setElementDimensions( $(children[0]), this.element.width(), this.element.height() - this.options.buttonsHeight );					
+					
+				// The height of the last pane is the buttons height.
+				$.glamour.setElementDimensions( $(children[1]), this.element.width(),  this.options.buttonsHeight );	
 				
 			}
 			
