@@ -62,3 +62,9 @@ JQueryInstance >> glamourText [
 JQueryInstance >> glamourTree [
 	^ self create: JQSGLTree
 ]
+
+{ #category : #'*Glamour-Seaside-Core' }
+JQueryInstance >> glamourValidator [
+
+	^ self create: JQSGLValidator
+]

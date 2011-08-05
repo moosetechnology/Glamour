@@ -1089,7 +1089,7 @@ SGLJsLibrary >> sglDashboardColumnJs [
 						$.glamour.setElementDimensions( $(children[index]), this.element.width(), this.options.cellHeight[index]);					
 					}
 					// The height of the last pane must be equal with the remaining height.
-					$.glamour.setElementDimensions( $(children[index]), this.element.width(), childHeight);				
+					$.glamour.setElementDimensions( $(children[index]), this.element.width(), this.options.cellHeight[index]);				
 				}
 			}
 			
@@ -2199,6 +2199,7 @@ SGLJsLibrary >> sglValidatorJs [
 		$.widget("ui.sglValidator", {
 		
 			options: {	
+				buttonsHeight: null,
 			},
 		
 			_create: function() {
@@ -2217,16 +2218,15 @@ SGLJsLibrary >> sglValidatorJs [
 			_setChildrenDimensions: function() {				
 				var children = this.element.children();
 				var index, childrenSize = children.size();
-				var childHeight = Math.round( this.element.height() / childrenSize );			
-				if ( childrenSize > 0 ) {
-					for ( index = 0 ; index < childrenSize - 1; index++ ) {			
-						$.glamour.setElementDimensions( $(children[index]), this.element.width(), childHeight );					
-					}
-					// The height of the last pane must be equal with the remaining height.
-					$.glamour.setElementDimensions( $(children[index]), this.element.width(),  this.element.height() - (childrenSize - 1) * childHeight );				
-				}
-			},
+				var childHeight = 200 ;
+								
 			
+					// The height of the presentation inside the validator.
+					$.glamour.setElementDimensions( $(children[1]), this.element.width(), 200);		
+					// The height remaining for the buttons.
+					$.glamour.setElementDimensions( $(children[2]), this.element.width(), 200);				
+				
+			}
 			
 		});
 	})(jQuery);'
