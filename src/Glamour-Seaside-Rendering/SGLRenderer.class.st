@@ -201,6 +201,12 @@ SGLRenderer >> renderValidator: aBrowser [
 
 ]
 
+{ #category : #'rendering browsers' }
+SGLRenderer >> renderWizard: aBrowser [
+	html render: (SGLWizardPresenter for: aBrowser from: self)
+
+]
+
 { #category : #'rendering presentations' }
 SGLRenderer >> renderWorkspacePresentation: aWorkspacePresentation [
 	self renderTextPresentation: aWorkspacePresentation
