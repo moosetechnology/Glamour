@@ -2279,6 +2279,10 @@ SGLJsLibrary >> sglWizardJs [
 					that._setChildrenDimensions();
 				});
 				
+				this.element.bind("html", function(){					
+					that._setChildrenDimensions();
+				});
+				
 			},
 			
 			/**
