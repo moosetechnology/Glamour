@@ -1,6 +1,9 @@
 Class {
 	#name : #SGLTabbedCompositePresenter,
 	#superclass : #SGLCompositePresenter,
+	#instVars : [
+		'actionsPresenters'
+	],
 	#category : #'Glamour-Seaside-Rendering'
 }
 
@@ -14,10 +17,15 @@ SGLTabbedCompositePresenter >> loadContentScriptFor: aTab with: html [
 
 { #category : #rendering }
 SGLTabbedCompositePresenter >> renderActionsFromTab: aTab on: html [
+	|actionsPresenter|
+
 	html listItem
 		class: 'glm-actions';
 		style: 'display: none;';
-		with: [ super renderActionsFrom: aTab on: html ]
+		with: [ 
+			"super renderActionsFrom: aTab on: html "
+			actionsPresenter := self renderActionsHeaderFrom: aTab on: html ].
+	^ actionsPresenter
 ]
 
 { #category : #rendering }
@@ -29,7 +37,10 @@ SGLTabbedCompositePresenter >> renderContentOn: html [
 	html div
 		class: 'tabbed-arrangement';
 		script: (self tabScriptWith: html);
-		with: [ self renderTabsHeaderOn: html ]
+		with: [ 
+			self renderTabsHeaderOn: html.
+			actionsPresenters do: [:each|
+				self renderActionsContentFrom: each on: html ] ]
 ]
 
 { #category : #rendering }
@@ -51,10 +62,11 @@ SGLTabbedCompositePresenter >> renderTabAchorFor: aTab on: html [
 SGLTabbedCompositePresenter >> renderTabsHeaderOn: html [
 	|index|
 	index := self indexForSelectedPresentation.
+	actionsPresenters := Array new: self presentation matchingPresentations size.
 	html unorderedList: [
 		self presentation matchingPresentations withIndexDo: [ :each :i|
 			self renderTab: each asSelectedIf: i = index on: html.
-			self renderActionsFromTab: each on: html ] ]
+			actionsPresenters at: i put: (self renderActionsFromTab: each on: html) ] ]
 ]
 
 { #category : #'jQuery-scripts' }

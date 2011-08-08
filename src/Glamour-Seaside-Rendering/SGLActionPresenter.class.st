@@ -3,7 +3,9 @@ Class {
 	#superclass : #SGLPresenter,
 	#instVars : [
 		'presentation',
-		'showAsIconCount'
+		'showAsIconCount',
+		'actionsMap',
+		'fullRendering'
 	],
 	#category : #'Glamour-Seaside-Rendering'
 }
@@ -16,10 +18,22 @@ SGLActionPresenter >> actionScriptFor: anAction with: html [
 			self renderer updateScript: script ] 
 ]
 
+{ #category : #accessing }
+SGLActionPresenter >> fullRendering [
+	^ fullRendering
+]
+
+{ #category : #accessing }
+SGLActionPresenter >> fullRendering: anObject [
+	fullRendering := anObject
+]
+
 { #category : #initialization }
 SGLActionPresenter >> initializeFor: aPresentation [
 	presentation := aPresentation.
-	self showAsIconCount: 2
+	actionsMap := GRSmallDictionary new.
+	self showAsIconCount: 2.
+	self fullRendering: true
 ]
 
 { #category : #'jQuery-scripts' }
@@ -98,6 +112,14 @@ SGLActionPresenter >> renderMbMenuContentForActions: actions on: html [
 ]
 
 { #category : #mbmenu }
+SGLActionPresenter >> renderMbMenuForCachedActionsOn: html [
+	fullRendering ifFalse: [
+			actionsMap keysAndValuesDo: [:id :actions|
+				self renderMbMenuWithId: id forActions: actions on: html]]
+		
+]
+
+{ #category : #mbmenu }
 SGLActionPresenter >> renderMbMenuHeaderContentForMenu: aMenuId on: html [
 	html tableRow: [ 
 		html tableData
@@ -165,7 +187,10 @@ SGLActionPresenter >> renderMenuForActions: actions on: html [
 	|id|
 	id := html nextId.
 	self renderMbMenuHeaderForMenu: id on:  html.
-	self renderMbMenuWithId: id forActions: actions on: html
+	fullRendering 
+		ifTrue: [self renderMbMenuWithId: id forActions: actions on: html] 
+		ifFalse: [actionsMap at: id put: actions]
+		
 ]
 
 { #category : #accessing }

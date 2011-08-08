@@ -30,8 +30,22 @@ SGLPresenter >> render: aRenderable on: html [
 ]
 
 { #category : #private }
+SGLPresenter >> renderActionsContentFrom: aPresenter on: html [
+	aPresenter renderMbMenuForCachedActionsOn: html
+]
+
+{ #category : #private }
 SGLPresenter >> renderActionsFrom: aPresentation on: html [
 	html render: (SGLActionPresenter for: aPresentation from: self renderer) 
+]
+
+{ #category : #private }
+SGLPresenter >> renderActionsHeaderFrom: aPresentation on: html [
+	|presenter|
+	presenter := SGLActionPresenter for: aPresentation from: self renderer.
+	presenter fullRendering: false.
+	html render: presenter.
+	^ presenter 
 ]
 
 { #category : #private }
@@ -59,7 +73,7 @@ SGLPresenter >> renderTitleOrIconOf: aPresentation on: html [
 
 { #category : #private }
 SGLPresenter >> renderWithTitle: aPresentation andAddCloseButton: aBoolean on: html [
-	|id|
+	|id actionsPresenter|
 	id := html nextId.
 	(self widgetContainerWith: html)
 		script: ( html jQuery new glamourTabs
@@ -77,13 +91,14 @@ SGLPresenter >> renderWithTitle: aPresentation andAddCloseButton: aBoolean on: h
 								with: [self renderTitleOrIconOf: aPresentation on: html]  ].
 					html listItem 
 						class: 'glm-actions';
-						with: [self renderActionsFrom: aPresentation on: html].
+						with: [actionsPresenter := self renderActionsHeaderFrom: aPresentation on: html].
 					].
 			html div
 				id: id;				
 				class: 'presentation-content';
 				with: [
-					self render: aPresentation on: html ] ] 
+					self render: aPresentation on: html ].
+			self renderActionsContentFrom: actionsPresenter on: html ] 
 ]
 
 { #category : #private }
