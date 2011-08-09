@@ -33,7 +33,9 @@ Class {
 		'selectionActions',
 		'selectionDynamicActionsBlock',
 		'implicitAllNil',
-		'rawSelectionTransmissions'
+		'rawSelectionTransmissions',
+		'openBrowserActions',
+		'selectionOpenBrowserActions'
 	],
 	#category : #'Glamour-Core'
 }
@@ -132,6 +134,17 @@ GLMPresentation >> act: aBlock on: aCharacter entitled: aString categorized: ano
 				yourself)
 ]
 
+{ #category : #scripting }
+GLMPresentation >> actAndOpen: aBlock entitled: aString [ 
+	 
+	self 
+		addOpenBrowserAction: 
+			((GLMOpenBrowserAction new) 
+				action: aBlock; 
+				title: aString; 
+				yourself)
+]
+
 { #category : #accessing }
 GLMPresentation >> actions [
 	"These are actions that make sense for the entire presentation."
@@ -149,6 +162,12 @@ GLMPresentation >> actions: aBlock [
 GLMPresentation >> addAction: anAction [ 
 	 
 	self actions addLast: anAction
+]
+
+{ #category : #accessing }
+GLMPresentation >> addOpenBrowserAction: anAction [ 
+	 
+	self openBrowserActions addLast: anAction
 ]
 
 { #category : #transmitting }
@@ -171,6 +190,11 @@ GLMPresentation >> addRawSelectionTransmissionTo: aPortSymbol [
 { #category : #accessing }
 GLMPresentation >> addSelectionAction: anAction [
 	self selectionActions add: anAction
+]
+
+{ #category : #accessing }
+GLMPresentation >> addSelectionOpenBrowserAction: anAction [
+	self selectionOpenBrowserActions add: anAction
 ]
 
 { #category : #accessing }
@@ -466,6 +490,18 @@ GLMPresentation >> open: aBlock on: aCharacter entitled: aString [
 				yourself)
 ]
 
+{ #category : #accessing }
+GLMPresentation >> openBrowserActions [
+	"These are actions that return a glamour browser to open at the end."
+	^ openBrowserActions ifNil: [ openBrowserActions := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+GLMPresentation >> openBrowserActions: anObject [
+
+	openBrowserActions := anObject
+]
+
 { #category : #events }
 GLMPresentation >> outerPortEvent: aPortEvent [
 	self announce: (GLMContextChanged new
@@ -694,6 +730,17 @@ GLMPresentation >> selectionAct: aBlock on: aCharacter entitled: aString [
 				yourself)
 ]
 
+{ #category : #scripting }
+GLMPresentation >> selectionActAndOpen: aBlock entitled: aString [ 
+	 
+	self 
+		addSelectionAction: 
+			((GLMOpenBrowserAction new) 
+				action: aBlock; 
+				title: aString; 
+				yourself)
+]
+
 { #category : #accessing }
 GLMPresentation >> selectionActions [
 	"These are actions that make sense only in the context of values held in the selection port."
@@ -703,6 +750,17 @@ GLMPresentation >> selectionActions [
 { #category : #accessing }
 GLMPresentation >> selectionActions: anObject [
 	selectionActions := anObject
+]
+
+{ #category : #accessing }
+GLMPresentation >> selectionOpenBrowserActions [
+	"Same than openBrowserActions except that these are actions that make sense only in the context of values held in the selection port."
+	^ selectionOpenBrowserActions ifNil: [ selectionOpenBrowserActions := OrderedCollection new ]
+]
+
+{ #category : #accessing }
+GLMPresentation >> selectionOpenBrowserActions: anObject [
+	selectionOpenBrowserActions := anObject
 ]
 
 { #category : #scripting }
