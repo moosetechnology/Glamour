@@ -61,11 +61,12 @@ SGLSelectionActionPresenter >> renderContentOn: html [
 { #category : #mbmenu }
 SGLSelectionActionPresenter >> renderMbMenuActionOrCategory: anActionOrCategory withMenuId: anId on: html [
 	|anchor|
-	anchor := html anchor.
-	anId ifNil: [
-			anchor := anActionOrCategory seasideAnchorFrom: self on: html.
-				 ]
+	
+	anchor := anActionOrCategory seasideAnchorFrom: self on: html.
+	
+	anId 
 		ifNotNil: [anchor menu: anId].
+		
 	anchor 	with: [
 			"html image form: (actions at: index) icon."
 			html text: (anId ifNil: [anActionOrCategory title] ifNotNil: [anActionOrCategory]) ]
