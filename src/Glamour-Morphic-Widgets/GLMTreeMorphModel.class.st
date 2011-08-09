@@ -28,7 +28,12 @@ GLMTreeMorphModel >> allKeystrokeActions [
 
 { #category : #accessing }
 GLMTreeMorphModel >> allMenuActions [
-	^ self glamourPresentation allSelectionActions select: [:action | action hasTitle ]
+	^ (self glamourPresentation allSelectionActions select: [:action | action hasTitle ]) , self allOpenBrowserMenuActions
+]
+
+{ #category : #accessing }
+GLMTreeMorphModel >> allOpenBrowserMenuActions [
+	^ self glamourPresentation selectionOpenBrowserActions select: [:action | action hasTitle ]
 ]
 
 { #category : #accessing }
