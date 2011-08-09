@@ -44,6 +44,12 @@ SGLActionPresenter >> menuScriptWith: html [
 			closeOnMouseOut: true
 ]
 
+{ #category : #accessing }
+SGLActionPresenter >> presentation [
+
+	^ presentation
+]
+
 { #category : #rendering }
 SGLActionPresenter >> renderAction: anAction on: html [
 	html image 
@@ -85,9 +91,10 @@ SGLActionPresenter >> renderContentOn: html [
 { #category : #mbmenu }
 SGLActionPresenter >> renderMbMenuActionOrCategory: anActionOrCategory withMenuId: anId on: html [
 	|anchor|
-	anchor :=html anchor.
+	anchor := html anchor.
 	anId ifNil: [
-			anchor action: (self actionScriptFor: anActionOrCategory with: html) ]
+			anchor := anActionOrCategory seasideAnchorFrom: self on: html.
+				 ]
 		ifNotNil: [anchor menu: anId].
 	anchor 	with: [
 			"html image form: (actions at: index) icon."

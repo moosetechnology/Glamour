@@ -43,6 +43,12 @@ SGLSelectionActionPresenter >> menuScriptWith: html [
 			closeOnMouseOut: true
 ]
 
+{ #category : #accessing }
+SGLSelectionActionPresenter >> presentation [
+
+	^ presentation
+]
+
 { #category : #rendering }
 SGLSelectionActionPresenter >> renderContentOn: html [
 	|actions|
@@ -55,9 +61,10 @@ SGLSelectionActionPresenter >> renderContentOn: html [
 { #category : #mbmenu }
 SGLSelectionActionPresenter >> renderMbMenuActionOrCategory: anActionOrCategory withMenuId: anId on: html [
 	|anchor|
-	anchor :=html anchor.
+	anchor := html anchor.
 	anId ifNil: [
-			anchor action: (self actionScriptFor: anActionOrCategory with: html) ]
+			anchor := anActionOrCategory seasideAnchorFrom: self on: html.
+				 ]
 		ifNotNil: [anchor menu: anId].
 	anchor 	with: [
 			"html image form: (actions at: index) icon."
