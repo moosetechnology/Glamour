@@ -733,6 +733,54 @@ GLMBasicExamples >> singleInitialSelection [
 	^ browser
 ]
 
+{ #category : #'actions examples' }
+GLMBasicExamples >> spawnBrowserActions [
+	<glmBrowser: 'Spawn browser actions' input: '#(1 2 3 4)'>
+	"self new spawnBrowserActions openOn: #(1 2 3 4)"
+	|browser |
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit to: #one; andShow: [ :a |
+		a list
+			title: 'Example'.
+			].
+	browser spawn: [:presentation |
+				|tmpBrowser|
+				tmpBrowser := GLMTabulator new row: #one; initialExtent: 200@200 ;yourself.
+				tmpBrowser
+					transmit to: #one ; andShow: [:b |
+						b text
+							display: [:input | input asString]
+						].
+				tmpBrowser startOn: presentation entity
+				] entitled: 'Open in new browser'.
+	^ browser
+]
+
+{ #category : #'actions examples' }
+GLMBasicExamples >> spawnBrowserSelectionActions [
+	<glmBrowser: 'Spawn browser selection actions' input: '#(1 2 3 4)'>
+	"self new selectionSpawnActions openOn: #(1 2 3 4)"
+	|browser |
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit to: #one; andShow: [ :a |
+		a list
+			title: 'Example';
+			selectionSpawn: [:listPresentation |
+				|tmpBrowser|
+				tmpBrowser := GLMTabulator new row: #one; initialExtent: 100@100 ;yourself.
+				tmpBrowser
+					transmit to: #one ; andShow: [:b |
+						b text
+							display: [:input | input asString]
+						].
+				tmpBrowser startOn: listPresentation selection
+				] entitled: 'Open in new browser'
+			].
+	^ browser
+]
+
 { #category : #others }
 GLMBasicExamples >> stacker [
 	<glmBrowser: 'Stacker' input: '5'>
