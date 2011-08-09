@@ -17,11 +17,15 @@ GLMMorphicWidgetRenderer class >> render: aPresentation from: aRenderer [
 		render: aPresentation
 ]
 
+{ #category : #callbacks }
+GLMMorphicWidgetRenderer >> executeMenuAction: anAction [
+
+	anAction actOn: nil
+]
+
 { #category : #private }
 GLMMorphicWidgetRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPresentation [	 
-	aMorphicModel when: GLMMenuItemSelected do: [ :ann | ann action actOn: aPresentation ].
-	aMorphicModel when: GLMOpenBrowserMenuItemSelected do: [ :ann |
-		 (ann action actOn: aPresentation) open ].
+	aMorphicModel when: GLMMenuItemSelected do: [ :ann | ann action morphicActOn: aPresentation ].
 	aMorphicModel when: GLMKeyStroke do: [ :ann | ann action actOn: aPresentation ].
 ]
 
@@ -38,8 +42,8 @@ GLMMorphicWidgetRenderer >> menuIn: aMenuMorph for: aPresentation [
 			ifFalse: [ aMenuMorph ].
 		targetMenuMorph 
 			add: action title
-			target: action
-			selector: #actOn:
+			target: action 
+			selector: #morphicActOn:
 			argument: aPresentation ].
 	^ aMenuMorph
 ]
