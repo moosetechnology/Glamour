@@ -20,6 +20,8 @@ GLMMorphicWidgetRenderer class >> render: aPresentation from: aRenderer [
 { #category : #private }
 GLMMorphicWidgetRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPresentation [	 
 	aMorphicModel when: GLMMenuItemSelected do: [ :ann | ann action actOn: aPresentation ].
+	aMorphicModel when: GLMOpenBrowserMenuItemSelected do: [ :ann |
+		 (ann action actOn: aPresentation) open ].
 	aMorphicModel when: GLMKeyStroke do: [ :ann | ann action actOn: aPresentation ].
 ]
 
