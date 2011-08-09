@@ -33,9 +33,7 @@ Class {
 		'selectionActions',
 		'selectionDynamicActionsBlock',
 		'implicitAllNil',
-		'rawSelectionTransmissions',
-		'openBrowserActions',
-		'selectionOpenBrowserActions'
+		'rawSelectionTransmissions'
 	],
 	#category : #'Glamour-Core'
 }
@@ -131,17 +129,6 @@ GLMPresentation >> act: aBlock on: aCharacter entitled: aString categorized: ano
 				shortcut: aCharacter; 
 				title: aString; 
 				category: anotherString;
-				yourself)
-]
-
-{ #category : #scripting }
-GLMPresentation >> actAndOpen: aBlock entitled: aString [ 
-	 
-	self 
-		addOpenBrowserAction: 
-			((GLMOpenBrowserAction new) 
-				action: aBlock; 
-				title: aString; 
 				yourself)
 ]
 
@@ -490,18 +477,6 @@ GLMPresentation >> open: aBlock on: aCharacter entitled: aString [
 				yourself)
 ]
 
-{ #category : #accessing }
-GLMPresentation >> openBrowserActions [
-	"These are actions that return a glamour browser to open at the end."
-	^ openBrowserActions ifNil: [ openBrowserActions := OrderedCollection new ]
-]
-
-{ #category : #accessing }
-GLMPresentation >> openBrowserActions: anObject [
-
-	openBrowserActions := anObject
-]
-
 { #category : #events }
 GLMPresentation >> outerPortEvent: aPortEvent [
 	self announce: (GLMContextChanged new
@@ -730,17 +705,6 @@ GLMPresentation >> selectionAct: aBlock on: aCharacter entitled: aString [
 				yourself)
 ]
 
-{ #category : #scripting }
-GLMPresentation >> selectionActAndOpen: aBlock entitled: aString [ 
-	 
-	self 
-		addSelectionAction: 
-			((GLMOpenBrowserAction new) 
-				action: aBlock; 
-				title: aString; 
-				yourself)
-]
-
 { #category : #accessing }
 GLMPresentation >> selectionActions [
 	"These are actions that make sense only in the context of values held in the selection port."
@@ -750,17 +714,6 @@ GLMPresentation >> selectionActions [
 { #category : #accessing }
 GLMPresentation >> selectionActions: anObject [
 	selectionActions := anObject
-]
-
-{ #category : #accessing }
-GLMPresentation >> selectionOpenBrowserActions [
-	"Same than openBrowserActions except that these are actions that make sense only in the context of values held in the selection port."
-	^ selectionOpenBrowserActions ifNil: [ selectionOpenBrowserActions := OrderedCollection new ]
-]
-
-{ #category : #accessing }
-GLMPresentation >> selectionOpenBrowserActions: anObject [
-	selectionOpenBrowserActions := anObject
 ]
 
 { #category : #scripting }
@@ -776,6 +729,18 @@ GLMPresentation >> selectionPopulate: aPortSymbol on: aCharacter entitled: aStri
 								yourself); 
 				shortcut: aCharacter; 
 				title: aString;
+				yourself)
+]
+
+{ #category : #scripting }
+GLMPresentation >> selectionSpawn: aBlock entitled: aString [ 
+	 
+	"These are actions that return a glamour browser to open at the end."
+	self 
+		addSelectionAction: 
+			((GLMOpenBrowserAction new) 
+				action: aBlock; 
+				title: aString; 
 				yourself)
 ]
 
@@ -816,6 +781,17 @@ GLMPresentation >> shouldValidate [
 { #category : #'accessing validation' }
 GLMPresentation >> shouldValidate: aBoolean [
 	shouldValidate := aBoolean 
+]
+
+{ #category : #scripting }
+GLMPresentation >> spawn: aBlock entitled: aString [ 
+	"These are actions that return a glamour browser to open at the end."
+	self 
+		addAction: 
+			((GLMOpenBrowserAction new) 
+				action: aBlock; 
+				title: aString; 
+				yourself)
 ]
 
 { #category : #'accessing ports' }
