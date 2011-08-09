@@ -10,8 +10,12 @@ GLMOpenBrowserAction >> seasideAnchorFrom: actionPresenter on: html [
 					dependent: true;
 					yourself.
 	tmpAnchor 
+		action: (html jQuery ajax
+					script: [:script| 
+						"we do nothing here. As we have to open a new window, all will be done in the callback of the anchor. But I still have to specify this empty action so that the current page do not go jump the called component (I don't know why)"
+						] );
 		callback: [
-			actionPresenter session presenter show: WACounter new"(SGLCalledComponent new browser: (self actOn: actionPresenter presentation) ; yourself)"
+			actionPresenter session presenter call: (SGLCalledComponent new browser: (self actOn: actionPresenter presentation) ; yourself)
 			].
 	^ tmpAnchor
 ]
