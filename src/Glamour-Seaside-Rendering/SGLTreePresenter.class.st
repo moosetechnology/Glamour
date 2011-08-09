@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'model',
 		'htmlId',
-		'nodesId'
+		'nodesId',
+		'contextMenuId'
 	],
 	#category : #'Glamour-Seaside-Rendering'
 }
@@ -26,6 +27,17 @@ SGLTreePresenter >> actOnUpdatedPresentation: anAnnouncement [
 { #category : #accessing }
 SGLTreePresenter >> associateNode: aNode withId: anId [
 	nodesId at: aNode ifAbsentPut: anId
+]
+
+{ #category : #accessing }
+SGLTreePresenter >> contextMenuId [
+
+	^ contextMenuId 
+]
+
+{ #category : #accessing }
+SGLTreePresenter >> contextMenuId: anId [
+	contextMenuId := anId
 ]
 
 { #category : #selection }
@@ -80,6 +92,14 @@ SGLTreePresenter >> initializeModelSelection: html [
 				self associateNode: each withId: html nextId.
 				"Make sure the selected nodes are rendered."
 				each expandParentPath ] ] ].
+]
+
+{ #category : #'jQuery-scripts' }
+SGLTreePresenter >> menuScriptWith: html [
+	^ html jQuery new buildContextualMenu 
+			menuWidth: 110;
+			hasImages: false;
+			closeOnMouseOut: true
 ]
 
 { #category : #accessing }
@@ -172,29 +192,50 @@ SGLTreePresenter >> onSelectActionURLForANodeWith: html [
 			self renderer updateScript: script ]
 ]
 
+{ #category : #'jQuery-scripts' }
+SGLTreePresenter >> onSelectListItemActionFor: aNode with: html [
+
+	^ html jQuery ajax script: [:s | 
+"		self halt."
+		(self selectedIds includes: (self idOfNode: aNode)) 
+			ifTrue: [
+				html jQuery this attributeAt: 'cMenu' put: self contextMenuId
+				].
+		self renderer updateScript: s
+			] 
+]
+
 { #category : #rendering }
 SGLTreePresenter >> renderContentOn: html [
+
+	|tmpContextMenuId|
+
+	self contextMenuId:  html nextId.
 	self initializeModelSelection: html.
 	(self widgetContainerWith: html)
 		class: 'sgl-tree-presentation';
 		id: self htmlId;
 		with: [
-			self renderInitialRootNodesOn: html ]
-	
+			self renderInitialRootNodesOn: html 
+			].
+	"(SGLSelectionActionPresenter  for: self model glamourPresentation from: self renderer)  menuId: self contextMenuId ; renderContentOn: html."
+
 ]
 
 { #category : #rendering }
 SGLTreePresenter >> renderInitialRootNodesOn: html [
 	|amountToFilterBy| 
 	amountToFilterBy := self model amountToFilterBy.
+
 	html unorderedList  
 		id: html nextId;
 		script: (self treeInitializationScriptWith: html);
 		with: [ self renderRootNodesFrom: 1 to: ( amountToFilterBy isZero ifTrue: [self model roots size] ifFalse: [amountToFilterBy] ) on: html ]
+				
 ]
 
 { #category : #rendering }
-SGLTreePresenter >> renderNode: aNode fromLevel: level on: html [
+SGLTreePresenter >> renderNode: aNode fromLevel: level  on: html [
 	|children|
 	self associateNode: aNode withId: html nextId.
 	children := aNode contents.
@@ -206,19 +247,26 @@ SGLTreePresenter >> renderNode: aNode fromLevel: level on: html [
 			"class: 'sgl-tree-node-leaf' if: children size == 0;"
 			"class: 'sgl-tree-node-opened' if: (children size > 0 and: [aNode expanded]);"
 			class: 'sgl-tree-node-closed' if: (children size > 0 and: [aNode expanded not]);
-			with: [
+			with: 
+				[
 				self renderNodeTitleFor: aNode on: html.
 				(children size > 0 and: [ aNode expanded ] ) ifTrue: [ 
 					self renderNodes: children asListFromLevel: level+1 on: html.
-					aNode markChildrenAsRendered ] ]
+					aNode markChildrenAsRendered ].
+				 ] 
 ]
 
 { #category : #rendering }
 SGLTreePresenter >> renderNodeTitleFor: aNode on: html [
 	(html div)
 		script: (self fullTextCssScriptForNode: aNode With: html);
+		script: (self menuScriptWith: html);
+		"script: ((html jQuery id: (self idOfNode: aNode)) onClick: (self onSelectListItemActionFor: aNode with: html));"
+		"script: ((html jQuery this) onClick: (self onSelectListItemActionFor: aNode with: html));"
+		contextMenu: self contextMenuId;
 		with: [ 
 			html span
+				
 				with: [ 
 					(html span)
 						script: (self textBackgroundColorScriptFor: aNode with: html);
@@ -230,7 +278,9 @@ SGLTreePresenter >> renderNodeTitleFor: aNode on: html [
 								].
 					self renderTagsOf: aNode on: html
 					] 
-				]
+				].
+			
+	(SGLSelectionActionPresenter  for: self model glamourPresentation from: self renderer)  menuId: self contextMenuId ; renderContentOn: html.
 ]
 
 { #category : #rendering }

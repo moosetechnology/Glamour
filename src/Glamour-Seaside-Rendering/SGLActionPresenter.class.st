@@ -38,7 +38,7 @@ SGLActionPresenter >> initializeFor: aPresentation [
 
 { #category : #'jQuery-scripts' }
 SGLActionPresenter >> menuScriptWith: html [
-	^ html jQuery new buildMenu 
+	^ html jQuery new buildContextualMenu 
 			menuWidth: 110;
 			hasImages: false;
 			closeOnMouseOut: true
@@ -124,7 +124,7 @@ SGLActionPresenter >> renderMbMenuHeaderContentForMenu: aMenuId on: html [
 	html tableRow: [ 
 		html tableData
 			class: 'rootVoices';
-			menu: aMenuId;
+			contextMenu: aMenuId;
 			with: [ 
 				html image
 					form: GLMUIThemeIcons windowMenuForm;
