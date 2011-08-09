@@ -62,7 +62,7 @@ GLMMorphicModel >> menu: aMenuMorph [
 		targetMenuMorph 
 			add: action title
 			target: self
-			selector: #executeMenuAction:
+			selector: action executeMenuSelector
 			argument: action ].
 	^ aMenuMorph
 ]

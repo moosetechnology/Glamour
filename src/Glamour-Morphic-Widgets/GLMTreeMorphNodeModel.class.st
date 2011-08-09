@@ -85,11 +85,6 @@ GLMTreeMorphNodeModel >> executeMenuAction: anAction [
 	self containerTree announce: (GLMMenuItemSelected action: anAction)
 ]
 
-{ #category : #menu }
-GLMTreeMorphNodeModel >> executeOpenBrowserMenuAction: anAction [
-	self containerTree announce: (GLMOpenBrowserMenuItemSelected action: anAction)
-]
-
 { #category : #accessing }
 GLMTreeMorphNodeModel >> expandParentPath [
 "	self openItemPath: anArray"
@@ -121,7 +116,7 @@ GLMTreeMorphNodeModel >> menu: aMenuMorph shifted: b [
 		targetMenuMorph 
 			add: action title
 			target: self
-			selector: action executeMenuSelector
+			selector: #executeMenuAction:
 			argument: action ].
 	^ aMenuMorph
 ]
