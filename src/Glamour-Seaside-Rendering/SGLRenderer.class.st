@@ -126,13 +126,7 @@ SGLRenderer >> renderListPresentation: aPresentation [
 
 { #category : #'rendering presentations' }
 SGLRenderer >> renderMagrittePresentation: aPresentation [
-	| form |
-	form := aPresentation displayValue asComponent
-		addValidatedForm;
-		onAnswer: [ :answer | aPresentation selection: answer ].
-	html div
-		class: 'magritte';
-		with: form
+	html render: (SGLMagrittePresenter for: aPresentation from: self)
 ]
 
 { #category : #'rendering presentations' }
