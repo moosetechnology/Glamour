@@ -258,12 +258,17 @@ SGLTreePresenter >> renderNode: aNode fromLevel: level  on: html [
 
 { #category : #rendering }
 SGLTreePresenter >> renderNodeTitleFor: aNode on: html [
-	(html div)
+	|tmpDiv|
+	tmpDiv := html div.
+	tmpDiv
 		script: (self fullTextCssScriptForNode: aNode With: html);
-		script: (self menuScriptWith: html);
-		"script: ((html jQuery id: (self idOfNode: aNode)) onClick: (self onSelectListItemActionFor: aNode with: html));"
-		"script: ((html jQuery this) onClick: (self onSelectListItemActionFor: aNode with: html));"
-		contextMenu: self contextMenuId;
+		script: (self menuScriptWith: html).
+		
+	self model glamourPresentation allSelectionActions ifNotEmpty: [
+		tmpDiv contextMenu: self contextMenuId.
+		].
+	
+	tmpDiv	
 		with: [ 
 			html span
 				
