@@ -2002,6 +2002,17 @@ SGLJsLibrary >> sglTreeJs [
 						return false;
 					});
 					
+					$nodeContent.bind("contextmenu", function(event) {
+  						if ($nodeContent.attr("cmenu")) {
+    							if ($.inArray($node.attr("id"), that.options.selectedNodes) == -1) {
+      							$nodeContent.attr("menu", "empty");
+    						} else {
+      						$nodeContent.removeAttr("menu");
+   	 						}
+  						}
+					});
+
+					
 					if ( ! $node.hasClass("sgl-tree-node-leaf") ) {
 						$nodeContent.children(":eq(1)").before("<ins class=\"sgl-tree-node-icon\">&nbsp;</ins>");
 						// Bind the toggleExpand event.
