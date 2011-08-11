@@ -794,6 +794,17 @@ GLMPresentation >> spawn: aBlock entitled: aString [
 				yourself)
 ]
 
+{ #category : #scripting }
+GLMPresentation >> spawn: aBlock icon: anIcon entitled: aString [
+	self 
+		addAction: 
+			((GLMOpenBrowserAction new) 
+				action: aBlock; 
+				icon: anIcon;
+				title: aString;
+				yourself)
+]
+
 { #category : #'accessing ports' }
 GLMPresentation >> status: anObject [ 
 	self flag: 'what kind of transformation should we want here?'.
