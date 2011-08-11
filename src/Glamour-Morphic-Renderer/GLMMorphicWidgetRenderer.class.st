@@ -122,7 +122,7 @@ GLMMorphicWidgetRenderer >> renderToolbarForPresentation: aPresentation inMorph:
 		(aMorph theme
 			newButtonIn: aMorph for: each
 			getState: nil
-			action: #actOn:
+			action: #morphicActOn:
 			arguments: {aPresentation}
 			getEnabled: nil
 			label: (AlphaImageMorph new image: each icon)
