@@ -5,6 +5,15 @@ Class {
 }
 
 { #category : #tests }
+GLMBrowserTest >> testCompositeInTheParentPane [
+	| browser |
+	browser := GLMBrowser new.
+	self assert: (browser pane presentations isKindOf: GLMCompositePresentation).
+	self assert: browser pane presentations size equals: 1.
+	self assert: browser pane presentations first equals: browser
+]
+
+{ #category : #tests }
 GLMBrowserTest >> testHasStatusbar [
 	| browser |
 	browser := GLMBrowser new.
@@ -13,14 +22,6 @@ GLMBrowserTest >> testHasStatusbar [
 	self assert: browser panes size equals: 1.
 	self assert: browser panes first name equals: GLMBrowser defaultStatusbarPane.
 	self assert: browser statusbarPane == browser panes first
-]
-
-{ #category : #tests }
-GLMBrowserTest >> testNoComposite [
-	| browser |
-	browser := GLMBrowser new.
-	self assert: browser pane presentations size equals: 1.
-	self assert: browser pane presentations first equals: browser
 ]
 
 { #category : #tests }
