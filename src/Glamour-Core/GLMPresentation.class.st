@@ -456,6 +456,18 @@ GLMPresentation >> morphicSelectionAct: aBlock icon: anIcon entitled: aString [
 ]
 
 { #category : #scripting }
+GLMPresentation >> morphicSelectionAct: aBlock icon: anIcon on: aCharacter entitled: aString [
+	self 
+		addSelectionAction: 
+			((GLMMorphicAction new) 
+				action: aBlock; 
+				shortcut: aCharacter; 				
+				icon: anIcon;
+				title: aString;
+				yourself)
+]
+
+{ #category : #scripting }
 GLMPresentation >> noSelection [
 	self acceptsSelection: false
 ]
