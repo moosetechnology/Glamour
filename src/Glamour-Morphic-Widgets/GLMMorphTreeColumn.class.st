@@ -27,5 +27,11 @@ GLMMorphTreeColumn >> rowMorphFor: aNodeMorph [
 				 layoutInset: container columnInset @ container rowInset;
 				 yourself.
 	cont addMorph: rowMorph.
+	self isFirstColumn ifTrue: [ | icon |
+		icon := container iconBlock value: aNodeMorph.
+		icon ifNotNil: [ cont addMorph: icon asMorph ].
+		"for first column we don't use horizontal inset"
+		cont  layoutInset: 0 @ container rowInset.
+	].
 	^ cont 
 ]
