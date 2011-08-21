@@ -168,7 +168,9 @@ GLMTreeMorphNodeModel >> resetContentsRecursively [
 GLMTreeMorphNodeModel >> rowMorphForColumn: aGlamourColumn [
 	^ (UITheme current
 		newTextIn: World
-		text: (self containerTree glamourPresentation column: aGlamourColumn valueFor: self item)) unlock; wrapFlag: true; yourself
+		text: (self containerTree glamourPresentation column: aGlamourColumn valueFor: self item)) 
+			wrapFlag: true; 
+			yourself
 ]
 
 { #category : #testing }

@@ -7,12 +7,25 @@ Class {
 	#category : #'Glamour-Morphic-Widgets'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMMorphTreeColumn >> glamourColumn: aColumn [
 	glamourColumn := aColumn
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'column drawing' }
 GLMMorphTreeColumn >> rowMorphFor: aNodeMorph [
-	^ aNodeMorph rowMorphForColumn: glamourColumn.
+	| rowMorph cont |
+	
+	rowMorph := aNodeMorph rowMorphForColumn: glamourColumn.
+	rowMorph
+		ifNotNil: [rowMorph borderWidth: 0]
+		ifNil: [rowMorph := self defaultRowMorph].
+	cont := Morph new color: Color transparent;
+				 layoutPolicy: RowLayout new;
+				 hResizing: #shrinkWrap;
+				 vResizing: #shrinkWrap;
+				 layoutInset: container columnInset @ container rowInset;
+				 yourself.
+	cont addMorph: rowMorph.
+	^ cont 
 ]
