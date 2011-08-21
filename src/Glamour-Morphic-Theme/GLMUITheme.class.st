@@ -615,6 +615,16 @@ GLMUITheme >> menuPinForm [
 	^ GLMUIThemeIcons menuPinForm
 ]
 
+{ #category : #'fill-styles' }
+GLMUITheme >> morphTreeSplitterNormalFillStyleFor: aSplitter [	
+	^ self splitterNormalFillStyleFor: aSplitter
+]
+
+{ #category : #'fill-styles' }
+GLMUITheme >> morphTreeSplitterPressedFillStyleFor: aSplitter [	
+	^ self splitterPressedFillStyleFor: aSplitter
+]
+
 { #category : #forms }
 GLMUITheme >> newCheckboxMarkerForm [
 	"Answer a new checkbox marker form."
