@@ -10,7 +10,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'title',
-		'computation'
+		'computation',
+		'width'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -33,4 +34,14 @@ GLMTableColumn >> title [
 { #category : #accessing }
 GLMTableColumn >> title: anObject [
 	title := anObject
+]
+
+{ #category : #accessing }
+GLMTableColumn >> width [
+	^ width ifNil: [200]
+]
+
+{ #category : #accessing }
+GLMTableColumn >> width: anObject [
+	width := anObject
 ]
