@@ -86,6 +86,7 @@ GLMMorphicListingRenderer >> treeMorphFor: tmpTreeModel and: aPresentation [
 		ifFalse: [
 			aPresentation columns collect: [:each | 
 				GLMMorphTreeColumn new 
+					startWidth: each width;
 					glamourColumn: each; 
 					headerButtonLabel: (aPresentation titleValueOfColumn: each) 
 					font: StandardFonts menuFont 
