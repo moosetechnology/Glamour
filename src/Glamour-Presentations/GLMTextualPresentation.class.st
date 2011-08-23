@@ -24,13 +24,14 @@ GLMTextualPresentation >> cursorPosition: anObject [
 
 { #category : #accessing }
 GLMTextualPresentation >> doItReceiver [
-	^ (doItReceiver ifNil: [doItReceiver := #yourself])
-		glamourValue: self entity
+	"Returns the object that should be used when evaluating 'self' within the presentation. 'nil' is the default value"
+	^ doItReceiver glamourValue: self entity
 ]
 
 { #category : #accessing }
-GLMTextualPresentation >> doItReceiver: anObject [
-	doItReceiver := anObject
+GLMTextualPresentation >> doItReceiver: aOneArgBlock [
+	"The block will be passed the current entity and is expected to return an object .This object will then be returned upon evaluation of 'self' within the presentation."
+	doItReceiver := aOneArgBlock
 ]
 
 { #category : #'accessing ports' }
