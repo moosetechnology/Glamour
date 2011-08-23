@@ -27,6 +27,16 @@ GLMTextModel >> bindingOf: aSymbol [
 	^ self variableBindings associationAt: aSymbol ifAbsent: [nil]
 ]
 
+{ #category : #'as yet unclassified' }
+GLMTextModel >> doItContext [
+	^ nil "it might be necessary to ask the presentation"
+]
+
+{ #category : #'as yet unclassified' }
+GLMTextModel >> doItReceiver [
+	^ self glamourPresentation doItReceiver 
+]
+
 { #category : #accessing }
 GLMTextModel >> hasBindingOf: aSymbol [
 	^ self variableBindings includesKey: aSymbol
