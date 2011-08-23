@@ -38,6 +38,7 @@ GLMExamples class >> browser [
 							icon: GLMUIThemeExtraIcons glamorousBrowse
 							entitled: 'Browse';
 						forSmalltalk: self;
+						doItReceiver: [:pragma | self ];
 						display: [ :pragma | self sourceCodeAt: pragma selector ] ].
 	^ browser
 ]
