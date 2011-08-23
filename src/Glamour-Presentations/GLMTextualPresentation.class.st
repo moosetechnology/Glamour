@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'selectedText',
 		'cursorPosition',
-		'text'
+		'text',
+		'doItReceiver'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -19,6 +20,17 @@ GLMTextualPresentation >> cursorPosition [
 GLMTextualPresentation >> cursorPosition: anObject [ 
 	 
 	cursorPosition := anObject
+]
+
+{ #category : #accessing }
+GLMTextualPresentation >> doItReceiver [
+	^ (doItReceiver ifNil: [doItReceiver := #yourself])
+		glamourValue: self entity
+]
+
+{ #category : #accessing }
+GLMTextualPresentation >> doItReceiver: anObject [
+	doItReceiver := anObject
 ]
 
 { #category : #'accessing ports' }
