@@ -43,6 +43,10 @@ GLMMondrianEasel >> mondrianIn: a [
 			context := GLMContext with: #view -> view withAll: bindings.
 			Compiler new evaluate: script in: context to: context ];
 		act: [ :m | m canvas exportAsPNG ] entitled: 'Export as PNG';
+		act: [ :m | m canvas exportAsJPEG ] entitled: 'Export as JPEG';
+		act: [ :m | m canvas exportAsSVG ] entitled: 'Export as SVG';
+		act: [ :m | m canvas exportAsTikz ] entitled: 'Export as Tikz';
+		act: [ :m | m canvas exportAsXML ] entitled: 'Export as XML';
 		act: [ :m | 
 					m canvas root decreaseZoom.
 					m canvas changed ]
@@ -50,7 +54,7 @@ GLMMondrianEasel >> mondrianIn: a [
 			entitled: 'Zoom out';
 		act: [ :m | 
 					m canvas root increaseZoom.
-					m canvas root updateWindow ]
+					m canvas changed ]
 			icon: MondrianIcons mondrianZoomIn
 			entitled: 'Zoom in'
 ]
