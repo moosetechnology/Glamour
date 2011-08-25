@@ -37,7 +37,7 @@ GLMMondrianEasel >> buildBrowser [
 { #category : #building }
 GLMMondrianEasel >> mondrianIn: a [
 	^ a mondrian
-		title: 'Mondrian painting';
+		title: 'Painting';
 		painting: [ :view :bindings :script | 
 			| context |
 			context := GLMContext with: #view -> view withAll: bindings.
@@ -62,13 +62,13 @@ GLMMondrianEasel >> mondrianIn: a [
 { #category : #building }
 GLMMondrianEasel >> scriptIn: a [
 	^ a text
+		title: 'Script';
 		forSmalltalk;
 		variableBindings: [ :bindings | 
 					| col |
 					col := OrderedCollection withAll: bindings.
 					col add: #view -> MOViewRenderer new.
 					col ];
-		title: 'Mondrian script';
 		display: 'view';
 		populate: #selection
 			icon: GLMUIThemeExtraIcons glamorousAccept
