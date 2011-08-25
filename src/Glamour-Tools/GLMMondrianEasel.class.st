@@ -1,8 +1,8 @@
 "
-self openOn: 'view shape label.
-view nodes: (1 to: 40).
-view edgesFrom: [:x | x // 3 ].
-view treeLayout'
+This browser offers a Glamour-based MondrianEasel.
+
+Example:
+self openOn: {#aClass -> Object}
 "
 Class {
 	#name : #GLMMondrianEasel,
