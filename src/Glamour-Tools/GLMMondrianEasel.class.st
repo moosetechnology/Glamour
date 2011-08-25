@@ -12,8 +12,6 @@ Class {
 
 { #category : #building }
 GLMMondrianEasel >> buildBrowser [
-	"self openOn: {#var->100}"
-
 	browser := GLMTabulator new.
 	browser title: 'Mondrian Easel'.
 	browser
@@ -21,7 +19,7 @@ GLMMondrianEasel >> buildBrowser [
 		row: [ :r | 
 					r
 						column: #script span: 3;
-						column: #variables ].
+						column: #variables span: 2 ].
 	browser transmit
 		to: #script;
 		andShow: [ :a | self scriptIn: a ].
