@@ -200,7 +200,7 @@ GLMMorphicWidgetRenderer >> titleOrIconOf: aPresentation in: container [
 					newImageIn: container
 					form: aPresentation titleIconValue.
 			aPresentation titleValue isNil ifFalse: [
-				image setBalloonText: aPresentation titleValue maxLineLength: 10 ].
+				image setBalloonText: aPresentation titleValue maxLineLength: 100 ].
 			image  ]
 		ifFalse: [ aPresentation titleValue ifNil: [''] ]
 ]
