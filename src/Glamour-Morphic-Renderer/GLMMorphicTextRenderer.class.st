@@ -46,8 +46,7 @@ GLMMorphicTextRenderer >> render: aPresentation [
 			aPresentation announcer suspendAllWhile: [
 				aPresentation selectionInterval: ann interval.
 				aPresentation selectedText: ann selectedText ]].
-	
-	aPresentation selectedTextBlock: [ textMorph textMorph editor selection ].
+
 	aPresentation textBlock: [ textMorph textMorph editor text ].
 	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
 	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
