@@ -5,7 +5,10 @@ Class {
 		'selectedText',
 		'cursorPosition',
 		'text',
-		'doItReceiver'
+		'doItReceiver',
+		'variableBindingsBlock',
+		'textBlock',
+		'selectedTextBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -46,6 +49,26 @@ GLMTextualPresentation >> selectedText: anObject [
 	(self pane port: #selectedText) value: anObject copy
 ]
 
+{ #category : #accessing }
+GLMTextualPresentation >> selectedTextBlock [
+	^ selectedTextBlock ifNil: [ [''] ]
+]
+
+{ #category : #accessing }
+GLMTextualPresentation >> selectedTextBlock: anObject [
+	selectedTextBlock := anObject
+]
+
+{ #category : #accessing }
+GLMTextualPresentation >> selectionInterval [
+	^ (self pane port: #selectionInterval) value
+]
+
+{ #category : #accessing }
+GLMTextualPresentation >> selectionInterval: anInterval [
+	(self pane port: #selectionInterval) value: anInterval
+]
+
 { #category : #'accessing ports' }
 GLMTextualPresentation >> text [
 	^ (self pane port: #text) value isNil 
@@ -56,4 +79,24 @@ GLMTextualPresentation >> text [
 { #category : #'accessing ports' }
 GLMTextualPresentation >> text: aString [
 	(self pane port: #text) value: aString copy
+]
+
+{ #category : #accessing }
+GLMTextualPresentation >> textBlock [
+	^ textBlock
+]
+
+{ #category : #accessing }
+GLMTextualPresentation >> textBlock: anObject [ 
+	textBlock := anObject
+]
+
+{ #category : #accessing }
+GLMTextualPresentation >> variableBindings [
+	^ (variableBindingsBlock glamourValue: self entity) ifNil: [OrderedCollection new]
+]
+
+{ #category : #accessing }
+GLMTextualPresentation >> variableBindings: aBlock [
+	^ variableBindingsBlock := aBlock
 ]

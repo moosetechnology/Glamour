@@ -11,11 +11,8 @@ Class {
 	#name : #GLMTextPresentation,
 	#superclass : #GLMTextualPresentation,
 	#instVars : [
-		'selectedTextBlock',
 		'highlightSmalltalk',
-		'highlightSmalltalkContext',
-		'textBlock',
-		'variableBindingsBlock'
+		'highlightSmalltalkContext'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -49,44 +46,4 @@ GLMTextPresentation >> highlightSmalltalkContext [
 GLMTextPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
 	^ aRenderer renderTextPresentation: self
-]
-
-{ #category : #accessing }
-GLMTextPresentation >> selectedTextBlock [
-	^ selectedTextBlock ifNil: [ [''] ]
-]
-
-{ #category : #accessing }
-GLMTextPresentation >> selectedTextBlock: anObject [
-	selectedTextBlock := anObject
-]
-
-{ #category : #accessing }
-GLMTextPresentation >> selectionInterval [
-	^ (self pane port: #selectionInterval) value
-]
-
-{ #category : #accessing }
-GLMTextPresentation >> selectionInterval: anInterval [
-	(self pane port: #selectionInterval) value: anInterval
-]
-
-{ #category : #accessing }
-GLMTextPresentation >> textBlock [
-	^ textBlock
-]
-
-{ #category : #accessing }
-GLMTextPresentation >> textBlock: anObject [ 
-	textBlock := anObject
-]
-
-{ #category : #accessing }
-GLMTextPresentation >> variableBindings [
-	^ (variableBindingsBlock glamourValue: self entity) ifNil: [OrderedCollection new]
-]
-
-{ #category : #accessing }
-GLMTextPresentation >> variableBindings: aBlock [
-	^ variableBindingsBlock := aBlock
 ]
