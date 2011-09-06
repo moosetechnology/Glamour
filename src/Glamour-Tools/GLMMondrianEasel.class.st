@@ -6,36 +6,27 @@ self openOn: {#aClass -> Object}
 "
 Class {
 	#name : #GLMMondrianEasel,
-	#superclass : #GLMBrowserTemplate,
+	#superclass : #GLMScriptingEditorTemplate,
 	#category : #'Glamour-Tools'
 }
 
 { #category : #building }
-GLMMondrianEasel >> buildBrowser [
-	browser := GLMTabulator new.
-	browser title: 'Mondrian Easel'.
-	browser
-		row: #painting span: 2;
-		row: [ :r | 
-					r
-						column: #script span: 3;
-						column: #variables span: 2 ].
-	browser transmit
-		to: #script;
-		andShow: [ :a | self scriptIn: a ].
-	browser transmit
-		to: #variables;
-		andShow: [ :a | self variablesIn: a ].
-	browser transmit
-		to: #painting;
-		fromOutsidePort: #entity;
-		from: #script;
-		andShow: [ :a | self mondrianIn: a ].
-	^ browser
+GLMMondrianEasel >> defaultBindings [
+	^ {#view -> MOViewRenderer new}
 ]
 
 { #category : #building }
-GLMMondrianEasel >> mondrianIn: a [
+GLMMondrianEasel >> defaultDisplayIn: aPresentation [
+	^ aPresentation display: 'view'
+]
+
+{ #category : #building }
+GLMMondrianEasel >> defaultTitle [
+	^ 'Mondrian Easel'
+]
+
+{ #category : #building }
+GLMMondrianEasel >> resultIn: a [
 	^ a mondrian
 		title: 'Painting';
 		painting: [ :view :bindings :script | 
@@ -57,29 +48,4 @@ GLMMondrianEasel >> mondrianIn: a [
 					m canvas changed ]
 			icon: MondrianIcons mondrianZoomIn
 			entitled: 'Zoom in'
-]
-
-{ #category : #building }
-GLMMondrianEasel >> scriptIn: a [
-	^ a text
-		title: 'Script';
-		forSmalltalk;
-		variableBindings: [ :bindings | 
-					| col |
-					col := OrderedCollection withAll: bindings.
-					col add: #view -> MOViewRenderer new.
-					col ];
-		display: 'view';
-		populate: #selection
-			icon: GLMUIThemeExtraIcons glamorousAccept
-			on: $s
-			entitled: 'Generate View'
-			with: [ :text | text text ]
-]
-
-{ #category : #building }
-GLMMondrianEasel >> variablesIn: a [
-	^ a table
-		column: 'Variable' evaluated: [ :each | each key asString ];
-		column: 'Value' evaluated: [ :each | each value asString contractTo: 20 ]
 ]

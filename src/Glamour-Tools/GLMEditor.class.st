@@ -1,28 +1,33 @@
 "
-self openOn: 
+self openOn: {#text->
 '| browser |
 browser := GLMTabulator new.
-browser startOn: 42'.
+browser startOn: 42'}
 "
 Class {
 	#name : #GLMEditor,
-	#superclass : #GLMBrowserTemplate,
+	#superclass : #GLMScriptingEditorTemplate,
 	#category : #'Glamour-Tools'
 }
 
 { #category : #building }
-GLMEditor >> buildBrowser [
-	browser := GLMTabulator new.
-	browser row: #browser; row: #source.
-	browser title: 'Glamour Browser Editor'.
-	browser transmit to: #source; andShow: [ :a |
-		a text
-			title: 'Editor';
-			forSmalltalk;
-			populate: #selection icon: GLMUIThemeExtraIcons glamorousAccept on: $s entitled: 'Open (s)' with: [:text | text text]].
-	browser transmit to: #browser; from: #source; transformed: [:source | (Compiler evaluate: source logged: false)]; andShow: [ :a |
-		a dynamic
+GLMEditor >> defaultDisplayIn: aPresentation [
+	^ aPresentation display: '| browser |
+browser := GLMTabulator new.'
+]
+
+{ #category : #building }
+GLMEditor >> defaultTitle [
+	^ 'Glamorous Browser Editor'
+]
+
+{ #category : #building }
+GLMEditor >> resultIn: composite [
+	composite dynamic
 			title: 'Preview';
-			act: [:dynamic | dynamic cachedPresentation presentations first viewTree ] entitled: 'View browser tree' ].
-	^ browser
+			display: [  :bindings :script | 
+				| context |
+				context := GLMContext withAll: bindings.
+				Compiler new evaluate: script in: context to: context ];
+			act: [:dynamic | dynamic cachedPresentation presentations first viewTree ] entitled: 'View browser tree' 
 ]
