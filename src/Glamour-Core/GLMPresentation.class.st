@@ -981,6 +981,11 @@ GLMPresentation >> whenKindOf: aClass [
 	self when: [:each | each isKindOf: aClass]
 ]
 
+{ #category : #scripting }
+GLMPresentation >> with: aBlock [
+	^ aBlock value: self
+]
+
 { #category : #enumeration }
 GLMPresentation >> withAllDo: aBlock [
 	^ aBlock value: self
