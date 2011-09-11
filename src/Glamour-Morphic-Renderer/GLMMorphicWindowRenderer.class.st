@@ -13,21 +13,8 @@ GLMMorphicWindowRenderer >> actOnPresentationUpdated: ann [
 ]
 
 { #category : #rendering }
-GLMMorphicWindowRenderer >> render: aRenderable [
-	| dock offset bottomOffset statusbarMorph |
-	window := GLMSystemWindow new model:aRenderable .
-	window model: aRenderable.
-	window on: #keyStroke send: #handleKeyStroke: to: window.
-	self installActionsOnUI: window fromPresentation: aRenderable.
-	self setLabelOf: window for: aRenderable.
-	offset := 4.
-	bottomOffset := 0.
-	(aRenderable allActions select: [:each | each hasIcon]) notEmpty ifTrue: [ 
-		dock := self renderToolbarForPresentation: aRenderable inMorph: window.
-		dock hResizing: #shrinkWrap.
-		window toolbarBox: dock.
-"		offset := dock minExtent y."
-"		window addMorph: dock fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 0) offsets: (0 @ 0 corner: 0 @ offset))" ].
+GLMMorphicWindowRenderer >> handlePotentialStatusbarFor: aRenderable [
+	| statusbarMorph bottomOffset |
 	aRenderable hasStatusbar
 		ifTrue: [ 
 			statusbarMorph := GLMMorphicPaneWithoutTitleRenderer render: aRenderable statusbarPane from: self renderer.
@@ -35,11 +22,26 @@ GLMMorphicWindowRenderer >> render: aRenderable [
 			window
 				addMorph: statusbarMorph
 				fullFrame: (LayoutFrame fractions: (0 @ 1 corner: 1 @ 1) offsets: (2 @ bottomOffset corner: -2 @ 0)) ].
+	^ bottomOffset
+]
+
+{ #category : #rendering }
+GLMMorphicWindowRenderer >> render: aRenderable [
+	| dock offset bottomOffset |
+	window := GLMSystemWindow new model: aRenderable.
+	window on: #keyStroke send: #handleKeyStroke: to: window.
+	self installActionsOnUI: window fromPresentation: aRenderable.
+	self setLabelOf: window for: aRenderable.
+	offset := 4.
+	bottomOffset := 0.
+	dock := self renderToolbarForPresentation: aRenderable inMorph: window.
+	dock hResizing: #shrinkWrap.
+	window toolbarBox: dock.
+	bottomOffset := self handlePotentialStatusbarFor: aRenderable.
 	window
 		addMorph: (self renderObject: aRenderable)
 		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ offset corner: 0 @ bottomOffset)).
-	(self theme isKindOf: UIThemeWatery)
-		ifFalse: [ aRenderable colorValue ifNotNil: [ window paneColor: aRenderable colorValue ] ].
+	self setPotentialBackgroundColorFor: aRenderable.
 	aRenderable on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
 	^ window
 ]
@@ -47,6 +49,12 @@ GLMMorphicWindowRenderer >> render: aRenderable [
 { #category : #rendering }
 GLMMorphicWindowRenderer >> setLabelOf: window for: aRenderable [
 	window	setLabel: (self titleFor: aRenderable).
+]
+
+{ #category : #rendering }
+GLMMorphicWindowRenderer >> setPotentialBackgroundColorFor: aRenderable [
+	(self theme isKindOf: UIThemeWatery)
+		ifFalse: [ aRenderable colorValue ifNotNil: [ window paneColor: aRenderable colorValue ] ]
 ]
 
 { #category : #rendering }
