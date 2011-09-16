@@ -2,7 +2,8 @@ Class {
 	#name : #GLMMagrittePresentation,
 	#superclass : #GLMPresentation,
 	#instVars : [
-		'magritteDescription'
+		'magritteDescription',
+		'answerBlock'
 	],
 	#category : #'Glamour-Magritte-Presentations'
 }
@@ -18,6 +19,19 @@ GLMMagrittePresentation >> description: anObject [
 GLMMagrittePresentation >> magritteDescription [
 	"By default the we read it via the #description selector"
 	^ magritteDescription ifNil: [ magritteDescription := #description ]
+]
+
+{ #category : #accessing }
+GLMMagrittePresentation >> onAnswer: aBlock [
+	answerBlock := aBlock
+]
+
+{ #category : #accessing }
+GLMMagrittePresentation >> reactOnAnswerFor: aValue [
+	^ answerBlock glamourValue:
+		(aValue asGlamorousMultiValue, 
+		self asGlamorousMultiValue, 
+		self entity asGlamorousMultiValue)
 ]
 
 { #category : #rendering }
