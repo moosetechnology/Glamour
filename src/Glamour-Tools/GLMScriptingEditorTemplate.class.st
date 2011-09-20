@@ -1,3 +1,13 @@
+"
+GLMScriptingEditorTemplate offers a simple template for building scripting editors.
+
+It offers basically three panes:
+- one for the script
+- one for the set of input variables
+- one for the preview once you accept the script
+
+A typical case is provided by the GLMMondrianEasel.
+"
 Class {
 	#name : #GLMScriptingEditorTemplate,
 	#superclass : #GLMBrowserTemplate,
