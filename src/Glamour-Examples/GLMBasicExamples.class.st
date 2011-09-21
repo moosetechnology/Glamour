@@ -733,6 +733,22 @@ GLMBasicExamples >> singleInitialSelection [
 	^ browser
 ]
 
+{ #category : #text }
+GLMBasicExamples >> smalltalkCode [
+	<glmBrowser: 'Smalltalk code' input: '''| a | a := 41. a + 1'''>
+	"	self new smalltalkCode openOn: '| a | a := 41. a + 1' "
+	| browser |
+	browser := GLMTabulator new.
+	browser row: #code; row: #preview.
+	browser transmit to: #code; andShow: [ :a | 
+		a smalltalkCode title: 'Smalltalk Code'].
+	browser transmit from: #code port: #text; to: #preview; andShow: [ :a | 
+		a text 
+			title: 'Automatic preview';
+			display: [:code | [Compiler evaluate: code ] on: Error do: ['Error']] ].
+	^ browser
+]
+
 { #category : #'actions examples' }
 GLMBasicExamples >> spawnBrowserActions [
 	<glmBrowser: 'Spawn browser actions' input: '#(1 2 3 4)'>

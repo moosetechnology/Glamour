@@ -32,12 +32,12 @@ GLMExamples class >> browser [
 					(a dynamic)
 						title: 'Browser';
 						presentation: [ :some :each | some custom: (self exampleBrowserForPragma: each) ].
-					(a text)
+					(a smalltalkCode)
 						title: 'Source code';
 						act: [ :text :pragma | StandardToolSet browse: self selector: pragma selector ]
 							icon: GLMUIThemeExtraIcons glamorousBrowse
 							entitled: 'Browse';
-						forSmalltalk: self;
+						smalltalkClass: self;
 						doItReceiver: [:pragma | self ];
 						display: [ :pragma | self sourceCodeAt: pragma selector ] ].
 	^ browser
