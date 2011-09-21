@@ -1,14 +1,17 @@
 Class {
 	#name : #GLMMorphicSmalltalkCodeRenderer,
-	#superclass : #GLMMorphicWidgetRenderer,
+	#superclass : #GLMMorphicTextRenderer,
 	#category : #'Glamour-Morphic-Renderer'
 }
 
 { #category : #rendering }
-GLMMorphicSmalltalkCodeRenderer >> render: aPresentation [
-	| toShow textModel textMorph |
+GLMMorphicSmalltalkCodeRenderer >> render1: aPresentation [
+	| toShow |
 	toShow := aPresentation formatedDisplayValue.
-	textModel := GLMTextModel new text: toShow.
+	textModel := GLMSmalltalkCodeModel new 
+					text: toShow;
+					highlightSmalltalk: aPresentation highlightSmalltalk;
+					highlightSmalltalkContext: aPresentation highlightSmalltalkContext.
 	textMorph := TextMorph new
 		wrapFlag: true;
 		contents: toShow;
@@ -18,4 +21,40 @@ GLMMorphicSmalltalkCodeRenderer >> render: aPresentation [
 		vResizing: #spaceFill.
 	textMorph unlock.
 	^ textMorph
+]
+
+{ #category : #rendering }
+GLMMorphicSmalltalkCodeRenderer >> textModelFor: aPresentation [
+	| tm |
+	tm := GLMSmalltalkCodeModel new
+		text: aPresentation formatedDisplayValue;
+		glamourPresentation: aPresentation;
+		highlightSmalltalk: true;
+		highlightSmalltalkContext: aPresentation highlightSmalltalkContext.
+	aPresentation variableBindings do: [ :each | tm addVariableBinding: each ].
+	^ tm
+]
+
+{ #category : #rendering }
+GLMMorphicSmalltalkCodeRenderer >> textMorphForModel: aTextModel [
+	| morph styler |
+	morph := GLMPluggableTextMorph new.
+	styler := SHTextStylerST80 new
+			view: morph;
+			workspace: textModel;
+			yourself.
+	morph
+		styler: styler;
+		on: aTextModel
+			text: #text
+			accept: #accept:notifying:
+			readSelection: #selection
+			menu: #menu:shifted:;
+		onKeyStrokeSend: #keystroke:from: to: aTextModel;
+		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
+		vResizing: #spaceFill;
+		hResizing: #spaceFill;
+		color: Color white;
+		yourself.
+	^ morph
 ]
