@@ -17,18 +17,6 @@ GLMTextMorphicTest >> testForSmalltalk [
 ]
 
 { #category : #tests }
-GLMTextMorphicTest >> testForSmalltalkWorkspace [
-	| browser textMorph |
-	browser := GLMTabulator new.
-	browser column: #one.
-	browser transmit to: #one; andShow: [ :a | a text forSmalltalk; variableBindings: [:x | {#theNumber -> x}]].
-	window := browser openOn: 42.
-
-	textMorph := self find: GLMPluggableTextMorph in: window.
-	self assert: (textMorph model hasBindingOf: #theNumber)
-]
-
-{ #category : #tests }
 GLMTextMorphicTest >> testMultipleSelectionWithChange [
 	| browser textMorph textPresentation |
 	browser := GLMTabulator new.
