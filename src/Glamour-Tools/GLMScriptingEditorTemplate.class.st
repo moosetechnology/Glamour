@@ -64,9 +64,8 @@ GLMScriptingEditorTemplate >> resultIn: a [
 
 { #category : #building }
 GLMScriptingEditorTemplate >> scriptIn: a [
-	^ a text
+	^ a smalltalkCode
 		title: 'Script';
-		forSmalltalk;
 		variableBindings: [ :bindings | 
 					| col |
 					col := OrderedCollection withAll: bindings.
