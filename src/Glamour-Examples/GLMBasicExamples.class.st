@@ -735,16 +735,18 @@ GLMBasicExamples >> singleInitialSelection [
 
 { #category : #text }
 GLMBasicExamples >> smalltalkCode [
-	<glmBrowser: 'Smalltalk code' input: '''| a | a := 41. a + 1'''>
-	"	self new smalltalkCode openOn: '| a | a := 41. a + 1' "
+	<glmBrowser: 'Smalltalk code' input: '''"Enter some Smalltalk code and then accept to preview the result."'''>
+	"	self new smalltalkCode openOn: '"
 	| browser |
 	browser := GLMTabulator new.
-	browser row: #code; row: #preview.
+	browser row: #code span: 2; row: #preview.
 	browser transmit to: #code; andShow: [ :a | 
-		a smalltalkCode title: 'Smalltalk Code'].
-	browser transmit from: #code port: #text; to: #preview; andShow: [ :a | 
+		a smalltalkCode 
+			title: 'Smalltalk Code';
+			populate: #acceptedCode icon: GLMUIThemeExtraIcons glamorousAccept on: $s entitled: 'Accept' with: [:text | text text ] ].
+	browser transmit from: #code port: #acceptedCode; to: #preview; andShow: [ :a | 
 		a text 
-			title: 'Automatic preview';
+			title: 'Evaluated result';
 			display: [:code | [Compiler evaluate: code ] on: Error do: ['Error']] ].
 	^ browser
 ]
