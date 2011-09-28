@@ -430,6 +430,101 @@ ConfigurationOfGlamour >> baseline21: spec [
 ]
 
 { #category : #baselines }
+ConfigurationOfGlamour >> baseline22: spec [ 
+	<version: '2.2-baseline'>
+	
+	spec for: #common do: [
+		spec blessing: #baseline.
+		spec repository: 'http://www.squeaksource.com/Glamour'.
+		spec 
+			package: 'CollectionExtensions' with: [spec repository: 'http://www.squeaksource.com/CollectionExtensions'];
+			package: 'Glamour-Announcements' ;
+			package: 'Glamour-Helpers' ;
+			package: 'Glamour-Core' with: [spec requires: #('Glamour-Helpers' 'Glamour-Announcements')];
+			package: 'Glamour-Presentations'  with: [spec requires: #('Glamour-Core')];
+			package: 'Glamour-Browsers'  with: [spec requires: #('Glamour-Core')];
+			package: 'Glamour-Tests-Core' ;
+			package: 'Glamour-Morphic-Widgets' with: [spec requires: #('Shout')];
+			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core')];
+			package: 'Glamour-Morphic-Theme';
+			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
+			package: 'Glamour-Examples' ;
+			package: 'Glamour-Tools' with: [spec requires: 'CollectionExtensions'];
+			package: 'Magritte-Model' with: [
+				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
+				spec requires: 'Grease'];
+			package: 'Magritte-Tests-Model' with: [
+				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
+				spec requires: 'Magritte-Model'];
+			package: 'Magritte-Morph' with: [
+				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
+				spec requires: #('Magritte-Model')];
+			package: 'Magritte-Pharo-Model' with: [
+				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
+				spec requires: 'Magritte-Model' ];
+			package: 'Glamour-Mondrian-Presentations' with: [spec requires: 'Mondrian for Glamour'];
+			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte-Morph' 'Magritte-Pharo-Model')];
+			package: 'Glamour-EyeSee-Presentations' with: [spec requires: 'EyeSee for Glamour'];
+			package: 'Glamour-Tests-Mondrian' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Mondrian-Presentations')];
+			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')].
+
+		spec group: 'Core' with: #(
+						'Glamour-Announcements'
+						'Glamour-Helpers'
+						'Glamour-Core'
+						'Glamour-Presentations'
+						'Glamour-Browsers'
+						'Glamour-Examples'
+						'Glamour-Tools').
+		spec group: 'Morphic' with: #(
+						'Glamour-Morphic-Renderer'
+						'Glamour-Morphic-Theme').
+		spec group: 'Extras' with: #(
+						'Glamour-Mondrian-Presentations'
+						'Glamour-Magritte-Presentations'
+						'Glamour-EyeSee-Presentations').
+		spec group: 'Core Tests' with: #(
+						'Glamour-Tests-Core'
+						'Glamour-Examples'
+						'Glamour-Tests-Morphic'). 
+		spec group: 'Tests' with: #(
+						'Glamour-Tests-Core'
+						'Glamour-Examples'
+						'Glamour-Tests-Morphic'
+						'Glamour-Tests-Mondrian'
+						'Glamour-Tests-EyeSee'). 
+		spec
+			project: 'Shout' with: [
+				spec
+					className: 'ConfigurationOfShout';
+					file: 'ConfigurationOfShout';
+					version: '1.3';
+					repository: 'http://www.squeaksource.com/MetacelloRepository' ].					
+		spec
+			project: 'Mondrian for Glamour' with: [
+				spec
+					className: 'ConfigurationOfMondrian';
+					file: 'ConfigurationOfMondrian';
+					version: 'default';
+					repository: 'http://www.squeaksource.com/Mondrian' ].
+		spec
+			project: 'EyeSee for Glamour' with: [
+				spec
+					className: 'ConfigurationOfEyeSee';
+					file: 'ConfigurationOfEyeSee';
+					version: 'default';
+					repository: 'http://www.squeaksource.com/EyeSee' ].
+		spec
+			project: 'Grease' with: [
+				spec
+					className: 'ConfigurationOfGrease';
+					file: 'ConfigurationOfGrease';
+					version: #stable;
+					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
+	]
+]
+
+{ #category : #baselines }
 ConfigurationOfGlamour >> default: spec [ 
 	<version: 'default'>
 	
@@ -549,7 +644,7 @@ ConfigurationOfGlamour >> stable: spec [
 	<symbolicVersion: #'stable'>
 
 	spec for: #'common' version: '2.1'.
-
+	spec for: #'pharo1.3.x' version: '2.2'.
 ]
 
 { #category : #versions }
@@ -808,4 +903,43 @@ ConfigurationOfGlamour >> version21: spec [
 			package: 'Glamour-Magritte-Presentations' with: 'Glamour-Magritte-Presentations-tg.1';
 			package: 'Glamour-Tests-Mondrian' with: 'Glamour-Tests-Mondrian-TudorGirba.4'. ].
 
+]
+
+{ #category : #versions }
+ConfigurationOfGlamour >> version22: spec [
+	<version: '2.2' imports: #('2.2-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'release'.
+		spec description: 'release for pharo 1.3'.
+		spec author: 'GuillermoPolito'.
+		spec timestamp: '9/26/2011 21:07'.
+		spec 
+			package: 'CollectionExtensions' with: 'CollectionExtensions-TudorGirba.29'.
+		spec 
+			package: 'Glamour-Announcements' with: 'Glamour-Announcements-tg.5';
+			package: 'Glamour-Helpers' with: 'Glamour-Helpers-TudorGirba.32';
+			package: 'Glamour-Core' with: 'Glamour-Core-TudorGirba.210';
+			package: 'Glamour-Presentations'  with: 'Glamour-Presentations-TudorGirba.106';
+			package: 'Glamour-Browsers'  with: 'Glamour-Browsers-cyrilledelaunay.87';
+			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-TudorGirba.60';
+			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-TudorGirba.29';
+			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-TudorGirba.129';
+			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-TudorGirba.53';
+			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-TudorGirba.75';
+			package: 'Glamour-Examples' with: 'Glamour-Examples-TudorGirba.204';
+			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.42';
+			
+			package: 'Magritte-Model' with: 'Magritte-Model-NickAger.407';
+			package: 'Magritte-Tests-Model' with: 'Magritte-Tests-Model-lr.16';
+			package: 'Magritte-Morph' with: 'Magritte-Morph-EstebanLorenzano.57';
+			package: 'Magritte-Pharo-Model' with:  'Magritte-Pharo-Model-lr.22';
+			
+			package: 'Glamour-Mondrian-Presentations' with: 'Glamour-Mondrian-Presentations-TudorGirba.4';
+			package: 'Glamour-Magritte-Presentations' with: 'Glamour-Magritte-Presentations-TudorGirba.2';
+			package: 'Glamour-EyeSee-Presentations' with: 'Glamour-EyeSee-Presentations-AndreHora.2';
+			package: 'Glamour-Tests-Mondrian' with: 'Glamour-Tests-Mondrian-TudorGirba.5';
+			package: 'Glamour-Tests-EyeSee' with: 'Glamour-Tests-EyeSee-AndreHora.6'.
+
+		]
 ]
