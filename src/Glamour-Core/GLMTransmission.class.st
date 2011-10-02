@@ -186,8 +186,23 @@ GLMTransmission >> fromOutside: aPortSymbol [
 ]
 
 { #category : #scripting }
+GLMTransmission >> fromOutsideEntityPort [
+	^ self fromOutsidePort: #entity
+]
+
+{ #category : #scripting }
+GLMTransmission >> fromOutsideEntityPortTransformed: aBlock [
+	^ self fromOutsidePort: #entity transformed: aBlock
+]
+
+{ #category : #scripting }
 GLMTransmission >> fromOutsidePort: aPortSymbol [
 	^ self from: #outer port: aPortSymbol
+]
+
+{ #category : #scripting }
+GLMTransmission >> fromOutsidePort: aPortSymbol transformed: aBlock [
+	^ self from: #outer port: aPortSymbol transformed: aBlock
 ]
 
 { #category : #'initialize-release' }
