@@ -87,6 +87,8 @@ GLMScriptingEditorTemplate >> setTitleOf:  b [
 { #category : #building }
 GLMScriptingEditorTemplate >> variablesIn: a [
 	^ a table
+		selectionAct: [:each | each inspect ] on: $i entitled: 'Inspect';
+		selectionAct: [:each | each explore ] on: $I entitled: 'Explore';		
 		column: 'Variable' evaluated: [ :each | each key asString ];
 		column: 'Value' evaluated: [ :each | each value asString contractTo: 20 ]
 ]
