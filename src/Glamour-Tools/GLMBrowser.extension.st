@@ -2,9 +2,7 @@ Extension { #name : #GLMBrowser }
 
 { #category : #'*glamour-tools' }
 GLMBrowser >> viewAnnouncements [
-
 	| view |
-	
 	view := MOViewRenderer new.
 	self viewAnnouncementsOn: view.
 	view open

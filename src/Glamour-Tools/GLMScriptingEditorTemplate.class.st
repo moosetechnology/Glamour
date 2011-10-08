@@ -39,14 +39,14 @@ GLMScriptingEditorTemplate >> buildBrowser [
 ]
 
 { #category : #building }
-GLMScriptingEditorTemplate >> defaultBindings [
+GLMScriptingEditorTemplate >> defaultScriptBindings [
 	"Override this method if you want to provide more bindings for your editor.
 	Typically these bindings are related to the Facade that offers the entry point to the scripting API"
 	^ {}
 ]
 
 { #category : #building }
-GLMScriptingEditorTemplate >> defaultDisplayIn: aPresentation [
+GLMScriptingEditorTemplate >> defaultScriptDisplayIn: aPresentation [
 	^ ''
 ]
 
@@ -69,9 +69,9 @@ GLMScriptingEditorTemplate >> scriptIn: a [
 		variableBindings: [ :bindings | 
 					| col |
 					col := OrderedCollection withAll: bindings.
-					col addAll: self defaultBindings.
+					col addAll: self defaultScriptBindings.
 					col ];
-		with: [:p | self defaultDisplayIn: p ];
+		with: [:p | self defaultScriptDisplayIn: p ];
 		populate: #selection
 			icon: GLMUIThemeExtraIcons glamorousAccept
 			on: $s

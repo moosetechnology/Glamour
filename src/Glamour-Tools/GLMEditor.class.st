@@ -1,8 +1,8 @@
 "
-self openOn: {#text->
-'| browser |
-browser := GLMTabulator new.
-browser startOn: 42'}
+This is an Glamour-based editor for Glamour browsers
+
+Example:
+self openOn: {#variable->'value'}
 "
 Class {
 	#name : #GLMEditor,
@@ -12,9 +12,11 @@ Class {
 
 { #category : #private }
 GLMEditor >> createResultBrowserWithBindings: bindings andScript: script [
-	| context resultBrowser scriptedBrowser |
-	context := GLMContext withAll: bindings.
-	scriptedBrowser  := Compiler new evaluate: script in: context to: context.
+	| context resultBrowser scriptedBrowser composer |
+	composer := GLMCompositePresentation new.
+	context := GLMContext with: #composer -> composer withAll: bindings.
+	Compiler new evaluate: script in: context to: context.
+	scriptedBrowser := composer first.
 	resultBrowser := GLMTabulator new.
 	resultBrowser column: #theOuterPane.
 	resultBrowser transmit
@@ -27,13 +29,17 @@ GLMEditor >> createResultBrowserWithBindings: bindings andScript: script [
 	from the evaluated script browser.
 	this is needed because right now the input entity is specified 
 	in the same script together with the browser"
-	^ resultBrowser startOn: scriptedBrowser entity
+	^ resultBrowser startOn: composer entity
 ]
 
 { #category : #building }
-GLMEditor >> defaultDisplayIn: aPresentation [
-	^ aPresentation display: '| browser |
-browser := GLMTabulator new.'
+GLMEditor >> defaultScriptBindings [
+	^ {#composer -> GLMCompositePresentation new}
+]
+
+{ #category : #building }
+GLMEditor >> defaultScriptDisplayIn: aTextPresentation [
+	^ aTextPresentation display: 'composer'
 ]
 
 { #category : #building }

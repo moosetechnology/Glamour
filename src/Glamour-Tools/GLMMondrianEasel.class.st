@@ -2,7 +2,7 @@
 This browser offers a Glamour-based MondrianEasel.
 
 Example:
-self openOn: {#aClass -> Object}
+self openOn: {#variable->'value'}
 "
 Class {
 	#name : #GLMMondrianEasel,
@@ -11,12 +11,12 @@ Class {
 }
 
 { #category : #building }
-GLMMondrianEasel >> defaultBindings [
+GLMMondrianEasel >> defaultScriptBindings [
 	^ {#view -> MOViewRenderer new}
 ]
 
 { #category : #building }
-GLMMondrianEasel >> defaultDisplayIn: aPresentation [
+GLMMondrianEasel >> defaultScriptDisplayIn: aPresentation [
 	^ aPresentation display: 'view'
 ]
 
