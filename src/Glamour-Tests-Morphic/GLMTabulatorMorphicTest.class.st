@@ -48,8 +48,5 @@ GLMTabulatorMorphicTest >> testStatusbar [
 	((browser paneNamed: #one) port: #status) value: 2.
 	World doOneCycle.
 	statusMorph := (window submorphs last: 2) first submorphs first.	
-	self assert: (statusMorph isKindOf: LabelMorph).
-
-"	detailsMorph := window submorphs last submorphs last submorphs first.
-"
+	self assert: (statusMorph isKindOf: LabelMorph)
 ]
