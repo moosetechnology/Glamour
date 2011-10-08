@@ -180,8 +180,7 @@ GLMPane >> notingPresentationChangeDo: aBlock [
 	allowedToNotePresentationsChanged := false.
 	
 	oldPresentations := presentations presentations copy. 
-	oldMatchingPresentations := self matchingPresentations. 
-
+	oldMatchingPresentations := self matchingPresentations.
 	aBlock value. 
 	presentations presentations  ~= oldPresentations ifTrue: [
 		self announce: ((GLMPresentationsChanged new) 

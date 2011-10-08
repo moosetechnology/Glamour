@@ -33,7 +33,8 @@ Class {
 		'selectionActions',
 		'selectionDynamicActionsBlock',
 		'implicitAllNil',
-		'rawSelectionTransmissions'
+		'rawSelectionTransmissions',
+		'statusPane'
 	],
 	#category : #'Glamour-Core'
 }
@@ -151,6 +152,18 @@ GLMPresentation >> addAction: anAction [
 	self actions addLast: anAction
 ]
 
+{ #category : #statusbar }
+GLMPresentation >> addDefaultStatusbarTransmissionFrom: aPane [
+	| defaultTransmission |
+	defaultTransmission := GLMTransmission new
+		ensureReplacePresentationsStrategy;
+		addActiveOrigin: (aPane port: #status); 
+		destination: (self statusbarPane port: #entity); 
+		addPresentation: self statusbarPresentation; 
+		yourself.
+	self addTransmission: defaultTransmission.
+]
+
 { #category : #accessing }
 GLMPresentation >> addOpenBrowserAction: anAction [ 
 	 
@@ -182,6 +195,12 @@ GLMPresentation >> addSelectionAction: anAction [
 { #category : #accessing }
 GLMPresentation >> addSelectionOpenBrowserAction: anAction [
 	self selectionOpenBrowserActions add: anAction
+]
+
+{ #category : #statusbar }
+GLMPresentation >> addStatusbar [
+	self hasStatusbar: true
+	
 ]
 
 { #category : #accessing }
@@ -328,6 +347,18 @@ GLMPresentation >> entity: anObject [
 { #category : #testing }
 GLMPresentation >> hasActions [
 	^ self allActions notEmpty
+]
+
+{ #category : #statusbar }
+GLMPresentation >> hasStatusbar [
+	^ statusPane notNil
+]
+
+{ #category : #statusbar }
+GLMPresentation >> hasStatusbar: aBoolean [
+	aBoolean ifTrue: [
+		statusPane := self addPane: (GLMPane new name: self class defaultStatusbarPane) ]
+	
 ]
 
 { #category : #testing }
@@ -821,6 +852,16 @@ GLMPresentation >> spawn: aBlock icon: anIcon entitled: aString [
 GLMPresentation >> status: anObject [ 
 	self flag: 'what kind of transformation should we want here?'.
 	(self pane port: #status) value: (self selectionTransformation glamourValue: anObject)
+]
+
+{ #category : #statusbar }
+GLMPresentation >> statusbarPane [
+	^ statusPane
+]
+
+{ #category : #statusbar }
+GLMPresentation >> statusbarPresentation [
+	^ GLMLabelPresentation new
 ]
 
 { #category : #'accessing ports' }

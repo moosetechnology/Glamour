@@ -20,7 +20,10 @@ GLMCompositePresentation >> accordionArrangement [
 
 { #category : #accessing }
 GLMCompositePresentation >> add: aPresentation [
-	^ self presentations add: aPresentation
+	self pane notingPresentationChangeDo: [
+		self presentations add: aPresentation.
+		aPresentation pane: self pane ].
+	^ aPresentation
 ]
 
 { #category : #accessing }
@@ -65,6 +68,12 @@ GLMCompositePresentation >> custom: aPresentation [
 	^ self add: aPresentation
 ]
 
+{ #category : #'scripting opening' }
+GLMCompositePresentation >> defaultRenderer [ 
+	 
+	^GLMRenderer subclasses first new
+]
+
 { #category : #accessing }
 GLMCompositePresentation >> do: aBlock [
 	^ self presentations do: aBlock 
@@ -93,6 +102,41 @@ GLMCompositePresentation >> last [
 { #category : #accessing }
 GLMCompositePresentation >> matchingPresentations [
 	^ self presentations select: [:each | each matches]
+]
+
+{ #category : #'scripting opening' }
+GLMCompositePresentation >> open [ 
+	 
+	^self openWith: self defaultRenderer
+]
+
+{ #category : #'scripting opening' }
+GLMCompositePresentation >> openOn: anObject [ 
+	 
+	^self 
+		openOn: anObject 
+		with: self defaultRenderer
+]
+
+{ #category : #'scripting opening' }
+GLMCompositePresentation >> openOn: anObject with: aRenderer [ 
+	 
+	self startOn: anObject. 
+	^ self openWith: aRenderer
+]
+
+{ #category : #'scripting opening' }
+GLMCompositePresentation >> openWith: aRenderer [ 
+	 
+	^ aRenderer open: self
+]
+
+{ #category : #accessing }
+GLMCompositePresentation >> pane [
+	^ pane ifNil: [
+		pane := (GLMPane named: 'root' in: GLMNoBrowser new) 
+				presentations: self; 
+				yourself]
 ]
 
 { #category : #accessing }
@@ -157,6 +201,12 @@ GLMCompositePresentation >> stackedArrangement [
 { #category : #scripting }
 GLMCompositePresentation >> stackedVerticallyArrangement [
 	^ self arrangement: (GLMStackedVerticallyArrangement of: self)
+]
+
+{ #category : #'scripting opening' }
+GLMCompositePresentation >> startOn: anObject [ 
+	
+	self entity: anObject
 ]
 
 { #category : #scripting }

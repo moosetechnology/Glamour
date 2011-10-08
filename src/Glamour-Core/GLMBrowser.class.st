@@ -15,7 +15,6 @@ Class {
 	#instVars : [
 		'transmissions',
 		'panes',
-		'statusPane',
 		'initialExtent'
 	],
 	#category : #'Glamour-Core'
@@ -32,18 +31,6 @@ GLMBrowser class >> withStatusbar [
 ]
 
 { #category : #accessing }
-GLMBrowser >> addDefaultStatusbarTransmissionFrom: aPane [
-	| defaultTransmission |
-	defaultTransmission := GLMTransmission new
-		ensureReplacePresentationsStrategy;
-		addActiveOrigin: (aPane port: #status); 
-		destination: (self statusbarPane port: #entity); 
-		addPresentation: self statusbarPresentation; 
-		yourself.
-	self addTransmission: defaultTransmission.
-]
-
-{ #category : #accessing }
 GLMBrowser >> addPane: aPane [
 	aPane browser: self.
 	self panes add: aPane.
@@ -53,19 +40,13 @@ GLMBrowser >> addPane: aPane [
 ]
 
 { #category : #accessing }
-GLMBrowser >> addStatusbar [
-	self hasStatusbar: true
-	
-]
-
-{ #category : #accessing }
 GLMBrowser >> addTransmission: aTransmission [ 
 	^ self transmissions addLast: aTransmission
 ]
 
 { #category : #events }
 GLMBrowser >> close [
-	self announce: (GLMBrowserClosed new)
+	self announce: GLMBrowserClosed new
 ]
 
 { #category : #scripting }
@@ -84,18 +65,6 @@ GLMBrowser >> custom: aPresentation [
 GLMBrowser >> defaultRenderer [ 
 	 
 	^GLMRenderer subclasses first new
-]
-
-{ #category : #accessing }
-GLMBrowser >> hasStatusbar [
-	^ statusPane notNil
-]
-
-{ #category : #accessing }
-GLMBrowser >> hasStatusbar: aBoolean [
-	aBoolean ifTrue: [
-		statusPane := self addPane: (GLMPane new name: self class defaultStatusbarPane) ]
-	
 ]
 
 { #category : #accessing }
@@ -260,16 +229,6 @@ GLMBrowser >> startOn: anObject [
 	 
 	self initializeScriptingDefaults. 
 	self entity: anObject
-]
-
-{ #category : #accessing }
-GLMBrowser >> statusbarPane [
-	^ statusPane
-]
-
-{ #category : #accessing }
-GLMBrowser >> statusbarPresentation [
-	^ GLMLabelPresentation new
 ]
 
 { #category : #accessing }
