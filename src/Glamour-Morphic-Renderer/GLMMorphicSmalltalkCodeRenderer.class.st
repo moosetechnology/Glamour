@@ -37,14 +37,9 @@ GLMMorphicSmalltalkCodeRenderer >> textModelFor: aPresentation [
 
 { #category : #rendering }
 GLMMorphicSmalltalkCodeRenderer >> textMorphForModel: aTextModel [
-	| morph styler |
+	| morph  |
 	morph := GLMPluggableTextMorph new.
-	styler := SHTextStylerST80 new
-			view: morph;
-			workspace: textModel;
-			yourself.
 	morph
-		styler: styler;
 		on: aTextModel
 			text: #text
 			accept: #accept:notifying:
