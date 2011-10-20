@@ -5,25 +5,6 @@ Class {
 }
 
 { #category : #rendering }
-GLMMorphicSmalltalkCodeRenderer >> render1: aPresentation [
-	| toShow |
-	toShow := aPresentation formatedDisplayValue.
-	textModel := GLMSmalltalkCodeModel new 
-					text: toShow;
-					highlightSmalltalk: aPresentation highlightSmalltalk;
-					highlightSmalltalkContext: aPresentation highlightSmalltalkContext.
-	textMorph := TextMorph new
-		wrapFlag: true;
-		contents: toShow;
-		autoFit: true;
-		lock;
-		hResizing: #spaceFill;
-		vResizing: #spaceFill.
-	textMorph unlock.
-	^ textMorph
-]
-
-{ #category : #rendering }
 GLMMorphicSmalltalkCodeRenderer >> textModelFor: aPresentation [
 	| tm |
 	tm := GLMSmalltalkCodeModel new
@@ -39,6 +20,7 @@ GLMMorphicSmalltalkCodeRenderer >> textModelFor: aPresentation [
 GLMMorphicSmalltalkCodeRenderer >> textMorphForModel: aTextModel [
 	| morph  |
 	morph := GLMPluggableTextMorph new.
+	morph styler workspace: aTextModel.
 	morph
 		on: aTextModel
 			text: #text
