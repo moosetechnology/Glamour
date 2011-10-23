@@ -28,7 +28,7 @@ GLMEditor >> createResultBrowserWithBindings: bindings andScript: script [
 	we take the entity as specified in the script by taking it directly
 	from the evaluated script browser.
 	this is needed because right now the input entity is specified 
-	in the same script together with the browser"
+	in the same script with the browser"
 	^ resultBrowser startOn: composer entity
 ]
 
@@ -53,6 +53,10 @@ GLMEditor >> resultIn: composite [
 		title: 'Preview';
 		display: [ :bindings :script | self createResultBrowserWithBindings: bindings andScript: script ];
 		act: [ :dynamic | 
-			dynamic cachedPresentation presentations first panes first presentations first viewTree ] 
-			entitled: 'View browser tree'
+				dynamic cachedPresentation presentations first panes first presentations first viewTree ] 
+			entitled: 'View browser tree';
+		act: [ :dynamic | 
+				dynamic cachedPresentation presentations first panes first presentations first open ] 
+			icon: GLMUIThemeExtraIcons glamorousSpawn
+			entitled: 'Spawn browser'
 ]
