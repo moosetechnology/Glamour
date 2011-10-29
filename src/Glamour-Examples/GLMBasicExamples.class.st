@@ -699,7 +699,10 @@ GLMBasicExamples >> simpleFinderWithMenu [
 { #category : #table }
 GLMBasicExamples >> simpleTable [
 	<glmBrowser: 'Simple table' input: '100'>
-	"self new simpleTable openOn: 1000"
+	"| f | 
+	f := self new simpleTable.
+	f openOn: 1000.
+	(f panes first port: #selection) value: 1"
 	| finder |	
 	finder := GLMFinder new.
 	finder table
@@ -1033,14 +1036,14 @@ GLMBasicExamples >> threeInterdependentPanes [
 							entitled: 'Focus'
 							with: [ :list | list selection ] ].
 	(browser transmit)
-		toOutside: #focus;
+		toOutsidePort: #focus;
 		from: #three port: #focus.
 	(browser transmit)
-		to: #one -> #selection;
-		from: #outer port: #focus.
+		to: #one port: #selection;
+		fromOutsidePort: #focus.
 	(browser transmit)
-		to: #two -> #selection;
-		from: #outer port: #focus.
+		to: #two port: #selection;
+		fromOutsidePort: #focus.
 	^ browser
 ]
 
