@@ -86,3 +86,13 @@ GLMCompositePresentationTest >> testPane [
 	self assert: composite pane == pane.
 	self assert: composite first pane == pane
 ]
+
+{ #category : #tests }
+GLMCompositePresentationTest >> testStartingPreservesItself [
+	| composite finder |
+	composite := GLMCompositePresentation new.
+	finder := composite finder.
+	composite startOn: 42.
+	self assert: composite pane presentations = composite.
+	self assert: composite first == finder.
+]
