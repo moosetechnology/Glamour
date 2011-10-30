@@ -80,7 +80,7 @@ GLMMorphicSingleSpotter >> editorKeyStroke: anEvent [
 
 { #category : #callbacks }
 GLMMorphicSingleSpotter >> iconAt: anIndex [
-	^ model iconFor: (listValues at: anIndex ifAbsent: [ ^ nil ])
+	^ model ifNotNil: [model iconFor: (listValues at: anIndex ifAbsent: [ ^ nil ])]
 ]
 
 { #category : #initialization }
@@ -173,7 +173,7 @@ GLMMorphicSingleSpotter >> newContentMorph [
 
 { #category : #morphic }
 GLMMorphicSingleSpotter >> newListMorph [
-	listMorph := OBPluggableListMorph
+	listMorph := PluggableListMorph
 		on: self
 		list: #listLabels
 		selected: #listIndex
