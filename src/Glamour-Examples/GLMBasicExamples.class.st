@@ -654,8 +654,8 @@ GLMBasicExamples >> simpleActionList [
 	browser column: #one.
 	browser transmit to: #one; andShow: [ :a |
 		a actionList
-			act: [:entity | Transcript show: entity ] entitled: 'Transcript';
-			act: [:entity | entity inspect ] entitled: 'Inspect'].
+			act: [:entity | entity inspect ] entitled: 'Inspect';
+			act: [:entity | entity explore ] entitled: 'Explore'].
 	^ browser
 ]
 
@@ -870,7 +870,7 @@ GLMBasicExamples >> staticAndDynamicMenu [
 	finder text
 			title: 'Text';
 			display: [:each | 'Character ', each asString];
-			dynamicActionsOnSelection: [:text | OrderedCollection with: (GLMGenericAction new title: 'Print selection'; action: [Transcript show: text selectedText]; yourself) ];
+			dynamicActionsOnSelection: [:text | OrderedCollection with: (GLMGenericAction new title: 'Print selection'; action: [text selectedText inspect ]; yourself) ];
 			selectionAct: [self inform: 'Text static action'] entitled: 'Static action'.
 	^ finder
 ]
