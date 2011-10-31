@@ -315,7 +315,10 @@ GLMBasicExamples >> doubleClick [
 		column: #two.
 	browser
 		transmit to: #one;
-		andShow: [ :a | a list display: [ :x | 1 to: x ] ].
+		andShow: [ :a | 
+			a table display: [ :x | 1 to: x ]; 
+				column: 'value' evaluated: #asString; 
+				column: 'odd' evaluated: [:each | each odd asString ]].
 	browser
 		transmit to: #two;
 		from: #one port: #strongSelection;
