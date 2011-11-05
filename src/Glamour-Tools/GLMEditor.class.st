@@ -39,7 +39,9 @@ GLMEditor >> defaultScriptBindings [
 
 { #category : #building }
 GLMEditor >> defaultScriptDisplayIn: aTextPresentation [
-	^ aTextPresentation display: 'composer'
+	^ aTextPresentation 
+		display: 'composer';
+		morphicAct: [:text | GLMBasicExamples open ] entitled: 'Browse basic examples'
 ]
 
 { #category : #building }
@@ -53,7 +55,7 @@ GLMEditor >> resultIn: composite [
 		title: 'Preview';
 		display: [ :bindings :script | self createResultBrowserWithBindings: bindings andScript: script ];
 		act: [ :dynamic | 
-				dynamic cachedPresentation presentations first panes first presentations first viewTree ] 
+				dynamic cachedPresentation presentations first panes first presentations first openTree ] 
 			entitled: 'View browser tree';
 		act: [ :dynamic | 
 				dynamic cachedPresentation presentations first panes first presentations first open ] 

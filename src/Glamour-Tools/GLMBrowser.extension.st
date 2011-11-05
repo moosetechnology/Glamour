@@ -1,6 +1,21 @@
 Extension { #name : #GLMBrowser }
 
 { #category : #'*glamour-tools' }
+GLMBrowser >> openTree [
+	| composer |
+	composer := GLMCompositePresentation new.
+	composer 
+		act: [:b | b update] 
+		icon: GLMUIThemeExtraIcons glamorousRefresh 
+		entitled: 'Update'.
+	composer tabulator with: [:t | 
+		t column: #theOne.
+		t transmit to: #theOne; andShow: [:a | 
+			a mondrian painting: [:view :b | b viewTreeOn: view ] ]].
+	composer openOn: self
+]
+
+{ #category : #'*glamour-tools' }
 GLMBrowser >> viewAnnouncements [
 	| view |
 	view := MOViewRenderer new.
