@@ -9,5 +9,6 @@ Class {
 
 { #category : #rendering }
 GLMMorphPresentation >> renderGlamorouslyOn: aRenderer [ 
+	self registerAnnouncements.
 	^ aRenderer renderMorphPresentation: self
 ]
