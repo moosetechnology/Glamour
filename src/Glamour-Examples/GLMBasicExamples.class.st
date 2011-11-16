@@ -892,7 +892,7 @@ GLMBasicExamples >> tableWithIcons [
 			act: [:presentation | presentation inspect] entitled: 'Inspect'; 
 			column: 'Character' evaluated: [ :each | each asString ];
 			column: 'ASCII' evaluated: [ :each | each asInteger printString ];
-			selectionAct: [:tree | tree inspect ] on: $i entitled: 'Inspect';
+			selectionAct: [:tree | tree selection inspect ] on: $i entitled: 'Inspect';
 			icon: [:x | MenuIcons helpIcon ]].
 	browser transmit to: #two; from: #one; andShow: [:a | a text ].
 	^ browser
