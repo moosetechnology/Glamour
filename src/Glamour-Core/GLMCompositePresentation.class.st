@@ -189,11 +189,6 @@ GLMCompositePresentation >> size [
 ]
 
 { #category : #scripting }
-GLMCompositePresentation >> smalltalkCode [
-	^ self custom: GLMSmalltalkCodePresentation new
-]
-
-{ #category : #scripting }
 GLMCompositePresentation >> stackedArrangement [
 	^ self stackedVerticallyArrangement
 ]

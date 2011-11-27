@@ -70,6 +70,11 @@ GLMTPresentationBuilder >> morph [
 ]
 
 { #category : #scripting }
+GLMTPresentationBuilder >> smalltalkCode [
+	^ self custom: GLMSmalltalkCodePresentation new
+]
+
+{ #category : #scripting }
 GLMTPresentationBuilder >> table [
 	^ self custom: GLMTablePresentation new
 ]
