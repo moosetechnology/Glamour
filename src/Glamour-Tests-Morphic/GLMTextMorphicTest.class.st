@@ -5,6 +5,24 @@ Class {
 }
 
 { #category : #tests }
+GLMTextMorphicTest >> testExplicitAcceptDoesNotAffectTextPort [
+	| browser textMorph textPresentation |
+	browser := GLMTabulator new.
+	browser column: #one.
+	(browser transmit)
+		to: #one;
+		andShow: [ :a | a text display: '123' ].
+	window := browser openOn: 4.
+	textMorph := self find: PluggableTextMorph in: window.
+	textMorph simulateClick.
+	self simulateKeyStrokes: '4'.
+	self assert: (browser panes first port: #text) value = '1234'.
+	self simulateKeyStroke: $s command.
+	self simulateKeyStrokes: '56'.
+	self assert: (browser panes first port: #text) value = '123456'
+]
+
+{ #category : #tests }
 GLMTextMorphicTest >> testMultipleSelectionWithChange [
 	| browser textMorph textPresentation |
 	browser := GLMTabulator new.
