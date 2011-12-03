@@ -561,7 +561,8 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte-Morph' 'Magritte-Pharo-Model')];
 			package: 'Glamour-EyeSee-Presentations' with: [spec requires: 'EyeSee for Glamour'];
 			package: 'Glamour-Tests-Mondrian' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Mondrian-Presentations')];
-			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')].
+			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations');
+			package: 'BDDExtensions' with: [spec repository: 'http://www.squeaksource.com/BDDExtensions']].
 
 		spec group: 'Core' with: #(
 						'Glamour-Announcements'
@@ -594,7 +595,14 @@ ConfigurationOfGlamour >> default: spec [
 					className: 'ConfigurationOfShout';
 					file: 'ConfigurationOfShout';
 					version: '1.3';
-					repository: 'http://www.squeaksource.com/MetacelloRepository' ].					
+					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
+		spec
+			project: 'Keymapping' with: [
+				spec
+					className: 'ConfigurationOfKeymapping';
+					file: 'ConfigurationOfKeymapping';
+					version: '2.0-baseline';
+					repository: 'http://www.squeaksource.com/ShortWays' ].
 		spec
 			project: 'Mondrian for Glamour' with: [
 				spec
