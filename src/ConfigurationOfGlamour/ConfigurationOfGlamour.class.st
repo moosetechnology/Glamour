@@ -562,7 +562,9 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-EyeSee-Presentations' with: [spec requires: 'EyeSee for Glamour'];
 			package: 'Glamour-Tests-Mondrian' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Mondrian-Presentations')];
 			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')];
-			package: 'BDDExtensions' with: [spec repository: 'http://www.squeaksource.com/BDDExtensions'].
+			package: 'BDDExtensions' with: [
+				spec repository: 'http://www.squeaksource.com/BDDExtensions'.
+				spec requires: 'Keymapping' ].
 
 		spec group: 'Core' with: #(
 						'Glamour-Announcements'
