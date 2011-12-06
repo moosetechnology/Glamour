@@ -21,7 +21,8 @@ Class {
 		'presentations',
 		'ports',
 		'lastActivePresentation',
-		'allowedToNotePresentationsChanged'
+		'allowedToNotePresentationsChanged',
+		'cachedMatchingPresentations'
 	],
 	#category : #'Glamour-Core'
 }
@@ -85,6 +86,16 @@ GLMPane >> browser [
 { #category : #accessing }
 GLMPane >> browser: aBrowser [
 	browser := aBrowser
+]
+
+{ #category : #accessing }
+GLMPane >> cachedMatchingPresentations [
+	^ cachedMatchingPresentations ifNil: [ cachedMatchingPresentations := self matchingPresentations ]
+]
+
+{ #category : #accessing }
+GLMPane >> cachedMatchingPresentations: anObject [
+	^ cachedMatchingPresentations := anObject
 ]
 
 { #category : #accessing }
@@ -154,7 +165,7 @@ GLMPane >> lastActivePresentation: anObject [
 
 { #category : #accessing }
 GLMPane >> matchingPresentations [
-	^ presentations matchingPresentations
+	^ cachedMatchingPresentations := presentations matchingPresentations
 ]
 
 { #category : #accessing }
@@ -180,7 +191,7 @@ GLMPane >> notingPresentationChangeDo: aBlock [
 	allowedToNotePresentationsChanged := false.
 	
 	oldPresentations := presentations presentations copy. 
-	oldMatchingPresentations := self matchingPresentations.
+	oldMatchingPresentations := self cachedMatchingPresentations.
 	aBlock value. 
 	presentations presentations  ~= oldPresentations ifTrue: [
 		self announce: ((GLMPresentationsChanged new) 
@@ -278,7 +289,10 @@ GLMPane >> unregisterFromAllAnnouncements [
 
 { #category : #updating }
 GLMPane >> update [ 
-	self presentations do: [:each | each update ]
+	self notingPresentationChangeDo: [
+		"nothing in particular. 
+		just make sure that matching presentations are recomputed"].
+	self presentations do: [ :each | each update ]
 ]
 
 { #category : #enumerating }
