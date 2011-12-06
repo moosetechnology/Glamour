@@ -1250,7 +1250,7 @@ GLMBasicExamples >> updateableBrowser [
 		icon: GLMUIThemeExtraIcons glamorousAdd
 		entitled: 'Add an item in the collection'.
 	browser 
-		act: [:b | b entity removeLast ] 
+		act: [:b | b entity removeLast. b update ] 
 		icon: GLMUIThemeExtraIcons glamorousRemove
 		entitled: 'Remove last item from the collection'.
 	browser 
