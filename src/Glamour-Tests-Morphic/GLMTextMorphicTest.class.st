@@ -40,6 +40,23 @@ GLMTextMorphicTest >> testMultipleSelectionWithChange [
 ]
 
 { #category : #tests }
+GLMTextMorphicTest >> testPastingUpdatesTextPort [
+	| browser textMorph textPresentation |
+	browser := GLMTabulator new.
+	browser column: #one.
+	(browser transmit)
+		to: #one;
+		andShow: [ :a | a text display: '' ].
+	window := browser openOn: 42.
+	textMorph := self find: PluggableTextMorph in: window.
+
+	Clipboard clipboardText: '42'.
+	textMorph simulateClick.
+	textMorph paste.
+	self assert: (browser panes first port: #text) value = '42'
+]
+
+{ #category : #tests }
 GLMTextMorphicTest >> testUnregisterFromAnnouncementsWhenUpdating [
 	| browser announcingCollection numberOfExecutions |
 	numberOfExecutions := 0.
