@@ -128,3 +128,21 @@ GLMBrowserTest >> testUnregisterAnnouncementsWhenUpdatingPaneWithTwoAnnouncers [
 	self assert: announcer subscriptions numberOfSubscriptions equals: 0.
 	self assert: announcer2 subscriptions numberOfSubscriptions equals: 0
 ]
+
+{ #category : #tests }
+GLMBrowserTest >> testUpdateRecomputesMatchingPresentations [
+	| browser collection matchingPresentationsChangedAnnounced | 
+	collection := GLMAnnouncingCollection new.
+	collection add: 1.
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit to: #one; andShow: [:a | 
+		a list when: [:col | col isEmpty not ]].
+	browser startOn: collection.
+	matchingPresentationsChangedAnnounced := false.
+	browser panes first on: GLMMatchingPresentationsChanged do: [:ann | 
+		matchingPresentationsChangedAnnounced := true ].
+	collection removeLast.
+	browser update.
+	self assert: matchingPresentationsChangedAnnounced
+]
