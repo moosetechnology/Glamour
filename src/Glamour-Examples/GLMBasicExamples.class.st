@@ -1282,7 +1282,7 @@ GLMBasicExamples >> updateableIndividualPresentations [
 	browser := GLMTabulator new.
 	browser column: #automatic; column: #menu.
 	browser 
-		act: [:b | b entity add: (b entity size + 1). b update ] 	
+		act: [:b | b entity add: (b entity size + 1) ] 	
 		icon: GLMUIThemeExtraIcons glamorousAdd
 		entitled: 'Add an item in the collection'.
 	browser 
@@ -1314,10 +1314,17 @@ GLMBasicExamples >> updateableIndividualPresentations [
 		a stackedArrangement.
 		a list title: 'List';
 			shouldValidate: true;
-			act: [:p | p update] entitled: 'Update'.
-		a text title: 'Text'; act: [:p | p update] entitled: 'Update'.
+			act: [:p | p update] 
+				icon: GLMUIThemeExtraIcons glamorousRefresh
+				entitled: 'Update'.
+		a text title: 'Text';
+			act: [:p | p update] 
+				icon: GLMUIThemeExtraIcons glamorousRefresh
+				entitled: 'Update'.
 		a mondrian title: 'Mondrian';
-			act: [:p | p update] entitled: 'Update';
+			act: [:p | p update]
+				icon: GLMUIThemeExtraIcons glamorousRefresh
+				entitled: 'Update';
 			painting: [:view :entity | 
 				view shape label.
 				view nodes: entity ] ].
