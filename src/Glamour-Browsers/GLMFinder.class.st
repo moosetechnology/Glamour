@@ -14,7 +14,8 @@ Class {
 	#superclass : #GLMImplicitBrowser,
 	#instVars : [
 		'hasFixedSizePanes',
-		'fixedSizePanes'
+		'fixedSizePanes',
+		'lastActivePresentation'
 	],
 	#category : #'Glamour-Browsers'
 }
@@ -37,8 +38,10 @@ GLMFinder >> addPaneFromInner: aPort [
 	"This method adds a new pane at the end of the finder. Data comes from a port that is in a pane inside the current browser."
 	| newTransmission newPane realTransmissions lastActivePresentation |
 	"the lastActivePresentation is needed for knowing what presentation to show by default"
-	lastActivePresentation := self panes isEmpty ifTrue: [nil] ifFalse: [ self panes last lastActivePresentation ].
-	newPane := self panes addLast: ( (GLMPane named: (self panes size + 1) asString in: self) lastActivePresentation: lastActivePresentation; yourself).
+	lastActivePresentation := self panes isEmpty ifTrue: [nil] ifFalse: [ self lastActivePresentation ].
+	newPane := GLMPane named: (self panes size + 1) asString in: self.
+	newPane lastActivePresentation: lastActivePresentation.
+	self panes addLast: newPane.
 	GLMTransmission new
 		ensureReplacePresentationsStrategy;
 		addActiveOrigin: aPort; 
@@ -107,6 +110,7 @@ GLMFinder >> innerPortEvent: aPortEvent [
 						inBrowser: self) ]
 			ifFalse: [
 				toReplace := self removeLastPane.
+				self lastActivePresentation: toReplace lastActivePresentation.
 				self addPaneFromInner: aPortEvent port.
 				self announce: 
 					(GLMPaneReplaced 
@@ -114,6 +118,17 @@ GLMFinder >> innerPortEvent: aPortEvent [
 							newPane: self panes last
 							fromBrowser: self ) ] 
 	]
+]
+
+{ #category : #private }
+GLMFinder >> lastActivePresentation [
+	^ lastActivePresentation ifNil: [ 
+		self panes last lastActivePresentation ]
+]
+
+{ #category : #private }
+GLMFinder >> lastActivePresentation: aPresentation [
+	lastActivePresentation := aPresentation
 ]
 
 { #category : #events }
