@@ -1276,14 +1276,23 @@ GLMBasicExamples >> updateableIndividualPresentations [
 	|collection|
 	collection := GLMAnnouncingCollection new.
 	collection add: 1; add: 2; add: 3.
-	self new updateableBrowser openOn: collection."
+	self new updateableIndividualPresentations openOn: collection."
 	
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #automatic; column: #menu.
-	browser act: [:b | b entity add: (b entity size + 1) ] entitled: 'Add an item in the collection'.
-	browser act: [:b | b entity removeLast ] entitled: 'Remove last item from the collection'.
-	browser act: [:b | b update ] entitled: 'Update complete browser'.
+	browser 
+		act: [:b | b entity add: (b entity size + 1). b update ] 	
+		icon: GLMUIThemeExtraIcons glamorousAdd
+		entitled: 'Add an item in the collection'.
+	browser 
+		act: [:b | b entity removeLast ] 
+		icon: GLMUIThemeExtraIcons glamorousRemove
+		entitled: 'Remove last item from the collection'.
+	browser 
+		act: [:b | b update ] 
+		icon: GLMUIThemeExtraIcons glamorousRefresh
+		entitled: 'Update complete browser'.
 	browser transmit to: #automatic; andShow: [ :a |
 		a title: 'Updated automatically'.
 		a stackedArrangement.
