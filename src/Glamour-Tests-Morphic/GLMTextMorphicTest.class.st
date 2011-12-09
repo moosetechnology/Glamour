@@ -52,7 +52,7 @@ GLMTextMorphicTest >> testPastingUpdatesTextPort [
 
 	Clipboard clipboardText: '42'.
 	textMorph simulateClick.
-	textMorph paste.
+	self simulateKeyStroke: $v command.
 	self assert: (browser panes first port: #text) value = '42'
 ]
 
