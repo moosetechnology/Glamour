@@ -564,7 +564,9 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')];
 			package: 'BDDExtensions' with: [
 				spec repository: 'http://www.squeaksource.com/BDDExtensions'.
-				spec requires: 'Keymapping' ].
+				spec requires: 'Keymapping-Shortcuts' ];
+			package: 'Keymapping-Shortcuts' with: [
+				spec repository: 'http://www.squeaksource.com/ShortWays'].
 
 		spec group: 'Core' with: #(
 						'Glamour-Announcements'
@@ -598,14 +600,14 @@ ConfigurationOfGlamour >> default: spec [
 					file: 'ConfigurationOfShout';
 					version: '1.3';
 					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
-		spec
+"		spec
 			project: 'Keymapping' with: [
 				spec
 					className: 'ConfigurationOfKeymapping';
 					file: 'ConfigurationOfKeymapping';
 					version: '2.0-baseline';
 					repository: 'http://www.squeaksource.com/ShortWays' ].
-		spec
+"		spec
 			project: 'Mondrian for Glamour' with: [
 				spec
 					className: 'ConfigurationOfMondrian';
