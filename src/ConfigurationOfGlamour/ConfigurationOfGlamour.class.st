@@ -542,7 +542,7 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Morphic-Widgets' with: [spec requires: #('Shout')];
 			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core')];
 			package: 'Glamour-Morphic-Theme';
-			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
+			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer' 'BDDExtensions')];
 			package: 'Glamour-Examples' ;
 			package: 'Glamour-Tools' with: [spec requires: 'CollectionExtensions'];
 			package: 'Magritte-Model' with: [
@@ -561,12 +561,7 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte-Morph' 'Magritte-Pharo-Model')];
 			package: 'Glamour-EyeSee-Presentations' with: [spec requires: 'EyeSee for Glamour'];
 			package: 'Glamour-Tests-Mondrian' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Mondrian-Presentations')];
-			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')];
-			package: 'BDDExtensions' with: [
-				spec repository: 'http://www.squeaksource.com/BDDExtensions'.
-				spec requires: 'Keymapping-Shortcuts' ];
-			package: 'Keymapping-Shortcuts' with: [
-				spec repository: 'http://www.squeaksource.com/ShortWays'].
+			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')].
 
 		spec group: 'Core' with: #(
 						'Glamour-Announcements'
@@ -600,14 +595,14 @@ ConfigurationOfGlamour >> default: spec [
 					file: 'ConfigurationOfShout';
 					version: '1.3';
 					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
-"		spec
-			project: 'Keymapping' with: [
+		spec
+			project: 'BDDExtensions' with: [
 				spec
-					className: 'ConfigurationOfKeymapping';
-					file: 'ConfigurationOfKeymapping';
-					version: '2.0-baseline';
-					repository: 'http://www.squeaksource.com/ShortWays' ].
-"		spec
+					className: 'ConfigurationOfBDDExtensions';
+					file: 'ConfigurationOfBDDExtensions';
+					version: '1.0-baseline';
+					repository: 'http://www.squeaksource.com/BDDExtensions' ].
+		spec
 			project: 'Mondrian for Glamour' with: [
 				spec
 					className: 'ConfigurationOfMondrian';
