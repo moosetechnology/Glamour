@@ -781,7 +781,7 @@ GLMPresentation >> selectionSpawn: aBlock entitled: aString [
 	"These are actions that return a glamour browser to open at the end."
 	self 
 		addSelectionAction: 
-			((GLMOpenBrowserAction new) 
+			((GLMSpawnBrowserAction new) 
 				action: aBlock; 
 				title: aString; 
 				yourself)
@@ -831,7 +831,7 @@ GLMPresentation >> spawn: aBlock entitled: aString [
 	"These are actions that return a glamour browser to open at the end."
 	self 
 		addAction: 
-			((GLMOpenBrowserAction new) 
+			((GLMSpawnBrowserAction new) 
 				action: aBlock; 
 				title: aString; 
 				yourself)
@@ -841,7 +841,7 @@ GLMPresentation >> spawn: aBlock entitled: aString [
 GLMPresentation >> spawn: aBlock icon: anIcon entitled: aString [
 	self 
 		addAction: 
-			((GLMOpenBrowserAction new) 
+			((GLMSpawnBrowserAction new) 
 				action: aBlock; 
 				icon: anIcon;
 				title: aString;

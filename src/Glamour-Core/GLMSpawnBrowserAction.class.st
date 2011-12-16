@@ -1,5 +1,5 @@
 Class {
-	#name : #GLMOpenBrowserAction,
+	#name : #GLMSpawnBrowserAction,
 	#superclass : #GLMGenericAction,
 	#category : #'Glamour-Core'
 }
