@@ -17,12 +17,6 @@ GLMMorphicWidgetRenderer class >> render: aPresentation from: aRenderer [
 		render: aPresentation
 ]
 
-{ #category : #callbacks }
-GLMMorphicWidgetRenderer >> executeMenuAction: anAction [
-
-	anAction actOn: nil
-]
-
 { #category : #private }
 GLMMorphicWidgetRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPresentation [	 
 	aMorphicModel when: GLMMenuItemSelected do: [ :ann | ann action morphicActOn: aPresentation ].
