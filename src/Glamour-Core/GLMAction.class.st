@@ -20,22 +20,11 @@ Class {
 { #category : #'public interface' }
 GLMAction >> actOn: aPresentation [ 
 	 
-	^self action 
+	^ self action 
 		glamourValueWithArgs: 
 			(Array 
 				with: aPresentation 
 				withAll: aPresentation entity asGlamorousArray)
-]
-
-{ #category : #'public interface' }
-GLMAction >> actOn: aPresentation with: aMenuMorph [
-	 
-	^self action 
-		glamourValueWithArgs: 
-			(Array 
-				with: aPresentation 
-				with: aMenuMorph
-				)
 ]
 
 { #category : #accessing }
