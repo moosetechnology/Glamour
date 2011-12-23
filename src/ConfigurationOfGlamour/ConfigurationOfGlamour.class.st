@@ -54,7 +54,12 @@ ConfigurationOfGlamour class >> isMetacelloConfig [
 
 { #category : #loading }
 ConfigurationOfGlamour class >> loadDefault [
-	(self project version: 'default') load
+	self loadDevelopment
+]
+
+{ #category : #loading }
+ConfigurationOfGlamour class >> loadDevelopment [
+	(self project version: #development) load
 ]
 
 { #category : #accessing }
@@ -630,7 +635,7 @@ ConfigurationOfGlamour >> default: spec [
 ConfigurationOfGlamour >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: #'notDefined'.
+	spec for: #'common' version: #'default'.
 
 ]
 
