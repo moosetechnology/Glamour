@@ -742,7 +742,7 @@ GLMBasicExamples >> singleInitialSelection [
 { #category : #text }
 GLMBasicExamples >> smalltalkCode [
 	<glmBrowser: 'Smalltalk code' input: '''"Enter some Smalltalk code and then accept to preview the result."'''>
-	"	self new smalltalkCode openOn: '"
+	"self new smalltalkCode openOn: ''"
 	| browser |
 	browser := GLMTabulator new.
 	browser row: #code span: 2; row: #preview.
