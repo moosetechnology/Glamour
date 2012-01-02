@@ -126,18 +126,19 @@ GLMScriptingTest >> testEntityInUpdateAction [
 GLMScriptingTest >> testFinderWithPreviousPort [
 	| browser |
 	browser := GLMFinder new.
-	(browser list)
-		title: 'Presentation1';
-		display: [ :each | 1 to: each ].
+	browser show: [:a | 
+		a list
+			title: 'Presentation1';
+			display: [ :each | 1 to: each ]].
 	browser
 		fromPrevious: #selection;
 		passivelyFromPrevious: #highlight;
-		using: [ 
-					(browser list)
-						title: 'Presentation2';
-						display: [ :selection :highlight | 1 to: selection + highlight ] ].
+		show: [ :a | 
+			a list
+				title: 'Presentation2';
+				display: [ :selection :highlight | 1 to: selection + highlight ] ].
 	browser startOn: 42.
-	self assert: browser presentations size equals: 1.
+	self assert: browser panes first presentations size equals: 1.
 	self assert: browser presentations first title equals: 'Presentation1'.
 	self assert: browser transmissions size equals: 1.
 	self assert: browser transmissions last origins size equals: 2.
