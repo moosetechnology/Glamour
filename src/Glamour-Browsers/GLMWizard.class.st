@@ -167,7 +167,7 @@ GLMWizard >> computePane [
 GLMWizard >> computePaneValidator [
 
 	|tmpPresentation tmpValidator|
-	tmpPresentation := (self stepToUse presentationBlock moValue: self).
+	tmpPresentation := (self stepToUse presentationBlock moValue: self presentations).
 	tmpValidator := GLMValidator new.
 	tmpValidator show: [:a | a custom: tmpPresentation]. 
 	"tmpValidator startOn: self entity."
