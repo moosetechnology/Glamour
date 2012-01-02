@@ -18,19 +18,10 @@ GLMImplicitBrowser >> addPresentation: aPresentation [
 	self presentations add: aPresentation
 ]
 
-{ #category : #scripting }
-GLMImplicitBrowser >> custom: aPresentation [ 
-	 
-	scriptTransmission isNil 
-		ifTrue: [self addPresentation: aPresentation] 
-		ifFalse: [self scriptTransmission addPresentation: aPresentation]. 
-	^aPresentation
-]
-
 { #category : #accessing }
 GLMImplicitBrowser >> presentations [ 
 	 
-	^presentations ifNil: [presentations := GLMCompositePresentation new]
+	^ presentations ifNil: [presentations := GLMCompositePresentation new]
 ]
 
 { #category : #accessing }

@@ -141,12 +141,3 @@ GLMExplicitBrowser >> showOn: aDestinationPane [
 GLMExplicitBrowser >> updateContextWith: aPane [ 
 
 ]
-
-{ #category : #scripting }
-GLMExplicitBrowser >> using: aBlock [ 
-	"this message should be sent after showOn: and a sequence of from: messages. 
-	the using: message takes a block as a parameter to specify the presentations that accompany the Transmission" 
-	 
-	aBlock value. 
-	self lastTransmission origins isEmpty ifTrue: [self from: #outer->#entity]
-]
