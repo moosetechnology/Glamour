@@ -10,8 +10,6 @@ A Browser is a Presentation which means that it can be nested into other browser
 Class {
 	#name : #GLMBrowser,
 	#superclass : #GLMPresentation,
-	#traits : 'GLMTPresentationBuilder',
-	#classTraits : 'GLMTPresentationBuilder classTrait',
 	#instVars : [
 		'transmissions',
 		'panes',

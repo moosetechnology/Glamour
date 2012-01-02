@@ -4,8 +4,6 @@ A composite presentation offers means to control the composition of multiple pre
 Class {
 	#name : #GLMCompositePresentation,
 	#superclass : #GLMPresentation,
-	#traits : 'GLMTPresentationBuilder',
-	#classTraits : 'GLMTPresentationBuilder classTrait',
 	#instVars : [
 		'presentations',
 		'arrangement'
@@ -16,6 +14,11 @@ Class {
 { #category : #scripting }
 GLMCompositePresentation >> accordionArrangement [
 	^ self arrangement: GLMAccordionArrangement new
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> actionList [
+	^ self custom: GLMActionListPresentation new
 ]
 
 { #category : #accessing }
@@ -64,6 +67,14 @@ GLMCompositePresentation >> collect: aBlock [
 ]
 
 { #category : #scripting }
+GLMCompositePresentation >> composite: aBlock [
+	| composite |
+	composite := GLMCompositePresentation new.
+	aBlock value: composite.
+	^ self custom: composite
+]
+
+{ #category : #scripting }
 GLMCompositePresentation >> custom: aPresentation [
 	^ self add: aPresentation
 ]
@@ -74,9 +85,34 @@ GLMCompositePresentation >> defaultRenderer [
 	^GLMRenderer subclasses first new
 ]
 
+{ #category : #scripting }
+GLMCompositePresentation >> diff [
+	^ self custom: GLMDiffPresentation new
+]
+
 { #category : #accessing }
 GLMCompositePresentation >> do: aBlock [
 	^ self presentations do: aBlock 
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> dropDownList [
+	^ self custom: GLMDropDownListPresentation new
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> dynamic [
+	^ self custom: GLMDynamicPresentation new
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> eyesee [
+	^ self custom: GLMEyeSeePresentation new
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> finder [
+	^ self custom: GLMFinder new
 ]
 
 { #category : #accessing }
@@ -94,14 +130,39 @@ GLMCompositePresentation >> isEmpty [
 	^ self presentations isEmpty
 ]
 
+{ #category : #scripting }
+GLMCompositePresentation >> label [
+	^ self custom: GLMLabelPresentation new
+]
+
 { #category : #accessing }
 GLMCompositePresentation >> last [
 	^ self presentations last
 ]
 
+{ #category : #scripting }
+GLMCompositePresentation >> list [ 
+	^ self custom: GLMListPresentation new
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> magritte [
+	^ self custom: GLMMagrittePresentation new
+]
+
 { #category : #accessing }
 GLMCompositePresentation >> matchingPresentations [
 	^ self presentations select: [:each | each matches]
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> mondrian [ 
+	^ self custom: GLMMondrianPresentation new
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> morph [
+	^ self custom: GLMMorphPresentation new
 ]
 
 { #category : #'scripting opening' }
@@ -189,6 +250,11 @@ GLMCompositePresentation >> size [
 ]
 
 { #category : #scripting }
+GLMCompositePresentation >> smalltalkCode [
+	^ self custom: GLMSmalltalkCodePresentation new
+]
+
+{ #category : #scripting }
 GLMCompositePresentation >> stackedArrangement [
 	^ self stackedVerticallyArrangement
 ]
@@ -207,6 +273,26 @@ GLMCompositePresentation >> startOn: anObject [
 { #category : #scripting }
 GLMCompositePresentation >> tabbedArrangement [
 	^ self arrangement: GLMTabbedArrangement new
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> table [
+	^ self custom: GLMTablePresentation new
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> tabulator [
+	^ self custom: GLMTabulator new
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> text [ 
+	^ self custom: GLMTextPresentation new
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> tree [ 
+	^ self custom: GLMTreePresentation new
 ]
 
 { #category : #announcements }
