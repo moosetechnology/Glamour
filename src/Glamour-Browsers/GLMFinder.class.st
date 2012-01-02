@@ -75,6 +75,7 @@ GLMFinder >> fixedSizePanes: anInteger [
 
 { #category : #scripting }
 GLMFinder >> fromPrevious: aPortSymbol [
+	self flag: 'needs revisiting. it does not work anymore'.
 	self scriptTransmission addActiveOrigin: (GLMPort new name: aPortSymbol)
 ]
 
@@ -158,6 +159,7 @@ GLMFinder >> outerPortEvent: aPortEvent [
 
 { #category : #scripting }
 GLMFinder >> passivelyFromPrevious: aPortSymbol [
+	self flag: 'needs revisiting. it does not work anymore'.
 	self scriptTransmission addPassiveOrigin: (GLMPort new name: aPortSymbol)
 ]
 
@@ -168,6 +170,7 @@ GLMFinder >> renderGlamorouslyOn: aRenderer [
 
 { #category : #scripting }
 GLMFinder >> using: aBlock [ 
+	self flag: 'should be removed. kept just until we make fromPrevious and passivelyFromPrevious: work'.
 	 
 	aBlock value. 
 	self addTransmission: scriptTransmission. 
