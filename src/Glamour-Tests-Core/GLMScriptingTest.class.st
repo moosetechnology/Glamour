@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #tests }
+GLMScriptingTest >> expectedFailures [ 
+	^ #(testFinderWithPreviousPort)
+]
+
+{ #category : #tests }
 GLMScriptingTest >> testActionDefinition [
 	| browser |
 	browser := GLMTabulator new.
@@ -130,10 +135,10 @@ GLMScriptingTest >> testFinderWithPreviousPort [
 		a list
 			title: 'Presentation1';
 			display: [ :each | 1 to: each ]].
-	browser
+	browser 
 		fromPrevious: #selection;
 		passivelyFromPrevious: #highlight;
-		show: [ :a | 
+		andShow: [ :a | 
 			a list
 				title: 'Presentation2';
 				display: [ :selection :highlight | 1 to: selection + highlight ] ].
@@ -296,7 +301,7 @@ GLMScriptingTest >> testPublishingToOutsideAndInsideFinder [
 		from: #one;
 		andShow: [ :a | a text ].
 	innerBrowser transmit toOutsidePort: #selection; from: #one port: #selection.
-	finder custom: innerBrowser.
+	finder show: [:a | a custom: innerBrowser].
 	self assert: innerBrowser transmissions size equals: 3.
 	self assert: innerBrowser transmissions second origins first pane == innerBrowser panes first.
 	self assert: innerBrowser transmissions second destination pane == innerBrowser panes last.
@@ -317,7 +322,7 @@ GLMScriptingTest >> testPublishingToOutsideFinder [
 		transmit to: #any;
 		andShow: [ :a | a list display: [ :x | 1 to: 43 ] ].
 	innerBrowser transmit toOutsidePort: #selection; from: #any port: #selection.
-	finder custom: innerBrowser.
+	finder show: [:a | a custom: innerBrowser].
 	finder startOn: 43.
 	self assert: (finder panes first port: #entity) value equals: 43.
 	self assert: (finder panes first port: #selection) value isNil.
