@@ -21,7 +21,7 @@ GLMListMorphicTest >> testListDoubleClick [
 GLMListMorphicTest >> testListDoubleClickWithMultipleSelection [
 	| browser treeMorph treeNodeMorph lastTreeNodeMorph |
 	browser := GLMFinder new.
-	browser tree beMultiple.
+	browser show: [:a | a tree beMultiple].
 	window := browser openOn: ($a to: $d).
 	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
 	treeNodeMorph := treeMorph scroller submorphs first.

@@ -111,8 +111,7 @@ GLMFinderMorphicTest >> testFixedSize [
 GLMFinderMorphicTest >> testMultiplePresentationsValidation [
 	| browser |
 	browser := GLMFinder new.
-	browser list.
-	browser text.
+	browser show: [:a | a list. a text ].
 	window := browser openOn: ($a to: $d).
 	(browser panes first port: #selection) value: $z.
 	self assert: (browser panes first port: #selection) value equals: $z
@@ -122,7 +121,7 @@ GLMFinderMorphicTest >> testMultiplePresentationsValidation [
 GLMFinderMorphicTest >> testNoSelection [
 	| browser treeMorph treeNodeMorph |
 	browser := GLMFinder new.
-	browser tree noSelection.
+	browser show: [:a | a tree noSelection].
 	window := browser openOn: ($a to: $d).
 	treeMorph := window submorphs last submorphs first submorphs first submorphs first submorphs first.
 	treeNodeMorph := treeMorph scroller submorphs first.

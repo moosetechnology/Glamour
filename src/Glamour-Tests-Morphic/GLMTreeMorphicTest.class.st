@@ -9,10 +9,10 @@ GLMTreeMorphicTest >> testChildrenBlock [
 	| browser check |
 	browser := GLMFinder new.
 	check := false.
-	browser tree
+	browser show: [:a | a tree
 		children: [ :each | 
 			check := true.
-			#() ].
+			#() ]].
 	window := browser openOn: ($a to: $d).
 	World doOneCycle.
 	self repeatAssert: [ check ] equals: true
@@ -23,8 +23,8 @@ GLMTreeMorphicTest >> testChildrenBlockTakesEntity [
 	| browser receivedEntity |
 	browser := GLMFinder new.
 	receivedEntity := nil.
-	browser tree
-		children: [:each :entity | receivedEntity := entity. #()].
+	browser show: [:a | a tree
+		children: [:each :entity | receivedEntity := entity. #()]].
 	window := browser openOn: ($a to: $d).
 	World doOneCycle.
 	self repeatAssert: [receivedEntity] equals: ($a to: $d).
@@ -35,7 +35,7 @@ GLMTreeMorphicTest >> testChildrenBlockTakesEntity [
 GLMTreeMorphicTest >> testTreeAllowDeseletion [
 	| browser treeNodeMorph |	
 	browser := GLMFinder new.
-	browser list allowDeselection.
+	browser show: [:a | a list allowDeselection].
 	window := browser openOn: ($a to: $d).
 	treeNodeMorph := self treeRoots first.
 	self send: self tree mouseUpOnItem: treeNodeMorph.
@@ -47,7 +47,7 @@ GLMTreeMorphicTest >> testTreeAllowDeseletion [
 GLMTreeMorphicTest >> testTreeDefaultAllowDeseletion [
 	| browser treeNodeMorph |
 	browser := GLMFinder new.
-	browser tree.
+	browser show: [:a | a tree].
 	window := browser openOn: ($a to: $d).
 	treeNodeMorph := self treeRoots first.
 	self send: self tree mouseUpOnItem: treeNodeMorph.
@@ -59,7 +59,7 @@ GLMTreeMorphicTest >> testTreeDefaultAllowDeseletion [
 GLMTreeMorphicTest >> testTreeMultipleSelection [
 	| browser treeNodeMorph lastTreeNodeMorph |
 	browser := GLMFinder new.
-	browser tree beMultiple.
+	browser show: [:a | a tree beMultiple].
 	window := browser openOn: ($a to: $d).
 	treeNodeMorph := self treeRoots first.
 	lastTreeNodeMorph := self treeRoots last.
@@ -73,7 +73,7 @@ GLMTreeMorphicTest >> testTreeMultipleSelection [
 GLMTreeMorphicTest >> testTreeMultipleSelectionWithCancellation [
 	| browser treeNodeMorph lastTreeNodeMorph |
 	browser := GLMFinder new.
-	browser tree beMultiple allowDeselection.
+	browser show: [:a | a tree beMultiple allowDeselection].
 	window := browser openOn: ($a to: $d).
 	treeNodeMorph := self treeRoots first.
 	lastTreeNodeMorph := self treeRoots last.
@@ -88,7 +88,7 @@ GLMTreeMorphicTest >> testTreeMultipleSelectionWithCancellation [
 GLMTreeMorphicTest >> testTreeSelection [
 	| browser treeNodeMorph |
 	browser := GLMFinder new.
-	browser tree.
+	browser show: [:a | a tree].
 	window := browser openOn: ($a to: $d).
 	treeNodeMorph := self treeRoots first.
 	self send: self tree mouseUpOnItem: treeNodeMorph.
@@ -99,7 +99,7 @@ GLMTreeMorphicTest >> testTreeSelection [
 GLMTreeMorphicTest >> testTreeSelectionCancellation [
 	| browser treeNodeMorph |
 	browser := GLMFinder new.
-	browser tree allowDeselection.
+	browser show: [:a | a tree allowDeselection].
 	window := browser openOn: ($a to: $d).
 	treeNodeMorph := self treeRoots first.
 	self send: self tree mouseUpOnItem: treeNodeMorph.
@@ -135,7 +135,7 @@ GLMTreeMorphicTest >> testTreeWithTags [
 	(browser transmit)
 		to: #one;
 		andShow: [ :a | 
-					(browser tree)
+					(a tree)
 						display: [ model keys ];
 						children: [ :key | 
 									key isNumber
