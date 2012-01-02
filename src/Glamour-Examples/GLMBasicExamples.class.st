@@ -133,11 +133,12 @@ GLMBasicExamples >> browserWithToolbar [
 	finder := GLMFinder new.
 	finder act: [:f | f inspect] icon: MenuIcons smallFindIcon entitled: 'Inspect with icon'.
 	finder act: [:f | f inspect] entitled: 'Inspect without icon'.
-	finder list
+	finder show: [:a | 
+		a list
 			title: 'List';
 			display: [:each | $a to: each];
 			dynamicActions: [:list | self actionsFor: list ];
-			dynamicActionsOnSelection: [:list | self actionsFor: list ].
+			dynamicActionsOnSelection: [:list | self actionsFor: list ] ].
 	^ finder
 ]
 
@@ -596,17 +597,18 @@ GLMBasicExamples >> multipleFinderWithFilter [
 
 	| finder |	
 	finder := GLMFinder new.
-	finder list
+	finder show: [:a | 
+		a list
 			title: 'List';
 			beMultiple;
 			dynamicActions: [:list | self actionsFor: list];
 			filterOn: [:text :each | Compiler evaluate: '| each | each := self. ', text for: each logged: false ];
 			helpMessage:  'Enter a filtering request (e.g., "each > $f")'. 
-	finder tree
+		a tree
 			title: 'Tree';
 			dynamicActions: [:list | self actionsFor: list];
 			filterOn: [:text :each | Compiler evaluate: '| each | each := self. ', text for: each logged: false ];
-			helpMessage:  'Enter a filtering request (e.g., "each > $f")'.
+			helpMessage:  'Enter a filtering request (e.g., "each > $f")' ].
 	^ finder 
 ]
 
@@ -617,22 +619,23 @@ GLMBasicExamples >> multipleFinderWithFilterAndSearch [
 
 	| finder |	
 	finder := GLMFinder new.
-	finder list
+	finder show: [:a | 
+		a list
 			beMultiple;
 			title: 'Simple';
 			dynamicActions: [:list | self actionsFor: list].
-	finder list
+		a list
 			title: 'With filter';
 			beMultiple;
 			dynamicActions: [:list | self actionsFor: list];
 			filterOn: [:text :each | (Compiler evaluate: '[:each | ', text, ']') value: each];
 			helpMessage:  'Enter a filtering request (e.g., "each > 10")'.
-	finder list
+		a list
 			title: 'With search';
 			beMultiple;
 			dynamicActions: [:list | self actionsFor: list];
 			searchOn: [:text :each | (Compiler evaluate: '[:each | ', text, ']') value: each];
-			helpMessage:  'Enter a search request (e.g., "each > 10")'.
+			helpMessage:  'Enter a search request (e.g., "each > 10")' ].
 	^ finder 
 ]
 
@@ -642,9 +645,9 @@ GLMBasicExamples >> populatePortAction [
 	"self new populatePortAction openOn: 'Select a piece of text and open on the next pane either with the overall button, or via the context menu'"
 	| browser |
 	browser := GLMFinder new.
-	browser text
+	browser show: [:a | a text
 		selectionPopulate: #selection on: $o entitled: 'Open selection on next pane' with: [:text | text selectedText ];
-		populate: #selection icon: GLMUIThemeExtraIcons glamorousRight on: $l entitled: 'Open complete text on next pane' with: [:text | text text ].
+		populate: #selection icon: GLMUIThemeExtraIcons glamorousRight on: $l entitled: 'Open complete text on next pane' with: [:text | text text ]].
 	^ browser 
 ]
 
@@ -681,7 +684,7 @@ GLMBasicExamples >> simpleFinder [
 	"self new simpleFinder openOn: 100"
 	| finder |	
 	finder := GLMFinder new.
-	finder list display: [ :x | 1 to: x ].
+	finder show: [:a | a list display: [ :x | 1 to: x ]].
 	^ finder
 ]
 
@@ -692,10 +695,10 @@ GLMBasicExamples >> simpleFinderWithMenu [
 
 	| finder |
 	finder := GLMFinder new variableSizePanes.
-	finder list
+	finder show: [:a | a list
 			title: 'List';
 			display: [:each | $a to: each];
-			dynamicActionsOnSelection: [:list | self actionsFor: list ].
+			dynamicActionsOnSelection: [:list | self actionsFor: list ]].
 	^ finder
 ]
 
@@ -708,12 +711,13 @@ GLMBasicExamples >> simpleTable [
 	(f panes first port: #selection) value: 1"
 	| finder |	
 	finder := GLMFinder new.
-	finder table
+	finder show: [:a | 
+		a table
 			display: [ :x | 1 to: x ]; 
 			dynamicActions: [ :list | self actionsFor: list ];
 			column: [:x | 'Numbers from 1 to ', x asString] evaluated: #asString;
 			column: 'Even' evaluated: [ :each | each even asString ];
-			column: 'Odd' evaluated: [ :each | each odd asString ].
+			column: 'Odd' evaluated: [ :each | each odd asString ] ].
 	^ finder
 ]
 
@@ -742,7 +746,7 @@ GLMBasicExamples >> singleInitialSelection [
 { #category : #text }
 GLMBasicExamples >> smalltalkCode [
 	<glmBrowser: 'Smalltalk code' input: '''"Enter some Smalltalk code and then accept to preview the result."'''>
-	"self new smalltalkCode openOn: ''"
+	"	self new smalltalkCode openOn: '"
 	| browser |
 	browser := GLMTabulator new.
 	browser row: #code span: 2; row: #preview.
@@ -864,17 +868,18 @@ GLMBasicExamples >> staticAndDynamicMenu [
 
 	| finder |
 	finder := GLMFinder new.
-	finder list
+	finder show: [ :a |
+		a list
 			title: 'List';
 			display: [:each | $a to: each];
 			dynamicActionsOnSelection: [:list | self actionsFor: list ];
 			selectionAct: [self inform: 'static action'] entitled: 'Static action';
 			selectionAct: [self inform: 'static sub action'] entitled: 'Static sub action' categorized: 'Sub menu'.
-	finder text
+		a text
 			title: 'Text';
 			display: [:each | 'Character ', each asString];
 			dynamicActionsOnSelection: [:text | OrderedCollection with: (GLMGenericAction new title: 'Print selection'; action: [text selectedText inspect ]; yourself) ];
-			selectionAct: [self inform: 'Text static action'] entitled: 'Static action'.
+			selectionAct: [self inform: 'Text static action'] entitled: 'Static action'].
 	^ finder
 ]
 
@@ -928,12 +933,13 @@ GLMBasicExamples >> tabsWithDifferentLabels [
 	| finder |
 	finder := GLMFinder new.
 	(1 to: 3) do: [:i | 
-		finder text
-			title: i printString;
-			display: [:x | i printString].
-		finder text
-			titleIcon: MenuIcons smallFindIcon;
-			display: [:x | i printString]
+		finder show: [:a | 
+			a text
+				title: i printString;
+				display: [:x | i printString].
+			a text
+				titleIcon: MenuIcons smallFindIcon;
+				display: [:x | i printString] ]
 	].
 	
 	^ finder
@@ -1082,7 +1088,7 @@ GLMBasicExamples >> treeWithChildrenByLevel [
 	(browser transmit)
 		to: #one;
 		andShow: [ :a | 
-					(browser tree)
+					(a tree)
 						title: 'Tree';
 						children: [ :item :x :level | 
 									level > 1
@@ -1194,7 +1200,7 @@ GLMBasicExamples >> treeWithTags [
 	browser := GLMTabulator new.
 	browser column: #one.
 	browser transmit to: #one; andShow: [ :a |
-		browser tree
+		a tree
 			display: [model keys];  
 			children: [:key | key isNumber ifFalse: [model at: key] ];
 			tags: [:item | item isNumber ifTrue: [item even ifTrue: [#('even')] ifFalse: [#('odd')]] ifFalse: [#()]]].  
@@ -1216,7 +1222,7 @@ GLMBasicExamples >> treeWithTagsMoreLevels [
 	browser := GLMTabulator new.
 	browser column: #one.
 	browser transmit to: #one; andShow: [ :a |
-		browser tree
+		a tree
 			display: [model keys];
 			children: [:child | child isSymbol
 								ifTrue: [Array with: ((model at: child) select: [:c | c < 4]) with: ((model at: child) select: [:c | c >= 4])]
@@ -1406,9 +1412,8 @@ GLMBasicExamples >> wizard [
 	wizard := GLMWizard new.
 	(wizard genericStep: #step)
 		show: [:a | 
-		a list
-			display: [:list | 1 to: 100] 
-		] ;
+			a list
+				display: [:list | 1 to: 100] ];
 		name: 'Wizard pane';
 		size: 2.
 	^ wizard
