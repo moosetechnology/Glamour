@@ -436,6 +436,32 @@ GLMBasicExamples >> interdependentPanes [
 	^ browser
 ]
 
+{ #category : #'drag and drop' }
+GLMBasicExamples >> listDragAndDrop [
+	"self new listDragAndDrop openOn: (1 to: 5) asOrderedCollection"
+	| browser |
+	browser := GLMTabulator new.
+	browser column: #source; column: #target.
+	browser transmit to: #source; andShow: [:a | 
+		a list 
+			title: 'Source';
+			display: (1 to: 10);
+			allowItemDrag: [:item :list | true ];
+			transformDraggedItem: [:item :list | item + 100 ]
+			].
+	browser transmit to: #target; andShow: [:a |  
+		a list
+			title: 'Target'; 
+			display: [:collection | collection ];
+			allowDropOnItem: [:draggedObject :targetItem :list | draggedObject isNumber ];
+			dropOnItem: [:draggedObject :targetItem :list | 
+				list entity addLast: (targetItem + draggedObject).
+				list update.
+				true ]
+			].
+	^ browser
+]
+
 { #category : #'explicit selection' }
 GLMBasicExamples >> listsInDashboardWithUpdatedSelection [
 	"self new listsInDashboardWithUpdatedSelection openOn: 10"
@@ -1397,8 +1423,7 @@ GLMBasicExamples >> validatorDynamic [
 	validator show: [:a | 
 		a dynamic display: [:x |
 			GLMListPresentation new display: [:y | 1 to: y]
-			]  
-		].
+			] ].
 	finder show: [:a | a custom: validator].
 	^ finder
 ]
