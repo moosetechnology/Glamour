@@ -26,14 +26,49 @@ Class {
 		'tagsStyle',
 		'helpMessage',
 		'sortBlock',
-		'textBackgroundColor'
+		'textBackgroundColor',
+		'dropOnItemBlock',
+		'allowDropOnItemBlock',
+		'allowItemDragBlock',
+		'transformDraggedItemBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
 
+{ #category : #'accessing values' }
+GLMListingPresentation >> accept: passengerObject droppedOnItem: anItem [
+	self dropOnItemBlock glamourValue: (GLMMultiValue with: passengerObject with: anItem with: self).
+	^ true
+]
+
+{ #category : #'accessing values' }
+GLMListingPresentation >> allow: passengerObject droppedOnItem: anItem [
+	^ self allowDropOnItemBlock glamourValue: (GLMMultiValue with: passengerObject with: anItem with: self)
+]
+
 { #category : #scripting }
 GLMListingPresentation >> allowDeselection [
 	self allowsDeselection: true
+]
+
+{ #category : #scripting }
+GLMListingPresentation >> allowDropOnItem: aBlock [
+	allowDropOnItemBlock := aBlock
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> allowDropOnItemBlock [
+	^ allowDropOnItemBlock
+]
+
+{ #category : #scripting }
+GLMListingPresentation >> allowItemDrag: aBlock [
+	allowItemDragBlock := aBlock
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> allowItemDragBlock [
+	^ allowItemDragBlock
 ]
 
 { #category : #accessing }
@@ -54,6 +89,11 @@ GLMListingPresentation >> allowsFilter [
 { #category : #testing }
 GLMListingPresentation >> allowsInput [
 	^ self allowsFilter or: [ self allowsSearch ]
+]
+
+{ #category : #testing }
+GLMListingPresentation >> allowsItemDrag [
+	^ self allowItemDragBlock notNil
 ]
 
 { #category : #testing }
@@ -102,6 +142,16 @@ GLMListingPresentation >> displayValue [
 ]
 
 { #category : #scripting }
+GLMListingPresentation >> dropOnItem: aBlock [
+	dropOnItemBlock := aBlock
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> dropOnItemBlock [
+	^ dropOnItemBlock 
+]
+
+{ #category : #scripting }
 GLMListingPresentation >> filterOn: aBlock [ 
 	filterBlock := aBlock
 ]
@@ -143,6 +193,16 @@ GLMListingPresentation >> helpMessage: aString [
 	helpMessage := aString.
 
 	
+]
+
+{ #category : #testing }
+GLMListingPresentation >> isDragSource [ 
+	^ self dropOnItemBlock notNil
+]
+
+{ #category : #testing }
+GLMListingPresentation >> isDropTarget [
+	^ self dropOnItemBlock notNil
 ]
 
 { #category : #testing }
@@ -276,6 +336,21 @@ GLMListingPresentation >> textBackgroundColor:  aBlockOrAColor [
 { #category : #accessing }
 GLMListingPresentation >> textBackgroundColorFor: anObject [
 	^ self textBackgroundColor glamourValue: (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue)
+]
+
+{ #category : #scripting }
+GLMListingPresentation >> transformDraggedItem: aBlock [
+	transformDraggedItemBlock := aBlock
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> transformDraggedItemBlock [
+	^ transformDraggedItemBlock
+]
+
+{ #category : #'accessing values' }
+GLMListingPresentation >> transformedDraggedItem: anItem [
+	^ self transformDraggedItemBlock glamourValue: (GLMMultiValue with: anItem with: self)
 ]
 
 { #category : #accessing }
