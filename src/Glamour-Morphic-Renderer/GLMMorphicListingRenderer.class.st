@@ -79,6 +79,8 @@ GLMMorphicListingRenderer >> treeMorphFor: tmpTreeModel and: aPresentation [
 		doubleClickSelector: #onDoubleClick;
 		getMenuSelector: #menu:shifted:;
 		keystrokeActionSelector: #keyStroke:from:;
+		dragEnabled: tmpTreeModel dragEnabled;
+		dropEnabled: tmpTreeModel dropEnabled;
 		cornerStyle: tmpTreeMorph preferredCornerStyle;
 		borderStyle: (BorderStyle inset width: 1);
 		autoDeselection: aPresentation allowsDeselection;
