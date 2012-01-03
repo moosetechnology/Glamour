@@ -1,3 +1,6 @@
+"
+ConfigurationOfGlamour loadDevelopment
+"
 Class {
 	#name : #ConfigurationOfGlamour,
 	#superclass : #Object,
@@ -54,6 +57,7 @@ ConfigurationOfGlamour class >> isMetacelloConfig [
 
 { #category : #loading }
 ConfigurationOfGlamour class >> loadDefault [
+	"this will be deprecated soon"
 	self loadDevelopment
 ]
 
