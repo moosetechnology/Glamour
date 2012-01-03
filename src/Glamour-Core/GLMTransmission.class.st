@@ -61,6 +61,14 @@ GLMTransmission >> addPresentations: aCollection [
 
 { #category : #scripting }
 GLMTransmission >> andShow: aBlock [
+	"This scripting method acceppts a block with one argument
+	that will be populated with an instance of GLMCompositePresentation.
+	
+	The block should construct the presentations that go in the composite presentation.
+	The composite presentation will be the one that will get installed in the target pane
+	once the transmission triggers.
+	"
+	
 	self ensureReplacePresentationsStrategy.
 	self origins isEmpty
 		ifTrue: [ self from: #outer port: #entity ].
@@ -69,16 +77,21 @@ GLMTransmission >> andShow: aBlock [
 
 { #category : #scripting }
 GLMTransmission >> andShowIfNone: aBlock [
+	"This scripting method acceppts a block with one argument
+	that will be populated with an instance of GLMCompositePresentation.
+	
+	The block should construct the presentations that go in the composite presentation.
+	The composite presentation will be the one that will get installed in the target pane
+	once the transmission triggers.
+	
+	The particularity of this method is that the presentation will get installed in the target
+	pane only if the target pane has no presentation already.
+	"
+
 	self ensurePresentIfNoneStrategy.
 	self origins isEmpty
 		ifTrue: [ self from: #outer port: #entity ].
 	aBlock value: self transmissionStrategy presentations
-]
-
-{ #category : #scripting }
-GLMTransmission >> andShowWithoutOverride: aBlock [
-	self deprecated: 'Please use andShowIfNone: instead'.
-	^ self andShowIfNone: aBlock
 ]
 
 { #category : #accessing }
