@@ -38,7 +38,7 @@ GLMDynamicPresentation >> currentPresentation [
 { #category : #'initialize-release' }
 GLMDynamicPresentation >> initialize [ 
 	super initialize.
-	presentationTransformation := [ :aComposite :each | aComposite add: each ]
+	presentationTransformation := [ :aComposite :each | aComposite custom: each ]
 ]
 
 { #category : #scripting }
