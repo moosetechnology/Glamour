@@ -924,7 +924,9 @@ GLMBasicExamples >> tableWithIcons [
 			column: 'Character' evaluated: [ :each | each asString ];
 			column: 'ASCII' evaluated: [ :each | each asInteger printString ];
 			selectionAct: [:tree | tree selection inspect ] on: $i entitled: 'Inspect';
-			icon: [:x | MenuIcons helpIcon ]].
+			icon: [:each | each asInteger odd 
+						ifTrue: [ GLMUIThemeExtraIcons glamorousRedCircle ] 
+						ifFalse: [ GLMUIThemeExtraIcons glamorousGreenCircle ] ]].
 	browser transmit to: #two; from: #one; andShow: [:a | a text ].
 	^ browser
 ]
