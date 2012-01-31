@@ -854,6 +854,7 @@ GLMBasicExamples >> stacker [
 
 { #category : #others }
 GLMBasicExamples >> starBrowser [
+	<glmBrowser: 'Complex morphs (StarBrowser simulation)' input: '{ Boolean. String. #asString. #printString }'>
 	"self new starBrowser openOn: { Boolean. String. #asString. #printString }"
 
 	| browser accumulator |
@@ -924,9 +925,7 @@ GLMBasicExamples >> tableWithIcons [
 			column: 'Character' evaluated: [ :each | each asString ];
 			column: 'ASCII' evaluated: [ :each | each asInteger printString ];
 			selectionAct: [:tree | tree selection inspect ] on: $i entitled: 'Inspect';
-			icon: [:each | each asInteger odd 
-						ifTrue: [ GLMUIThemeExtraIcons glamorousRedCircle ] 
-						ifFalse: [ GLMUIThemeExtraIcons glamorousGreenCircle ] ]].
+			icon: [:x | MenuIcons helpIcon ]].
 	browser transmit to: #two; from: #one; andShow: [:a | a text ].
 	^ browser
 ]
