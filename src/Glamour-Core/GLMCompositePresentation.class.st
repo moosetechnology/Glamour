@@ -17,6 +17,11 @@ GLMCompositePresentation >> accordionArrangement [
 ]
 
 { #category : #scripting }
+GLMCompositePresentation >> accumulator [ 
+	^ self custom: GLMAccumulator new
+]
+
+{ #category : #scripting }
 GLMCompositePresentation >> actionList [
 	^ self custom: GLMActionListPresentation new
 ]
