@@ -661,6 +661,7 @@ ConfigurationOfGlamour >> stable: spec [
 
 	spec for: #'common' version: '2.1'.
 	spec for: #'pharo1.3.x' version: '2.2'.
+	spec for: #'pharo1.4.x' version: '2.3'.
 ]
 
 { #category : #versions }
@@ -958,4 +959,21 @@ ConfigurationOfGlamour >> version22: spec [
 			package: 'Glamour-Tests-EyeSee' with: 'Glamour-Tests-EyeSee-AndreHora.6'.
 
 		]
+]
+
+{ #category : #versions }
+ConfigurationOfGlamour >> version23: spec [
+	<version: '2.3' imports: #('2.2')>
+
+	spec for: #'common' do: [
+		spec blessing: #'release'.
+		spec description: 'release for pharo 1.4'.
+		spec author: 'EstebanLorenzano'.
+		spec timestamp: '02/13/2012 13:45'.
+
+		spec 
+			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-TudorGirba.29';
+			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-TudorGirba.129';
+			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-TudorGirba.75';
+			package: 'Glamour-Examples' with: 'Glamour-Examples-TudorGirba.204' ]
 ]
