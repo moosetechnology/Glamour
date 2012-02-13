@@ -8,3 +8,8 @@ Class {
 GLMMorphicAction >> worksWithMorphic [
 	^ true
 ]
+
+{ #category : #testing }
+GLMMorphicAction >> worksWithSeaside [
+	^ false
+]

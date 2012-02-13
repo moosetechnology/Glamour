@@ -50,7 +50,6 @@ GLMMorphicExpanderRenderer >> renderWithTree: aBrowser [
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		preferedPaneColor: Color white;	
 		model: treeModel;
-		nodeListSelector: #roots;
 		columns: ( OrderedCollection with: (MorphTreeColumn new rowMorphGetSelector: #elementColumn)).
 	treeMorph vShowScrollBar.
 	aBrowser on: GLMBrowserClosed send: #actOnBrowserClosed: to: self.

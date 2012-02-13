@@ -11,7 +11,7 @@ Class {
 GLMMorphicTabbedRenderer >> actOnPresentationUpdated: ann [
 	| index presentations |
 	presentations := ann presentation matchingPresentations.
-	tabs pages size to: 1 by: -1 do: [ :i | tabs removePageIndex: i ].	
+	tabs clear.	
 	presentations do: [ :each | 
 		tabs 
 			addLazyPage: [ self renderObject: each ]

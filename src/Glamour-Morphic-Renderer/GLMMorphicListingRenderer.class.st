@@ -33,10 +33,6 @@ GLMMorphicListingRenderer >> render: aPresentation [
 	container addMorphBack: treeMorph.
 	self installActionsOnUI: treeModel fromPresentation: aPresentation.
 
-	aPresentation selection notNil ifTrue: [
-		treeModel announcer suspendAllWhile: [
-			treeMorph model explicitSelection: aPresentation selection ]].
-
 	"When the morph changes, we want to update the glamour model"
 	treeModel announcer on: GLMTreeMorphSelectionChanged do: [ :ann | 
 		aPresentation announcer suspendAllWhile: [
@@ -79,8 +75,6 @@ GLMMorphicListingRenderer >> treeMorphFor: tmpTreeModel and: aPresentation [
 		doubleClickSelector: #onDoubleClick;
 		getMenuSelector: #menu:shifted:;
 		keystrokeActionSelector: #keyStroke:from:;
-		dragEnabled: tmpTreeModel dragEnabled;
-		dropEnabled: tmpTreeModel dropEnabled;
 		cornerStyle: tmpTreeMorph preferredCornerStyle;
 		borderStyle: (BorderStyle inset width: 1);
 		autoDeselection: aPresentation allowsDeselection;
@@ -104,7 +98,6 @@ GLMMorphicListingRenderer >> treeMorphFor: tmpTreeModel and: aPresentation [
 	tmpTreeMorph
 		preferedPaneColor: Color white;	
 		model: tmpTreeModel;
-		nodeListSelector: #roots;
 		columns: columns.
 	aPresentation isMultiple 
 		ifTrue: [tmpTreeMorph beMultiple] 

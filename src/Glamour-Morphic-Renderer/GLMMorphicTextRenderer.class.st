@@ -58,7 +58,6 @@ GLMMorphicTextRenderer >> textMorphForModel:  aTextModel [
 		accept: #accept:notifying:
 		readSelection: #selection
 		menu: #menu:shifted:)
-		autoAccept: true;
 		onKeyStrokeSend: #keystroke:from: to: aTextModel;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		vResizing: #spaceFill;

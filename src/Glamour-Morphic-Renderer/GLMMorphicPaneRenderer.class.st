@@ -11,6 +11,7 @@ Class {
 GLMMorphicPaneRenderer >> actOnMatchingPresentationChanged: anAnnouncement [ 
 	container removeAllMorphs.
 	self renderContainerFor: anAnnouncement pane.
+
 	self renderer window isNil ifFalse: [ 
 		self flag: 'this check is fishy'.
 		self renderer window fullBounds]
