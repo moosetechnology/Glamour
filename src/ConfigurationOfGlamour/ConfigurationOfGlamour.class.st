@@ -972,8 +972,8 @@ ConfigurationOfGlamour >> version23: spec [
 		spec timestamp: '02/13/2012 13:45'.
 
 		spec 
-			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-TudorGirba.29';
-			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-TudorGirba.129';
-			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-TudorGirba.75';
-			package: 'Glamour-Examples' with: 'Glamour-Examples-TudorGirba.204' ]
+			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-EstebanLorenzano.30';
+			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-EstebanLorenzano.130';
+			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Morphic-EstebanLorenzano.61';
+			package: 'Glamour-Examples' with: 'Glamour-Examples-EstebanLorenzano.205' ]
 ]
