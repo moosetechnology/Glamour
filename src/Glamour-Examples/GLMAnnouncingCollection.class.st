@@ -49,11 +49,6 @@ GLMAnnouncingCollection >> isCollection [
 	^true
 ]
 
-{ #category : #testing }
-GLMAnnouncingCollection >> isEmpty [
-	^ collection isEmpty
-]
-
 { #category : #initialization }
 GLMAnnouncingCollection >> printString [
 	^ collection printString 
