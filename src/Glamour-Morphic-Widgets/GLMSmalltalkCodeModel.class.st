@@ -29,13 +29,10 @@ GLMSmalltalkCodeModel >> completionController [
 
 { #category : #completion }
 GLMSmalltalkCodeModel >> createCompletionController [
-	self class environment at: #ECPreferences ifPresent: [ :preferences |
-		self class environment at: #OController ifPresent: [ :ocontroller |
-			preferences useECompletionInsteadOfOCompletion
-				ifTrue: [ ^ ocontroller model: self ] ].
-		self class environment at: #ECController ifPresent: [ :eccontroller |
-			^ eccontroller model: self ] ].
-	^ nil
+
+	^(ECPreferences useECompletionInsteadOfOCompletion
+		ifFalse: [ OController ]
+		ifTrue: [ ECController ]) model: self
 ]
 
 { #category : #callbacks }
