@@ -4,7 +4,7 @@ ClassTree new openOn: Collection
 "
 Class {
 	#name : #GLMTreeMorphModel,
-	#superclass : #PaginatedMorphTreeModel,
+	#superclass : #MorphTreeModel,
 	#instVars : [
 		'roots',
 		'glamourPresentation',
@@ -12,13 +12,20 @@ Class {
 		'onSelection',
 		'displayFormat',
 		'tagsToFilterBy',
-		'glmAnnouncer',
 		'inputText',
 		'amountToFilterBy',
-		'defaultPageSize'
+		'defaultPageSize',
+		'glmAnnouncer'
 	],
 	#category : #'Glamour-Morphic-Widgets'
 }
+
+{ #category : #'drag and drop' }
+GLMTreeMorphModel >> acceptDroppingMorph: transferMorph event: evt inMorph: listMorph [ 
+	| targetItem |
+	targetItem := (listMorph scrollerSubMorphFromPoint: evt position) complexContents item.	
+	^ self glamourPresentation accept: transferMorph passenger droppedOnItem: targetItem
+]
 
 { #category : #accessing }
 GLMTreeMorphModel >> allKeystrokeActions [
@@ -48,7 +55,7 @@ GLMTreeMorphModel >> announce: anAnnouncement [
 
 { #category : #accessing }
 GLMTreeMorphModel >> announcer [
-	^glmAnnouncer ifNil: [ glmAnnouncer := GLMAnnouncer new ]
+	^ glmAnnouncer ifNil: [glmAnnouncer := GLMAnnouncer new]
 ]
 
 { #category : #accessing }
@@ -91,6 +98,31 @@ GLMTreeMorphModel >> doSearchOrFilter [
 				ifTrue: [ self executeFilter ]
 				ifFalse: [ self executeSearch ] ].
 
+]
+
+{ #category : #'drag and drop' }
+GLMTreeMorphModel >> dragEnabled [
+	^ self glamourPresentation allowsItemDrag
+]
+
+{ #category : #'drag and drop' }
+GLMTreeMorphModel >> dragPassengerFor: item inMorph: listMorph [
+	^ self glamourPresentation transformedDraggedItem: item complexContents item 
+]
+
+{ #category : #'drag and drop' }
+GLMTreeMorphModel >> dragTransferType [
+	^ #Glamour
+]
+
+{ #category : #'drag and drop' }
+GLMTreeMorphModel >> dragTransferTypeForMorph: listMorph [
+	^ self dragTransferType
+]
+
+{ #category : #'drag and drop' }
+GLMTreeMorphModel >> dropEnabled [
+	^ self glamourPresentation isDropTarget
 ]
 
 { #category : #'search and filtering' }
@@ -225,11 +257,6 @@ GLMTreeMorphModel >> resetTagsToFilterBy [
 ]
 
 { #category : #accessing }
-GLMTreeMorphModel >> rootNodes [
-	^self roots
-]
-
-{ #category : #accessing }
 GLMTreeMorphModel >> roots [
 	| filtered |
 	roots ifNil: [ self roots: self glamourPresentation displayValue ].
@@ -306,6 +333,20 @@ GLMTreeMorphModel >> toggleFilteringByTag: aTag [
 GLMTreeMorphModel >> updateRoots [
 	roots := nil.
 	self changed: #roots
+]
+
+{ #category : #'drag and drop' }
+GLMTreeMorphModel >> wantsDroppedMorph: transferMorph event: evt inMorph: listMorph [ 
+	| targetItem targetItemMorph |
+	(transferMorph isKindOf: TransferMorph) ifFalse: [ ^ false ].
+	transferMorph dragTransferType = self dragTransferType ifFalse: [ ^ false ].
+	
+	targetItemMorph := (listMorph scrollerSubMorphFromPoint: evt position).
+	targetItemMorph isNil ifFalse: [
+		targetItem := targetItemMorph complexContents item.	
+		^ self glamourPresentation allow: transferMorph passenger droppedOnItem: targetItem ].
+	self flag: 'we should ask the whole presentation if it wants to receive a dropped object'.
+	^ false
 ]
 
 { #category : #announcements }
