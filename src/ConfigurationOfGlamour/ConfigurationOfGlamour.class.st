@@ -974,6 +974,6 @@ ConfigurationOfGlamour >> version23: spec [
 		spec 
 			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-EstebanLorenzano.30';
 			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-EstebanLorenzano.130';
-			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Morphic-EstebanLorenzano.61';
+			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-EstebanLorenzano.61';
 			package: 'Glamour-Examples' with: 'Glamour-Examples-EstebanLorenzano.205' ]
 ]
