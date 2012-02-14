@@ -131,7 +131,7 @@ GLMBasicExamples >> browserWithToolbar [
 
 	| finder |
 	finder := GLMFinder new.
-	finder act: [:f | f inspect] icon: MenuIcons smallFindIcon entitled: 'Inspect with icon'.
+	finder act: [:f | f inspect] icon: GLMUIThemeExtraIcons glamorousInspect entitled: 'Inspect with icon'.
 	finder act: [:f | f inspect] entitled: 'Inspect without icon'.
 	finder show: [:a | 
 		a list
@@ -152,23 +152,23 @@ GLMBasicExamples >> compoundTaggedTree [
 	browser transmit to: #one; andShow: [ :a | 
 		a tree
 			title: 'Combined Tags';
-			tags: [:each | { {MenuIcons perform: (each, 'Icon') asSymbol . each asString }}].
+			tags: [:each | { {ThemeIcons perform: (each, 'Icon') asSymbol . each asString }}].
 		a tree
 			title: 'Image Tags';
-			tags: [:each | { MenuIcons perform: (each, 'Icon') asSymbol}].
+			tags: [:each | { ThemeIcons perform: (each, 'Icon') asSymbol}].
 		a tree
 			title: 'Combined Tags - Filter by image';
 			tags: [:each | 
 				{ each == #help 
-						ifTrue:[ {MenuIcons smallDeleteIcon . 'no ok' } ] 
-						ifFalse:[ {MenuIcons smallOkIcon . each asString } ]} ];
+						ifTrue:[ {ThemeIcons smallDeleteIcon . 'no ok' } ] 
+						ifFalse:[ {ThemeIcons smallOkIcon . each asString } ]} ];
 			tagsFilter: [:each | 
 				{ each == #help 
-						ifTrue:[ MenuIcons smallDeleteIcon ] ifFalse:[ MenuIcons smallOkIcon ] } ].
+						ifTrue:[ ThemeIcons smallDeleteIcon ] ifFalse:[ ThemeIcons smallOkIcon ] } ].
 		a tree
 			title: 'Combined Tags - Filter by label';
 			tags: [:each | 
-				{ {MenuIcons perform: (each, 'Icon') asSymbol.
+				{ {ThemeIcons perform: (each, 'Icon') asSymbol.
 					each == #help ifTrue:[ 'no ok' ] ifFalse:[ 'ok' ]}} ];
 			tagsFilter: [:each | 
 				{ each == #help ifTrue:[ 'no ok' ] ifFalse:[ 'ok' ] } ] ].
@@ -967,7 +967,7 @@ GLMBasicExamples >> tabsWithDifferentLabels [
 				title: i printString;
 				display: [:x | i printString].
 			a text
-				titleIcon: MenuIcons smallFindIcon;
+				titleIcon: GLMUIThemeExtraIcons glamorousBrowse;
 				display: [:x | i printString] ]
 	].
 	
