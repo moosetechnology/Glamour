@@ -33,6 +33,10 @@ GLMMorphicListingRenderer >> render: aPresentation [
 	container addMorphBack: treeMorph.
 	self installActionsOnUI: treeModel fromPresentation: aPresentation.
 
+	aPresentation selection notNil ifTrue: [
+		treeModel announcer suspendAllWhile: [
+			treeMorph model explicitSelection: aPresentation selection ]].
+
 	"When the morph changes, we want to update the glamour model"
 	treeModel announcer on: GLMTreeMorphSelectionChanged do: [ :ann | 
 		aPresentation announcer suspendAllWhile: [
@@ -78,6 +82,8 @@ GLMMorphicListingRenderer >> treeMorphFor: tmpTreeModel and: aPresentation [
 		cornerStyle: tmpTreeMorph preferredCornerStyle;
 		borderStyle: (BorderStyle inset width: 1);
 		autoDeselection: aPresentation allowsDeselection;
+		dragEnabled: tmpTreeModel dragEnabled;
+		dropEnabled: tmpTreeModel dropEnabled;		
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1)).

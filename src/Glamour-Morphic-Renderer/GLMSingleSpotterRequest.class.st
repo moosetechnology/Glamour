@@ -72,6 +72,11 @@ GLMSingleSpotterRequest >> default: aString [
 	default := aString
 ]
 
+{ #category : #'initialize-release' }
+GLMSingleSpotterRequest >> defaultAction [
+	^(GLMMorphicSingleSpotter openOn: self) answer
+]
+
 { #category : #dispatching }
 GLMSingleSpotterRequest >> handleWith: anObject [
 	^ anObject handleCompletionRequest: self
