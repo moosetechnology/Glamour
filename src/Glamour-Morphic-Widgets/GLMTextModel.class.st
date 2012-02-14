@@ -9,7 +9,7 @@ Class {
 
 { #category : #callbacks }
 GLMTextModel >> accept: aText notifying: anObject [ 
-	aText asString withBlanksTrimmed ifEmpty: [^self].
+	aText asString trimBoth ifEmpty: [^self].
 	self text: aText.
 	self changed: #text
 ]
