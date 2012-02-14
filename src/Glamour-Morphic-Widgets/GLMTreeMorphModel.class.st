@@ -4,7 +4,7 @@ ClassTree new openOn: Collection
 "
 Class {
 	#name : #GLMTreeMorphModel,
-	#superclass : #MorphTreeModel,
+	#superclass : #PaginatedMorphTreeModel,
 	#instVars : [
 		'roots',
 		'glamourPresentation',
@@ -12,10 +12,10 @@ Class {
 		'onSelection',
 		'displayFormat',
 		'tagsToFilterBy',
+		'glmAnnouncer',
 		'inputText',
 		'amountToFilterBy',
-		'defaultPageSize',
-		'glmAnnouncer'
+		'defaultPageSize'
 	],
 	#category : #'Glamour-Morphic-Widgets'
 }
@@ -55,7 +55,7 @@ GLMTreeMorphModel >> announce: anAnnouncement [
 
 { #category : #accessing }
 GLMTreeMorphModel >> announcer [
-	^ glmAnnouncer ifNil: [glmAnnouncer := GLMAnnouncer new]
+	^glmAnnouncer ifNil: [ glmAnnouncer := GLMAnnouncer new ]
 ]
 
 { #category : #accessing }
@@ -254,6 +254,11 @@ GLMTreeMorphModel >> resetInput [
 GLMTreeMorphModel >> resetTagsToFilterBy [
 	tagsToFilterBy := OrderedCollection new.
 	self changed: #roots.
+]
+
+{ #category : #accessing }
+GLMTreeMorphModel >> rootNodes [
+	^self roots
 ]
 
 { #category : #accessing }
