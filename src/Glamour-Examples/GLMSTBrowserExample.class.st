@@ -1,3 +1,6 @@
+"
+self new browser openOn: (RBBrowserEnvironment new forPackageNames: #('Glamour'))
+"
 Class {
 	#name : #GLMSTBrowserExample,
 	#superclass : #Object,
@@ -68,6 +71,28 @@ GLMSTBrowserExample >> classesIn: a [
 ]
 
 { #category : #accessing }
+GLMSTBrowserExample >> complexityIn: a [
+	^ a mondrian
+		title: 'Complexity';
+		useExplicitNotNil;
+		painting: [ :view :category :class :selector | 
+					view nodeShape
+						height: [ :model | model linesOfCode min: 50 max: 5 ];
+						width: [ :model | model instVarNames size + 5 ];
+						fillColor: [ :model | 
+									model = class
+										ifTrue: [ Color red ]
+										ifFalse: [ Color white ] ].
+					view
+						nodes:
+							(((Smalltalk organization listAtCategoryNamed: category) collect: [ :each | Smalltalk classNamed: each ])
+								reject: [ :each | each isTrait ]).
+					view edgesFrom: [ :each | each superclass ].
+					view treeLayout ];
+		when: [ :category :class :selector | category notNil ]
+]
+
+{ #category : #accessing }
 GLMSTBrowserExample >> methodsIn: a [
 	a list
 		useExplicitNotNil;
@@ -79,11 +104,6 @@ GLMSTBrowserExample >> methodsIn: a [
 		when: [ :environment :class :protocol | class notNil and: [ protocol isNil ] ];
 		display: [ :environment :class :protocol | environment selectorsForClass: class ];
 		sorted
-]
-
-{ #category : #accessing }
-GLMSTBrowserExample >> model [
-	^ BrowserEnvironment new forPackageNamed: 'Glamour'
 ]
 
 { #category : #accessing }
@@ -106,22 +126,5 @@ GLMSTBrowserExample >> sourceIn: a [
 		useExplicitNotNil;
 		when: [ :category :class :selector | class notNil and: [ selector isNil ] ];
 		display: [ :category :class :selector | class definition ].
-	^ a mondrian
-		title: 'Complexity';
-		useExplicitNotNil;
-		painting: [ :view :category :class :selector | 
-					view nodeShape
-						height: [ :model | model linesOfCode min: 50 max: 5 ];
-						width: [ :model | model instVarNames size + 5 ];
-						fillColor: [ :model | 
-									model = class
-										ifTrue: [ Color red ]
-										ifFalse: [ Color white ] ].
-					view
-						nodes:
-							(((Smalltalk organization listAtCategoryNamed: category) collect: [ :each | Smalltalk classNamed: each ])
-								reject: [ :each | each isTrait ]).
-					view edgesFrom: [ :each | each superclass ].
-					view treeLayout ];
-		when: [ :category :class :selector | category notNil ]
+	^ self complexityIn: a
 ]

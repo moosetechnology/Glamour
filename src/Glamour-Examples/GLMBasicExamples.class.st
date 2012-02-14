@@ -131,13 +131,14 @@ GLMBasicExamples >> browserWithToolbar [
 
 	| finder |
 	finder := GLMFinder new.
-	finder act: [:f | f inspect] icon: ThemeIcons smallFindIcon entitled: 'Inspect with icon'.
+	finder act: [:f | f inspect] icon: MenuIcons smallFindIcon entitled: 'Inspect with icon'.
 	finder act: [:f | f inspect] entitled: 'Inspect without icon'.
-	finder list
+	finder show: [:a | 
+		a list
 			title: 'List';
 			display: [:each | $a to: each];
 			dynamicActions: [:list | self actionsFor: list ];
-			dynamicActionsOnSelection: [:list | self actionsFor: list ].
+			dynamicActionsOnSelection: [:list | self actionsFor: list ] ].
 	^ finder
 ]
 
@@ -151,23 +152,23 @@ GLMBasicExamples >> compoundTaggedTree [
 	browser transmit to: #one; andShow: [ :a | 
 		a tree
 			title: 'Combined Tags';
-			tags: [:each | { {ThemeIcons perform: (each, 'Icon') asSymbol . each asString }}].
+			tags: [:each | { {MenuIcons perform: (each, 'Icon') asSymbol . each asString }}].
 		a tree
 			title: 'Image Tags';
-			tags: [:each | { ThemeIcons perform: (each, 'Icon') asSymbol}].
+			tags: [:each | { MenuIcons perform: (each, 'Icon') asSymbol}].
 		a tree
 			title: 'Combined Tags - Filter by image';
 			tags: [:each | 
 				{ each == #help 
-						ifTrue:[ {ThemeIcons smallDeleteIcon . 'no ok' } ] 
-						ifFalse:[ {ThemeIcons smallOkIcon . each asString } ]} ];
+						ifTrue:[ {MenuIcons smallDeleteIcon . 'no ok' } ] 
+						ifFalse:[ {MenuIcons smallOkIcon . each asString } ]} ];
 			tagsFilter: [:each | 
 				{ each == #help 
-						ifTrue:[ ThemeIcons smallDeleteIcon ] ifFalse:[ ThemeIcons smallOkIcon ] } ].
+						ifTrue:[ MenuIcons smallDeleteIcon ] ifFalse:[ MenuIcons smallOkIcon ] } ].
 		a tree
 			title: 'Combined Tags - Filter by label';
 			tags: [:each | 
-				{ {ThemeIcons perform: (each, 'Icon') asSymbol.
+				{ {MenuIcons perform: (each, 'Icon') asSymbol.
 					each == #help ifTrue:[ 'no ok' ] ifFalse:[ 'ok' ]}} ];
 			tagsFilter: [:each | 
 				{ each == #help ifTrue:[ 'no ok' ] ifFalse:[ 'ok' ] } ] ].
@@ -315,7 +316,10 @@ GLMBasicExamples >> doubleClick [
 		column: #two.
 	browser
 		transmit to: #one;
-		andShow: [ :a | a list display: [ :x | 1 to: x ] ].
+		andShow: [ :a | 
+			a table display: [ :x | 1 to: x ]; 
+				column: 'value' evaluated: #asString; 
+				column: 'odd' evaluated: [:each | each odd asString ]].
 	browser
 		transmit to: #two;
 		from: #one port: #strongSelection;
@@ -429,6 +433,32 @@ GLMBasicExamples >> interdependentPanes [
 	browser transmit to: #one; from: #two; andShow: [ :a | 
 		a list
 			display: [:x | 1 to: x * 3]].
+	^ browser
+]
+
+{ #category : #'drag and drop' }
+GLMBasicExamples >> listDragAndDrop [
+	"self new listDragAndDrop openOn: (1 to: 5) asOrderedCollection"
+	| browser |
+	browser := GLMTabulator new.
+	browser column: #source; column: #target.
+	browser transmit to: #source; andShow: [:a | 
+		a list 
+			title: 'Source';
+			display: (1 to: 10);
+			allowItemDrag: [:item :list | true ];
+			transformDraggedItem: [:item :list | item + 100 ]
+			].
+	browser transmit to: #target; andShow: [:a |  
+		a list
+			title: 'Target'; 
+			display: [:collection | collection ];
+			allowDropOnItem: [:draggedObject :targetItem :list | draggedObject isNumber ];
+			dropOnItem: [:draggedObject :targetItem :list | 
+				list entity addLast: (targetItem + draggedObject).
+				list update.
+				true ]
+			].
 	^ browser
 ]
 
@@ -593,17 +623,18 @@ GLMBasicExamples >> multipleFinderWithFilter [
 
 	| finder |	
 	finder := GLMFinder new.
-	finder list
+	finder show: [:a | 
+		a list
 			title: 'List';
 			beMultiple;
 			dynamicActions: [:list | self actionsFor: list];
 			filterOn: [:text :each | Compiler evaluate: '| each | each := self. ', text for: each logged: false ];
 			helpMessage:  'Enter a filtering request (e.g., "each > $f")'. 
-	finder tree
+		a tree
 			title: 'Tree';
 			dynamicActions: [:list | self actionsFor: list];
 			filterOn: [:text :each | Compiler evaluate: '| each | each := self. ', text for: each logged: false ];
-			helpMessage:  'Enter a filtering request (e.g., "each > $f")'.
+			helpMessage:  'Enter a filtering request (e.g., "each > $f")' ].
 	^ finder 
 ]
 
@@ -614,22 +645,23 @@ GLMBasicExamples >> multipleFinderWithFilterAndSearch [
 
 	| finder |	
 	finder := GLMFinder new.
-	finder list
+	finder show: [:a | 
+		a list
 			beMultiple;
 			title: 'Simple';
 			dynamicActions: [:list | self actionsFor: list].
-	finder list
+		a list
 			title: 'With filter';
 			beMultiple;
 			dynamicActions: [:list | self actionsFor: list];
 			filterOn: [:text :each | (Compiler evaluate: '[:each | ', text, ']') value: each];
 			helpMessage:  'Enter a filtering request (e.g., "each > 10")'.
-	finder list
+		a list
 			title: 'With search';
 			beMultiple;
 			dynamicActions: [:list | self actionsFor: list];
 			searchOn: [:text :each | (Compiler evaluate: '[:each | ', text, ']') value: each];
-			helpMessage:  'Enter a search request (e.g., "each > 10")'.
+			helpMessage:  'Enter a search request (e.g., "each > 10")' ].
 	^ finder 
 ]
 
@@ -639,9 +671,9 @@ GLMBasicExamples >> populatePortAction [
 	"self new populatePortAction openOn: 'Select a piece of text and open on the next pane either with the overall button, or via the context menu'"
 	| browser |
 	browser := GLMFinder new.
-	browser text
+	browser show: [:a | a text
 		selectionPopulate: #selection on: $o entitled: 'Open selection on next pane' with: [:text | text selectedText ];
-		populate: #selection icon: GLMUIThemeExtraIcons glamorousRight on: $l entitled: 'Open complete text on next pane' with: [:text | text text ].
+		populate: #selection icon: GLMUIThemeExtraIcons glamorousRight on: $l entitled: 'Open complete text on next pane' with: [:text | text text ]].
 	^ browser 
 ]
 
@@ -654,8 +686,8 @@ GLMBasicExamples >> simpleActionList [
 	browser column: #one.
 	browser transmit to: #one; andShow: [ :a |
 		a actionList
-			act: [:entity | Transcript show: entity ] entitled: 'Transcript';
-			act: [:entity | entity inspect ] entitled: 'Inspect'].
+			act: [:entity | entity inspect ] entitled: 'Inspect';
+			act: [:entity | entity explore ] entitled: 'Explore'].
 	^ browser
 ]
 
@@ -678,7 +710,7 @@ GLMBasicExamples >> simpleFinder [
 	"self new simpleFinder openOn: 100"
 	| finder |	
 	finder := GLMFinder new.
-	finder list display: [ :x | 1 to: x ].
+	finder show: [:a | a list display: [ :x | 1 to: x ]].
 	^ finder
 ]
 
@@ -689,25 +721,29 @@ GLMBasicExamples >> simpleFinderWithMenu [
 
 	| finder |
 	finder := GLMFinder new variableSizePanes.
-	finder list
+	finder show: [:a | a list
 			title: 'List';
 			display: [:each | $a to: each];
-			dynamicActionsOnSelection: [:list | self actionsFor: list ].
+			dynamicActionsOnSelection: [:list | self actionsFor: list ]].
 	^ finder
 ]
 
 { #category : #table }
 GLMBasicExamples >> simpleTable [
 	<glmBrowser: 'Simple table' input: '100'>
-	"self new simpleTable openOn: 1000"
+	"| f | 
+	f := self new simpleTable.
+	f openOn: 1000.
+	(f panes first port: #selection) value: 1"
 	| finder |	
 	finder := GLMFinder new.
-	finder table
+	finder show: [:a | 
+		a table
 			display: [ :x | 1 to: x ]; 
 			dynamicActions: [ :list | self actionsFor: list ];
 			column: [:x | 'Numbers from 1 to ', x asString] evaluated: #asString;
 			column: 'Even' evaluated: [ :each | each even asString ];
-			column: 'Odd' evaluated: [ :each | each odd asString ].
+			column: 'Odd' evaluated: [ :each | each odd asString ] ].
 	^ finder
 ]
 
@@ -736,7 +772,7 @@ GLMBasicExamples >> singleInitialSelection [
 { #category : #text }
 GLMBasicExamples >> smalltalkCode [
 	<glmBrowser: 'Smalltalk code' input: '''"Enter some Smalltalk code and then accept to preview the result."'''>
-	"	self new smalltalkCode openOn: '"
+	"self new smalltalkCode openOn: ''"
 	| browser |
 	browser := GLMTabulator new.
 	browser row: #code span: 2; row: #preview.
@@ -818,6 +854,7 @@ GLMBasicExamples >> stacker [
 
 { #category : #others }
 GLMBasicExamples >> starBrowser [
+	<glmBrowser: 'Complex morphs (StarBrowser simulation)' input: '{ Boolean. String. #asString. #printString }'>
 	"self new starBrowser openOn: { Boolean. String. #asString. #printString }"
 
 	| browser accumulator |
@@ -858,17 +895,18 @@ GLMBasicExamples >> staticAndDynamicMenu [
 
 	| finder |
 	finder := GLMFinder new.
-	finder list
+	finder show: [ :a |
+		a list
 			title: 'List';
 			display: [:each | $a to: each];
 			dynamicActionsOnSelection: [:list | self actionsFor: list ];
 			selectionAct: [self inform: 'static action'] entitled: 'Static action';
 			selectionAct: [self inform: 'static sub action'] entitled: 'Static sub action' categorized: 'Sub menu'.
-	finder text
+		a text
 			title: 'Text';
 			display: [:each | 'Character ', each asString];
-			dynamicActionsOnSelection: [:text | OrderedCollection with: (GLMGenericAction new title: 'Print selection'; action: [Transcript show: text selectedText]; yourself) ];
-			selectionAct: [self inform: 'Text static action'] entitled: 'Static action'.
+			dynamicActionsOnSelection: [:text | OrderedCollection with: (GLMGenericAction new title: 'Print selection'; action: [text selectedText inspect ]; yourself) ];
+			selectionAct: [self inform: 'Text static action'] entitled: 'Static action'].
 	^ finder
 ]
 
@@ -886,8 +924,10 @@ GLMBasicExamples >> tableWithIcons [
 			act: [:presentation | presentation inspect] entitled: 'Inspect'; 
 			column: 'Character' evaluated: [ :each | each asString ];
 			column: 'ASCII' evaluated: [ :each | each asInteger printString ];
-			selectionAct: [:tree | tree inspect ] on: $i entitled: 'Inspect';
-			icon: [:x | ThemeIcons helpIcon ]].
+			selectionAct: [:tree | tree selection inspect ] on: $i entitled: 'Inspect';
+			icon: [:each | each asInteger odd 
+						ifTrue: [ GLMUIThemeExtraIcons glamorousRedCircle ] 
+						ifFalse: [ GLMUIThemeExtraIcons glamorousGreenCircle ] ]].
 	browser transmit to: #two; from: #one; andShow: [:a | a text ].
 	^ browser
 ]
@@ -922,12 +962,13 @@ GLMBasicExamples >> tabsWithDifferentLabels [
 	| finder |
 	finder := GLMFinder new.
 	(1 to: 3) do: [:i | 
-		finder text
-			title: i printString;
-			display: [:x | i printString].
-		finder text
-			titleIcon: ThemeIcons smallFindIcon;
-			display: [:x | i printString]
+		finder show: [:a | 
+			a text
+				title: i printString;
+				display: [:x | i printString].
+			a text
+				titleIcon: MenuIcons smallFindIcon;
+				display: [:x | i printString] ]
 	].
 	
 	^ finder
@@ -1033,14 +1074,14 @@ GLMBasicExamples >> threeInterdependentPanes [
 							entitled: 'Focus'
 							with: [ :list | list selection ] ].
 	(browser transmit)
-		toOutside: #focus;
+		toOutsidePort: #focus;
 		from: #three port: #focus.
 	(browser transmit)
-		to: #one -> #selection;
-		from: #outer port: #focus.
+		to: #one port: #selection;
+		fromOutsidePort: #focus.
 	(browser transmit)
-		to: #two -> #selection;
-		from: #outer port: #focus.
+		to: #two port: #selection;
+		fromOutsidePort: #focus.
 	^ browser
 ]
 
@@ -1076,7 +1117,7 @@ GLMBasicExamples >> treeWithChildrenByLevel [
 	(browser transmit)
 		to: #one;
 		andShow: [ :a | 
-					(browser tree)
+					(a tree)
 						title: 'Tree';
 						children: [ :item :x :level | 
 									level > 1
@@ -1168,7 +1209,7 @@ GLMBasicExamples >> treeWithMenu [
 		a tree
 			children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ];
 			selectionAct: [:tree | tree inspect ] on: $i entitled: 'Inspect';
-			icon: [:x | ThemeIcons helpIcon ]].
+			icon: [:x | GLMUIThemeExtraIcons glamorousGrayCircle ]].
 	browser transmit to: #two; from: #one; andShow: [:a | a text ].
 	^ browser
 ]
@@ -1188,7 +1229,7 @@ GLMBasicExamples >> treeWithTags [
 	browser := GLMTabulator new.
 	browser column: #one.
 	browser transmit to: #one; andShow: [ :a |
-		browser tree
+		a tree
 			display: [model keys];  
 			children: [:key | key isNumber ifFalse: [model at: key] ];
 			tags: [:item | item isNumber ifTrue: [item even ifTrue: [#('even')] ifFalse: [#('odd')]] ifFalse: [#()]]].  
@@ -1210,7 +1251,7 @@ GLMBasicExamples >> treeWithTagsMoreLevels [
 	browser := GLMTabulator new.
 	browser column: #one.
 	browser transmit to: #one; andShow: [ :a |
-		browser tree
+		a tree
 			display: [model keys];
 			children: [:child | child isSymbol
 								ifTrue: [Array with: ((model at: child) select: [:c | c < 4]) with: ((model at: child) select: [:c | c >= 4])]
@@ -1228,20 +1269,65 @@ GLMBasicExamples >> treeWithTagsMoreLevels [
 GLMBasicExamples >> updateableBrowser [
 	<glmBrowser: 'Updateable browser' input: '|collection|
 	collection := GLMAnnouncingCollection new.
+	collection add: 1.
+	collection'>
+	"
+	|collection|
+	collection := GLMAnnouncingCollection new.
+	collection add: 1.
+	self new updateableBrowser openOn: collection."
+	
+	| browser |
+	browser := GLMTabulator new.
+	browser column: #preview.
+	browser 
+		act: [:b | b entity add: (b entity size + 1). b update ] 	
+		icon: GLMUIThemeExtraIcons glamorousAdd
+		entitled: 'Add an item in the collection'.
+	browser 
+		act: [:b | b entity removeLast. b update ] 
+		icon: GLMUIThemeExtraIcons glamorousRemove
+		entitled: 'Remove last item from the collection'.
+	browser 
+		updateOn: GLMItemAdded from: #yourself;
+		updateOn: GLMItemRemoved from: #yourself.
+	browser transmit to: #preview; andShow: [ :a |
+		a list 
+			title: [:collection | 'List: ', collection size printString ];
+			when: [:collection | collection size > 1 ].
+		a text title: 'Text'; 
+			format: [:collection | 'Current collection: ', collection printString, '
+Add more items to show the list'] ].
+	^ browser
+]
+
+{ #category : #updating }
+GLMBasicExamples >> updateableIndividualPresentations [
+	<glmBrowser: 'Updateable individual presentations' input: '|collection|
+	collection := GLMAnnouncingCollection new.
 	collection add: 1; add: 2; add: 3.
 	collection'>
 	"
 	|collection|
 	collection := GLMAnnouncingCollection new.
 	collection add: 1; add: 2; add: 3.
-	self new updateableBrowser openOn: collection."
+	self new updateableIndividualPresentations openOn: collection."
 	
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #automatic; column: #menu.
-	browser act: [:b | b entity add: (b entity size + 1) ] entitled: 'Add an item in the collection'.
-	browser act: [:b | b entity removeLast ] entitled: 'Remove last item from the collection'.
-	browser act: [:b | b update ] entitled: 'Update complete browser'.
+	browser 
+		act: [:b | b entity add: (b entity size + 1) ] 	
+		icon: GLMUIThemeExtraIcons glamorousAdd
+		entitled: 'Add an item in the collection'.
+	browser 
+		act: [:b | b entity removeLast ] 
+		icon: GLMUIThemeExtraIcons glamorousRemove
+		entitled: 'Remove last item from the collection'.
+	browser 
+		act: [:b | b update ] 
+		icon: GLMUIThemeExtraIcons glamorousRefresh
+		entitled: 'Update complete browser'.
 	browser transmit to: #automatic; andShow: [ :a |
 		a title: 'Updated automatically'.
 		a stackedArrangement.
@@ -1263,10 +1349,17 @@ GLMBasicExamples >> updateableBrowser [
 		a stackedArrangement.
 		a list title: 'List';
 			shouldValidate: true;
-			act: [:p | p update] entitled: 'Update'.
-		a text title: 'Text'; act: [:p | p update] entitled: 'Update'.
+			act: [:p | p update] 
+				icon: GLMUIThemeExtraIcons glamorousRefresh
+				entitled: 'Update'.
+		a text title: 'Text';
+			act: [:p | p update] 
+				icon: GLMUIThemeExtraIcons glamorousRefresh
+				entitled: 'Update'.
 		a mondrian title: 'Mondrian';
-			act: [:p | p update] entitled: 'Update';
+			act: [:p | p update]
+				icon: GLMUIThemeExtraIcons glamorousRefresh
+				entitled: 'Update';
 			painting: [:view :entity | 
 				view shape label.
 				view nodes: entity ] ].
@@ -1333,24 +1426,23 @@ GLMBasicExamples >> validatorDynamic [
 	validator show: [:a | 
 		a dynamic display: [:x |
 			GLMListPresentation new display: [:y | 1 to: y]
-			]  
-		].
+			] ].
 	finder show: [:a | a custom: validator].
 	^ finder
 ]
 
 { #category : #browsers }
 GLMBasicExamples >> wizard [
-	<glmBrowser: 'Wizard' input: '100'>
-	"self new wizard openOn: 100"
+"	<glmBrowser: 'Wizard' input: '100'>"
+	"self new wizard inspect openOn: 100"
 
 	| wizard |
+	self flag: 'this example does not work in the example browser'.
 	wizard := GLMWizard new.
 	(wizard genericStep: #step)
 		show: [:a | 
-		a list
-			display: [:list | 1 to: 100] 
-		] ;
+			a list
+				display: [:list | 1 to: 100] ];
 		name: 'Wizard pane';
 		size: 2.
 	^ wizard
