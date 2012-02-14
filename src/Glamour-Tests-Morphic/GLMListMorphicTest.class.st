@@ -50,7 +50,7 @@ GLMListMorphicTest >> testMultipleSelectionWithChange [
 	self send: firstTreeMorph mouseUpOnItem: treeNodeMorph.
 	self send: firstTreeMorph mouseUpWithShift: true onItem: lastTreeNodeMorph.
 	self
-		assert: (firstTreeMorph model selection selectedNodePathList collect: [ :each | each first item ])
+		assert: (firstTreeMorph model selection selectedNodePathList collect: [ :each | each first item ]) asOrderedCollection
 		equals: #(2 3 4) asOrderedCollection.
 	(browser pane port: #entity) value: 42.
 	secondTreeMorph := window submorphs last submorphs first submorphs first submorphs first.
@@ -59,7 +59,7 @@ GLMListMorphicTest >> testMultipleSelectionWithChange [
 	self send: secondTreeMorph mouseUpOnItem: treeNodeMorph.
 	self send: secondTreeMorph mouseUpWithShift: true onItem: lastTreeNodeMorph.
 	self
-		assert: (secondTreeMorph model selection selectedNodePathList collect: [ :each | each first item ])
+		assert: (secondTreeMorph model selection selectedNodePathList collect: [ :each | each first item ]) asOrderedCollection
 		equals: #(40 41) asOrderedCollection
 ]
 
@@ -177,7 +177,7 @@ GLMListMorphicTest >> testTwoPanesMultipleSelectionWithChange [
 	self send: treeMorphTwo mouseUpOnItem: treeNodeMorph.
 	treeNodeMorph := treeMorphTwo scroller submorphs second.
 	self send: treeMorphTwo mouseUpWithShift: true onItem: treeNodeMorph.
-	self assert: ((browser paneNamed: #two) port: #selection) value equals: #(20 21) asOrderedCollection.	"we select 4 in the first pane"
+	self assert: ((browser paneNamed: #two) port: #selection) value asOrderedCollection equals: #(20 21) asOrderedCollection.	"we select 4 in the first pane"
 	treeMorphOne := (window submorphs last submorphs at: 3) submorphs first submorphs first.
 	treeNodeMorph := treeMorphOne scroller submorphs last.
 	self send: treeMorphOne mouseUpOnItem: treeNodeMorph.	"we select the first two in the second pane"
@@ -187,7 +187,7 @@ GLMListMorphicTest >> testTwoPanesMultipleSelectionWithChange [
 	self send: treeMorphTwo mouseUpOnItem: treeNodeMorph.
 	treeNodeMorph := treeMorphTwo scroller submorphs second.
 	self send: treeMorphTwo mouseUpWithShift: true onItem: treeNodeMorph.
-	self assert: ((browser paneNamed: #two) port: #selection) value equals: #(40 41) asOrderedCollection
+	self assert: ((browser paneNamed: #two) port: #selection) value asOrderedCollection equals: #(40 41) asOrderedCollection
 ]
 
 { #category : #tests }

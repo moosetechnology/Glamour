@@ -92,7 +92,7 @@ GLMMorphicTest >> send: treeMorph mouseUpWithShift: aBoolean onItem: treeNodeMor
 		buttons: (aBoolean ifTrue: [8] ifFalse: [0])
 		hand: (HandMorph new mouseFocus: treeNodeMorph; yourself)
 		stamp: nil.
-	treeMorph mouseUp: mouseUp onMorph: treeNodeMorph.
+	treeMorph listManager mouseUp: mouseUp on: treeNodeMorph.
 ]
 
 { #category : #'setup - tear down' }
