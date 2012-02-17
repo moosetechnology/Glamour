@@ -80,6 +80,7 @@ GLMPaneScroller >> initialize [
 GLMPaneScroller >> initializeScrollbar [
 	scrollBar := ScrollBar new 
 		model: self;
+		setValueSelector: #scrollBarValue:;
 		yourself.
 	scrollBar 
 		borderWidth: 0;
