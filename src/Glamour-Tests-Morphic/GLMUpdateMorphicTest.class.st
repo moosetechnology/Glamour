@@ -72,8 +72,11 @@ GLMUpdateMorphicTest >> setUp [
 GLMUpdateMorphicTest >> testAdd [
 	entity add: 4.
 	announcer announce: TestAnnouncement.
+	self assert: listMorph roots size = 4.
 	self assert: listMorph model roots size equals: 4.
+	self assert: treeMorph roots size = 4.
 	self assert: treeMorph model roots size equals: 4.
+	self assert: tableMorph roots size = 4.
 	self assert: tableMorph model roots size equals: 4.
 	self assert: labelMorph contents equals: '4'
 ]
