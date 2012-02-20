@@ -75,7 +75,7 @@ GLMMorphicListingRenderer >> textInputFor:  aTreeModel withHelpMessage: helpStri
 { #category : #private }
 GLMMorphicListingRenderer >> treeMorphFor: tmpTreeModel and: aPresentation [
 	| tmpTreeMorph columns |
-	tmpTreeMorph := MorphTreeMorph new.
+	tmpTreeMorph := PaginatedMorphTreeMorph new.
 	tmpTreeMorph
 		makeLastColumnUnbounded;
 		doubleClickSelector: #onDoubleClick;
@@ -110,7 +110,8 @@ GLMMorphicListingRenderer >> treeMorphFor: tmpTreeModel and: aPresentation [
 	aPresentation isMultiple 
 		ifTrue: [tmpTreeMorph beMultiple] 
 		ifFalse: [tmpTreeMorph beSingle].
-	tmpTreeModel chunkSize: aPresentation amountToShow.
+	tmpTreeMorph chunkSize: aPresentation amountToShow.
+	tmpTreeMorph pageSize: aPresentation amountToShow.
 	tmpTreeMorph vShowScrollBar.
 	^ tmpTreeMorph buildContents
 ]
