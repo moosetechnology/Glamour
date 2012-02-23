@@ -33,7 +33,7 @@ GLMTabulatorMorphicTest >> testSpawnTabulator [
 		window submorphs last 
 					submorphs last 
 						submorphs last 
-							submorphs last class] equals: MorphTreeMorph.
+							submorphs last class] equals: PaginatedMorphTreeMorph
 
 ]
 
