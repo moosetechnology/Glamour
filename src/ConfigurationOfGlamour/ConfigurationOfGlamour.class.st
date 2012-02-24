@@ -554,20 +554,8 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer' 'BDDExtensions')];
 			package: 'Glamour-Examples' ;
 			package: 'Glamour-Tools' with: [spec requires: 'CollectionExtensions'];
-			package: 'Magritte-Model' with: [
-				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
-				spec requires: 'Grease'];
-			package: 'Magritte-Tests-Model' with: [
-				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
-				spec requires: 'Magritte-Model'];
-			package: 'Magritte-Morph' with: [
-				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
-				spec requires: #('Magritte-Model')];
-			package: 'Magritte-Pharo-Model' with: [
-				spec repository: 'http://source.lukas-renggli.ch/magritte2'.
-				spec requires: 'Magritte-Model' ];
 			package: 'Glamour-Mondrian-Presentations' with: [spec requires: 'Mondrian for Glamour'];
-			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte-Morph' 'Magritte-Pharo-Model')];
+			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];
 			package: 'Glamour-EyeSee-Presentations' with: [spec requires: 'EyeSee for Glamour'];
 			package: 'Glamour-Tests-Mondrian' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Mondrian-Presentations')];
 			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')].
@@ -625,13 +613,13 @@ ConfigurationOfGlamour >> default: spec [
 					file: 'ConfigurationOfEyeSee';
 					version: 'default';
 					repository: 'http://www.squeaksource.com/EyeSee' ].
-		spec
-			project: 'Grease' with: [
-				spec
-					className: 'ConfigurationOfGrease';
-					file: 'ConfigurationOfGrease';
+		spec project: 'Magritte3' with: [
+			spec
+					className: 'ConfigurationOfMagritte3';
+					file: 'ConfigurationOfMagritte3';
 					version: #stable;
-					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
+					repository: 'http://source.lukas-renggli.ch/magritte3';
+					loads: #('Magritte-Model' 'Magritte-Tests-Model' 'Magritte-Morph' 'Magritte-Pharo-Model') ].
 	]
 ]
 
