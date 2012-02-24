@@ -11,9 +11,9 @@ GLMMorphicSpotterTest >> testCreation [
 
 	classRequest := GLMSingleSpotterRequest new 
 			prompt: 'Find Class';
-			searchBlock: [ :string | OBCmdFindClass new findClassIn: Smalltalk pattern: string ];
-			labelBlock: [ :class | class name ];
-			iconBlock: [ :class | class browserIcon ].
+			searchBlock: [ :string | Smalltalk allClassesAndTraits select: [:each | string match: each name] ];
+			labelBlock: [ :class | class name ]";
+			iconBlock: [ :class | class browserIcon ]".
 
 	methodRequest := GLMSingleSpotterRequest new 
 			prompt: 'Object Selectors';
