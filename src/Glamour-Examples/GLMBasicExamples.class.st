@@ -783,7 +783,8 @@ GLMBasicExamples >> smalltalkCode [
 	browser transmit from: #code port: #acceptedCode; to: #preview; andShow: [ :a | 
 		a text 
 			title: 'Evaluated result';
-			display: [:code | [Compiler evaluate: code ] on: Error do: ['Error']] ].
+			display: [:code | [Compiler evaluate: code ] on: Error do: ['Error']];
+			act: [:text | text displayValue explore] icon: GLMUIThemeExtraIcons glamorousInspect entitled: 'Explore' ].
 	^ browser
 ]
 

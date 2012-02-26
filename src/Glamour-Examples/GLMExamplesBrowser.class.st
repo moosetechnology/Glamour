@@ -52,7 +52,7 @@ GLMExamplesBrowser >> exampleIn: composer [
 			entitled: 'View browser tree'.
 	composer smalltalkCode
 		title: 'Source code';
-		act: [ :text :exampleClass :examplePragma | StandardToolSet browse: exampleClass selector: examplePragma selector ]
+		act: [ :text :exampleClass :examplePragma | Smalltalk tools browser fullOnClass: exampleClass selector: examplePragma selector ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			entitled: 'Browse';
 		smalltalkClass: [ :exampleClass | exampleClass ];
