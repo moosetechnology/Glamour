@@ -6,7 +6,7 @@ Class {
 
 { #category : #rendering }
 GLMMorphicExpanderRenderer >> render: aBrowser [
-	^ self renderWithTree: aBrowser   
+	^ self renderWithExpanders: aBrowser   
 ]
 
 { #category : #rendering }
