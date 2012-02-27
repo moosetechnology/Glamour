@@ -1191,7 +1191,7 @@ GLMBasicExamples >> treeWithInitialSelection [
 	(browser transmit)
 		to: #two;
 		from: #one;
-		andShow: [ :a | browser text title: 'Selection preview' ].
+		andShow: [ :a | a text title: 'Selection preview' ].
 	(browser transmit)
 		to: #three;
 		from: #one port: #selectionPath;
