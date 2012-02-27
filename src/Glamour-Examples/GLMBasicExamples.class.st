@@ -815,7 +815,7 @@ GLMBasicExamples >> spawnBrowserActions [
 { #category : #'actions examples' }
 GLMBasicExamples >> spawnBrowserSelectionActions [
 	<glmBrowser: 'Spawn browser selection actions' input: '#(1 2 3 4)'>
-	"self new selectionSpawnActions openOn: #(1 2 3 4)"
+	"self new spawnBrowserSelectionActions openOn: #(1 2 3 4)"
 	|browser |
 	browser := GLMTabulator new.
 	browser column: #one.
