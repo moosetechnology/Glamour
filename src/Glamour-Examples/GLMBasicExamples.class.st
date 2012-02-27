@@ -1026,7 +1026,7 @@ GLMBasicExamples >> textPortsExamples [
 GLMBasicExamples >> textSelection [
 	<glmBrowser: 'Text selection' input: '(1 to: 100)'>
 	"	|browser |
-		browser := self new textSelectionInterval.
+		browser := self new textSelection.
 		browser openOn: (1 to: 100).
 		((browser paneNamed: #start) port: #selection) value: 2.
 		((browser paneNamed: #end) port: #selection) value: 5.		
