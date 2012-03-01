@@ -515,18 +515,16 @@ GLMBasicExamples >> magritte [
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #list; column: #detail.
-	
-	browser transmit to: #list ; andShow:
-	[ :a | a list
-			format: [ :person | person name ] .
-	].
-
-	browser transmit from: #list ; to: #detail ; andShow:
-	[ :a | a magritte
+	browser transmit to: #list ; andShow: [ :a | 
+		a list
+			format: [ :person | person name ] ].
+	browser transmit from: #list ; to: #detail ; andShow: [ :a | 
+		a magritte
 			title: 'Details';
-			act: [:magritte | magritte entity explore ] icon: GLMUIThemeExtraIcons glamorousInspect entitled: 'Explore';
-			description: [:person | person magritteDescription] 
-	].
+			act: [:magritte | magritte entity explore ] 
+				icon: GLMUIThemeExtraIcons glamorousInspect 
+				entitled: 'Explore';
+			description: [:person | person magritteDescription] ].
 	^ browser
 ]
 

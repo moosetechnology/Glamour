@@ -60,18 +60,16 @@ GLMOtherExamples >> fileFinder [
 
 	| browser |
 	browser := GLMFinder new.
-	browser show:
-	[ 	:a | a list
-		display: [ :fd | fd entries collect: [:each | 
-				FileDirectory on: fd pathName, fd pathNameDelimiter asString, each name]];
-		format: [ :fd | fd localName ];
-		when: [ :fd | fd directoryEntry isDirectory ]
-	].
-	browser show:
-	[ 	:a | a text
-		display: [ :fd | fd fullName ];
-		when: [ :fd | fd directoryEntry isDirectory not ]
-	].
+	browser show: 	[ :a | 
+		a list
+			display: [ :fd | fd entries collect: [:each | 
+					FileDirectory on: fd pathName, fd pathNameDelimiter asString, each name]];
+			format: [ :fd | fd localName ];
+			when: [ :fd | fd directoryEntry isDirectory ]].
+	browser show: 	[ :a | 
+		a text
+			display: [ :fd | fd fullName ];
+			when: [ :fd | fd directoryEntry isDirectory not ] ].
 	^ browser
 ]
 
