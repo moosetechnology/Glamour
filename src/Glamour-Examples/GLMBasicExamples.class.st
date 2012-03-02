@@ -510,16 +510,23 @@ GLMBasicExamples >> listsWithUpdatedSelection [
 
 { #category : #others }
 GLMBasicExamples >> magritte [
-	<glmBrowser: 'Magritte presentation' input: 'GLMMagrittePersonExample new'>
-	"self new magritte openOn: GLMMagrittePersonExample new"
+	<glmBrowser: 'Magritte presentation' input: 'GLMMagrittePersonExample sample1'>
+	"self new magritte openOn: GLMMagrittePersonExample sample1"
 	| browser |
 	browser := GLMTabulator new.
-	browser row: #one.
-	browser transmit to: #one; andShow:[ :a |
-		a magritte
-			title: 'Title';
+	browser column: #list; column: #detail.
+	
+	browser transmit to: #list ; andShow:
+	[ :a | a list
+			format: [ :person | person name ] .
+	].
+
+	browser transmit from: #list ; to: #detail ; andShow:
+	[ :a | a magritte
+			title: 'Details';
 			act: [:magritte | magritte entity explore ] icon: GLMUIThemeExtraIcons glamorousInspect entitled: 'Explore';
-			description: [:x | x magritteDescription] ].
+			description: [:person | person magritteDescription] 
+	].
 	^ browser
 ]
 
