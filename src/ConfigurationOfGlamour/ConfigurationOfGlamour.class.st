@@ -922,18 +922,18 @@ ConfigurationOfGlamour >> version22: spec [
 		spec 
 			package: 'CollectionExtensions' with: 'CollectionExtensions-TudorGirba.29'.
 		spec 
-			package: 'Glamour-Announcements' with: 'Glamour-Announcements-tg.5';
+			package: 'Glamour-Announcements' with: 'Glamour-Announcements-tg.6';
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-TudorGirba.32';
-			package: 'Glamour-Core' with: 'Glamour-Core-TudorGirba.210';
-			package: 'Glamour-Presentations'  with: 'Glamour-Presentations-TudorGirba.106';
-			package: 'Glamour-Browsers'  with: 'Glamour-Browsers-cyrilledelaunay.87';
-			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-TudorGirba.60';
-			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-TudorGirba.29';
-			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-TudorGirba.129';
-			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-TudorGirba.53';
-			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-TudorGirba.75';
-			package: 'Glamour-Examples' with: 'Glamour-Examples-TudorGirba.204';
-			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.42';
+			package: 'Glamour-Core' with: 'Glamour-Core-TudorGirba.221';
+			package: 'Glamour-Presentations'  with: 'Glamour-Presentations-TudorGirba.109';
+			package: 'Glamour-Browsers'  with: 'Glamour-Browsers-TudorGirba.90';
+			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-TudorGirba.66';
+			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-TudorGirba.31';
+			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-TudorGirba.139';
+			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-TudorGirba.55';
+			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-TudorGirba.83';
+			package: 'Glamour-Examples' with: 'Glamour-Examples-TudorGirba.219';
+			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.50';
 			
 			package: 'Magritte-Model' with: 'Magritte-Model-NickAger.407';
 			package: 'Magritte-Tests-Model' with: 'Magritte-Tests-Model-lr.16';
