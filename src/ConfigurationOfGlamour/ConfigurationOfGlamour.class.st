@@ -922,7 +922,7 @@ ConfigurationOfGlamour >> version22: spec [
 		spec 
 			package: 'CollectionExtensions' with: 'CollectionExtensions-TudorGirba.29'.
 		spec 
-			package: 'Glamour-Announcements' with: 'Glamour-Announcements-tg.6';
+			package: 'Glamour-Announcements' with: 'Glamour-Announcements-TudorGirba.6';
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-TudorGirba.32';
 			package: 'Glamour-Core' with: 'Glamour-Core-TudorGirba.221';
 			package: 'Glamour-Presentations'  with: 'Glamour-Presentations-TudorGirba.109';
