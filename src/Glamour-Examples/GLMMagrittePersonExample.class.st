@@ -5,21 +5,36 @@ Class {
 		'name',
 		'address'
 	],
+	#classVars : [
+		'Sample1'
+	],
 	#category : #'Glamour-Examples'
 }
 
 { #category : #'as yet unclassified' }
 GLMMagrittePersonExample class >> sample1 [
 	"self new magritteAddressBook openOn: self new magritteAddressBookModel "
-	| model |
-	model := OrderedCollection new.
-	model add: (GLMMagrittePersonExample new name: 'William Shakespeare' ; address: 'Stratford-upon-Avon' ).
-	model add: (GLMMagrittePersonExample new name: 'Victor Hugo' ; address: 'Besançon' ).
-	model add: (GLMMagrittePersonExample new name: 'Mark Twain' ; address: 'Florida' ).
-	model add: (GLMMagrittePersonExample new name: 'Banjo Paterson' ; address: 'Narrambla' ).
-	^ model.
+	Sample1 ifNil: 
+	[
+		Sample1 := OrderedCollection new.
+		Sample1 add: (GLMMagrittePersonExample new name: 'William Shakespeare' ; address: 'Stratford-upon-Avon' ).
+		Sample1 add: (GLMMagrittePersonExample new name: 'Victor Hugo' ; address: 'Besançon' ).
+		Sample1 add: (GLMMagrittePersonExample new name: 'Mark Twain' ; address: 'Florida' ).
+		Sample1 add: (GLMMagrittePersonExample new name: 'Banjo Paterson' ; address: 'Narrambla' ).
+	].
+	^Sample1
 	
 
+]
+
+{ #category : #'as yet unclassified' }
+GLMMagrittePersonExample class >> sample1Reset [
+	
+	| oldSample newSample |
+	"oldSample := self sample1."
+	Sample1 := nil.
+"	newSample := self sample1.
+	oldSample become: newSample."
 ]
 
 { #category : #'as yet unclassified' }
@@ -59,6 +74,12 @@ GLMMagrittePersonExample >> descriptionName [
 ]
 
 { #category : #'as yet unclassified' }
+GLMMagrittePersonExample >> identityInSample1 [
+	^ self class sample1 includes: self.
+	
+]
+
+{ #category : #'as yet unclassified' }
 GLMMagrittePersonExample >> name [
 	^ name
 ]
@@ -66,4 +87,17 @@ GLMMagrittePersonExample >> name [
 { #category : #'as yet unclassified' }
 GLMMagrittePersonExample >> name: aString [
 	name := aString
+]
+
+{ #category : #'as yet unclassified' }
+GLMMagrittePersonExample >> printOn: aStream [
+	aStream nextPutAll: '('.
+	self name printOn: aStream.
+	aStream nextPutAll: ','.
+	self address printOn: aStream.
+	aStream nextPutAll: ')'.
+	self identityInSample1 
+		ifTrue: [ aStream nextPutAll: ' #original# '] 
+		ifFalse: [ aStream nextPutAll: ' #copy# '].
+	super printOn: aStream.
 ]

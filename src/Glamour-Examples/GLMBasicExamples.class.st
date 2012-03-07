@@ -512,19 +512,43 @@ GLMBasicExamples >> listsWithUpdatedSelection [
 GLMBasicExamples >> magritte [
 	<glmBrowser: 'Magritte presentation' input: 'GLMMagrittePersonExample sample1'>
 	"self new magritte openOn: GLMMagrittePersonExample sample1"
-	| browser |
+	| browser listParentPrototype magritteParentPrototype |
+	
+	self flag: 'Not working from within examples browser'.
+		
 	browser := GLMTabulator new.
 	browser column: #list; column: #detail.
-	browser transmit to: #list ; andShow: [ :a | 
-		a list
-			format: [ :person | person name ] ].
-	browser transmit from: #list ; to: #detail ; andShow: [ :a | 
-		a magritte
+	browser transmit to: #list ; andShow: 
+	[ :a | 
+		listParentPrototype := a list.
+		listParentPrototype  	"this is the essential part"
+			format: [ :person | person name ] .
+			
+		listParentPrototype 	"these are for exploring the example"
+			act: [ :list | listParentPrototype inspect ]		
+					entitled: 'Inspect parentPrototype (note the id in self)' ;
+			act: [ :list | list inspect ]  					
+					entitled: 'Inspect GLMListPresentation (note the id in parentPrototype)' ;
+			act: [ :list | GLMMagrittePersonExample sample1Reset.  ]   	
+					entitled: 'Reset Data (to load in a new browser)'
+	].
+
+	browser transmit from: #list ; to: #detail ; andShow: 
+	[ :a | 
+		magritteParentPrototype := a magritte.
+		magritteParentPrototype 	"these are the essential parts"
 			title: 'Details';
-			act: [:magritte | magritte entity explore ] 
-				icon: GLMUIThemeExtraIcons glamorousInspect 
-				entitled: 'Explore';
-			description: [:person | person magritteDescription] ].
+			description: [:person | person magritteDescription] ;
+			onAnswer: [ :ignore | browser update ] . 
+			
+		magritteParentPrototype	"these are for exploring the example"
+			act: [ :magritte | magritte entity explore ] 			
+					entitled: 'Explore entity';
+			act: [ :magritte | magritteParentPrototype inspect ]	
+					entitled: 'Inspect parentPrototype' ;
+			act: [ :magritte | magritte inspect ]  					
+					entitled: 'Inspect GLMMagrittePresentation'
+	].
 	^ browser
 ]
 
