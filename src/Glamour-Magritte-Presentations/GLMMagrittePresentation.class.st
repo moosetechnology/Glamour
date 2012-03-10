@@ -28,6 +28,7 @@ GLMMagrittePresentation >> onAnswer: aBlock [
 
 { #category : #accessing }
 GLMMagrittePresentation >> reactOnAnswerFor: aValue [
+	self update.
 	^ answerBlock glamourValue:
 		(aValue asGlamorousMultiValue, 
 		self asGlamorousMultiValue, 
