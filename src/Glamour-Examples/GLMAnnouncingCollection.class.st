@@ -15,6 +15,21 @@ GLMAnnouncingCollection >> add: anObject [
 ]
 
 { #category : #initialization }
+GLMAnnouncingCollection >> add: newObject before: oldObject [ 
+
+	collection add: newObject before: oldObject.
+	self announce: GLMItemAdded
+]
+
+{ #category : #initialization }
+GLMAnnouncingCollection >> add: newObject beforeOrLast: oldObject [ 
+	(collection includes: oldObject)
+		ifTrue: [ collection add: newObject before: oldObject ]
+		ifFalse: [ collection add: newObject ].
+	self announce: GLMItemAdded
+]
+
+{ #category : #initialization }
 GLMAnnouncingCollection >> at: anObject [
 
 	^collection at: anObject
@@ -63,6 +78,13 @@ GLMAnnouncingCollection >> printString [
 GLMAnnouncingCollection >> remove: anObject [
 
 	collection remove: anObject.
+	self announce: GLMItemRemoved
+]
+
+{ #category : #initialization }
+GLMAnnouncingCollection >> remove: anObject ifAbsent: aBlock [
+
+	collection remove: anObject ifAbsent: aBlock.
 	self announce: GLMItemRemoved
 ]
 

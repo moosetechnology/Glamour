@@ -6,35 +6,31 @@ Class {
 		'address'
 	],
 	#classVars : [
-		'Sample1'
+		'SampleData'
 	],
 	#category : #'Glamour-Examples'
 }
 
 { #category : #'as yet unclassified' }
-GLMMagrittePersonExample class >> sample1 [
+GLMMagrittePersonExample class >> sampleData [
 	"self new magritteAddressBook openOn: self new magritteAddressBookModel "
-	Sample1 ifNil: 
+	SampleData ifNil: 
 	[
-		Sample1 := OrderedCollection new.
-		Sample1 add: (GLMMagrittePersonExample new name: 'William Shakespeare' ; address: 'Stratford-upon-Avon' ).
-		Sample1 add: (GLMMagrittePersonExample new name: 'Victor Hugo' ; address: 'Besançon' ).
-		Sample1 add: (GLMMagrittePersonExample new name: 'Mark Twain' ; address: 'Florida' ).
-		Sample1 add: (GLMMagrittePersonExample new name: 'Banjo Paterson' ; address: 'Narrambla' ).
+		SampleData := GLMAnnouncingCollection new.
+		SampleData add: (GLMMagrittePersonExample new name: 'William Shakespeare' ; address: 'Stratford-upon-Avon' ).
+		SampleData add: (GLMMagrittePersonExample new name: 'Victor Hugo' ; address: 'Besançon' ).
+		SampleData add: (GLMMagrittePersonExample new name: 'Mark Twain' ; address: 'Florida' ).
+		SampleData add: (GLMMagrittePersonExample new name: 'Banjo Paterson' ; address: 'Narrambla' ).
 	].
-	^Sample1
+	^SampleData
 	
 
 ]
 
 { #category : #'as yet unclassified' }
-GLMMagrittePersonExample class >> sample1Reset [
-	
-	| oldSample newSample |
-	"oldSample := self sample1."
-	Sample1 := nil.
-"	newSample := self sample1.
-	oldSample become: newSample."
+GLMMagrittePersonExample class >> sampleReset [
+	SampleData := nil.
+
 ]
 
 { #category : #'as yet unclassified' }
@@ -74,8 +70,8 @@ GLMMagrittePersonExample >> descriptionName [
 ]
 
 { #category : #'as yet unclassified' }
-GLMMagrittePersonExample >> identityInSample1 [
-	^ self class sample1 includes: self.
+GLMMagrittePersonExample >> exampleSupportIdentityInSample [
+	^ self class sampleData includes: self.
 	
 ]
 
@@ -96,7 +92,7 @@ GLMMagrittePersonExample >> printOn: aStream [
 	aStream nextPutAll: ','.
 	self address printOn: aStream.
 	aStream nextPutAll: ')'.
-	self identityInSample1 
+	self exampleSupportIdentityInSample 
 		ifTrue: [ aStream nextPutAll: ' #original# '] 
 		ifFalse: [ aStream nextPutAll: ' #copy# '].
 	super printOn: aStream.

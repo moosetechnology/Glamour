@@ -511,44 +511,70 @@ GLMBasicExamples >> listsWithUpdatedSelection [
 { #category : #others }
 GLMBasicExamples >> magritte [
 	<glmBrowser: 'Magritte presentation' input: 'GLMMagrittePersonExample sample1'>
-	"self new magritte openOn: GLMMagrittePersonExample sample1"
+	"self new magritte openOn: GLMMagrittePersonExample sampleData"
+	"GLMMagrittePersonExample sampleReset"  
+	"note, sampleData is aGLMAnnouncingCollection"
+	
 	| browser listParentPrototype magritteParentPrototype |
 	
 	self flag: 'Not working from within examples browser'.
 		
-	browser := GLMTabulator new.
+	browser := GLMTabulator new initialExtent: 600@300.
 	browser column: #list; column: #detail.
 	browser transmit to: #list ; andShow: 
 	[ :a | 
-		listParentPrototype := a list.
-		listParentPrototype  	"this is the essential part"
-			format: [ :person | person name ] .
-			
-		listParentPrototype 	"these are for exploring the example"
-			act: [ :list | listParentPrototype inspect ]		
-					entitled: 'Inspect parentPrototype (note the id in self)' ;
-			act: [ :list | list inspect ]  					
-					entitled: 'Inspect GLMListPresentation (note the id in parentPrototype)' ;
-			act: [ :list | GLMMagrittePersonExample sample1Reset.  ]   	
-					entitled: 'Reset Data (to load in a new browser)'
+		listParentPrototype := a list.   "this assignment is just for exploring the operation of the example"
+		listParentPrototype  	
+			format: [ :person | person name ] ;
+			updateOn: GLMItemAdded from: [ GLMMagrittePersonExample sampleData ] ;
+			updateOn: GLMItemRemoved from: [ GLMMagrittePersonExample sampleData ] ;
+			act: [ :listPresentation :glmAC | 
+					| newItem | 
+					newItem := GLMMagrittePersonExample new name: 'New...'  .
+					glmAC add: newItem beforeOrLast: listPresentation selection.
+					listPresentation selection: newItem.
+				]	icon: GLMUIThemeExtraIcons glamorousAdd 
+					entitled: 'Add' ;
+			act: [ :listPresentation :glmAC | 
+					glmAC remove: listPresentation selection ifAbsent: []
+				]	icon: GLMUIThemeExtraIcons glamorousRemove 
+					entitled: 'Remove' .
 	].
 
 	browser transmit from: #list ; to: #detail ; andShow: 
 	[ :a | 
-		magritteParentPrototype := a magritte.
-		magritteParentPrototype 	"these are the essential parts"
+		magritteParentPrototype := a magritte.   "this assignment is just for exploring the operation of the example"
+		magritteParentPrototype 	
 			title: 'Details';
 			description: [:person | person magritteDescription] ;
-			onAnswer: [ :ignore | browser update ] . 
-			
-		magritteParentPrototype	"these are for exploring the example"
+			onAnswer: [ :person :presentation | browser update ] . 
+	].
+
+	"THE FOLLOWING ARE JUST FOR EXPLORING THE EXAMPLE"
+	listParentPrototype 	
+			act: [ :listPresentation | listParentPrototype inspect ]		
+					entitled: 'Inspect parentPrototype (note the id in self)' ;
+			act: [ :listPresentation | listPresentation inspect ]  					
+					entitled: 'Inspect GLMListPresentation (note the id in parentPrototype)' ;
+			act: [ :listPresentation | self halt. GLMMagrittePersonExample sampleReset. listPresentation update. ]   	
+					entitled: 'Reset Data (need to load in a new browser)' ;
+			act: [ :listPresentation :model | self halt.  browser . listParentPrototype . magritteParentPrototype ]   	
+					entitled: 'Adhoc debug explore'.
+	self flag: 'TODO: Get Reset Data to update current browser rather than having to open a new browser'.
+					
+	magritteParentPrototype	
 			act: [ :magritte | magritte entity explore ] 			
 					entitled: 'Explore entity';
-			act: [ :magritte | magritteParentPrototype inspect ]	
-					entitled: 'Inspect parentPrototype' ;
+			act: [ :magritte | 
+					magritte inspect. 
+					magritteParentPrototype inspect.
+					self inform: 'Compare the ''GLMMagrittePresentation(id='' of self and parentPrototype of these two inspectors just opened.  Change list items then compare again.'.
+				]	entitled: 'Inspect and compare parentPrototype' ;
 			act: [ :magritte | magritte inspect ]  					
-					entitled: 'Inspect GLMMagrittePresentation'
-	].
+					entitled: 'Inspect current aGLMMagrittePresentation' ;
+			act: [ :magritte :model :x3 | self halt . browser . listParentPrototype . magritteParentPrototype ]
+					entitled: 'Adhoc debug explore' .
+					
 	^ browser
 ]
 
