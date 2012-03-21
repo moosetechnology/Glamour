@@ -510,7 +510,7 @@ GLMBasicExamples >> listsWithUpdatedSelection [
 
 { #category : #others }
 GLMBasicExamples >> magritte [
-	<glmBrowser: 'Magritte presentation' input: 'GLMMagrittePersonExample sample1'>
+	<glmBrowser: 'Magritte presentation' input: 'GLMMagrittePersonExample sampleData'>
 	"self new magritte openOn: GLMMagrittePersonExample sampleData"
 	"GLMMagrittePersonExample sampleReset"  
 	"note, sampleData is aGLMAnnouncingCollection"
