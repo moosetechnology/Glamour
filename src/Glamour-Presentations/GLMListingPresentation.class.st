@@ -350,7 +350,9 @@ GLMListingPresentation >> transformDraggedItemBlock [
 
 { #category : #'accessing values' }
 GLMListingPresentation >> transformedDraggedItem: anItem [
-	^ self transformDraggedItemBlock glamourValue: (GLMMultiValue with: anItem with: self)
+	^ self transformDraggedItemBlock 
+		ifNotNil: [ :transform | transform glamourValue: (GLMMultiValue with: anItem with: self)]
+		ifNil: [ anItem ]
 ]
 
 { #category : #accessing }
