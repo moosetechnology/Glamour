@@ -127,7 +127,7 @@ GLMTreeMorphModel >> dropEnabled [
 
 { #category : #'search and filtering' }
 GLMTreeMorphModel >> executeFilter [
-	self changed: #roots
+	self updateRoots
 ]
 
 { #category : #'search and filtering' }
