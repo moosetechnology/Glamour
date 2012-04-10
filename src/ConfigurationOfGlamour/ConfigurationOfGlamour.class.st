@@ -548,7 +548,7 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Presentations'  with: [spec requires: #('Glamour-Core')];
 			package: 'Glamour-Browsers'  with: [spec requires: #('Glamour-Core')];
 			package: 'Glamour-Tests-Core' ;
-			package: 'Glamour-Morphic-Widgets' with: [spec requires: #('Shout')];
+			package: 'Glamour-Morphic-Widgets' with: [spec requires: #('Shout' 'NEC')];
 			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core')];
 			package: 'Glamour-Morphic-Theme';
 			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer' 'BDDExtensions')];
@@ -592,6 +592,13 @@ ConfigurationOfGlamour >> default: spec [
 					file: 'ConfigurationOfShout';
 					version: '1.3';
 					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
+		spec
+			project: 'NEC' with: [
+				spec
+					className: 'ConfigurationOfNewECompletion';
+					file: 'ConfigurationOfNewECompletion';
+					version: #stable;
+					repository: 'http://ss3.gemstone.com/ss/NEC' ].
 		spec
 			project: 'BDDExtensions' with: [
 				spec
