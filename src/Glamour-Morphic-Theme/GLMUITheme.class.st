@@ -571,6 +571,36 @@ GLMUITheme >> groupPanelBorderStyleFor: aGroupPanel [
 		baseColor: ((self glamorousBaseColorFor: aGroupPanel))
 ]
 
+{ #category : #'growl - specific' }
+GLMUITheme >> growlBorderColorFor: aGrowlMorph [
+	^ Color white alpha: 0.5
+]
+
+{ #category : #'growl - specific' }
+GLMUITheme >> growlContentsColorFor: aGrowlMorph [
+	^ Color white
+]
+
+{ #category : #'growl - specific' }
+GLMUITheme >> growlDismissHandleFor: aGrowlMorph [
+	| form image |
+	form := self windowCloseForm.
+	image := ImageMorph new.
+	image image: form.
+	image color: Color yellow.
+	^ image
+]
+
+{ #category : #'growl - specific' }
+GLMUITheme >> growlFillColorFor: aGrowlMorph [
+	^ Color darkGray alpha: 0.5
+]
+
+{ #category : #'growl - specific' }
+GLMUITheme >> growlLabelColorFor: aGrowlMorph [
+	^ Color white twiceDarker
+]
+
 { #category : #'initialize-release' }
 GLMUITheme >> initialize [
 	"self beCurrent"
