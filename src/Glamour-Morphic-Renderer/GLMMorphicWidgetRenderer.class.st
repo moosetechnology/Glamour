@@ -27,7 +27,7 @@ GLMMorphicWidgetRenderer >> installActionsOnUI: aMorphicModel fromPresentation: 
 GLMMorphicWidgetRenderer >> menuIn: aMenuMorph for: aPresentation [
 	| subMenus targetMenuMorph subMenu |
 	subMenus := Dictionary new.
-	(aPresentation allActions select: [:each | each hasTitle and: [each hasIcon not]]) do: [ :action |
+	(aPresentation allActions select: [:each | each isMenu ]) do: [ :action |
 		targetMenuMorph := action category notNil 
 			ifTrue: [ subMenus at: action category ifAbsentPut: [ 
 					subMenu :=  MenuMorph new.
@@ -112,20 +112,12 @@ GLMMorphicWidgetRenderer >> renderObject: anObject [
 GLMMorphicWidgetRenderer >> renderToolbarForPresentation: aPresentation inMorph: aMorph [
 	| dock tools buttons noIconActions |
 	dock := aMorph theme newToolDockingBarIn: aMorph.
-	buttons := (aPresentation allActions select: [:each | each hasIcon]) collect: [:each |
-		(aMorph theme
-			newButtonIn: aMorph for: each
-			getState: nil
-			action: #morphicActOn:
-			arguments: {aPresentation}
-			getEnabled: nil
-			label: (AlphaImageMorph new image: each icon)
-			help: each title)
-			valueOfProperty: #noBorder ifAbsentPut: [true]; "this is a hack to tell the GLMUITheme to not draw the border and the fill"
-			valueOfProperty: #noFill ifAbsentPut: [true];
-			setProperty: #wantsKeyboardFocusNavigation toValue: false; "to disable the focus"
-			yourself ].
-	noIconActions := aPresentation allActions select: [:each | each hasTitle and: [each hasIcon not]].
+	buttons := (aPresentation allActions select: [:each | each isButton ]) 
+		collect: [:each | 
+			(each renderGlamorouslyOn: self renderer)
+				arguments: { aPresentation };
+				yourself ].
+	noIconActions := aPresentation allActions select: #isMenu.
 	tools := aMorph theme newToolbarIn: aMorph for: buttons.
 	noIconActions isEmpty ifFalse: [
 			| activeForm passiveForm menuButton | 

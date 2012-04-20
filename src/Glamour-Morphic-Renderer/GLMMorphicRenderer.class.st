@@ -35,26 +35,26 @@ GLMMorphicRenderer >> renderAccumulator: aBrowser [
 	^ GLMMorphicAccumulatorRenderer render: aBrowser from: self
 ]
 
+{ #category : #'rendering actions' }
+GLMMorphicRenderer >> renderAction: anAction [
+	^(UITheme current 
+		newButtonIn: nil 
+		for: anAction
+		getState: nil
+		action: #morphicActOn:
+		arguments: {}
+		getEnabled: nil
+		label: (AlphaImageMorph new image: anAction icon)
+		help: anAction title)
+		valueOfProperty: #noBorder ifAbsentPut: [true]; "this is a hack to tell the GLMUITheme to not draw the border and the fill"
+		valueOfProperty: #noFill ifAbsentPut: [true];
+		setProperty: #wantsKeyboardFocusNavigation toValue: false; "to disable the focus"
+		yourself
+]
+
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderActionListPresentation: anActionListPresentation [ 
-	| container buttonModel button |
-	container := GLMMorphic containerMorph.
-	anActionListPresentation allActions withIndexDo: 
-		[ :each :index | 
-		buttonModel := GLMButtonModel new.
-		buttonModel glamourPresentation: anActionListPresentation.
-		buttonModel glamourAction: each.
-		button := PluggableButtonMorph 
-			on: buttonModel
-			getState: nil
-			action: #execute
-			label: #buttonLabel.
-		container 
-			addMorph: button
-			fullFrame: (LayoutFrame 
-					fractions: (0 @ 0 corner: 1 @ 0)
-					offsets: (0 @ ((index - 1) * 24) corner: 0 @ (index * 24))) ].
-	^ container
+	^GLMMorphicActionListRenderer render: anActionListPresentation from: self
 ]
 
 { #category : #'rendering browsers' }
