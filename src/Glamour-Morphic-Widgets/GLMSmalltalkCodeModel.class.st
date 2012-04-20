@@ -19,25 +19,6 @@ GLMSmalltalkCodeModel >> bindingOf: aSymbol [
 	^ self variableBindings associationAt: aSymbol ifAbsent: [nil]
 ]
 
-{ #category : #completion }
-GLMSmalltalkCodeModel >> completionController [
-	| controller | 
-	controller := self triggerEvent: #getCompletionController.
-	controller ifNil: [controller := self initializeCompletionController].
-	^controller
-]
-
-{ #category : #completion }
-GLMSmalltalkCodeModel >> createCompletionController [
-	self class environment at: #ECPreferences ifPresent: [ :preferences |
-		self class environment at: #OController ifPresent: [ :ocontroller |
-			preferences useECompletionInsteadOfOCompletion
-				ifTrue: [ ^ ocontroller model: self ] ].
-		self class environment at: #ECController ifPresent: [ :eccontroller |
-			^ eccontroller model: self ] ].
-	^ nil
-]
-
 { #category : #callbacks }
 GLMSmalltalkCodeModel >> doItContext [
 	^ nil "it might be necessary to ask the presentation"
@@ -84,15 +65,8 @@ GLMSmalltalkCodeModel >> highlightSmalltalkContext: anObject [
 ]
 
 { #category : #completion }
-GLMSmalltalkCodeModel >> initializeCompletionController [
-	| controller |
-	controller := self createCompletionController.
-	self 
-		when: #getCompletionController
-		evaluate: (MessageSend 
-				receiver: controller
-				selector: #yourself).
-	^ controller
+GLMSmalltalkCodeModel >> isCodeCompletionAllowed [ 
+	^true
 ]
 
 { #category : #accessing }
