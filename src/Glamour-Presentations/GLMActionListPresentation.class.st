@@ -12,6 +12,11 @@ GLMActionListPresentation >> beHorizontal [
 	self isHorizontal: true
 ]
 
+{ #category : #testing }
+GLMActionListPresentation >> hasActions [
+	^false
+]
+
 { #category : #accessing }
 GLMActionListPresentation >> isHorizontal [
 	^ isHorizontal ifNil: [isHorizontal := false]
