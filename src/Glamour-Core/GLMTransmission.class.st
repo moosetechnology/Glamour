@@ -366,7 +366,7 @@ GLMTransmission >> transmitIn: aContext [
 		self transmissionStrategy transmitIn: aContext.
 		self destination receive: self in: aContext ].
 	self browser notNil ifTrue: [
-		self browser announce: GLMTransmissionTriggered ]
+		self browser announce: GLMTransmissionTriggered new ]
 ]
 
 { #category : #transmitting }
