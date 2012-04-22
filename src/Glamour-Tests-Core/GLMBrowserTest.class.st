@@ -5,6 +5,26 @@ Class {
 }
 
 { #category : #tests }
+GLMBrowserTest >> testAddPane [
+	| browser pane |
+	browser := GLMBrowser new.
+	self assert: browser panes isEmpty.
+	pane := GLMPane new.
+	browser addPane: pane.
+	self assert: pane browser = browser
+]
+
+{ #category : #tests }
+GLMBrowserTest >> testAddTransmissions [
+	| browser transmission |
+	browser := GLMBrowser new.
+	self assert: browser transmissions isEmpty.
+	transmission := GLMTransmission new.
+	browser addTransmission: transmission.
+	self assert: transmission browser = browser.
+]
+
+{ #category : #tests }
 GLMBrowserTest >> testCompositeInTheParentPane [
 	| browser |
 	browser := GLMBrowser new.
@@ -56,6 +76,26 @@ GLMBrowserTest >> testStatusbarTransmissionsTriggered [
 ]
 
 { #category : #tests }
+GLMBrowserTest >> testTransmissionTriggeredAnnounced [
+	| browser announcements pane1 pane2 transmission |
+	announcements := OrderedCollection new.
+	browser := GLMBrowser new.
+	pane1 := GLMPane new.
+	pane2 := GLMPane new.
+	browser addPane: pane1.
+	browser addPane: pane2.
+	transmission := GLMTransmission new.
+	transmission addActiveOrigin: (pane1 port: #origin).
+	transmission destination: (pane2 port: #destination).
+	browser addTransmission: transmission.
+	browser on: GLMTransmissionTriggered do: [:ann | 
+		announcements add: ann ].
+	self assert: announcements isEmpty.
+	transmission transmit.
+	self assert: announcements size = 1
+]
+
+{ #category : #tests }
 GLMBrowserTest >> testUnregisterAnnouncements [
 	| announcer presentation browser pane |
 	announcer := Announcer new.
@@ -66,9 +106,9 @@ GLMBrowserTest >> testUnregisterAnnouncements [
 	browser addPane: pane.
 	presentation updateOn: TestAnnouncement from: [ announcer ].
 	presentation registerAnnouncements.
-	self assert: announcer numberOfSubscriptions equals: 1.
+	self assert: announcer subscriptions numberOfSubscriptions equals: 1.
 	browser unregisterFromAllAnnouncements.
-	self assert: announcer numberOfSubscriptions equals: 0
+	self assert: announcer subscriptions numberOfSubscriptions equals: 0
 ]
 
 { #category : #tests }
@@ -82,9 +122,9 @@ GLMBrowserTest >> testUnregisterAnnouncementsWhenRemovingPane [
 	browser addPane: pane.
 	presentation updateOn: TestAnnouncement from: [ announcer ].
 	presentation registerAnnouncements.
-	self assert: announcer numberOfSubscriptions equals: 1.
+	self assert: announcer subscriptions numberOfSubscriptions equals: 1.
 	browser removePane: pane.
-	self assert: announcer numberOfSubscriptions equals: 0
+	self assert: announcer subscriptions numberOfSubscriptions equals: 0
 ]
 
 { #category : #tests }
@@ -102,7 +142,7 @@ GLMBrowserTest >> testUnregisterAnnouncementsWhenUpdatingPane [
 	browser startOn: 1.
 	browser panes first presentations first registerAnnouncements.
 	browser unregisterFromAllAnnouncements.
-	self assert: announcer numberOfSubscriptions equals: 0
+	self assert: announcer subscriptions numberOfSubscriptions equals: 0
 ]
 
 { #category : #tests }
@@ -125,6 +165,24 @@ GLMBrowserTest >> testUnregisterAnnouncementsWhenUpdatingPaneWithTwoAnnouncers [
 	browser startOn: 1.
 	browser panes first presentations first registerAnnouncements.
 	browser unregisterFromAllAnnouncements.
-	self assert: announcer numberOfSubscriptions equals: 0.
-	self assert: announcer2 numberOfSubscriptions equals: 0
+	self assert: announcer subscriptions numberOfSubscriptions equals: 0.
+	self assert: announcer2 subscriptions numberOfSubscriptions equals: 0
+]
+
+{ #category : #tests }
+GLMBrowserTest >> testUpdateRecomputesMatchingPresentations [
+	| browser collection matchingPresentationsChangedAnnounced | 
+	collection := GLMAnnouncingCollection new.
+	collection add: 1.
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit to: #one; andShow: [:a | 
+		a list when: [:col | col isEmpty not ]].
+	browser startOn: collection.
+	matchingPresentationsChangedAnnounced := false.
+	browser panes first on: GLMMatchingPresentationsChanged do: [:ann | 
+		matchingPresentationsChangedAnnounced := true ].
+	collection removeLast.
+	browser update.
+	self assert: matchingPresentationsChangedAnnounced
 ]
