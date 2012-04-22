@@ -144,7 +144,7 @@ GLMAction >> shortcutAsString [
 		ifNotNil: [
 			'alt+', 
 				(self shortcut isUppercase 
-					ifTrue: [ '+shift' ]
+					ifTrue: [ 'shift+' ]
 					ifFalse: [ '' ]), 
 				self shortcut asLowercase asString ]
 ]
