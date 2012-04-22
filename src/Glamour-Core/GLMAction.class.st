@@ -87,19 +87,9 @@ GLMAction >> icon: anObject [
 ]
 
 { #category : #testing }
-GLMAction >> isButton [
-	^self hasIcon
-]
-
-{ #category : #testing }
 GLMAction >> isCategorized [
 	 
 	^self category notNil
-]
-
-{ #category : #testing }
-GLMAction >> isMenu [
-	^self hasTitle and: [ self hasIcon not]
 ]
 
 { #category : #accessing }
@@ -116,11 +106,6 @@ GLMAction >> position: anInteger [
 	position := anInteger
 ]
 
-{ #category : #'as yet unclassified' }
-GLMAction >> renderGlamorouslyOn: aRenderer [
-	^aRenderer renderAction: self
-]
-
 { #category : #accessing }
 GLMAction >> shortcut [ 
 	"Shortcut character that this action should be triggered with when the focus rests on the corresponding presentation. 
@@ -135,18 +120,6 @@ GLMAction >> shortcut: aCharacter [
 	Modifiers are platform specific an can not be defined." 
 	 
 	shortcut := aCharacter
-]
-
-{ #category : #accessing }
-GLMAction >> shortcutAsString [ 
-	"Answers a string explaining shortcut"
-	^self shortcut 
-		ifNotNil: [
-			'alt+', 
-				(self shortcut isUppercase 
-					ifTrue: [ '+shift' ]
-					ifFalse: [ '' ]), 
-				self shortcut asLowercase asString ]
 ]
 
 { #category : #accessing }

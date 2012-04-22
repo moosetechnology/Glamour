@@ -39,6 +39,7 @@ GLMBrowser >> addPane: aPane [
 
 { #category : #accessing }
 GLMBrowser >> addTransmission: aTransmission [ 
+	aTransmission browser: self.
 	^ self transmissions addLast: aTransmission
 ]
 
