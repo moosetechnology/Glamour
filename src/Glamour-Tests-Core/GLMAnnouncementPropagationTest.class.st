@@ -107,7 +107,7 @@ GLMAnnouncementPropagationTest >> testPropagationDuringCircularDependencies [
 	((browser paneNamed: #two) port: #toSelect) value: 42.
 	self assert: ((browser paneNamed: #one) port: #selection) value equals: 42.
 	self assert: ((browser paneNamed: #two) port: #selection) value equals: 42.
-	announcements := GLMLogger instance announcements reverse.
+	announcements := GLMLogger instance announcements reverse reject: [:each | each isKindOf: GLMTransmissionTriggered ].
 	self assert: (announcements first isKindOf: GLMMatchingPresentationsChanged).
 	self assert: (announcements second isKindOf: GLMPresentationsChanged).
 	self assert: (announcements third isKindOf: GLMContextChanged).
