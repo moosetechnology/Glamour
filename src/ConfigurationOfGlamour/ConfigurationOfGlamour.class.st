@@ -554,6 +554,7 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer' 'BDDExtensions')];
 			package: 'Glamour-Examples' ;
 			package: 'Glamour-Tools' with: [spec requires: 'CollectionExtensions'];
+			package: 'Glamour-Roassal-Presentations' with: [spec requires: 'Roassal for Glamour'];
 			package: 'Glamour-Mondrian-Presentations' with: [spec requires: 'Mondrian for Glamour'];
 			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];
 			package: 'Glamour-EyeSee-Presentations' with: [spec requires: 'EyeSee for Glamour'];
@@ -613,6 +614,13 @@ ConfigurationOfGlamour >> default: spec [
 					file: 'ConfigurationOfMondrian';
 					version: 'default';
 					repository: 'http://www.squeaksource.com/Mondrian' ].
+		spec
+			project: 'Roassal for Glamour' with: [
+				spec
+					className: 'ConfigurationOfRoassal';
+					file: 'ConfigurationOfRoassal';
+					version: #development;
+					repository: 'http://www.squeaksource.com/Roassal' ].
 		spec
 			project: 'EyeSee for Glamour' with: [
 				spec
