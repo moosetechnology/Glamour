@@ -7,7 +7,7 @@ Class {
 { #category : #rendering }
 GLMMorphicRoassalRenderer >> render: aRoassalPresentation [
 	| view |
-	view := ROView new.
+	view := aRoassalPresentation view.
 	aRoassalPresentation renderOn: view.
 	^ ROMorph on: view
 ]
