@@ -18,6 +18,17 @@ GLMBrowser >> openTree [
 ]
 
 { #category : #'*glamour-tools' }
+GLMBrowser >> screenshot: aFilenameString on: anObject after: aBlock [
+	 
+	| window |
+	window := self openOn: anObject.
+	aBlock glamourValue: self asGlamorousMultiValue.
+	World doOneCycle.
+	PNGReadWriter putForm: window imageForm onFileNamed: aFilenameString.
+	^ window
+]
+
+{ #category : #'*glamour-tools' }
 GLMBrowser >> viewAnnouncements [
 	| view |
 	view := MOViewRenderer new.
