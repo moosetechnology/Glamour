@@ -213,17 +213,6 @@ GLMBrowser >> resolvePort: aPortReference defaultPortName: aSymbol [
 ]
 
 { #category : #scripting }
-GLMBrowser >> screenshot: aFilenameString on: anObject after: aBlock [
-	 
-	| window |
-	window := self openOn: anObject.
-	aBlock glamourValue: self asGlamorousMultiValue.
-	World doOneCycle.
-	PNGReadWriter putForm: window imageForm onFileNamed: aFilenameString.
-	^ window
-]
-
-{ #category : #scripting }
 GLMBrowser >> startOn: anObject [ 
 	 
 	self initializeScriptingDefaults. 
