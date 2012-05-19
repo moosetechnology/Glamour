@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Tests-Morphic'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMWrapperMorphicTest >> testSimple [
 	| wrapper textMorph |
 	wrapper := GLMWrapper new.
