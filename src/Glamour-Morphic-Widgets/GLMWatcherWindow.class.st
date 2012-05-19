@@ -1,10 +1,12 @@
 "
+This morph is used as support for the watcher (quick preview) behavior.
+
 GLMWatcherWindow uniqueInstance openInWorld.
 GLMWatcherWindow reset.
 "
 Class {
 	#name : #GLMWatcherWindow,
-	#superclass : #StandardWindow,
+	#superclass : #SystemWindow,
 	#instVars : [
 		'isOpen'
 	],
@@ -46,6 +48,7 @@ GLMWatcherWindow >> delete [
 { #category : #initialize }
 GLMWatcherWindow >> initialize [ 
 	super initialize.
+	self initializeStyle.
 	isOpen := false.
 	
 	self 
@@ -53,11 +56,24 @@ GLMWatcherWindow >> initialize [
 		do: [ self delete ]
 ]
 
+{ #category : #initialize }
+GLMWatcherWindow >> initializeStyle [
+		
+	self fillStyle: (SolidFillStyle color: (Color transparent)).
+	self borderStyle: (FillStyleBorder color: (Color white twiceDarker alpha: 0.2) width: 10)
+]
+
+{ #category : #accessing }
+GLMWatcherWindow >> morphicLayerNumber [
+	"We want this preview to be always on top"
+	
+	^ 10
+]
+
 { #category : #'open/close' }
 GLMWatcherWindow >> openInWorld [
 	super openInWorld.
-"	self submorphs last takeKeyboardFocus.
-"	isOpen := true.
+	isOpen := true.
 
 ]
 
