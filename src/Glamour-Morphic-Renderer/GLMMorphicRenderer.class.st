@@ -215,6 +215,11 @@ GLMMorphicRenderer >> renderWizard: aGLMWizard [
 	^ (tmpRenderer renderer: self) render: aGLMWizard
 ]
 
+{ #category : #'rendering browsers' }
+GLMMorphicRenderer >> renderWrapper: aBrowser [ 
+	^ GLMMorphicWrapperRenderer render: aBrowser from: self
+]
+
 { #category : #accessing }
 GLMMorphicRenderer >> window [
 	^ window
