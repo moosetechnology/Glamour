@@ -178,8 +178,8 @@ GLMBasicExamples >> compoundTaggedTree [
 { #category : #browsers }
 GLMBasicExamples >> dashboard [
 
-	<glmBrowser: 'Dashboard' input: '100'>
-	"self new dashboard openOn: 100"
+	<glmBrowser: 'Dashboard' input: '42'>
+	"self new dashboard openOn: 42"
 	
 	|tmpBrowser|
 	tmpBrowser := GLMDashboard new.
@@ -216,8 +216,8 @@ GLMBasicExamples >> dashboard [
 { #category : #browsers }
 GLMBasicExamples >> dashboardWithSpecificExtents [
 
-	<glmBrowser: 'Dashboard specifying extents' input: '100'>
-	"self new dashboardWithSpecificExtents openOn: 100"
+	<glmBrowser: 'Dashboard specifying extents' input: '42'>
+	"self new dashboardWithSpecificExtents openOn: 42"
 	
 	|tmpBrowser|
 	tmpBrowser := GLMDashboard new.
@@ -255,8 +255,8 @@ GLMBasicExamples >> dashboardWithSpecificExtents [
 { #category : #browsers }
 GLMBasicExamples >> dashboardsInDashboard [
 
-	<glmBrowser: 'Dashboards in dashboard' input: '100'>
-	"self new dashboard openOn: 100"
+	<glmBrowser: 'Dashboards in dashboard' input: '42'>
+	"self new dashboard openOn: 42"
 	
 	|tmpBrowser|
 	tmpBrowser := GLMDashboard new.
@@ -775,8 +775,8 @@ GLMBasicExamples >> simpleExpander [
 
 { #category : #browsers }
 GLMBasicExamples >> simpleFinder [
-	<glmBrowser: 'Finder' input: '100'>
-	"self new simpleFinder openOn: 100"
+	<glmBrowser: 'Finder' input: '42'>
+	"self new simpleFinder openOn: 42"
 	| finder |	
 	finder := GLMFinder new.
 	finder show: [:a | a list display: [ :x | 1 to: x ]].
@@ -1472,8 +1472,8 @@ GLMBasicExamples >> validatingPresentation [
 
 { #category : #browsers }
 GLMBasicExamples >> validator [
-	<glmBrowser: 'Validator' input: '100'>
-	"self new validator openOn: 100"
+	<glmBrowser: 'Validator' input: '42'>
+	"self new validator openOn: 42"
 
 	| finder validator |
 	finder := GLMFinder new.
@@ -1486,8 +1486,8 @@ GLMBasicExamples >> validator [
 
 { #category : #browsers }
 GLMBasicExamples >> validatorDynamic [
-	<glmBrowser: 'Dynamic validator' input: '100'>
-	"self new validatorDynamic openOn: 100"
+	<glmBrowser: 'Dynamic validator' input: '42'>
+	"self new validatorDynamic openOn: 42"
 
 	| finder validator |
 	finder := GLMFinder new.
@@ -1503,7 +1503,7 @@ GLMBasicExamples >> validatorDynamic [
 
 { #category : #browsers }
 GLMBasicExamples >> wizard [
-"	<glmBrowser: 'Wizard' input: '100'>"
+	"<glmBrowser: 'Wizard' input: '100'>"
 	"self new wizard inspect openOn: 100"
 
 	| wizard |
@@ -1516,4 +1516,16 @@ GLMBasicExamples >> wizard [
 		name: 'Wizard pane';
 		size: 2.
 	^ wizard
+]
+
+{ #category : #browsers }
+GLMBasicExamples >> wrapper [ 
+	
+	<glmBrowser: 'Wrapper' input: '1 to: 42'>
+	"self new wrapper openOn: (1 to: 42)"
+	
+	| wrapper |
+	wrapper := GLMWrapper new title: 'Wrapper'.
+	wrapper show: [:a | a list title: 'List'. a text title: 'Text' ].
+	^ wrapper
 ]
