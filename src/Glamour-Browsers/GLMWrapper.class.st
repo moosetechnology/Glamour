@@ -11,7 +11,7 @@ Class {
 
 { #category : #'initialize-release' }
 GLMWrapper >> addDefaultPane [
-	self addPane: (GLMPane named: #default).
+	self addPane: (GLMPane named: #default)
 ]
 
 { #category : #accessing }
@@ -27,6 +27,7 @@ GLMWrapper >> initialize [
 
 { #category : #events }
 GLMWrapper >> innerPortEvent: aPortEvent [ 
+	"We forward all inner ports to the outside world"
 	aPortEvent portName = #entity ifFalse: [
 		"We don't want to resend the transmission, but use a new SimpleTransmission." 
 		(self pane port: aPortEvent portName) value: aPortEvent value]
@@ -34,10 +35,12 @@ GLMWrapper >> innerPortEvent: aPortEvent [
 
 { #category : #events }
 GLMWrapper >> outerPortEvent: aPortEvent [ 
-	 
+	"We only treat the #entity port, and for it we simply trigger 
+	a transmission to the default pane"
+		 
 	| toReplace |
 	super outerPortEvent: aPortEvent.
-	aPortEvent port name = #entity ifFalse: [^self]. 
+	aPortEvent port name = #entity ifFalse: [^self].
 	GLMTransmission new
 		ensureReplacePresentationsStrategy;
 		addActiveOrigin: (aPortEvent port); 
