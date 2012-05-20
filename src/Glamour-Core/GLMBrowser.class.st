@@ -85,8 +85,7 @@ GLMBrowser >> initialize [
 	panes := OrderedCollection new.
 	transmissions := OrderedCollection new.
 	statusPane := nil.
-
-	watcherPane := GLMPane named: #'_watcher'
+	watcherPane := nil
 ]
 
 { #category : #scripting }
@@ -154,6 +153,7 @@ GLMBrowser >> postCopy [
 		newPanes addLast: newPane.
 		newPanesMapping at: each put: newPane ].
 	oldPane := self pane.
+	watcherPane := self watcherPane copy.
 	pane := nil.
 	newPanesMapping at: oldPane ifAbsentPut: [ self pane ].
 	transmissions := self transmissions collect: [ :each | 
@@ -247,7 +247,7 @@ GLMBrowser >> update [
 
 { #category : #accessing }
 GLMBrowser >> watcherPane [
-	^ watcherPane 
+	^ watcherPane ifNil: [watcherPane := GLMPane named: #'_watcher']
 ]
 
 { #category : #accessing }
