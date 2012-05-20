@@ -36,11 +36,11 @@ GLMFinder >> addPaneFrom: aPort [
 { #category : #private }
 GLMFinder >> addPaneFromInner: aPort [ 
 	"This method adds a new pane at the end of the finder. Data comes from a port that is in a pane inside the current browser."
-	| newTransmission newPane realTransmissions lastActivePresentation |
+	| newTransmission newPane realTransmissions lastActive |
 	"the lastActivePresentation is needed for knowing what presentation to show by default"
-	lastActivePresentation := self panes isEmpty ifTrue: [nil] ifFalse: [ self lastActivePresentation ].
+	lastActive := self panes isEmpty ifTrue: [nil] ifFalse: [ self lastActivePresentation ].
 	newPane := GLMPane named: (self panes size + 1) asString in: self.
-	newPane lastActivePresentation: lastActivePresentation.
+	newPane lastActivePresentation: lastActive.
 	self panes addLast: newPane.
 	GLMTransmission new
 		ensureReplacePresentationsStrategy;
@@ -48,7 +48,7 @@ GLMFinder >> addPaneFromInner: aPort [
 		destination: (newPane port: #entity); 
 		presentations: (self presentations copy); 
 		transmit. 
-	realTransmissions := self transmissions collect: [:oldTransmission |  
+"	realTransmissions := self transmissions collect: [:oldTransmission |  
 			newTransmission := GLMTransmission new ensureReplacePresentationsStrategy. 
 			oldTransmission activeOrigins do: [:eachPort | 
 				newTransmission addActiveOrigin: (aPort pane port: eachPort name)]. 
@@ -58,8 +58,9 @@ GLMFinder >> addPaneFromInner: aPort [
 				destination: (newPane port: #entity); 
 				addPresentations: (self presentations collect: #copy);
 				addPresentations: (oldTransmission presentations collect: #copy)] . 
+	[realTransmissions isEmpty] assert.
 	(realTransmissions select: [:each | each originatesAt: aPort]) 
-		do: [:each | each transmit]. 
+		do: [:each | each transmit]. "
 ]
 
 { #category : #scripting }
