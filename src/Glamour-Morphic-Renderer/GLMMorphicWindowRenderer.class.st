@@ -44,7 +44,8 @@ GLMMorphicWindowRenderer >> render: aRenderable [
 	self setPotentialBackgroundColorFor: aRenderable.
 	aRenderable on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
 	
-	GLMMorphicWatcherRenderer render: aRenderable watcherPane from: self renderer.
+	aRenderable watcherPane notNil ifTrue: [
+		GLMMorphicWatcherRenderer render: aRenderable watcherPane from: self renderer ].
 	
 	^ window
 ]
