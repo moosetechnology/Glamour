@@ -43,6 +43,9 @@ GLMMorphicWindowRenderer >> render: aRenderable [
 		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ offset corner: 0 @ bottomOffset)).
 	self setPotentialBackgroundColorFor: aRenderable.
 	aRenderable on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
+	
+	GLMMorphicWatcherRenderer render: aRenderable watcherPane from: self renderer.
+	
 	^ window
 ]
 
