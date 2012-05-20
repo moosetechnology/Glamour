@@ -576,7 +576,8 @@ ConfigurationOfGlamour >> default: spec [
 		spec group: 'Extras' with: #(
 						'Glamour-Mondrian-Presentations'
 						'Glamour-Magritte-Presentations'
-						'Glamour-EyeSee-Presentations').
+						'Glamour-EyeSee-Presentations'
+						'Glamour-Roassal-Presentations').
 		spec group: 'Core Tests' with: #(
 						'Glamour-Tests-Core'
 						'Glamour-Examples'
