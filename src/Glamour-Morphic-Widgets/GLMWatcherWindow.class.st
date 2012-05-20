@@ -96,6 +96,20 @@ GLMWatcherWindow >> fastFramingOn [
 	^self theme settings fastDragging and: [self isFlexed not]
 ]
 
+{ #category : #settings }
+GLMWatcherWindow >> inactiveFillStyle [
+	"Return the active title fillStyle for the receiver."
+	
+	^ SolidFillStyle color: (Color gray alpha: 0.6)
+]
+
+{ #category : #settings }
+GLMWatcherWindow >> inactiveTitleFillStyle [
+	"Return the active title fillStyle for the receiver."
+	
+	^ SolidFillStyle color: Color transparent
+]
+
 { #category : #initialize }
 GLMWatcherWindow >> initialize [
 	super initialize.
