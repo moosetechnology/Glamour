@@ -34,8 +34,7 @@ Class {
 		'selectionDynamicActionsBlock',
 		'implicitAllNil',
 		'rawSelectionTransmissions',
-		'statusPane',
-		'watcherPane'
+		'statusPane'
 	],
 	#category : #'Glamour-Core'
 }
@@ -377,8 +376,7 @@ GLMPresentation >> initialize [
 	super initialize.
 	updateActions := OrderedCollection new.
 	rawSelectionTransmissions := IdentitySet new.
-	self addRawSelectionTransmissionTo: #selection.
-	watcherPane := GLMPane named: #'_watcher'
+	self addRawSelectionTransmissionTo: #selection
 ]
 
 { #category : #events }
@@ -1014,12 +1012,7 @@ GLMPresentation >> validate: anObject on: aPort [
 
 { #category : #accessing }
 GLMPresentation >> watcherPane [
-	^ watcherPane 
-]
-
-{ #category : #accessing }
-GLMPresentation >> watcherPane: anObject [
-	watcherPane := anObject 
+	^ nil
 ]
 
 { #category : #scripting }

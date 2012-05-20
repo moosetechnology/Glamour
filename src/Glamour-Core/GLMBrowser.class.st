@@ -13,7 +13,8 @@ Class {
 	#instVars : [
 		'transmissions',
 		'panes',
-		'initialExtent'
+		'initialExtent',
+		'watcherPane'
 	],
 	#category : #'Glamour-Core'
 }
@@ -83,7 +84,9 @@ GLMBrowser >> initialize [
 	super initialize.
 	panes := OrderedCollection new.
 	transmissions := OrderedCollection new.
-	statusPane := nil 
+	statusPane := nil.
+
+	watcherPane := GLMPane named: #'_watcher'
 ]
 
 { #category : #scripting }
@@ -240,6 +243,16 @@ GLMBrowser >> unregisterFromAllAnnouncements [
 GLMBrowser >> update [ 
 	self panes do: [:each | each update ].
 	self announce: (GLMPresentationUpdated new presentation: self).
+]
+
+{ #category : #accessing }
+GLMBrowser >> watcherPane [
+	^ watcherPane 
+]
+
+{ #category : #accessing }
+GLMBrowser >> watcherPane: anObject [
+	watcherPane := anObject 
 ]
 
 { #category : #enumerating }
