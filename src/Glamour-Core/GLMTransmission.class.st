@@ -199,6 +199,7 @@ GLMTransmission >> from: aPort transformed: aBlock [
 
 { #category : #scripting }
 GLMTransmission >> fromOutside: aPortSymbol [
+	self deprecated: 'Use fromOutsidePort: instead'.
 	^ self fromOutsidePort: aPortSymbol
 ]
 
@@ -320,12 +321,19 @@ GLMTransmission >> to: aPaneSymbol port: aPortSymbol [
 
 { #category : #scripting }
 GLMTransmission >> toOutside: aPortSymbol [
+	self deprecated: 'Use toOutsidePort: instead'.
 	^ self toOutsidePort: aPortSymbol
 ]
 
 { #category : #scripting }
 GLMTransmission >> toOutsidePort: aPortSymbol [
 	^ self to: #outer->aPortSymbol
+]
+
+{ #category : #scripting }
+GLMTransmission >> toWatcher [
+	""
+	^ self destination: (self browser watcherPane port: #entity)
 ]
 
 { #category : #accessing }

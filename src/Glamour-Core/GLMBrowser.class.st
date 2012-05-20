@@ -83,7 +83,7 @@ GLMBrowser >> initialize [
 	super initialize.
 	panes := OrderedCollection new.
 	transmissions := OrderedCollection new.
-	statusPane := nil.
+	statusPane := nil 
 ]
 
 { #category : #scripting }

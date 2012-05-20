@@ -34,7 +34,8 @@ Class {
 		'selectionDynamicActionsBlock',
 		'implicitAllNil',
 		'rawSelectionTransmissions',
-		'statusPane'
+		'statusPane',
+		'watcherPane'
 	],
 	#category : #'Glamour-Core'
 }
@@ -376,7 +377,8 @@ GLMPresentation >> initialize [
 	super initialize.
 	updateActions := OrderedCollection new.
 	rawSelectionTransmissions := IdentitySet new.
-	self addRawSelectionTransmissionTo: #selection
+	self addRawSelectionTransmissionTo: #selection.
+	watcherPane := GLMPane named: #'_watcher'
 ]
 
 { #category : #events }
@@ -1008,6 +1010,16 @@ GLMPresentation >> validate: anObject on: aPort [
 	The presentation has a chance to veto the value."
 	self shouldValidate ifFalse: [ ^ true ].
 	^ self doValidate: anObject on: aPort.
+]
+
+{ #category : #accessing }
+GLMPresentation >> watcherPane [
+	^ watcherPane 
+]
+
+{ #category : #accessing }
+GLMPresentation >> watcherPane: anObject [
+	watcherPane := anObject 
 ]
 
 { #category : #scripting }
