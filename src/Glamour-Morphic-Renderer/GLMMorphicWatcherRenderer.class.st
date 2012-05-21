@@ -13,8 +13,8 @@ GLMMorphicWatcherRenderer >> actOnMatchingPresentationsChanged: anAnnouncement [
 	we override the contents from the GLMWatcherWindow"
 	GLMWatcherWindow uniqueInstance contentsMorph
 		removeAllMorphs;
-		addMorphBack: (self renderObject: anAnnouncement pane presentations)
-	
+		addMorph: (self renderObject: anAnnouncement pane)
+		fullFrame: (LayoutFrame fractions: (0@0 corner: 1@1))	
 ]
 
 { #category : #rendering }

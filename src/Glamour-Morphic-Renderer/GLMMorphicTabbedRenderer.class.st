@@ -52,5 +52,6 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 			ifTrue: [ index := i ] ].
 	tabs selectedPageIndex: index.
 	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
+
 	^ tabs
 ]
