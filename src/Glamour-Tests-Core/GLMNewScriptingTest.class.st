@@ -150,11 +150,11 @@ GLMNewScriptingTest >> testSimpleTransmission [
 		column: #two.
 	(browser transmit)
 		from: #one port: #port1;
-		fromOutside: #outerPort;
-		to: #two -> #port2.
+		fromOutsidePort: #outerPort;
+		to: #two port: #port2.
 	(browser transmit)
 		from: #one port: #port3;
-		toOutside: #anotherOuterPort.
+		toOutsidePort: #anotherOuterPort.
 	self assert: browser transmissions size equals: 2.
 	self assert: browser transmissions first browser == browser.
 	self assert: (browser transmissions first transmissionStrategy isKindOf: GLMNoStrategy).
@@ -176,8 +176,8 @@ GLMNewScriptingTest >> testSimpleTransmissionWithCondition [
 		column: #two.
 	(browser transmit)
 		from: #one port: #port1;
-		fromOutside: #entity;
-		to: #two -> #port2;
+		fromOutsidePort: #entity;
+		to: #two port: #port2;
 		when: [ :one :outer | one notNil and: [ outer notNil and: [ one + outer = 42 ] ] ].
 	browser startOn: 2.
 	self assert: ((browser paneNamed: #two) port: #port2) value isNil.
@@ -196,8 +196,8 @@ GLMNewScriptingTest >> testSimpleTransmissionWithTransformation [
 		column: #two.
 	(browser transmit)
 		from: #one port: #port1;
-		fromOutside: #entity;
-		to: #two -> #port2;
+		fromOutsidePort: #entity;
+		to: #two port: #port2;
 		when: [ :one :outer | one notNil and: [ outer notNil ] ];
 		transformed: [ :one :outer | one + outer ].
 	browser startOn: 2.

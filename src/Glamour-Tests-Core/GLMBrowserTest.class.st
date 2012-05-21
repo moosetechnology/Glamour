@@ -186,3 +186,10 @@ GLMBrowserTest >> testUpdateRecomputesMatchingPresentations [
 	browser update.
 	self assert: matchingPresentationsChangedAnnounced
 ]
+
+{ #category : #tests }
+GLMBrowserTest >> testWatcherCreation [
+	| browser pane |
+	browser := GLMBrowser new.
+	self assert: browser watcherPane name = #'_watcher'
+]

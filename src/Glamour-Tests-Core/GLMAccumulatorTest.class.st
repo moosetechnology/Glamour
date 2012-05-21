@@ -11,8 +11,8 @@ GLMAccumulatorTest >> testCopy [
 	presentation := GLMPresentation new.
 	accumulator addPresentation: presentation.
 	(accumulator transmit)
-		fromOutside: #selection;
-		toOutside: #otherPort.
+		fromOutsidePort: #selection;
+		toOutsidePort: #otherPort.
 	copiedAccumulator := accumulator copy.
 	self assert: copiedAccumulator transmissions size equals: 1.
 	self assert: copiedAccumulator transmissions first ~~ accumulator transmissions first.
@@ -28,8 +28,8 @@ GLMAccumulatorTest >> testCustomTransmissions [
 	presentation := GLMPresentation new.
 	accumulator addPresentation: presentation.
 	(accumulator transmit)
-		fromOutside: #selection;
-		toOutside: #otherPort.
+		fromOutsidePort: #selection;
+		toOutsidePort: #otherPort.
 	accumulator startOn: 41.
 	(accumulator panes first port: #selection) value: 42.
 	self assert: (accumulator pane port: #otherPort) value equals: 42

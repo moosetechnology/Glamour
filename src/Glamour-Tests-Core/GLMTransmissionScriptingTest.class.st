@@ -43,3 +43,9 @@ GLMTransmissionScriptingTest >> testToPort [
 	self assert: browser transmissions first destination pane equals: browser panes first.
 	self assert: browser transmissions first destination name equals: #port
 ]
+
+{ #category : #tests }
+GLMTransmissionScriptingTest >> testToWatcher [
+	browser transmit toWatcher.
+	self assert: browser transmissions first destination pane equals: browser watcherPane
+]
