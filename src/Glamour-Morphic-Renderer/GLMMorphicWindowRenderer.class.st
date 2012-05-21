@@ -1,3 +1,6 @@
+"
+This renders the top most browser or composite presentation in a window.
+"
 Class {
 	#name : #GLMMorphicWindowRenderer,
 	#superclass : #GLMMorphicWidgetRenderer,
