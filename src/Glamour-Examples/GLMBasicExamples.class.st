@@ -601,8 +601,8 @@ GLMBasicExamples >> magritte [
 
 { #category : #others }
 GLMBasicExamples >> mondrianPainting [
-	<glmBrowser: 'Mondrian painting' input: '100'>
-	"self new mondrianPainting openOn: 100"
+	<glmBrowser: 'Mondrian painting' input: '42'>
+	"self new mondrianPainting openOn: 42"
 	| browser items |
 	browser := GLMTabulator withStatusbar.
 	items := 50.
