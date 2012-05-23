@@ -42,9 +42,9 @@ GLMWatcherWindow class >> uniqueInstance [
 
 { #category : #settings }
 GLMWatcherWindow >> activeFillStyle [
-	"Return the active title fillStyle for the receiver."
+	"Return the active fillStyle for the receiver."
 	
-	^ SolidFillStyle color: (Color gray alpha: 0.6)
+	^self theme watcherWindowActiveFillStyleFor: self
 ]
 
 { #category : #settings }
@@ -100,7 +100,7 @@ GLMWatcherWindow >> fastFramingOn [
 GLMWatcherWindow >> inactiveFillStyle [
 	"Return the active title fillStyle for the receiver."
 	
-	^ SolidFillStyle color: (Color gray alpha: 0.6)
+	^ self theme watcherWindowInactiveFillStyleFor: self
 ]
 
 { #category : #settings }
@@ -139,8 +139,34 @@ GLMWatcherWindow >> openInWorld [
 
 ]
 
+{ #category : #initialize }
+GLMWatcherWindow >> replaceBoxes [
+	"Rebuild the various boxes."
+	
+	labelArea removeAllMorphs.
+	self setLabelWidgetAllowance.
+	self theme configureWatcherWindowLabelAreaFor: self.
+	self setFramesForLabelArea.
+	self isActive ifFalse: [labelArea passivate]
+]
+
+{ #category : #settings }
+GLMWatcherWindow >> taskbarTask [
+	"Answer a new taskbar task for the receiver.
+	Answer nil if not required."
+
+	^nil
+]
+
 { #category : #'open/close' }
 GLMWatcherWindow >> toggleOpen [ 
 	isOpen ifFalse: [ ^ self openInWorld ].
 	self visible ifTrue: [self hide] ifFalse: [self show]
+]
+
+{ #category : #settings }
+GLMWatcherWindow >> wantsExpandBox [
+	"Answer whether I'd like an expand box"
+
+	^ false
 ]
