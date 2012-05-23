@@ -329,6 +329,31 @@ GLMUITheme >> checkboxUnselectedForm [
 	^ GLMUIThemeIcons checkboxUnselectedForm
 ]
 
+{ #category : #'watcher window' }
+GLMUITheme >> configureWatcherWindowLabelAreaFor: aWindow [
+	"Configure the label area for the given Watcher window."
+
+	|padding|
+	padding := 0.
+	aWindow labelArea
+		addMorphBack: (Morph new extent: aWindow class borderWidth @ 0).
+	aWindow hasCloseBox ifTrue: [aWindow addCloseBox. padding := padding + 1].
+"	aWindow hasCollapseBox ifTrue: [aWindow addCollapseBox. padding := padding + 1].
+	aWindow hasExpandBox ifTrue: [aWindow addExpandBox. padding := padding + 1].
+	aWindow hasMenuBox ifTrue: [padding := padding - 1].
+"	aWindow labelArea
+		addMorphBack: (Morph new extent: aWindow class borderWidth @ 0; hResizing: #spaceFill).
+	aWindow basicLabel ifNotNil: [:label | aWindow labelArea addMorphBack: label; hResizing: #shrinkWrap].
+	aWindow labelArea
+		addMorphBack: (Morph new extent: aWindow class borderWidth @ 0; hResizing: #spaceFill).
+	padding > 0 ifTrue: [
+		aWindow labelArea
+			addMorphBack: (Morph new extent: (aWindow boxExtent x * padding) @ 0)].
+"	aWindow hasMenuBox ifTrue: [aWindow addMenuControl]."
+	aWindow labelArea
+		addMorphBack: (Morph new extent: aWindow class borderWidth @ 0)
+]
+
 { #category : #'border-styles' }
 GLMUITheme >> configureWindowBorderFor: aWindow [
 "	super configureWindowBorderFor: aWindow.
@@ -606,7 +631,7 @@ GLMUITheme >> initialize [
 	"self beCurrent"
 
 	super initialize.
-	self windowActiveDropShadowStyle: #nodiffuse
+	self windowActiveDropShadowStyle: #diffuse
 ]
 
 { #category : #'initialize-release' }
@@ -982,7 +1007,8 @@ GLMUITheme >> taskbarButtonLabelColorFor: aButton [
 
 { #category : #'fill-styles' }
 GLMUITheme >> taskbarFillStyleFor: aTaskbar [
-	^ self buttonNormalFillStyleFor: aTaskbar
+	^ "self buttonNormalFillStyleFor: aTaskbar"
+	SolidFillStyle color: Color transparent 
 ]
 
 { #category : #'border-styles' }
@@ -1038,6 +1064,18 @@ GLMUITheme >> verticesForSimpleArrow: aRectangle [
 	vertices add: (aRectangle center x + (aRectangle width / 4)) @ (aRectangle bottom - 8) + (0@0.01).
 	^ vertices"
 "	^ super verticesForSimpleArrow: aRectangle "
+]
+
+{ #category : #'watcher window' }
+GLMUITheme >> watcherWindowActiveFillStyleFor: aWindow [
+
+	^ SolidFillStyle color: (Color veryVeryLightGray alpha: 0.6)
+]
+
+{ #category : #'watcher window' }
+GLMUITheme >> watcherWindowInactiveFillStyleFor: aWindow [
+
+	^ SolidFillStyle color: (Color veryVeryLightGray alpha: 0.6)
 ]
 
 { #category : #accessing }
