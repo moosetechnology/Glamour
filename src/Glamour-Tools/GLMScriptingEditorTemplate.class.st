@@ -83,10 +83,11 @@ GLMScriptingEditorTemplate >> scriptIn: a [
 					col ];
 		with: [:p | self defaultScriptDisplayIn: p ];
 		populate: #selection
-			icon: GLMUIThemeExtraIcons glamorousAccept
+			icon: GLMUIThemeExtraIcons glamorousPlay
 			on: $s
 			entitled: 'Generate'
 			with: [ :text | text text ]
+	";	act: [:text | text text ] icon: GLMUIThemeExtraIcons glamorousAccept entitled: 'Install'"
 ]
 
 { #category : #building }

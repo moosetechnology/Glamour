@@ -59,6 +59,9 @@ GLMEditor >> resultIn: composite [
 		act: [ :dynamic | 
 				dynamic cachedPresentation presentations first panes first presentations first openTree ] 
 			entitled: 'View browser tree';
+		act: [:dynamic | dynamic cachedPresentation presentations first panes first presentations first explore ]
+			icon: GLMUIThemeExtraIcons glamorousInspect
+			entitled: 'Explore';
 		act: [ :dynamic | 
 				dynamic cachedPresentation presentations first panes first presentations first open ] 
 			icon: GLMUIThemeExtraIcons glamorousSpawn
