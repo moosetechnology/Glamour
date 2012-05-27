@@ -16,13 +16,13 @@ GLMMorphicWatcherRenderer >> actOnMatchingPresentationsChanged: anAnnouncement [
 	we override the contents from the GLMWatcherWindow"
 	
 	GLMWatcherWindow uniqueInstance 
-		addContent: [
-			self renderObject: anAnnouncement pane ]
+		addContent: [ self renderObject: anAnnouncement pane ]
 ]
 
 { #category : #rendering }
 GLMMorphicWatcherRenderer >> render: aPane [
-	"we just register for the announcement."
+	"we just register for the announcement"
+	
 	aPane
 		on: GLMMatchingPresentationsChanged
 		send: #actOnMatchingPresentationsChanged:
