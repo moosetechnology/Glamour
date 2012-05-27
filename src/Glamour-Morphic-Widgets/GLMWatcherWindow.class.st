@@ -9,7 +9,8 @@ Class {
 	#superclass : #SystemWindow,
 	#instVars : [
 		'isOpen',
-		'contentsMorph'
+		'contentsMorph',
+		'process'
 	],
 	#classInstVars : [
 		'uniqueInstance'
@@ -52,6 +53,27 @@ GLMWatcherWindow >> activeTitleFillStyle [
 	"Return the active title fillStyle for the receiver."
 	
 	^ SolidFillStyle color: Color transparent
+]
+
+{ #category : #accessing }
+GLMWatcherWindow >> addContent: aBlockWhoseValueReturnsAMorph [
+	| newMorph |
+
+	"if we are still rendering some contents for another watcher,
+	we stop and replace with the current request"
+	process ifNotNil: [ process terminate ].
+	process := nil.
+	
+	process := [
+		WorldState addDeferredUIMessage:  [
+			newMorph := aBlockWhoseValueReturnsAMorph value.
+			self contentsMorph
+				removeAllMorphs;
+				addMorph: newMorph fullFrame: (LayoutFrame fractions: (0@0 corner: 1@1))	
+		]
+	] newProcess. 
+	process priority: Processor userBackgroundPriority.
+	process resume
 ]
 
 { #category : #initialize }
@@ -120,6 +142,7 @@ GLMWatcherWindow >> initialize [
 	self addCornerGrips.
 	self addEdgeGrips.
 	self addContentsMorph.
+	process := nil.
 	self
 		on: Character escape
 		do: [ self hide ]
