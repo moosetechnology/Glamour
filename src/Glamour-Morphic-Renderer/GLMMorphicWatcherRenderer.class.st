@@ -15,24 +15,9 @@ GLMMorphicWatcherRenderer >> actOnMatchingPresentationsChanged: anAnnouncement [
 	"whenever a relevant pane changes its presentations,
 	we override the contents from the GLMWatcherWindow"
 	
-	| newMorph |
-
-	"if we are still rendering some contents for another watcher,
-	we stop and replace with the current request"
-	process ifNotNil: [ process terminate. ].
-	process := nil.
-	
-	process := [
-		WorldState addDeferredUIMessage:  [
-			newMorph := self renderObject: anAnnouncement pane.
-			GLMWatcherWindow uniqueInstance contentsMorph
-				removeAllMorphs;
-				addMorph: newMorph
-				fullFrame: (LayoutFrame fractions: (0@0 corner: 1@1))	
-		]
-	] newProcess. 
-	process priority: Processor userBackgroundPriority.
-	process resume
+	GLMWatcherWindow uniqueInstance 
+		addContent: [
+			self renderObject: anAnnouncement pane ]
 ]
 
 { #category : #rendering }
