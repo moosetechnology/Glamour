@@ -1237,7 +1237,7 @@ GLMBasicExamples >> treeWithInitialSelection [
 			#second->{$e->{}. $f->{}}. 
 			#third->{$h->{}}
 		}.
-		(browser panes first port: #selection) value: (browser panes first port: #entity) value.
+		(browser panes first port: #selection) value: (browser panes first port: #entity) value first value first.
 	"
 
 	| browser |
