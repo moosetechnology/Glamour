@@ -65,8 +65,8 @@ GLMWatcherWindow >> addContent: aBlockWhoseValueReturnsAMorph [
 	process := nil.
 	
 	process := [
-		newMorph := aBlockWhoseValueReturnsAMorph value.
 		WorldState addDeferredUIMessage:  [
+			newMorph := aBlockWhoseValueReturnsAMorph value.
 			self contentsMorph
 				removeAllMorphs;
 				addMorph: newMorph fullFrame: (LayoutFrame fractions: (0@0 corner: 1@1))	

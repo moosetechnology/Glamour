@@ -253,7 +253,7 @@ GLMTreeMorphModel >> resetInput [
 { #category : #callbacks }
 GLMTreeMorphModel >> resetTagsToFilterBy [
 	tagsToFilterBy := OrderedCollection new.
-	self changed: #roots.
+	self changed: #rootNodes.
 ]
 
 { #category : #accessing }
@@ -322,7 +322,7 @@ GLMTreeMorphModel >> toggleAmountToFilterBy [
 		[ self amountToFilterBy isZero 
 			ifTrue: [ amountToFilterBy := self glamourPresentation amountToShow ]
 			ifFalse: [ amountToFilterBy := 0 ].
-		self changed: #roots ]
+		self changed: #rootNodes ]
 ]
 
 { #category : #callbacks }
@@ -331,13 +331,13 @@ GLMTreeMorphModel >> toggleFilteringByTag: aTag [
 		ifTrue: [self tagsToFilterBy remove: aTag ]
 		ifFalse: [self tagsToFilterBy add: aTag].
 	self resetChildrenContents.
-	self changed: #roots
+	self changed: #rootNodes
 ]
 
 { #category : #accessing }
 GLMTreeMorphModel >> updateRoots [
 	roots := nil.
-	self changed: #roots
+	self changed: #rootNodes
 ]
 
 { #category : #'drag and drop' }

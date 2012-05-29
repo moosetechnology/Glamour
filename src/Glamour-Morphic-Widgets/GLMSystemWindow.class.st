@@ -40,15 +40,6 @@ GLMSystemWindow >> handleKeyStroke: anEvent [
 	action ifNotNil: [ self announcer announce: (GLMKeyStroke action: action) ]
 ]
 
-{ #category : #initialization }
-GLMSystemWindow >> initialize [ 
-	super initialize.
-	self
-		on: #keyStroke 
-		send: #handleKeyStroke: 
-		to: self	
-]
-
 { #category : #accessing }
 GLMSystemWindow >> toolbarBox: anObject [
 	toolbarBox := anObject.
