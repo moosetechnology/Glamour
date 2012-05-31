@@ -15,7 +15,7 @@ Class {
 
 { #category : #accessing }
 GLMUITheme class >> baseColor [
-	^ (Color r: 190 g: 190 b: 190 range: 255)
+	^ Color r: 210 g: 210 b: 210 range: 255
 ]
 
 { #category : #accessing }
@@ -30,7 +30,7 @@ GLMUITheme class >> baseSelectionColor [
 
 { #category : #accessing }
 GLMUITheme class >> darkBaseColor [
-	^ Color r: 180 g: 180 b: 180 range: 255
+	^ Color r: 200 g: 200 b: 200 range: 255
 ]
 
 { #category : #private }
@@ -78,7 +78,7 @@ GLMUITheme class >> isAbstract [
 
 { #category : #accessing }
 GLMUITheme class >> lightBaseColor [
-	^ Color r: 220 g: 220 b: 220 range: 255
+	^ Color r: 230 g: 230 b: 230 range: 255
 ]
 
 { #category : #accessing }
@@ -234,7 +234,7 @@ GLMUITheme class >> themeName [
 
 { #category : #accessing }
 GLMUITheme class >> veryLightSelectionColor [
-	^ Color r: 240 g: 240 b: 240 range: 255
+	^ Color r: 250 g: 250 b: 250 range: 255
 ]
 
 { #category : #'border-styles-buttons' }
@@ -358,12 +358,11 @@ GLMUITheme >> configureWatcherWindowLabelAreaFor: aWindow [
 GLMUITheme >> configureWindowBorderFor: aWindow [
 "	super configureWindowBorderFor: aWindow.
 	aWindow roundedCorners: #()"
-		| aStyle |
-	
+	| aStyle |
 	
 	aStyle := 
 		SimpleBorder new 
-			color: (Color black alpha: 0.5);
+			color: (Color gray alpha: 0.5);
 			width: 1.
 			
 	aWindow borderStyle: aStyle.
@@ -1093,7 +1092,7 @@ GLMUITheme >> windowActiveFillStyleFor: aWindow [
 { #category : #'fill-styles' }
 GLMUITheme >> windowActiveTitleFillStyleFor: aWindow [
 	^ "self glamorousNormalFillStyleFor: aWindow height: aWindow labelHeight"
-	self windowActiveFillStyleFor: aWindow  
+	SolidFillStyle color: Color transparent
 ]
 
 { #category : #'label-styles' }
@@ -1119,7 +1118,7 @@ GLMUITheme >> windowInactiveFillStyleFor: aWindow [
 { #category : #'fill-styles' }
 GLMUITheme >> windowInactiveTitleFillStyleFor: aWindow [
 	"We do not want the lighting effect when the window goes inactive"
-	^self windowActiveTitleFillStyleFor: aWindow
+	^ SolidFillStyle color: Color transparent
 ]
 
 { #category : #'label-styles' }
@@ -1155,4 +1154,11 @@ GLMUITheme >> windowMinimizePassiveForm [
 	"Answer the form to use for passive (background) window minimize buttons"
 
 	^GLMUIThemeIcons windowMinimizeInactiveForm
+]
+
+{ #category : #defaults }
+GLMUITheme >> windowShadowColor [
+	"Answer the window shadow color to use."
+
+	^ Color yellow
 ]
