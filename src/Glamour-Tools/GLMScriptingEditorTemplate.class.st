@@ -17,6 +17,11 @@ Class {
 }
 
 { #category : #'instance creation' }
+GLMScriptingEditorTemplate class >> open [
+	^ self openOn: {}
+]
+
+{ #category : #'instance creation' }
 GLMScriptingEditorTemplate class >> openOn: anArrayOfAssociations [
 	"To spawn an editor, provide an array of associations whose values represent the names of a variables and the values are the objects referred by these variables. These variables can then be used in the code of the script.
 	For example: 
