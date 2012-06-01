@@ -362,7 +362,7 @@ GLMUITheme >> configureWindowBorderFor: aWindow [
 	
 	aStyle := 
 		SimpleBorder new 
-			color: (Color gray alpha: 0.5);
+			color: (Color lightGray);
 			width: 1.
 			
 	aWindow borderStyle: aStyle.
