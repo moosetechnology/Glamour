@@ -11,7 +11,7 @@ GLMMorphicSpotterTest >> testCreation [
 
 	classRequest := GLMSingleSpotterRequest new 
 			prompt: 'Find Class';
-			searchBlock: [ :string | Smalltalk allClassesAndTraits select: [:each | string match: each name] ];
+			searchBlock: [ :string | Smalltalk allClassesAndTraits select: [:each | string, '*' match: each name] ];
 			labelBlock: [ :class | class name ]";
 			iconBlock: [ :class | class browserIcon ]".
 
