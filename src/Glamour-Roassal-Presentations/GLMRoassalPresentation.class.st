@@ -37,12 +37,14 @@ GLMRoassalPresentation >> renderOn: aView [
 		(self entity isKindOf: GLMMultiValue) 
 				ifTrue: [(GLMMultiValue with: aView) , self entity , (GLMMultiValue with: self)] 
 				ifFalse: [GLMMultiValue with: aView with: self entity with: self]).
+	self flag: 'This should be the responsibility of the the view'.
+	view applyLayout.	
 	self view: aView
 ]
 
 { #category : #accessing }
 GLMRoassalPresentation >> view [
-	^ view ifNil: [view := ROView new]
+	^ view ifNil: [view := ROMondrianViewBuilder new]
 ]
 
 { #category : #accessing }
