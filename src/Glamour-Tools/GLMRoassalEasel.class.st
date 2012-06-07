@@ -14,7 +14,7 @@ Class {
 
 { #category : #building }
 GLMRoassalEasel >> defaultScriptBindings [
-	^ {#view -> ROView new}
+	^ {#view -> ROMondrianViewBuilder new}
 ]
 
 { #category : #building }
@@ -42,10 +42,10 @@ GLMRoassalEasel >> resultIn: a [
 			PNGReadWriter putForm: roassal bitmap onFileNamed: fName. ] entitled: 'Export as PNG';
 		"act: [ :m | m canvas exportAsJPEG ] entitled: 'Export as JPEG';
 		act: [ :m | m canvas exportAsSVG ] entitled: 'Export as SVG';"
-		act: [ :roassal | ROZoomOutMove new on: roassal view ]
+		act: [ :roassal | ROZoomOutMove new on: roassal view container ]
 			icon: MondrianIcons mondrianZoomOut
 			entitled: 'Zoom out';
-		act: [ :roassal | ROZoomInMove new on: roassal view ]
+		act: [ :roassal | ROZoomInMove new on: roassal view container ]
 			icon: MondrianIcons mondrianZoomIn
 			entitled: 'Zoom in'
 ]

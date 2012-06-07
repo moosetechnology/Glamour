@@ -44,10 +44,12 @@ GLMMondrianEasel >> resultIn: a [
 					m canvas root decreaseZoom.
 					m canvas changed ]
 			icon: MondrianIcons mondrianZoomOut
+			on: $-
 			entitled: 'Zoom out';
 		act: [ :m | 
 					m canvas root increaseZoom.
 					m canvas changed ]
 			icon: MondrianIcons mondrianZoomIn
+			on: $+
 			entitled: 'Zoom in'
 ]
