@@ -9,5 +9,5 @@ GLMMorphicRoassalRenderer >> render: aRoassalPresentation [
 	| view |
 	view := aRoassalPresentation view.
 	aRoassalPresentation renderOn: view.
-	^ ROMorph on: view container
+	^ ROMorph on: view raw
 ]
