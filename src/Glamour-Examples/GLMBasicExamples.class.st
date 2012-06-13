@@ -775,6 +775,31 @@ GLMBasicExamples >> roassalPainting [
 	^ browser
 ]
 
+{ #category : #roassal }
+GLMBasicExamples >> roassalWithMenu [
+	<glmBrowser: 'Roassal with menu' input: '42'>
+	"self new roassalWithMenu openOn: 42"
+
+	| browser |
+	browser := GLMTabulator withStatusbar.
+	browser column: #one.
+	browser transmit to: #one; andShow: [ :a |
+		a roassal 
+			title: 'Numbers in Roassal';
+			painting: [:view :number | 
+				view shape label.
+				view interaction 
+					on: ROMouseClick do:  [ :event |  
+						ROFocusView new on: event element view: view raw ].
+				view nodes: (1 to: number).
+				view edgesFrom: [:each | each // 5 ].
+				view treeLayout.
+				view addMenu: 'Zoom in' callBack: [ :stack | ROZoomInMove new on: stack firstView ].
+				view addMenu: 'Zoom out' callBack: [ :stack | ROZoomOutMove new on: stack firstView ].
+				  ]].
+	^ browser
+]
+
 { #category : #actionlist }
 GLMBasicExamples >> simpleActionList [
 	<glmBrowser: 'Action list' input: '#(1 2 3)'>	
