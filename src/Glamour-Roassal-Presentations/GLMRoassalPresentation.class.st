@@ -39,6 +39,7 @@ GLMRoassalPresentation >> renderOn: aView [
 				ifFalse: [GLMMultiValue with: aView with: self entity with: self]).
 	self flag: 'This should be the responsibility of the the view'.
 	view applyLayout.	
+	view populateMenuOn: view stack.
 	self view: aView
 ]
 
