@@ -733,7 +733,7 @@ ConfigurationOfGlamour >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: 'default'.
-
+	spec for: #'pharo2.x' version: '2.4'.
 ]
 
 { #category : #accessing }
