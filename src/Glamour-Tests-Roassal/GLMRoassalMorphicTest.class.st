@@ -25,3 +25,20 @@ GLMRoassalMorphicTest >> testRoassalPresentationConstructor [
 	self assert: composite presentations size = 1.
 	self assert: (composite presentations anyOne isKindOf: GLMRoassalPresentation)
 ]
+
+{ #category : #tests }
+GLMRoassalMorphicTest >> testUpdate [
+	| browser originalView newView |
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit to: #one; andShow: [ :a | 
+		a roassal painting: [:view :input | view nodes: ($a to: input)]].
+	window := browser openOn: $d.
+
+	originalView := (self find: ROMorph in: window) view.
+	browser panes first presentations first update.
+	newView := (self find: ROMorph in: window) view.
+	
+	self assert: newView ~~ originalView
+
+]
