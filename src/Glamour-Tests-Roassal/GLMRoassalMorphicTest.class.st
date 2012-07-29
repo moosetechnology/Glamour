@@ -10,7 +10,7 @@ GLMRoassalMorphicTest >> testCanvas [
 	browser := GLMTabulator new.
 	browser column: #one.
 	browser transmit to: #one; andShow: [ :a | 
-		a roassal view: [:view :input | view add: ROElement new]].
+		a roassal painting: [:view :input |  view raw add: ROElement new]].
 	window := browser openOn: 42.
 
 	roassalMorph := self find: ROMorph in: window.
