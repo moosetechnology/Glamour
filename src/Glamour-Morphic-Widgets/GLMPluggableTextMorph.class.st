@@ -19,14 +19,17 @@ GLMPluggableTextMorph >> announceSelection: aString from: start to: stop [
 			selectedText: aString )
 ]
 
-{ #category : #'interactive error protocol' }
-GLMPluggableTextMorph >> announceSelectionFrom: start to: stop [
-	self announcer announce: (GLMSelectedTextChanged new start: start; end: stop)
-]
-
 { #category : #accessing }
 GLMPluggableTextMorph >> announcer [
 	^ announcer ifNil: [announcer := GLMAnnouncer new]
+]
+
+{ #category : #private }
+GLMPluggableTextMorph >> handleEdit: editBlock [
+	"We override this hook method to intercept pasting in the text morph.
+	When pasting happens, we update the text port"
+	super handleEdit: editBlock.
+	self announcer announce: (GLMTextChanged new text: self text)
 ]
 
 { #category : #'interactive error protocol' }
