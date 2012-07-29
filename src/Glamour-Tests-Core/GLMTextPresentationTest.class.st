@@ -5,10 +5,23 @@ Class {
 }
 
 { #category : #tests }
+GLMTextPresentationTest >> expectedFailures [
+
+	^ #(testTextPortIsPopulatedByDefault)
+]
+
+{ #category : #tests }
 GLMTextPresentationTest >> testSelectedText [
 	| presentation |
 	presentation := GLMTextPresentation new.
 	self assert: presentation selectedText equals: ''.
 	presentation selectedTextBlock: [ 'selection' ].
 	self assert: presentation selectedText equals: 'selection'
+]
+
+{ #category : #tests }
+GLMTextPresentationTest >> testTextPortIsPopulatedByDefault [
+	| composite |
+	composite := (GLMCompositePresentation new with: [:a | a text ]) startOn: '42'.
+	self assert: composite presentations first text equals: '42'
 ]

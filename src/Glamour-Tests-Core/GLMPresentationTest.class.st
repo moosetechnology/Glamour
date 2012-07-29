@@ -453,3 +453,19 @@ GLMPresentationTest >> testWith [
 	p with: [ :thePresentation | presentationInWithBlock := thePresentation ].
 	self assert: presentationInWithBlock == p
 ]
+
+{ #category : #tests }
+GLMPresentationTest >> testWithBlockPassesTheParentPresentation [
+	| p presentationInWithBlock |
+	p := GLMPresentation new.
+	p with: [ :thePresentation | presentationInWithBlock := thePresentation ].
+	self assert: presentationInWithBlock == p
+]
+
+{ #category : #tests }
+GLMPresentationTest >> testWithReturnsTheOriginalPresentation [
+	| p result |
+	p := GLMPresentation new.
+	result := p with: [ :thePresentation | GLMPresentation new ].
+	self assert: result == p
+]
