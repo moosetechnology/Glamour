@@ -675,7 +675,8 @@ ConfigurationOfGlamour >> default: spec [
 						'Glamour-Examples'
 						'Glamour-Tests-Morphic'
 						'Glamour-Tests-Mondrian'
-						'Glamour-Tests-EyeSee'). 
+						'Glamour-Tests-EyeSee'
+						'Glamour-Tests-Roassal'). 
 		spec
 			project: 'Shout' with: [
 				spec
