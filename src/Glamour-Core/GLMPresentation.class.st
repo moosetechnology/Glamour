@@ -1029,7 +1029,7 @@ GLMPresentation >> whenKindOf: aClass [
 
 { #category : #scripting }
 GLMPresentation >> with: aBlock [
-	^ aBlock value: self
+	aBlock value: self
 ]
 
 { #category : #enumeration }
