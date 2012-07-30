@@ -31,13 +31,13 @@ GLMUpdateInterdependentPanesTest >> testAllowNil [
 	window := browser openOn: 42.
 	((browser paneNamed: #one) port: #selection) value: 2.
 	detailsMorph := window submorphs last submorphs last submorphs first.
-	self assert: detailsMorph getText equals: '2nil'.
+	self assert: detailsMorph getText asString equals: '2nil'.
 	((browser paneNamed: #two) port: #selection) value: #c.
 	detailsMorph := window submorphs last submorphs last submorphs first.
-	self assert: detailsMorph getText equals: '2c'.
+	self assert: detailsMorph getText asString equals: '2c'.
 	((browser paneNamed: #one) port: #selection) value: nil.
 	detailsMorph := window submorphs last submorphs last submorphs first.
-	self assert: detailsMorph getText equals: 'nilc'
+	self assert: detailsMorph getText asString equals: 'nilc'
 ]
 
 { #category : #tests }
