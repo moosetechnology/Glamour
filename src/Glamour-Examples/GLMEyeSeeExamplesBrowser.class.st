@@ -7,6 +7,11 @@ Class {
 	#category : #'Glamour-Examples'
 }
 
+{ #category : #'instance creation' }
+GLMEyeSeeExamplesBrowser class >> open [ 
+	^ self new openOn: ESExamples
+]
+
 { #category : #hooks }
 GLMEyeSeeExamplesBrowser >> exampleSelectorsFromClass: exampleClass [
 	^ exampleClass selectors select: [ :each | each endsWith: 'With:' ]

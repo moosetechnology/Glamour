@@ -7,6 +7,11 @@ Class {
 	#category : #'Glamour-Examples'
 }
 
+{ #category : #'instance creation' }
+GLMRoassalExamplesBrowser class >> open [ 
+	^ self new openOn: ROMondrianExample
+]
+
 { #category : #hooks }
 GLMRoassalExamplesBrowser >> exampleSelectorsFromClass: exampleClass [
 	^ exampleClass selectors select: [ :each | each endsWith: 'On:' ]
