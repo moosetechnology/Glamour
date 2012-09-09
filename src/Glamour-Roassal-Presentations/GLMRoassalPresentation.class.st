@@ -48,7 +48,7 @@ GLMRoassalPresentation >> renderOn: aView [
 	view applyLayout.	
 	view populateMenuOn: view stack.
 	self shouldPopulateSelection ifTrue: [
-		view raw elementsDo: [:each | 
+		view raw allElementsDo: [:each | 
 			each on: ROMouseClick do: [:event | self selection: each model ]] ].
 	self view: aView
 ]
