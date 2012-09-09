@@ -19,7 +19,9 @@ GLMRoassalEasel >> defaultScriptBindings [
 
 { #category : #building }
 GLMRoassalEasel >> defaultScriptDisplayIn: aPresentation [
-	^ aPresentation display: 'view'
+	^ aPresentation 
+		display: 'view';
+		morphicAct: [:text | GLMRoassalExamplesBrowser open ] icon: GLMUIThemeExtraIcons glamorousExample entitled: 'Browse basic examples'
 ]
 
 { #category : #building }

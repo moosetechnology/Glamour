@@ -19,7 +19,9 @@ GLMEyeSeeEditor >> defaultScriptBindings [
 
 { #category : #building }
 GLMEyeSeeEditor >> defaultScriptDisplayIn: aPresentation [
-	^ aPresentation display: 'chart'
+	^ aPresentation 
+		display: 'chart';
+		morphicAct: [:text | GLMEyeSeeExamplesBrowser open ] icon: GLMUIThemeExtraIcons glamorousExample entitled: 'Browse basic examples'
 ]
 
 { #category : #building }
