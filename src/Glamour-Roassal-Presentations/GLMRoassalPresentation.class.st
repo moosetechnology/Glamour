@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'painting',
 		'paintingBlock',
-		'view'
+		'view',
+		'shouldPopulateSelection'
 	],
 	#category : #'Glamour-Roassal-Presentations'
 }
@@ -12,6 +13,12 @@ Class {
 { #category : #accessing }
 GLMRoassalPresentation >> bitmap [ 
 	^ self view bitmap 
+]
+
+{ #category : #'initialize-release' }
+GLMRoassalPresentation >> initialize [ 
+	super initialize.
+	shouldPopulateSelection := true
 ]
 
 { #category : #scripting }
@@ -40,7 +47,22 @@ GLMRoassalPresentation >> renderOn: aView [
 	self flag: 'This should be the responsibility of the the view'.
 	view applyLayout.	
 	view populateMenuOn: view stack.
+	self shouldPopulateSelection ifTrue: [
+		view raw elementsDo: [:each | 
+			each on: ROMouseClick do: [:event | self selection: each model ]] ].
 	self view: aView
+]
+
+{ #category : #accessing }
+GLMRoassalPresentation >> shouldPopulateSelection [
+	"this flag tells the presentation whether clicking on some element inside
+	the view should populate the selection port from the pane containing the presentation"
+	^ shouldPopulateSelection
+]
+
+{ #category : #accessing }
+GLMRoassalPresentation >> shouldPopulateSelection: anObject [
+	shouldPopulateSelection := anObject
 ]
 
 { #category : #accessing }
