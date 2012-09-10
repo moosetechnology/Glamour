@@ -3,9 +3,26 @@ This is an abstract class that provides the infrastructure for an example browse
 "
 Class {
 	#name : #GLMParameterizableExamplesBrowser,
-	#superclass : #GLMCompositePresentation,
+	#superclass : #GLMBrowserTemplate,
 	#category : #'Glamour-Examples'
 }
+
+{ #category : #building }
+GLMParameterizableExamplesBrowser >> buildBrowser [
+	browser := GLMTabulator new.
+	browser
+		column: #titles;
+		column: #example span: 4.
+	browser transmit
+		to: #titles;
+		andShow: [ :a | self exampleListIn: a ].
+	browser transmit
+		to: #example;
+		fromOutsidePort: #entity;
+		from: #titles;
+		andShow: [ :a | self exampleIn: a ].
+	^ browser
+]
 
 { #category : #building }
 GLMParameterizableExamplesBrowser >> compose [
