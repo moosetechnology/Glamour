@@ -645,6 +645,11 @@ GLMPresentation >> printOn: aStream [
 		nextPutAll: ')'
 ]
 
+{ #category : #'accessing ports' }
+GLMPresentation >> rawSelection [
+	^ (self pane port: #rawSelection) value
+]
+
 { #category : #transmitting }
 GLMPresentation >> rawSelectionTransmissionFor: aPortSymbol ifNone: ifNoneBlock [
 	^ rawSelectionTransmissions
