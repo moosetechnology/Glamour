@@ -71,6 +71,12 @@ GLMCompositePresentation >> collect: aBlock [
 	^ self copy presentations: (self presentations collect: aBlock ); yourself
 ]
 
+{ #category : #building }
+GLMCompositePresentation >> compose [
+	"by default this method is empty.
+	override this method in subclasses to define a custom browser"
+]
+
 { #category : #scripting }
 GLMCompositePresentation >> composite: aBlock [
 	| composite |
@@ -128,6 +134,12 @@ GLMCompositePresentation >> first [
 { #category : #accessing }
 GLMCompositePresentation >> includes: aPresentation [
 	^ self presentations includes: aPresentation 
+]
+
+{ #category : #'initialize-release' }
+GLMCompositePresentation >> initialize [ 
+	super initialize.
+	self compose
 ]
 
 { #category : #accessing }
