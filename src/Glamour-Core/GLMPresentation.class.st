@@ -386,11 +386,6 @@ GLMPresentation >> innerPortEvent: aPortEvent [
 ]
 
 { #category : #testing }
-GLMPresentation >> limitsAmount [
-	^ amountToShowBlock notNil
-]
-
-{ #category : #testing }
 GLMPresentation >> matches [ 
 	"answer true iff the presentation matches the current context so that it can be displayed"
 	^ (self usesImplicitAllNil
@@ -505,7 +500,13 @@ GLMPresentation >> noSelection [
 
 { #category : #scripting }
 GLMPresentation >> noTitle [
-	title := nil
+	title := nil.
+	titleIcon := nil
+]
+
+{ #category : #scripting }
+GLMPresentation >> noTitleIcon [
+	titleIcon := nil
 ]
 
 { #category : #scripting }
