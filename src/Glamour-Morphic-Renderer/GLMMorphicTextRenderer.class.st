@@ -11,7 +11,8 @@ Class {
 { #category : #rendering }
 GLMMorphicTextRenderer >> actOnContextChanged: ann [ 
 	ann property = #selectionInterval
-		ifTrue: [ textMorph setSelection: ann value ]
+		ifTrue: [ 
+			textMorph setSelection: ann value ]
 ]
 
 { #category : #rendering }
