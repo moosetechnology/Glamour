@@ -18,6 +18,12 @@ GLMExplicitBrowser >> addNewPaneNamed: aString [
 	^ self addPane: (GLMPane named: aString in: self)
 ]
 
+{ #category : #accessing }
+GLMExplicitBrowser >> addTransmission: aTransmission [ 
+	 
+	^ self transmissions addLast: aTransmission
+]
+
 { #category : #scripting }
 GLMExplicitBrowser >> custom: aPresentation [ 
 	"this message sets a custom presentation to the current Transmission. 

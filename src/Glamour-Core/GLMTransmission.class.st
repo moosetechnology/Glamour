@@ -199,7 +199,6 @@ GLMTransmission >> from: aPort transformed: aBlock [
 
 { #category : #scripting }
 GLMTransmission >> fromOutside: aPortSymbol [
-	self deprecated: 'Use fromOutsidePort: instead'.
 	^ self fromOutsidePort: aPortSymbol
 ]
 
@@ -321,19 +320,12 @@ GLMTransmission >> to: aPaneSymbol port: aPortSymbol [
 
 { #category : #scripting }
 GLMTransmission >> toOutside: aPortSymbol [
-	self deprecated: 'Use toOutsidePort: instead'.
 	^ self toOutsidePort: aPortSymbol
 ]
 
 { #category : #scripting }
 GLMTransmission >> toOutsidePort: aPortSymbol [
 	^ self to: #outer->aPortSymbol
-]
-
-{ #category : #scripting }
-GLMTransmission >> toWatcher [
-	""
-	^ self destination: (self browser watcherPane port: #entity)
 ]
 
 { #category : #accessing }
@@ -372,9 +364,7 @@ GLMTransmission >> transmitIn: aContext [
 	self flag: 'The transmitIt: and receive:in: both end up calling notingPresentationChangeDo:. So they should be handled by a surrounding notingPresentationChangeDo:. However, by doing that it seems that we break the morphic updating. No idea why'.
 	self destination notingPresentationChangeDo: [
 		self transmissionStrategy transmitIn: aContext.
-		self destination receive: self in: aContext ].
-	self browser notNil ifTrue: [
-		self browser announce: GLMTransmissionTriggered new ]
+		self destination receive: self in: aContext ]
 ]
 
 { #category : #transmitting }
