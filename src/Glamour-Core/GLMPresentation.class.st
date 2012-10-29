@@ -386,11 +386,6 @@ GLMPresentation >> innerPortEvent: aPortEvent [
 ]
 
 { #category : #testing }
-GLMPresentation >> limitsAmount [
-	^ amountToShowBlock notNil
-]
-
-{ #category : #testing }
 GLMPresentation >> matches [ 
 	"answer true iff the presentation matches the current context so that it can be displayed"
 	^ (self usesImplicitAllNil
@@ -505,7 +500,13 @@ GLMPresentation >> noSelection [
 
 { #category : #scripting }
 GLMPresentation >> noTitle [
-	title := nil
+	title := nil.
+	titleIcon := nil
+]
+
+{ #category : #scripting }
+GLMPresentation >> noTitleIcon [
+	titleIcon := nil
 ]
 
 { #category : #scripting }
@@ -643,6 +644,11 @@ GLMPresentation >> printOn: aStream [
 		nextPutAll: ' pane=';
 		nextPutAll: self pane printString;
 		nextPutAll: ')'
+]
+
+{ #category : #'accessing ports' }
+GLMPresentation >> rawSelection [
+	^ (self pane port: #rawSelection) value
 ]
 
 { #category : #transmitting }
@@ -1010,6 +1016,11 @@ GLMPresentation >> validate: anObject on: aPort [
 	^ self doValidate: anObject on: aPort.
 ]
 
+{ #category : #accessing }
+GLMPresentation >> watcherPane [
+	^ nil
+]
+
 { #category : #scripting }
 GLMPresentation >> when: aBlock [ 
 	 
@@ -1024,7 +1035,7 @@ GLMPresentation >> whenKindOf: aClass [
 
 { #category : #scripting }
 GLMPresentation >> with: aBlock [
-	^ aBlock value: self
+	aBlock value: self
 ]
 
 { #category : #enumeration }

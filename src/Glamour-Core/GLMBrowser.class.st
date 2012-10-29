@@ -13,7 +13,8 @@ Class {
 	#instVars : [
 		'transmissions',
 		'panes',
-		'initialExtent'
+		'initialExtent',
+		'watcherPane'
 	],
 	#category : #'Glamour-Core'
 }
@@ -39,6 +40,7 @@ GLMBrowser >> addPane: aPane [
 
 { #category : #accessing }
 GLMBrowser >> addTransmission: aTransmission [ 
+	aTransmission browser: self.
 	^ self transmissions addLast: aTransmission
 ]
 
@@ -83,6 +85,7 @@ GLMBrowser >> initialize [
 	panes := OrderedCollection new.
 	transmissions := OrderedCollection new.
 	statusPane := nil.
+	watcherPane := nil
 ]
 
 { #category : #scripting }
@@ -139,7 +142,7 @@ GLMBrowser >> panes [
 
 { #category : #copying }
 GLMBrowser >> postCopy [
-	| newPane newPanes newPanesMapping newTransmission oldPane |
+	| newPane newPanes newPanesMapping newTransmission oldPane oldWatcherPane |
 	super postCopy.
 	"needed for setting the right panes for the new transmissions"
 	newPanesMapping := Dictionary new. 
@@ -150,8 +153,12 @@ GLMBrowser >> postCopy [
 		newPanes addLast: newPane.
 		newPanesMapping at: each put: newPane ].
 	oldPane := self pane.
+	oldWatcherPane := self watcherPane.
+	watcherPane := nil.
 	pane := nil.
 	newPanesMapping at: oldPane ifAbsentPut: [ self pane ].
+	newPanesMapping at: oldWatcherPane ifAbsentPut: [ self watcherPane ].
+	self flag: 'we should also copy the values of ports from pane and watcherPane'.
 	transmissions := self transmissions collect: [ :each | 
 		newTransmission := each copy.
 		newTransmission 
@@ -212,17 +219,6 @@ GLMBrowser >> resolvePort: aPortReference defaultPortName: aSymbol [
 ]
 
 { #category : #scripting }
-GLMBrowser >> screenshot: aFilenameString on: anObject after: aBlock [
-	 
-	| window |
-	window := self openOn: anObject.
-	aBlock glamourValue: self asGlamorousMultiValue.
-	World doOneCycle.
-	PNGReadWriter putForm: window imageForm onFileNamed: aFilenameString.
-	^ window
-]
-
-{ #category : #scripting }
 GLMBrowser >> startOn: anObject [ 
 	 
 	self initializeScriptingDefaults. 
@@ -250,6 +246,21 @@ GLMBrowser >> unregisterFromAllAnnouncements [
 GLMBrowser >> update [ 
 	self panes do: [:each | each update ].
 	self announce: (GLMPresentationUpdated new presentation: self).
+]
+
+{ #category : #accessing }
+GLMBrowser >> watcherPane [
+	^ watcherPane ifNil: [watcherPane := GLMPane named: #'_watcher']
+]
+
+{ #category : #accessing }
+GLMBrowser >> watcherPane: anObject [
+	watcherPane := anObject 
+]
+
+{ #category : #events }
+GLMBrowser >> windowIsClosing [ 
+	self announce: GLMWindowClosing new
 ]
 
 { #category : #enumerating }
