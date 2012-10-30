@@ -22,19 +22,6 @@ Class {
 }
 
 { #category : #private }
-GLMFinder >> addPaneFrom: aPort [ 
-	"This method adds a new pane at the end of the finder."
-	|newPane|
-	newPane := self panes addLast: (GLMPane named: (self panes size + 1) asString in: self).
-	GLMTransmission new
-		ensureReplacePresentationsStrategy;
-		addActiveOrigin: aPort; 
-		destination: (newPane port: #entity); 
-		presentations: ((self firstPresentations isEmpty ifTrue: [self presentations] ifFalse: [self firstPresentations ]) copy); 
-		transmit
-]
-
-{ #category : #private }
 GLMFinder >> addPaneFromInner: aPort [ 
 	"This method adds a new pane at the end of the finder. Data comes from a port that is in a pane inside the current browser."
 	| newTransmission newPane realTransmissions lastActive |
@@ -65,6 +52,22 @@ GLMFinder >> addPaneFromInner: aPort [
 	[realTransmissions isEmpty] assert.
 	(realTransmissions select: [:each | each originatesAt: aPort]) 
 		do: [:each | each transmit]. "
+]
+
+{ #category : #private }
+GLMFinder >> addPaneFromOuter: aPort [ 
+	"This method adds a new pane at the end of the finder."
+	|newPane targetPresentations |
+	newPane := self panes addLast: (GLMPane named: (self panes size + 1) asString in: self).
+	targetPresentations := self firstPresentations isEmpty 
+								ifTrue: [self presentations] 
+								ifFalse: [self firstPresentations].
+	GLMTransmission new
+		ensureReplacePresentationsStrategy;
+		addActiveOrigin: aPort; 
+		destination: (newPane port: #entity); 
+		presentations: targetPresentations copy; 
+		transmit
 ]
 
 { #category : #scripting }
@@ -152,13 +155,13 @@ GLMFinder >> outerPortEvent: aPortEvent [
 		ifFalse: [
 			toReplace := self panes first.
 			panes := nil.
-			self addPaneFrom: aPortEvent port.
+			self addPaneFromOuter: aPortEvent port.
 			self announce: (GLMPaneReplaced 
 						oldPane: toReplace 
 						newPane: self panes first
 						fromBrowser: self ) ]
 		ifTrue: [
-			self addPaneFrom: aPortEvent port.
+			self addPaneFromOuter: aPortEvent port.
 			self announce: 
 				(GLMPaneAdded 
 					pane: self panes last 
