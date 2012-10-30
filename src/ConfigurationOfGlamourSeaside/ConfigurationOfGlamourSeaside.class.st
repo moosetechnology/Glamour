@@ -286,6 +286,7 @@ ConfigurationOfGlamourSeaside >> default: spec [
 					className: 'ConfigurationOfSeaside30';
 					file: 'ConfigurationOfSeaside30';
 					version: '3.0.7';
+					loads: #('Core' 'Seaside-Adaptors-Comanche');	 
 					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
 		spec
 			project: 'SeasideTesting' with: [
