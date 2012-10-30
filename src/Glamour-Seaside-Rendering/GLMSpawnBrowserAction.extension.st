@@ -1,7 +1,7 @@
-Extension { #name : #GLMOpenBrowserAction }
+Extension { #name : #GLMSpawnBrowserAction }
 
 { #category : #'*glamour-seaside-rendering' }
-GLMOpenBrowserAction >> seasideAnchorFrom: actionPresenter on: html [ 
+GLMSpawnBrowserAction >> seasideAnchorFrom: actionPresenter on: html [ 
 
 	|tmpAnchor|
 	tmpAnchor := html popupAnchor 
@@ -17,5 +17,5 @@ GLMOpenBrowserAction >> seasideAnchorFrom: actionPresenter on: html [
 		callback: [
 			actionPresenter session presenter call: (SGLCalledComponent new browser: (self actOn: actionPresenter presentation) ; yourself)
 			].
-	^ tmpAnchor
+	^ tmpAnchor 
 ]
