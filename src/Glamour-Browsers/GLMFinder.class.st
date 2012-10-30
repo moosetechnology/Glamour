@@ -15,7 +15,8 @@ Class {
 	#instVars : [
 		'hasFixedSizePanes',
 		'fixedSizePanes',
-		'lastActivePresentation'
+		'lastActivePresentation',
+		'firstPresentations'
 	],
 	#category : #'Glamour-Browsers'
 }
@@ -29,7 +30,7 @@ GLMFinder >> addPaneFrom: aPort [
 		ensureReplacePresentationsStrategy;
 		addActiveOrigin: aPort; 
 		destination: (newPane port: #entity); 
-		presentations: (self presentations copy); 
+		presentations: ((self firstPresentations isEmpty ifTrue: [self presentations] ifFalse: [self firstPresentations ]) copy); 
 		transmit
 ]
 
@@ -48,6 +49,9 @@ GLMFinder >> addPaneFromInner: aPort [
 		destination: (newPane port: #entity); 
 		presentations: (self presentations copy); 
 		transmit. 
+
+
+	"This code was supposed to offer custom transmissions"
 "	realTransmissions := self transmissions collect: [:oldTransmission |  
 			newTransmission := GLMTransmission new ensureReplacePresentationsStrategy. 
 			oldTransmission activeOrigins do: [:eachPort | 
@@ -61,6 +65,11 @@ GLMFinder >> addPaneFromInner: aPort [
 	[realTransmissions isEmpty] assert.
 	(realTransmissions select: [:each | each originatesAt: aPort]) 
 		do: [:each | each transmit]. "
+]
+
+{ #category : #scripting }
+GLMFinder >> firstPresentations [
+	^ firstPresentations ifNil: [firstPresentations := GLMCompositePresentation new]
 ]
 
 { #category : #scripting }
@@ -142,7 +151,6 @@ GLMFinder >> outerPortEvent: aPortEvent [
 	self panes isEmpty
 		ifFalse: [
 			toReplace := self panes first.
-			"self removeAllPanes."
 			panes := nil.
 			self addPaneFrom: aPortEvent port.
 			self announce: (GLMPaneReplaced 
@@ -167,6 +175,11 @@ GLMFinder >> passivelyFromPrevious: aPortSymbol [
 { #category : #rendering }
 GLMFinder >> renderGlamorouslyOn: aRenderer [ 
 	^ aRenderer renderFinder: self
+]
+
+{ #category : #scripting }
+GLMFinder >> showFirst: aBlock [
+	^ aBlock value: self firstPresentations
 ]
 
 { #category : #scripting }
