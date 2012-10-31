@@ -260,7 +260,7 @@ GLMBrowser >> watcherPane: anObject [
 
 { #category : #events }
 GLMBrowser >> windowIsClosing [ 
-	self announce: GLMWindowClosing new
+	self announce: GLMBrowserClosing new
 ]
 
 { #category : #enumerating }
