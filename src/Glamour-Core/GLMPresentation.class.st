@@ -494,6 +494,12 @@ GLMPresentation >> morphicSelectionAct: aBlock icon: anIcon on: aCharacter entit
 ]
 
 { #category : #scripting }
+GLMPresentation >> noActions [
+	actions := nil.
+	dynamicActionsBlock := nil.
+]
+
+{ #category : #scripting }
 GLMPresentation >> noSelection [
 	self acceptsSelection: false
 ]
