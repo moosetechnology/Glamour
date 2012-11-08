@@ -33,6 +33,6 @@ SGLMooseMetaBrowser >> initialize [
 SGLMooseMetaBrowser >> model [
 	|aFMMetaRepository|
 	aFMMetaRepository := MooseModel meta.
-	mooseMetaBrowser computeChildrenHierarchy:  aFMMetaRepository.
+	"mooseMetaBrowser computeChildrenHierarchy:  aFMMetaRepository."
 	^ aFMMetaRepository
 ]
