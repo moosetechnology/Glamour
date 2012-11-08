@@ -37,6 +37,16 @@ SGLComponent >> browser [
 ]
 
 { #category : #accessing }
+SGLComponent >> currentModel [
+	"Return the model on which the browser will be opened."
+	|model|
+	
+	model := self requestContext request at: #entity ifAbsent: nil.
+	model isNil ifTrue: [^self model].
+	^ self transformEntityPortValue: model
+]
+
+{ #category : #accessing }
 SGLComponent >> model [
 	"Override this method and answer a model instance."
 	
@@ -44,19 +54,32 @@ SGLComponent >> model [
 ]
 
 { #category : #private }
-SGLComponent >> presentation [
-	presentation isNil ifTrue: [
-		presentation := self browser 
-			startOn: self model;
-			yourself ].
+SGLComponent >> presentationForBrowser: aBrowser [
+	| fields |
+	fields := self requestContext request queryFields.
+	
+	presentation := aBrowser 
+		startOn: self currentModel;
+		yourself.
+	(fields keys reject: [:key | key = #entity ]) do: [:key |
+		(presentation pane port: key) value: (fields at: key) ].
+
 	^ presentation
 ]
 
 { #category : #rendering }
 SGLComponent >> renderContentOn: html [
-	self session addBrowser: self browser.
+	|browser|
+	browser := self browser.
+	self session addBrowser: browser.
 	(SGLRenderer in: self on: html)
-		render: self presentation
+		render: (self presentationForBrowser: browser)
+]
+
+{ #category : #accessing }
+SGLComponent >> transformEntityPortValue: aString [
+	"Override to modify the value comming from the url that will be sent to the entity port"
+	^ aString
 ]
 
 { #category : #updating }
