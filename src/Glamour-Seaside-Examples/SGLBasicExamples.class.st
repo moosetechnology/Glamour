@@ -79,8 +79,8 @@ SGLBasicExamples >> listWithTags [
 
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [ :composite |
+		composite tree
 			showOnly: 30;
 			tags: [:each | 
 				{each even ifTrue: ['even'] ifFalse: ['odd'].
@@ -88,8 +88,8 @@ SGLBasicExamples >> listWithTags [
 				(each\\4 == 0 ) ifTrue: ['div 4'] ifFalse: ['not div 4'].
 				(each\\5 == 0 ) ifTrue: ['div 5'] ifFalse: ['not div 5']}
 				]].
-	browser showOn: #two; from: #one; using: [
-		browser text
+	browser transmit to: #two; from: #one; andShow: [ :composite |
+		composite text
 			display: [:x | 'You have selected ', x printString ]].
 	^ browser
 	
@@ -170,7 +170,7 @@ SGLBasicExamples >> textSelectionInterval [
 		self new textSelectionInterval openOn: (1 to: 100)
 	"
 	<glmBrowser: 'Text selection' input: '(1 to: 100)'>
-	^ GLMBasicExamples new textSelectionInterval
+	^ GLMBasicExamples new textSelection
 ]
 
 { #category : #others }
@@ -183,16 +183,16 @@ SGLBasicExamples >> threeInterdependentPanes [
 
 	browser := GLMTabulator new.
 	browser column: #one; column: #two; column: #three.
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [ :composite |
+		composite tree
 			title: 'Pane 1';
 			display: [:x | 1 to: x]].
-	browser showOn: #two; from: #one; using: [ 
-		browser tree
+	browser transmit to: #two; from: #one; andShow: [ :composite |
+		composite tree
 			title: 'Pane 2';
 			display: [:x | 1 to: x*2]].
-	browser showOn: #three; from: #two; using: [
-		browser tree
+	browser transmit to: #three; from: #two; andShow: [ :composite |
+		composite tree
 			title: 'Pane 3';
 			display: [:x | 1 to: x*3];
 			populate: #focus on: $f entitled: 'Focus' with: [:list | list selection] ].
@@ -244,8 +244,8 @@ SGLBasicExamples >> treeWithLeafTags [
 	|browser |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [ :composite |
+		composite tree
 			beMultiple;
 			title: 'No expansion';
 			tags: [:each | 
@@ -257,7 +257,7 @@ SGLBasicExamples >> treeWithLeafTags [
 					(each isNumber and: [each\\5 == 0] ) ifTrue: ['div 5'] ifFalse: ['not div 5']} ]
 				ifFalse: [{}] ];
 			children: [:x :i | x isCollection ifTrue: [x] ifFalse: [OrderedCollection new] ].
-		browser tree
+		composite tree
 			title: 'All Expanded';
 			allExpanded;
 			tags: [:each | 
@@ -269,7 +269,8 @@ SGLBasicExamples >> treeWithLeafTags [
 					(each isNumber and: [each\\5 == 0] ) ifTrue: ['div 5'] ifFalse: ['not div 5']} ]
 				ifFalse: [{}] ];
 			children: [:x :i | x isCollection ifTrue: [x] ifFalse: [OrderedCollection new] ] ].
-	browser showOn: #two; from: #one; using: [ browser text ].
+	browser transmit to: #two; from: #one; andShow: [ :composite |
+		 composite text ].
 	^ browser
 ]
 
@@ -282,12 +283,13 @@ SGLBasicExamples >> treeWithMenu [
 	|browser |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [ :composite |
+		composite tree
 			title: ['Tree with menu'];
 			children: [:x :i | x asString size > 1 ifTrue: [x] ifFalse: [OrderedCollection new] ];
 			act: [:tree | tree inspect ] on: $i entitled: 'Inspect';
-			icon: [:x | MenuIcons helpIcon ]].
-	browser showOn: #two; from: #one; using: [ browser text ].
+			icon: [:x | GLMUIThemeExtraIcons glamorousHelp ]].
+	browser transmit to: #two; from: #one; andShow: [ :composite |
+		composite text ].
 	^ browser
 ]
