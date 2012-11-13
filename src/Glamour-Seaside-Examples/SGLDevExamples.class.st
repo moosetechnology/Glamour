@@ -23,19 +23,19 @@ SGLDevExamples >> accumulatorWithActions [
 	acc show: [:a |
 		a title: [:x | x asString].
 
-		a act: [:ac :entity| Transcript show: 'Accumulator action '; cr ] icon: MenuIcons helpIcon entitled: 'Accumulator action'.
+		a act: [:ac :entity| Transcript show: 'Accumulator action '; cr ] icon: GLMUIThemeExtraIcons glamorousHelp entitled: 'Accumulator action'.
 
 		a list 
 			title: 'List';
 			showOnly: 10;
 			act: [:list :entity| 
-				Transcript show: 'List action 1 for accumulator'; cr ] icon: MenuIcons jumpIcon entitled: 'List action 1 for accumulator';
+				Transcript show: 'List action 1 for accumulator'; cr ] icon: ThemeIcons jumpIcon entitled: 'List action 1 for accumulator';
 
 			display: [:x |1 to: x ].
 		a text 
 			title: 'Text'; 
 			display: [:x | 'This is an editor on ', x printString ];
-			act: [:list :entity| Transcript show: 'Text action 1 for accumulator'; cr ] icon: MenuIcons helpIcon  entitled: 'Text action 1 for accumulator'.
+			act: [:list :entity| Transcript show: 'Text action 1 for accumulator'; cr ] icon: GLMUIThemeExtraIcons glamorousHelp entitled: 'Text action 1 for accumulator'.
 		].
 	browser column: [:c | c row: #one span: 4; row: #two]; column: #three; column: #four.
 	browser transmit to: #one; andShow: [:a | 
@@ -97,48 +97,48 @@ SGLDevExamples >> differentCompositesWithActions [
 
 	browser transmit  to: #tab; andShow: [ :a |
 		a title: 'Tab arrangement'.
-		a act: [:list :entity| Transcript show: 'Tab arrangement action 1'; cr ] icon: MenuIcons jumpIcon entitled: 'Tab arrangement action 1'.
-		a act: [:list :entity| Transcript show: 'Tab arrangement action 2'; cr ] icon: MenuIcons helpIcon  entitled: 'Tab arrangement action 2'.
-		a act: [:list :entity| Transcript show: 'Tab arrangement action 3'; cr ] icon: MenuIcons jumpIcon entitled: 'Tab arrangement action 3'.
-		a act: [:list :entity| Transcript show: 'Tab arrangement action 4'; cr ] icon: MenuIcons helpIcon  entitled: 'Tab arrangement action 4'.
+		a act: [:list :entity| Transcript show: 'Tab arrangement action 1'; cr ] icon: ThemeIcons jumpIcon entitled: 'Tab arrangement action 1'.
+		a act: [:list :entity| Transcript show: 'Tab arrangement action 2'; cr ] icon: ThemeIcons helpIcon  entitled: 'Tab arrangement action 2'.
+		a act: [:list :entity| Transcript show: 'Tab arrangement action 3'; cr ] icon: ThemeIcons jumpIcon entitled: 'Tab arrangement action 3'.
+		a act: [:list :entity| Transcript show: 'Tab arrangement action 4'; cr ] icon: ThemeIcons helpIcon  entitled: 'Tab arrangement action 4'.
 		a list
 			title: 'First';
 			showOnly: 10;
-			act: [:list :entity| Transcript show: 'First tab action 1'; cr ] icon: MenuIcons projectIcon entitled: 'First tab action 1';
-			act: [:list :entity| Transcript show: 'First tab action 2'; cr ] icon: MenuIcons jumpIcon entitled: 'First tab action 2';
+			act: [:list :entity| Transcript show: 'First tab action 1'; cr ] icon: ThemeIcons projectIcon entitled: 'First tab action 1';
+			act: [:list :entity| Transcript show: 'First tab action 2'; cr ] icon: ThemeIcons jumpIcon entitled: 'First tab action 2';
 			display:  [ :x | 1 to: x ].
 		a list
 			title: 'Second';
 			showOnly: 60;
-			act: [:list :entity| Transcript show: 'Second tab action 1'; cr ] icon: MenuIcons publishIcon entitled: 'Second tab action 1';
+			act: [:list :entity| Transcript show: 'Second tab action 1'; cr ] icon: ThemeIcons publishIcon entitled: 'Second tab action 1';
 			display:  [ :x | 1 to: x ].
 		a list
 			title: 'Third';
-			act: [:list :entity| Transcript show: 'Third tab action 1'; cr ] icon: MenuIcons projectIcon entitled: 'Third tab action 1';
-			act: [:list :entity| Transcript show: 'Third tab action 2'; cr ] icon: MenuIcons jumpIcon entitled: 'Third tab action 2';
-			act: [:list :entity| Transcript show: 'Third tab action 3'; cr ] icon: MenuIcons paintTabIcon entitled: 'Third tab action 3';
-			act: [:list :entity| Transcript show: 'Third tab action 4'; cr ] icon: MenuIcons publishIcon entitled: 'Third tab action 4';
+			act: [:list :entity| Transcript show: 'Third tab action 1'; cr ] icon: ThemeIcons projectIcon entitled: 'Third tab action 1';
+			act: [:list :entity| Transcript show: 'Third tab action 2'; cr ] icon: ThemeIcons jumpIcon entitled: 'Third tab action 2';
+			act: [:list :entity| Transcript show: 'Third tab action 3'; cr ] icon: ThemeIcons paintTabIcon entitled: 'Third tab action 3';
+			act: [:list :entity| Transcript show: 'Third tab action 4'; cr ] icon: ThemeIcons publishIcon entitled: 'Third tab action 4';
 			display:  [ :x | 1 to: x ] ].
 
 	browser transmit  to: #accordion; andShow: [ :a |
 		a accordionArrangement.
-		a act: [:list :entity| Transcript show: 'Accordion arrangement action 1'; cr ] icon: MenuIcons jumpIcon entitled: 'Accordion arrangement action 1'.
+		a act: [:list :entity| Transcript show: 'Accordion arrangement action 1'; cr ] icon: ThemeIcons jumpIcon entitled: 'Accordion arrangement action 1'.
 		a title: 'Accordion arrangement'.
 		a list
 			title: 'First';
 			showOnly: 10;
-			act: [:list :entity| Transcript show: 'First accordion tab action 1'; cr ] icon: MenuIcons projectIcon entitled: 'First accordion tab action 1';
-			act: [:list :entity| Transcript show: 'First accordion tab action 2'; cr ] icon: MenuIcons jumpIcon entitled: 'First accordion tab action 2';
-			act: [:list :entity| Transcript show: 'First accordion tab action 3'; cr ] icon: MenuIcons paintTabIcon entitled: 'First accordion tab action 3';
-			act: [:list :entity| Transcript show: 'First accordion tab action 4'; cr ] icon: MenuIcons projectIcon entitled: 'First accordion tab action 4';
-			act: [:list :entity| Transcript show: 'First accordion tab action 5'; cr ] icon: MenuIcons jumpIcon entitled: 'First accordion tab action 5';
-			act: [:list :entity| Transcript show: 'First accordion tab action 6'; cr ] icon: MenuIcons paintTabIcon entitled: 'First accordion tab action 6';
+			act: [:list :entity| Transcript show: 'First accordion tab action 1'; cr ] icon: ThemeIcons projectIcon entitled: 'First accordion tab action 1';
+			act: [:list :entity| Transcript show: 'First accordion tab action 2'; cr ] icon: ThemeIcons jumpIcon entitled: 'First accordion tab action 2';
+			act: [:list :entity| Transcript show: 'First accordion tab action 3'; cr ] icon: ThemeIcons paintTabIcon entitled: 'First accordion tab action 3';
+			act: [:list :entity| Transcript show: 'First accordion tab action 4'; cr ] icon: ThemeIcons projectIcon entitled: 'First accordion tab action 4';
+			act: [:list :entity| Transcript show: 'First accordion tab action 5'; cr ] icon: ThemeIcons jumpIcon entitled: 'First accordion tab action 5';
+			act: [:list :entity| Transcript show: 'First accordion tab action 6'; cr ] icon: ThemeIcons paintTabIcon entitled: 'First accordion tab action 6';
 			display:  [ :x | 1 to: x ].
 		a list
 			title: 'Second';
 			showOnly: 60;
-			act: [:list :entity| Transcript show: 'Second accordion tab action 1'; cr ] icon: MenuIcons projectIcon entitled: 'Second accordion tab action 1';
-			act: [:list :entity| Transcript show: 'Second accordion tab action 2'; cr ] icon: MenuIcons jumpIcon entitled: 'Second accordion tab action 2';
+			act: [:list :entity| Transcript show: 'Second accordion tab action 1'; cr ] icon: ThemeIcons projectIcon entitled: 'Second accordion tab action 1';
+			act: [:list :entity| Transcript show: 'Second accordion tab action 2'; cr ] icon: ThemeIcons jumpIcon entitled: 'Second accordion tab action 2';
 			display:  [ :x | 1 to: x ].
 		a list
 			title: 'Third';
@@ -146,13 +146,13 @@ SGLDevExamples >> differentCompositesWithActions [
 		
 	browser transmit  to: #stack; andShow: [ :a |
 		a stackedVerticallyArrangement.
-		a act: [:list :entity| Transcript show: 'Stacked arrangement action 1'; cr ] icon: MenuIcons jumpIcon entitled: 'Stacked arrangement action 1'.
+		a act: [:list :entity| Transcript show: 'Stacked arrangement action 1'; cr ] icon: ThemeIcons jumpIcon entitled: 'Stacked arrangement action 1'.
 		a title: 'Stack arrangement'.
 		a list
 			title: 'First';
 			showOnly: 10;
-			act: [:list :entity| Transcript show: 'First stacked tab action 1'; cr ] icon: MenuIcons projectIcon entitled: 'First stacked tab action 1';
-			act: [:list :entity| Transcript show: 'First stacked tab action 2'; cr ] icon: MenuIcons jumpIcon entitled: 'First stacked tab action 2';
+			act: [:list :entity| Transcript show: 'First stacked tab action 1'; cr ] icon: ThemeIcons projectIcon entitled: 'First stacked tab action 1';
+			act: [:list :entity| Transcript show: 'First stacked tab action 2'; cr ] icon: ThemeIcons jumpIcon entitled: 'First stacked tab action 2';
 			display:  [ :x | 1 to: x ].
 		a list
 			title: 'Second';
@@ -160,9 +160,9 @@ SGLDevExamples >> differentCompositesWithActions [
 			display:  [ :x | 1 to: x ].
 		a list
 			title: 'Third';
-			act: [:list :entity| Transcript show: 'Third stacked tab action 1'; cr ] icon: MenuIcons projectIcon entitled: 'Third stacked tab action 1';
-			act: [:list :entity| Transcript show: 'Third stacked tab action 2'; cr ] icon: MenuIcons jumpIcon entitled: 'Third stacked tab action 2';
-			act: [:list :entity| Transcript show: 'Third stacked tab action 3'; cr ] icon: MenuIcons paintTabIcon entitled: 'Third stacked tab action 3';
+			act: [:list :entity| Transcript show: 'Third stacked tab action 1'; cr ] icon: ThemeIcons projectIcon entitled: 'Third stacked tab action 1';
+			act: [:list :entity| Transcript show: 'Third stacked tab action 2'; cr ] icon: ThemeIcons jumpIcon entitled: 'Third stacked tab action 2';
+			act: [:list :entity| Transcript show: 'Third stacked tab action 3'; cr ] icon: ThemeIcons paintTabIcon entitled: 'Third stacked tab action 3';
 			display:  [ :x | 1 to: x ] ].
 		
 	^browser 
@@ -216,7 +216,7 @@ SGLDevExamples >> methodsInvocations [
 	innerBrowser transmit from: #methods; to: #source; andShow: [:a |
 		a text display: #sourceText ].
 	
-	innerBrowser transmit from: #methods; toOutside: #selection.
+	innerBrowser transmit from: #methods; toOutsidePort: #selection.
 	
 	finder  := GLMFinder new.
 	finder title: [ :each | 'Reference browser on ', each mooseName ].
@@ -344,12 +344,12 @@ SGLDevExamples >> simpleTree [
 
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [ :composite |
+		composite tree
 			title: 'No expansion';
 			children: [:item | 1 to: 4];
 			showOnly: 10.
-		browser tree
+		composite tree
 			title: 'Roots expanded';
 			rootsExpanded;
 			children: [:item | 1 to: 4];
@@ -374,31 +374,31 @@ SGLDevExamples >> tabsWithActions [
 			title: 'First';
 			showOnly: 10;
 			display:  [ :x | 1 to: x ];
-			act: [:list :entity| Transcript show: '+1'; cr ] icon: MenuIcons projectIcon entitled: '+1';
-			act: [:list :entity| Transcript show: '+2'; cr ] icon: MenuIcons jumpIcon entitled: '+2';
-			act: [:list :entity| Transcript show: '+3'; cr ] icon: MenuIcons jumpIcon entitled: '+3'.
+			act: [:list :entity| Transcript show: '+1'; cr ] icon: ThemeIcons projectIcon entitled: '+1';
+			act: [:list :entity| Transcript show: '+2'; cr ] icon: ThemeIcons jumpIcon entitled: '+2';
+			act: [:list :entity| Transcript show: '+3'; cr ] icon: ThemeIcons jumpIcon entitled: '+3'.
 		a list
 			title: 'Second';
 			showOnly: 60;
 			display:  [ :x | 1 to: x ];
-			act: [:list :entity| Transcript show: '-1'; cr ] icon: MenuIcons publishIcon entitled: '-1';
-			act: [:list :entity| Transcript show: '-2'; cr ] icon: MenuIcons jumpIcon entitled: '-2'.
+			act: [:list :entity| Transcript show: '-1'; cr ] icon: ThemeIcons publishIcon entitled: '-1';
+			act: [:list :entity| Transcript show: '-2'; cr ] icon: ThemeIcons jumpIcon entitled: '-2'.
 		a list
 			title: 'Third';
 			display:  [ :x | 1 to: x ] ;
-			act: [:list :entity| Transcript show: '*1'; cr ] icon: MenuIcons paintTabIcon entitled: '*1';
-			act: [:list :entity| Transcript show: '*2'; cr ] icon: MenuIcons helpIcon entitled: '*2';
-			act: [:list :entity| Transcript show: '*3'; cr ] icon: MenuIcons projectIcon entitled: '*3';
-			act: [:list :entity| Transcript show: '*4'; cr ] icon: MenuIcons jumpIcon entitled: '*4'  ].
+			act: [:list :entity| Transcript show: '*1'; cr ] icon: ThemeIcons paintTabIcon entitled: '*1';
+			act: [:list :entity| Transcript show: '*2'; cr ] icon: ThemeIcons helpIcon entitled: '*2';
+			act: [:list :entity| Transcript show: '*3'; cr ] icon: ThemeIcons projectIcon entitled: '*3';
+			act: [:list :entity| Transcript show: '*4'; cr ] icon: ThemeIcons jumpIcon entitled: '*4'  ].
 	^browser
 ]
 
 { #category : #other }
-SGLDevExamples >> tabsWithMenues [
+SGLDevExamples >> tabsWithMenus [
 	"
-		self new tabsWithMenues openOn: 10
+		self new tabsWithMenus openOn: 10
 	"
-	<glmBrowser: 'Tabs with menues' input: '10'>
+	<glmBrowser: 'Tabs with menus' input: '10'>
 	|browser|
 	browser := GLMTabulator new.
 	browser column: #aColumn.
@@ -432,15 +432,15 @@ SGLDevExamples >> textSelectedTextPort [
 	browser 
 		row: [:r | r column: #numbers; column: #selection; column: #details].
 		
-	browser showOn: #numbers; using: [
-		browser list
+	browser transmit to: #numbers; andShow: [ :composite |
+		composite list
 			title: 'Selectors';
 			beMultiple;
 			allowDeselection;
 			display: [:x| 1 to: x ]].
 
-	browser showOn: #selection;  using: [
-		browser text
+	browser transmit to: #selection;  andShow: [ :composite |
+		composite text
 			title: 'Text with selection by "selectedText"';
 			display: [:x | |value|
 				value := ''.
@@ -562,15 +562,15 @@ SGLDevExamples >> textSelectionPorts [
 			  column: [:c | c row: #text2; row: [:r1 | r1 column: #selectionIntervalStart; column: #selectionIntervalStop ]];
 			  column: [:c | c row: #selection21; row: #details21 ] ].
 		
-	browser showOn: #text1; using: [
-		browser list
+	browser transmit to: #text1; andShow: [ :composite |
+		composite list
 			title: 'Text port';
 			beMultiple;
 			allowDeselection;
 			display: [:x| 1 to: x ]].
 		
-	browser showOn: #selectedText; using: [
-		browser list
+	browser transmit to: #selectedText; andShow: [ :composite |
+		composite list
 			title: 'SelectedText port';
 			beMultiple;
 			allowDeselection;
@@ -611,20 +611,20 @@ Interval: ', interval asString  ];
 		
 		""""""""""""""""""""""""""""
 		
-	browser showOn: #text2; using: [
-		browser list
+	browser transmit to: #text2; andShow: [ :composite |
+		composite list
 			title: 'Text port';
 			beMultiple;
 			allowDeselection;
 			display: [:x| 1 to: x ]].
 		
-	browser showOn: #selectionIntervalStart; using: [
-		browser list
+	browser transmit to: #selectionIntervalStart; andShow: [ :composite |
+		composite list
 			title: 'SelectionInterval start';
 			allowDeselection;
 			display: [:x| 1 to: x ]].
-	browser showOn: #selectionIntervalStop; using: [
-		browser list
+	browser transmit to: #selectionIntervalStop; andShow: [ :composite |
+		composite list
 			title: 'SelectionInterval Stop';
 			allowDeselection;
 			display: [:x| 1 to: x ]].
@@ -679,14 +679,19 @@ SGLDevExamples >> textTextPorts [
 		row: #main; 
 		row: [:r | r column: #full1; column: #fullFromTransmision1]; 
 		row: [:r | r column: #full2; column: #fullFromTransmision2].
-	browser showOn: #main; using: [browser text].
+	browser transmit to: #main; andShow: [ :composite |
+		composite text].
 	
-	browser showOn: #full1; from: #main->#text; using: [browser text].
-	browser showOn: #fullFromTransmision1; using: [browser text].
+	browser transmit to: #full1; from: #main->#text; andShow: [ :composite |
+		composite text].
+	browser transmit to: #fullFromTransmision1; andShow: [ :composite |
+		composite text].
 	browser transmit to: #fullFromTransmision1->#text; from: #main->#text; when: [:text| text notNil].
 	
-	browser showOn: #full2; from: #full1->#text; using: [browser text].
-	browser showOn: #fullFromTransmision2; using: [browser text].
+	browser transmit to: #full2; from: #full1->#text; andShow: [ :composite |
+		composite text].
+	browser transmit to: #fullFromTransmision2; andShow: [ :composite |
+		composite text].
 	browser transmit to: #fullFromTransmision2->#text; from: #fullFromTransmision1->#text; when: [:text| text notNil].
 	
 	^ browser
@@ -706,8 +711,8 @@ SGLDevExamples >> treeWithTags [
 	|browser |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [ :composite |
+		composite tree
 			title: 'No expansion';
 			tags: [:each | 
 				each isNumber 
@@ -717,7 +722,7 @@ SGLDevExamples >> treeWithTags [
 					{each size even ifTrue: ['even'] ifFalse: ['odd'] } ] ];
 			children: [:x :i | x isCollection ifTrue: [x] ifFalse: [OrderedCollection new] ].
 			
-		browser tree
+		composite tree
 			title: 'All Expanded';
 			allExpanded;
 			tags: [:each | 
@@ -727,6 +732,7 @@ SGLDevExamples >> treeWithTags [
 				ifFalse: [
 					{each size even ifTrue: ['even'] ifFalse: ['odd'] } ] ];
 			children: [:x :i | x isCollection ifTrue: [x] ifFalse: [OrderedCollection new] ] ].
-	browser showOn: #two; from: #one; using: [ browser text ].
+	browser transmit to: #two; from: #one; andShow: [ :composite |
+		composite text ].
 	^ browser
 ]
