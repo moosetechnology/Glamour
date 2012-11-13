@@ -13,7 +13,7 @@ SGLMooseFinder class >> initialize [
 SGLMooseFinder >> browser [
 	"self new browser openOn: self new model"
 
-	^ MooseFinder new buildBrowser
+	^ MooseFinder new 
 ]
 
 { #category : #accessing }

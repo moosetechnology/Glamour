@@ -15,8 +15,8 @@ SGLTreeWithLeafTags >> browser [
 	|browser |
 	browser := GLMTabulator new.
 	browser column: #one; column: #two.
-	browser showOn: #one; using: [
-		browser tree
+	browser transmit to: #one; andShow: [ :composite |
+		composite tree
 			title: 'None Expanded';
 			allowDeselection;
 			beMultiple;
@@ -30,7 +30,7 @@ SGLTreeWithLeafTags >> browser [
 					(each isNumber and: [each\\5 == 0] ) ifTrue: ['div 5'] ifFalse: ['not div 5']} ]
 				ifFalse: [{}] ];
 			children: [:x :i | x isCollection ifTrue: [x] ifFalse: [OrderedCollection new] ].
-		browser tree
+		composite tree
 			title: 'Roots Expanded';
 			rootsExpanded;
 			showOnly: 4;
@@ -45,7 +45,8 @@ SGLTreeWithLeafTags >> browser [
 					(each isNumber and: [each\\5 == 0] ) ifTrue: ['div 5'] ifFalse: ['not div 5']} ]
 				ifFalse: [{}] ];
 			children: [:x :i | x isCollection ifTrue: [x] ifFalse: [OrderedCollection new] ] ].
-	browser showOn: #two; from: #one; using: [ browser text ].
+	browser transmit to: #two; from: #one; andShow: [ :composite |
+		 composite text ].
 	^ browser
 ]
 
