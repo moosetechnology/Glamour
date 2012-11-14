@@ -644,6 +644,29 @@ GLMBasicExamples >> mondrianPainting [
 	^ browser
 ]
 
+{ #category : #browsers }
+GLMBasicExamples >> mooseFinderOnSelectedElement [
+    "self new mooseFinderOnSelectedElement openOn: (1 to: 100)"
+    <glmBrowser: 'Open MooseFinder On Selected Element' input: '(1 to: 100)'>
+
+    | browser |
+    browser := GLMTabulator new.
+    browser
+        column: #functions;
+        column: #finder.
+    browser transmit
+        to: #functions;
+        andShow: [ :a |
+                    a list
+                        title: 'Functions';
+                        display: [ :each | each ] ].
+    browser transmit
+        to: #finder;
+        from: #functions port: #selection;
+        andShow: [ :a | a custom: MooseFinder new first noTitle ].
+    ^browser
+]
+
 { #category : #others }
 GLMBasicExamples >> morphIcons [
 	<glmBrowser: 'Morph icons' input: 'GLMUIThemeExtraIcons class selectors select: [:each | (each beginsWith: ''glamorous'') and: [(GLMUIThemeExtraIcons perform: each) isForm ]]'>
