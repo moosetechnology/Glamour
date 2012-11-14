@@ -342,3 +342,8 @@ GLMCompositePresentation >> withAllPanesAndPresentationsDo: aBlock [
 	super withAllPanesAndPresentationsDo: aBlock.
 	self do: [:each | each withAllPanesAndPresentationsDo: aBlock ]
 ]
+
+{ #category : #scripting }
+GLMCompositePresentation >> wrapper [
+	^ self custom: GLMWrapper new
+]
