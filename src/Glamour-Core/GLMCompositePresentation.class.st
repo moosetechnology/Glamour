@@ -209,6 +209,12 @@ GLMCompositePresentation >> openWith: aRenderer [
 	^ aRenderer open: self
 ]
 
+{ #category : #events }
+GLMCompositePresentation >> outerPortEvent: aPortEvent [
+	super outerPortEvent: aPortEvent.
+	self do: [:each| each outerPortEvent: aPortEvent]
+]
+
 { #category : #accessing }
 GLMCompositePresentation >> pane [
 	^ pane ifNil: [
@@ -334,7 +340,7 @@ GLMCompositePresentation >> verticallyStackedArrangement [
 { #category : #enumerating }
 GLMCompositePresentation >> withAllDo: aBlock [
 	super withAllDo: aBlock.
-	self do: aBlock
+	self do: [:each | each withAllDo: aBlock ]
 ]
 
 { #category : #enumerating }

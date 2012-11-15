@@ -224,7 +224,7 @@ GLMPane >> portEvent: aPortEvent [
 	"we unregister all presentations from announcements because they will get replaced anyway"
 	aPortEvent portName = #entity ifTrue: [ self unregisterFromAllAnnouncements ].
 	self browser innerPortEvent: aPortEvent.
-	self presentations withAllDo: [ :each | each outerPortEvent: aPortEvent ]
+	self presentations outerPortEvent: aPortEvent
 ]
 
 { #category : #accessing }
@@ -255,7 +255,7 @@ GLMPane >> presentations: aCompositePresentation [
 	self notingPresentationChangeDo: [
 		presentations pane: nil.
 		presentations resetAnnouncer.
-		aCompositePresentation withAllDo: [:each | each pane: self].
+		aCompositePresentation pane: self.
 		presentations := aCompositePresentation ]
 ]
 
