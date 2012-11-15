@@ -35,6 +35,48 @@ GLMCompositePresentationTest >> testAddSetsCorrectPane [
 	self assert: composite pane = presentation pane
 ]
 
+{ #category : #'as yet unclassified' }
+GLMCompositePresentationTest >> testCompositeWithinCompositeOuterPortEvents [
+	| childComposite finder parentComposite count |
+
+	count := 0.
+	childComposite := GLMCompositePresentation new.
+	finder := childComposite finder.
+	finder show: [:a | a list display: [:x |1 to: x] ].
+	finder on: GLMPaneAdded do: [:a | count := count + 1].
+	
+	parentComposite := GLMCompositePresentation new.
+	parentComposite custom: childComposite.
+	
+	parentComposite startOn: 10.
+	
+	self assert: count = 1
+
+]
+
+{ #category : #'as yet unclassified' }
+GLMCompositePresentationTest >> testCompositeWithinCompositePanePropagation [
+	| composite0 composite1 composite21 composite22 pane |
+	composite0 := GLMCompositePresentation new.
+	composite1 := GLMCompositePresentation new.
+	composite21 := GLMCompositePresentation new.
+	composite22 := GLMCompositePresentation new.
+	
+	composite21 add: GLMPresentation new.
+	composite1 add: composite21.
+	composite22 add: GLMPresentation new.
+	composite1 add: composite22.
+	composite0 add: composite1.
+	
+	pane := GLMPane new.
+	pane  presentations: composite0.
+	
+	self assert: composite0 first first first pane = pane.
+	self assert: (composite0 first at: 2 ) pane = pane.
+	self assert: composite0 first first first pane = pane.
+	self assert: (composite0 first at: 2 ) first pane = pane.
+]
+
 { #category : #'tests - composer' }
 GLMCompositePresentationTest >> testCreateFinder [
 
