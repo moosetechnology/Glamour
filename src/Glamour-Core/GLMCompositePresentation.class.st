@@ -338,12 +338,6 @@ GLMCompositePresentation >> verticallyStackedArrangement [
 ]
 
 { #category : #enumerating }
-GLMCompositePresentation >> withAllDo: aBlock [
-	super withAllDo: aBlock.
-	self do: [:each | each withAllDo: aBlock ]
-]
-
-{ #category : #enumerating }
 GLMCompositePresentation >> withAllPanesAndPresentationsDo: aBlock [
 	super withAllPanesAndPresentationsDo: aBlock.
 	self do: [:each | each withAllPanesAndPresentationsDo: aBlock ]
