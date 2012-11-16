@@ -255,7 +255,7 @@ ConfigurationOfGlamourSeaside >> default: spec [
 		spec package: 'Glamour-Seaside-Examples' with: [
 			spec requires: #('Seaside' 'Glamour-Seaside-Rendering') ].
 		spec package: 'Glamour-Seaside-Tests' with: [
-			spec requires: #('Glamour-Seaside-Rendering' 'SeasideTesting' 'WebTester') ].
+			spec requires: #('Glamour-Seaside-Rendering' 'SeasideTesting' 'BeachParasol') ].
 		spec package: 'JQWidgetBox-Core' with: [
 			spec requires: #('Seaside').
 			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
@@ -296,13 +296,21 @@ ConfigurationOfGlamourSeaside >> default: spec [
 					version: '0.7';
 					loads: #('SimulatedBrowserTesting');
 					repository: 'http://www.squeaksource.com/SeasideTesting' ].
-		spec
+"		spec
 			project: 'WebTester' with: [
 				spec
 					className: 'ConfigurationOfWebTester';
 					file: 'ConfigurationOfWebTester';
 					version: '1.3';
-					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
+					repository: 'http://www.squeaksource.com/MetacelloRepository' ]."
+		spec
+			project: 'BeachParasol' with: [
+				spec
+					className: 'ConfigurationOfParasol';
+					file: 'ConfigurationOfParasol';
+					version: 'development';
+					load: #('dev');
+					repository: 'http://ss3.gemstone.com/ss/Parasol' ].
 		spec ]
 ]
 
