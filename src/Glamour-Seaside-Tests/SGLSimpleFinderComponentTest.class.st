@@ -1,129 +1,106 @@
 Class {
 	#name : #SGLSimpleFinderComponentTest,
-	#superclass : #SGLComponentTest,
-	#instVars : [
-		'finderSelector',
-		'paneSelector'
-	],
+	#superclass : #SGLBrowserComponentTest,
 	#category : #'Glamour-Seaside-Tests'
 }
 
 { #category : #accessing }
-SGLSimpleFinderComponentTest class >> component [ 
-	^ SGLSimpleFinderTestComponent new.
+SGLSimpleFinderComponentTest >> componentClass [
+	^ SGLSimpleFinderTestComponent
 ]
 
-{ #category : #accessing }
-SGLSimpleFinderComponentTest >> fullFinderSelector [
-	^ '//', finderSelector
+{ #category : #'private selectors' }
+SGLSimpleFinderComponentTest >> finderAbsolutePaneSelector [
+	^ '/html/body/', self finderPaneSelector
 ]
 
-{ #category : #accessing }
-SGLSimpleFinderComponentTest >> fullPaneSelector [
-	^ '//', finderSelector , '/', paneSelector
+{ #category : #'private selectors' }
+SGLSimpleFinderComponentTest >> finderAbsoluteSelector [
+	^ '/html/body/', self finderSelector
 ]
 
-{ #category : #setup }
-SGLSimpleFinderComponentTest >> setUp [
-	super setUp. 
-	
-	finderSelector := 'body/div[contains(@class, "sgl-finder")]'.
-	paneSelector := 'div[contains(@class, "sgl-finder-pane")]'.
-]
-
-{ #category : #testing }
+{ #category : #'testing pane flow' }
 SGLSimpleFinderComponentTest >> testAddMultiplePanes [
-	| newPane |
 	
-	self clickAndPauseNodeWithIndex: 20 fromTree: self fullPaneSelector, '/', self treePresentationSelector.
-	self clickAndPauseNodeWithIndex: 10 fromTree: self fullPaneSelector, '[2]/', self treePresentationSelector.
-	self clickAndPauseNodeWithIndex: 5 fromTree: self fullPaneSelector, '[3]/', self treePresentationSelector.
+	self clickAndPauseNodeWithIndex: 20 forTreeIn: self finderAbsolutePaneSelector, '[1]/'.
+	self clickAndPauseNodeWithIndex: 10 forTreeIn: self finderAbsolutePaneSelector, '[2]/'.
+	self clickAndPauseNodeWithIndex: 5 forTreeIn: self finderAbsolutePaneSelector, '[3]/'.
 	
-	newPane := self elementByXPath: self fullPaneSelector, '[4]'.  
-	self should: newPane isPresent.
+	self shouldElementWithXPathBePresent: self finderAbsolutePaneSelector, '[4]'.
+	self shouldntElementWithXPathBePresent: self finderAbsolutePaneSelector, '[5]'.
 	
 ]
 
-{ #category : #testing }
+{ #category : #'testing pane flow' }
 SGLSimpleFinderComponentTest >> testAddOnePane [
-	| newPane |
 
-	self clickAndPauseNodeWithIndex: 20 fromTree: self fullPaneSelector, '/', self treePresentationSelector.
+	self clickAndPauseNodeWithIndex: 20 forTreeIn: self finderAbsolutePaneSelector, '[1]/'.
 	
-	newPane := self elementByXPath: self fullPaneSelector, '[2]'.  
-	self should: newPane isPresent.
+	self shouldElementWithXPathBePresent: self finderAbsolutePaneSelector, '[2]' .
+	self shouldntElementWithXPathBePresent: self finderAbsolutePaneSelector, '[3]'.
 	
 ]
 
-{ #category : #testing }
+{ #category : #'testing pane flow' }
 SGLSimpleFinderComponentTest >> testContentAfterAddingOnePane [
-	| treePresentation lastTreeElement notPresentTreeElement |
+	| paneSelector |
 	
-	self clickAndPauseNodeWithIndex: 20 fromTree: self fullPaneSelector, '/', self treePresentationSelector.
+	self clickAndPauseNodeWithIndex: 20 forTreeIn: self finderAbsolutePaneSelector.
 	
-	"The new pane should contain a tree presentation"
-	treePresentation := self elementByXPath: self fullPaneSelector, '[2]', '/', self treePresentationSelector.  
-	self should: treePresentation isPresent.
+	paneSelector := self finderAbsolutePaneSelector, '[2]/'.
+	self shouldElementWithXPathBePresent: paneSelector, self treePresentationSelector.  
+	self assert: (driver findElementsByXPath: paneSelector, self treeAllRootNodesSelector ) size = 20.
+	self shouldntElementWithXPathBePresent: paneSelector, (self treeRootNodeSelectorWithIndex: 21)
 	
-	"The text presentation should contain 20 elements"
-	lastTreeElement := self elementByXPath: self fullPaneSelector, '[2]', '/', (self treeRootNodeSelectorWithIndex: 20).
-	self should: lastTreeElement isPresent.
-	
-	notPresentTreeElement := self elementByXPath: self fullPaneSelector, '[2]', '/', (self treeRootNodeSelectorWithIndex: 21).
-	self shouldnt: notPresentTreeElement isPresent 
 ]
 
-{ #category : #testing }
+{ #category : #'testing initialization' }
 SGLSimpleFinderComponentTest >> testFinderIsPresent [
-	| finder |
 	
-	finder := self divByXPath: self fullFinderSelector.
-	self should: finder isPresent
+	self shouldElementWithXPathBePresent: self finderAbsoluteSelector,'[1]'.
+	self shouldntElementWithXPathBePresent: self finderAbsoluteSelector,'[2]'.
+	
 ]
 
-{ #category : #testing }
-SGLSimpleFinderComponentTest >> testOneFinderPaneIsPresent [
-	| firstPane secondPane |
+{ #category : #'testing initialization' }
+SGLSimpleFinderComponentTest >> testOneFinderPanePresent [
 	
-	firstPane := self divByXPath: self fullPaneSelector, '[1]'.
-	self should: firstPane isPresent.
-	
-	secondPane := self divByXPath: self fullPaneSelector, '[2]'.	
-	self shouldnt: secondPane isPresent.
+	self shouldElementWithXPathBePresent: self finderAbsolutePaneSelector, '[1]'.
+	self shouldntElementWithXPathBePresent: self finderAbsolutePaneSelector, '[2]'.
 ]
 
-{ #category : #testing }
+{ #category : #'testing initialization' }
 SGLSimpleFinderComponentTest >> testPaneContentIsPresent [
-	| paneContent |
 	
-	paneContent := self divByXPath: self fullPaneSelector, '/', self treePresentationSelector.
-	self should: paneContent isPresent.
+	self shouldElementWithXPathBePresent: self finderAbsolutePaneSelector, '/', self treePresentationSelector.
+	self assert: (driver findElementsByXPath: self finderAbsolutePaneSelector, '/', self treeAllRootNodesSelector) size = 100.
 
 ]
 
-{ #category : #testing }
+{ #category : #'testing pane flow' }
 SGLSimpleFinderComponentTest >> testReplaceAndRemovePanes [
 	| listElement |
 	
-	self clickAndPauseNodeWithIndex: 50 fromTree: self fullPaneSelector, '/', self treePresentationSelector.
-	self clickAndPauseNodeWithIndex: 10 fromTree: self fullPaneSelector, '[2]/', self treePresentationSelector.
-	self clickAndPauseNodeWithIndex: 10 fromTree: self fullPaneSelector, '[3]/', self treePresentationSelector.
-	self clickAndPauseNodeWithIndex: 1 fromTree: self fullPaneSelector, '[4]/', self treePresentationSelector.
-	self clickAndPauseNodeWithIndex: 30 fromTree: self fullPaneSelector, '[2]/', self treePresentationSelector.
+	self clickAndPauseNodeWithIndex: 50 forTreeIn: self finderAbsolutePaneSelector, '[1]/'.
+	self clickAndPauseNodeWithIndex: 10 forTreeIn: self finderAbsolutePaneSelector, '[2]/'.
+	self clickAndPauseNodeWithIndex: 10 forTreeIn: self finderAbsolutePaneSelector, '[3]/'.
+	self clickAndPauseNodeWithIndex: 1 forTreeIn: self finderAbsolutePaneSelector, '[4]/'.
+	self clickAndPauseNodeWithIndex: 30 forTreeIn: self finderAbsolutePaneSelector, '[2]/'.
 	
-	listElement := self elementByXPath: self fullPaneSelector, '[3]', '/', (self treeRootNodeSelectorWithIndex: 30).  
-	self should: listElement isPresent.
-	
+	self shouldElementWithXPathBePresent: self finderAbsolutePaneSelector, '[3]'.
+	self shouldntElementWithXPathBePresent: self finderAbsolutePaneSelector, '[4]'.
+	self assert: (driver findElementsByXPath: self finderAbsolutePaneSelector, '[3]/', self treeAllRootNodesSelector) size = 30.
 ]
 
-{ #category : #testing }
+{ #category : #'testing pane flow' }
 SGLSimpleFinderComponentTest >> testReplacePane [
 	| listElement |
 	
-	self clickAndPauseNodeWithIndex: 10 fromTree: self fullPaneSelector, '/', self treePresentationSelector.
-	self clickAndPauseNodeWithIndex: 30 fromTree: self fullPaneSelector, '/', self treePresentationSelector.
+	self clickAndPauseNodeWithIndex: 10 forTreeIn: self finderAbsolutePaneSelector, '[1]'.
+	self clickAndPauseNodeWithIndex: 30 forTreeIn: self finderAbsolutePaneSelector, '[1]'.
 	
-	listElement := self elementByXPath: self fullPaneSelector, '[2]', '/', (self treeRootNodeSelectorWithIndex: 20).  
-	self should: listElement isPresent.
+	self shouldElementWithXPathBePresent: self finderAbsolutePaneSelector, '[2]'.
+	self assert: (driver findElementsByXPath: self finderAbsolutePaneSelector, '[2]/', self treeAllRootNodesSelector) size = 30.
 	
+	self shouldntElementWithXPathBePresent: self finderAbsolutePaneSelector, '[3]'.
 ]
