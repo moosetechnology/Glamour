@@ -308,8 +308,8 @@ ConfigurationOfGlamourSeaside >> default: spec [
 				spec
 					className: 'ConfigurationOfParasol';
 					file: 'ConfigurationOfParasol';
-					version: 'development';
-					load: #('dev');
+					version: #'development';
+					loads: #('dev');
 					repository: 'http://ss3.gemstone.com/ss/Parasol' ].
 		spec ]
 ]
