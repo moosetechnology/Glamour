@@ -56,6 +56,8 @@ GLMMorphicTextRenderer >> textModelFor: aPresentation [
 
 { #category : #rendering }
 GLMMorphicTextRenderer >> textMorphForModel:  aTextModel [
+	self flag: 'autoAccept: true; should be removed if we find a better way
+	               to popupate the selection port of the presentation.'. 
 	^ (GLMPluggableTextMorph
 		on: aTextModel
 		text: #text
