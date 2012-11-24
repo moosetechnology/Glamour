@@ -18,7 +18,7 @@ GLMMagrittePresentation >> description: anObject [
 { #category : #accessing }
 GLMMagrittePresentation >> magritteDescription [
 	"By default the we read it via the #description selector"
-	^ magritteDescription ifNil: [ magritteDescription := #description ]
+	^ magritteDescription ifNil: [ magritteDescription := #magritteDescription ]
 ]
 
 { #category : #accessing }
