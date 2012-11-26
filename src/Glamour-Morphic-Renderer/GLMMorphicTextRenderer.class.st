@@ -56,15 +56,14 @@ GLMMorphicTextRenderer >> textModelFor: aPresentation [
 
 { #category : #rendering }
 GLMMorphicTextRenderer >> textMorphForModel:  aTextModel [
-	self flag: 'autoAccept: true; should be removed if we find a better way
-	               to popupate the selection port of the presentation.'. 
 	^ (GLMPluggableTextMorph
 		on: aTextModel
 		text: #text
 		accept: #accept:notifying:
 		readSelection: #selection
 		menu: #menu:shifted:)
-		autoAccept: true;
+		changedAction: [:aText|
+			aText asString trimBoth ifNotEmpty:  [aTextModel text: aText] ];
 		onKeyStrokeSend: #keystroke:from: to: aTextModel;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		vResizing: #spaceFill;

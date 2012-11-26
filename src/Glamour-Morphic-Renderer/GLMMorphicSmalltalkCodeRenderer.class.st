@@ -27,7 +27,6 @@ GLMMorphicSmalltalkCodeRenderer >> textMorphForModel: aTextModel [
 			accept: #accept:notifying:
 			readSelection: #selection
 			menu: #menu:shifted:;
-		"autoAccept: true;"
 		changedAction: [:aText| 
 			aText asString trimBoth ifNotEmpty:  [aTextModel text: aText] ];
 		onKeyStrokeSend: #keystroke:from: to: aTextModel;
