@@ -28,6 +28,8 @@ GLMMorphicSmalltalkCodeRenderer >> textMorphForModel: aTextModel [
 			readSelection: #selection
 			menu: #menu:shifted:;
 		"autoAccept: true;"
+		changedAction: [:aText| 
+			aText asString trimBoth ifNotEmpty:  [aTextModel text: aText] ];
 		onKeyStrokeSend: #keystroke:from: to: aTextModel;
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		vResizing: #spaceFill;
