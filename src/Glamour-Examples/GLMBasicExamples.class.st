@@ -126,7 +126,7 @@ GLMBasicExamples >> allowNil [
 
 { #category : #'actions examples' }
 GLMBasicExamples >> browserWithToolbar [
-	<glmBrowser: 'Toolbar' input: 'Browser with toolbar'>
+	<glmBrowser: 'Toolbar' input: '''Browser with toolbar'''>
 	"self new browserWithToolbar openOn: 'Browser with toolbar'"
 
 	| wrapper |
