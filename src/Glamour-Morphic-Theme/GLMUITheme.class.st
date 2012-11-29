@@ -234,7 +234,7 @@ GLMUITheme class >> themeName [
 
 { #category : #accessing }
 GLMUITheme class >> veryLightSelectionColor [
-	^ Color r: 250 g: 250 b: 250 range: 255
+	^ self lightSelectionColor muchLighter
 ]
 
 { #category : #'border-styles-buttons' }
