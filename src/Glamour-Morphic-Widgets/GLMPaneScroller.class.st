@@ -65,7 +65,7 @@ GLMPaneScroller >> hideScrollBar [
 GLMPaneScroller >> initialize [
 	super initialize.
 	self 
-		color: Color white;
+		color: Color transparent;
 		borderWidth: 0;
 		vResizing: #spaceFill;
 		hResizing: #spaceFill.
