@@ -808,6 +808,35 @@ GLMBasicExamples >> roassalPainting [
 ]
 
 { #category : #roassal }
+GLMBasicExamples >> roassalWithCustomHighlight [
+	<glmBrowser: 'Roassal with custom highlight' input: '1 to: 42'>
+	"self new roassalWithCustomHighlight openOn: (1 to: 42)"
+
+	| browser |
+	browser := GLMTabulator new .
+	browser
+		with: [:tabulator | 
+			tabulator column: #index; column: #visualization.
+			tabulator transmit to: #index; andShow: [:a | a list ].
+			tabulator transmit to: #visualization; andShowIfNone:[ :a | 
+				a roassal 
+					painting: [:view :collection :roassal | 
+						view shape label.
+						view interaction on: ROMouseLeftClick do: [:ann | (roassal pane port: #selection) value: ann element model ].
+						view nodes: collection.
+						view gridLayout.
+						roassal on: GLMContextChanged do: [:ann |
+							ann property = #selection ifTrue: [
+								ann oldValue ifNotNil: [
+									ROUnhighlightElement on: (ann presentation view raw elementFromModel: ann oldValue)].
+								ROHighlightElement on: (ann presentation view raw elementFromModel: ann value) color: Color red ]]]].
+			tabulator transmit from: #index; to: #visualization port: #selection.
+			tabulator transmit from: #visualization port: #selection; to: #index port: #selection.
+	].
+	^ browser
+]
+
+{ #category : #roassal }
 GLMBasicExamples >> roassalWithMenu [
 	<glmBrowser: 'Roassal with menu' input: '42'>
 	"self new roassalWithMenu openOn: 42"
