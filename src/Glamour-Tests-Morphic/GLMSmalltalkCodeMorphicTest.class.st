@@ -18,16 +18,20 @@ GLMSmalltalkCodeMorphicTest >> testDefault [
 
 { #category : #tests }
 GLMSmalltalkCodeMorphicTest >> testExplicitAcceptDoesNotAffectTextPort [
-	| composite textMorph textPresentation |
-	composite := GLMCompositePresentation new with: [ :a | a smalltalkCode display: '123' ].
-	window := composite openOn: 4.
-	textMorph := self find: PluggableTextMorph in: window.
+	| browser textMorph textPresentation |
+	browser := GLMTabulator new.
+	browser column: #one.
+	(browser transmit)
+		to: #one;
+		andShow: [ :a | a smalltalkCode display: '123' ].
+	window := browser openOn: 4.
+	textMorph := self find: GLMPluggableTextMorph in: window.
 	textMorph simulateClick.
 	self simulateKeyStrokes: '4'.
-	self assert: (composite pane port: #text) value = '1234'.
+	self assert: (browser panes first port: #text) value = '1234'.
 	self simulateKeyStroke: $s command.
 	self simulateKeyStrokes: '56'.
-	self assert: (composite pane port: #text) value = '123456'
+	self assert: (browser panes first port: #text) value = '123456'
 ]
 
 { #category : #tests }
