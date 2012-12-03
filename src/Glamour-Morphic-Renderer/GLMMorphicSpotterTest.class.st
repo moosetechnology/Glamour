@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMMorphicSpotterTest >> testCreation [
+GLMMorphicSpotterTest >> creation [
 	| composite classRequest methodRequest thirdRequest |
 	composite  := GLMSpotterRequest new.
 
