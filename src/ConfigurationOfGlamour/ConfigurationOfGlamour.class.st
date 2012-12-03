@@ -648,7 +648,8 @@ ConfigurationOfGlamour >> default: spec [
 			package: 'Glamour-EyeSee-Presentations' with: [spec requires: 'EyeSee for Glamour'];
 			package: 'Glamour-Tests-Mondrian' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Mondrian-Presentations')];
 			package: 'Glamour-Tests-Roassal' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Roassal-Presentations')];
-			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')].
+			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')];
+			package: 'Glamour-Tests-Resources'.
 
 		spec group: 'Core' with: #(
 						'Glamour-Announcements'
@@ -669,6 +670,7 @@ ConfigurationOfGlamour >> default: spec [
 		spec group: 'Core Tests' with: #(
 						'Glamour-Tests-Core'
 						'Glamour-Examples'
+						'Glamour-Tests-Resources'
 						'Glamour-Tests-Morphic'). 
 		spec group: 'Tests' with: #(
 						'Glamour-Tests-Core'
@@ -676,7 +678,8 @@ ConfigurationOfGlamour >> default: spec [
 						'Glamour-Tests-Morphic'
 						'Glamour-Tests-Mondrian'
 						'Glamour-Tests-EyeSee'
-						'Glamour-Tests-Roassal'). 
+						'Glamour-Tests-Roassal'
+						'Glamour-Tests-Resources'). 
 		spec
 			project: 'Shout' with: [
 				spec
@@ -735,67 +738,6 @@ ConfigurationOfGlamour >> development: spec [
 
 	spec for: #'common' version: 'default'.
 	spec for: #'pharo2.x' version: '2.4'.
-]
-
-{ #category : #versions }
-ConfigurationOfGlamour >> minimum: spec [ 
-	<version: 'minimum'>
-	
-	spec for: #common do: [
-		spec blessing: #baseline.
-		spec repository: 'http://www.squeaksource.com/Glamour'.
-		spec 
-			package: 'CollectionExtensions' with: [spec repository: 'http://www.squeaksource.com/CollectionExtensions'];
-			package: 'Glamour-Announcements' ;
-			package: 'Glamour-Helpers' ;
-			package: 'Glamour-Core' with: [spec requires: #('Glamour-Helpers' 'Glamour-Announcements')];
-			package: 'Glamour-Presentations'  with: [spec requires: #('Glamour-Core')];
-			package: 'Glamour-Browsers'  with: [spec requires: #('Glamour-Core')];
-			package: 'Glamour-Tests-Core' ;
-			package: 'Glamour-Morphic-Widgets';
-			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core')];
-			package: 'Glamour-Morphic-Theme';
-			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
-			package: 'Glamour-Examples' ;
-			package: 'Glamour-Tools' with: [spec requires: 'CollectionExtensions'];
-			package: 'Glamour-Roassal-Presentations' with: [spec requires: 'Roassal for Glamour'];
-			package: 'Glamour-Mondrian-Presentations' with: [spec requires: 'Mondrian for Glamour'];
-			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];
-			package: 'Glamour-EyeSee-Presentations' with: [spec requires: 'EyeSee for Glamour'];
-			package: 'Glamour-Tests-Mondrian' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Mondrian-Presentations')];
-			package: 'Glamour-Tests-Roassal' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Roassal-Presentations')];
-			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')].
-
-		spec group: 'Core' with: #(
-						'Glamour-Announcements'
-						'Glamour-Helpers'
-						'Glamour-Core'
-						'Glamour-Presentations'
-						'Glamour-Browsers'
-						"'Glamour-Examples'" "it depends on morphic theme"
-						'Glamour-Tools').		
-		spec group: 'Examples' with: #(
-						'Glamour-Examples'
-		).			
-		spec group: 'Morphic' with: #(
-						'Glamour-Morphic-Renderer'
-						'Glamour-Morphic-Theme').
-		spec group: 'Extras' with: #(
-						'Glamour-Mondrian-Presentations'
-						'Glamour-Magritte-Presentations'
-						'Glamour-EyeSee-Presentations'
-						'Glamour-Roassal-Presentations').
-		spec group: 'Core Tests' with: #(
-						'Glamour-Tests-Core'
-						'Glamour-Tests-Morphic'). 
-		spec group: 'Tests' with: #(
-						'Glamour-Tests-Core'
-						'Glamour-Examples'
-						'Glamour-Tests-Morphic'
-						'Glamour-Tests-Mondrian'
-						'Glamour-Tests-EyeSee'
-						'Glamour-Tests-Roassal'). 
-	]
 ]
 
 { #category : #accessing }
