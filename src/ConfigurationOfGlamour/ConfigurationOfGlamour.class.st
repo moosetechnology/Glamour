@@ -773,7 +773,10 @@ ConfigurationOfGlamour >> minimum: spec [
 						'Glamour-Presentations'
 						'Glamour-Browsers'
 						"'Glamour-Examples'" "it depends on morphic theme"
-						'Glamour-Tools').
+						'Glamour-Tools').		
+		spec group: 'Examples' with: #(
+						'Glamour-Examples'
+		).			
 		spec group: 'Morphic' with: #(
 						'Glamour-Morphic-Renderer'
 						'Glamour-Morphic-Theme').
@@ -784,7 +787,6 @@ ConfigurationOfGlamour >> minimum: spec [
 						'Glamour-Roassal-Presentations').
 		spec group: 'Core Tests' with: #(
 						'Glamour-Tests-Core'
-						'Glamour-Examples'
 						'Glamour-Tests-Morphic'). 
 		spec group: 'Tests' with: #(
 						'Glamour-Tests-Core'
