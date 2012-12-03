@@ -34,15 +34,11 @@ GLMMorphicWidgetRenderer >> menuIn: aMenuMorph for: aPresentation [
 					aMenuMorph add: action category subMenu: subMenu.
 					subMenu ] ]
 			ifFalse: [ aMenuMorph ].
-		(targetMenuMorph 
+		targetMenuMorph 
 			add: action title
 			target: action 
 			selector: #morphicActOn:
-			argument: aPresentation)
-			icon:  action icon;
-			keyText: (action hasShortcut 
-				ifTrue: [ action shortcutAsString ]
-				ifFalse: [ nil ]) ].
+			argument: aPresentation ].
 	^ aMenuMorph
 ]
 
