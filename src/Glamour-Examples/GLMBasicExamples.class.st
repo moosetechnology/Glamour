@@ -126,15 +126,20 @@ GLMBasicExamples >> allowNil [
 
 { #category : #'actions examples' }
 GLMBasicExamples >> browserWithToolbar [
-	<glmBrowser: 'Toolbar' input: '''Browser with toolbar'''>
-	"self new browserWithToolbar openOn: 'Browser with toolbar'"
+	<glmBrowser: 'Toolbar' input: '$z'>
+	"self new browserWithToolbar openOn: $z"
 
-	| wrapper |
-	wrapper := GLMWrapper new.
-	wrapper act: [:f | f inspect] icon: GLMUIThemeExtraIcons glamorousInspect on: $i entitled: 'Inspect with icon'.
-	wrapper act: [:f | f inspect] on: $i entitled: 'Inspect without icon'.
-	wrapper show: [:a | a text ].
-	^ wrapper
+	| finder |
+	finder := GLMFinder new.
+	finder act: [:f | f inspect] icon: GLMUIThemeExtraIcons glamorousInspect entitled: 'Inspect with icon'.
+	finder act: [:f | f inspect] entitled: 'Inspect without icon'.
+	finder show: [:a | 
+		a list
+			title: 'List';
+			display: [:each | $a to: each];
+			dynamicActions: [:list | self actionsFor: list ];
+			dynamicActionsOnSelection: [:list | self actionsFor: list ] ].
+	^ finder
 ]
 
 { #category : #others }
@@ -804,35 +809,6 @@ GLMBasicExamples >> roassalPainting [
 				view nodes: (1 to: number).
 				view edgesFrom: [:each | each // 5 ].
 				view treeLayout  ]].
-	^ browser
-]
-
-{ #category : #roassal }
-GLMBasicExamples >> roassalWithCustomHighlight [
-	<glmBrowser: 'Roassal with custom highlight' input: '1 to: 42'>
-	"self new roassalWithCustomHighlight openOn: (1 to: 42)"
-
-	| browser |
-	browser := GLMTabulator new .
-	browser
-		with: [:tabulator | 
-			tabulator column: #index; column: #visualization.
-			tabulator transmit to: #index; andShow: [:a | a list ].
-			tabulator transmit to: #visualization; andShowIfNone:[ :a | 
-				a roassal 
-					painting: [:view :collection :roassal | 
-						view shape label.
-						view interaction on: ROMouseLeftClick do: [:ann | (roassal pane port: #selection) value: ann element model ].
-						view nodes: collection.
-						view gridLayout.
-						roassal on: GLMContextChanged do: [:ann |
-							ann property = #selection ifTrue: [
-								ann oldValue ifNotNil: [
-									ROUnhighlightElement on: (ann presentation view raw elementFromModel: ann oldValue)].
-								ROHighlightElement on: (ann presentation view raw elementFromModel: ann value) color: Color red ]]]].
-			tabulator transmit from: #index; to: #visualization port: #selection.
-			tabulator transmit from: #visualization port: #selection; to: #index port: #selection.
-	].
 	^ browser
 ]
 
