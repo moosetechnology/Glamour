@@ -122,7 +122,7 @@ GLMMorphicDashboardRenderer >> renderPane: aPane inUI: aMorph from: aGLMDashboar
 	"self haltIf: [aPane name = #dashboard]."
 	"pane extent: (aGLMDashboard extentOfPaneNamed: aPane name). "
 	aGLMDashboard extentStrategy initializePane: pane.
-	pane extent: ((aGLMDashboard extentOfPaneNamed: aPane name) moValue: pane). 
+	pane extent: ((aGLMDashboard extentOfPaneNamed: aPane name) glamourValue: pane). 
 	"self haltIf: [pane submorphs contains: [:a | a isKindOf: GeneralScrollPane]]."
 	aMorph addMorph: pane.
 
