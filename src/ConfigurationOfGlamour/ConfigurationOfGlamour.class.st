@@ -767,7 +767,8 @@ ConfigurationOfGlamour >> minimum: spec [
 			package: 'Glamour-EyeSee-Presentations' with: [spec requires: 'EyeSee for Glamour'];
 			package: 'Glamour-Tests-Mondrian' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Mondrian-Presentations')];
 			package: 'Glamour-Tests-Roassal' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Roassal-Presentations')];
-			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')].
+			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')];
+			package: 'Glamour-Tests-Resources'.
 
 		spec group: 'Core' with: #(
 						'Glamour-Announcements'
@@ -790,7 +791,8 @@ ConfigurationOfGlamour >> minimum: spec [
 						'Glamour-Roassal-Presentations').
 		spec group: 'Core Tests' with: #(
 						'Glamour-Tests-Core'
-						'Glamour-Tests-Morphic'). 
+						'Glamour-Tests-Morphic'
+						'Glamour-Tests-Resources'). 
 		spec group: 'Tests' with: #(
 						'Glamour-Tests-Core'
 						'Glamour-Examples'
