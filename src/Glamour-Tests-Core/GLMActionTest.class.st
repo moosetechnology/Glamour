@@ -11,5 +11,7 @@ GLMActionTest >> testShortcutAsString [
 	action shortcut: $i.
 	self assert: action shortcutAsString = 'alt+i'.
 	action shortcut: $I.
-	self assert: action shortcutAsString = 'alt+shift+i'
+	self assert: action shortcutAsString = 'alt+shift+i'.
+	action shortcut: nil.
+	self assert: action shortcutAsString isEmpty
 ]
