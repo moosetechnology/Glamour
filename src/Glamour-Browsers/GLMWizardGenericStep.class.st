@@ -44,7 +44,7 @@ GLMWizardGenericStep >> numberOfDisplayBlock: aBlock [
 { #category : #accessing }
 GLMWizardGenericStep >> size [
 
-	^ size moValue: self input
+	^ size glamourValue: self input
 ]
 
 { #category : #accessing }
