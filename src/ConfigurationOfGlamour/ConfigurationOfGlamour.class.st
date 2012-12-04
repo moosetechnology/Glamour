@@ -754,11 +754,11 @@ ConfigurationOfGlamour >> minimum: spec [
 			package: 'Glamour-Core' with: [spec requires: #('Glamour-Helpers' 'Glamour-Announcements')];
 			package: 'Glamour-Presentations'  with: [spec requires: #('Glamour-Core')];
 			package: 'Glamour-Browsers'  with: [spec requires: #('Glamour-Core')];
-			package: 'Glamour-Tests-Core' ;
+			package: 'Glamour-Tests-Core' with: [spec requires: #('Glamour-Tests-Resources') ] ;
 			package: 'Glamour-Morphic-Widgets';
 			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core')];
 			package: 'Glamour-Morphic-Theme';
-			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
+			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer' 'Glamour-Tests-Resources')];
 			package: 'Glamour-Examples' ;
 			package: 'Glamour-Tools' with: [spec requires: 'CollectionExtensions'];
 			package: 'Glamour-Roassal-Presentations' with: [spec requires: 'Roassal for Glamour'];
@@ -776,7 +776,6 @@ ConfigurationOfGlamour >> minimum: spec [
 						'Glamour-Core'
 						'Glamour-Presentations'
 						'Glamour-Browsers'
-						"'Glamour-Examples'" "it depends on morphic theme"
 						'Glamour-Tools').		
 		spec group: 'Examples' with: #(
 						'Glamour-Examples'
@@ -790,12 +789,12 @@ ConfigurationOfGlamour >> minimum: spec [
 						'Glamour-EyeSee-Presentations'
 						'Glamour-Roassal-Presentations').
 		spec group: 'Core Tests' with: #(
+						'Glamour-Tests-Resources'
 						'Glamour-Tests-Core'
-						'Glamour-Tests-Morphic'
-						'Glamour-Tests-Resources'). 
+						'Glamour-Tests-Morphic'). 
 		spec group: 'Tests' with: #(
+						'Glamour-Tests-Resources'
 						'Glamour-Tests-Core'
-						'Glamour-Examples'
 						'Glamour-Tests-Morphic'
 						'Glamour-Tests-Mondrian'
 						'Glamour-Tests-EyeSee'
