@@ -1140,6 +1140,26 @@ SGLJsLibrary >> sglDashboardJs [
 ]
 
 { #category : #created }
+SGLJsLibrary >> sglDropDownWidget [
+	^ '
+	;( function($) {
+		$.widget("ui.sglDropdown", {
+		
+			options: {	
+				selectionChangedURL: null,			
+			},
+		
+			_create: function() {
+				var that = this;
+		
+				//alert(this.options.selectionChangedURL);		
+			},
+			
+		});
+	})(jQuery);'
+]
+
+{ #category : #created }
 SGLJsLibrary >> sglExpanderJs [
 	^ '
 	;( function($) {

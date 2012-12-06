@@ -19,6 +19,11 @@ JQueryInstance >> glamourDashboardColumn [
 ]
 
 { #category : #'*Glamour-Seaside-Core' }
+JQueryInstance >> glamourDropdown [
+	^ self create: JQSGLDropdown 
+]
+
+{ #category : #'*Glamour-Seaside-Core' }
 JQueryInstance >> glamourExpander [
 	^ self create: JQSGLExpander
 ]
