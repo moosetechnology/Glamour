@@ -60,6 +60,44 @@ SGLBasicExamples >> differentComposites [
 	^ GLMBasicExamples new differentComposites
 ]
 
+{ #category : #'as yet unclassified' }
+SGLBasicExamples >> dropDownList [
+	"self new dropDownList openOn: 5"
+
+	<glmBrowser: 'Drop-down' input: '5'>
+	|browser |
+
+	browser := GLMTabulator new.
+	browser row: #one span: 1; row: #two span: 15.
+	browser transmit to: #one; andShow: [:a |
+		a dropDownList
+			display: [:x | 1 to: x ];
+			format: [:number | Text string: number printString attribute: TextColor red]].
+	browser transmit from: #one; to: #two; andShow: [:a |
+		a list
+			display: [:x | 1 to: x * 2]].
+	^ browser
+]
+
+{ #category : #'as yet unclassified' }
+SGLBasicExamples >> dropDownListWithInitialValue [
+	"self new dropDownListWithInitialValue openOn: 5"
+
+	<glmBrowser: 'Drop-down with initial value' input: '5'>
+	|browser |
+
+	browser := GLMTabulator new.
+	browser row: #one span: 1; row: #two span: 15.
+	browser transmit to: #one; andShow: [:a |
+		a dropDownList
+			display: [:x | (1 to: x) + 10 ];
+			selectedIndex: 2 ].
+	browser transmit from: #one; to: #two; andShow: [:a |
+		a list
+			display: [:x | 1 to: x ]].
+	^ browser
+]
+
 { #category : #others }
 SGLBasicExamples >> eyeseeBarDiagram [
 	"
