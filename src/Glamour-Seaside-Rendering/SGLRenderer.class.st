@@ -79,6 +79,12 @@ SGLRenderer >> renderDashboard: aBrowser [
 ]
 
 { #category : #rendering }
+SGLRenderer >> renderDropDownListPresentation: aDropListPresentation [
+	html render: (SGLDropDownListPresenter for: aDropListPresentation from: self)
+
+]
+
+{ #category : #rendering }
 SGLRenderer >> renderDynamicPresentation: aPresentation [
 	html render: (SGLDynamicPresenter for: aPresentation from: self)
 ]
