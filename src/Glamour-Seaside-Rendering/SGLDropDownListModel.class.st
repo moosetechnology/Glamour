@@ -21,14 +21,14 @@ SGLDropDownListModel class >> for: aPresentation [
 	^model
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLDropDownListModel >> list [
 	
 	^list ifNil: [ list:= (self glamourPresentation displayValue 
 									collect:[ :each| (self glamourPresentation formatedDisplayValueOf: each) ])]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLDropDownListModel >> selectedItem [
 	"Answer the currently selected item or nil if none."
 
@@ -37,13 +37,13 @@ SGLDropDownListModel >> selectedItem [
 		ifFalse: [self glamourPresentation displayValue at: self selectionIndex]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 SGLDropDownListModel >> selectionIndex [
 
 	^ selectionIndex ifNil:[ selectionIndex:= self glamourPresentation selectedIndex ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #callbacks }
 SGLDropDownListModel >> selectionIndex: anObject [
 	selectionIndex := anObject.
 	self announcer announce: (
@@ -52,7 +52,7 @@ SGLDropDownListModel >> selectionIndex: anObject [
 				yourself)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #callbacks }
 SGLDropDownListModel >> updateSelectionIndex [
 
 	self selectionIndex: self selectionIndex

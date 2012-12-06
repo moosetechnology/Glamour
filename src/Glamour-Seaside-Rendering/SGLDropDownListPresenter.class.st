@@ -7,44 +7,61 @@ Class {
 	#category : #'Glamour-Seaside-Rendering'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 SGLDropDownListPresenter >> initializeFor: aPresentation [
 	model := SGLDropDownListModel for: aPresentation 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+SGLDropDownListPresenter >> model [
+	
+	^ model
+]
+
+{ #category : #'jQuery-scripts' }
 SGLDropDownListPresenter >> onSelectionChangeActionWith: html [
 
 	^ html jQuery ajax 
-		callback: [ :value | 
-				model selectionIndex: value asInteger + 1.
-			 ] value: (JSStream on: '$(''#', (self renderer uuidFor: model glamourPresentation),  '>select'').prop(''selectedIndex'')');		
+		callback: [ :value | self model selectionIndex: value asInteger + 1] 
+			value: (JSStream on: '$(''#', (self renderer uuidFor: self model glamourPresentation),  '>select'').prop(''selectedIndex'')');		
 		script: [:s | 
 			self renderer updateScript: s ] 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+SGLDropDownListPresenter >> presentationId [
+
+	^ self renderer uuidFor: self model glamourPresentation
+]
+
+{ #category : #rendering }
 SGLDropDownListPresenter >> renderContentOn: html [
 
-	model updateSelectionIndex.
+	self model updateSelectionIndex.
 
 	html div 
-		id: (self renderer uuidFor: model glamourPresentation );
+		id: self presentationId;
 		class: 'sgl-dropdown-presentation';
 		"script: (html jQuery new glamourDropdown );"
-		with: [
-			html  select 
-				onChange: (self onSelectionChangeActionWith: html);
-        			selected:  model selectionIndex;
-				with: [
-					
-					1 to: model list size do: [:index |
-						html option
-							selected: (model selectionIndex = index);
-							with:  ( model list at: index )
-							
-						] ].
+		with: [ self renderOptionsOn: html ]
+]
 
-			
-			]
+{ #category : #rendering }
+SGLDropDownListPresenter >> renderOptionWithIndex: anIndex andValue: aValue on: html [
+
+	html option
+		selected: self model selectionIndex = anIndex;
+		with:  aValue
+]
+
+{ #category : #rendering }
+SGLDropDownListPresenter >> renderOptionsOn: html [
+
+	html select 
+		onChange: (self onSelectionChangeActionWith: html);
+        	selected:  self model selectionIndex;
+		with: [		
+			1 to: self model list size do: [:index |
+				self renderOptionWithIndex: index andValue: (self model list at: index) on: html ] ].
+
 ]
