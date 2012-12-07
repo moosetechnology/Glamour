@@ -546,6 +546,7 @@ SGLJsLibrary >> glamourSeasideJs [
 	, self sglValidatorJs 
 	, self sglValidatorBrowserJs 
 	, self sglWizardJs 
+	, self sglDropDownJs
 ]
 
 { #category : #uploaded }
@@ -1140,19 +1141,24 @@ SGLJsLibrary >> sglDashboardJs [
 ]
 
 { #category : #created }
-SGLJsLibrary >> sglDropDownWidget [
+SGLJsLibrary >> sglDropDownJs [
 	^ '
 	;( function($) {
 		$.widget("ui.sglDropdown", {
 		
 			options: {	
-				selectionChangedURL: null,			
+				selectedIndex: -1,          // The index of the selected element, or -1 if no element is selected.
+				selectionChanged: null,	 // A function to execute when the selection changes.		
 			},
 		
-			_create: function() {
-				var that = this;
-		
-				//alert(this.options.selectionChangedURL);		
+			_create: function() {					
+				this._select().
+					prop("selectedIndex", this.options.selectedIndex).
+					change(this.options.selectionChanged);
+			},
+			
+			_select: function() {
+				return this.element.children("select");
 			},
 			
 		});
