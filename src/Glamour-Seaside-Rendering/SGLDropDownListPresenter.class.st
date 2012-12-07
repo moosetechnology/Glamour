@@ -7,6 +7,14 @@ Class {
 	#category : #'Glamour-Seaside-Rendering'
 }
 
+{ #category : #'jQuery-scripts' }
+SGLDropDownListPresenter >> dropDownInitializationScriptWith: html [
+
+	^ html jQuery new glamourDropdown
+		selectedIndex: self model selectionIndex - 1;
+		onSelectionChanged: (self onSelectionChangeActionWith: html)
+]
+
 { #category : #initialization }
 SGLDropDownListPresenter >> initializeFor: aPresentation [
 	model := SGLDropDownListModel for: aPresentation 	
@@ -23,9 +31,9 @@ SGLDropDownListPresenter >> onSelectionChangeActionWith: html [
 
 	^ html jQuery ajax 
 		callback: [ :value | self model selectionIndex: value asInteger + 1] 
-			value: (JSStream on: '$(''#', (self renderer uuidFor: self model glamourPresentation),  '>select'').prop(''selectedIndex'')');		
-		script: [:s | 
-			self renderer updateScript: s ] 
+			value: (self selectedIndexScriptWith: html);
+		script: [:s | self renderer updateScript: s ];
+		asFunction 
 ]
 
 { #category : #accessing }
@@ -42,7 +50,7 @@ SGLDropDownListPresenter >> renderContentOn: html [
 	html div 
 		id: self presentationId;
 		class: 'sgl-dropdown-presentation';
-		"script: (html jQuery new glamourDropdown );"
+		script: (self dropDownInitializationScriptWith: html);
 		with: [ self renderOptionsOn: html ]
 ]
 
@@ -50,7 +58,6 @@ SGLDropDownListPresenter >> renderContentOn: html [
 SGLDropDownListPresenter >> renderOptionWithIndex: anIndex andValue: aValue on: html [
 
 	html option
-		selected: self model selectionIndex = anIndex;
 		with:  aValue
 ]
 
@@ -58,10 +65,16 @@ SGLDropDownListPresenter >> renderOptionWithIndex: anIndex andValue: aValue on: 
 SGLDropDownListPresenter >> renderOptionsOn: html [
 
 	html select 
-		onChange: (self onSelectionChangeActionWith: html);
-        	selected:  self model selectionIndex;
 		with: [		
 			1 to: self model list size do: [:index |
 				self renderOptionWithIndex: index andValue: (self model list at: index) on: html ] ].
 
+]
+
+{ #category : #'jQuery-scripts' }
+SGLDropDownListPresenter >> selectedIndexScriptWith: html [
+
+	^ (html jQuery id: self presentationId) 
+				children: 'select'; 
+				propertyAt: 'selectedIndex'
 ]
