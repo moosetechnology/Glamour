@@ -48,7 +48,7 @@ GLMEditor >> defaultScriptDisplayIn: aTextPresentation [
 
 { #category : #building }
 GLMEditor >> defaultTitle [
-	^ 'Glamorous Browser Editor'
+	^ 'Glamour Editor'
 ]
 
 { #category : #building }
