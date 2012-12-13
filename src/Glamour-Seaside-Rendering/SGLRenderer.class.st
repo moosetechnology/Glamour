@@ -170,9 +170,8 @@ SGLRenderer >> renderTabbedCompositePresentation: aCompositePresentation [
 
 { #category : #'rendering presentations' }
 SGLRenderer >> renderTablePresentation: aPresentation [
-	self flag: 'To implement'.
-	self renderEmptyPresentation.
-
+	
+	html render: (SGLTablePresenter for: aPresentation from: self)
 ]
 
 { #category : #'rendering browsers' }
