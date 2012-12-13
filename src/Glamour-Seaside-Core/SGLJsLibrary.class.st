@@ -1769,6 +1769,24 @@ SGLJsLibrary >> sglStackJs [
 ]
 
 { #category : #created }
+SGLJsLibrary >> sglTableJs [
+	^ '
+	;( function($) {
+		$.widget("ui.sglTable", {
+		
+			options: {	
+					
+			},
+		
+			_create: function() {					
+				
+			},
+			
+		});
+	})(jQuery);'
+]
+
+{ #category : #created }
 SGLJsLibrary >> sglTreeAppendJs [
 	^ '
 	;( function($) {
