@@ -140,14 +140,14 @@ GLMAction >> shortcut: aCharacter [
 { #category : #accessing }
 GLMAction >> shortcutAsString [ 
 	"Answers a string explaining shortcut"
-	^self shortcut isNil
-		ifTrue: ['']
-		ifFalse: [
+	^self shortcut 
+		ifNotNil: [
 			'alt+', 
 				(self shortcut isUppercase 
 					ifTrue: [ 'shift+' ]
 					ifFalse: [ '' ]), 
 				self shortcut asLowercase asString ]
+		ifNil: [ '' ]
 ]
 
 { #category : #accessing }
