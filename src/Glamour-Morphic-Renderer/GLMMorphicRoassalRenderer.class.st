@@ -10,9 +10,9 @@ Class {
 { #category : #rendering }
 GLMMorphicRoassalRenderer >> actOnPresentationUpdate: ann [
 	| aView |
-	aView := ann presentation newViewBlock value. 
+	aView := ROMondrianViewBuilder new.
 	ann presentation renderOn: aView.
-	aView onMorph: myMorph 
+	myMorph setView: aView stack
 ]
 
 { #category : #rendering }
