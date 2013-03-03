@@ -18,6 +18,7 @@ GLMMorphicWindowRenderer >> actOnPresentationUpdated: ann [
 { #category : #rendering }
 GLMMorphicWindowRenderer >> handlePotentialStatusbarFor: aRenderable [
 	| statusbarMorph bottomOffset |
+	bottomOffset := 0.
 	aRenderable hasStatusbar
 		ifTrue: [ 
 			statusbarMorph := GLMMorphicPaneWithoutTitleRenderer render: aRenderable statusbarPane from: self renderer.
