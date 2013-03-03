@@ -263,10 +263,12 @@ GLMPaneScroller >> scrollToRight [
 
 { #category : #panes }
 GLMPaneScroller >> separator [
-	^ BorderedSubpaneDividerMorph new 
+	^ "BorderedSubpaneDividerMorph new 
 		vertical;
 		adoptPaneColor: self paneColor;
-		yourself
+		yourself"
+		
+	GLMMorphic emptyMorph
 ]
 
 { #category : #layout }
