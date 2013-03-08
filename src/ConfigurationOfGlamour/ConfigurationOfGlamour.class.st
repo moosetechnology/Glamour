@@ -749,7 +749,7 @@ ConfigurationOfGlamour >> baseline25: spec [
 			package: 'Glamour-Presentations'  with: [spec requires: #('Glamour-Core')];
 			package: 'Glamour-Browsers'  with: [spec requires: #('Glamour-Core')];
 			package: 'Glamour-Tests-Core' ;
-			package: 'Glamour-Morphic-Widgets' with: [spec requires: #('Shout')];
+			package: 'Glamour-Morphic-Widgets';
 			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core')];
 			package: 'Glamour-Morphic-Theme';
 			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer' 'BDDExtensions')];
@@ -794,13 +794,6 @@ ConfigurationOfGlamour >> baseline25: spec [
 						'Glamour-Tests-Roassal'
 						'Glamour-Tests-Resources'). 
 		spec
-			project: 'Shout' with: [
-				spec
-					className: 'ConfigurationOfShout';
-					file: 'ConfigurationOfShout';
-					version: '1.3';
-					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
-		spec
 			project: 'BDDExtensions' with: [
 				spec
 					className: 'ConfigurationOfBDDExtensions';
@@ -812,7 +805,7 @@ ConfigurationOfGlamour >> baseline25: spec [
 				spec
 					className: 'ConfigurationOfMondrian';
 					file: 'ConfigurationOfMondrian';
-					version: 'default';
+					version: #development;
 					repository: 'http://smalltalkhub.com/mc/Moose/Mondrian/main' ].
 		spec
 			project: 'Roassal for Glamour' with: [
@@ -826,7 +819,7 @@ ConfigurationOfGlamour >> baseline25: spec [
 				spec
 					className: 'ConfigurationOfEyeSee';
 					file: 'ConfigurationOfEyeSee';
-					version: 'default';
+					version: #development;
 					repository: 'http://smalltalkhub.com/mc/Moose/EyeSee/main' ].
 		spec project: 'Magritte3' with: [
 			spec
@@ -849,8 +842,8 @@ ConfigurationOfGlamour >> default: spec [
 ConfigurationOfGlamour >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: 'default'.
-	spec for: #'pharo2.x' version: '2.4'.
+	spec for: #'common' version: '2.5-baseline'.
+	spec for: #'pharo2.x' version: '2.5-baseline'.
 ]
 
 { #category : #versions }
