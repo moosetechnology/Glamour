@@ -752,7 +752,7 @@ ConfigurationOfGlamour >> baseline25: spec [
 			package: 'Glamour-Morphic-Widgets';
 			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core')];
 			package: 'Glamour-Morphic-Theme';
-			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer' 'BDDExtensions')];
+			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
 			package: 'Glamour-Examples' ;
 			package: 'Glamour-Tools' with: [spec requires: 'CollectionExtensions'];
 			package: 'Glamour-Roassal-Presentations' with: [spec requires: 'Roassal for Glamour'];
@@ -793,13 +793,6 @@ ConfigurationOfGlamour >> baseline25: spec [
 						'Glamour-Tests-EyeSee'
 						'Glamour-Tests-Roassal'
 						'Glamour-Tests-Resources'). 
-		spec
-			project: 'BDDExtensions' with: [
-				spec
-					className: 'ConfigurationOfBDDExtensions';
-					file: 'ConfigurationOfBDDExtensions';
-					version: '1.0-baseline';
-					repository: 'http://www.squeaksource.com/BDDExtensions' ].
 		spec
 			project: 'Mondrian for Glamour' with: [
 				spec
