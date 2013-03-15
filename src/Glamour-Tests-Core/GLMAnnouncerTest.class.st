@@ -16,24 +16,24 @@ GLMAnnouncerTest >> setUp [
 GLMAnnouncerTest >> testNestedSuspendAllWhile [
 	| announcement |
 	announcer
-		subscribe: TestAnnouncement
+		subscribe: GLMTestAnnouncement
 		do: [ :ann | announcement := ann ].
 	
 	announcement := nil.
 	announcer suspendAllWhile: [
 		announcer suspendAllWhile: [ ].
-		announcer announce: TestAnnouncement ].
+		announcer announce: GLMTestAnnouncement ].
 	self assert: announcement isNil
 ]
 
 { #category : #tests }
 GLMAnnouncerTest >> testSuspendAllWhile [
 	| announcement instance |
-	announcer subscribe: TestAnnouncement do: [ :ann | announcement := ann ].
+	announcer subscribe: GLMTestAnnouncement do: [ :ann | announcement := ann ].
 	announcement := nil.
-	instance := announcer announce: TestAnnouncement.
+	instance := announcer announce: GLMTestAnnouncement.
 	self assert: announcement equals: instance.
 	announcement := nil.
-	announcer suspendAllWhile: [ instance := announcer announce: TestAnnouncement ].
+	announcer suspendAllWhile: [ instance := announcer announce: GLMTestAnnouncement ].
 	self assert: announcement isNil
 ]

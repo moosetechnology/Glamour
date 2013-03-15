@@ -104,7 +104,7 @@ GLMBrowserTest >> testUnregisterAnnouncements [
 	presentation := GLMPresentation new.
 	pane addPresentation: presentation.
 	browser addPane: pane.
-	presentation updateOn: TestAnnouncement from: [ announcer ].
+	presentation updateOn: GLMTestAnnouncement from: [ announcer ].
 	presentation registerAnnouncements.
 	self assert: announcer numberOfSubscriptions equals: 1.
 	browser unregisterFromAllAnnouncements.
@@ -120,7 +120,7 @@ GLMBrowserTest >> testUnregisterAnnouncementsWhenRemovingPane [
 	presentation := GLMPresentation new.
 	pane addPresentation: presentation.
 	browser addPane: pane.
-	presentation updateOn: TestAnnouncement from: [ announcer ].
+	presentation updateOn: GLMTestAnnouncement from: [ announcer ].
 	presentation registerAnnouncements.
 	self assert: announcer numberOfSubscriptions equals: 1.
 	browser removePane: pane.
@@ -137,7 +137,7 @@ GLMBrowserTest >> testUnregisterAnnouncementsWhenUpdatingPane [
 		to: #one;
 		andShow: [ :presenter | 
 					(presenter list)
-						updateOn: TestAnnouncement from: [ announcer ];
+						updateOn: GLMTestAnnouncement from: [ announcer ];
 						display: [ :start | start to: 10 ] ].
 	browser startOn: 1.
 	browser panes first presentations first registerAnnouncements.
@@ -156,7 +156,7 @@ GLMBrowserTest >> testUnregisterAnnouncementsWhenUpdatingPaneWithTwoAnnouncers [
 		to: #one;
 		andShow: [ :presenter | 
 					(presenter list)
-						updateOn: TestAnnouncement
+						updateOn: GLMTestAnnouncement
 							fromAll: [ 
 									{announcer.
 									nil.

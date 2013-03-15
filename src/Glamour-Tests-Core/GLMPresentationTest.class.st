@@ -316,7 +316,7 @@ GLMPresentationTest >> testUnregisterAnnouncements [
 	| announcer presentation |
 	announcer := Announcer new.
 	presentation := GLMPresentation new.
-	presentation updateOn: TestAnnouncement from: [ announcer ].
+	presentation updateOn: GLMTestAnnouncement from: [ announcer ].
 	presentation registerAnnouncements.
 	self assert: announcer numberOfSubscriptions equals: 1.
 	presentation unregisterFromAllAnnouncements.
@@ -328,7 +328,7 @@ GLMPresentationTest >> testUnregisterAnnouncementsWhenEntityChanges [
 	| announcer1 presentation |
 	announcer1 := Announcer new.
 	presentation := GLMPresentation new.
-	presentation updateOn: TestAnnouncement from: [ announcer1 ].
+	presentation updateOn: GLMTestAnnouncement from: [ announcer1 ].
 	presentation entity: 1.
 	presentation registerAnnouncements.
 	self assert: announcer1 numberOfSubscriptions equals: 1.
@@ -367,11 +367,11 @@ GLMPresentationTest >> testUpdateConditionallyTriggered [
 	pane addPresentation: presentation.
 	timesTriggered := 0.
 	presentation when: GLMPresentationUpdated do: [ :announcement | timesTriggered := timesTriggered + 1 ].
-	presentation updateOn: TestAnnouncement from: [ :x | announcer ] when: [ :ann :entity | ann parameter + entity = 42 ].
+	presentation updateOn: GLMTestAnnouncement from: [ :x | announcer ] when: [ :ann :entity | ann parameter + entity = 42 ].
 	presentation registerAnnouncements.
-	announcer announce: (TestAnnouncement new parameter: 0).
+	announcer announce: (GLMTestAnnouncement new parameter: 0).
 	self assert: timesTriggered equals: 0.
-	announcer announce: (TestAnnouncement new parameter: 2).
+	announcer announce: (GLMTestAnnouncement new parameter: 2).
 	self assert: timesTriggered equals: 1
 ]
 
@@ -383,17 +383,17 @@ GLMPresentationTest >> testUpdateOnFromAllPortsUpdate [
 	presentation := GLMListPresentation new.
 	announcers := col collect: [:each | Announcer new].
 	pane addPresentation: presentation.
-	presentation updateOn: TestAnnouncement fromAll: [ announcers ].
+	presentation updateOn: GLMTestAnnouncement fromAll: [ announcers ].
 	presentation when: GLMPresentationUpdated do: [:a | updated := true ].
 	presentation entity: col.
 	presentation shouldValidate: true.
 	presentation registerAnnouncements.
 
 	updated := false.
-	announcers last announce: TestAnnouncement.
+	announcers last announce: GLMTestAnnouncement.
 	self assert: updated.
 	updated := false.
-	announcers last announce: TestAnnouncement.
+	announcers last announce: GLMTestAnnouncement.
 	self assert: updated.
 
 ]
@@ -406,14 +406,14 @@ GLMPresentationTest >> testUpdateOnPortsUpdate [
 	presentation := GLMListPresentation new.
 	announcer := Announcer new.
 	pane addPresentation: presentation.
-	presentation updateOn: TestAnnouncement from: [ announcer ].
+	presentation updateOn: GLMTestAnnouncement from: [ announcer ].
 	presentation entity: col.
 	presentation shouldValidate: true.
 	presentation registerAnnouncements.
 	presentation selection: 2.
 	self assert: presentation selection equals: 2.
 	col removeLast.
-	announcer announce: TestAnnouncement.
+	announcer announce: GLMTestAnnouncement.
 	self assert: presentation selection isNil
 ]
 
@@ -426,10 +426,10 @@ GLMPresentationTest >> testUpdateOnTriggered [
 	pane addPresentation: presentation.
 	timesTriggered := 0.
 	presentation when: GLMPresentationUpdated do: [ :announcement | timesTriggered := timesTriggered + 1 ].
-	presentation updateOn: TestAnnouncement from: #yourself.
+	presentation updateOn: GLMTestAnnouncement from: #yourself.
 	presentation entity: announcer.
 	presentation registerAnnouncements.
-	announcer announce: TestAnnouncement.
+	announcer announce: GLMTestAnnouncement.
 	self assert: timesTriggered equals: 1
 ]
 

@@ -535,12 +535,12 @@ GLMScriptingTest >> testUpdateYourselfOn [
 	browser column: #one.
 	browser transmit to: #one; andShow: [ :a |
 		presentation := a list 
-			updateOn: TestAnnouncement from: [ announcer ];
+			updateOn: GLMTestAnnouncement from: [ announcer ];
 			shouldValidate: true ].
 	browser startOn: entity.
 	presentation registerAnnouncements.
 	presentation selection: 3.
 	entity removeLast.
-	announcer announce: TestAnnouncement.
+	announcer announce: GLMTestAnnouncement.
 	self assert: presentation selection isNil 
 ]
