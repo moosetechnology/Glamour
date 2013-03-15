@@ -6,7 +6,7 @@ context := GLMContext withAll: {#a -> 1 . #b -> 2}.
 Compiler new evaluate: 'a + b' in: context to: context
 "
 Class {
-	#name : #GLMContext,
+	#name : #GLMDoItContext,
 	#superclass : #Object,
 	#instVars : [
 		'variableBindings'
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-GLMContext class >> with: aBinding withAll: aCollectionOfBindings [
+GLMDoItContext class >> with: aBinding withAll: aCollectionOfBindings [
 	| col |
 	col := OrderedCollection with: aBinding.
 	col addAll: aCollectionOfBindings.
@@ -23,36 +23,36 @@ GLMContext class >> with: aBinding withAll: aCollectionOfBindings [
 ]
 
 { #category : #'instance creation' }
-GLMContext class >> withAll: aCollectionOfBindings [
+GLMDoItContext class >> withAll: aCollectionOfBindings [
 	^ self new variableBindings: (aCollectionOfBindings inject: Dictionary new into: [:dict :each | dict at: each key put: each value. dict])
 ]
 
 { #category : #bindings }
-GLMContext >> bindingOf: aKey [
+GLMDoItContext >> bindingOf: aKey [
 	^ self variableBindings at: #aKey ifAbsent: [nil]
 ]
 
 { #category : #bindings }
-GLMContext >> method [ 
-	^ GLMContext >> #method
+GLMDoItContext >> method [ 
+	^ GLMDoItContext >> #method
 ]
 
 { #category : #bindings }
-GLMContext >> namedTempAt: index [
+GLMDoItContext >> namedTempAt: index [
 	^ self variableBindings at: (self tempNames at: index)
 ]
 
 { #category : #bindings }
-GLMContext >> tempNames [
+GLMDoItContext >> tempNames [
 	^ self variableBindings keys asSortedCollection
 ]
 
 { #category : #accessing }
-GLMContext >> variableBindings [
+GLMDoItContext >> variableBindings [
 	^ variableBindings
 ]
 
 { #category : #accessing }
-GLMContext >> variableBindings: anObject [
+GLMDoItContext >> variableBindings: anObject [
 	variableBindings := anObject
 ]

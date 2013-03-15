@@ -16,7 +16,7 @@ Class {
 GLMEditor >> createResultBrowserWithBindings: bindings andScript: script [
 	| context resultBrowser scriptedBrowser composer |
 	composer := GLMCompositePresentation new.
-	context := GLMContext with: #composer -> composer withAll: bindings.
+	context := GLMDoItContext with: #composer -> composer withAll: bindings.
 	Compiler new evaluate: script in: context to: context.
 	scriptedBrowser := composer first.
 	resultBrowser := GLMTabulator new.

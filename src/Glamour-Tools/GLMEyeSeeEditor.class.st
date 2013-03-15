@@ -35,6 +35,6 @@ GLMEyeSeeEditor >> resultIn: a [
 		title: 'Chart';
 		diagram: [ :renderer :bindings :script | 
 			| context |
-			context := GLMContext with: #chart -> renderer withAll: bindings.
+			context := GLMDoItContext with: #chart -> renderer withAll: bindings.
 			Compiler new evaluate: script in: context to: context ]
 ]

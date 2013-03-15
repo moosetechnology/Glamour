@@ -35,7 +35,7 @@ GLMRoassalEasel >> resultIn: a [
 		title: 'View';
 		painting: [ :view :bindings :script | 
 			| context |
-			context := GLMContext with: #view -> view withAll: bindings.
+			context := GLMDoItContext with: #view -> view withAll: bindings.
 			Compiler new evaluate: script in: context to: context ];
 		act: [ :roassal | 
 			| fName |

@@ -33,7 +33,7 @@ GLMMondrianEasel >> resultIn: a [
 		title: 'Painting';
 		painting: [ :view :bindings :script | 
 			| context |
-			context := GLMContext with: #view -> view withAll: bindings.
+			context := GLMDoItContext with: #view -> view withAll: bindings.
 			Compiler new evaluate: script in: context to: context ];
 		act: [ :m | m canvas exportAsPNG ] entitled: 'Export as PNG';
 		act: [ :m | m canvas exportAsJPEG ] entitled: 'Export as JPEG';
