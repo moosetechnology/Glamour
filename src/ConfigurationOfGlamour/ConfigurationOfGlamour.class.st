@@ -740,9 +740,9 @@ ConfigurationOfGlamour >> baseline25: spec [
 	spec for: #common do: [
 		spec blessing: #baseline.
 		spec description: 'Loading moose packages from SmalltalkHub for Pharo2.0'.
-		spec repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main'.
+		spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'.
 		spec 
-			package: 'CollectionExtensions' with: [spec repository: 'http://smalltalkhub.com/mc/Moose/CollectionExtensions/main'];
+			package: 'CollectionExtensions' with: [spec repository: 'http://www.smalltalkhub.com/mc/Moose/CollectionExtensions/main'];
 			package: 'Glamour-Announcements' ;
 			package: 'Glamour-Helpers' ;
 			package: 'Glamour-Core' with: [spec requires: #('Glamour-Helpers' 'Glamour-Announcements')];
