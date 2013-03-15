@@ -32,25 +32,25 @@ GLMUpdateMorphicTest >> setUp [
 			verticallyStackedArrangement.
 		a list 
 			title: [:x | x printString ];
-			updateOn: TestAnnouncement from: [ announcer ];
+			updateOn: GLMTestAnnouncement from: [ announcer ];
 			shouldValidate: true.
 		a tree 
 			title: [:x | x printString ];
 			children: #();
-			updateOn: TestAnnouncement from: [ announcer ];
+			updateOn: GLMTestAnnouncement from: [ announcer ];
 			shouldValidate: true.
 		a table
 			title: [:x | x printString ];
-			updateOn: TestAnnouncement from: [ announcer ];
+			updateOn: GLMTestAnnouncement from: [ announcer ];
 			shouldValidate: true.
 		a text 
-			updateOn: TestAnnouncement from: [ announcer ].
+			updateOn: GLMTestAnnouncement from: [ announcer ].
 		a list 
 			title: 'Not updated automatically';
 			shouldValidate: true.
 		a label 
 			display: [:x | x isEmpty ifTrue: ['#()'] ifFalse: [x last]];
-			updateOn: TestAnnouncement from: [ announcer ].			
+			updateOn: GLMTestAnnouncement from: [ announcer ].			
 			 ].
 	browser transmit to: #two; from: #one; andShow: [ :a | a text].
 	window := browser openOn: entity.
@@ -71,7 +71,7 @@ GLMUpdateMorphicTest >> setUp [
 { #category : #tests }
 GLMUpdateMorphicTest >> testAdd [
 	entity add: 4.
-	announcer announce: TestAnnouncement.
+	announcer announce: GLMTestAnnouncement.
 	self assert: listMorph roots size = 4.
 	self assert: listMorph model roots size equals: 4.
 	self assert: treeMorph roots size = 4.
@@ -109,7 +109,7 @@ GLMUpdateMorphicTest >> testAnnouncerUnregistration [
 GLMUpdateMorphicTest >> testInvalidateSelection [
 	(browser panes first port: #selection) value: 3.
 	entity removeLast.
-	announcer announce: TestAnnouncement.
+	announcer announce: GLMTestAnnouncement.
 	self assert: (browser panes first port: #selection) value isNil.
 	self assert: listMorph model selection isNil
 ]
@@ -117,7 +117,7 @@ GLMUpdateMorphicTest >> testInvalidateSelection [
 { #category : #tests }
 GLMUpdateMorphicTest >> testRemove [
 	entity removeLast.
-	announcer announce: TestAnnouncement.
+	announcer announce: GLMTestAnnouncement.
 	self assert: listMorph model roots size equals: 2.
 	self assert: treeMorph model roots size equals: 2.
 	self assert: tableMorph model roots size equals: 2.
