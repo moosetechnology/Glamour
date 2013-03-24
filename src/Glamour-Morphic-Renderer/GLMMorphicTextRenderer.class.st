@@ -26,13 +26,12 @@ GLMMorphicTextRenderer >> actOnPresentationUpdated: ann [
 { #category : #rendering }
 GLMMorphicTextRenderer >> render: aPresentation [
 	textModel := self textModelFor: aPresentation.
-	textMorph := self textMorphForModel: textModel.
-	
-	"this is a horrible hack: 
+	textMorph := self textMorphForModel: textModel.	"this is a horrible hack: 
 	because we cannot get the update of when the text changes from the morph,
 	we get the reference to the mutable text object :) :)"
 	textModel text: textMorph text.
-	self installActionsOnUI: textModel fromPresentation: aPresentation.
+	self installActionsOnModel: textModel fromPresentation: aPresentation .
+	self installKeystrokeActionsOnMorph: textMorph textMorph fromPresentation: aPresentation.
 	textMorph announcer
 		on: GLMSelectedTextChanged
 		do: [ :ann | 
@@ -40,10 +39,9 @@ GLMMorphicTextRenderer >> render: aPresentation [
 				suspendAllWhile: [ 
 					aPresentation selectionInterval: ann interval.
 					aPresentation selectedText: ann selectedText ] ].
-	textMorph announcer 
-		on: GLMTextChanged 
-		do: [:ann | 
-			aPresentation suspendAllWhile: [ aPresentation text: ann text ] ].
+	textMorph announcer
+		on: GLMTextChanged
+		do: [ :ann | aPresentation suspendAllWhile: [ aPresentation text: ann text ] ].
 	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
 	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
 	^ textMorph
@@ -71,5 +69,6 @@ GLMMorphicTextRenderer >> textMorphForModel:  aTextModel [
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
 		color: Color white;
+		detachAllKeymapCategories;
 		yourself
 ]

@@ -18,9 +18,16 @@ GLMMorphicWidgetRenderer class >> render: aPresentation from: aRenderer [
 ]
 
 { #category : #private }
-GLMMorphicWidgetRenderer >> installActionsOnUI: aMorphicModel fromPresentation: aPresentation [	 
+GLMMorphicWidgetRenderer >> installActionsOnModel: aMorphicModel fromPresentation: aPresentation [ 
 	aMorphicModel when: GLMMenuItemSelected do: [ :ann | ann action morphicActOn: aPresentation ].
 	aMorphicModel when: GLMKeyStroke do: [ :ann | ann action actOn: aPresentation ].
+]
+
+{ #category : #rendering }
+GLMMorphicWidgetRenderer >> installKeystrokeActionsOnMorph: aMorph fromPresentation: aPresentation [
+	aPresentation allActionsWithShortcuts do: [ :each |
+		aMorph on: each shortcut command do: [ 
+			each actOn: aPresentation ] ]
 ]
 
 { #category : #private }
