@@ -209,6 +209,11 @@ GLMPresentation >> allActions [
 ]
 
 { #category : #accessing }
+GLMPresentation >> allActionsWithShortcuts [ 
+	^ (self allActions, self allSelectionActions) select: [ :action | action hasShortcut ]
+]
+
+{ #category : #accessing }
 GLMPresentation >> allSelectionActions [ 
 	^ self selectionActions, self dynamicActionsOnSelection
 ]
