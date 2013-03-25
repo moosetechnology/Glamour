@@ -210,7 +210,7 @@ GLMPresentation >> allActions [
 
 { #category : #accessing }
 GLMPresentation >> allActionsWithShortcuts [ 
-	^ (self allActions, self allSelectionActions) select: [ :action | action hasShortcut ]
+	^ (self actions, self selectionActions) select: [ :action | action hasShortcut ]
 ]
 
 { #category : #accessing }
