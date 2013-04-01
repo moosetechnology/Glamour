@@ -11,6 +11,11 @@ Class {
 	#category : #'Glamour-Core'
 }
 
+{ #category : #openning }
+GLMCompositePresentation class >> openOn: anObject [ 
+	^ self new openOn: anObject
+]
+
 { #category : #scripting }
 GLMCompositePresentation >> accordionArrangement [
 	^ self arrangement: GLMAccordionArrangement new
