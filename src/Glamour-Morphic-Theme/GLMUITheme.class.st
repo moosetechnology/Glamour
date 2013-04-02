@@ -88,6 +88,8 @@ GLMUITheme class >> lightSelectionColor [
 
 { #category : #settings }
 GLMUITheme class >> newDefaultSettings [
+	self setPreferredPreferences.
+	
 	BalloonMorph setBalloonColorTo: self lightSelectionColor.
 	^super newDefaultSettings
 		menuColor: self baseColor;
@@ -102,6 +104,13 @@ GLMUITheme class >> newDefaultSettings [
 		fadedBackgroundWindows: false;
 		secondarySelectionColor: self veryLightSelectionColor;
 		flatMenu: true
+]
+
+{ #category : #settings }
+GLMUITheme class >> setPreferredPreferences [
+	NECPreferences 
+		expandPrefixes: true;
+		popupShowWithShortcut: Character tab asShortcut.
 ]
 
 { #category : #settings }
