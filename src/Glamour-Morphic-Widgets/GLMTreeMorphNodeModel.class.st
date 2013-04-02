@@ -179,6 +179,7 @@ GLMTreeMorphNodeModel >> rowMorphForColumn: aGlamourColumn [
 	^ (UITheme current
 		newTextIn: World
 		text: (self containerTree glamourPresentation column: aGlamourColumn valueFor: self item)) 
+			backgroundColor: self textBackgroundColor;
 			wrapFlag: true; 
 			yourself
 ]
