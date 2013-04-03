@@ -16,6 +16,7 @@ GLMMorphicMondrianRenderer >> actOnContextChanged: ann [
 
 { #category : #private }
 GLMMorphicMondrianRenderer >> actOnPresentationUpdate: ann [
+	self glamorousHalt.
 	ann presentation view: MOViewRenderer new.
 	canvasScrollPane scroller removeMorph: canvasScrollPane scroller submorphs first.
 	self mondrianCanvasFor: ann presentation

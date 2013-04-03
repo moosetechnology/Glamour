@@ -55,7 +55,7 @@ GLMMorphicMorphRenderer >> morphFrom: aMorphPresentation [
 ]
 
 { #category : #rendering }
-GLMMorphicMorphRenderer >> render: aMorphPresentation [		.
+GLMMorphicMorphRenderer >> render: aMorphPresentation [
 	container := GLMMorphic containerMorph.
 	container 
 		changeTableLayout;

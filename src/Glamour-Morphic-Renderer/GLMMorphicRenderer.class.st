@@ -149,6 +149,11 @@ GLMMorphicRenderer >> renderSmalltalkCodePresentation: aSmalltalkCodePresentatio
 ]
 
 { #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderSpecPresentation: aPresentation [ 
+	^ GLMMorphicSpecRenderer render: aPresentation from: self
+]
+
+{ #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderStackedVerticallyCompositePresentation: aCompositePresentation [
 	^ GLMMorphicVerticallyStackedRenderer render: aCompositePresentation from: self
 ]
