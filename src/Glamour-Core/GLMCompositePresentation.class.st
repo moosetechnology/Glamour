@@ -283,6 +283,11 @@ GLMCompositePresentation >> smalltalkCode [
 ]
 
 { #category : #scripting }
+GLMCompositePresentation >> spec [
+	^ self custom: GLMSpecPresentation new
+]
+
+{ #category : #scripting }
 GLMCompositePresentation >> stackedArrangement [
 	^ self stackedVerticallyArrangement
 ]
