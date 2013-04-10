@@ -44,10 +44,10 @@ GLMRoassalEasel >> resultIn: a [
 			PNGReadWriter putForm: roassal bitmap onFileNamed: fName. ] entitled: 'Export as PNG';
 		"act: [ :m | m canvas exportAsJPEG ] entitled: 'Export as JPEG';
 		act: [ :m | m canvas exportAsSVG ] entitled: 'Export as SVG';"
-		act: [ :roassal | ROZoomOutMove new on: roassal view container ]
+		act: [ :roassal | ROZoomOutMove new on: roassal view stack firstView ]
 			icon: MondrianIcons mondrianZoomOut
 			entitled: 'Zoom out';
-		act: [ :roassal | ROZoomInMove new on: roassal view container ]
+		act: [ :roassal | ROZoomInMove new on: roassal view stack firstView ]
 			icon: MondrianIcons mondrianZoomIn
 			entitled: 'Zoom in'
 ]
