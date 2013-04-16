@@ -1,3 +1,6 @@
+"
+self loadDevelopment
+"
 Class {
 	#name : #ConfigurationOfGlamourSeaside,
 	#superclass : #Object,
@@ -59,6 +62,11 @@ ConfigurationOfGlamourSeaside class >> loadDefault [
 	Deprecation raiseWarning: false.
 	(self project version: 'default') load.
 	Deprecation raiseWarning: previousDeprecationWarning
+]
+
+{ #category : #loading }
+ConfigurationOfGlamourSeaside class >> loadDevelopment [
+	(self project version: #development) load
 ]
 
 { #category : #accessing }
@@ -242,6 +250,62 @@ ConfigurationOfGlamourSeaside >> baseline03: spec [
 ]
 
 { #category : #baselines }
+ConfigurationOfGlamourSeaside >> baseline04: spec [ 
+	<version: '0.4-baseline'>
+	
+	spec for: #common do: [
+		spec blessing: #baseline.
+		spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'.
+		spec package: 'Glamour-Seaside-Core' with: [
+			spec requires: #('Seaside' 'Glamour' 'JQWidgetBox-Core' 'JQWidgetBox-MbMenu-Core' 'JQWidgetBox-HoverIntent-Core' 'Glamour-Morphic-Theme') ].
+		spec package: 'Glamour-Seaside-Rendering' with: [
+			spec requires: #('Glamour-Seaside-Core') ].
+		spec package: 'Glamour-Seaside-Examples' with: [
+			spec requires: #('Seaside' 'Glamour-Seaside-Rendering') ].
+		spec package: 'Glamour-Seaside-Tests' with: [
+			spec requires: #('Glamour-Seaside-Rendering' "'SeasideTesting'") ].
+		spec package: 'JQWidgetBox-Core' with: [
+			spec requires: #('Seaside').
+			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
+		spec package: 'JQWidgetBox-MbMenu-Core' with: [
+			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'.
+			spec requires: #('Seaside') ].
+		spec package: 'JQWidgetBox-HoverIntent-Core' with: [
+			spec requires: #('Seaside').
+			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
+		spec package: 'Glamour-Morphic-Theme'.
+		spec group: 'Core' with: #(						
+						'Glamour-Seaside-Core'
+						'Glamour-Seaside-Rendering').
+		spec group: 'Examples' with: #(						
+						'Glamour-Seaside-Examples').
+		spec group: 'Tests' with: #(						
+						'Glamour-Seaside-Tests'). 
+		spec
+			project: 'Glamour' with: [
+				spec
+					className: 'ConfigurationOfGlamour';
+					file: 'ConfigurationOfGlamour';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ].
+		spec
+			project: 'Seaside' with: [
+				spec
+					className: 'ConfigurationOfSeaside30';
+					file: 'ConfigurationOfSeaside30';
+					version: '3.0.8';
+					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
+		"spec
+			project: 'SeasideTesting' with: [
+				spec
+					className: 'ConfigurationOfSeasideTesting';
+					file: 'ConfigurationOfSeasideTesting';
+					version: '0.6';
+					repository: 'http://www.squeaksource.com/SeasideTesting' ].
+"		spec ]
+]
+
+{ #category : #baselines }
 ConfigurationOfGlamourSeaside >> default: spec [ 
 	<version: 'default'>
 
@@ -312,6 +376,14 @@ ConfigurationOfGlamourSeaside >> default: spec [
 					loads: #('dev');
 					repository: 'http://ss3.gemstone.com/ss/Parasol' ].
 		spec ]
+]
+
+{ #category : #'symbolic versions' }
+ConfigurationOfGlamourSeaside >> development: spec [
+	<symbolicVersion: #'development'>
+
+	spec for: #'common' version: '0.4-baseline'.
+
 ]
 
 { #category : #accessing }
