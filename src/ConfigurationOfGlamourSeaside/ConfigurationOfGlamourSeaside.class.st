@@ -256,53 +256,49 @@ ConfigurationOfGlamourSeaside >> baseline04: spec [
 	spec for: #common do: [
 		spec blessing: #baseline.
 		spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'.
-		spec package: 'Glamour-Seaside-Core' with: [
-			spec requires: #('Seaside' 'Glamour' 'JQWidgetBox-Core' 'JQWidgetBox-MbMenu-Core' 'JQWidgetBox-HoverIntent-Core' 'Glamour-Morphic-Theme') ].
-		spec package: 'Glamour-Seaside-Rendering' with: [
-			spec requires: #('Glamour-Seaside-Core') ].
-		spec package: 'Glamour-Seaside-Examples' with: [
-			spec requires: #('Seaside' 'Glamour-Seaside-Rendering') ].
-		spec package: 'Glamour-Seaside-Tests' with: [
-			spec requires: #('Glamour-Seaside-Rendering' "'SeasideTesting'") ].
-		spec package: 'JQWidgetBox-Core' with: [
-			spec requires: #('Seaside').
-			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
-		spec package: 'JQWidgetBox-MbMenu-Core' with: [
-			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'.
-			spec requires: #('Seaside') ].
-		spec package: 'JQWidgetBox-HoverIntent-Core' with: [
-			spec requires: #('Seaside').
-			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
-		spec package: 'Glamour-Morphic-Theme'.
-		spec group: 'Core' with: #(						
-						'Glamour-Seaside-Core'
-						'Glamour-Seaside-Rendering').
-		spec group: 'Examples' with: #(						
-						'Glamour-Seaside-Examples').
-		spec group: 'Tests' with: #(						
-						'Glamour-Seaside-Tests'). 
+
 		spec
 			project: 'Glamour' with: [
 				spec
 					className: 'ConfigurationOfGlamour';
-					file: 'ConfigurationOfGlamour';
+					versionString: #'bleedingEdge';
 					version: #development;
-					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ].
-		spec
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ];
 			project: 'Seaside' with: [
 				spec
 					className: 'ConfigurationOfSeaside30';
-					file: 'ConfigurationOfSeaside30';
-					version: '3.0.8';
+					versionString: #'bleedingEdge';
+					loads: 'OneClick';
 					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
-		"spec
-			project: 'SeasideTesting' with: [
-				spec
-					className: 'ConfigurationOfSeasideTesting';
-					file: 'ConfigurationOfSeasideTesting';
-					version: '0.6';
-					repository: 'http://www.squeaksource.com/SeasideTesting' ].
-"		spec ]
+				
+		spec
+			package: 'Glamour-Seaside-Core' with: [
+				spec requires: #('Seaside' 'Glamour' 'JQWidgetBox-Core' 'JQWidgetBox-MbMenu-Core' 'JQWidgetBox-HoverIntent-Core' 'Glamour-Morphic-Theme') ];
+			package: 'Glamour-Seaside-Rendering' with: [
+				spec requires: #('Glamour-Seaside-Core') ];
+			package: 'Glamour-Seaside-Examples' with: [
+				spec requires: #('Seaside' 'Glamour-Seaside-Rendering') ];
+			package: 'Glamour-Seaside-Tests' with: [
+				spec requires: #('Glamour-Seaside-Rendering') ];
+			package: 'JQWidgetBox-Core' with: [
+				spec requires: #('Seaside').
+				spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'];
+			package: 'JQWidgetBox-MbMenu-Core' with: [
+				spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'.
+				spec requires: #('Seaside') ];
+			package: 'JQWidgetBox-HoverIntent-Core' with: [
+				spec requires: #('Seaside').
+				spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'];
+			package: 'Glamour-Morphic-Theme'.
+
+		spec
+			group: 'Core' with: #(						
+						'Glamour-Seaside-Core'
+						'Glamour-Seaside-Rendering');
+			group: 'Examples' with: #(						
+						'Glamour-Seaside-Examples');
+			group: 'Tests' with: #(						
+						'Glamour-Seaside-Tests') ]
 ]
 
 { #category : #baselines }
@@ -415,11 +411,13 @@ ConfigurationOfGlamourSeaside >> version01: spec [
 
 { #category : #versions }
 ConfigurationOfGlamourSeaside >> version02: spec [ 
-	<version: '0.2' imports: #('0.2-baseline') >
+	<version: '0.4' imports: #('0.4-baseline') >
 	
 	spec for: #common do: [
 		spec blessing: #development.
 		spec 
+			project: 'Seaside' with: '3.0.8';
+			project: 'Glamour' with: #'stable';
 			package: 'Glamour-Seaside' with: 'Glamour-Seaside-AndreiChis.111';
 			package: 'JQWidgetBox-Core' with: 'JQWidgetBox-Core-tbn.2';
 			package: 'JQWidgetBox-MbMenu-Core' with: 'JQWidgetBox-MbMenu-Core-AndreiChis.18';
