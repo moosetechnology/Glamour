@@ -1034,42 +1034,6 @@ GLMBasicExamples >> stacker [
 	^ browser 
 ]
 
-{ #category : #others }
-GLMBasicExamples >> starBrowser [
-	<glmBrowser: 'Complex morphs (StarBrowser simulation)' input: '{ Boolean. String. #asString. #printString }'>
-	"self new starBrowser openOn: { Boolean. String. #asString. #printString }"
-
-	| browser accumulator |
-	browser := GLMTabulator new.
-	browser title: 'StarBrowser Light'.
-	browser
-		column: #tree;
-		column: #browser span: 4.
-	browser
-		transmit to: #tree;
-		andShow: [ :a | a list ].
-	accumulator := GLMAccumulator new.
-	accumulator
-		show: [ :a | 
-			a title: [ :object | object printString ].
-			a morph
-				display: [ :object | 
-					| model |
-					" create omnibrowser model "
-					model := object isBehavior
-						ifTrue: [ OBHierarchyBrowser onClass: object ]
-						ifFalse: [ OBImplementorsBrowser root: (OBSelectorNode on: object) ].	" create omnibrowser morph, but get rid of window "
-					(PanelMorph new)
-						layoutPolicy: ProportionalLayout new;
-						addAllMorphs: (OBMorphBuilder build: model) paneMorphs;
-						yourself ] ].
-	(browser transmit)
-		to: #browser;
-		from: #tree port: #strongSelection;
-		andShowIfNone: [ :a | a custom: accumulator ].
-	^ browser
-]
-
 { #category : #'actions examples' }
 GLMBasicExamples >> staticAndDynamicMenu [
 	<glmBrowser: 'Menus' input: '$z'>
