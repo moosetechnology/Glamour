@@ -261,7 +261,6 @@ ConfigurationOfGlamourSeaside >> baseline04: spec [
 			project: 'Glamour' with: [
 				spec
 					className: 'ConfigurationOfGlamour';
-					versionString: #'bleedingEdge';
 					version: #development;
 					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ];
 			project: 'Seaside' with: [
@@ -314,10 +313,18 @@ ConfigurationOfGlamourSeaside >> baseline04: spec [
 ]
 
 { #category : #'symbolic versions' }
+ConfigurationOfGlamourSeaside >> bleedingEdge: spec [
+	<symbolicVersion: #'bleedingEdge'>
+
+	spec for: #'common' version: '0.4-baseline'.
+
+]
+
+{ #category : #'symbolic versions' }
 ConfigurationOfGlamourSeaside >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '0.4-baseline'.
+	spec for: #'common' version: '0.4'.
 
 ]
 
@@ -331,6 +338,14 @@ ConfigurationOfGlamourSeaside >> project [
 		constructor := (Smalltalk at: #MetacelloVersionConstructor) on: self.
 		project := constructor project.
 		project]
+]
+
+{ #category : #'symbolic versions' }
+ConfigurationOfGlamourSeaside >> stable: spec [
+	<symbolicVersion: #'stable'>
+
+	spec for: #'common' version: #'notDefined'.
+
 ]
 
 { #category : #versions }
@@ -363,18 +378,27 @@ ConfigurationOfGlamourSeaside >> version02: spec [
 ]
 
 { #category : #versions }
-ConfigurationOfGlamourSeaside >> version04: spec [ 
-	<version: '0.4' imports: #('0.4-baseline') >
-	
-	spec for: #common do: [
-		spec blessing: #development.
-		spec
+ConfigurationOfGlamourSeaside >> version04: spec [
+	<version: '0.4' imports: #('0.4-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'development'.
+		spec description: 'Created a development version that loads.'.
+		spec author: 'DiegoLont'.
+		spec timestamp: '4/17/2013 15:39'.
+		spec 
 			project: 'Seaside' with: '3.0.8';
 			project: 'SeasideTesting' with: '0.7';
 			project: 'BeachParasol' with: '0.9';
-			project: 'Glamour' with: #'stable';
+			project: 'Glamour' with: #'development'.
+		spec 
 			package: 'JQWidgetBox-Core' with: 'JQWidgetBox-Core-tbn.2';
 			package: 'JQWidgetBox-MbMenu-Core' with: 'JQWidgetBox-MbMenu-Core-AndreiChis.18';
 			package: 'JQWidgetBox-HoverIntent-Core' with: 'JQWidgetBox-HoverIntent-Core-JohanBrichau.2';
-			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-FernandoOlivero.23']. 
+			package: 'Glamour-Seaside-Core' with: 'Glamour-Seaside-Core-AndreiChis.76';
+			package: 'Glamour-Seaside-Examples' with: 'Glamour-Seaside-Examples-AndreiChis.11';
+			package: 'Glamour-Seaside-Rendering' with: 'Glamour-Seaside-Rendering-AndreiChis.70';
+			package: 'Glamour-Seaside-Tests' with: 'Glamour-Seaside-Tests-AndreiChis.8';
+			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-TudorGirba.66'. ].
+
 ]
