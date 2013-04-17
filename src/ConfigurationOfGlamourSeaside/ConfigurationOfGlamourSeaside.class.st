@@ -373,7 +373,6 @@ ConfigurationOfGlamourSeaside >> version04: spec [
 			project: 'SeasideTesting' with: '0.7';
 			project: 'BeachParasol' with: '0.9';
 			project: 'Glamour' with: #'stable';
-			package: 'Glamour-Seaside' with: 'Glamour-Seaside-AndreiChis.111';
 			package: 'JQWidgetBox-Core' with: 'JQWidgetBox-Core-tbn.2';
 			package: 'JQWidgetBox-MbMenu-Core' with: 'JQWidgetBox-MbMenu-Core-AndreiChis.18';
 			package: 'JQWidgetBox-HoverIntent-Core' with: 'JQWidgetBox-HoverIntent-Core-JohanBrichau.2';
