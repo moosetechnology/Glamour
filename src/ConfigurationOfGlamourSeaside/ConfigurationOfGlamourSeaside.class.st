@@ -267,9 +267,21 @@ ConfigurationOfGlamourSeaside >> baseline04: spec [
 			project: 'Seaside' with: [
 				spec
 					className: 'ConfigurationOfSeaside30';
-					versionString: #'bleedingEdge';
+					versionString: #'stable';
 					loads: 'OneClick';
-					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
+					repository: 'http://www.squeaksource.com/MetacelloRepository' ];
+			project: 'SeasideTesting' with: [
+				spec
+					className: 'ConfigurationOfSeasideTesting';
+					version: #'development';
+					loads: #('SimulatedBrowserTesting');
+					repository: 'http://www.squeaksource.com/SeasideTesting' ];
+			project: 'BeachParasol' with: [
+				spec
+					className: 'ConfigurationOfParasol';
+					version: #'development';
+					loads: #('dev');
+					repository: 'http://ss3.gemstone.com/ss/Parasol' ].
 				
 		spec
 			package: 'Glamour-Seaside-Core' with: [
@@ -279,7 +291,7 @@ ConfigurationOfGlamourSeaside >> baseline04: spec [
 			package: 'Glamour-Seaside-Examples' with: [
 				spec requires: #('Seaside' 'Glamour-Seaside-Rendering') ];
 			package: 'Glamour-Seaside-Tests' with: [
-				spec requires: #('Glamour-Seaside-Rendering') ];
+				spec requires: #('Glamour-Seaside-Rendering' 'SeasideTesting' 'BeachParasol') ];
 			package: 'JQWidgetBox-Core' with: [
 				spec requires: #('Seaside').
 				spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'];
@@ -299,79 +311,6 @@ ConfigurationOfGlamourSeaside >> baseline04: spec [
 						'Glamour-Seaside-Examples');
 			group: 'Tests' with: #(						
 						'Glamour-Seaside-Tests') ]
-]
-
-{ #category : #baselines }
-ConfigurationOfGlamourSeaside >> default: spec [ 
-	<version: 'default'>
-
-	spec for: #common do: [
-		spec blessing: #baseline.
-		spec repository: 'http://www.squeaksource.com/Glamour'.
-		spec package: 'Glamour-Seaside-Core' with: [
-			spec requires: #('Seaside' 'Glamour' 'JQWidgetBox-Core' 'JQWidgetBox-MbMenu-Core' 'JQWidgetBox-HoverIntent-Core' 'Glamour-Morphic-Theme') ].
-		spec package: 'Glamour-Seaside-Rendering' with: [
-			spec requires: #('Glamour-Seaside-Core') ].
-		spec package: 'Glamour-Seaside-Examples' with: [
-			spec requires: #('Seaside' 'Glamour-Seaside-Rendering') ].
-		spec package: 'Glamour-Seaside-Tests' with: [
-			spec requires: #('Glamour-Seaside-Rendering' 'SeasideTesting' 'BeachParasol') ].
-		spec package: 'JQWidgetBox-Core' with: [
-			spec requires: #('Seaside').
-			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
-		spec package: 'JQWidgetBox-MbMenu-Core' with: [
-			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'.
-			spec requires: #('Seaside') ].
-		spec package: 'JQWidgetBox-HoverIntent-Core' with: [
-			spec requires: #('Seaside').
-			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
-		spec package: 'Glamour-Morphic-Theme'.
-		spec group: 'Core' with: #(
-						'Glamour-Seaside-Core'
-						'Glamour-Seaside-Rendering').
-		spec group: 'Examples' with: #(						
-						'Glamour-Seaside-Examples').
-		spec group: 'Tests' with: #(						
-						'Glamour-Seaside-Tests'). 
-		spec
-			project: 'Glamour' with: [
-				spec
-					className: 'ConfigurationOfGlamour';
-					file: 'ConfigurationOfGlamour';
-					version: 'default';
-					repository: 'http://www.squeaksource.com/Glamour' ].
-		spec
-			project: 'Seaside' with: [
-				spec
-					className: 'ConfigurationOfSeaside30';
-					file: 'ConfigurationOfSeaside30';
-					version: '3.0.7';
-					loads: #('Core' 'Seaside-Adaptors-Comanche');	 
-					repository: 'http://www.squeaksource.com/MetacelloRepository' ].
-		spec
-			project: 'SeasideTesting' with: [
-				spec
-					className: 'ConfigurationOfSeasideTesting';
-					file: 'ConfigurationOfSeasideTesting';
-					version: '0.7';
-					loads: #('SimulatedBrowserTesting');
-					repository: 'http://www.squeaksource.com/SeasideTesting' ].
-"		spec
-			project: 'WebTester' with: [
-				spec
-					className: 'ConfigurationOfWebTester';
-					file: 'ConfigurationOfWebTester';
-					version: '1.3';
-					repository: 'http://www.squeaksource.com/MetacelloRepository' ]."
-		spec
-			project: 'BeachParasol' with: [
-				spec
-					className: 'ConfigurationOfParasol';
-					file: 'ConfigurationOfParasol';
-					version: #'development';
-					loads: #('dev');
-					repository: 'http://ss3.gemstone.com/ss/Parasol' ].
-		spec ]
 ]
 
 { #category : #'symbolic versions' }
@@ -411,12 +350,28 @@ ConfigurationOfGlamourSeaside >> version01: spec [
 
 { #category : #versions }
 ConfigurationOfGlamourSeaside >> version02: spec [ 
-	<version: '0.4' imports: #('0.4-baseline') >
+	<version: '0.2' imports: #('0.2-baseline') >
 	
 	spec for: #common do: [
 		spec blessing: #development.
 		spec 
+			package: 'Glamour-Seaside' with: 'Glamour-Seaside-AndreiChis.111';
+			package: 'JQWidgetBox-Core' with: 'JQWidgetBox-Core-tbn.2';
+			package: 'JQWidgetBox-MbMenu-Core' with: 'JQWidgetBox-MbMenu-Core-AndreiChis.18';
+			package: 'JQWidgetBox-HoverIntent-Core' with: 'JQWidgetBox-HoverIntent-Core-JohanBrichau.2';
+			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-FernandoOlivero.23']. 
+]
+
+{ #category : #versions }
+ConfigurationOfGlamourSeaside >> version04: spec [ 
+	<version: '0.4' imports: #('0.4-baseline') >
+	
+	spec for: #common do: [
+		spec blessing: #development.
+		spec
 			project: 'Seaside' with: '3.0.8';
+			project: 'SeasideTesting' with: '0.7';
+			project: 'BeachParasol' with: '0.9';
 			project: 'Glamour' with: #'stable';
 			package: 'Glamour-Seaside' with: 'Glamour-Seaside-AndreiChis.111';
 			package: 'JQWidgetBox-Core' with: 'JQWidgetBox-Core-tbn.2';
