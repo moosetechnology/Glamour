@@ -799,21 +799,21 @@ ConfigurationOfGlamour >> baseline25: spec [
 					className: 'ConfigurationOfMondrian';
 					file: 'ConfigurationOfMondrian';
 					version: #development;
-					repository: 'http://www.smalltalkhub.com/mc/Moose/Mondrian/main' ].
+					repository: 'http://smalltalkhub.com/mc/Moose/Mondrian/main' ].
 		spec
 			project: 'Roassal for Glamour' with: [
 				spec
 					className: 'ConfigurationOfRoassal';
 					file: 'ConfigurationOfRoassal';
 					version: #development;
-					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal/main' ].
+					repository: 'http://www.squeaksource.com/Roassal' ].
 		spec
 			project: 'EyeSee for Glamour' with: [
 				spec
 					className: 'ConfigurationOfEyeSee';
 					file: 'ConfigurationOfEyeSee';
 					version: #development;
-					repository: 'http://www.smalltalkhub.com/mc/Moose/EyeSee/main' ].
+					repository: 'http://smalltalkhub.com/mc/Moose/EyeSee/main' ].
 		spec project: 'Magritte3' with: [
 			spec
 					className: 'ConfigurationOfMagritte3';
@@ -920,6 +920,7 @@ ConfigurationOfGlamour >> stable: spec [
 	spec for: #'common' version: '2.1'.
 	spec for: #'pharo1.3.x' version: '2.2'.
 	spec for: #'pharo1.4.x' version: '2.4'.
+	spec for: #'pharo2.x' version: '2.4'.
 ]
 
 { #category : #versions }
