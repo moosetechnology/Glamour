@@ -267,7 +267,7 @@ ConfigurationOfGlamourSeaside >> baseline04: spec [
 				spec
 					className: 'ConfigurationOfSeaside30';
 					versionString: #'stable';
-					loads: 'OneClick';
+					loads: 'Core';
 					repository: 'http://www.squeaksource.com/MetacelloRepository' ];
 			project: 'SeasideTesting' with: [
 				spec
@@ -390,7 +390,7 @@ ConfigurationOfGlamourSeaside >> version04: spec [
 			project: 'Seaside' with: '3.0.8';
 			project: 'SeasideTesting' with: '0.7';
 			project: 'BeachParasol' with: '0.9';
-			project: 'Glamour' with: #'development'.
+			project: 'Glamour' with: #'stable'.
 		spec 
 			package: 'JQWidgetBox-Core' with: 'JQWidgetBox-Core-tbn.2';
 			package: 'JQWidgetBox-MbMenu-Core' with: 'JQWidgetBox-MbMenu-Core-AndreiChis.18';
