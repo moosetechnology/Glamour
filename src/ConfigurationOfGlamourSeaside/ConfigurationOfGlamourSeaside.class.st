@@ -268,7 +268,7 @@ ConfigurationOfGlamourSeaside >> baseline04: spec [
 					className: 'ConfigurationOfSeaside30';
 					versionString: #'stable';
 					loads: 'Core';
-					repository: 'http://www.squeaksource.com/MetacelloRepository' ];
+					repository: 'http://www.squeaksource.com/Seaside30' ];
 			project: 'SeasideTesting' with: [
 				spec
 					className: 'ConfigurationOfSeasideTesting';
@@ -303,13 +303,10 @@ ConfigurationOfGlamourSeaside >> baseline04: spec [
 			package: 'Glamour-Morphic-Theme'.
 
 		spec
-			group: 'Core' with: #(						
-						'Glamour-Seaside-Core'
-						'Glamour-Seaside-Rendering');
-			group: 'Examples' with: #(						
-						'Glamour-Seaside-Examples');
-			group: 'Tests' with: #(						
-						'Glamour-Seaside-Tests') ]
+			group: 'default' with: #( 'Examples' );
+			group: 'Core' with: #( 'Glamour-Seaside-Rendering' );
+			group: 'Examples' with: #( 'Glamour-Seaside-Examples' );
+			group: 'Tests' with: #( 'Glamour-Seaside-Tests' ) ]
 ]
 
 { #category : #'symbolic versions' }
@@ -399,6 +396,6 @@ ConfigurationOfGlamourSeaside >> version04: spec [
 			package: 'Glamour-Seaside-Examples' with: 'Glamour-Seaside-Examples-AndreiChis.11';
 			package: 'Glamour-Seaside-Rendering' with: 'Glamour-Seaside-Rendering-AndreiChis.70';
 			package: 'Glamour-Seaside-Tests' with: 'Glamour-Seaside-Tests-AndreiChis.8';
-			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-TudorGirba.66'. ].
+			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-TudorGirba.66'. ]
 
 ]
