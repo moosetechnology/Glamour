@@ -799,21 +799,21 @@ ConfigurationOfGlamour >> baseline25: spec [
 					className: 'ConfigurationOfMondrian';
 					file: 'ConfigurationOfMondrian';
 					version: #development;
-					repository: 'http://smalltalkhub.com/mc/Moose/Mondrian/main' ].
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Mondrian/main' ].
 		spec
 			project: 'Roassal for Glamour' with: [
 				spec
 					className: 'ConfigurationOfRoassal';
 					file: 'ConfigurationOfRoassal';
 					version: #development;
-					repository: 'http://www.squeaksource.com/Roassal' ].
+					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal/main' ].
 		spec
 			project: 'EyeSee for Glamour' with: [
 				spec
 					className: 'ConfigurationOfEyeSee';
 					file: 'ConfigurationOfEyeSee';
 					version: #development;
-					repository: 'http://smalltalkhub.com/mc/Moose/EyeSee/main' ].
+					repository: 'http://www.smalltalkhub.com/mc/Moose/EyeSee/main' ].
 		spec project: 'Magritte3' with: [
 			spec
 					className: 'ConfigurationOfMagritte3';
