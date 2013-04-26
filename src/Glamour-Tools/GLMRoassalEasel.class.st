@@ -29,25 +29,32 @@ GLMRoassalEasel >> defaultTitle [
 	^ 'Roassal Easel'
 ]
 
+{ #category : #private }
+GLMRoassalEasel >> evaluate: script in: context for: view [
+	| message |
+	^ [ Compiler new evaluate: script in: context to: context ]
+		on: Error
+		do: [ :e | 
+			message := e class name , ': ' , e errorMessage.
+			self inform: message.
+			view shape label color: Color red lighter; withText .
+			view node: message ]
+]
+
 { #category : #building }
 GLMRoassalEasel >> resultIn: a [
 	^ a roassal
 		title: 'View';
 		painting: [ :view :bindings :script | 
-			| context |
-			context := GLMDoItContext with: #view -> view withAll: bindings.
-			Compiler new evaluate: script in: context to: context ];
-		act: [ :roassal | 
-			| fName |
-			fName := UIManager default request:'Please enter the name' translated initialAnswer: self externalName,'.png'.
-			fName isEmptyOrNil ifTrue:[^self].
-			PNGReadWriter putForm: roassal bitmap onFileNamed: fName. ] entitled: 'Export as PNG';
-		"act: [ :m | m canvas exportAsJPEG ] entitled: 'Export as JPEG';
-		act: [ :m | m canvas exportAsSVG ] entitled: 'Export as SVG';"
-		act: [ :roassal | ROZoomOutMove new on: roassal view raw ]
+					| context |
+					context := GLMDoItContext with: #view -> view withAll: bindings.
+					self evaluate: script in: context for: view ];
+		act: [ :roassal | ROExportPNGCommand new executeOn: roassal view raw ] entitled: 'Export as PNG';
+		act: [ :roassal "act: [ :m | m canvas exportAsJPEG ] entitled: 'Export as JPEG';
+		act: [ :m | m canvas exportAsSVG ] entitled: 'Export as SVG';" | ROZoomOutMove new on: roassal view stack firstView ]
 			icon: MondrianIcons mondrianZoomOut
 			entitled: 'Zoom out';
-		act: [ :roassal | ROZoomInMove new on: roassal view raw ]
+		act: [ :roassal | ROZoomInMove new on: roassal view stack firstView ]
 			icon: MondrianIcons mondrianZoomIn
 			entitled: 'Zoom in'
 ]

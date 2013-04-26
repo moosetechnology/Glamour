@@ -17,16 +17,18 @@ GLMEditor >> createResultBrowserWithBindings: bindings andScript: script [
 	| context resultBrowser scriptedBrowser composer |
 	composer := GLMCompositePresentation new.
 	context := GLMDoItContext with: #composer -> composer withAll: bindings.
-	Compiler new evaluate: script in: context to: context.
+	[ Compiler new evaluate: script in: context to: context ]
+		on: Error
+		do: [ :e | 
+			self inform: e class name , ': ' , e errorMessage. 
+			^ GLMWrapper new show: #text; startOn: e class name , ': ' , e errorMessage ].
 	scriptedBrowser := composer first.
 	resultBrowser := GLMTabulator new.
 	resultBrowser column: #theOuterPane.
 	resultBrowser transmit
-		fromOutsideEntityPort; 
+		fromOutsideEntityPort;
 		to: #theOuterPane;
-		andShow: [:a | 
-			a custom: scriptedBrowser ].
-	"this is a bit of a hack.
+		andShow: [ :a | a custom: scriptedBrowser ].	"this is a bit of a hack.
 	we take the entity as specified in the script by taking it directly
 	from the evaluated script browser.
 	this is needed because right now the input entity is specified 

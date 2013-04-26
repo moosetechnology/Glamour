@@ -27,6 +27,18 @@ GLMMondrianEasel >> defaultTitle [
 	^ 'Mondrian Easel'
 ]
 
+{ #category : #private }
+GLMMondrianEasel >> evaluate: script in: context for: view [
+	| message |
+	^ [ Compiler new evaluate: script in: context to: context ]
+		on: Error
+		do: [ :e | 
+			message := e class name , ': ' , e errorMessage.
+			self inform: message.
+			view shape label fontColor: Color red; withText .
+			view node: message ]
+]
+
 { #category : #building }
 GLMMondrianEasel >> resultIn: a [
 	^ a mondrian
@@ -34,7 +46,7 @@ GLMMondrianEasel >> resultIn: a [
 		painting: [ :view :bindings :script | 
 			| context |
 			context := GLMDoItContext with: #view -> view withAll: bindings.
-			Compiler new evaluate: script in: context to: context ];
+			self evaluate: script in: context for: view ];
 		act: [ :m | m canvas exportAsPNG ] entitled: 'Export as PNG';
 		act: [ :m | m canvas exportAsJPEG ] entitled: 'Export as JPEG';
 		act: [ :m | m canvas exportAsSVG ] entitled: 'Export as SVG';
