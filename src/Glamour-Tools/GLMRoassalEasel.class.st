@@ -50,11 +50,10 @@ GLMRoassalEasel >> resultIn: a [
 					context := GLMDoItContext with: #view -> view withAll: bindings.
 					self evaluate: script in: context for: view ];
 		act: [ :roassal | ROExportPNGCommand new executeOn: roassal view raw ] entitled: 'Export as PNG';
-		act: [ :roassal "act: [ :m | m canvas exportAsJPEG ] entitled: 'Export as JPEG';
-		act: [ :m | m canvas exportAsSVG ] entitled: 'Export as SVG';" | ROZoomOutMove new on: roassal view stack firstView ]
+		act: [ :roassal | ROZoomOutMove new on: roassal view raw ]
 			icon: MondrianIcons mondrianZoomOut
 			entitled: 'Zoom out';
-		act: [ :roassal | ROZoomInMove new on: roassal view stack firstView ]
+		act: [ :roassal | ROZoomInMove new on: roassal view raw ]
 			icon: MondrianIcons mondrianZoomIn
 			entitled: 'Zoom in'
 ]
