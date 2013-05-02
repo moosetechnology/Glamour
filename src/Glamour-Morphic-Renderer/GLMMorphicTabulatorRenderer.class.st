@@ -67,10 +67,12 @@ GLMMorphicTabulatorRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aMorph
 	aCell children keysAndValuesDo: [ :index :each | 
 		each hasId 
 			ifTrue: [ pane := self renderObject: (aBrowser paneNamed: each id) ]
-			ifFalse: [ self 
+			ifFalse: [ 
+				pane := GLMMorphic containerMorph.
+				self 
 					renderCustomColumn: each
 					ofPane: aPane
-					inUI: (pane := GLMMorphic containerMorph)
+					inUI: pane
 					inBrowser: aBrowser.
 				pane addPaneSplitters ].
 		pane layoutFrame: (LayoutFrame new
