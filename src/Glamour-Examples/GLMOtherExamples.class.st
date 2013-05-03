@@ -41,12 +41,12 @@ GLMOtherExamples >> fileExplorer [
 	browser transmit to: #folders; andShow: [ :a | 
 		a tree 
 			title: 'Folders'; 
-			children: [ :fd | fd directoryNames collect: [ :each | FileDirectory on: fd pathName, fd pathNameDelimiter asString, each ] ]; 
+			children: [ :fd | fd directoryNames collect: [ :each | FileSystem / fd pathName, fd pathNameDelimiter asString, each ] ]; 
 			format: [ :folder | folder localName ] ].
 	browser transmit to: #files; from: #folders; andShow: [ :a |
 		a list 
 			format: [ :fd | fd localName ]; 
-			display: [ :fd | fd fileNames collect: [:each | FileDirectory on: fd pathName, fd pathNameDelimiter asString, each ] ] ].
+			display: [ :fd | fd fileNames collect: [:each | FileSystem / fd pathName, fd pathNameDelimiter asString, each ] ] ].
 	browser transmit to: #preview; from: #files; andShow: [ :a |
 		a text
 			display: [ :file | file fullName ] ].
@@ -63,7 +63,7 @@ GLMOtherExamples >> fileFinder [
 	browser show: 	[ :a | 
 		a list
 			display: [ :fd | fd entries collect: [:each | 
-					FileDirectory on: fd pathName, fd pathNameDelimiter asString, each name]];
+					FileSystem / fd pathName, fd pathNameDelimiter asString, each name]];
 			format: [ :fd | fd localName ];
 			when: [ :fd | fd directoryEntry isDirectory ]].
 	browser show: 	[ :a | 
