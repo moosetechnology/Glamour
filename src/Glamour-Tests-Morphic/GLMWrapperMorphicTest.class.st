@@ -11,5 +11,5 @@ GLMWrapperMorphicTest >> testSimple [
 	wrapper show: [ :a | a text ].
 	window := wrapper openOn: 42.
 	textMorph := self findWherePresentationIs: wrapper defaultPane presentations first in: window.
-	self assert: textMorph text equals: '42'
+	self assert: textMorph text = '42'
 ]

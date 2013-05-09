@@ -64,7 +64,7 @@ GLMFinderMorphicTest >> testEmbeddedBrowserRefreshesRendering [
 	details1 := tabulator1 panes second.
 	(content1 port: #selection) value: 41.
 	textMorph1 := self findWherePresentationIs: details1 presentations first in: window.
-	self assert: textMorph1 model text equals: '41'.
+	self assert: textMorph1 model text = '41'.
 	(content1 port: #selection) value: 42.
 	self assert: tabulator1 == finder panes first presentations first.
 	self assert: details1 == tabulator1 panes second.

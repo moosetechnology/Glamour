@@ -18,16 +18,16 @@ GLMTextMorphicTest >> testAcceptKeyCanBeOverriden [
 
 { #category : #tests }
 GLMTextMorphicTest >> testExplicitAcceptDoesNotAffectTextPort [
-	| composite textMorph textPresentation |
+	| composite textMorph |
 	composite := GLMCompositePresentation new with: [ :a | a text display: '123' ].
 	window := composite openOn: 4.
 	textMorph := self find: PluggableTextMorph in: window.
 	textMorph simulateClick.
 	self simulateKeyStrokes: '4'.
-	self assert: (composite pane port: #text) value equals: '1234'.
+	self assert: (composite pane port: #text) value = '1234'.
 	self simulateKeyStroke: $s command.
 	self simulateKeyStrokes: '56'.
-	self assert: (composite pane port: #text) value equals: '123456'
+	self assert: (composite pane port: #text) value = '123456'
 ]
 
 { #category : #tests }
@@ -45,14 +45,14 @@ GLMTextMorphicTest >> testMultipleSelectionWithChange [
 
 { #category : #tests }
 GLMTextMorphicTest >> testPastingUpdatesTextPort [
-	| composite textMorph textPresentation |
+	| composite textMorph |
 	composite := GLMCompositePresentation new with: [ :a | a text display: '' ].
 	window := composite openOn: 42.
 	textMorph := self find: PluggableTextMorph in: window.
 	Clipboard clipboardText: '42'.
 	textMorph simulateClick.
 	self simulateKeyStroke: $v command.
-	self assert: (composite pane port: #text) value equals: '42'
+	self assert: (composite pane port: #text) value = '42'
 ]
 
 { #category : #tests }
