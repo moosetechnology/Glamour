@@ -11,7 +11,7 @@ GLMBrowserTest >> testAddPane [
 	self assert: browser panes isEmpty.
 	pane := GLMPane new.
 	browser addPane: pane.
-	self assert: pane browser = browser
+	self assert: pane browser equals: browser
 ]
 
 { #category : #tests }
@@ -21,7 +21,7 @@ GLMBrowserTest >> testAddTransmissions [
 	self assert: browser transmissions isEmpty.
 	transmission := GLMTransmission new.
 	browser addTransmission: transmission.
-	self assert: transmission browser = browser.
+	self assert: transmission browser equals: browser
 ]
 
 { #category : #tests }
@@ -88,11 +88,12 @@ GLMBrowserTest >> testTransmissionTriggeredAnnounced [
 	transmission addActiveOrigin: (pane1 port: #origin).
 	transmission destination: (pane2 port: #destination).
 	browser addTransmission: transmission.
-	browser on: GLMTransmissionTriggered do: [:ann | 
-		announcements add: ann ].
+	browser
+		on: GLMTransmissionTriggered
+		do: [ :ann | announcements add: ann ].
 	self assert: announcements isEmpty.
 	transmission transmit.
-	self assert: announcements size = 1
+	self assert: announcements size equals: 1
 ]
 
 { #category : #tests }
@@ -197,21 +198,20 @@ GLMBrowserTest >> testWatcherCopy [
 	browser addTransmission: transmission.
 	transmission addActiveOrigin: (browser panes first port: #origin).
 	transmission toWatcher.
-	
 	browserCopy := browser copy.
-	self assert: browserCopy transmissions size = 1.
-	self assert: (browserCopy panes first port: #origin) value = nil.
-	self assert: (browserCopy watcherPane port: #entity) value = nil.
+	self assert: browserCopy transmissions size equals: 1.
+	self assert: (browserCopy panes first port: #origin) value equals: nil.
+	self assert: (browserCopy watcherPane port: #entity) value equals: nil.
 	(browserCopy panes first port: #origin) value: 42.
-	 browserCopy transmissions first transmit.
-	self assert: (browserCopy watcherPane port: #entity) value = 42
+	browserCopy transmissions first transmit.
+	self assert: (browserCopy watcherPane port: #entity) value equals: 42
 ]
 
 { #category : #tests }
 GLMBrowserTest >> testWatcherCreation [
-	| browser pane |
+	| browser |
 	browser := GLMBrowser new.
-	self assert: browser watcherPane name = #'_watcher'.
+	self assert: browser watcherPane name equals: #'_watcher'.
 	(browser watcherPane port: #entity) value: 42.
-	self assert: (browser watcherPane port: #entity) value = 42
+	self assert: (browser watcherPane port: #entity) value equals: 42
 ]
