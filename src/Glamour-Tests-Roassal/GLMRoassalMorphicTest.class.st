@@ -22,7 +22,7 @@ GLMRoassalMorphicTest >> testRoassalPresentationConstructor [
 	| composite |
 	composite := GLMCompositePresentation new.
 	composite roassal.
-	self assert: composite presentations size = 1.
+	self assert: composite presentations size equals: 1.
 	self assert: (composite presentations anyOne isKindOf: GLMRoassalPresentation)
 ]
 
@@ -48,13 +48,13 @@ GLMRoassalMorphicTest >> testUpdateViewIsProperlyLaidOut [
 	| browser originalView newView |
 	browser := GLMTabulator new.
 	browser column: #one.
-	browser transmit to: #one; andShow: [ :a | 
-		a roassal painting: [:view :input | view nodes: ($a to: input)]].
+	browser transmit
+		to: #one;
+		andShow: [ :a | a roassal painting: [ :view :input | view nodes: ($a to: input) ] ].
 	window := browser openOn: $d.
-
 	originalView := (self find: ROMorph in: window) view.
-	self assert: (originalView firstView elements detect: [:each | each model = $b]) bounds left = 20.
+	self assert: (originalView firstView elements detect: [ :each | each model = $b ]) bounds left equals: 20.
 	browser panes first presentations first update.
 	newView := (self find: ROMorph in: window) view.
-	self assert: (newView firstView elements detect: [:each | each model = $b]) bounds left = 20
+	self assert: (newView firstView elements detect: [ :each | each model = $b ]) bounds left equals: 20
 ]
