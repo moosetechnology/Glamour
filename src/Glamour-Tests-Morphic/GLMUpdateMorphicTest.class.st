@@ -72,11 +72,11 @@ GLMUpdateMorphicTest >> setUp [
 GLMUpdateMorphicTest >> testAdd [
 	entity add: 4.
 	announcer announce: GLMTestAnnouncement.
-	self assert: listMorph roots size = 4.
+	self assert: listMorph roots size equals: 4.
 	self assert: listMorph model roots size equals: 4.
-	self assert: treeMorph roots size = 4.
+	self assert: treeMorph roots size equals: 4.
 	self assert: treeMorph model roots size equals: 4.
-	self assert: tableMorph roots size = 4.
+	self assert: tableMorph roots size equals: 4.
 	self assert: tableMorph model roots size equals: 4.
 	self assert: labelMorph contents equals: '4'
 ]
@@ -94,15 +94,15 @@ GLMUpdateMorphicTest >> testAddAndUpdateBrowserManually [
 
 { #category : #tests }
 GLMUpdateMorphicTest >> testAnnouncerUnregistration [
-	self assert: announcer numberOfSubscriptions = 5.
+	self assert: announcer numberOfSubscriptions equals: 5.
 	browser entity: #($a $b).
-	self assert: announcer numberOfSubscriptions = 5.
+	self assert: announcer numberOfSubscriptions equals: 5.
 	browser entity: #($d).
-	self assert: announcer numberOfSubscriptions = 5.
+	self assert: announcer numberOfSubscriptions equals: 5.
 	browser entity: #().
-	self assert: announcer numberOfSubscriptions = 5.
+	self assert: announcer numberOfSubscriptions equals: 5.
 	browser unregisterFromAllAnnouncements.
-	self assert: announcer numberOfSubscriptions = 0
+	self assert: announcer numberOfSubscriptions equals: 0
 ]
 
 { #category : #tests }

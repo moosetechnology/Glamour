@@ -24,10 +24,10 @@ GLMSmalltalkCodeMorphicTest >> testExplicitAcceptDoesNotAffectTextPort [
 	textMorph := self find: PluggableTextMorph in: window.
 	textMorph simulateClick.
 	self simulateKeyStrokes: '4'.
-	self assert: (composite pane port: #text) value = '1234'.
+	self assert: (composite pane port: #text) value equals: '1234'.
 	self simulateKeyStroke: $s command.
 	self simulateKeyStrokes: '56'.
-	self assert: (composite pane port: #text) value = '123456'
+	self assert: (composite pane port: #text) value equals: '123456'
 ]
 
 { #category : #tests }
