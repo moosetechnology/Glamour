@@ -34,6 +34,7 @@ GLMMorphicSmalltalkCodeRenderer >> textMorphForModel: aTextModel [
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
 		color: Color white;
+		font: StandardFonts codeFont;
 		yourself.
 	^ morph
 ]
