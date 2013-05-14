@@ -184,7 +184,9 @@ GLMWatcherWindow >> taskbarTask [
 { #category : #'open/close' }
 GLMWatcherWindow >> toggleOpen [ 
 	isOpen ifFalse: [ ^ self openInWorld ].
-	self visible ifTrue: [self hide] ifFalse: [self show]
+	self visible 
+		ifTrue: [self hide] 
+		ifFalse: [self show]
 ]
 
 { #category : #settings }
