@@ -22,7 +22,7 @@ Class {
 { #category : #opening }
 GLMMorphicRenderer >> open: aRenderable [
 	window := GLMMorphicWindowRenderer render: aRenderable from: self.
-	^ window openInWorld
+	^ window openInWorld maximize
 ]
 
 { #category : #'rendering presentations' }

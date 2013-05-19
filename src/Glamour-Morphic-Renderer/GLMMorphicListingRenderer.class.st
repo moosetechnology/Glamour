@@ -31,7 +31,7 @@ GLMMorphicListingRenderer >> render: aPresentation [
 	aPresentation allowsInput
 		ifTrue: [ 
 			textInput := self textInputFor: treeModel withHelpMessage: aPresentation helpMessage.
-			treeMorph layoutFrame bottomOffset: -24.
+			treeMorph layoutFrame bottomOffset: -26.
 			container addMorphBack: textInput ].
 	container addMorphBack: treeMorph.
 	self installActionsOnModel: treeModel fromPresentation: aPresentation.
@@ -67,7 +67,7 @@ GLMMorphicListingRenderer >> textInputFor:  aTreeModel withHelpMessage: helpStri
 	textInput askBeforeDiscardingEdits: false.
 	textInput layoutFrame: (LayoutFrame 
 				fractions: (0 @ 1 corner: 1 @ 1)
-				offsets: (0 @ -24 corner: 0 @ 0)).
+				offsets: (0 @ -26 corner: 0 @ -4)).
 	^ textInput
 ]
 
