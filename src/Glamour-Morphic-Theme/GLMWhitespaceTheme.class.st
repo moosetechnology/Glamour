@@ -280,13 +280,9 @@ GLMWhitespaceTheme >> buttonMinWidth [
 GLMWhitespaceTheme >> buttonNormalBorderStyleFor: aButton [
 	"Return the normal button borderStyle for the given button."
 
-	| outerColor innerColor |
 	(aButton valueOfProperty: #noBorder ifAbsent: [false]) ifTrue: [
 		^ SimpleBorder new width: 0; baseColor: Color transparent ].
-	outerColor := self glamorousDarkBaseColorFor: aButton.
-	^SimpleBorder new
-					width: 1;
-					baseColor: outerColor
+	^ self glamorousLightBorderFor: aButton
 ]
 
 { #category : #'fill-styles-buttons' }
@@ -551,11 +547,9 @@ GLMWhitespaceTheme >> glamorousDarkBaseColorFor: aButton [
 GLMWhitespaceTheme >> glamorousLightBorderFor: aMorph [
 	| aStyle |
 "	aMorph roundedCorners: #(1 2 3 4).	
-"	aStyle := 
-		SimpleBorder new 
-			color: (self glamorousLightColorFor: aMorph);
+"	aStyle := SimpleBorder new 
+			baseColor: (self glamorousLightColorFor: aMorph);
 			width: 1.
-	aMorph borderStyle: aStyle.
 	^ aStyle
 ]
 
@@ -593,8 +587,9 @@ GLMWhitespaceTheme >> glamorousNormalFillStyleWithBaseColor: aColor for: aMorph 
 GLMWhitespaceTheme >> glamorousThickBorderFor: aWindow [
 	| aStyle |
 "	aWindow roundedCorners: #(1 2 3 4)."
+	aWindow roundedCorners: #().
 	aStyle := SimpleBorder new
-					color: (self glamorousDarkBaseColorFor: aWindow);
+					baseColor: (self glamorousDarkBaseColorFor: aWindow);
 					width: 5.
 	aWindow borderStyle: aStyle.
 	^ aStyle
@@ -611,7 +606,7 @@ GLMWhitespaceTheme >> glamorousVisibleFillStyleFor: aMorph height: anInteger [
 GLMWhitespaceTheme >> groupPanelBorderStyleFor: aGroupPanel [
 	"Answer the normal border style for a group panel."
 
-	^ self glamorousLightBorderFor: aGroupPanel 
+	^ self glamorousLightBorderFor: aGroupPanel
 ]
 
 { #category : #'growl - specific' }
@@ -678,10 +673,6 @@ GLMWhitespaceTheme >> listDisabledFillStyleFor: aList [
 { #category : #'border-styles' }
 GLMWhitespaceTheme >> listNormalBorderStyleFor: aList [
 	"Return the normal borderStyle for the given list"
-
-	"^BorderStyle inset
-		width: 1;
-		baseColor: aList paneColor"
 		
 	^ self glamorousLightBorderFor: aList
 ]
