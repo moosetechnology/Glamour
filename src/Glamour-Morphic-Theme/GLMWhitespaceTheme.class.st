@@ -91,7 +91,7 @@ GLMWhitespaceTheme class >> lightSelectionColor [
 GLMWhitespaceTheme class >> newDefaultSettings [
 	self setPreferredPreferences.
 	
-	BalloonMorph setBalloonColorTo: self lightSelectionColor.
+	BalloonMorph setBalloonColorTo: self veryLightSelectionColor.
 	^super newDefaultSettings
 		menuColor: self baseColor;
 		menuTitleColor: self baseColor;
@@ -244,7 +244,7 @@ GLMWhitespaceTheme class >> themeName [
 
 { #category : #accessing }
 GLMWhitespaceTheme class >> veryLightSelectionColor [
-	^ self lightSelectionColor lighter
+	^ Color white darker
 ]
 
 { #category : #'border-styles-buttons' }
@@ -348,10 +348,7 @@ GLMWhitespaceTheme >> configureWatcherWindowLabelAreaFor: aWindow [
 	aWindow labelArea
 		addMorphBack: (Morph new extent: aWindow class borderWidth @ 0).
 	aWindow hasCloseBox ifTrue: [aWindow addCloseBox. padding := padding + 1].
-"	aWindow hasCollapseBox ifTrue: [aWindow addCollapseBox. padding := padding + 1].
-	aWindow hasExpandBox ifTrue: [aWindow addExpandBox. padding := padding + 1].
-	aWindow hasMenuBox ifTrue: [padding := padding - 1].
-"	aWindow labelArea
+	aWindow labelArea
 		addMorphBack: (Morph new extent: aWindow class borderWidth @ 0; hResizing: #spaceFill).
 	aWindow basicLabel ifNotNil: [:label | aWindow labelArea addMorphBack: label; hResizing: #shrinkWrap].
 	aWindow labelArea
@@ -359,7 +356,6 @@ GLMWhitespaceTheme >> configureWatcherWindowLabelAreaFor: aWindow [
 	padding > 0 ifTrue: [
 		aWindow labelArea
 			addMorphBack: (Morph new extent: (aWindow boxExtent x * padding) @ 0)].
-"	aWindow hasMenuBox ifTrue: [aWindow addMenuControl]."
 	aWindow labelArea
 		addMorphBack: (Morph new extent: aWindow class borderWidth @ 0)
 ]
@@ -552,6 +548,18 @@ GLMWhitespaceTheme >> glamorousDarkBaseColorFor: aButton [
 ]
 
 { #category : #private }
+GLMWhitespaceTheme >> glamorousLightBorderFor: aMorph [
+	| aStyle |
+"	aMorph roundedCorners: #(1 2 3 4).	
+"	aStyle := 
+		SimpleBorder new 
+			color: (self glamorousLightColorFor: aMorph);
+			width: 1.
+	aMorph borderStyle: aStyle.
+	^ aStyle
+]
+
+{ #category : #private }
 GLMWhitespaceTheme >> glamorousLightColorFor: aButton [
 	^ self class lightBaseColor
 ]
@@ -584,23 +592,26 @@ GLMWhitespaceTheme >> glamorousNormalFillStyleWithBaseColor: aColor for: aMorph 
 { #category : #private }
 GLMWhitespaceTheme >> glamorousThickBorderFor: aWindow [
 	| aStyle |
-	aWindow roundedCorners: #(1 2 3 4).	
-	aStyle := 
-		RoundedBorder new 
-			cornerRadius: 5;
-			color: (Color veryLightGray lighter alpha: 0.5);
-			width: 5.
+"	aWindow roundedCorners: #(1 2 3 4)."
+	aStyle := SimpleBorder new
+					color: (self glamorousDarkBaseColorFor: aWindow);
+					width: 5.
 	aWindow borderStyle: aStyle.
 	^ aStyle
+]
+
+{ #category : #private }
+GLMWhitespaceTheme >> glamorousVisibleFillStyleFor: aMorph height: anInteger [
+	"Return the normal button fillStyle for the given morph."
+
+	^ SolidFillStyle color: (self glamorousLightColorFor: aMorph)
 ]
 
 { #category : #'border-styles' }
 GLMWhitespaceTheme >> groupPanelBorderStyleFor: aGroupPanel [
 	"Answer the normal border style for a group panel."
 
-	^ SimpleBorder new
-		width: 2;
-		baseColor: ((self glamorousLightColorFor: aGroupPanel))
+	^ self glamorousLightBorderFor: aGroupPanel 
 ]
 
 { #category : #'growl - specific' }
@@ -662,6 +673,17 @@ GLMWhitespaceTheme >> listDisabledFillStyleFor: aList [
 	"Return the disabled fillStyle for the given list."
 	
 	^ self textEditorDisabledFillStyleFor: aList
+]
+
+{ #category : #'border-styles' }
+GLMWhitespaceTheme >> listNormalBorderStyleFor: aList [
+	"Return the normal borderStyle for the given list"
+
+	"^BorderStyle inset
+		width: 1;
+		baseColor: aList paneColor"
+		
+	^ self glamorousLightBorderFor: aList
 ]
 
 { #category : #'fill-styles-buttons' }
@@ -887,11 +909,18 @@ GLMWhitespaceTheme >> resizerGripNormalFillStyleFor: aResizer [
 	^Color transparent
 ]
 
+{ #category : #scrollbars }
+GLMWhitespaceTheme >> scrollbarArrowOfDirection: aSymbol size: finalSizeInteger color: aColor [
+	^ Form extent: 1@1
+]
+
 { #category : #'fill-styles-scrollbars' }
 GLMWhitespaceTheme >> scrollbarNormalButtonFillStyleFor: aScrollbar [
 	"Return the normal scrollbar button fillStyle for the given scrollbar."
 	
-	^ self scrollbarNormalThumbFillStyleFor: aScrollbar
+	^ self 
+		glamorousNormalFillStyleFor: aScrollbar 
+		height: aScrollbar height
 ]
 
 { #category : #'fill-styles-scrollbars' }
@@ -914,7 +943,7 @@ GLMWhitespaceTheme >> scrollbarNormalThumbBorderStyleFor: aScrollbar [
 GLMWhitespaceTheme >> scrollbarNormalThumbFillStyleFor: aScrollbar [
 	"Return the normal scrollbar fillStyle for the given scrollbar."
 	^ self 
-		glamorousNormalFillStyleFor: aScrollbar 
+		glamorousVisibleFillStyleFor: aScrollbar 
 		height: aScrollbar height
 ]
 
@@ -992,7 +1021,7 @@ GLMWhitespaceTheme >> tabLabelSelectedFillStyleFor: aTabLabel [
 GLMWhitespaceTheme >> tabPanelBorderStyleFor: aTabGroup [
 	^ GLMTabPanelBorder new 
 		width: 1;
-		baseColor: ((self glamorousDarkBaseColorFor: aTabGroup));
+		baseColor: ((self glamorousLightColorFor: aTabGroup));
 		tabSelector: aTabGroup tabSelectorMorph
 ]
 
@@ -1047,28 +1076,6 @@ GLMWhitespaceTheme >> treeLineWidth [
 	^0
 ]
 
-{ #category : #scrollbars }
-GLMWhitespaceTheme >> verticesForSimpleArrow: aRectangle [ 
-	"PRIVATE - answer a collection of vertices to draw a simple arrow"
-	| vertices |
-	vertices := OrderedCollection new.
-	""
-	vertices add: aRectangle bottomLeft.
-	vertices add: aRectangle center x @ (aRectangle top + (aRectangle width / 16)).
-	vertices add: aRectangle bottomRight.
-	vertices add: aRectangle bottomRight + (0@0.01).
-	""
-	^ vertices
-"	| vertices |
-	vertices := OrderedCollection new.
-	vertices add: (aRectangle center x - (aRectangle width / 4)) @ (aRectangle bottom - 8).
-	vertices add: aRectangle center x @ (aRectangle top).
-	vertices add: (aRectangle center x + (aRectangle width / 4)) @ (aRectangle bottom - 8).
-	vertices add: (aRectangle center x + (aRectangle width / 4)) @ (aRectangle bottom - 8) + (0@0.01).
-	^ vertices"
-"	^ super verticesForSimpleArrow: aRectangle "
-]
-
 { #category : #'watcher window' }
 GLMWhitespaceTheme >> watcherWindowActiveFillStyleFor: aWindow [
 
@@ -1090,13 +1097,12 @@ GLMWhitespaceTheme >> windowActiveDropShadowStyle: anObject [
 { #category : #'fill-styles' }
 GLMWhitespaceTheme >> windowActiveFillStyleFor: aWindow [
 	"We do not want the lighting effect when the window goes inactive"
-	^SolidFillStyle color: self class baseColor
+	^ SolidFillStyle color: (self glamorousBaseColorFor: aWindow)
 ]
 
 { #category : #'fill-styles' }
 GLMWhitespaceTheme >> windowActiveTitleFillStyleFor: aWindow [
-	^ "self glamorousNormalFillStyleFor: aWindow height: aWindow labelHeight"
-	SolidFillStyle color: Color transparent
+	^ SolidFillStyle color: (self glamorousDarkBaseColorFor: aWindow)
 ]
 
 { #category : #'label-styles' }
@@ -1158,4 +1164,11 @@ GLMWhitespaceTheme >> windowMinimizePassiveForm [
 	"Answer the form to use for passive (background) window minimize buttons"
 
 	^GLMUIThemeIcons windowMinimizeInactiveForm
+]
+
+{ #category : #defaults }
+GLMWhitespaceTheme >> windowShadowColor [
+	"Answer the window shadow color to use."
+
+	^ Color transparent
 ]

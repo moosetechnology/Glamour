@@ -888,6 +888,11 @@ GLMUITheme >> resizerGripNormalFillStyleFor: aResizer [
 	^Color transparent
 ]
 
+{ #category : #scrollbars }
+GLMUITheme >> scrollBarButtonArrowVertices: aRectangle [ 
+	^ self verticesForSimpleArrow: aRectangle
+]
+
 { #category : #'fill-styles-scrollbars' }
 GLMUITheme >> scrollbarNormalButtonFillStyleFor: aScrollbar [
 	"Return the normal scrollbar button fillStyle for the given scrollbar."
@@ -1169,5 +1174,5 @@ GLMUITheme >> windowMinimizePassiveForm [
 GLMUITheme >> windowShadowColor [
 	"Answer the window shadow color to use."
 
-	^ Color yellow
+	^ Color gray
 ]
