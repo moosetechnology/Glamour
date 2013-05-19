@@ -1,10 +1,10 @@
 "
 The theme is developed in the context of the Glamour project, and its goal is to create a look that:
 - does not look like a specific operating system.
-- uses a minimum of colors and effects.
+- maximizes whitespace.
 - is fast.
 
-PolymorphSystemSettings desktopColor: Color veryLightGray.
+PolymorphSystemSettings desktopColor: Color white.
 self defaultSettings: nil.
 self beCurrent.
 "
@@ -101,7 +101,7 @@ GLMWhitespaceTheme class >> newDefaultSettings [
 		progressBarColor: self baseColor;
 		standardColorsOnly: true;
 		autoSelectionColor: false;
-		preferRoundCorner: false;
+		preferRoundCorner: true;
 		fadedBackgroundWindows: false;
 		secondarySelectionColor: self veryLightSelectionColor;
 		flatMenu: true
@@ -308,7 +308,7 @@ GLMWhitespaceTheme >> buttonSelectedFillStyleFor: aButton [
 	
 	| top bottom |
 	top := self glamorousLightSelectionColorFor: aButton.
-	bottom := self glamorousLightColorFor: aButton.
+	bottom := self glamorousBaseColorFor: aButton.
 
 	^(GradientFillStyle ramp: {
 			0.0->top.
@@ -366,22 +366,11 @@ GLMWhitespaceTheme >> configureWatcherWindowLabelAreaFor: aWindow [
 
 { #category : #'border-styles' }
 GLMWhitespaceTheme >> configureWindowBorderFor: aWindow [
-"	super configureWindowBorderFor: aWindow.
-	aWindow roundedCorners: #()"
-	| aStyle |
-	
-	aStyle := 
-		SimpleBorder new 
-			color: ("self class basePassiveBackgroundColor"
-			Color gray alpha: 0.5);
-			width: 5.
-
-	aWindow borderStyle: aStyle.
+	^ self glamorousThickBorderFor: aWindow
 ]
 
 { #category : #'border-styles' }
 GLMWhitespaceTheme >> configureWindowDropShadowFor: aWindow [
-
 	aWindow hasDropShadow: false
 ]
 
@@ -576,13 +565,13 @@ GLMWhitespaceTheme >> glamorousLightSelectionColorFor: aMorph [
 GLMWhitespaceTheme >> glamorousNormalFillStyleFor: aMorph height: anInteger [
 	"Return the normal button fillStyle for the given morph."
 
-	^ SolidFillStyle color: (self glamorousLightColorFor: aMorph)
+	^ SolidFillStyle color: (self glamorousBaseColorFor: aMorph)
 ]
 
 { #category : #private }
 GLMWhitespaceTheme >> glamorousNormalFillStyleWithBaseColor: aColor for: aMorph height: anInteger [	
 	| top bottom |
-	top := aColor darker.
+	top := aColor "darker".
 	bottom := aColor.
 	^(GradientFillStyle ramp: {
 			0.0->top.
@@ -592,23 +581,36 @@ GLMWhitespaceTheme >> glamorousNormalFillStyleWithBaseColor: aColor for: aMorph 
 		radial: false
 ]
 
+{ #category : #private }
+GLMWhitespaceTheme >> glamorousThickBorderFor: aWindow [
+	| aStyle |
+	aWindow roundedCorners: #(1 2 3 4).	
+	aStyle := 
+		RoundedBorder new 
+			cornerRadius: 5;
+			color: (Color veryLightGray lighter alpha: 0.5);
+			width: 5.
+	aWindow borderStyle: aStyle.
+	^ aStyle
+]
+
 { #category : #'border-styles' }
 GLMWhitespaceTheme >> groupPanelBorderStyleFor: aGroupPanel [
 	"Answer the normal border style for a group panel."
 
 	^ SimpleBorder new
-		width: 1;
-		baseColor: ((self glamorousBaseColorFor: aGroupPanel))
+		width: 2;
+		baseColor: ((self glamorousLightColorFor: aGroupPanel))
 ]
 
 { #category : #'growl - specific' }
 GLMWhitespaceTheme >> growlBorderColorFor: aGrowlMorph [
-	^ Color white alpha: 0.5
+	^ self glamorousThickBorderFor: aGrowlMorph 
 ]
 
 { #category : #'growl - specific' }
 GLMWhitespaceTheme >> growlContentsColorFor: aGrowlMorph [
-	^ Color white
+	^ Color black
 ]
 
 { #category : #'growl - specific' }
@@ -628,7 +630,7 @@ GLMWhitespaceTheme >> growlFillColorFor: aGrowlMorph [
 
 { #category : #'growl - specific' }
 GLMWhitespaceTheme >> growlLabelColorFor: aGrowlMorph [
-	^ Color white twiceDarker
+	^ Color black
 ]
 
 { #category : #'initialize-release' }
@@ -965,7 +967,7 @@ GLMWhitespaceTheme >> splitterPressedFillStyleFor: aSplitter [
 GLMWhitespaceTheme >> subgroupColorFrom: paneColor [
 	"Answer the colour for a subgroup given the pane colour."
 
-	^ self glamorousLightColorFor: paneColor" self class baseColor"
+	^ self glamorousBaseColorFor: paneColor
 ]
 
 { #category : #'border-styles' }
