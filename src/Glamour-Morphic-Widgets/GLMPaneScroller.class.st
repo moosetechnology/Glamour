@@ -273,7 +273,7 @@ GLMPaneScroller >> separator [
 
 { #category : #layout }
 GLMPaneScroller >> separatorWidth [
-	^5
+	^ 20
 ]
 
 { #category : #scrolling }
