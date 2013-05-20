@@ -31,7 +31,7 @@ GLMWhitespaceTheme class >> baseSelectionColor [
 
 { #category : #accessing }
 GLMWhitespaceTheme class >> darkBaseColor [
-	^ Color r: 230 g: 230 b: 230 range: 255
+	^ Color r: 210 g: 210 b: 210 range: 255
 ]
 
 { #category : #private }
@@ -101,7 +101,7 @@ GLMWhitespaceTheme class >> newDefaultSettings [
 		progressBarColor: self baseColor;
 		standardColorsOnly: true;
 		autoSelectionColor: false;
-		preferRoundCorner: true;
+		preferRoundCorner: false;
 		fadedBackgroundWindows: false;
 		secondarySelectionColor: self veryLightSelectionColor;
 		flatMenu: true
