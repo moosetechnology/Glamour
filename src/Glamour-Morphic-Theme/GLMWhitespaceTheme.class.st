@@ -567,7 +567,7 @@ GLMWhitespaceTheme >> glamorousLightSelectionColorFor: aMorph [
 GLMWhitespaceTheme >> glamorousNormalFillStyleFor: aMorph height: anInteger [
 	"Return the normal button fillStyle for the given morph."
 
-	^ SolidFillStyle color: (self glamorousBaseColorFor: aMorph)
+	^ SolidFillStyle color: (self glamorousLightColorFor: aMorph)
 ]
 
 { #category : #private }
