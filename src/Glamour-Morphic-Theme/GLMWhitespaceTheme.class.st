@@ -586,8 +586,6 @@ GLMWhitespaceTheme >> glamorousNormalFillStyleWithBaseColor: aColor for: aMorph 
 { #category : #private }
 GLMWhitespaceTheme >> glamorousThickBorderFor: aWindow [
 	| aStyle |
-"	aWindow roundedCorners: #(1 2 3 4)."
-	aWindow roundedCorners: #().
 	aStyle := SimpleBorder new
 					baseColor: (self glamorousDarkBaseColorFor: aWindow);
 					width: 5.
@@ -896,8 +894,14 @@ GLMWhitespaceTheme >> resizerGripNormalFillStyleFor: aResizer [
 	"Return the normal fillStyle for the given resizer.
 	For the moment, answer a transparent colour for no drawing,
 	non transparent to draw as normal."
+	self flag: 'this is used for the edge grip'.
+	^ super resizerGripNormalFillStyleFor: aResizer
 	
-	^Color transparent
+"	aResizer 
+		instVarNamed: #handleColor put: (self glamorousDarkBaseColorFor:  aResizer);
+		instVarNamed: #dotColor put: Color transparent.
+	
+	^SolidFillStyle color: Color red"
 ]
 
 { #category : #scrollbars }
@@ -1108,6 +1112,14 @@ GLMWhitespaceTheme >> windowClosePassiveForm [
 	"Answer the form to use for passive (background) window close buttons"
 
 	^GLMUIThemeIcons windowCloseInactiveForm
+]
+
+{ #category : #'fill-styles' }
+GLMWhitespaceTheme >> windowEdgeNormalFillStyleFor: anEdgeGrip [
+	"Return the normal window edge fillStyle for the given edge grip."
+	self flag: 'this is used for the long edges'.
+	^ super windowEdgeNormalFillStyleFor: anEdgeGrip
+	"self glamorousDarkBaseColorFor: anEdgeGrip"
 ]
 
 { #category : #'fill-styles' }
