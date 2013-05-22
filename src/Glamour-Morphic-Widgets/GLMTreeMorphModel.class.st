@@ -247,7 +247,7 @@ GLMTreeMorphModel >> resetChildrenContents [
 
 { #category : #'search and filtering' }
 GLMTreeMorphModel >> resetInput [
-
+	self updateRoots
 ]
 
 { #category : #callbacks }
