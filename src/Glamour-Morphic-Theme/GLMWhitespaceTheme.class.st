@@ -549,7 +549,7 @@ GLMWhitespaceTheme >> glamorousLightBorderFor: aMorph [
 "	aMorph roundedCorners: #(1 2 3 4).	
 "	aStyle := SimpleBorder new 
 			baseColor: (self glamorousLightColorFor: aMorph);
-			width: 1.
+			width: 0.
 	^ aStyle
 ]
 
