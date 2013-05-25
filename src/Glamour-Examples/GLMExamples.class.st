@@ -9,14 +9,11 @@ GLMExamples class >> allExamples [
 	^ Pragma allNamed: #glmBrowser:input: in: self
 ]
 
-{ #category : #accessing }
-GLMExamples class >> browser [
-	^ GLMExamplesBrowser new browser title: self title.
-]
-
 { #category : #opening }
 GLMExamples class >> open [
-	^ self browser openOn: self
+	^ GLMExamplesBrowser new 
+		title: self title;
+		openOn: self
 ]
 
 { #category : #accessing }
