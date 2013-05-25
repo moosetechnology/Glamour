@@ -70,5 +70,5 @@ GLMDynamicPresentation >> with: aBlock [
 { #category : #enumerating }
 GLMDynamicPresentation >> withAllPanesAndPresentationsDo: aBlock [
 	super withAllPanesAndPresentationsDo: aBlock.
-	self cachedPresentation withAllPanesAndPresentationsDo: aBlock
+	self cachedPresentation ifNotNil: [ :presentation | presentation withAllPanesAndPresentationsDo: aBlock ]
 ]
