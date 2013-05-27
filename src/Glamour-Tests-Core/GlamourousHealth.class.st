@@ -75,6 +75,26 @@ GlamourousHealth >> openMondrianGraphOn: associations titled: titleAsString scal
 ]
 
 { #category : #util }
+GlamourousHealth >> openRoassalGraphOn: associations titled: titleAsString [
+
+	^ self openRoassalGraphOn: associations titled: titleAsString scaleX: 0.10
+]
+
+{ #category : #util }
+GlamourousHealth >> openRoassalGraphOn: associations titled: titleAsString scaleX: scaleXFactor [
+
+	| view |
+	view := ROMondrianViewBuilder new.
+
+	view node: #foo forIt: [
+		view interaction popupText: [:element | element key printString, ' nodes => ', element value printString, ' ms' ].
+		view nodes: associations.
+		view scatterPlotLayout x: #key; y: #value; scaleFactorX: scaleXFactor; scaleFactorY: 0.10 "; upSideDown".
+	].
+	^ view openWithStatusbar setLabel: titleAsString
+]
+
+{ #category : #util }
 GlamourousHealth >> openWorkspaceWith: stream [
 	Workspace new contents: (stream contents); openLabel: 'Glamour health report'.
 ]
