@@ -11,7 +11,7 @@ GLMBrowser >> openTree [
 	composer tabulator with: [:t | 
 		t column: #theOne.
 		t transmit to: #theOne; andShow: [:a | 
-			a mondrian 
+			a roassal 
 				updateOn: GLMTransmissionTriggered from: [ self announcer ];
 				painting: [:view :b | self viewTreeOn: view ] ]].
 	composer openOn: self
@@ -29,11 +29,66 @@ GLMBrowser >> screenshot: aFilenameString on: anObject after: aBlock [
 ]
 
 { #category : #'*glamour-tools' }
+GLMBrowser >> umlClassWithTitle: umlName view: view nodes: aNodes forEach: aOneArgForEachBlock [
+
+	self 
+		umlClassWithTitle: umlName 
+		view: view 
+		nodes: aNodes 
+		forEachInstanceVariable: [:e | e]
+		methods: aOneArgForEachBlock
+]
+
+{ #category : #'*glamour-tools' }
+GLMBrowser >> umlClassWithTitle: umlName view: view nodes: aNodes 
+forEachInstanceVariable: aOneArgForEachBlock1 methods: aOneArgForEachBlock2 [
+
+	view shape rectangle color: Color white.
+	view extensibleSizeWithPaddingGap: 0. 
+	view nodes: aNodes forEach: [ :eachNode |
+		view interaction 
+				nodraggable;
+				forward: ROAbstractMouseDragging;
+				forward: ROMouseClick.
+		view interaction popupText.
+		view shape centeredLabel text: umlName.
+		view node: eachNode.
+
+		view interaction 
+				nodraggable;
+				forward: ROAbstractMouseDragging;
+				forward: ROMouseClick.
+		view shape rectangle.
+		view nodes: (Array with: eachNode) forEach: aOneArgForEachBlock1.
+
+		view interaction 
+				nodraggable;
+				forward: ROAbstractMouseDragging;
+				forward: ROMouseClick.
+		view shape rectangle color: Color white.
+		view nodes: (Array with: eachNode) forEach: aOneArgForEachBlock2.
+		
+		view verticalLineLayout
+				gapSize: 0;
+				on: ROLayoutBegin
+				do: [ :event | | maxWidth |
+						maxWidth := event elements maxValue: #width. 
+						event elements do: [ :eachElement | 
+								eachElement width: maxWidth ] ];
+				on: ROLayoutEnd
+				do: [ :event | | strategy |
+						strategy := ROFixedSizedParent new paddingGap: 0.
+						event elements do: [ :eachElement |
+								eachElement resizeStrategy: strategy ] ]
+	].
+]
+
+{ #category : #'*glamour-tools' }
 GLMBrowser >> viewAnnouncements [
 	| view |
-	view := MOViewRenderer new.
+	view := ROMondrianViewBuilder new.
 	self viewAnnouncementsOn: view.
-	view open
+	^ view open setLabel: 'Announcements'
 ]
 
 { #category : #'*glamour-tools' }
@@ -41,12 +96,17 @@ GLMBrowser >> viewAnnouncementsOn: view [
 	view shape rectangle withoutBorder.
 	view node: 'Glamour' forIt: [
 		self viewTreeOn: view ].
-	view shape umlClassWithTitle: #yourself.
-	view node: 'Announced objects' forIt: [
+	self umlClassWithTitle: #yourself view: view nodes: (Array with: 'Announced objects') forEach: [ :eachNode |
+		view interaction
+				nodraggable;
+				forward: ROAbstractMouseDragging.
 		view shape label text: [:p | (p class name removePrefix: 'GLM') removeSuffix: 'Renderer' ].
 		view nodes: 
 			(self pane withAllPanes flatCollect: [:each | 
 			each glmSubscriptions collect: [:eachSub | eachSub subscriber]]) asSet.
+		view interaction
+				nodraggable;
+				forward: ROAbstractMouseDragging.
 		view shape label text: [:p | (p class name removePrefix: 'GLM') removeSuffix: 'Renderer' ].
 		view nodes: 
 			(self pane withAllPresentations flatCollect: [:each | 
@@ -55,14 +115,12 @@ GLMBrowser >> viewAnnouncementsOn: view [
 	
 	view shape line 
 			color: Color red twiceLighter;
-			fromPositions: #(rightCenter);
-			toPositions: #(leftCenter).
+			attachPoint: (ROHorizontalAttachPoint new).
 	view edges: self pane withAllPanes from: #yourself toAll: [:each | 
 			each glmSubscriptions collect: [:eachSub | eachSub subscriber]].
 	view shape line 
 			color: Color red twiceLighter;
-			fromPositions: #(rightCenter);
-			toPositions: #(leftCenter).
+			attachPoint: (ROHorizontalAttachPoint new).
 	view edges: self pane withAllPresentations from: #yourself toAll: [:each | 
 			each glmSubscriptions collect: [:eachSub | eachSub subscriber]].
 	view horizontalLineLayout horizontalGap: 50
@@ -70,19 +128,22 @@ GLMBrowser >> viewAnnouncementsOn: view [
 
 { #category : #'*glamour-tools' }
 GLMBrowser >> viewNestedOn: view [
-	view shape umlClassWithTitle: #name.
-	view nodes: self panes forEach: [:each |
-		view node: each ports forIt: [
+
+	self 
+		umlClassWithTitle: #name 
+		view: view 
+		nodes: self panes 
+		forEachInstanceVariable: [ :each |
+			view interaction
+					nodraggable;
+					forward: ROAbstractMouseDragging.
 			view shape label text: #name.
 			view nodes: each ports.
-			view verticalLineLayout gapSize: 2 ].
-		view node: each presentations forIt: [
-			view shape umlClassWithTitle: [:eachPresentation | eachPresentation class name removePrefix: 'GLM'].
-	"		view shape label text: [:p | (p class name removePrefix: 'GLM') removeSuffix: 'Presentation' ]."
+			view verticalLineLayout gapSize: 2 ]
+		methods: [ :each | 
 			each presentations presentations do: [:eachPresentation | 
 				eachPresentation viewNestedOn: view ].
 			view verticalLineLayout gapSize: 2 ].
-		view verticalLineLayout gapSize: 0; stretch ].
 	view 
 		edges: self transmissions 
 		fromAll: #origins
@@ -94,9 +155,9 @@ GLMBrowser >> viewSketch [
 
 	| view |
 	
-	view := MOViewRenderer new.
+	view := ROMondrianViewBuilder new.
 	self viewSketchOn: view.
-	view openWithStatusbar
+	^ view openWithStatusbar setLabel: 'Sketch'
 ]
 
 { #category : #'*glamour-tools' }
@@ -106,14 +167,20 @@ GLMBrowser >> viewSketchOn: view [
 	allTransmissions := (self withAllPresentations select: [ :each | each isKindOf: GLMBrowser ]) flatCollect: #transmissions.
 	inTransmission := [:port | allTransmissions anySatisfy: [:tr | (tr origins includes: port) or: [tr destination = port]]].
 	viewBrowser := [ :browser | 
-	view shape umlClassWithTitle: simpleName.
-	view
-		node: browser
-		forIt: [ 
+		self umlClassWithTitle: simpleName view: view nodes: (Array with: browser) forEach: [ :each |
+			view interaction
+					nodraggable;
+					forward: ROAbstractMouseDragging.
 			view
 				nodes: browser panes
 				forEach: [ :inPane | 
+					view interaction
+							nodraggable;
+							forward: ROAbstractMouseDragging.
 					view nodes: (inPane ports select: inTransmission).
+					view interaction
+							nodraggable;
+							forward: ROAbstractMouseDragging.
 					view shape label text: simpleName.
 					view
 						nodes: inPane presentations presentations
@@ -132,34 +199,36 @@ GLMBrowser >> viewTree [
 
 	| view |
 	
-	view := MOViewRenderer new.
+	view := ROMondrianViewBuilder new.
 	self viewTreeOn: view.
-	view openWithStatusbar
+	^ view openWithStatusbar setLabel: 'Tree'
 ]
 
 { #category : #'*glamour-tools' }
 GLMBrowser >> viewTreeOn: view [
 	| edges1 edges2 edges3 edges4 |
 	
-	view shape umlClassWithTitle: #name.
-	view nodes: self pane withAllPanes forEach: [ :each |
+	self umlClassWithTitle: #name view: view nodes: self pane withAllPanes forEach: [ :each |
+		view interaction
+				nodraggable;
+				forward: ROAbstractMouseDragging.
 		view shape label text: #name.
 		view nodes: each ports.
 		view verticalLineLayout gapSize: 2 ].
-	
+
 	view shape label text: [:p | (p class name removePrefix: 'GLM') removeSuffix: 'Presentation' ].
 	view nodes: self pane withAllPresentations.
 
-	view shape verticalOrthogonalLine color: Color lightGray. 	
+	view shape orthoVerticalLine color: Color lightGray. 	
 	edges1 := view edges: self pane withAllPanes from: #yourself to: [:each | each presentations ].
 
-	view shape verticalOrthogonalLine color: Color lightGray. 
+	view shape orthoVerticalLine color: Color lightGray. 
 	edges2 := view edges: self pane withAllPanes from: #browser to: #yourself.
 
-	view shape verticalOrthogonalLine color: Color lightGray. 
+	view shape orthoVerticalLine color: Color lightGray. 
 	edges3 := view edges: (self pane withAllPresentations select: [:each | each isKindOf: GLMDynamicPresentation]) from: #yourself to: #cachedPresentation.
 
-	view shape verticalOrthogonalLine color: Color lightGray.
+	view shape orthoVerticalLine color: Color lightGray.
 	edges4 := view edges: (self pane withAllPresentations select: [:each | each isKindOf: GLMCompositePresentation]) from: #yourself toAll: #presentations.
 
 
