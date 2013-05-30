@@ -23,11 +23,6 @@ GLMImplicitBrowser >> newTransmission [
 	^ self transmission copy
 ]
 
-{ #category : #accessing }
-GLMImplicitBrowser >> presentations [ 	 
-	^ self transmission transmissionStrategy presentations
-]
-
 { #category : #scripting }
 GLMImplicitBrowser >> show: aBlock [
 	self transmission transmissionStrategy presentationsFactory: aBlock
