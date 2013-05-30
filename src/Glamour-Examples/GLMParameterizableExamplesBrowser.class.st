@@ -10,7 +10,6 @@ Class {
 { #category : #building }
 GLMParameterizableExamplesBrowser >> buildBrowser [
 	browser := GLMTabulator new.
-	self installTitle.
 	browser
 		column: #titles;
 		column: #example span: 4.
@@ -66,11 +65,6 @@ GLMParameterizableExamplesBrowser >> exampleListIn: a [
 { #category : #hooks }
 GLMParameterizableExamplesBrowser >> exampleSelectorsFromClass: exampleClass [
 	self subclassResponsibility
-]
-
-{ #category : #building }
-GLMParameterizableExamplesBrowser >> installTitle [
-	"Override this method for specific title"
 ]
 
 { #category : #hooks }

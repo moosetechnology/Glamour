@@ -545,16 +545,12 @@ GLMBasicExamples >> magritte [
 	"GLMMagrittePersonExample sampleReset"  
 	"note, sampleData is aGLMAnnouncingCollection"
 	
-	| browser listParentPrototype magritteParentPrototype |
-	
-	self flag: 'Not working from within examples browser'.
-		
+	| browser |
+			
 	browser := GLMTabulator new initialExtent: 600@300.
 	browser column: #list; column: #detail.
-	browser transmit to: #list ; andShow: 
-	[ :a | 
-		listParentPrototype := a list.   "this assignment is just for exploring the operation of the example"
-		listParentPrototype  	
+	browser transmit to: #list ; andShow: [ :a | 
+		a list
 			format: [ :person | person name ] ;
 			updateOn: GLMItemAdded from: [ GLMMagrittePersonExample sampleData ] ;
 			updateOn: GLMItemRemoved from: [ GLMMagrittePersonExample sampleData ] ;
@@ -571,40 +567,13 @@ GLMBasicExamples >> magritte [
 					entitled: 'Remove' .
 	].
 
-	browser transmit from: #list ; to: #detail ; andShow: 
-	[ :a | 
-		magritteParentPrototype := a magritte.   "this assignment is just for exploring the operation of the example"
-		magritteParentPrototype 	
+	browser transmit from: #list ; to: #detail ; andShow: [ :a | 
+		a magritte
 			title: 'Details';
 			description: [:person | person magritteDescription] ;
 			onAnswer: [ :person :presentation | browser update ] . 
 	].
 
-	"THE FOLLOWING ARE JUST FOR EXPLORING THE EXAMPLE"
-	listParentPrototype 	
-			act: [ :listPresentation | listParentPrototype inspect ]		
-					entitled: 'Inspect parentPrototype (note the id in self)' ;
-			act: [ :listPresentation | listPresentation inspect ]  					
-					entitled: 'Inspect GLMListPresentation (note the id in parentPrototype)' ;
-			act: [ :listPresentation | self halt. GLMMagrittePersonExample sampleReset. listPresentation update. ]   	
-					entitled: 'Reset Data (need to load in a new browser)' ;
-			act: [ :listPresentation :model | self halt.  browser . listParentPrototype . magritteParentPrototype ]   	
-					entitled: 'Adhoc debug explore'.
-	self flag: 'TODO: Get Reset Data to update current browser rather than having to open a new browser'.
-					
-	magritteParentPrototype	
-			act: [ :magritte | magritte entity explore ] 			
-					entitled: 'Explore entity';
-			act: [ :magritte | 
-					magritte inspect. 
-					magritteParentPrototype inspect.
-					self inform: 'Compare the ''GLMMagrittePresentation(id='' of self and parentPrototype of these two inspectors just opened.  Change list items then compare again.'.
-				]	entitled: 'Inspect and compare parentPrototype' ;
-			act: [ :magritte | magritte inspect ]  					
-					entitled: 'Inspect current aGLMMagrittePresentation' ;
-			act: [ :magritte :model :x3 | self halt . browser . listParentPrototype . magritteParentPrototype ]
-					entitled: 'Adhoc debug explore' .
-					
 	^ browser
 ]
 
@@ -1575,27 +1544,6 @@ GLMBasicExamples >> validatorDynamic [
 			] ].
 	finder show: [:a | a custom: validator].
 	^ finder
-]
-
-{ #category : #others }
-GLMBasicExamples >> watcher [
-	"self new watcher openOn: (Collection methods)"
-
-	"You have to open the Watcher to see the effect."
-	"GLMWatcherWindow uniqueInstance show."
-
-	"<glmBrowser: 'Watcher' input: 'Collection methods'>"
-	| browser |
-	browser := GLMTabulator new.
-	browser column: #one.
-	browser transmit
-		to: #one;
-		andShow: [ :a | a list title: 'Collection methods'; format: #selector].
-	browser transmit
-		from: #one;
-		toWatcher;
-		andShow: [ :a | a smalltalkCode display: #getSource ].
-	^ browser
 ]
 
 { #category : #browsers }

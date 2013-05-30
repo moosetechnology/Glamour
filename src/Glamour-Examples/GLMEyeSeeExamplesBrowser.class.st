@@ -17,11 +17,6 @@ GLMEyeSeeExamplesBrowser >> exampleSelectorsFromClass: exampleClass [
 	^ exampleClass selectors select: [ :each | each endsWith: 'With:' ]
 ]
 
-{ #category : #building }
-GLMEyeSeeExamplesBrowser >> installTitle [
-	browser title: 'EyeSee Examples'
-]
-
 { #category : #hooks }
 GLMEyeSeeExamplesBrowser >> renderedExampleIn: composer [
 	composer eyesee

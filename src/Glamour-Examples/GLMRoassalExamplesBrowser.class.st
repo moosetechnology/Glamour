@@ -17,11 +17,6 @@ GLMRoassalExamplesBrowser >> exampleSelectorsFromClass: exampleClass [
 	^ exampleClass selectors select: [ :each | each endsWith: 'On:' ]
 ]
 
-{ #category : #building }
-GLMRoassalExamplesBrowser >> installTitle [
-	browser title: 'Roassal Examples'
-]
-
 { #category : #hooks }
 GLMRoassalExamplesBrowser >> renderedExampleIn: composer [
 	composer roassal
