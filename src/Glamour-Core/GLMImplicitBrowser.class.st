@@ -15,7 +15,7 @@ Class {
 
 { #category : #accessing }
 GLMImplicitBrowser >> addPresentation: aPresentation [
-	self presentations add: aPresentation
+	self transmission transmissionStrategy addPresentation: aPresentation 
 ]
 
 { #category : #accessing }
@@ -25,7 +25,7 @@ GLMImplicitBrowser >> newTransmission [
 
 { #category : #accessing }
 GLMImplicitBrowser >> presentations [ 	 
-	^ presentations ifNil: [presentations := GLMCompositePresentation new]
+	^ self transmission transmissionStrategy presentations
 ]
 
 { #category : #scripting }

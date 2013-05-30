@@ -12,7 +12,12 @@ Class {
 
 { #category : #'accessing-convenience' }
 GLMPresentStrategy >> addPresentation: aPresentation [
-	self presentations add: aPresentation
+	|currentPresentations|
+	
+	currentPresentations  := self presentations.
+	self presentationsFactory: [ :composite | 
+		currentPresentations do: [ :each | composite add: each ].
+		composite add: aPresentation ]
 ]
 
 { #category : #'accessing-convenience' }
@@ -32,7 +37,7 @@ GLMPresentStrategy >> presentations [
 
 { #category : #accessing }
 GLMPresentStrategy >> presentations: anObject [
-	presentations := anObject
+	"self presentationsFactory: anObject "
 ]
 
 { #category : #accessing }
