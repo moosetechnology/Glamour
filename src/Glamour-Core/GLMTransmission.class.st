@@ -72,9 +72,9 @@ GLMTransmission >> andShow: aBlock [
 	"
 	
 	self ensureReplacePresentationsStrategy.
+	self transmissionStrategy presentationsFactory: aBlock.
 	self origins isEmpty
-		ifTrue: [ self from: #outer port: #entity ].
-	aBlock value: self transmissionStrategy presentations
+		ifTrue: [ self from: #outer port: #entity ]
 ]
 
 { #category : #scripting }
@@ -93,9 +93,9 @@ GLMTransmission >> andShowIfNone: aBlock [
 	"
 
 	self ensurePresentIfNoneStrategy.
+	self transmissionStrategy presentationsFactory: aBlock.
 	self origins isEmpty
-		ifTrue: [ self from: #outer port: #entity ].
-	aBlock value: self transmissionStrategy presentations
+		ifTrue: [ self from: #outer port: #entity ]
 ]
 
 { #category : #accessing }
@@ -274,7 +274,7 @@ GLMTransmission >> passivelyFrom: aPaneSymbol port: aPortSymbol [
 
 { #category : #copying }
 GLMTransmission >> postCopy [
-	origins := origins collect: [:each | each copy ].
+	origins := self originReferences collect: [:each | each copy ].
 	destination := destination copy.
 	transmissionStrategy := transmissionStrategy copy.
 	transmissionStrategy transmission: self

@@ -5,7 +5,7 @@ Class {
 	#name : #GLMPresentStrategy,
 	#superclass : #GLMTransmissionStrategy,
 	#instVars : [
-		'presentations'
+		'presentationsFactory'
 	],
 	#category : #'Glamour-Core'
 }
@@ -20,17 +20,27 @@ GLMPresentStrategy >> addPresentations: aCollection [
 	aCollection do: [:each | self addPresentation: each ]
 ]
 
-{ #category : #'initialize-release' }
-GLMPresentStrategy >> initialize [
-	presentations := GLMCompositePresentation new
-]
-
 { #category : #accessing }
 GLMPresentStrategy >> presentations [
+	| presentations |
+	presentations := GLMCompositePresentation new.
+	self presentationsFactory glamourValue: (
+			presentations asGlamorousMultiValue, 
+			(self transmission origins collect: #value )).
 	^ presentations
 ]
 
 { #category : #accessing }
 GLMPresentStrategy >> presentations: anObject [
 	presentations := anObject
+]
+
+{ #category : #accessing }
+GLMPresentStrategy >> presentationsFactory [
+	^ presentationsFactory
+]
+
+{ #category : #accessing }
+GLMPresentStrategy >> presentationsFactory: anObject [
+	presentationsFactory := anObject
 ]

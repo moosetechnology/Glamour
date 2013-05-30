@@ -34,7 +34,8 @@ Class {
 		'selectionDynamicActionsBlock',
 		'implicitAllNil',
 		'rawSelectionTransmissions',
-		'statusPane'
+		'statusPane',
+		'sourceLink'
 	],
 	#category : #'Glamour-Core'
 }
@@ -745,6 +746,16 @@ GLMPresentation >> shouldValidate [
 { #category : #'accessing validation' }
 GLMPresentation >> shouldValidate: aBoolean [
 	shouldValidate := aBoolean 
+]
+
+{ #category : #accessing }
+GLMPresentation >> sourceContext [
+	^ sourceLink
+]
+
+{ #category : #accessing }
+GLMPresentation >> sourceContext: aContext [
+	sourceLink := aContext
 ]
 
 { #category : #scripting }

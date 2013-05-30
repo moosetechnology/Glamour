@@ -8,7 +8,7 @@ Class {
 	#superclass : #GLMBrowser,
 	#instVars : [
 		'presentations',
-		'scriptTransmission'
+		'transmission'
 	],
 	#category : #'Glamour-Core'
 }
@@ -19,18 +19,23 @@ GLMImplicitBrowser >> addPresentation: aPresentation [
 ]
 
 { #category : #accessing }
-GLMImplicitBrowser >> presentations [ 
-	 
-	^ presentations ifNil: [presentations := GLMCompositePresentation new]
+GLMImplicitBrowser >> newTransmission [
+	^ self transmission copy
 ]
 
 { #category : #accessing }
-GLMImplicitBrowser >> scriptTransmission [
-	^ scriptTransmission 
-		ifNil: [scriptTransmission := GLMTransmission new ensureReplacePresentationsStrategy]
+GLMImplicitBrowser >> presentations [ 	 
+	^ presentations ifNil: [presentations := GLMCompositePresentation new]
 ]
 
 { #category : #scripting }
 GLMImplicitBrowser >> show: aBlock [
-	^ aBlock value: self presentations
+	self transmission transmissionStrategy presentationsFactory: aBlock
+]
+
+{ #category : #accessing }
+GLMImplicitBrowser >> transmission [
+	^ transmission ifNil: [
+		transmission := GLMTransmission new ensureReplacePresentationsStrategy.
+		transmission ]
 ]

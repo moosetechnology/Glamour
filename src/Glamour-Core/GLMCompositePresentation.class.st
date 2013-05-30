@@ -92,7 +92,7 @@ GLMCompositePresentation >> composite: aBlock [
 
 { #category : #scripting }
 GLMCompositePresentation >> custom: aPresentation [
-	^ self add: aPresentation
+	^ self add: (aPresentation sourceContext: thisContext sender)
 ]
 
 { #category : #'scripting opening' }

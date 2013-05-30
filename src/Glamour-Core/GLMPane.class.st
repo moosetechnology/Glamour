@@ -160,6 +160,7 @@ GLMPane >> lastActivePresentation [
 
 { #category : #accessing }
 GLMPane >> lastActivePresentation: anObject [
+	(self port: #activePresentation) value: anObject.
 	lastActivePresentation := anObject
 ]
 
