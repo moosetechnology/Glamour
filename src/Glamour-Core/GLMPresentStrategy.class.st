@@ -17,7 +17,7 @@ GLMPresentStrategy >> addPresentation: aPresentation [
 	currentPresentations  := self presentations.
 	self presentationsFactory: [ :composite | 
 		currentPresentations do: [ :each | composite add: each ].
-		composite add: aPresentation ]
+		composite add: aPresentation copy ]
 ]
 
 { #category : #'accessing-convenience' }
