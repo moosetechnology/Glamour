@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'children',
 		'rootsExpanded',
-		'allExpanded'
+		'allExpanded',
+		'expandLevel'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -55,6 +56,11 @@ GLMTreePresentation >> defaultValidate: anObject on: aPort [
 	^ false
 ]
 
+{ #category : #accessing }
+GLMTreePresentation >> expandLevel [
+	^ expandLevel
+]
+
 { #category : #rendering }
 GLMTreePresentation >> renderGlamorouslyOn: aRenderer [	
 	self registerAnnouncements.
@@ -74,6 +80,16 @@ GLMTreePresentation >> shouldAllExpand [
 { #category : #accessing }
 GLMTreePresentation >> shouldAllExpand: anObject [
 	allExpanded := anObject
+]
+
+{ #category : #accessing }
+GLMTreePresentation >> shouldExpandToLevel [
+	^ expandLevel isNil not
+]
+
+{ #category : #accessing }
+GLMTreePresentation >> shouldExpandToLevel: level [
+	^ expandLevel := level
 ]
 
 { #category : #accessing }
