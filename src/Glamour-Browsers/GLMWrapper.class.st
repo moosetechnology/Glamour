@@ -43,7 +43,6 @@ GLMWrapper >> outerPortEvent: aPortEvent [
 	self newTransmission
 		addActiveOrigin: (aPortEvent port); 
 		destination: (self panes anyOne port: #entity); 
-		presentations: (self presentations copy); 
 		transmit
 ]
 

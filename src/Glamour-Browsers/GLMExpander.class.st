@@ -16,7 +16,6 @@ GLMExpander >> addPaneFrom: aPort [
 	self newTransmission
 		addActiveOrigin: aPort; 
 		destination: (self panes last port: #entity); 
-		presentations: (self presentations copy); 
 		transmit.
 	self announce: 
 			(GLMPaneAdded 
