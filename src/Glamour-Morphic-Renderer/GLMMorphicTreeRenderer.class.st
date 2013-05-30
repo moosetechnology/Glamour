@@ -10,5 +10,6 @@ GLMMorphicTreeRenderer >> render: aPresentation [
 	container := super render: aPresentation.
 	aPresentation shouldAllExpand ifTrue: [container submorphs first expandAll ].
 	aPresentation shouldRootsExpand ifTrue: [container submorphs first expandRoots ].
+	aPresentation shouldExpandToLevel ifTrue: [ container submorphs first expandAllTo: aPresentation expandLevel ].
 	^ container
 ]
