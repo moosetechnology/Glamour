@@ -94,9 +94,12 @@ GLMBundleTransmissionTest >> testPresentations [
 	transmission transmissionStrategy addPresentation: presentation2.
 	transmission transmissionStrategy addPresentation: presentation3.	"Test correct setup"
 	self assert: transmission transmissionStrategy presentations size equals: 3.
-	self assert: (transmission transmissionStrategy presentations at: 1) == presentation1.
-	self assert: (transmission transmissionStrategy presentations at: 2) == presentation2.
-	self assert: (transmission transmissionStrategy presentations at: 3) == presentation3
+	self assert: (transmission transmissionStrategy presentations at: 1) title = presentation1 title.
+	self assert: (transmission transmissionStrategy presentations at: 2) title = presentation2 title.
+	self assert: (transmission transmissionStrategy presentations at: 3) title = presentation3 title.
+	self assert: (transmission transmissionStrategy presentations at: 1) ~~ presentation1.
+	self assert: (transmission transmissionStrategy presentations at: 2) ~~ presentation2.
+	self assert: (transmission transmissionStrategy presentations at: 3) ~~ presentation3
 ]
 
 { #category : #tests }
