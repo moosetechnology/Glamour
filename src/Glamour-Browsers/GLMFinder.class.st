@@ -16,7 +16,7 @@ Class {
 		'hasFixedSizePanes',
 		'fixedSizePanes',
 		'lastActivePresentation',
-		'firstPresentations'
+		'firstTransmission'
 	],
 	#category : #'Glamour-Browsers'
 }
@@ -24,17 +24,16 @@ Class {
 { #category : #private }
 GLMFinder >> addPaneFromInner: aPort [ 
 	"This method adds a new pane at the end of the finder. Data comes from a port that is in a pane inside the current browser."
-	| newTransmission newPane realTransmissions lastActive |
+	| newPane lastActive |
 	"the lastActivePresentation is needed for knowing what presentation to show by default"
 	lastActive := self panes isEmpty ifTrue: [nil] ifFalse: [ self lastActivePresentation ].
 	newPane := GLMPane named: (self panes size + 1) asString in: self.
 	newPane lastActivePresentation: lastActive.
 	self panes addLast: newPane.
-	GLMTransmission new
-		ensureReplacePresentationsStrategy;
+	self newTransmission
 		addActiveOrigin: aPort; 
 		destination: (newPane port: #entity); 
-		presentations: (self presentations copy); 
+"		presentations: (self presentations copy); "
 		transmit. 
 
 
@@ -57,22 +56,18 @@ GLMFinder >> addPaneFromInner: aPort [
 { #category : #private }
 GLMFinder >> addPaneFromOuter: aPort [ 
 	"This method adds a new pane at the end of the finder."
-	|newPane targetPresentations |
+	|newPane |
 	newPane := self panes addLast: (GLMPane named: (self panes size + 1) asString in: self).
-	targetPresentations := self firstPresentations isEmpty 
-								ifTrue: [self presentations] 
-								ifFalse: [self firstPresentations].
-	GLMTransmission new
-		ensureReplacePresentationsStrategy;
+	self newFirstTransmission
 		addActiveOrigin: aPort; 
 		destination: (newPane port: #entity); 
-		presentations: targetPresentations copy; 
 		transmit
 ]
 
 { #category : #scripting }
-GLMFinder >> firstPresentations [
-	^ firstPresentations ifNil: [firstPresentations := GLMCompositePresentation new]
+GLMFinder >> firstTransmission [
+	^ firstTransmission ifNil: [
+		firstTransmission := GLMTransmission new ensureReplacePresentationsStrategy ]
 ]
 
 { #category : #scripting }
@@ -145,6 +140,13 @@ GLMFinder >> lastActivePresentation: aPresentation [
 	lastActivePresentation := aPresentation
 ]
 
+{ #category : #scripting }
+GLMFinder >> newFirstTransmission [
+	^ firstTransmission 
+		ifNil: [ self newTransmission ]
+		ifNotNil: [ self firstTransmission copy ]
+]
+
 { #category : #events }
 GLMFinder >> outerPortEvent: aPortEvent [ 
 	 
@@ -182,16 +184,7 @@ GLMFinder >> renderGlamorouslyOn: aRenderer [
 
 { #category : #scripting }
 GLMFinder >> showFirst: aBlock [
-	^ aBlock value: self firstPresentations
-]
-
-{ #category : #scripting }
-GLMFinder >> using: aBlock [ 
-	self flag: 'should be removed. kept just until we make fromPrevious and passivelyFromPrevious: work'.
-	 
-	aBlock value. 
-	self addTransmission: scriptTransmission. 
-	scriptTransmission := nil
+	^ self firstTransmission transmissionStrategy presentationsFactory: aBlock 
 ]
 
 { #category : #scripting }

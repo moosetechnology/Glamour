@@ -37,12 +37,10 @@ GLMWrapper >> innerPortEvent: aPortEvent [
 GLMWrapper >> outerPortEvent: aPortEvent [ 
 	"We only treat the #entity port, and for it we simply trigger 
 	a transmission to the default pane"
-		 
-	| toReplace |
+
 	super outerPortEvent: aPortEvent.
 	aPortEvent port name = #entity ifFalse: [^self].
-	GLMTransmission new
-		ensureReplacePresentationsStrategy;
+	self newTransmission
 		addActiveOrigin: (aPortEvent port); 
 		destination: (self panes anyOne port: #entity); 
 		presentations: (self presentations copy); 

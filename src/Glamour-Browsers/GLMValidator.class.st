@@ -19,8 +19,7 @@ GLMValidator >> addPaneFrom: aPort [
 
 	self panes isEmpty ifTrue: [
 		self panes addLast: (GLMPane in: self).
-		GLMTransmission new
-			ensureReplacePresentationsStrategy;
+		self newTransmission
 			addActiveOrigin: aPort; 
 			destination: (self panes last port: #entity); 
 			presentations: (self presentations copy); 
@@ -35,8 +34,7 @@ GLMValidator >> addPaneFromInner: aPort [
 	"the lastActivePresentation is needed for knowing what presentation to show by default"
 	self panes isEmpty ifFalse: [lastActivePresentation := self panes last lastActivePresentation ].
 	self panes addLast: ( (GLMPane in: self) lastActivePresentation: lastActivePresentation; yourself).
-	GLMTransmission new
-		ensureReplacePresentationsStrategy;
+	self newTransmission
 		addActiveOrigin: aPort; 
 		destination: (self panes last port: #entity); 
 		presentations: (self presentations copy); 
