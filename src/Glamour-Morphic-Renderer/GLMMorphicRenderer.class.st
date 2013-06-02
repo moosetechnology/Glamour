@@ -144,6 +144,11 @@ GLMMorphicRenderer >> renderRoassalPresentation: aPresentation [
 ]
 
 { #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderRubricTextPresentation: aPresentation [
+	^ GLMMorphicRubricTextRenderer render: aPresentation from: self
+]
+
+{ #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderSmalltalkCodePresentation: aSmalltalkCodePresentation [ 
 	^ GLMMorphicSmalltalkCodeRenderer render: aSmalltalkCodePresentation from: self
 ]
