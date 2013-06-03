@@ -755,11 +755,14 @@ ConfigurationOfGlamour >> baseline25: spec [
 			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
 			package: 'Glamour-Examples' ;
 			package: 'Glamour-Tools' with: [spec requires: 'CollectionExtensions'];
+			package: 'Rubric' with: [spec repository: 'http://www.smalltalkhub.com/mc/AlainPlantec/Rubric/main'];
+			package: 'Glamour-Rubric-Presentations' with: [spec requires: 'Rubric'];
 			package: 'Glamour-Roassal-Presentations' with: [spec requires: 'Roassal for Glamour'];
 			package: 'Glamour-Mondrian-Presentations' with: [spec requires: 'Mondrian for Glamour'];
 			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];
 			package: 'Glamour-EyeSee-Presentations' with: [spec requires: 'EyeSee for Glamour'];
 			package: 'Glamour-Tests-Mondrian' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Mondrian-Presentations')];
+			package: 'Glamour-Tests-Rubric' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Rubric-Presentations')];
 			package: 'Glamour-Tests-Roassal' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Roassal-Presentations')];
 			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')];
 			package: 'Glamour-Tests-Resources'.
@@ -779,7 +782,8 @@ ConfigurationOfGlamour >> baseline25: spec [
 						'Glamour-Mondrian-Presentations'
 						'Glamour-Magritte-Presentations'
 						'Glamour-EyeSee-Presentations'
-						'Glamour-Roassal-Presentations').
+						'Glamour-Roassal-Presentations'
+						'Glamour-Rubric-Presentations').
 		spec group: 'Core Tests' with: #(
 						'Glamour-Tests-Core'
 						'Glamour-Examples'
@@ -792,6 +796,7 @@ ConfigurationOfGlamour >> baseline25: spec [
 						'Glamour-Tests-Mondrian'
 						'Glamour-Tests-EyeSee'
 						'Glamour-Tests-Roassal'
+						'Glamour-Tests-Rubric'
 						'Glamour-Tests-Resources'). 
 		spec
 			project: 'Mondrian for Glamour' with: [
