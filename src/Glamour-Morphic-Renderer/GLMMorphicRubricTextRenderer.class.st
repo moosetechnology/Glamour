@@ -8,7 +8,21 @@ Class {
 	#category : #'Glamour-Morphic-Renderer'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
+GLMMorphicRubricTextRenderer >> actOnContextChanged: ann [
+	ann property = #selectionInterval
+		ifTrue: [
+			ann value notNil 
+				ifTrue: [textMorph setSelection: ann value ]
+				ifFalse: [textMorph setSelection: (1 to: 0)] ]
+]
+
+{ #category : #private }
+GLMMorphicRubricTextRenderer >> actOnPresentationUpdated: ann [ 
+	textMorph setText: textModel getText
+]
+
+{ #category : #rendering }
 GLMMorphicRubricTextRenderer >> render: aPresentation [
 	textModel := GLMRubricTextModel new glamourPresentation: aPresentation; yourself.
 	textMorph := RubScrolledTextMorph new
@@ -16,7 +30,15 @@ GLMMorphicRubricTextRenderer >> render: aPresentation [
 "		withGhostText: 'Ghost';"
 		model: textModel;
 		yourself.
-"	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
-	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.		"
+	textMorph announcer on: RubTextChanged do: [ :ann |
+		aPresentation text: textMorph text ].
+	textMorph textArea announcer on: RubSelectionChanged do: [ :ann |
+		aPresentation announcer
+				suspendAllWhile: [ 
+					aPresentation selectionInterval: textMorph selectionInterval.
+					aPresentation selectedText: textMorph textArea selection ] ].
+
+	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
+	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
 	^ textMorph
 ]
