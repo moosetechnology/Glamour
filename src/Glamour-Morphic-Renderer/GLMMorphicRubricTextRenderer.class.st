@@ -23,21 +23,33 @@ GLMMorphicRubricTextRenderer >> actOnPresentationUpdated: ann [
 ]
 
 { #category : #rendering }
-GLMMorphicRubricTextRenderer >> render: aPresentation [
-	textModel := GLMRubricTextModel new glamourPresentation: aPresentation; yourself.
-	textMorph := RubScrolledTextMorph new
-"		withLineNumbers;"
-"		withGhostText: 'Ghost';"
+GLMMorphicRubricTextRenderer >> modelFor: aPresentation [
+	^ GLMRubricTextModel new
+		glamourPresentation: aPresentation;
+		yourself
+]
+
+{ #category : #rendering }
+GLMMorphicRubricTextRenderer >> morph [
+	^ RubScrolledTextMorph new
 		model: textModel;
-		yourself.
-	textMorph announcer on: RubTextChanged do: [ :ann |
-		aPresentation text: textMorph text ].
-	textMorph textArea announcer on: RubSelectionChanged do: [ :ann |
-		aPresentation announcer
+		yourself
+]
+
+{ #category : #rendering }
+GLMMorphicRubricTextRenderer >> render: aPresentation [
+	textModel := self modelFor: aPresentation.
+	textMorph := self morph.
+	textMorph announcer
+		on: RubTextChanged
+		do: [ :ann | aPresentation text: textMorph text ].
+	textMorph textArea announcer
+		on: RubSelectionChanged
+		do: [ :ann | 
+			aPresentation announcer
 				suspendAllWhile: [ 
 					aPresentation selectionInterval: textMorph selectionInterval.
 					aPresentation selectedText: textMorph textArea selection ] ].
-
 	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
 	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
 	^ textMorph
