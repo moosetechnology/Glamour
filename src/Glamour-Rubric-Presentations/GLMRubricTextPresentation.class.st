@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Rubric-Presentations'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMRubricTextPresentation >> renderGlamorouslyOn: aRenderer [
 	self registerAnnouncements.
 	^ aRenderer renderRubricTextPresentation: self
