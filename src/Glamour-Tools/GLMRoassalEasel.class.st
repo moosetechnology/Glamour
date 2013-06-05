@@ -48,6 +48,5 @@ GLMRoassalEasel >> resultIn: a [
 		painting: [ :view :bindings :script | 
 					| context |
 					context := GLMDoItContext with: #view -> view withAll: bindings.
-					self evaluate: script in: context for: view ];
-		defaultActions
+					self evaluate: script in: context for: view ]
 ]
