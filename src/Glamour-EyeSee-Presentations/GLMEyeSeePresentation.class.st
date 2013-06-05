@@ -22,6 +22,13 @@ GLMEyeSeePresentation >> canvas: anObject [
 ]
 
 { #category : #accessing }
+GLMEyeSeePresentation >> defaultActions [
+	self
+		act: [ :eyesee | eyesee canvas exportAsPNG ] 
+			entitled: 'Export as PNG'
+]
+
+{ #category : #accessing }
 GLMEyeSeePresentation >> diagram [
 	^ diagramBlock 
 ]
