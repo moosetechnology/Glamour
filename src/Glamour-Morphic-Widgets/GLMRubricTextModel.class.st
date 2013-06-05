@@ -21,3 +21,8 @@ GLMRubricTextModel >> announcer: anObject [
 GLMRubricTextModel >> getText [
 	^ self glamourPresentation displayValue
 ]
+
+{ #category : #accessing }
+GLMRubricTextModel >> setText: aText from: aRubScrolledTextMorph [ 
+	self glamourPresentation text: aText
+]
