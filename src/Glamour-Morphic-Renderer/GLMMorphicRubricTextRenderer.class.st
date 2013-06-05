@@ -19,7 +19,7 @@ GLMMorphicRubricTextRenderer >> actOnContextChanged: ann [
 
 { #category : #private }
 GLMMorphicRubricTextRenderer >> actOnPresentationUpdated: ann [ 
-	textMorph setText: textModel getText
+	textMorph setText: ann presentation formatedDisplayValue
 ]
 
 { #category : #rendering }
@@ -40,9 +40,12 @@ GLMMorphicRubricTextRenderer >> morph [
 GLMMorphicRubricTextRenderer >> render: aPresentation [
 	textModel := self modelFor: aPresentation.
 	textMorph := self morph.
+	aPresentation text: textMorph text.
 	textMorph announcer
 		on: RubTextChanged
-		do: [ :ann | aPresentation text: textMorph text ].
+		do: [ :ann | 
+			aPresentation announcer
+				suspendAllWhile: [ aPresentation text: textMorph text ] ].
 	textMorph textArea announcer
 		on: RubSelectionChanged
 		do: [ :ann | 
@@ -50,6 +53,9 @@ GLMMorphicRubricTextRenderer >> render: aPresentation [
 				suspendAllWhile: [ 
 					aPresentation selectionInterval: textMorph selectionInterval.
 					aPresentation selectedText: textMorph textArea selection ] ].
+	self installActionsOnModel: textModel fromPresentation: aPresentation .
+	self installKeystrokeActionsOnMorph: textMorph textArea fromPresentation: aPresentation.
+
 	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
 	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
 	^ textMorph
