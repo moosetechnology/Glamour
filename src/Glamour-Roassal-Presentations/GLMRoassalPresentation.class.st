@@ -31,7 +31,8 @@ GLMRoassalPresentation >> defaultActions [
 { #category : #'initialize-release' }
 GLMRoassalPresentation >> initialize [ 
 	super initialize.
-	shouldPopulateSelection := true
+	shouldPopulateSelection := true.
+	self defaultActions
 ]
 
 { #category : #scripting }
