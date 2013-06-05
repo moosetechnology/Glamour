@@ -49,6 +49,12 @@ GLMEyeSeePresentation >> eyeseeRenderer: anESDiagramRenderer [
 	eyeSeeRenderer := anESDiagramRenderer
 ]
 
+{ #category : #'initialize-release' }
+GLMEyeSeePresentation >> initialize [
+	super initialize.
+	self defaultActions
+]
+
 { #category : #rendering }
 GLMEyeSeePresentation >> renderGlamorouslyOn: aRenderer [
 	self registerAnnouncements.
