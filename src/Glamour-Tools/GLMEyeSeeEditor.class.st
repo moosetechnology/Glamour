@@ -21,7 +21,9 @@ GLMEyeSeeEditor >> defaultScriptBindings [
 GLMEyeSeeEditor >> defaultScriptDisplayIn: aPresentation [
 	^ aPresentation 
 		display: 'chart';
-		morphicAct: [:text | GLMEyeSeeExamplesBrowser open ] icon: GLMUIThemeExtraIcons glamorousExample entitled: 'Browse basic examples'
+		morphicAct: [:text | GLMEyeSeeExamplesBrowser open ] 
+			icon: GLMUIThemeExtraIcons glamorousExample 
+			entitled: 'Browse basic examples'
 ]
 
 { #category : #building }
@@ -45,5 +47,6 @@ GLMEyeSeeEditor >> resultIn: a [
 								models: #('Error');
 								pieValue: [:x | 100];
 								displayLegend: true;
-								defaultColor: Color red ] ]
+								defaultColor: Color red ] ];
+		defaultActions
 ]
