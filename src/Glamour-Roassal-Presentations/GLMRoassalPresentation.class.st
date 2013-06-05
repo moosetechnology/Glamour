@@ -15,6 +15,19 @@ GLMRoassalPresentation >> bitmap [
 	^ self view bitmap 
 ]
 
+{ #category : #scripting }
+GLMRoassalPresentation >> defaultActions [
+	self
+		act: [ :roassal | ROExportPNGCommand new executeOn: roassal view raw ] 
+			entitled: 'Export as PNG';
+		act: [ :roassal | ROZoomOutMove new on: roassal view raw ]
+			icon: MondrianIcons mondrianZoomOut
+			entitled: 'Zoom out';
+		act: [ :roassal | ROZoomInMove new on: roassal view raw ]
+			icon: MondrianIcons mondrianZoomIn
+			entitled: 'Zoom in'
+]
+
 { #category : #'initialize-release' }
 GLMRoassalPresentation >> initialize [ 
 	super initialize.
