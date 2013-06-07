@@ -880,7 +880,7 @@ GLMBasicExamples >> simpleFinderWithMenu [
 
 { #category : #table }
 GLMBasicExamples >> simpleTable [
-	<glmBrowser: 'Simple table' input: '100'>
+	<glmBrowser: 'Table simple' input: '100'>
 	"| f | 
 	f := self new simpleTable.
 	f openOn: 1000.
@@ -1023,6 +1023,23 @@ GLMBasicExamples >> staticAndDynamicMenu [
 			dynamicActionsOnSelection: [:text | OrderedCollection with: (GLMGenericAction new title: 'Print selection'; action: [text selectedText inspect ]; yourself) ];
 			selectionAct: [self inform: 'Text static action'] entitled: 'Static action'].
 	^ finder
+]
+
+{ #category : #table }
+GLMBasicExamples >> tableWithCustomWidth [
+	<glmBrowser: 'Table with custom width' input: '100'>
+	"self new tableWithCustomWidth openOn: 100"
+	| wrapper textBlock |	
+	wrapper := GLMWrapper new.
+	textBlock := [:x | (1 to: x) inject: '' into: [ :s :each | s, each asString]].
+	wrapper show: [:a | 
+		a table
+			display: [ :x | 1 to: x ]; 
+			column: 'Large column' evaluated: textBlock width: 400;
+			column: 'Small column' evaluated: textBlock width: 50;
+			column: 'Default column' evaluated: textBlock;
+			column: 'Last column' evaluated: textBlock ].
+	^ wrapper
 ]
 
 { #category : #'actions examples' }
