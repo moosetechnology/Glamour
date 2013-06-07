@@ -17,6 +17,15 @@ GLMTablePresentation >> column: aBlockOrString evaluated: aBlock [
 	self addColumn: (GLMTableColumn new title: aBlockOrString; computation: aBlock)
 ]
 
+{ #category : #scripting }
+GLMTablePresentation >> column: aBlockOrString evaluated: aBlock width: aNumber [ 
+	self addColumn: (GLMTableColumn new 
+		title: aBlockOrString; 
+		computation: aBlock;
+		width: aNumber;
+		yourself)	
+]
+
 { #category : #private }
 GLMTablePresentation >> column: aGlamourColumn valueFor: anObject [
 	^ aGlamourColumn computation glamourValue: 
