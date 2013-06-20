@@ -20,6 +20,15 @@ GLMTextPresentationTest >> testSelectedText [
 ]
 
 { #category : #tests }
+GLMTextPresentationTest >> testSelectionInterval [
+	| presentation |
+	presentation := GLMTextPresentation new.
+	self assert: presentation selectionInterval equals: nil.
+	presentation selectionIntervalBlock: [ 3 to: 9 ].
+	self assert: presentation selectionInterval equals: (3 to: 9)
+]
+
+{ #category : #tests }
 GLMTextPresentationTest >> testTextPortIsPopulatedByDefault [
 	| composite |
 	composite := (GLMCompositePresentation new with: [:a | a text ]) startOn: '42'.
