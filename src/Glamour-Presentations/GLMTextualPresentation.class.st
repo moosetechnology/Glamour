@@ -8,7 +8,8 @@ Class {
 		'doItReceiver',
 		'variableBindingsBlock',
 		'textBlock',
-		'selectedTextBlock'
+		'selectedTextBlock',
+		'selectionIntervalBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -61,12 +62,25 @@ GLMTextualPresentation >> selectedTextBlock: anObject [
 
 { #category : #accessing }
 GLMTextualPresentation >> selectionInterval [
-	^ (self pane port: #selectionInterval) value
+	^ (self pane port: #selectionInterval) value isNil 
+		ifTrue: [self selectionIntervalBlock value]
+		ifFalse: [(self pane port: #selectionInterval) value]
+
 ]
 
 { #category : #accessing }
 GLMTextualPresentation >> selectionInterval: anInterval [
 	(self pane port: #selectionInterval) value: anInterval
+]
+
+{ #category : #accessing }
+GLMTextualPresentation >> selectionIntervalBlock [
+	^ selectionIntervalBlock
+]
+
+{ #category : #accessing }
+GLMTextualPresentation >> selectionIntervalBlock: anObject [ 
+	selectionIntervalBlock := anObject
 ]
 
 { #category : #'accessing ports' }
