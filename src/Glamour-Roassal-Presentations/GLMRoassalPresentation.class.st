@@ -21,10 +21,10 @@ GLMRoassalPresentation >> defaultActions [
 		act: [ :roassal | ROExportPNGCommand new executeOn: roassal view raw ] 
 			entitled: 'Export as PNG';
 		act: [ :roassal | ROZoomOutMove new on: roassal view raw ]
-			icon: MondrianIcons mondrianZoomOut
+			icon: GLMUIThemeExtraIcons glamorousZoomOut
 			entitled: 'Zoom out';
 		act: [ :roassal | ROZoomInMove new on: roassal view raw ]
-			icon: MondrianIcons mondrianZoomIn
+			icon: GLMUIThemeExtraIcons glamorousZoomIn
 			entitled: 'Zoom in'
 ]
 
