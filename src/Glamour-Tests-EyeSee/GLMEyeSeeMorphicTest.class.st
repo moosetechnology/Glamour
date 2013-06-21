@@ -40,8 +40,8 @@ GLMEyeSeeMorphicTest >> testSpawn [
 	World doOneCycle.
 	World doOneCycle.
 	World doOneCycle.
-	canvas := window submorphs last submorphs first submorphs first submorphs last submorphs first.
-	self assert: (canvas isKindOf: ESCanvas).
+	canvas := self find: ESCanvas in: window.
+	self assert: canvas notNil.
 ]
 
 { #category : #tests }
