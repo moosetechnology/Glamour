@@ -778,6 +778,8 @@ ConfigurationOfGlamour >> baseline25: spec [
 		spec group: 'Morphic' with: #(
 						'Glamour-Morphic-Renderer'
 						'Glamour-Morphic-Theme').
+		spec group: 'Roassal' with: #(
+						'Glamour-Roassal-Presentations').				
 		spec group: 'Extras' with: #(
 						'Glamour-Mondrian-Presentations'
 						'Glamour-Magritte-Presentations'
