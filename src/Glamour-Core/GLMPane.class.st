@@ -257,7 +257,8 @@ GLMPane >> presentations: aCompositePresentation [
 		presentations pane: nil.
 		presentations resetAnnouncer.
 		aCompositePresentation pane: self.
-		presentations := aCompositePresentation ]
+		presentations := aCompositePresentation.
+		presentations initializePresentation ]
 ]
 
 { #category : #printing }

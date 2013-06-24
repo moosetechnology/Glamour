@@ -147,6 +147,13 @@ GLMCompositePresentation >> initialize [
 	self compose
 ]
 
+{ #category : #'initialize-release' }
+GLMCompositePresentation >> initializePresentation [
+
+	super initializePresentation.
+	self do: [:each| each initializePresentation]
+]
+
 { #category : #accessing }
 GLMCompositePresentation >> isEmpty [
 	^ self presentations isEmpty

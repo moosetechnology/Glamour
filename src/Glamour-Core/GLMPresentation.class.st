@@ -35,7 +35,8 @@ Class {
 		'implicitAllNil',
 		'rawSelectionTransmissions',
 		'statusPane',
-		'sourceLink'
+		'sourceLink',
+		'initializationBlock'
 	],
 	#category : #'Glamour-Core'
 }
@@ -383,6 +384,21 @@ GLMPresentation >> initialize [
 	updateActions := OrderedCollection new.
 	rawSelectionTransmissions := IdentitySet new.
 	self addRawSelectionTransmissionTo: #selection
+]
+
+{ #category : #accessing }
+GLMPresentation >> initialize: aBlock [
+	"aBlock is called when the presentation is placed on a pane as a result
+	of a transmission. It can be used to initialize  multiple ports."
+
+	initializationBlock := aBlock
+]
+
+{ #category : #'initialize-release' }
+GLMPresentation >> initializePresentation [
+
+	initializationBlock isNil ifFalse: [
+		initializationBlock value: self]
 ]
 
 { #category : #events }
