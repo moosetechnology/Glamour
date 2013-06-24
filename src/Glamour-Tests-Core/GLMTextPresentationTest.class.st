@@ -20,11 +20,12 @@ GLMTextPresentationTest >> testSelectedText [
 ]
 
 { #category : #tests }
-GLMTextPresentationTest >> testSelectionInterval [
+GLMTextPresentationTest >> testSelectionIntervalInitialization [
 	| presentation |
-	presentation := GLMTextPresentation new.
+	presentation := GLMTextPresentation new
+		initialize: [ :pres | pres selectionInterval: (3 to: 9) ].
 	self assert: presentation selectionInterval equals: nil.
-	presentation selectionIntervalBlock: [ 3 to: 9 ].
+	presentation initializePresentation.
 	self assert: presentation selectionInterval equals: (3 to: 9)
 ]
 

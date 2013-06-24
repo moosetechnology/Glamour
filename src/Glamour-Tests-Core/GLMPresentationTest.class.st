@@ -134,6 +134,20 @@ GLMPresentationTest >> testDisplay [
 ]
 
 { #category : #tests }
+GLMPresentationTest >> testEntityPortInitialization [
+	| pane presentation |
+	pane := GLMPane named: 'test'.
+	presentation := GLMPresentation new
+		initialize: [ :pres |
+			pres entity: 2  ].
+	pane addPresentation: presentation.
+	self assert: presentation entity = nil.
+	presentation initializePresentation.
+	self assert: (pane port: #entity) value = 2.
+	self assert: presentation entity = 2.
+]
+
+{ #category : #tests }
 GLMPresentationTest >> testEquality [
 	| presentation |
 	presentation := GLMPresentation new.
@@ -226,6 +240,42 @@ GLMPresentationTest >> testMatching [
 		do: [ :err | 
 			self assert: err message selector equals: #>.
 			self assert: err message arguments equals: (Array with: 1) ]
+]
+
+{ #category : #tests }
+GLMPresentationTest >> testPresentationInitializationBlock [
+	| pane presentation count|
+	count := 0.
+	pane := GLMPane named: 'test'.
+	presentation := GLMPresentation new
+		initialize: [ :pres |
+			(pres pane port: #test)  value: count ].
+	pane addPresentation: presentation.
+	self assert: (pane port: #test) value = nil.
+	presentation initializePresentation.
+	self assert: (pane port: #test) value = 0.
+	self assert: (presentation pane port: #test) value = 0.
+	count := 1.
+	presentation initializePresentation.
+	self assert: (pane port: #test) value = 1.
+	self assert: (presentation pane port: #test) value = 1.
+]
+
+{ #category : #tests }
+GLMPresentationTest >> testPresentationInitializationBlockIsCalled [
+	| pane presentation count |
+	count := 0.
+	pane := GLMPane named: 'test'.
+	presentation := GLMPresentation new
+		initialize: [ :pres |
+			count := count + 1 ].
+	pane addPresentation: presentation.
+	self assert: count = 0.
+	presentation initializePresentation.
+	self assert: count = 1.
+	presentation initializePresentation.
+	self assert: count = 2.
+
 ]
 
 { #category : #tests }

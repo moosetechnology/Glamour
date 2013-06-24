@@ -36,6 +36,58 @@ GLMPortTest >> testPortEquality [
 ]
 
 { #category : #tests }
+GLMPortTest >> testPortInitializationDoesNotAffectTransmissionPort [
+	| browser count |
+	count := 0.
+	browser := GLMTabulator new.
+	browser
+		column: #one.
+	(browser transmit)
+		fromOutsidePort: #entity;
+		to: #one port: #entity;
+		andShow: [ :a :entity | 
+			a list initialize: [ :pres |  
+				count := count + 1.
+				pres 
+					entity: (1 to: 10) ] ].
+	self assert: (browser panes first port: #entity) value equals: nil.
+	browser startOn: (1 to: 42).
+	self assert: (browser panes first port: #entity) value equals: (1 to: 42).
+	self assert: count = 1.
+	(browser pane port: #entity) value: (1 to: 43).
+	self assert: (browser panes first port: #entity) value equals: (1 to: 43).
+	self assert: count = 2.
+
+]
+
+{ #category : #tests }
+GLMPortTest >> testPortInitializationFromTransmission [
+	| browser |
+	browser := GLMTabulator new.
+	browser
+		column: #one.
+	(browser transmit)
+		fromOutsidePort: #entity;
+		to: #one port: #entity;
+		andShow: [ :a :entity | 
+			a text initialize: [ :pres |  
+				pres 
+					text: ('foo', entity asString);
+					selectionInterval: (2 to: 3) ] ].
+	self assert: (browser panes first port: #text) value equals: nil.
+	self assert: (browser panes first port: #selectionInterval) value equals: nil.
+	browser startOn: 42.
+	self assert: (browser panes first port: #text) value equals: 'foo42'.
+	self assert: (browser panes first port: #selectionInterval) value equals: (2 to: 3).
+	(browser pane port: #entity) transientValue: 43.
+	self assert: (browser panes first port: #text) value equals: 'foo43'.
+	self assert: (browser panes first port: #selectionInterval) value equals: (2 to: 3).
+	(browser pane port: #entity) value: 44.
+	self assert: (browser panes first port: #text) value equals: 'foo44'.
+	self assert: (browser panes first port: #selectionInterval) value equals: (2 to: 3).
+]
+
+{ #category : #tests }
 GLMPortTest >> testPresentationBoundPort [
 	| presentation port |
 	presentation := GLMPresentation new.
