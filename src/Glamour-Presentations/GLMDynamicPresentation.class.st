@@ -30,6 +30,7 @@ GLMDynamicPresentation >> currentPresentation [
 			composite asGlamorousMultiValue, 
 			self displayValue asGlamorousMultiValue).
 	composite pane: self pane.
+	composite initializePresentation.
 	cachedPresentation := composite.
 	^ composite
 "	^ self displayValue pane: self pane"
