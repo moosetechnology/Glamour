@@ -24,10 +24,10 @@ GLMRubricTextMorphicTest >> testExplicitAcceptDoesNotAffectTextPort [
 	textMorph := self find: RubScrolledTextMorph in: window.
 	textMorph simulateClick.
 	self simulateKeyStrokes: '4'.
-	self assert: (composite pane port: #text) value = '1234'.
+	self assert: '1234' equals: (composite pane port: #text) value.
 	self simulateKeyStroke: $s command.
 	self simulateKeyStrokes: '56'.
-	self assert: (composite pane port: #text) value = '123456'
+	self assert: '123456' equals: (composite pane port: #text) value
 ]
 
 { #category : #tests }
