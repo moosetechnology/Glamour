@@ -63,7 +63,7 @@ GLMRubricTextMorphicTest >> testPastingUpdatesTextPort [
 	Clipboard clipboardText: '42'.
 	textMorph simulateClick.
 	self simulateKeyStroke: $v command.
-	self assert: (composite pane port: #text) value = '42'
+	self assert: (composite pane port: #text) value asString equals: '42'
 ]
 
 { #category : #tests }
