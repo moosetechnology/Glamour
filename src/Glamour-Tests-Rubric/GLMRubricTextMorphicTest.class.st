@@ -17,6 +17,17 @@ GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 ]
 
 { #category : #tests }
+GLMRubricTextMorphicTest >> testEnteringTextInPort [
+	| composite textMorph |
+	composite := GLMCompositePresentation new with: [ :a | a rubricText display: '' ].
+	window := composite openOn: 4.
+	textMorph := self find: RubScrolledTextMorph in: window.
+	textMorph simulateClick.
+	self simulateKeyStrokes: 'hello'.
+	self assert: (composite pane port: #text) value asString equals: 'hello'
+]
+
+{ #category : #tests }
 GLMRubricTextMorphicTest >> testExplicitAcceptDoesNotAffectTextPort [
 	| composite textMorph |
 	composite := GLMCompositePresentation new with: [ :a | a rubricText display: '123' ].
