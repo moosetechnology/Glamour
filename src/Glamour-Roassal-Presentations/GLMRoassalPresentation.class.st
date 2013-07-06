@@ -60,7 +60,6 @@ GLMRoassalPresentation >> renderOn: aView [
 				ifFalse: [GLMMultiValue with: aView with: self entity with: self]).
 	self flag: 'This should be the responsibility of the the view'.
 	aView applyLayout.	
-	aView populateMenuOn: aView stack.
 	self shouldPopulateSelection ifTrue: [
 		aView raw allElementsDo: [:each | 
 			each on: ROMouseClick do: [:event | self selection: each model ]] ].
