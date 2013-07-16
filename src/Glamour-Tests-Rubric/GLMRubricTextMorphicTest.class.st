@@ -4,6 +4,12 @@ Class {
 	#category : #'Glamour-Tests-Rubric'
 }
 
+{ #category : #private }
+GLMRubricTextMorphicTest >> simulateOnlyOneClickOn: aMorph [
+	(Delay forMilliseconds: HandMorph doubleClickTime + 1) wait.
+	aMorph simulateClick
+]
+
 { #category : #tests }
 GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	| composite textMorph overriden |
@@ -11,7 +17,7 @@ GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	composite := GLMCompositePresentation new with: [ :a | a rubricText act: [ :text | overriden := true ] on: $s entitled: 'Override'].
 	window := composite openOn: 4.
 	textMorph := self find: RubScrolledTextMorph in: window.
-	textMorph simulateClick.
+	self simulateOnlyOneClickOn: textMorph.
 	self simulateKeyStroke: $s command.
 	self assert: overriden.
 ]
@@ -22,7 +28,7 @@ GLMRubricTextMorphicTest >> testEnteringTextInPort [
 	composite := GLMCompositePresentation new with: [ :a | a rubricText display: '' ].
 	window := composite openOn: 4.
 	textMorph := self find: RubScrolledTextMorph in: window.
-	textMorph simulateClick.
+	self simulateOnlyOneClickOn: textMorph.
 	self simulateKeyStrokes: 'hello'.
 	self assert: (composite pane port: #text) value asString equals: 'hello'
 ]
@@ -33,7 +39,7 @@ GLMRubricTextMorphicTest >> testExplicitAcceptDoesNotAffectTextPort [
 	composite := GLMCompositePresentation new with: [ :a | a rubricText display: '123' ].
 	window := composite openOn: 4.
 	textMorph := self find: RubScrolledTextMorph in: window.
-	textMorph simulateClick.
+	self simulateOnlyOneClickOn: textMorph.
 	self simulateKeyStrokes: '4'.
 	self assert: (composite pane port: #text) value asString equals: '1234'.
 	self simulateKeyStroke: $s command.
@@ -61,7 +67,7 @@ GLMRubricTextMorphicTest >> testPastingUpdatesTextPort [
 	window := composite openOn: 42.
 	textMorph := self find: RubScrolledTextMorph in: window.
 	Clipboard clipboardText: '42'.
-	textMorph simulateClick.
+	self simulateOnlyOneClickOn: textMorph.
 	self simulateKeyStroke: $v command.
 	self assert: (composite pane port: #text) value asString equals: '42'
 ]
