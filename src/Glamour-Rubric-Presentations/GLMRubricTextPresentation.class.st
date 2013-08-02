@@ -6,10 +6,16 @@ Class {
 		'withAnnotation',
 		'wrapped',
 		'tabWidth',
-		'withColumns'
+		'withColumns',
+		'textSegments'
 	],
 	#category : #'Glamour-Rubric-Presentations'
 }
+
+{ #category : #accessing }
+GLMRubricTextPresentation >> addTextSegment: aTextSegmentMorph [
+	self textSegments add: aTextSegmentMorph
+]
 
 { #category : #rendering }
 GLMRubricTextPresentation >> renderGlamorouslyOn: aRenderer [
@@ -28,6 +34,11 @@ GLMRubricTextPresentation >> tabWidth: anInteger [
 ]
 
 { #category : #accessing }
+GLMRubricTextPresentation >> textSegments [
+	^textSegments ifNil: [ textSegments := OrderedCollection new ]
+]
+
+{ #category : #accessing }
 GLMRubricTextPresentation >> withAnnotation [
 	
 	^ withAnnotation ifNil: [ withAnnotation := false ]
@@ -40,6 +51,18 @@ GLMRubricTextPresentation >> withAnnotation: aBoolean [
 ]
 
 { #category : #accessing }
+GLMRubricTextPresentation >> withColumns [
+	
+	^ withColumns ifNil: [ withColumns := false ]
+]
+
+{ #category : #accessing }
+GLMRubricTextPresentation >> withColumns: aBoolean [
+	
+	withColumns := aBoolean
+]
+
+{ #category : #accessing }
 GLMRubricTextPresentation >> withLineNumbers [
 	
 	^ withLineNumbers ifNil: [ withLineNumbers := false ]
@@ -49,6 +72,11 @@ GLMRubricTextPresentation >> withLineNumbers [
 GLMRubricTextPresentation >> withLineNumbers: aBoolean [
 	
 	withLineNumbers := aBoolean
+]
+
+{ #category : #accessing }
+GLMRubricTextPresentation >> withTextSegments: aCollection [
+	self textSegments addAll: aCollection
 ]
 
 { #category : #accessing }
