@@ -15,7 +15,7 @@ GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	| composite textMorph overriden |
 	overriden := false.
 	composite := GLMCompositePresentation new with: [ :a | a rubricText act: [ :text | overriden := true ] on: $s entitled: 'Override'].
-	window := composite openOn: 4.
+	window := composite openOn: '4'.
 	textMorph := self find: RubScrolledTextMorph in: window.
 	self simulateOnlyOneClickOn: textMorph.
 	self simulateKeyStroke: $s command.
@@ -98,7 +98,9 @@ GLMRubricTextMorphicTest >> testUnregisterFromAnnouncementsWhenUpdating [
 	composite :=  GLMCompositePresentation new with: [ :a | 
 					(a rubricText)
 						updateOn: GLMItemAdded from: [ announcingCollection ];
-						display: [ numberOfExecutions := numberOfExecutions + 1 ] ].
+						display: [ 
+								numberOfExecutions := numberOfExecutions + 1. 
+								numberOfExecutions asString ] ].
 	window := composite openOn: announcingCollection.
 	1 to: 3 do: [ :each | announcingCollection add: each ].
 	self assert: numberOfExecutions equals: 4	"it should not be 8"
