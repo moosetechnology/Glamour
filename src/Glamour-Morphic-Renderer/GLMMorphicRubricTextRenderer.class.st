@@ -10,6 +10,9 @@ Class {
 
 { #category : #private }
 GLMMorphicRubricTextRenderer >> actOnContextChanged: ann [
+	ann property = #textSegments
+		ifTrue: [ textMorph removeAllSegments.
+			ann value ifNotNil: [ :segs | textMorph addAllSegments: segs ] ].
 	ann property = #selectionInterval
 		ifTrue: [
 			ann value notNil 
@@ -19,6 +22,7 @@ GLMMorphicRubricTextRenderer >> actOnContextChanged: ann [
 
 { #category : #private }
 GLMMorphicRubricTextRenderer >> actOnPresentationUpdated: ann [ 
+
 	textMorph setText: ann presentation formatedDisplayValue
 ]
 
@@ -41,6 +45,14 @@ GLMMorphicRubricTextRenderer >> render: aPresentation [
 	textModel := self modelFor: aPresentation.
 	textMorph := self morph.
 	aPresentation text: textMorph text.
+	aPresentation withLineNumbers
+		ifTrue: [ textMorph withLineNumbers ]
+		ifFalse: [ textMorph withoutLineNumbers ].
+	aPresentation withAnnotation
+		ifTrue: [ textMorph withAnnotation ]
+		ifFalse: [ textMorph withoutAnnotation ].
+	textMorph wrapped: aPresentation wrapped.
+	textMorph tabWidth: aPresentation tabWidth.
 	textMorph announcer
 		on: RubTextChanged
 		do: [ :ann | 
@@ -49,10 +61,15 @@ GLMMorphicRubricTextRenderer >> render: aPresentation [
 	textMorph textArea announcer
 		on: RubSelectionChanged
 		do: [ :ann | 
-			aPresentation announcer
+			aPresentation announcer 
 				suspendAllWhile: [ 
 					aPresentation selectionInterval: textMorph selectionInterval.
 					aPresentation selectedText: textMorph textArea selection ] ].
+			
+	textMorph announcer
+		on: RubTextAccepted
+		do: [ :ann | aPresentation suspendAllWhile: [ aPresentation text: ann text ] ].
+		
 	self installActionsOnModel: textModel fromPresentation: aPresentation .
 	self installKeystrokeActionsOnMorph: textMorph textArea fromPresentation: aPresentation.
 
