@@ -10,9 +10,6 @@ Class {
 
 { #category : #private }
 GLMMorphicRubricTextRenderer >> actOnContextChanged: ann [
-	ann property = #textSegments
-		ifTrue: [ textMorph removeAllSegments.
-			ann value ifNotNil: [ :segs | textMorph addAllSegments: segs ] ].
 	ann property = #selectionInterval
 		ifTrue: [
 			ann value notNil 
@@ -51,8 +48,15 @@ GLMMorphicRubricTextRenderer >> render: aPresentation [
 	aPresentation withAnnotation
 		ifTrue: [ textMorph withAnnotation ]
 		ifFalse: [ textMorph withoutAnnotation ].
+	aPresentation withColumns 
+		ifTrue: [ textMorph withColumns ]
+		ifFalse: [ textMorph withoutColumns ].
 	textMorph wrapped: aPresentation wrapped.
 	textMorph tabWidth: aPresentation tabWidth.
+	textMorph addAllSegments: aPresentation textSegments.
+	(aPresentation textSegments anySatisfy: [ :ts | ts icon notNil ])
+		ifTrue: [ textMorph withTextSegmentIcons ]
+		ifFalse: [ textMorph withoutTextSegmentIcons ].
 	textMorph announcer
 		on: RubTextChanged
 		do: [ :ann | 
