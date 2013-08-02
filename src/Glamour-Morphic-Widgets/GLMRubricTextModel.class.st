@@ -24,5 +24,6 @@ GLMRubricTextModel >> getText [
 
 { #category : #accessing }
 GLMRubricTextModel >> setText: aText from: aRubScrolledTextMorph [ 
-	self glamourPresentation text: aText
+	self glamourPresentation text: aText.
+	^true
 ]
