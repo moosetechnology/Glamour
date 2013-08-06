@@ -34,9 +34,9 @@ GLMMorphicActionListRenderer >> buttonMorph: aModel [
 
 { #category : #rendering }
 GLMMorphicActionListRenderer >> morphFrom: anActionListPresentation [ 
-	| container buttonModel button bounds |
+	| buttonsContainer buttonModel button |
 	
-	container := self rectangleMorph.
+	buttonsContainer := self rectangleMorph.
 	
 	anActionListPresentation allActions do: [ :each | 
 		buttonModel := GLMButtonModel new.
@@ -44,10 +44,10 @@ GLMMorphicActionListRenderer >> morphFrom: anActionListPresentation [
 		buttonModel glamourAction: each.
 
 		button := self buttonMorph: buttonModel.
-		container addMorphBack: button.
+		buttonsContainer addMorphBack: button.
 		button width: self class defaultWidth ].
 	
-	^ container
+	^ buttonsContainer
 ]
 
 { #category : #private }
