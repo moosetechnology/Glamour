@@ -19,7 +19,7 @@ GLMActionListPresentation >> hasActions [
 
 { #category : #accessing }
 GLMActionListPresentation >> isHorizontal [
-	^ isHorizontal ifNil: [isHorizontal := false]
+	^ isHorizontal ifNil: [isHorizontal := true]
 ]
 
 { #category : #accessing }
