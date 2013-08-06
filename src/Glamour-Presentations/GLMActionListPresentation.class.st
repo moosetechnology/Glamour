@@ -8,8 +8,8 @@ Class {
 }
 
 { #category : #scripting }
-GLMActionListPresentation >> beHorizontal [
-	self isHorizontal: true
+GLMActionListPresentation >> beVertical [
+	self isHorizontal: false
 ]
 
 { #category : #testing }
