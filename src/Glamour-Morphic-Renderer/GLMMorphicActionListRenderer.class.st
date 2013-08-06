@@ -62,8 +62,8 @@ GLMMorphicActionListRenderer >> rectangleMorphFrom: anActionListPresentation [
 		listDirection: (anActionListPresentation isHorizontal 
 			ifTrue: [ #leftToRight ] 
 			ifFalse: [ #topToBottom ] );
-		listCentering: #bottomRight;
-		wrapCentering: #bottomRight;
+		listCentering: #topLeft;
+		wrapCentering: #topLeft;
 		cellInset: 5;
 		yourself
 ]
