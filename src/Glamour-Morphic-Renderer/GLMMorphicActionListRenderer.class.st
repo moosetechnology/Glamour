@@ -36,7 +36,7 @@ GLMMorphicActionListRenderer >> buttonMorph: aModel [
 GLMMorphicActionListRenderer >> morphFrom: anActionListPresentation [ 
 	| buttonsContainer buttonModel button |
 	
-	buttonsContainer := self rectangleMorph.
+	buttonsContainer := self rectangleMorphFrom: anActionListPresentation.
 	
 	anActionListPresentation allActions do: [ :each | 
 		buttonModel := GLMButtonModel new.
@@ -51,7 +51,7 @@ GLMMorphicActionListRenderer >> morphFrom: anActionListPresentation [
 ]
 
 { #category : #private }
-GLMMorphicActionListRenderer >> rectangleMorph [ 
+GLMMorphicActionListRenderer >> rectangleMorphFrom: anActionListPresentation [
 	^RectangleMorph new
 		borderWidth: 0;
 		color: Color transparent;
@@ -59,7 +59,9 @@ GLMMorphicActionListRenderer >> rectangleMorph [
 		cellPositioning: #topLeft;
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
-		listDirection: #leftToRight;
+		listDirection: (anActionListPresentation isHorizontal 
+			ifTrue: [ #leftToRight ] 
+			ifFalse: [ #topToBottom ] );
 		listCentering: #bottomRight;
 		wrapCentering: #bottomRight;
 		cellInset: 5;
