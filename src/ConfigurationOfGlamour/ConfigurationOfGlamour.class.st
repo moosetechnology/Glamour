@@ -753,8 +753,8 @@ ConfigurationOfGlamour >> baseline25: spec [
 			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core')];
 			package: 'Glamour-Morphic-Theme';
 			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
-			package: 'Glamour-Examples' ;
-			package: 'Glamour-Tools' with: [spec requires: 'CollectionExtensions'];
+			package: 'Glamour-Examples' with: [spec requires: #('Glamour-Tools')];
+			package: 'Glamour-Tools' with: [spec requires: #('Glamour-Core' 'CollectionExtensions')];
 			package: 'Rubric' with: [spec repository: 'http://www.smalltalkhub.com/mc/AlainPlantec/Rubric/main'];
 			package: 'Glamour-Rubric-Presentations' with: [spec requires: 'Rubric'];
 			package: 'Glamour-Roassal-Presentations' with: [spec requires: 'Roassal for Glamour'];
