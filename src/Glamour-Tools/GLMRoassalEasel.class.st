@@ -35,7 +35,7 @@ GLMRoassalEasel >> evaluate: script in: context for: view [
 	^ [ Compiler new evaluate: script in: context to: context ]
 		on: Error
 		do: [ :e | 
-			message := e class name , ': ' , e errorMessage.
+			message := e class name , ': ' , e messageText.
 			self inform: message.
 			view shape label color: Color red lighter; withText .
 			view node: message ]
