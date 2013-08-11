@@ -27,6 +27,7 @@ GLMPresentStrategy >> addPresentations: aCollection [
 
 { #category : #accessing }
 GLMPresentStrategy >> presentations [
+	<debuggingStone: #presentationCreation label: 'Presentation creation'>
 	| presentations |
 	presentations := GLMCompositePresentation new.
 	self presentationsFactory glamourValue: (

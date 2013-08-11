@@ -232,6 +232,7 @@ GLMTransmission >> initialize [
 
 { #category : #testing }
 GLMTransmission >> meetsCondition [
+	<debuggingStone: #transmissionCondition label: 'Transmission condition'>
 	| originValues |
 	originValues := self originReferences size = 1 
 		ifTrue: [ self originReferences first value ] 
@@ -379,6 +380,7 @@ GLMTransmission >> transmitIn: aContext [
 
 { #category : #transmitting }
 GLMTransmission >> value [
+	<debuggingStone: #transmissionTransformation label: 'Transmission transformation'>
 	| originalValue |
 	originalValue := self originReferences size = 1 
 		ifTrue: [ self originReferences first value ] 
