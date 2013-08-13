@@ -6,6 +6,7 @@ Class {
 		'cursorPosition',
 		'text',
 		'doItReceiver',
+		'doItContext',
 		'variableBindingsBlock',
 		'textBlock',
 		'selectedTextBlock'
@@ -23,6 +24,18 @@ GLMTextualPresentation >> cursorPosition [
 GLMTextualPresentation >> cursorPosition: anObject [ 
 	 
 	cursorPosition := anObject
+]
+
+{ #category : #accessing }
+GLMTextualPresentation >> doItContext [
+	"Return a context use for evaluating code in the presentation. Any variable contained in the executed code will be looked up in this context."
+	^ doItContext glamourValue: self entity
+]
+
+{ #category : #accessing }
+GLMTextualPresentation >> doItContext: aOneArgBlock [
+	"The block will be passed the current entity and is expected to return a context. Any code evaluated from the presentation will be executed as part of the retuned context."
+	doItContext := aOneArgBlock
 ]
 
 { #category : #accessing }
