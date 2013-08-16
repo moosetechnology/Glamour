@@ -2,7 +2,7 @@ Extension { #name : #GLMCompositePresentation }
 
 { #category : #'*glamour-rubric-presentations' }
 GLMCompositePresentation >> rubricSmalltalkCode [
-	^ self custom: GLMRubricSmalltlakCodePresentation new
+	^ self custom: GLMRubricSmalltalkCodePresentation new
 ]
 
 { #category : #'*glamour-rubric-presentations' }
