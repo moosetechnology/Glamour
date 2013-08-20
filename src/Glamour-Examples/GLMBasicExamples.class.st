@@ -794,8 +794,9 @@ GLMBasicExamples >> roassalWithCustomHighlight [
 						roassal on: GLMContextChanged do: [:ann |
 							ann property = #selection ifTrue: [
 								ann oldValue ifNotNil: [
-									ROUnhighlightElement on: (ann presentation view raw elementFromModel: ann oldValue)].
-								ROHighlightElement on: (ann presentation view raw elementFromModel: ann value) color: Color red ]]]].
+							ROBlink unhighlight: (ann presentation view raw elementFromModel: ann oldValue).
+							ROBlink highlight: (ann presentation view raw elementFromModel: ann value) 
+						]]]]].
 			tabulator transmit from: #index; to: #visualization port: #selection.
 			tabulator transmit from: #visualization port: #selection; to: #index port: #selection.
 	].
