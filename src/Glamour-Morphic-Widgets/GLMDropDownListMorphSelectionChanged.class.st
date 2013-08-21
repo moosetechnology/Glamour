@@ -2,10 +2,21 @@ Class {
 	#name : #GLMDropDownListMorphSelectionChanged,
 	#superclass : #Announcement,
 	#instVars : [
+		'selectionIndex',
 		'selectionValue'
 	],
 	#category : #'Glamour-Morphic-Widgets'
 }
+
+{ #category : #accessing }
+GLMDropDownListMorphSelectionChanged >> selectionIndex [
+	^ selectionIndex
+]
+
+{ #category : #accessing }
+GLMDropDownListMorphSelectionChanged >> selectionIndex: anInteger [
+	selectionIndex := anInteger
+]
 
 { #category : #accessing }
 GLMDropDownListMorphSelectionChanged >> selectionValue [
