@@ -53,6 +53,12 @@ GLMAnnouncingCollection >> includes: anObject [
 ]
 
 { #category : #initialization }
+GLMAnnouncingCollection >> indexOf: anElement [
+
+	^ collection indexOf: anElement
+]
+
+{ #category : #initialization }
 GLMAnnouncingCollection >> initialize [
 	super initialize.
 	collection := OrderedCollection new
