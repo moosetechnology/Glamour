@@ -588,7 +588,7 @@ GLMWhitespaceTheme >> glamorousThickBorderFor: aWindow [
 	| aStyle |
 	aStyle := SimpleBorder new
 					baseColor: (self glamorousDarkBaseColorFor: aWindow);
-					width: 5.
+					width: 2.
 	aWindow borderStyle: aStyle.
 	^ aStyle
 ]
