@@ -1461,10 +1461,10 @@ GLMBasicExamples >> updateableIndividualPresentations [
 		act: [:b | b update ] 
 		icon: GLMUIThemeExtraIcons glamorousRefresh
 		entitled: 'Update complete browser'.
-	browser transmit to: #automatic; andShow: [ :a |
+	browser transmit to: #automatic; andShow: [ :a :x |
 		a title: 'Updated automatically'.
 		a stackedArrangement.
-		a list title: [:x | 'List: ', x size printString ];
+		a list title: [ 'List: ', x size printString ];
 			shouldValidate: true;
 			updateOn: GLMItemAdded from: #yourself;
 			updateOn: GLMItemRemoved from: #yourself.
@@ -1474,10 +1474,10 @@ GLMBasicExamples >> updateableIndividualPresentations [
 		a mondrian title: 'Mondrian';
 			updateOn: GLMItemAdded from: #yourself;
 			updateOn: GLMItemRemoved from: #yourself;
-			painting: [:view :entity | 
+			painting: [:view | 
 				view shape label.
-				view nodes: entity ] ].
-	browser transmit to: #menu; andShow: [ :a |
+				view nodes: x ] ].
+	browser transmit to: #menu; andShow: [ :a :x |
 		a title: 'Updated via menu'.
 		a stackedArrangement.
 		a list title: 'List';
@@ -1493,9 +1493,9 @@ GLMBasicExamples >> updateableIndividualPresentations [
 			act: [:p | p update]
 				icon: GLMUIThemeExtraIcons glamorousRefresh
 				entitled: 'Update';
-			painting: [:view :entity | 
+			painting: [:view | 
 				view shape label.
-				view nodes: entity ] ].
+				view nodes: x ] ].
 	^ browser
 ]
 
