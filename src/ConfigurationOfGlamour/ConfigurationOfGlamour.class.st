@@ -825,8 +825,8 @@ ConfigurationOfGlamour >> baseline25: spec [
 			spec
 					className: 'ConfigurationOfMagritte3';
 					file: 'ConfigurationOfMagritte3';
-					version: #stable;
-					repository: 'http://source.lukas-renggli.ch/magritte3';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/Magritte/Magritte3/main';
 					loads: #('Magritte-Model' 'Magritte-Tests-Model' 'Magritte-Morph' 'Magritte-Pharo-Model') ].
 	]
 ]
