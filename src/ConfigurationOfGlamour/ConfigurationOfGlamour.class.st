@@ -761,7 +761,7 @@ ConfigurationOfGlamour >> baseline25: spec [
 			package: 'Glamour-Mondrian-Presentations' with: [spec requires: 'Mondrian for Glamour'];
 			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];
 			package: 'Glamour-EyeSee-Presentations' with: [spec requires: 'EyeSee for Glamour'];
-			package: 'Glamour-GraphET-Presentations' with: [spec requires: 'GraphET'];
+			package: 'Glamour-GraphET-Presentations' with: [spec requires: 'Graph-ET'];
 			package: 'Glamour-Tests-Mondrian' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Mondrian-Presentations')];
 			package: 'Glamour-Tests-Rubric' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Rubric-Presentations')];
 			package: 'Glamour-Tests-Roassal' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Roassal-Presentations')];
