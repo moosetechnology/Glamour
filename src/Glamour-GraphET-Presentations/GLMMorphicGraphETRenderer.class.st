@@ -18,8 +18,8 @@ GLMMorphicGraphETRenderer >> actOnPresentationUpdate: ann [
 { #category : #rendering }
 GLMMorphicGraphETRenderer >> render: aChartetPresentation [
 	| builder |
-	builder := aChartetPresentation chartetBuilder.
-	aChartetPresentation renderOn: aChartetPresentation chartetBuilder.
+	builder := aChartetPresentation graphetBuilder.
+	aChartetPresentation renderOn: aChartetPresentation graphetBuilder.
 	aChartetPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdate: to: self.
 	builder openIn: builder rawView.
 	^ myMorph := ROPlatform current hostVisualElement on: builder stack

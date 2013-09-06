@@ -4,10 +4,10 @@ Class {
 	#instVars : [
 		'renderer',
 		'canvas',
-		'diagramBlock',
 		'eyeSeeRenderer',
 		'selectedElement',
-		'chartetBuilder'
+		'chartBlock',
+		'graphetBuilder'
 	],
 	#category : #'Glamour-GraphET-Presentations'
 }
@@ -25,35 +25,36 @@ GLMGraphETPresentation >> canvas: anObject [
 { #category : #accessing }
 GLMGraphETPresentation >> chart [
 
-	^ diagramBlock
+	^ chartBlock
 ]
 
 { #category : #accessing }
 GLMGraphETPresentation >> chart: aBlock [
 	"use this one to set the "
-	diagramBlock := aBlock
-]
-
-{ #category : #accessing }
-GLMGraphETPresentation >> chartetBuilder [
-	^ chartetBuilder ifNil: [ chartetBuilder := GETDiagramBuilder new]
-]
-
-{ #category : #accessing }
-GLMGraphETPresentation >> chartetBuilder: aBuilder [
-	chartetBuilder := aBuilder 
+	chartBlock := aBlock
 ]
 
 { #category : #accessing }
 GLMGraphETPresentation >> defaultActions [
 	self
-		act: [ :eyesee | eyesee canvas exportAsPNG ] 
-			entitled: 'Export as PNG'
+		act: [ :graphet | ROExportPNGCommand new executeOn: graphet graphetBuilder rawView ] 
+			entitled: 'Export as PNG';
+		act: [ :graphet | ROZoomOutMove new on: graphet graphetBuilder rawView ]
+			icon: GLMUIThemeExtraIcons glamorousZoomOut
+			entitled: 'Zoom out';
+		act: [ :graphet | ROZoomInMove new on: graphet graphetBuilder rawView ]
+			icon: GLMUIThemeExtraIcons glamorousZoomIn
+			entitled: 'Zoom in'
 ]
 
 { #category : #accessing }
 GLMGraphETPresentation >> diagram: aBlock [
 	self chart: aBlock
+]
+
+{ #category : #accessing }
+GLMGraphETPresentation >> graphetBuilder [
+	^ graphetBuilder ifNil: [ graphetBuilder := GETDiagramBuilder new]
 ]
 
 { #category : #'initialize-release' }
