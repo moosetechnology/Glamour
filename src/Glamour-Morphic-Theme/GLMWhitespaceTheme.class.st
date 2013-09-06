@@ -970,21 +970,16 @@ GLMWhitespaceTheme >> sliderDisabledFillStyleFor: aSlider [
 GLMWhitespaceTheme >> splitterNormalFillStyleFor: aSplitter [
 	"Return the normal splitter fillStyle for the given splitter."
 	
-	^ SolidFillStyle color: Color transparent
+	^ self 
+		glamorousNormalFillStyleFor: aSplitter 
+		height: 1
 ]
 
 { #category : #'fill-styles' }
 GLMWhitespaceTheme >> splitterPressedFillStyleFor: aSplitter [
 	"Return the pressed splitter fillStyle for the given splitter."
 	
-	|aColor|
-	aColor := self glamorousBaseColorFor: aSplitter.
-	^ (GradientFillStyle ramp: {0.0->aColor lighter. 0.9-> aColor})
-		origin: aSplitter topLeft;
-		direction: (aSplitter splitsTopAndBottom
-			ifTrue: [0 @ aSplitter height]
-			ifFalse: [aSplitter width @ 0]);
-		radial: false
+	^ self splitterNormalFillStyleFor: aSplitter
 ]
 
 { #category : #'basic-colors' }
