@@ -28,7 +28,7 @@ GLMGraphETEditor >> defaultScriptDisplayIn: aPresentation [
 
 { #category : #building }
 GLMGraphETEditor >> defaultTitle [
-	^ 'Chartet Editor'
+	^ 'GraphET Editor'
 ]
 
 { #category : #private }
