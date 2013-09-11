@@ -630,7 +630,6 @@ ConfigurationOfGlamour >> baseline24: spec [
 		spec description: 'Loading moose packages from SmalltalkHub for Pharo1.4'.
 		spec repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main'.
 		spec 
-			package: 'CollectionExtensions' with: [spec repository: 'http://smalltalkhub.com/mc/Moose/CollectionExtensions/main'];
 			package: 'Glamour-Announcements' ;
 			package: 'Glamour-Helpers' ;
 			package: 'Glamour-Core' with: [spec requires: #('Glamour-Helpers' 'Glamour-Announcements')];
@@ -642,7 +641,7 @@ ConfigurationOfGlamour >> baseline24: spec [
 			package: 'Glamour-Morphic-Theme';
 			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer' 'BDDExtensions')];
 			package: 'Glamour-Examples' ;
-			package: 'Glamour-Tools' with: [spec requires: 'CollectionExtensions'];
+			package: 'Glamour-Tools';
 			package: 'Glamour-Roassal-Presentations' with: [spec requires: 'Roassal for Glamour'];
 			package: 'Glamour-Mondrian-Presentations' with: [spec requires: 'Mondrian for Glamour'];
 			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];
@@ -651,6 +650,12 @@ ConfigurationOfGlamour >> baseline24: spec [
 			package: 'Glamour-Tests-Roassal' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Roassal-Presentations')];
 			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')];
 			package: 'Glamour-Tests-Resources'.
+	spec for: #squeakcommon do: [
+			spec package: 'CollectionExtensions' with: [
+				spec repository: 'http://smalltalkhub.com/mc/Moose/CollectionExtensions/main'].
+			spec
+				package: 'Glamour-Tools' with: [spec requires: 'CollectionExtensions'].
+		].
 
 		spec group: 'Core' with: #(
 						'Glamour-Announcements'
@@ -742,7 +747,6 @@ ConfigurationOfGlamour >> baseline25: spec [
 		spec description: 'Loading moose packages from SmalltalkHub for Pharo2.0'.
 		spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'.
 		spec 
-			package: 'CollectionExtensions' with: [spec repository: 'http://www.smalltalkhub.com/mc/Moose/CollectionExtensions/main'];
 			package: 'Glamour-Announcements' ;
 			package: 'Glamour-Helpers' ;
 			package: 'Glamour-Core' with: [spec requires: #('Glamour-Helpers' 'Glamour-Announcements')];
@@ -754,7 +758,7 @@ ConfigurationOfGlamour >> baseline25: spec [
 			package: 'Glamour-Morphic-Theme';
 			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
 			package: 'Glamour-Examples' with: [spec requires: #('Glamour-Tools')];
-			package: 'Glamour-Tools' with: [spec requires: #('Glamour-Core' 'CollectionExtensions')];
+			package: 'Glamour-Tools' with: [spec requires: #('Glamour-Core')];
 			package: 'Rubric' with: [spec repository: 'http://www.smalltalkhub.com/mc/AlainPlantec/Rubric/main'];
 			package: 'Glamour-Rubric-Presentations' with: [spec requires: 'Rubric'];
 			package: 'Glamour-Roassal-Presentations' with: [spec requires: 'Roassal for Glamour'];
@@ -766,8 +770,16 @@ ConfigurationOfGlamour >> baseline25: spec [
 			package: 'Glamour-Tests-Rubric' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Rubric-Presentations')];
 			package: 'Glamour-Tests-Roassal' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Roassal-Presentations')];
 			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')];
-			package: 'Glamour-Tests-Resources'.
+			package: 'Glamour-Tests-Resources'].
 
+	spec for: #squeakcommon do: [ 
+		spec
+			package: 'CollectionExtensions' with: [spec repository: 'http://www.smalltalkhub.com/mc/Moose/CollectionExtensions/main'].
+		spec
+			package: 'Glamour-Tools' with: [spec requires: #('Glamour-Core' 'CollectionExtensions')].
+		 ].
+
+	spec for: #common do: [ 
 		spec group: 'Core' with: #(
 						'Glamour-Announcements'
 						'Glamour-Helpers'
@@ -950,7 +962,6 @@ ConfigurationOfGlamour >> snapshot1 [
 		#('ConfigurationOfMondrian-StephaneDucasse.375.mcz'  'http://www.smalltalkhub.com/mc/Moose/Mondrian/main/'  'ConfigurationOfMondrian' ) 
 		#('ConfigurationOfMagritte3-TudorGirba.47.mcz'  'http://www.smalltalkhub.com/mc/Magritte/Magritte3/main/'  'ConfigurationOfMagritte3' ) 
 		#('ConfigurationOfRoassal-TudorGirba.1186.mcz'  'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal/main/'  'ConfigurationOfRoassal' ) 
-		#('CollectionExtensions-TudorGirba.34.mcz'  'http://www.smalltalkhub.com/mc/Moose/CollectionExtensions/main/'  'CollectionExtensions' ) 
 		#('Glamour-Announcements-TudorGirba.7.mcz'  'http://www.smalltalkhub.com/mc/Moose/Glamour/main/'  'Glamour-Announcements' ) 
 		#('Glamour-Helpers-TudorGirba.32.mcz'  'http://www.smalltalkhub.com/mc/Moose/Glamour/main/'  'Glamour-Helpers' ) 
 		#('Glamour-Core-AndreiChis.256.mcz'  'http://www.smalltalkhub.com/mc/Moose/Glamour/main/'  'Glamour-Core' ) 
@@ -984,7 +995,6 @@ ConfigurationOfGlamour >> snapshot1 [
 		#('XML-Parser-DamienCassou.143.mcz'  'http://www.smalltalkhub.com/mc/PharoExtras/XMLParser/main/'  'XML-Parser' ) 
 		#('XML-Tests-Parser-StephaneDucasse.15.mcz'  'http://www.smalltalkhub.com/mc/PharoExtras/XMLParser/main/'  'XML-Tests-Parser' ) 
 		#('HealthReportProducer-Ivan_Rojas.16.mcz'  'http://www.squeaksource.com/HealthReportProducer/'  'HealthReportProducer' ) 
-		#('CollectionExtensions-TudorGirba.34.mcz'  'http://www.smalltalkhub.com/mc/Moose/CollectionExtensions/main/'  'CollectionExtensions' ) 
 		#('Nile-Base-DamienCassou.81.mcz'  'http://www.squeaksource.com/Nile/'  'Nile-Base' ) 
 		#('Mondrian-Core-TudorGirba.86.mcz'  'http://www.smalltalkhub.com/mc/Moose/Mondrian/main/'  'Mondrian-Core' ) 
 		#('Mondrian-Layouts-AnneEtien.27.mcz'  'http://www.smalltalkhub.com/mc/Moose/Mondrian/main/'  'Mondrian-Layouts' ) 
@@ -1400,7 +1410,6 @@ ConfigurationOfGlamour >> version24: spec [
 			project: 'EyeSee for Glamour' with: '0.9.8';
 			project: 'Grease' with: #'stable'.
 		spec 
-			package: 'CollectionExtensions' with: 'CollectionExtensions-TudorGirba.32';
 			package: 'Glamour-Announcements' with: 'Glamour-Announcements-TudorGirba.7';
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-TudorGirba.32';
 			package: 'Glamour-Core' with: 'Glamour-Core-TudorGirba.230';
@@ -1421,7 +1430,10 @@ ConfigurationOfGlamour >> version24: spec [
 			package: 'Glamour-Magritte-Presentations' with: 'Glamour-Magritte-Presentations-BenComan.3';
 			package: 'Glamour-EyeSee-Presentations' with: 'Glamour-EyeSee-Presentations-AndreHora.2';
 			package: 'Glamour-Tests-Mondrian' with: 'Glamour-Tests-Mondrian-TudorGirba.5';
-			package: 'Glamour-Tests-EyeSee' with: 'Glamour-Tests-EyeSee-AndreHora.6'. ].
+			package: 'Glamour-Tests-EyeSee' with: 'Glamour-Tests-EyeSee-AndreHora.6' ].
+	spec for: #squeakcommon do: [ 
+		spec 
+			package: 'CollectionExtensions' with: 'CollectionExtensions-TudorGirba.32' ].
 
 ]
 
@@ -1431,5 +1443,8 @@ ConfigurationOfGlamour >> version25snapshot: spec [
 	<version: '2.5-snapshot'>
 
 	spec for: #common do: [
-		self populateSpec: spec with: self snapshot1 ]
+		self populateSpec: spec with: self snapshot1 ].
+	spec for: #squeakcommon do: [ 
+		spec
+			package: 'CollectionExtensions' with: 'CollectionExtensions-TudorGirba.34.mcz' ]
 ]
