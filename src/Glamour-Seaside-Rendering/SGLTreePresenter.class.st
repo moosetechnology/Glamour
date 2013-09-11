@@ -348,7 +348,11 @@ SGLTreePresenter >> selectedIds [
 					|path unrenderedNode|
 					path := node path.
 					unrenderedNode := path detect: [:each| each areChildrenRendered not].
-					(path indexOf: unrenderedNode) to: path size - 1do: [ :i| (path at: i) expanded: true].
+					(path indexOf: unrenderedNode)
+						to: path size - 1
+						do: [ :i |
+							(path at: i)
+								expanded: true].
 					unrenderedNode expanded: true.
 					self updateNodeContentScriptFor: unrenderedNode.
 					self toggleNodeClassFor: unrenderedNode.
