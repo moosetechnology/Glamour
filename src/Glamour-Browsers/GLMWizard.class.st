@@ -318,10 +318,8 @@ GLMWizard >> nextButtonAction [
 { #category : #'building pane' }
 GLMWizard >> notifyAndAddNewPane: aGLMPane [
 
-	|oldPane   tmpPanes|
-	tmpPanes := self stepsAndPanes at: self currentStep ifAbsentPut: [OrderedCollection new].
-	tmpPanes addLast: aGLMPane.  
-	"self panes addLast: aGLMPane".
+	(self stepsAndPanes at: self currentStep ifAbsentPut: [OrderedCollection new])
+		addLast: aGLMPane.  
 	self announce: (GLMPaneAdded new
 							pane: aGLMPane;
 							browser: self;
