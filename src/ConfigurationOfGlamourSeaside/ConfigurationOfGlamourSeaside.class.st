@@ -83,7 +83,7 @@ ConfigurationOfGlamourSeaside >> baseline01: spec [
 		spec blessing: #baseline.
 		spec repository: 'http://www.squeaksource.com/Glamour'.
 		spec package: 'Glamour-Seaside' with: [
-			spec requires: #('Seaside' 'Glamour' 'SeasideTesting') ]..
+			spec requires: #('Seaside' 'Glamour' 'SeasideTesting') ].
 		spec package: 'JQWidgetBox-Core' with: [
 			spec requires: #('Seaside').
 			spec repository: 'http://www.squeaksource.com/JQueryWidgetBox'].
@@ -262,19 +262,20 @@ ConfigurationOfGlamourSeaside >> baseline04: spec [
 				spec
 					className: 'ConfigurationOfGlamour';
 					version: #development;
+					loads: #( 'Core' );
 					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ];
 			project: 'Seaside' with: [
 				spec
-					className: 'ConfigurationOfSeaside30';
+					className: 'ConfigurationOfSeaside3';
 					versionString: #'stable';
 					loads: 'Core';
-					repository: 'http://www.squeaksource.com/Seaside30' ];
+					repository: 'http://www.smalltalkhub.com/mc/Seaside/MetacelloConfigurations/main' ];
 			project: 'SeasideTesting' with: [
 				spec
 					className: 'ConfigurationOfSeasideTesting';
 					version: #'development';
 					loads: #('SimulatedBrowserTesting');
-					repository: 'http://www.squeaksource.com/SeasideTesting' ];
+					repository: 'http://www.smalltalkhub.com/mc/Seaside/MetacelloConfigurations/main' ];
 			project: 'BeachParasol' with: [
 				spec
 					className: 'ConfigurationOfParasol';
