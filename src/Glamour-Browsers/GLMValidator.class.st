@@ -59,11 +59,10 @@ GLMValidator >> buttonActions [
 ]
 
 { #category : #events }
-GLMValidator >> explicitlyInnerPortNamed: aPortName [ .  
+GLMValidator >> explicitlyInnerPortNamed: aPortName [
 
 	aPortName = #entity ifFalse: [
-		self panes first ports do: [:each | (self pane port: each name) value: each value]
-		]
+		self panes first ports do: [:each | (self pane port: each name) value: each value] ]
 ]
 
 { #category : #'initialize-release' }
