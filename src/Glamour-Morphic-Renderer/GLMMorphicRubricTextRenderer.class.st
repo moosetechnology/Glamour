@@ -33,6 +33,7 @@ GLMMorphicRubricTextRenderer >> modelFor: aPresentation [
 { #category : #rendering }
 GLMMorphicRubricTextRenderer >> morph [
 	^ RubScrolledTextMorph new
+		getSelectionSelector: #primarySelectionInterval;
 		model: textModel;
 		yourself
 ]
@@ -40,6 +41,7 @@ GLMMorphicRubricTextRenderer >> morph [
 { #category : #rendering }
 GLMMorphicRubricTextRenderer >> render: aPresentation [
 	textModel := self modelFor: aPresentation.
+	textModel primarySelectionInterval: aPresentation primarySelectionInterval.
 	textMorph := self morph.
 	aPresentation text: textMorph text.
 	aPresentation withLineNumbers
