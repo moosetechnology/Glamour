@@ -7,7 +7,8 @@ Class {
 		'wrapped',
 		'tabWidth',
 		'withColumns',
-		'textSegments'
+		'textSegments',
+		'primarySelectionInterval'
 	],
 	#category : #'Glamour-Rubric-Presentations'
 }
@@ -17,10 +18,25 @@ GLMRubricTextPresentation >> addTextSegment: aTextSegmentMorph [
 	self textSegments add: aTextSegmentMorph
 ]
 
+{ #category : #accessing }
+GLMRubricTextPresentation >> primarySelectionInterval [
+	^ primarySelectionInterval
+]
+
+{ #category : #accessing }
+GLMRubricTextPresentation >> primarySelectionInterval: anInterval [
+	primarySelectionInterval := anInterval
+]
+
 { #category : #rendering }
 GLMRubricTextPresentation >> renderGlamorouslyOn: aRenderer [
 	self registerAnnouncements.
 	^ aRenderer renderRubricTextPresentation: self
+]
+
+{ #category : #accessing }
+GLMRubricTextPresentation >> scrollAtIndex: anIndex [
+	self primarySelectionInterval: (anIndex to: anIndex - 1)
 ]
 
 { #category : #accessing }
