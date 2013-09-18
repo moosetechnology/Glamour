@@ -2,7 +2,8 @@ Class {
 	#name : #GLMRubricTextModel,
 	#superclass : #GLMMorphicModel,
 	#instVars : [
-		'announcer'
+		'announcer',
+		'primarySelectionInterval'
 	],
 	#category : #'Glamour-Morphic-Widgets'
 }
@@ -17,9 +18,19 @@ GLMRubricTextModel >> announcer: anObject [
 	announcer := anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMRubricTextModel >> getText [
 	^ self glamourPresentation displayValue
+]
+
+{ #category : #accessing }
+GLMRubricTextModel >> primarySelectionInterval [
+	^ primarySelectionInterval
+]
+
+{ #category : #accessing }
+GLMRubricTextModel >> primarySelectionInterval: anInterval [ 
+	primarySelectionInterval := anInterval
 ]
 
 { #category : #accessing }

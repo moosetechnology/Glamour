@@ -28,7 +28,7 @@ GLMDropListModel >> glamourPresentation: anObject [
 
 { #category : #accessing }
 GLMDropListModel >> list [
-
+	
 	^list ifNil: [ list:= (self glamourPresentation displayValue 
 									collect:[ :each| (self glamourPresentation formatedDisplayValueOf: each) asMorph ])]
 ]
@@ -36,13 +36,6 @@ GLMDropListModel >> list [
 { #category : #accessing }
 GLMDropListModel >> list: anObject [
 	list := anObject
-]
-
-{ #category : #accessing }
-GLMDropListModel >> resetData [
-
-	list := nil.
-	selectionIndex := nil
 ]
 
 { #category : #accessing }
@@ -65,7 +58,6 @@ GLMDropListModel >> selectionIndex: anObject [
 	selectionIndex := anObject.
 	self announcer announce: (
 			GLMDropDownListMorphSelectionChanged new 
-				selectionValue: self selectedItem;
-				selectionIndex: selectionIndex;
+				selectionValue: self selectedItem
 				yourself)
 ]
