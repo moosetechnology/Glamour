@@ -19,9 +19,9 @@ GLMSmalltalkCodeModel >> bindingOf: aSymbol [
 	^ self variableBindings associationAt: aSymbol ifAbsent: [nil]
 ]
 
-{ #category : #callbacks }
+{ #category : #accessing }
 GLMSmalltalkCodeModel >> doItContext [
-	^ nil "it might be necessary to ask the presentation"
+	^ self glamourPresentation doItContext 
 ]
 
 { #category : #accessing }
