@@ -1,11 +1,11 @@
 Class {
-	#name : #GLMRubricSmalltlakCodePresentation,
+	#name : #GLMRubricSmalltalkCodePresentation,
 	#superclass : #GLMSmalltalkCodePresentation,
 	#category : #'Glamour-Rubric-Presentations'
 }
 
 { #category : #rendering }
-GLMRubricSmalltlakCodePresentation >> renderGlamorouslyOn: aRenderer [
+GLMRubricSmalltalkCodePresentation >> renderGlamorouslyOn: aRenderer [
 	self registerAnnouncements.
 	^ aRenderer renderRubricSmalltalkCodePresentation: self
 ]
