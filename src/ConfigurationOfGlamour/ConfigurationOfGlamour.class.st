@@ -650,7 +650,7 @@ ConfigurationOfGlamour >> baseline24: spec [
 			package: 'Glamour-Tests-Roassal' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Roassal-Presentations')];
 			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')];
 			package: 'Glamour-Tests-Resources'.
-	spec for: #squeakcommon do: [
+	spec for: #squeakCommon do: [
 			spec package: 'CollectionExtensions' with: [
 				spec repository: 'http://smalltalkhub.com/mc/Moose/CollectionExtensions/main'].
 			spec
@@ -772,7 +772,7 @@ ConfigurationOfGlamour >> baseline25: spec [
 			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')];
 			package: 'Glamour-Tests-Resources'].
 
-	spec for: #squeakcommon do: [ 
+	spec for: #squeakCommon do: [ 
 		spec
 			package: 'CollectionExtensions' with: [spec repository: 'http://www.smalltalkhub.com/mc/Moose/CollectionExtensions/main'].
 		spec
@@ -1431,7 +1431,7 @@ ConfigurationOfGlamour >> version24: spec [
 			package: 'Glamour-EyeSee-Presentations' with: 'Glamour-EyeSee-Presentations-AndreHora.2';
 			package: 'Glamour-Tests-Mondrian' with: 'Glamour-Tests-Mondrian-TudorGirba.5';
 			package: 'Glamour-Tests-EyeSee' with: 'Glamour-Tests-EyeSee-AndreHora.6' ].
-	spec for: #squeakcommon do: [ 
+	spec for: #squeakCommon do: [ 
 		spec 
 			package: 'CollectionExtensions' with: 'CollectionExtensions-TudorGirba.32' ].
 
@@ -1444,7 +1444,7 @@ ConfigurationOfGlamour >> version25snapshot: spec [
 
 	spec for: #common do: [
 		self populateSpec: spec with: self snapshot1 ].
-	spec for: #squeakcommon do: [ 
+	spec for: #squeakCommon do: [ 
 		spec
 			package: 'CollectionExtensions' with: 'CollectionExtensions-TudorGirba.34.mcz' ]
 ]
