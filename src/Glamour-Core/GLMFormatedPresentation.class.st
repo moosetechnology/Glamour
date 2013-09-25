@@ -13,7 +13,7 @@ Class {
 
 { #category : #accessing }
 GLMFormatedPresentation >> format [
-	^ format ifNil: [ format := #glamourString ]
+	^ format ifNil: [ format := #asString ]
 ]
 
 { #category : #accessing }
