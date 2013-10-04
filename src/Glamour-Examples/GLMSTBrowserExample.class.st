@@ -72,7 +72,7 @@ GLMSTBrowserExample >> classesIn: a [
 
 { #category : #accessing }
 GLMSTBrowserExample >> complexityIn: a [
-	^ a mondrian
+	^ a roassal
 		title: 'Complexity';
 		useExplicitNotNil;
 		painting: [ :view :category :class :selector | 
