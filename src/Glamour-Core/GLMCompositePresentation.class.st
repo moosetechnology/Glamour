@@ -122,11 +122,6 @@ GLMCompositePresentation >> dynamic [
 ]
 
 { #category : #scripting }
-GLMCompositePresentation >> eyesee [
-	^ self custom: GLMEyeSeePresentation new
-]
-
-{ #category : #scripting }
 GLMCompositePresentation >> finder [
 	^ self custom: GLMFinder new
 ]
@@ -182,11 +177,6 @@ GLMCompositePresentation >> magritte [
 { #category : #accessing }
 GLMCompositePresentation >> matchingPresentations [
 	^ self presentations select: [:each | each matches]
-]
-
-{ #category : #scripting }
-GLMCompositePresentation >> mondrian [ 
-	^ self custom: GLMMondrianPresentation new
 ]
 
 { #category : #scripting }
