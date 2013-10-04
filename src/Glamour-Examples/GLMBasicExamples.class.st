@@ -1439,7 +1439,7 @@ GLMBasicExamples >> updateableIndividualPresentations [
 		a text title: 'Text';
 			updateOn: GLMItemAdded from: #yourself;
 			updateOn: GLMItemRemoved from: #yourself .
-		a mondrian title: 'Mondrian';
+		a roassal title: 'Roassal';
 			updateOn: GLMItemAdded from: #yourself;
 			updateOn: GLMItemRemoved from: #yourself;
 			painting: [:view | 
@@ -1457,7 +1457,7 @@ GLMBasicExamples >> updateableIndividualPresentations [
 			act: [:p | p update] 
 				icon: GLMUIThemeExtraIcons glamorousRefresh
 				entitled: 'Update'.
-		a mondrian title: 'Mondrian';
+		a roassal title: 'Roassal';
 			act: [:p | p update]
 				icon: GLMUIThemeExtraIcons glamorousRefresh
 				entitled: 'Update';
