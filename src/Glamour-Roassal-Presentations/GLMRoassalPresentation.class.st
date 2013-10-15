@@ -20,6 +20,8 @@ GLMRoassalPresentation >> defaultActions [
 	self
 		act: [ :roassal | ROExportPNGCommand new executeOn: roassal view raw ] 
 			entitled: 'Export as PNG';
+		act: [ :roassal | ROExportSVGCommand new executeOn: roassal view raw ] 
+			entitled: 'Export as SVG';
 		act: [ :roassal | ROZoomOutMove new on: roassal view raw ]
 			icon: GLMUIThemeExtraIcons glamorousZoomOut
 			entitled: 'Zoom out';
