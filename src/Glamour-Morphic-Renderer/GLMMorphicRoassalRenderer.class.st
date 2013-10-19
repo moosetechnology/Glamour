@@ -21,5 +21,5 @@ GLMMorphicRoassalRenderer >> render: aRoassalPresentation [
 	view := aRoassalPresentation view.
 	aRoassalPresentation renderOn: view.
 	aRoassalPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdate: to: self.
-	^ myMorph := ROPlatform current hostVisualElement on: view stack
+	^ myMorph := ROPlatform current widgetFactory forView: view stack
 ]
