@@ -690,7 +690,7 @@ GLMWhitespaceTheme >> menuPinForm [
 
 { #category : #'fill-styles' }
 GLMWhitespaceTheme >> morphTreeSplitterNormalFillStyleFor: aSplitter [	
-	^ self splitterNormalFillStyleFor: aSplitter
+	^ SolidFillStyle color: Color transparent
 ]
 
 { #category : #'fill-styles' }
