@@ -52,7 +52,7 @@ GLMMorphicActionListRenderer >> morphFrom: anActionListPresentation [
 
 { #category : #private }
 GLMMorphicActionListRenderer >> rectangleMorphFrom: anActionListPresentation [
-	^RectangleMorph new
+	^ BorderedMorph new
 		borderWidth: 0;
 		color: Color transparent;
 		layoutPolicy: TableLayout new;
