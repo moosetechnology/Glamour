@@ -101,7 +101,7 @@ GLMMorphic class >> morphElement: anObject [
 				^self alignmentMorph: row ].
 				
 	anObject isForm
-	ifTrue:[ ^ImageMorph new newForm: anObject ].
+	ifTrue:[ ^ImageMorph new form: anObject ].
 	
 	^self containerMorph
 ]
