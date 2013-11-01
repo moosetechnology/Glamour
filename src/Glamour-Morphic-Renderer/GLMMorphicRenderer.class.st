@@ -124,11 +124,6 @@ GLMMorphicRenderer >> renderMagrittePresentation: aMagrittePresentation [
 ]
 
 { #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderMondrianPresentation: aPresentation [
-	^ GLMMorphicMondrianRenderer render: aPresentation from: self
-]
-
-{ #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderMorphPresentation: aMorphPresentation [ 
 	^ GLMMorphicMorphRenderer render: aMorphPresentation from: self
 ]
