@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMPaneScroller,
-	#superclass : #RectangleMorph,
+	#superclass : #BorderedMorph,
 	#instVars : [
 		'sizing',
 		'transform',
