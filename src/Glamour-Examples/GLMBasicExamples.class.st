@@ -147,23 +147,23 @@ GLMBasicExamples >> compoundTaggedTree [
 	browser transmit to: #one; andShow: [ :a | 
 		a tree
 			title: 'Combined Tags';
-			tags: [:each | { {ThemeIcons perform: (each, 'Icon') asSymbol . each asString }}].
+			tags: [:each | { {ThemeIcons current perform: (each, 'Icon') asSymbol . each asString }}].
 		a tree
 			title: 'Image Tags';
-			tags: [:each | { ThemeIcons perform: (each, 'Icon') asSymbol}].
+			tags: [:each | { ThemeIcons current perform: (each, 'Icon') asSymbol}].
 		a tree
 			title: 'Combined Tags - Filter by image';
 			tags: [:each | 
 				{ each == #help 
-						ifTrue:[ {ThemeIcons smallDeleteIcon . 'no ok' } ] 
-						ifFalse:[ {ThemeIcons smallOkIcon . each asString } ]} ];
+						ifTrue:[ {ThemeIcons current smallDeleteIcon . 'no ok' } ] 
+						ifFalse:[ {ThemeIcons current smallOkIcon . each asString } ]} ];
 			tagsFilter: [:each | 
 				{ each == #help 
-						ifTrue:[ ThemeIcons smallDeleteIcon ] ifFalse:[ ThemeIcons smallOkIcon ] } ].
+						ifTrue:[ ThemeIcons current smallDeleteIcon ] ifFalse:[ ThemeIcons current smallOkIcon ] } ].
 		a tree
 			title: 'Combined Tags - Filter by label';
 			tags: [:each | 
-				{ {ThemeIcons perform: (each, 'Icon') asSymbol.
+				{ {ThemeIcons current perform: (each, 'Icon') asSymbol.
 					each == #help ifTrue:[ 'no ok' ] ifFalse:[ 'ok' ]}} ];
 			tagsFilter: [:each | 
 				{ each == #help ifTrue:[ 'no ok' ] ifFalse:[ 'ok' ] } ] ].
@@ -1035,7 +1035,7 @@ GLMBasicExamples >> tableWithIcons [
 
 { #category : #'tabs examples' }
 GLMBasicExamples >> tabsWithDifferentActions [
-	<glmBrowser: 'Tabs with different actions' input: 42>
+	<glmBrowser: 'Tabs with different actions' input: '42'>
 	"self new tabsWithDifferentActions openOn: 42"
 	
 	| browser |
