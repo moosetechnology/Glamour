@@ -9,7 +9,7 @@ self beCurrent.
 "
 Class {
 	#name : #GLMUITheme,
-	#superclass : #UIThemeWatery2,
+	#superclass : #UIThemeWatery,
 	#category : #'Glamour-Morphic-Theme'
 }
 

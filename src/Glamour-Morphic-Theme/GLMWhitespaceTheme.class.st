@@ -10,7 +10,7 @@ self beCurrent.
 "
 Class {
 	#name : #GLMWhitespaceTheme,
-	#superclass : #UIThemeWatery2,
+	#superclass : #UIThemeWatery,
 	#category : #'Glamour-Morphic-Theme'
 }
 
