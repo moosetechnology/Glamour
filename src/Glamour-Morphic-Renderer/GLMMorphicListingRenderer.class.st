@@ -11,8 +11,10 @@ Class {
 { #category : #rendering }
 GLMMorphicListingRenderer >> actOnContextChanged: anAnnouncement [ 
 	anAnnouncement property = #selection ifTrue: [ 
-		treeModel announcer suspendAllWhile: [
-			treeMorph model explicitSelection: anAnnouncement value ] ] 
+		treeModel announcer 
+			suspendAll: self suspendedAnnouncements
+			while: [
+				treeMorph model explicitSelection: anAnnouncement value ] ] 
 ]
 
 { #category : #rendering }
@@ -37,7 +39,9 @@ GLMMorphicListingRenderer >> render: aPresentation [
 	self installActionsOnModel: treeModel fromPresentation: aPresentation.
 	self installKeystrokeActionsOnMorph: treeMorph fromPresentation: aPresentation.
 	aPresentation selection notNil
-		ifTrue: [ treeModel announcer suspendAllWhile: [ treeMorph model explicitSelection: aPresentation selection ] ].	"When the morph changes, we want to update the glamour model"
+		ifTrue: [ treeModel announcer 
+			suspendAll: self suspendedAnnouncements
+			while: [ treeMorph model explicitSelection: aPresentation selection ] ].	"When the morph changes, we want to update the glamour model"
 	treeModel announcer
 		on: GLMTreeMorphSelectionChanged
 		do: [ :ann | 
@@ -51,6 +55,15 @@ GLMMorphicListingRenderer >> render: aPresentation [
 	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
 	aPresentation on: GLMPresentationUpdated send: #actOnUpdatedPresentation: to: self.
 	^ container
+]
+
+{ #category : #private }
+GLMMorphicListingRenderer >> suspendedAnnouncements [
+	^ OrderedCollection  
+		with: GLMTreeMorphSelectionChanged 
+		with: GLMTreeMorphStrongSelectionChanged 
+		with: GLMMenuItemSelected 
+		with: GLMKeyStroke
 ]
 
 { #category : #private }
