@@ -103,7 +103,7 @@ GLMListingPresentation >> allowsSearch [
 
 { #category : #accessing }
 GLMListingPresentation >> amountToShow [
-	^ amountToShowBlock glamourValue: self entity
+	^ (amountToShowBlock ifNil: [ [ self defaultAmountToShow ] ]) glamourValue: self entity
 ]
 
 { #category : #scripting }
@@ -132,6 +132,11 @@ GLMListingPresentation >> childrenValueOf: anObject atLevel: anInteger [
 GLMListingPresentation >> columns [
 	self flag: 'this is rather hackish, but needed to treat list and tree in the same way.'.
 	^ OrderedCollection new
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> defaultAmountToShow [
+	^ 500
 ]
 
 { #category : #'accessing values' }
