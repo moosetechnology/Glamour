@@ -98,6 +98,11 @@ GLMTreeMorphNodeModel >> expandParentPath [
 ]
 
 { #category : #accessing }
+GLMTreeMorphNodeModel >> helpText [
+	^ ''
+]
+
+{ #category : #accessing }
 GLMTreeMorphNodeModel >> icon [
 	^ self containerTree glamourPresentation iconFor: self item
 ]
