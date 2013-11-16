@@ -99,7 +99,7 @@ GLMTreeMorphNodeModel >> expandParentPath [
 
 { #category : #accessing }
 GLMTreeMorphNodeModel >> helpText [
-	^ ''
+	^ nil
 ]
 
 { #category : #accessing }
