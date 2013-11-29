@@ -1140,7 +1140,7 @@ GLMBasicExamples >> textSelection [
 		a text 
 			title: 'Text with selection';
 			display: 'some piece of text to test the selection interval on.'].
-	browser transmit to: #text->#selectionInterval; from: #start; from: #end; when: [:s :e | s notNil & e notNil] ; transformed: [ :s :e | s to: e ].
+	browser transmit to: #text->#selectionInterval; from: #start; from: #end; when: [:s :e |  s notNil and: [ e notNil ]] ; transformed: [ :s :e | s to: e ].
 "	browser transmit to: #start->#selection; from: #text->#selectionInterval; transformed: [:interval | interval first].
 	browser transmit to: #end->#selection; from: #text->#selectionInterval; transformed: [:interval | interval last].
 "	^ browser
