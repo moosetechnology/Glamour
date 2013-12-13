@@ -66,7 +66,7 @@ GLMGraphETPresentation >> initialize [
 { #category : #rendering }
 GLMGraphETPresentation >> renderGlamorouslyOn: aRenderer [
 	self registerAnnouncements.
-	^aRenderer renderChartetPresentation: self
+	^aRenderer renderGraphETPresentation: self
 ]
 
 { #category : #accessing }

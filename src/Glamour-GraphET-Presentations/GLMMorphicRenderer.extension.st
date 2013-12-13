@@ -1,6 +1,6 @@
 Extension { #name : #GLMMorphicRenderer }
 
 { #category : #'*Glamour-GraphET-Presentations' }
-GLMMorphicRenderer >> renderChartetPresentation: aGLMChartetPresentation [ 
+GLMMorphicRenderer >> renderGraphETPresentation: aGLMChartetPresentation [ 
 	^ GLMMorphicGraphETRenderer render: aGLMChartetPresentation from: self
 ]
