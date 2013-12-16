@@ -17,6 +17,7 @@ GLMLoggerTest >> testCustomInstance [
 
 { #category : #tests }
 GLMLoggerTest >> testDefault [
-	GLMLoggedObject withAllSubclassesDo: [ :each |
-		self assert: each new logger == GLMLogger nullInstance ]
+	(GLMLoggedObject withAllSubclasses reject: [:each | 
+		each hasAbstractMethods ]) do: [ :each |
+			self assert: each new logger == GLMLogger nullInstance ]
 ]
