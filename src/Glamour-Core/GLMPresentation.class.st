@@ -1002,7 +1002,7 @@ GLMPresentation >> withAllPanes [
 	^ result
 ]
 
-{ #category : #enumeration }
+{ #category : #enumerating }
 GLMPresentation >> withAllPanesAndPresentationsDo: aBlock [
 	^ aBlock value: self
 ]
