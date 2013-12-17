@@ -5,7 +5,8 @@ Class {
 		'painting',
 		'paintingBlock',
 		'view',
-		'shouldPopulateSelection'
+		'shouldPopulateSelection',
+		'newViewBlock'
 	],
 	#category : #'Glamour-Roassal-Presentations'
 }
@@ -33,8 +34,20 @@ GLMRoassalPresentation >> defaultActions [
 { #category : #'initialize-release' }
 GLMRoassalPresentation >> initialize [ 
 	super initialize.
+	"Hardcoded default ROMondrianViewBuilder for backward compatibility"
+	newViewBlock := [ ROMondrianViewBuilder new ].
 	shouldPopulateSelection := true.
 	self defaultActions
+]
+
+{ #category : #accessing }
+GLMRoassalPresentation >> initializeView: aZeroArgBlock [
+	^ newViewBlock := aZeroArgBlock 
+]
+
+{ #category : #accessing }
+GLMRoassalPresentation >> newViewBlock [
+	^ newViewBlock
 ]
 
 { #category : #scripting }
@@ -63,7 +76,7 @@ GLMRoassalPresentation >> renderOn: aView [
 	self flag: 'This should be the responsibility of the the view'.
 	aView applyLayout.	
 	self shouldPopulateSelection ifTrue: [
-		aView raw allElementsDo: [:each | 
+		aView view allElementsDo: [:each |  
 			each on: ROMouseClick do: [:event | self selection: each model ]] ].
 	self view: aView
 ]
@@ -82,7 +95,7 @@ GLMRoassalPresentation >> shouldPopulateSelection: anObject [
 
 { #category : #accessing }
 GLMRoassalPresentation >> view [
-	^ view ifNil: [view := ROMondrianViewBuilder new]
+	^ view ifNil: [ view := self newViewBlock value ]
 ]
 
 { #category : #accessing }

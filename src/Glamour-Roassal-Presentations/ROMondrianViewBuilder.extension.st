@@ -10,6 +10,16 @@ ROMondrianViewBuilder >> asBrowserWithStatusbar [
 ]
 
 { #category : #'*glamour-roassal-presentations' }
+ROMondrianViewBuilder >> newMorph [
+	^ ROPlatform current hostVisualElement on: self raw. 
+]
+
+{ #category : #'*glamour-roassal-presentations' }
+ROMondrianViewBuilder >> onMorph: aROMorph [ 
+	aROMorph setView: self stack.
+]
+
+{ #category : #'*glamour-roassal-presentations' }
 ROMondrianViewBuilder >> openWithStatusbar [
 	^ self asBrowserWithStatusbar openOn: self
 ]
