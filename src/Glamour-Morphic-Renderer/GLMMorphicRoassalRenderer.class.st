@@ -10,9 +10,9 @@ Class {
 { #category : #rendering }
 GLMMorphicRoassalRenderer >> actOnPresentationUpdate: ann [
 	| aView |
-	aView := ROMondrianViewBuilder new.
+	aView := ann presentation newViewBlock value. 
 	ann presentation renderOn: aView.
-	myMorph setView: aView stack
+	aView onMorph: myMorph 
 ]
 
 { #category : #rendering }
@@ -21,5 +21,5 @@ GLMMorphicRoassalRenderer >> render: aRoassalPresentation [
 	view := aRoassalPresentation view.
 	aRoassalPresentation renderOn: view.
 	aRoassalPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdate: to: self.
-	^ myMorph := ROPlatform current widgetFactory forView: view stack
+	^ myMorph := view newMorph 
 ]
