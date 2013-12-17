@@ -14,3 +14,8 @@ ROView >> newMorph [
 ROView >> onMorph: aROMorph [ 
 	aROMorph setView: self.
 ]
+
+{ #category : #'*glamour-roassal-presentations' }
+ROView >> raw [
+	^ self
+]
