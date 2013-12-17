@@ -31,7 +31,7 @@ GLMMorphicListingRenderer >> render: aPresentation [
 	container := GLMMorphic containerMorph.
 	treeMorph := self treeMorphFor: treeModel and: aPresentation.
 	aPresentation allowsInput
-		ifTrue: [ 
+		ifTrue: [
 			textInput := self textInputFor: treeModel withHelpMessage: aPresentation helpMessage.
 			treeMorph layoutFrame bottomOffset: -26.
 			container addMorphBack: textInput ].
@@ -47,7 +47,7 @@ GLMMorphicListingRenderer >> render: aPresentation [
 		do: [ :ann | 
 			aPresentation announcer
 				suspendAllWhile: [ 
-					aPresentation selection: ann selectionValue.
+					aPresentation selection: ((ann selectionValue asOrderedCollection) size = 1 ifTrue: [ann selectionValue asOrderedCollection anyOne] ifFalse: [ann selectionValue asOrderedCollection]).
 					aPresentation selectionPath: ann selectionPathValue ] ].
 	treeModel announcer
 		on: GLMTreeMorphStrongSelectionChanged
