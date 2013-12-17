@@ -36,7 +36,8 @@ Class {
 		'rawSelectionTransmissions',
 		'statusPane',
 		'sourceLink',
-		'initializationBlock'
+		'initializationBlock',
+		'cachedDisplayedValue'
 	],
 	#category : #'Glamour-Core'
 }
@@ -302,7 +303,16 @@ GLMPresentation >> display: aBlock [
 
 { #category : #'accessing values' }
 GLMPresentation >> displayValue [
-	^ self transformation glamourValue: self entity
+	^ cachedDisplayedValue := self transformation glamourValue: self entity
+]
+
+{ #category : #'accessing values' }
+GLMPresentation >> displayedValue [
+	"This returns the cached displayed value.
+	
+	This is particularly useful when we need to work with the
+	value being displayed in the presentation without recomputing it."
+	^ cachedDisplayedValue
 ]
 
 { #category : #validation }
