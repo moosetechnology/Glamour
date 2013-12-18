@@ -186,6 +186,18 @@ GLMListMorphicTest >> testTwoPanesMultipleSelectionWithChange [
 ]
 
 { #category : #tests }
+GLMListMorphicTest >> testTypeOfSelection [
+	| composer firstTreeMorph treeNodeMorph |
+	composer := GLMCompositePresentation new.
+	composer list.
+	window := composer openOn: { {1} asSet }.
+	firstTreeMorph := self find: MorphTreeMorph in: window.
+	treeNodeMorph := firstTreeMorph scroller submorphs first.
+	self send: firstTreeMorph mouseUpOnItem: treeNodeMorph.
+	self assert: composer selection equals: {1} asSet
+]
+
+{ #category : #tests }
 GLMListMorphicTest >> testUpdateFromModel [
 	| browser treeMorphOne1 treeMorphTwo1 treeMorphOne2 treeMorphTwo2 |
 	browser := GLMTabulator new.
