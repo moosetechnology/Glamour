@@ -47,7 +47,7 @@ GLMMorphicListingRenderer >> render: aPresentation [
 		do: [ :ann | 
 			aPresentation announcer
 				suspendAllWhile: [ 
-					aPresentation selection: ((ann selectionValue asOrderedCollection) size = 1 ifTrue: [ann selectionValue asOrderedCollection anyOne] ifFalse: [ann selectionValue asOrderedCollection]).
+					aPresentation selection: ann selectionValue.
 					aPresentation selectionPath: ann selectionPathValue ] ].
 	treeModel announcer
 		on: GLMTreeMorphStrongSelectionChanged
