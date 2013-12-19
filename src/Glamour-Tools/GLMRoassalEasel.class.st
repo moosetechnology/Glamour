@@ -32,12 +32,7 @@ GLMRoassalEasel >> defaultTitle [
 { #category : #private }
 GLMRoassalEasel >> evaluate: script in: context for: view [
 	| message |
-	^ [ Smalltalk compiler 
-			evaluate: script 
-			in: context 
-			to: context
-			notifying: self
-			ifFail: [^ #failedDoit] ]
+	^ [ (Smalltalk compiler requestor: self) evaluate: script in: context to: context ]
 		on: Error
 		do: [ :e | 
 			message := e class name , ': ' , e messageText.
