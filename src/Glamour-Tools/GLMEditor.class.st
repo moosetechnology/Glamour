@@ -17,7 +17,7 @@ GLMEditor >> createResultBrowserWithBindings: bindings andScript: script [
 	| context resultBrowser scriptedBrowser composer |
 	composer := GLMCompositePresentation new.
 	context := GLMDoItContext with: #composer -> composer withAll: bindings.
-	[ Smalltalk compiler evaluate: script in: context to: context ]
+	[ (Smalltalk compiler requestor: self) evaluate: script in: context to: context ]
 		on: Error
 		do: [ :e | 
 			self inform: e class name , ': ' , e errorMessage. 

@@ -38,7 +38,7 @@ GLMEyeSeeEditor >> resultIn: a [
 		diagram: [ :renderer :bindings :script | 
 					| context |
 					context := GLMDoItContext with: #chart -> renderer withAll: bindings.
-					[ Smalltalk compiler evaluate: script in: context to: context ]
+					[  (Smalltalk compiler requestor: self) evaluate: script in: context to: context ]
 						on: Error
 						do: [ :e | 
 							self inform: e class name , ': ' , e errorMessage.
