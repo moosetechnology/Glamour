@@ -34,7 +34,7 @@ GLMGraphETEditor >> defaultTitle [
 { #category : #private }
 GLMGraphETEditor >> evaluate: script in: context for: view [
 	| message |
-	^ [ Smalltalk compiler evaluate: script in: context to: context ]
+	^ [ (Smalltalk compiler requestor: self) evaluate: script in: context to: context ]
 		on: Error
 		do: [ :e | 
 			message := e class name , ': ' , e messageText.
