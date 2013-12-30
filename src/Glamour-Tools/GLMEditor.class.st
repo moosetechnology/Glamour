@@ -20,8 +20,8 @@ GLMEditor >> createResultBrowserWithBindings: bindings andScript: script [
 	[ (Smalltalk compiler requestor: self) evaluate: script in: context to: context ]
 		on: Error
 		do: [ :e | 
-			self inform: e class name , ': ' , e errorMessage. 
-			^ GLMWrapper new show: #text; startOn: e class name , ': ' , e errorMessage ].
+			self inform: e class name , ': ' , e messageText halt. 
+			^ GLMWrapper new show: #text; startOn: e class name , ': ' , e messageText ].
 	scriptedBrowser := composer first.
 	resultBrowser := GLMTabulator new.
 	resultBrowser column: #theOuterPane.
