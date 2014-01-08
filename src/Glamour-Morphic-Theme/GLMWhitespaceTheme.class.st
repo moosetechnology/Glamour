@@ -79,7 +79,7 @@ GLMWhitespaceTheme class >> isAbstract [
 
 { #category : #accessing }
 GLMWhitespaceTheme class >> lightBaseColor [
-	^ Color r: 240 g: 240 b: 240 range: 255
+	^ Color r: 220 g: 220 b: 220 range: 255
 ]
 
 { #category : #accessing }
