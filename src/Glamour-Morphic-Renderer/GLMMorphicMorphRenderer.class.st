@@ -37,9 +37,9 @@ GLMMorphicMorphRenderer >> allKeyboardActionsFor: aPresentation [
 
 { #category : #rendering }
 GLMMorphicMorphRenderer >> morphFrom: aMorphPresentation [
-	| morph allActions |
+	| morph  |
 	
-	morph := aMorphPresentation displayValue 
+	morph := aMorphPresentation morph 
 		vResizing: #spaceFill; 
 		hResizing: #spaceFill;
 		yourself.
