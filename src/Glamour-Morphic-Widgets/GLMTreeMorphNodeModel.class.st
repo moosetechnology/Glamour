@@ -181,8 +181,7 @@ GLMTreeMorphNodeModel >> resetContentsRecursively [
 
 { #category : #callbacks }
 GLMTreeMorphNodeModel >> rowMorphForColumn: aGlamourColumn [
-	^ StringMorph contents: 
-		(self containerTree glamourPresentation column: aGlamourColumn valueFor: self item)
+	^ (self containerTree glamourPresentation column: aGlamourColumn valueFor: self item) asMorph
 ]
 
 { #category : #testing }
