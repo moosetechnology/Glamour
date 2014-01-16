@@ -1,6 +1,11 @@
 Extension { #name : #Morph }
 
 { #category : #'*glamour-morphic-widgets' }
+Morph >> asReadOnlyMorph [
+	^ self
+]
+
+{ #category : #'*glamour-morphic-widgets' }
 Morph >> glamourMinExtent [
 
 	^ self minExtent
