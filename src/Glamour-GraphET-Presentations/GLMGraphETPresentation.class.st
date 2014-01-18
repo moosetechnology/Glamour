@@ -71,11 +71,9 @@ GLMGraphETPresentation >> renderGlamorouslyOn: aRenderer [
 
 { #category : #accessing }
 GLMGraphETPresentation >> renderOn: aBuilder [
-	self flag: 'find a smarter solution that does not depend on isKindOf:'. 
 	self chart glamourValue: (
-		(self entity isKindOf: GLMMultiValue) 
-				ifTrue: [(GLMMultiValue with: aBuilder) , self entity , (GLMMultiValue with: self)] 
-				ifFalse: [GLMMultiValue with: aBuilder with: self entity with: self])
+				aBuilder asGlamorousMultiValue, 
+				self asGlamorousMultiValue )
 ]
 
 { #category : #accessing }
