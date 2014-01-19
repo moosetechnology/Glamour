@@ -968,7 +968,7 @@ ConfigurationOfGlamour >> baseline27: spec [
 			package: 'Glamour-Presentations'  with: [spec requires: #('Glamour-Core')];
 			package: 'Glamour-Browsers'  with: [spec requires: #('Glamour-Core')];
 			package: 'Glamour-Tests-Core' ;
-			package: 'Glamour-Morphic-Widgets';
+			package: 'Glamour-Morphic-Widgets' with: [spec requires: 'Spotlight2'];
 			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core')];
 			package: 'Glamour-Morphic-Theme';
 			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
@@ -1053,6 +1053,11 @@ ConfigurationOfGlamour >> baseline27: spec [
 					version: #development;
 					repository: 'http://www.smalltalkhub.com/mc/Magritte/Magritte3/main';
 					loads: #('Magritte-Model' 'Magritte-Tests-Model' 'Magritte-Morph' 'Magritte-Pharo-Model') ].
+		spec project: 'Spotlight2' with: [ 
+			spec className: 'ConfigurationOfSpotlight2';
+			file: 'ConfigurationOfSpotlight2';
+			version: #development;
+			repository: 'http://www.smalltalkhub.com/mc/PharoExtras/Spotlight2/main' ]
 	]
 ]
 
@@ -1060,7 +1065,7 @@ ConfigurationOfGlamour >> baseline27: spec [
 ConfigurationOfGlamour >> default: spec [ 
 	<version: 'default'>
 	
-	self baseline25: spec.
+	self development: spec
 ]
 
 { #category : #'symbolic versions' }
