@@ -46,6 +46,12 @@ GLMRoassalPresentation >> initializeView: aZeroArgBlock [
 ]
 
 { #category : #accessing }
+GLMRoassalPresentation >> newView [
+	view := nil.
+	^ self view
+]
+
+{ #category : #accessing }
 GLMRoassalPresentation >> newViewBlock [
 	^ newViewBlock
 ]

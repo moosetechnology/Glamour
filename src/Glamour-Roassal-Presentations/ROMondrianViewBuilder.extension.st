@@ -16,7 +16,7 @@ ROMondrianViewBuilder >> newMorph [
 
 { #category : #'*glamour-roassal-presentations' }
 ROMondrianViewBuilder >> onMorph: aROMorph [ 
-	aROMorph setView: self stack.
+	aROMorph setView: self raw
 ]
 
 { #category : #'*glamour-roassal-presentations' }
