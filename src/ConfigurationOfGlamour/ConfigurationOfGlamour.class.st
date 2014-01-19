@@ -1005,7 +1005,8 @@ ConfigurationOfGlamour >> baseline27: spec [
 						'Glamour-Morphic-Renderer'
 						'Glamour-Morphic-Theme').
 		spec group: 'Roassal' with: #(
-						'Glamour-Roassal-Presentations').				
+						'Glamour-Roassal-Presentations'
+						'Glamour-GraphET-Presentations').				
 		spec group: 'Extras' with: #(
 						'Glamour-Magritte-Presentations'
 						'Glamour-EyeSee-Presentations'
