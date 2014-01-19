@@ -29,9 +29,8 @@ GLMRoassalMorphicTest >> testRoassalPresentationConstructor [
 { #category : #tests }
 GLMRoassalMorphicTest >> testUpdateUsesNewView [
 	| browser originalView newView |
-	browser := GLMTabulator new.
-	browser column: #one.
-	browser transmit to: #one; andShow: [ :a | 
+	browser := GLMWrapper new.
+	browser show: [ :a | 
 		a roassal painting: [:view :input | view nodes: ($a to: input)]].
 	window := browser openOn: $d.
 
@@ -53,8 +52,8 @@ GLMRoassalMorphicTest >> testUpdateViewIsProperlyLaidOut [
 		andShow: [ :a | a roassal painting: [ :view :input | view nodes: ($a to: input) ] ].
 	window := browser openOn: $d.
 	originalView := (self find: ROMorph in: window) view.
-	self assert: (originalView firstView elements detect: [ :each | each model = $b ]) bounds left equals: 20.
+	self assert: (originalView elements detect: [ :each | each model = $b ]) bounds left equals: 20.
 	browser panes first presentations first update.
 	newView := (self find: ROMorph in: window) view.
-	self assert: (newView firstView elements detect: [ :each | each model = $b ]) bounds left equals: 20
+	self assert: (newView elements detect: [ :each | each model = $b ]) bounds left equals: 20
 ]
