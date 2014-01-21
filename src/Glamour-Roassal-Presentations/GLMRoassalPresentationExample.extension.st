@@ -1,7 +1,7 @@
-Extension { #name : #GLMOtherExamples }
+Extension { #name : #GLMRoassalPresentationExample }
 
 { #category : #'*glamour-roassal-presentations' }
-GLMOtherExamples >> roassalDirect [
+GLMRoassalPresentationExample >> roassalDirect [
 	"self new roassalDirect openOn: (1 to: 20)"
 
 	^ GLMWrapper new with: [ :browser |
