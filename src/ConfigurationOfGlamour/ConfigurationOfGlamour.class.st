@@ -1033,6 +1033,13 @@ ConfigurationOfGlamour >> baseline27: spec [
 					version: #development;
 					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal/main' ].
 		spec
+			project: 'Roassal2 for Glamour' with: [
+				spec
+					className: 'ConfigurationOfRoassal2';
+					file: 'ConfigurationOfRoassal2';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ].
+		spec
 			project: 'EyeSee for Glamour' with: [
 				spec
 					className: 'ConfigurationOfEyeSee';
