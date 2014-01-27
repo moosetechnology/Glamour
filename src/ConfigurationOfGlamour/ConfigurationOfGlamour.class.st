@@ -1184,80 +1184,12 @@ ConfigurationOfGlamour >> baseline28: spec [
 	]
 ]
 
-{ #category : #baselines }
-ConfigurationOfGlamour >> default: spec [ 
-	<version: 'default'>
-	
-	self development: spec
-]
-
 { #category : #'symbolic versions' }
 ConfigurationOfGlamour >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: '2.7-baseline'.
 	spec for: #'pharo2.x' version: '2.6-baseline'.
-]
-
-{ #category : #versions }
-ConfigurationOfGlamour >> minimum: spec [ 
-	
-	spec for: #common do: [
-		spec blessing: #baseline.
-		spec repository: 'http://www.squeaksource.com/Glamour'.
-		spec 
-			package: 'CollectionExtensions' with: [spec repository: 'http://www.squeaksource.com/CollectionExtensions'];
-			package: 'Glamour-Announcements' ;
-			package: 'Glamour-Helpers' ;
-			package: 'Glamour-Core' with: [spec requires: #('Glamour-Helpers' 'Glamour-Announcements')];
-			package: 'Glamour-Presentations'  with: [spec requires: #('Glamour-Core')];
-			package: 'Glamour-Browsers'  with: [spec requires: #('Glamour-Core')];
-			package: 'Glamour-Tests-Core' with: [spec requires: #('Glamour-Tests-Resources') ] ;
-			package: 'Glamour-Morphic-Widgets';
-			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core')];
-			package: 'Glamour-Morphic-Theme';
-			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer' 'Glamour-Tests-Resources')];
-			package: 'Glamour-Examples' ;
-			package: 'Glamour-Tools' with: [spec requires: 'CollectionExtensions'];
-			package: 'Glamour-Roassal-Presentations' with: [spec requires: 'Roassal for Glamour'];
-			package: 'Glamour-Mondrian-Presentations' with: [spec requires: 'Mondrian for Glamour'];
-			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];
-			package: 'Glamour-EyeSee-Presentations' with: [spec requires: 'EyeSee for Glamour'];
-			package: 'Glamour-Tests-Mondrian' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Mondrian-Presentations')];
-			package: 'Glamour-Tests-Roassal' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Roassal-Presentations')];
-			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')];
-			package: 'Glamour-Tests-Resources'.
-
-		spec group: 'Core' with: #(
-						'Glamour-Announcements'
-						'Glamour-Helpers'
-						'Glamour-Core'
-						'Glamour-Presentations'
-						'Glamour-Browsers'
-						'Glamour-Tools').		
-		spec group: 'Examples' with: #(
-						'Glamour-Examples'
-		).			
-		spec group: 'Morphic' with: #(
-						'Glamour-Morphic-Renderer'
-						'Glamour-Morphic-Theme').
-		spec group: 'Extras' with: #(
-						'Glamour-Mondrian-Presentations'
-						'Glamour-Magritte-Presentations'
-						'Glamour-EyeSee-Presentations'
-						'Glamour-Roassal-Presentations').
-		spec group: 'Core Tests' with: #(
-						'Glamour-Tests-Resources'
-						'Glamour-Tests-Core'
-						'Glamour-Tests-Morphic'). 
-		spec group: 'Tests' with: #(
-						'Glamour-Tests-Resources'
-						'Glamour-Tests-Core'
-						'Glamour-Tests-Morphic'
-						'Glamour-Tests-Mondrian'
-						'Glamour-Tests-EyeSee'
-						'Glamour-Tests-Roassal'). 
-	]
 ]
 
 { #category : #snapshots }
