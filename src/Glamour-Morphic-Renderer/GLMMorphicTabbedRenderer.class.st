@@ -50,7 +50,8 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 	presentations withIndexDo: [ :each :i | 
 		(aPresentation pane isLastActivePresentation: each) 
 			ifTrue: [ index := i ] ].
-	tabs selectedPageIndex: index.
+	tabs announcer suspendAllWhile: [
+		tabs selectedPageIndex: index ].
 	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
 
 	^ tabs
