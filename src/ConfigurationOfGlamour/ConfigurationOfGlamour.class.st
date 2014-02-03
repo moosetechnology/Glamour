@@ -976,7 +976,7 @@ ConfigurationOfGlamour >> baseline27: spec [
 			package: 'Glamour-Tools' with: [spec requires: #('Glamour-Core')];
 			package: 'Rubric' with: [spec repository: 'http://www.smalltalkhub.com/mc/AlainPlantec/Rubric/main'];
 			package: 'Glamour-Rubric-Presentations' with: [spec requires: 'Rubric'];
-			package: 'Glamour-Roassal-Presentations' with: [spec requires: 'Roassal for Glamour'];
+			package: 'Glamour-Roassal-Presentations' with: [spec requires: #('Roassal for Glamour' 'Roassal2 for Glamour')];
 			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];
 			package: 'Glamour-EyeSee-Presentations' with: [spec requires: 'EyeSee for Glamour'];
 			package: 'Glamour-GraphET-Presentations' with: [spec requires: #('Graph-ET' 'Glamour-Tools')];
@@ -1188,7 +1188,7 @@ ConfigurationOfGlamour >> baseline28: spec [
 ConfigurationOfGlamour >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '2.8-baseline'.
+	spec for: #'common' version: '2.7-baseline'.
 	spec for: #'pharo2.x' version: '2.6-baseline'.
 ]
 
