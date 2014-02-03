@@ -1116,7 +1116,8 @@ ConfigurationOfGlamour >> baseline28: spec [
 						'Glamour-Presentations'
 						'Glamour-Browsers'
 						'Glamour-Examples'
-						'Glamour-Tools').
+						'Glamour-Tools'
+						'Glamour-Rubric-Presentations').
 		spec group: 'Morphic' with: #(
 						'Glamour-Morphic-Renderer'
 						'Glamour-Morphic-Theme').
@@ -1126,8 +1127,7 @@ ConfigurationOfGlamour >> baseline28: spec [
 		spec group: 'Extras' with: #(
 						'Glamour-Magritte-Presentations'
 						'Glamour-EyeSee-Presentations'
-						'Glamour-Roassal-Presentations'
-						'Glamour-Rubric-Presentations').
+						'Glamour-Roassal-Presentations').
 		spec group: 'Core Tests' with: #(
 						'Glamour-Tests-Core'
 						'Glamour-Examples'
