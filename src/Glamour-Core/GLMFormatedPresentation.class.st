@@ -24,7 +24,7 @@ GLMFormatedPresentation >> format: anObject [
 
 { #category : #accessing }
 GLMFormatedPresentation >> formatedDisplayValue [
-	^ self format glamourValue: self displayValue
+	^ self formatedDisplayValueOf: self displayValue
 ]
 
 { #category : #accessing }
