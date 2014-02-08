@@ -60,7 +60,7 @@ GLMMorphicRubricTextRenderer >> render: aPresentation [
 	(aPresentation textSegments anySatisfy: [ :ts | ts icon notNil ])
 		ifTrue: [ textMorph withTextSegmentIcons ]
 		ifFalse: [ textMorph withoutTextSegmentIcons ].
-	textMorph announcer
+	textMorph textArea announcer
 		on: RubTextChanged
 		do: [ :ann | 
 			aPresentation announcer
@@ -73,7 +73,7 @@ GLMMorphicRubricTextRenderer >> render: aPresentation [
 					aPresentation selectionInterval: textMorph selectionInterval.
 					aPresentation selectedText: textMorph textArea selection ] ].
 			
-	textMorph announcer
+	textMorph textArea announcer
 		on: RubTextAccepted
 		do: [ :ann | aPresentation suspendAllWhile: [ aPresentation text: ann text ] ].
 		
