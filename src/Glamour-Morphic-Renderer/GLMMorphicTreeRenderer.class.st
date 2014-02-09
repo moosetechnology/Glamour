@@ -8,8 +8,8 @@ Class {
 GLMMorphicTreeRenderer >> render: aPresentation [
 	| container |
 	container := super render: aPresentation.
-	aPresentation shouldAllExpand ifTrue: [container submorphs first expandAll ].
-	aPresentation shouldRootsExpand ifTrue: [container submorphs first expandRoots ].
-	aPresentation shouldExpandToLevel ifTrue: [ container submorphs first expandAllTo: aPresentation expandLevel ].
+	aPresentation shouldAllExpand ifTrue: [treeMorph expandAll ].
+	aPresentation shouldRootsExpand ifTrue: [treeMorph expandRoots ].
+	aPresentation shouldExpandToLevel ifTrue: [ treeMorph expandAllTo: aPresentation expandLevel ].
 	^ container
 ]
