@@ -14,7 +14,11 @@ GLMMorphicTextRenderer >> actOnContextChanged: ann [
 		ifTrue: [ 
 			ann value notNil 
 				ifTrue: [textMorph setSelection: ann value ]
-				ifFalse: [textMorph setSelection: (1 to: 0)] ]
+				ifFalse: [textMorph setSelection: (1 to: 0)] ].
+	ann property = #text
+		ifTrue: [ 
+			textMorph announcer suspendAllWhile: [ 
+				textModel changedText: ann value ] ]
 ]
 
 { #category : #rendering }
