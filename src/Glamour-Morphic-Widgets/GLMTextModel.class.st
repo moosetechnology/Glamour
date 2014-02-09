@@ -14,6 +14,12 @@ GLMTextModel >> accept: aText notifying: anObject [
 	self changed: #text
 ]
 
+{ #category : #accessing }
+GLMTextModel >> changedText: aTextOrString [
+	text := aTextOrString.
+	self changed: #text
+]
+
 { #category : #callbacks }
 GLMTextModel >> keystroke: anEvent from: aMorph [
 	anEvent anyModifierKeyPressed ifTrue: [ ^ super keystroke: anEvent from: aMorph ].

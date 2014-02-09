@@ -20,7 +20,7 @@ GLMRubricTextModel >> announcer: anObject [
 
 { #category : #accessing }
 GLMRubricTextModel >> getText [
-	^ self glamourPresentation displayValue
+	^ self glamourPresentation formatedDisplayValue
 ]
 
 { #category : #accessing }
