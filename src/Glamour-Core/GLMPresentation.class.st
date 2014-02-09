@@ -988,6 +988,11 @@ GLMPresentation >> whenKindOf: aClass [
 	self when: [:each | each isKindOf: aClass]
 ]
 
+{ #category : #events }
+GLMPresentation >> windowIsClosing [ 
+	self announce: GLMBrowserClosing new
+]
+
 { #category : #scripting }
 GLMPresentation >> with: aBlock [
 	aBlock value: self

@@ -258,11 +258,6 @@ GLMBrowser >> watcherPane: anObject [
 	watcherPane := anObject 
 ]
 
-{ #category : #events }
-GLMBrowser >> windowIsClosing [ 
-	self announce: GLMBrowserClosing new
-]
-
 { #category : #enumerating }
 GLMBrowser >> withAllPanesAndPresentationsDo: aBlock [
 	super withAllPanesAndPresentationsDo: aBlock.
