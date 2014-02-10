@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMRubricSmalltalkCodePresentation,
-	#superclass : #GLMSmalltalkCodePresentation,
+	#superclass : #GLMRubricTextPresentation,
 	#category : #'Glamour-Rubric-Presentations'
 }
 
