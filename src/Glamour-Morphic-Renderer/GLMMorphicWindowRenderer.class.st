@@ -60,8 +60,7 @@ GLMMorphicWindowRenderer >> setLabelOf: window for: aRenderable [
 
 { #category : #rendering }
 GLMMorphicWindowRenderer >> setPotentialBackgroundColorFor: aRenderable [
-	(self theme isKindOf: UIThemeWatery)
-		ifFalse: [ aRenderable colorValue ifNotNil: [ window paneColor: aRenderable colorValue ] ]
+	aRenderable colorValue ifNotNil: [ window borderColor: aRenderable colorValue ]
 ]
 
 { #category : #rendering }
