@@ -1,0 +1,35 @@
+"
+A GLMMorphicRoassalRenderer is xxxxxxxxx.
+
+Instance Variables
+	myMorph:		<Object>
+
+myMorph
+	- xxxxx
+
+"
+Class {
+	#name : #GLMMorphicRoassal2Renderer,
+	#superclass : #GLMMorphicWidgetRenderer,
+	#instVars : [
+		'myMorph'
+	],
+	#category : #'Glamour-Roassal2-Presentations'
+}
+
+{ #category : #rendering }
+GLMMorphicRoassal2Renderer >> actOnPresentationUpdate: ann [
+	| aView |
+	aView := ann presentation newViewBlock value. 
+	ann presentation renderOn: aView.
+	aView onMorph: myMorph 
+]
+
+{ #category : #rendering }
+GLMMorphicRoassal2Renderer >> render: aRoassalPresentation [
+	| view |
+	view := aRoassalPresentation view.
+	aRoassalPresentation renderOn: view.
+"	aRoassalPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdate: to: self."
+	^ myMorph := view setUpCanvas buildMorph
+]
