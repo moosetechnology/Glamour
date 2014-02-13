@@ -1091,8 +1091,8 @@ ConfigurationOfGlamour >> baseline28: spec [
 			package: 'Glamour-Tools' with: [spec requires: #('Glamour-Core')];
 			package: 'Rubric' with: [spec repository: 'http://www.smalltalkhub.com/mc/AlainPlantec/Rubric/main'];
 			package: 'Glamour-Rubric-Presentations' with: [spec requires: 'Rubric'];
-			package: 'Glamour-Roassal-Presentations' with: [spec requires: #('Roassal for Glamour')];
-			package: 'Glamour-Roassal2-Presentations' with: [spec requires: #('Roassal2 for Glamour')];
+			package: 'Glamour-Roassal-Presentations' with: [spec requires: #('Roassal for Glamour' 'Glamour-Morphic-Renderer')];
+			package: 'Glamour-Roassal2-Presentations' with: [spec requires: #('Roassal2 for Glamour' 'Glamour-Morphic-Renderer')];
 			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];
 			package: 'Glamour-EyeSee-Presentations' with: [spec requires: 'EyeSee for Glamour'];
 			package: 'Glamour-GraphET-Presentations' with: [spec requires: #('Graph-ET' 'Glamour-Tools')];
