@@ -84,11 +84,21 @@ GLMRoassal2Presentation >> renderOn: aView [
 								self asGlamorousMultiValue,
 								self entity asGlamorousMultiValue ).
 "	self flag: 'This should be the responsibility of the the view'.
-""	aView applyLayout.	
-""	self shouldPopulateSelection ifTrue: [
-		aView view allElementsDo: [:each |  
-			each on: ROMouseClick do: [:event | self selection: each model ]] ].
-"	self view: aView
+	aView applyLayout.	"
+	self shouldPopulateSelection ifTrue: [
+		aView elements do: [:each |  
+			each on: TRMouseLeftClick do: [:event | self selection: each model ]] ].
+	self view: aView
+]
+
+{ #category : #accessing }
+GLMRoassal2Presentation >> shouldPopulateSelection [
+	^ shouldPopulateSelection
+]
+
+{ #category : #accessing }
+GLMRoassal2Presentation >> shouldPopulateSelection: anObject [
+	shouldPopulateSelection := anObject
 ]
 
 { #category : #accessing }
