@@ -346,7 +346,7 @@ GLMTreeMorphModel >> wantsDroppedMorph: transferMorph event: evt inMorph: listMo
 	transferMorph dragTransferType = self dragTransferType ifFalse: [ ^ false ].
 	
 	targetItemMorph := (listMorph scrollerSubMorphFromPoint: evt position).
-	targetItemMorph isNil ifFalse: [
+	targetItemMorph ifNotNil: [
 		targetItem := targetItemMorph complexContents item.	
 		^ self glamourPresentation allow: transferMorph passenger droppedOnItem: targetItem ].
 	self flag: 'we should ask the whole presentation if it wants to receive a dropped object'.
