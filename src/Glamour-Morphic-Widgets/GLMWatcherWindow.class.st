@@ -44,8 +44,8 @@ GLMWatcherWindow class >> uniqueInstance [
 { #category : #settings }
 GLMWatcherWindow >> activeFillStyle [
 	"Return the active fillStyle for the receiver."
-	
-	^self theme watcherWindowActiveFillStyleFor: self
+
+	^ Smalltalk ui icons watcherWindowActiveFillStyleFor: self
 ]
 
 { #category : #settings }
@@ -114,15 +114,14 @@ GLMWatcherWindow >> delete [
 
 { #category : #initialize }
 GLMWatcherWindow >> fastFramingOn [
-
-	^self theme settings fastDragging and: [self isFlexed not]
+	^ Smalltalk ui icons settings fastDragging and: [ self isFlexed not ]
 ]
 
 { #category : #settings }
 GLMWatcherWindow >> inactiveFillStyle [
 	"Return the active title fillStyle for the receiver."
-	
-	^ self theme watcherWindowInactiveFillStyleFor: self
+
+	^ Smalltalk ui icons watcherWindowInactiveFillStyleFor: self
 ]
 
 { #category : #settings }
@@ -165,12 +164,13 @@ GLMWatcherWindow >> openInWorld [
 { #category : #initialize }
 GLMWatcherWindow >> replaceBoxes [
 	"Rebuild the various boxes."
-	
+
 	labelArea removeAllMorphs.
 	self setLabelWidgetAllowance.
-	self theme configureWatcherWindowLabelAreaFor: self.
+	Smalltalk ui icons configureWatcherWindowLabelAreaFor: self.
 	self setFramesForLabelArea.
-	self isActive ifFalse: [labelArea passivate]
+	self isActive
+		ifFalse: [ labelArea passivate ]
 ]
 
 { #category : #settings }
