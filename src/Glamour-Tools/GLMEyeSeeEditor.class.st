@@ -32,21 +32,27 @@ GLMEyeSeeEditor >> defaultTitle [
 ]
 
 { #category : #building }
+GLMEyeSeeEditor >> getDiagramRenderer: renderer bindings: bindings scripts: script [
+	| context diagramRenderer |
+	context := GLMDoItContext with: #chart -> renderer withAll: bindings.
+	^ [ 
+	diagramRenderer := (Smalltalk compiler requestor: self) evaluate: script in: context to: context.
+	diagramRenderer canvas ifNil: [ Error signal: 'The Diagram was not initialized' ] ]
+		on: Error
+		do: [ :e | 
+			self inform: e class name , ': ' , e messageText.
+			renderer pieDiagram
+				radius: 100;
+				models: #('Error');
+				pieValue: [ :x | 100 ];
+				displayLegend: true;
+				defaultColor: Color red ]
+]
+
+{ #category : #building }
 GLMEyeSeeEditor >> resultIn: a [
 	^ a eyesee
 		title: 'Chart';
-		diagram: [ :renderer :bindings :script | 
-					| context |
-					context := GLMDoItContext with: #chart -> renderer withAll: bindings.
-					[  (Smalltalk compiler requestor: self) evaluate: script in: context to: context ]
-						on: Error
-						do: [ :e | 
-							self inform: e class name , ': ' , e errorMessage.
-							(renderer pieDiagram)
-								radius: 100;
-								models: #('Error');
-								pieValue: [:x | 100];
-								displayLegend: true;
-								defaultColor: Color red ] ];
+		diagram: [ :renderer :bindings :script | self getDiagramRenderer: renderer bindings: bindings scripts: script ];
 		defaultActions
 ]
