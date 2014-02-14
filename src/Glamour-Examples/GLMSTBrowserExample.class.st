@@ -60,7 +60,7 @@ GLMSTBrowserExample >> categoriesIn: a [
 GLMSTBrowserExample >> classesIn: a [
 	a list
 		title: 'Instance';
-		display: [ :environment :category | (environment classes select: [ :each | each isMeta not ]) select: [ :each | each category = category ] ];
+		display: [ :environment :category | (environment classes reject: [ :each | each isMeta ]) select: [ :each | each category = category ] ];
 		sorted: [ :a1 :b | a1 name < b name ];
 		format: [ :class | class name ].
 	^ a list
