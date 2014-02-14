@@ -37,7 +37,7 @@ GLMEyeSeeEditor >> getDiagramRenderer: renderer bindings: bindings scripts: scri
 	context := GLMDoItContext with: #chart -> renderer withAll: bindings.
 	^ [ 
 	diagramRenderer := (Smalltalk compiler requestor: self) evaluate: script in: context to: context.
-	diagramRenderer diagram ifNil: [ Error signal: 'The Diagram was not initialized' ] ]
+	[ diagramRenderer diagram ifNil: [ Error signal: 'The Diagram was not initialized' ] ] onDNU: #diagram do: [ ] ]
 		on: Error
 		do: [ :e | 
 			self inform: e class name , ': ' , e messageText.
