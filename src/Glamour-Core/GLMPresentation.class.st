@@ -408,9 +408,7 @@ GLMPresentation >> initialize: aBlock [
 
 { #category : #'initialize-release' }
 GLMPresentation >> initializePresentation [
-
-	initializationBlock isNil ifFalse: [
-		initializationBlock value: self]
+	initializationBlock ifNotNil: [ initializationBlock value: self ]
 ]
 
 { #category : #events }
