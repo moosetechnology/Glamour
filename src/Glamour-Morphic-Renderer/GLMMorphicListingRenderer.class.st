@@ -67,18 +67,20 @@ GLMMorphicListingRenderer >> suspendedAnnouncements [
 ]
 
 { #category : #private }
-GLMMorphicListingRenderer >> textInputFor: aTreeModel withHelpMessage: helpStringMessage [
+GLMMorphicListingRenderer >> textInputFor:  aTreeModel withHelpMessage: helpStringMessage [
 	| textInput |
-	textInput := self theme
-		newTextEntryIn: nil
-		for: aTreeModel
-		get: #inputText
-		set: #inputText:
-		class: String
-		getEnabled: #inputTextEnabled
-		help: helpStringMessage.
+	textInput := self theme 
+			newTextEntryIn: nil
+			for: aTreeModel
+			get: #inputText
+			set: #inputText:
+			class: String
+			getEnabled: #inputTextEnabled
+			help: helpStringMessage.
 	textInput askBeforeDiscardingEdits: false.
-	textInput layoutFrame: (LayoutFrame fractions: (0 @ 1 corner: 1 @ 1) offsets: (0 @ -26 corner: 0 @ -4)).
+	textInput layoutFrame: (LayoutFrame 
+				fractions: (0 @ 1 corner: 1 @ 1)
+				offsets: (0 @ -26 corner: 0 @ -4)).
 	textInput ghostText: 'enter search query'.
 	^ textInput
 ]
@@ -93,6 +95,7 @@ GLMMorphicListingRenderer >> treeMorphFor: tmpTreeModel and: aPresentation [
 		getMenuSelector: #menu:shifted:;
 		keystrokeActionSelector: #keyStroke:from:;
 		columnInset: 3;
+		rowInset: 1;
 		cornerStyle: tmpTreeMorph preferredCornerStyle;
 		borderStyle: (BorderStyle inset width: 1);
 		autoDeselection: aPresentation allowsDeselection;

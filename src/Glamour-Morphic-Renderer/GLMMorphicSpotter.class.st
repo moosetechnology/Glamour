@@ -102,9 +102,12 @@ GLMMorphicSpotter >> newTextMorph [
 { #category : #accessing }
 GLMMorphicSpotter >> ok [
 	| nonEmpty |
-	nonEmpty := self childrenMorphs reject: [ :e | e listIndex isZero ].
-	nonEmpty size = 1
-		ifTrue: [ answer := nonEmpty first listSelection ].
+	nonEmpty := (self childrenMorphs select: [:e| e listIndex isZero not]).
+	nonEmpty size = 1 ifTrue: [
+			answer := nonEmpty first listSelection 
+		] .
+	
+	
 	^ super ok
 ]
 

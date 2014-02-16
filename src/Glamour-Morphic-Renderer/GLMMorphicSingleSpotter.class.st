@@ -179,8 +179,8 @@ GLMMorphicSingleSpotter >> newListMorph [
 		selected: #listIndex
 		changeSelected: #listIndex:.
 	listMorph
-		borderStyle: (Smalltalk ui icons listNormalBorderStyleFor: listMorph);
-		color: (Smalltalk ui icons listNormalFillStyleFor: listMorph);
+		borderStyle: (self theme listNormalBorderStyleFor: listMorph);
+		color: (self theme listNormalFillStyleFor: listMorph);
 		cornerStyle: self preferredCornerStyle;
 		doubleClickSelector: #doubleClick;
 		hResizing: #spaceFill;

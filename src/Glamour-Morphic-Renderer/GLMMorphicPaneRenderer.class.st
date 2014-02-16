@@ -8,13 +8,12 @@ Class {
 }
 
 { #category : #rendering }
-GLMMorphicPaneRenderer >> actOnMatchingPresentationChanged: anAnnouncement [
+GLMMorphicPaneRenderer >> actOnMatchingPresentationChanged: anAnnouncement [ 
 	container removeAllMorphs.
 	self renderContainerFor: anAnnouncement pane.
-	self renderer window
-		ifNotNil: [ 
-			self flag: 'this check is fishy'.
-			self renderer window fullBounds ]
+	self renderer window isNil ifFalse: [ 
+		self flag: 'this check is fishy'.
+		self renderer window fullBounds]
 ]
 
 { #category : #rendering }

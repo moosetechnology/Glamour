@@ -196,7 +196,7 @@ GLMMorphicWidgetRenderer >> titleOrIconOf: aPresentation in: container [
 			image := self theme 
 					newImageIn: container
 					form: aPresentation titleIconValue.
-			aPresentation titleValue ifNotNil: [
+			aPresentation titleValue isNil ifFalse: [
 				image setBalloonText: aPresentation titleValue maxLineLength: 100 ].
 			image  ]
 		ifFalse: [ aPresentation titleValue ifNil: [''] ]
@@ -204,13 +204,16 @@ GLMMorphicWidgetRenderer >> titleOrIconOf: aPresentation in: container [
 
 { #category : #private }
 GLMMorphicWidgetRenderer >> titleOrIconOrNilOf: aPresentation in: container [
-	^ aPresentation hasTitleIcon
-		ifTrue: [ 
+	^ aPresentation hasTitleIcon 
+		ifTrue: [
 			| image |
-			image := Smalltalk ui icons newImageIn: container form: aPresentation titleIconValue.
-			aPresentation titleValue ifNotNil: [ image setBalloonText: aPresentation titleValue maxLineLength: 10 ] ]
+			image := self theme 
+					newImageIn: container
+					form: aPresentation titleIconValue.
+			aPresentation titleValue isNil ifFalse: [
+				image setBalloonText: aPresentation titleValue maxLineLength: 10 ]  ]
 		ifFalse: [ 
-			aPresentation hasTitle
+			aPresentation hasTitle 
 				ifTrue: [ aPresentation titleValue ]
 				ifFalse: [ nil ] ]
 ]
