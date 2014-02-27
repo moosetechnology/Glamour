@@ -50,6 +50,12 @@ GLMTextualPresentation >> doItReceiver: aOneArgBlock [
 	doItReceiver := aOneArgBlock
 ]
 
+{ #category : #accessing }
+GLMTextualPresentation >> selectLine [
+
+	self announce: GLMSelectCurrentLine.
+]
+
 { #category : #'accessing ports' }
 GLMTextualPresentation >> selectedText [
 	^ (self pane port: #selectedText) value isNil 
