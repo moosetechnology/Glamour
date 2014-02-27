@@ -4,6 +4,27 @@ Class {
 	#category : #'Glamour-Morphic-Renderer'
 }
 
+{ #category : #'as yet unclassified' }
+GLMMorphicSmalltalkCodeRenderer >> actOnVariableBindingsUpdated: ann [ 
+
+	textModel variableBindings: nil.
+	self addVariableBindingsOn: textModel from: ann presentation.
+	textModel changed: #text. self flag: 'update just the style here'
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphicSmalltalkCodeRenderer >> addVariableBindingsOn: aTextModel from: aPresentation [
+
+	aPresentation variableBindings do: [ :each | aTextModel addVariableBinding: each ].
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphicSmalltalkCodeRenderer >> registerEventsForPresentation: aPresentation [
+
+	super registerEventsForPresentation: aPresentation.
+	aPresentation on: GLMVariableBindingsChanged send: #actOnVariableBindingsUpdated: to: self.
+]
+
 { #category : #rendering }
 GLMMorphicSmalltalkCodeRenderer >> textModelFor: aPresentation [
 	| tm |
@@ -12,7 +33,7 @@ GLMMorphicSmalltalkCodeRenderer >> textModelFor: aPresentation [
 		glamourPresentation: aPresentation;
 		highlightSmalltalk: true;
 		highlightSmalltalkContext: aPresentation highlightSmalltalkContext.
-	aPresentation variableBindings do: [ :each | tm addVariableBinding: each ].
+	self addVariableBindingsOn: tm from: aPresentation.
 	^ tm
 ]
 

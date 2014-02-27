@@ -29,6 +29,13 @@ GLMMorphicTextRenderer >> actOnPresentationUpdated: ann [
 ]
 
 { #category : #rendering }
+GLMMorphicTextRenderer >> registerEventsForPresentation: aPresentation [
+	
+	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
+	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
+]
+
+{ #category : #rendering }
 GLMMorphicTextRenderer >> render: aPresentation [
 	textModel := self textModelFor: aPresentation.
 	textMorph := self textMorphForModel: textModel.	"this is a horrible hack: 
@@ -50,8 +57,7 @@ GLMMorphicTextRenderer >> render: aPresentation [
 	textMorph announcer
 		on: GLMTextChanged
 		do: [ :ann | aPresentation suspendAllWhile: [ aPresentation text: ann text ] ].
-	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
-	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
+	self registerEventsForPresentation: aPresentation.
 	^ textMorph
 ]
 
