@@ -51,6 +51,15 @@ GLMTextualPresentation >> doItReceiver: aOneArgBlock [
 ]
 
 { #category : #accessing }
+GLMTextualPresentation >> notify: aString at: anInteger in: aStream [
+
+	self announce: (GLMCompilationErrorNotification new
+		errorMessage: aString;
+		errorLocation: anInteger;
+		errorSource: aStream)
+]
+
+{ #category : #accessing }
 GLMTextualPresentation >> selectLine [
 	"Select the current line if there is no current selection"
 	self announce: GLMSelectCurrentLine.
