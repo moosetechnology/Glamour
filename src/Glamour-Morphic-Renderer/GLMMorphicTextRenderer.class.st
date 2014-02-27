@@ -33,6 +33,7 @@ GLMMorphicTextRenderer >> registerEventsForPresentation: aPresentation [
 	
 	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
 	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
+	aPresentation on: GLMSelectCurrentLine send: #selectLine to: self.
 ]
 
 { #category : #rendering }
@@ -59,6 +60,12 @@ GLMMorphicTextRenderer >> render: aPresentation [
 		do: [ :ann | aPresentation suspendAllWhile: [ aPresentation text: ann text ] ].
 	self registerEventsForPresentation: aPresentation.
 	^ textMorph
+]
+
+{ #category : #rendering }
+GLMMorphicTextRenderer >> selectLine [
+	
+	textMorph selectLine
 ]
 
 { #category : #rendering }
