@@ -121,6 +121,12 @@ GLMTextualPresentation >> textBlock: anObject [
 ]
 
 { #category : #accessing }
+GLMTextualPresentation >> updateVariableBindings [
+
+	self announce: (GLMVariableBindingsChanged new presentation: self).
+]
+
+{ #category : #accessing }
 GLMTextualPresentation >> variableBindings [
 	^ (variableBindingsBlock glamourValue: self entity) ifNil: [OrderedCollection new]
 ]
