@@ -29,11 +29,18 @@ GLMMorphicTextRenderer >> actOnPresentationUpdated: ann [
 ]
 
 { #category : #rendering }
+GLMMorphicTextRenderer >> notifyError: ann [
+
+	textMorph notify: ann errorMessage at: ann errorLocation in: ann errorSource
+]
+
+{ #category : #rendering }
 GLMMorphicTextRenderer >> registerEventsForPresentation: aPresentation [
 	
 	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
 	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
 	aPresentation on: GLMSelectCurrentLine send: #selectLine to: self.
+	aPresentation on: GLMCompilationErrorNotification send: #notifyError: to: self.
 ]
 
 { #category : #rendering }
