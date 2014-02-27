@@ -53,7 +53,7 @@ GLMTextualPresentation >> doItReceiver: aOneArgBlock [
 { #category : #accessing }
 GLMTextualPresentation >> selectLine [
 	"Select the current line if there is no current selection"
-	self announce: (GLMSelectCurrentLine new presentation: self).
+	self announce: GLMSelectCurrentLine.
 ]
 
 { #category : #'accessing ports' }
