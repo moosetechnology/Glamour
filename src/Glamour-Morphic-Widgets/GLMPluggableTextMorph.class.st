@@ -40,6 +40,13 @@ GLMPluggableTextMorph >> selectFrom: start to: stop [
 	^ result
 ]
 
+{ #category : #'new selection' }
+GLMPluggableTextMorph >> selectLine [
+
+	self handleEdit: [ 
+		textMorph editor lineSelectAndEmptyCheck: [^ nil] ].
+]
+
 { #category : #private }
 GLMPluggableTextMorph >> textMorphClass [
 	"this is needed for intercepting the shortcuts"
