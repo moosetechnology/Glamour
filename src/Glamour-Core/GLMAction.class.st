@@ -12,7 +12,8 @@ Class {
 		'shortcut',
 		'position',
 		'category',
-		'icon'
+		'icon',
+		'condition'
 	],
 	#category : #'Glamour-Core'
 }
@@ -58,6 +59,16 @@ GLMAction >> category: aString [
 	category := aString
 ]
 
+{ #category : #accessing }
+GLMAction >> condition [
+	^ condition ifNil: [ true ]
+]
+
+{ #category : #accessing }
+GLMAction >> condition: anObject [
+	condition := anObject
+]
+
 { #category : #testing }
 GLMAction >> hasIcon [
 	 
@@ -84,6 +95,14 @@ GLMAction >> icon [
 { #category : #accessing }
 GLMAction >> icon: anObject [
 	icon := anObject
+]
+
+{ #category : #testing }
+GLMAction >> isAvailableOn: aPresentation [
+	^ self condition glamourValueWithArgs: 
+			(Array 
+				with: aPresentation 
+				withAll: aPresentation entity asGlamorousArray)
 ]
 
 { #category : #testing }
@@ -116,7 +135,7 @@ GLMAction >> position: anInteger [
 	position := anInteger
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMAction >> renderGlamorouslyOn: aRenderer [
 	^aRenderer renderAction: self
 ]

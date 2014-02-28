@@ -208,7 +208,8 @@ GLMPresentation >> addStatusbar [
 
 { #category : #accessing }
 GLMPresentation >> allActions [ 
-	^ self actions, self dynamicActions
+	^ (self actions, self dynamicActions) 
+			select: [ :each | each isAvailableOn: self ]
 ]
 
 { #category : #accessing }
@@ -218,7 +219,8 @@ GLMPresentation >> allActionsWithShortcuts [
 
 { #category : #accessing }
 GLMPresentation >> allSelectionActions [ 
-	^ self selectionActions, self dynamicActionsOnSelection
+	^ (self selectionActions, self dynamicActionsOnSelection)
+			select: [ :each | each isAvailableOn: self ]
 ]
 
 { #category : #scripting }
