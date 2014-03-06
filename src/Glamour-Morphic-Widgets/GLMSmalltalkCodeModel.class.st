@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'highlightSmalltalk',
 		'highlightSmalltalkContext',
-		'variableBindings'
+		'variableBindings',
+		'bindingsStrategy'
 	],
 	#category : #'Glamour-Morphic-Widgets'
 }
@@ -16,7 +17,26 @@ GLMSmalltalkCodeModel >> addVariableBinding: anAssociation [
 
 { #category : #accessing }
 GLMSmalltalkCodeModel >> bindingOf: aSymbol [
-	^ self variableBindings associationAt: aSymbol ifAbsent: [nil]
+	^  bindingsStrategy cull: self variableBindings cull: aSymbol
+]
+
+{ #category : #accessing }
+GLMSmalltalkCodeModel >> bindingsStrategy [
+
+	^ bindingsStrategy ifNil: [ bindingsStrategy := self defaultBindingsStrategy ]
+]
+
+{ #category : #accessing }
+GLMSmalltalkCodeModel >> bindingsStrategy: aBlock [
+
+	bindingsStrategy := aBlock
+]
+
+{ #category : #accessing }
+GLMSmalltalkCodeModel >> defaultBindingsStrategy [
+
+	^ [ :currentBindings :aSymbol |
+		 currentBindings associationAt: aSymbol ifAbsent: [nil] ]
 ]
 
 { #category : #accessing }

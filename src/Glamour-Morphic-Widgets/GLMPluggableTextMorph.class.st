@@ -24,6 +24,12 @@ GLMPluggableTextMorph >> announcer [
 	^ announcer ifNil: [announcer := GLMAnnouncer new]
 ]
 
+{ #category : #'do-its' }
+GLMPluggableTextMorph >> evaluateSelectionAndDo: aBlock [
+
+	^ textMorph editor evaluateSelectionAndDo: aBlock
+]
+
 { #category : #private }
 GLMPluggableTextMorph >> handleEdit: editBlock [
 	"We override this hook method to intercept pasting in the text morph.
