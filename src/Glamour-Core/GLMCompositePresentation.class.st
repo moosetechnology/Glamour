@@ -280,6 +280,11 @@ GLMCompositePresentation >> smalltalkCode [
 ]
 
 { #category : #scripting }
+GLMCompositePresentation >> smalltalkMethod [
+	^ self custom: GLMSmalltalkMethodPresentation new
+]
+
+{ #category : #scripting }
 GLMCompositePresentation >> spec [
 	^ self custom: GLMSpecPresentation new
 ]
@@ -348,6 +353,11 @@ GLMCompositePresentation >> verticallyStackedArrangement [
 GLMCompositePresentation >> withAllPanesAndPresentationsDo: aBlock [
 	super withAllPanesAndPresentationsDo: aBlock.
 	self do: [:each | each withAllPanesAndPresentationsDo: aBlock ]
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> workspace [
+	^ self custom: GLMWorkspacePresentation new
 ]
 
 { #category : #scripting }
