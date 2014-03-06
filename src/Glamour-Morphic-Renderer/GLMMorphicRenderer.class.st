@@ -154,6 +154,11 @@ GLMMorphicRenderer >> renderSmalltalkCodePresentation: aSmalltalkCodePresentatio
 ]
 
 { #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderSmalltalkMethodPresentation: aSmalltalkMethodPresentation [ 
+	^ GLMMorphicSmalltalkMethodRenderer render: aSmalltalkMethodPresentation from: self
+]
+
+{ #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderSpecPresentation: aPresentation [ 
 	^ GLMMorphicSpecRenderer render: aPresentation from: self
 ]
@@ -209,6 +214,11 @@ GLMMorphicRenderer >> renderWizard: aGLMWizard [
 	tmpRenderer :=  GLMMorphicWizardRenderer new.
 	aGLMWizard  setSpecificAnnouncementActionsTo: tmpRenderer.  
 	^ (tmpRenderer renderer: self) render: aGLMWizard
+]
+
+{ #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderWorkspacePresentation: aWorkspacePresentation [ 
+	^ GLMMorphicWorkspaceRenderer render: aWorkspacePresentation from: self
 ]
 
 { #category : #'rendering browsers' }
