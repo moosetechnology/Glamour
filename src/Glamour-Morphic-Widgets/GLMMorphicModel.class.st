@@ -60,10 +60,14 @@ GLMMorphicModel >> menu: aMenuMorph [
 					aMenuMorph add: action category subMenu: subMenu.
 					subMenu ] ]
 			ifFalse: [ aMenuMorph ].
-		targetMenuMorph 
+		(targetMenuMorph 
 			add: action title
 			target: self
 			selector: #executeMenuAction:
-			argument: action ].
+			argument: action)
+			icon:  action icon;
+			keyText: (action hasShortcut 
+				ifTrue: [ action shortcutAsString ]
+				ifFalse: [ nil ]) ].
 	^ aMenuMorph
 ]
