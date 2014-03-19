@@ -17,7 +17,7 @@ GLMSmalltalkCodeModel >> addVariableBinding: anAssociation [
 
 { #category : #accessing }
 GLMSmalltalkCodeModel >> bindingOf: aSymbol [
-	^  bindingsStrategy cull: self variableBindings cull: aSymbol
+	^ self bindingsStrategy cull: self variableBindings cull: aSymbol
 ]
 
 { #category : #accessing }
