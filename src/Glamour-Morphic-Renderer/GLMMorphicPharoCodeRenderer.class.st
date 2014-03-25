@@ -1,11 +1,11 @@
 Class {
-	#name : #GLMMorphicNewSmalltalkCodeRenderer,
+	#name : #GLMMorphicPharoCodeRenderer,
 	#superclass : #GLMMorphicTextRenderer,
 	#category : #'Glamour-Morphic-Renderer'
 }
 
 { #category : #rendering }
-GLMMorphicNewSmalltalkCodeRenderer >> textModelFor: aPresentation [
+GLMMorphicPharoCodeRenderer >> textModelFor: aPresentation [
 	| tm |
 	tm := GLMSmalltalkCodeModel new
 		text: aPresentation formatedDisplayValue;
@@ -15,7 +15,7 @@ GLMMorphicNewSmalltalkCodeRenderer >> textModelFor: aPresentation [
 ]
 
 { #category : #rendering }
-GLMMorphicNewSmalltalkCodeRenderer >> textMorphForModel: aTextModel [
+GLMMorphicPharoCodeRenderer >> textMorphForModel: aTextModel [
 	| morph  |
 	morph := GLMPluggableTextMorph new.
 	morph styler workspace: aTextModel.

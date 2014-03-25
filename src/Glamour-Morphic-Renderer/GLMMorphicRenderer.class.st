@@ -155,7 +155,7 @@ GLMMorphicRenderer >> renderSmalltalkCodePresentation: aSmalltalkCodePresentatio
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderSmalltalkMethodPresentation: aSmalltalkMethodPresentation [ 
-	^ GLMMorphicSmalltalkMethodRenderer render: aSmalltalkMethodPresentation from: self
+	^ GLMMorphicPharoMethodRenderer render: aSmalltalkMethodPresentation from: self
 ]
 
 { #category : #'rendering presentations' }
@@ -218,7 +218,7 @@ GLMMorphicRenderer >> renderWizard: aGLMWizard [
 
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderWorkspacePresentation: aWorkspacePresentation [ 
-	^ GLMMorphicWorkspaceRenderer render: aWorkspacePresentation from: self
+	^ GLMMorphicPharoPlaygroundRenderer render: aWorkspacePresentation from: self
 ]
 
 { #category : #'rendering browsers' }

@@ -1,17 +1,17 @@
 Class {
-	#name : #GLMMorphicWorkspaceRenderer,
-	#superclass : #GLMMorphicNewSmalltalkCodeRenderer,
+	#name : #GLMMorphicPharoPlaygroundRenderer,
+	#superclass : #GLMMorphicPharoCodeRenderer,
 	#category : #'Glamour-Morphic-Renderer'
 }
 
 { #category : #'as yet unclassified' }
-GLMMorphicWorkspaceRenderer >> actOnEvaluateSelection: ann [ 
+GLMMorphicPharoPlaygroundRenderer >> actOnEvaluateSelection: ann [ 
 
 	textMorph evaluateSelectionAndDo: ann action
 ]
 
 { #category : #'as yet unclassified' }
-GLMMorphicWorkspaceRenderer >> actOnVariableBindingsUpdated: ann [ 
+GLMMorphicPharoPlaygroundRenderer >> actOnVariableBindingsUpdated: ann [ 
 
 	textModel variableBindings: nil.
 	self addVariableBindingsOn: textModel from: ann presentation.
@@ -19,13 +19,13 @@ GLMMorphicWorkspaceRenderer >> actOnVariableBindingsUpdated: ann [
 ]
 
 { #category : #'as yet unclassified' }
-GLMMorphicWorkspaceRenderer >> addVariableBindingsOn: aTextModel from: aPresentation [
+GLMMorphicPharoPlaygroundRenderer >> addVariableBindingsOn: aTextModel from: aPresentation [
 
 	aPresentation variableBindings do: [ :each | aTextModel addVariableBinding: each ].
 ]
 
 { #category : #'as yet unclassified' }
-GLMMorphicWorkspaceRenderer >> registerEventsForPresentation: aPresentation [
+GLMMorphicPharoPlaygroundRenderer >> registerEventsForPresentation: aPresentation [
 
 	super registerEventsForPresentation: aPresentation.
 	aPresentation on: GLMVariableBindingsChanged send: #actOnVariableBindingsUpdated: to: self.
@@ -33,7 +33,7 @@ GLMMorphicWorkspaceRenderer >> registerEventsForPresentation: aPresentation [
 ]
 
 { #category : #'as yet unclassified' }
-GLMMorphicWorkspaceRenderer >> textModelFor: aPresentation [
+GLMMorphicPharoPlaygroundRenderer >> textModelFor: aPresentation [
 	| tm |
 	tm := super textModelFor: aPresentation.
 	self addVariableBindingsOn: tm from: aPresentation.
@@ -42,7 +42,7 @@ GLMMorphicWorkspaceRenderer >> textModelFor: aPresentation [
 ]
 
 { #category : #'as yet unclassified' }
-GLMMorphicWorkspaceRenderer >> workspaceBindingsStrategy [
+GLMMorphicPharoPlaygroundRenderer >> workspaceBindingsStrategy [
 
 	^ [ :currentBindings :aSymbol |
 		(currentBindings includesKey: aSymbol)

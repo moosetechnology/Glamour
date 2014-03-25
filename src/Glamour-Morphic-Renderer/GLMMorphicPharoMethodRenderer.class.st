@@ -1,11 +1,11 @@
 Class {
-	#name : #GLMMorphicSmalltalkMethodRenderer,
-	#superclass : #GLMMorphicNewSmalltalkCodeRenderer,
+	#name : #GLMMorphicPharoMethodRenderer,
+	#superclass : #GLMMorphicPharoCodeRenderer,
 	#category : #'Glamour-Morphic-Renderer'
 }
 
 { #category : #'as yet unclassified' }
-GLMMorphicSmalltalkMethodRenderer >> textModelFor: aPresentation [
+GLMMorphicPharoMethodRenderer >> textModelFor: aPresentation [
 	| tm |
 	tm := super textModelFor: aPresentation.
 	tm highlightSmalltalk: true;
