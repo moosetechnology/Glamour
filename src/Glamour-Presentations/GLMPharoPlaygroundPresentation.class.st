@@ -32,25 +32,25 @@ browser openOn:''self halt'' '
 
 "
 Class {
-	#name : #GLMWorkspacePresentation,
+	#name : #GLMPharoPlaygroundPresentation,
 	#superclass : #GLMNewSmalltalkCodePresentation,
 	#category : #'Glamour-Presentations'
 }
 
 { #category : #'as yet unclassified' }
-GLMWorkspacePresentation >> evaluateSelection [
+GLMPharoPlaygroundPresentation >> evaluateSelection [
 
 	self evaluateSelectionAndDo: [ :result | result ]
 ]
 
 { #category : #'as yet unclassified' }
-GLMWorkspacePresentation >> evaluateSelectionAndDo: aBlock [
+GLMPharoPlaygroundPresentation >> evaluateSelectionAndDo: aBlock [
 
 	self announce: (GLMEvaluateSelection new action: aBlock)
 ]
 
 { #category : #'as yet unclassified' }
-GLMWorkspacePresentation >> renderGlamorouslyOn: aRenderer [ 
+GLMPharoPlaygroundPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
 	^ aRenderer renderWorkspacePresentation: self
 ]

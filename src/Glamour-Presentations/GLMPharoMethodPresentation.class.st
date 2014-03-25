@@ -16,7 +16,7 @@ browser openOn: (CompiledMethod class>>#gtExampleSimple)
 
 "
 Class {
-	#name : #GLMSmalltalkMethodPresentation,
+	#name : #GLMPharoMethodPresentation,
 	#superclass : #GLMNewSmalltalkCodePresentation,
 	#instVars : [
 		'highlightSmalltalkContext'
@@ -25,20 +25,20 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMSmalltalkMethodPresentation >> highlightSmalltalkContext [
+GLMPharoMethodPresentation >> highlightSmalltalkContext [
 	^ highlightSmalltalkContext isNil 
 		ifTrue: [nil] 
 		ifFalse: [highlightSmalltalkContext glamourValue: self entity]
 ]
 
 { #category : #'as yet unclassified' }
-GLMSmalltalkMethodPresentation >> renderGlamorouslyOn: aRenderer [ 
+GLMPharoMethodPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
 	^ aRenderer renderSmalltalkMethodPresentation: self
 ]
 
 { #category : #'as yet unclassified' }
-GLMSmalltalkMethodPresentation >> smalltalkClass: aBlock [
+GLMPharoMethodPresentation >> smalltalkClass: aBlock [
 	"aBlock takes as parameters the entity objects and 
 	its evaluation is expected to produce a Smalltalk class"
 	highlightSmalltalkContext := aBlock.
