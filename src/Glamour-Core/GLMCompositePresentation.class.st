@@ -231,6 +231,16 @@ GLMCompositePresentation >> pane: aPane [
 	self presentations do: [:each | each pane: aPane ]
 ]
 
+{ #category : #scripting }
+GLMCompositePresentation >> pharoMethod [
+	^ self custom: GLMPharoMethodPresentation new
+]
+
+{ #category : #scripting }
+GLMCompositePresentation >> pharoPlayground [
+	^ self custom: GLMPharoPlaygroundPresentation new
+]
+
 { #category : #comparison }
 GLMCompositePresentation >> postCopy [
 	super postCopy.
@@ -277,11 +287,6 @@ GLMCompositePresentation >> size [
 { #category : #scripting }
 GLMCompositePresentation >> smalltalkCode [
 	^ self custom: GLMSmalltalkCodePresentation new
-]
-
-{ #category : #scripting }
-GLMCompositePresentation >> smalltalkMethod [
-	^ self custom: GLMSmalltalkMethodPresentation new
 ]
 
 { #category : #scripting }
@@ -353,11 +358,6 @@ GLMCompositePresentation >> verticallyStackedArrangement [
 GLMCompositePresentation >> withAllPanesAndPresentationsDo: aBlock [
 	super withAllPanesAndPresentationsDo: aBlock.
 	self do: [:each | each withAllPanesAndPresentationsDo: aBlock ]
-]
-
-{ #category : #scripting }
-GLMCompositePresentation >> workspace [
-	^ self custom: GLMWorkspacePresentation new
 ]
 
 { #category : #scripting }
