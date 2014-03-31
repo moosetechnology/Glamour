@@ -1167,6 +1167,13 @@ ConfigurationOfGlamour >> baseline28: spec [
 					file: 'ConfigurationOfGraphET';
 					version: #development;
 					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/GraphET/main' ].
+		spec
+			project: 'Graph-ET2' with: [
+				spec
+					className: 'ConfigurationOfGraphET2';
+					file: 'ConfigurationOfGraphET2';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/GraphET2/main' ].
 		spec project: 'Magritte3' with: [
 			spec
 					className: 'ConfigurationOfMagritte3';
@@ -1175,10 +1182,11 @@ ConfigurationOfGlamour >> baseline28: spec [
 					repository: 'http://www.smalltalkhub.com/mc/Magritte/Magritte3/main';
 					loads: #('Magritte-Model' 'Magritte-Tests-Model' 'Magritte-Morph' 'Magritte-Pharo-Model') ].
 		spec project: 'Spotlight2' with: [ 
-			spec className: 'ConfigurationOfSpotlight2';
-			file: 'ConfigurationOfSpotlight2';
-			version: #development;
-			repository: 'http://www.smalltalkhub.com/mc/PharoExtras/Spotlight2/main' ]
+			spec 
+					className: 'ConfigurationOfSpotlight2';
+					file: 'ConfigurationOfSpotlight2';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/PharoExtras/Spotlight2/main' ]
 	]
 ]
 
