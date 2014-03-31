@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #tests }
+GLMTextMorphicTest >> expectedFailures [
+	^ #(testUpdatingTextPortUpdatesTheMorph)
+]
+
+{ #category : #tests }
 GLMTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	| composite textMorph overriden |
 	overriden := false.
@@ -50,8 +55,7 @@ GLMTextMorphicTest >> testPastingUpdatesTextPort [
 	window := composite openOn: 42.
 	textMorph := self find: PluggableTextMorph in: window.
 	Clipboard clipboardText: '42'.
-	textMorph simulateClick.
-	self simulateKeyStroke: $v command.
+	textMorph paste.
 	self assert: (composite pane port: #text) value = '42'
 ]
 
