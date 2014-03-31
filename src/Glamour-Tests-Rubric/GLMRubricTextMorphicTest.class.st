@@ -62,13 +62,12 @@ GLMRubricTextMorphicTest >> testMultipleSelectionWithChange [
 
 { #category : #tests }
 GLMRubricTextMorphicTest >> testPastingUpdatesTextPort [
-	| composite textMorph |
+	| composite textMorph  |
 	composite := GLMCompositePresentation new with: [ :a | a rubricText display: '' ].
 	window := composite openOn: 42.
-	textMorph := self find: RubScrolledTextMorph in: window.
+	textMorph := self find: RubEditingArea in: window.
 	Clipboard clipboardText: '42'.
-	self simulateOnlyOneClickOn: textMorph.
-	self simulateKeyStroke: $v command.
+	textMorph editor paste.
 	self assert: (composite pane port: #text) value asString equals: '42'
 ]
 
