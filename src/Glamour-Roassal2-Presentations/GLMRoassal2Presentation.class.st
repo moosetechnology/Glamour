@@ -81,8 +81,8 @@ GLMRoassal2Presentation >> renderGlamorouslyOn: aRenderer [
 GLMRoassal2Presentation >> renderOn: aView [
 	self paintingBlock glamourValue: (
 								aView asGlamorousMultiValue, 
-								self asGlamorousMultiValue,
-								self entity asGlamorousMultiValue ).
+								self entity asGlamorousMultiValue,
+								self asGlamorousMultiValue ).
 "	self flag: 'This should be the responsibility of the the view'.
 	aView applyLayout.	"
 	self shouldPopulateSelection ifTrue: [
