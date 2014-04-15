@@ -38,11 +38,21 @@ Class {
 }
 
 { #category : #'initialize-release' }
+GLMRoassal2Presentation >> defaultActions [
+	self act: [ :roassal |  RTZoomInMove on: roassal view ]
+			icon: GLMUIThemeExtraIcons glamorousZoomIn
+			entitled: 'Zoom in'.
+	self act: [ :roassal |  RTZoomOutMove on: roassal view ]
+			icon: GLMUIThemeExtraIcons glamorousZoomOut
+			entitled: 'Zoom out'
+]
+
+{ #category : #'initialize-release' }
 GLMRoassal2Presentation >> initialize [ 
 	super initialize.
 	newViewBlock := [ RTView new ].
 	shouldPopulateSelection := true.
-	"self defaultActions"
+	self defaultActions
 ]
 
 { #category : #accessing }
