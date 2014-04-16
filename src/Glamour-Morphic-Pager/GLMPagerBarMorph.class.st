@@ -43,19 +43,19 @@ GLMPagerBarMorph >> addScrollBar [
 		
 		self addMorph: scrollBar fullFrame: (LayoutFrame 
 					fractions: (0 @ 0 corner: 0 @ 0)
-					offsets: (0 @ 0 corner: (scrollBar computeWidth)@ (adapter circleButtonSize + adapter circleButtonInset)))
+					offsets: (0 @ 0 corner: (scrollBar computeWidth) @ (adapter circleButtonSize + adapter circleButtonInset)))
 	]
-	
 ]
 
 { #category : #'as yet unclassified' }
 GLMPagerBarMorph >> bounds: newBounds [
-	|rect left right|
+	|rect left right   |
 	
 	rect := newBounds.
 	
 	left := rect origin.
 	right := rect corner.
+	
 	
 	adapter ifNotNil: [
 		left := left  - (adapter circleButtonInset / 2 @ 0).
@@ -74,7 +74,7 @@ GLMPagerBarMorph >> initialize [
 	self 
 		color: Color transparent;
 		changeProportionalLayout;
-		borderWidth: 2.
+		borderWidth: 0.
 	self
 		hResizing: #shrinkWrap;
 		vResizing: #shrinkWrap

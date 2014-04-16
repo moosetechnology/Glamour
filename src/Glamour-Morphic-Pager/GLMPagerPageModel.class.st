@@ -18,7 +18,7 @@ GLMPagerPageModel >> announcer [
 
 { #category : #'as yet unclassified' }
 GLMPagerPageModel >> circleButtonInset [
-	^ 10
+	^ 6
 ]
 
 { #category : #'as yet unclassified' }
