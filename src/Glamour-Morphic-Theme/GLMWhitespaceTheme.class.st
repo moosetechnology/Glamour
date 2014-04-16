@@ -282,7 +282,7 @@ GLMWhitespaceTheme >> buttonNormalBorderStyleFor: aButton [
 
 	(aButton valueOfProperty: #noBorder ifAbsent: [false]) ifTrue: [
 		^ SimpleBorder new width: 0; baseColor: Color transparent ].
-	^ self glamorousLightBorderFor: aButton
+	^ self glamorousNoBorderFor: aButton
 ]
 
 { #category : #'fill-styles-buttons' }
@@ -504,7 +504,7 @@ GLMWhitespaceTheme >> dropListDisabledFillStyleFor: aDropList [
 GLMWhitespaceTheme >> dropListNormalBorderStyleFor: aDropList [
 	"Return the normal borderStyle for the given drop list"
 
-	^ self buttonNormalBorderStyleFor: aDropList
+	^ self glamorousLightBorderStyleFor: aDropList
 ]
 
 { #category : #'fill-styles' }
@@ -544,12 +544,10 @@ GLMWhitespaceTheme >> glamorousDarkBaseColorFor: aButton [
 ]
 
 { #category : #private }
-GLMWhitespaceTheme >> glamorousLightBorderFor: aMorph [
-	| aStyle |
-	aStyle := SimpleBorder new 
-			baseColor: (self glamorousLightColorFor: aMorph);
-			width: 0.
-	^ aStyle
+GLMWhitespaceTheme >> glamorousLightBorderStyleFor: aTextEditor [
+	^ SimpleBorder new
+		baseColor: (self glamorousLightColorFor: aTextEditor);
+		width: 1
 ]
 
 { #category : #private }
@@ -560,6 +558,15 @@ GLMWhitespaceTheme >> glamorousLightColorFor: aButton [
 { #category : #private }
 GLMWhitespaceTheme >> glamorousLightSelectionColorFor: aMorph [
 	^ self class lightSelectionColor
+]
+
+{ #category : #private }
+GLMWhitespaceTheme >> glamorousNoBorderFor: aMorph [
+	| aStyle |
+	aStyle := SimpleBorder new 
+			baseColor: (self glamorousLightColorFor: aMorph);
+			width: 0.
+	^ aStyle
 ]
 
 { #category : #private }
@@ -611,7 +618,7 @@ GLMWhitespaceTheme >> glamorousVisibleFillStyleFor: aMorph height: anInteger [
 GLMWhitespaceTheme >> groupPanelBorderStyleFor: aGroupPanel [
 	"Answer the normal border style for a group panel."
 
-	^ self glamorousLightBorderFor: aGroupPanel
+	^ self glamorousNoBorderFor: aGroupPanel
 ]
 
 { #category : #'growl - specific' }
@@ -679,7 +686,7 @@ GLMWhitespaceTheme >> listDisabledFillStyleFor: aList [
 GLMWhitespaceTheme >> listNormalBorderStyleFor: aList [
 	"Return the normal borderStyle for the given list"
 		
-	^ self glamorousLightBorderFor: aList
+	^ self glamorousNoBorderFor: aList
 ]
 
 { #category : #'fill-styles-buttons' }
@@ -1063,9 +1070,7 @@ GLMWhitespaceTheme >> textEditorDisabledFillStyleFor: aTextEditor [
 GLMWhitespaceTheme >> textEditorNormalBorderStyleFor: aTextEditor [
 	"Return the normal text editor borderStyle for the given text editor."
 
-	^ SimpleBorder new 
-			baseColor: (self glamorousLightColorFor: aTextEditor);
-			width: 1
+	^ self glamorousLightBorderStyleFor: aTextEditor
 ]
 
 { #category : #'basic-colors' }
