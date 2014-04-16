@@ -546,8 +546,7 @@ GLMWhitespaceTheme >> glamorousDarkBaseColorFor: aButton [
 { #category : #private }
 GLMWhitespaceTheme >> glamorousLightBorderFor: aMorph [
 	| aStyle |
-"	aMorph roundedCorners: #(1 2 3 4).	
-"	aStyle := SimpleBorder new 
+	aStyle := SimpleBorder new 
 			baseColor: (self glamorousLightColorFor: aMorph);
 			width: 0.
 	^ aStyle
@@ -1064,7 +1063,9 @@ GLMWhitespaceTheme >> textEditorDisabledFillStyleFor: aTextEditor [
 GLMWhitespaceTheme >> textEditorNormalBorderStyleFor: aTextEditor [
 	"Return the normal text editor borderStyle for the given text editor."
 
-	^self buttonNormalBorderStyleFor: aTextEditor
+	^ SimpleBorder new 
+			baseColor: (self glamorousLightColorFor: aTextEditor);
+			width: 1
 ]
 
 { #category : #'basic-colors' }
