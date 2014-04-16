@@ -46,6 +46,13 @@ GLMPager >> adapter: anObject [
 ]
 
 { #category : #initialization }
+GLMPager >> initialColorInSystemWindow: aSystemWindow [
+	"Answer the colour the receiver should be when added to a SystemWindow."
+
+	^Color transparent
+]
+
+{ #category : #initialization }
 GLMPager >> initialize [
 	super initialize.
 	self changeTableLayout;
@@ -54,14 +61,7 @@ GLMPager >> initialize [
 		vResizing: #spaceFill;
 		cellPositioning: #center;
 		listCentering: #center;
-		wrapCentering: #center.
-	
-	"
-	adapter addPageBack: (GTPageModel new morph: (Morph new color: Color red)).
-	adapter addPageBack: (GTPageModel new morph: (Morph new color: Color green)).
-	adapter addPageBack: (GTPageModel new morph: (Morph new color: Color yellow)).
-	adapter addPageBack: (GTPageModel new morph: (Morph new color: Color blue)).
-	adapter addPageBack: (GTPageModel new morph: (Morph new color: Color pink))."
+		wrapCentering: #center
 ]
 
 { #category : #'as yet unclassified' }
