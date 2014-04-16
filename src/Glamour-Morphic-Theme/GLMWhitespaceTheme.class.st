@@ -16,7 +16,7 @@ Class {
 
 { #category : #accessing }
 GLMWhitespaceTheme class >> baseColor [
-	^ Color white"Color r: 210 g: 210 b: 210 range: 255"
+	^ Color white
 ]
 
 { #category : #accessing }
@@ -1025,7 +1025,7 @@ GLMWhitespaceTheme >> tabLabelSelectedFillStyleFor: aTabLabel [
 GLMWhitespaceTheme >> tabPanelBorderStyleFor: aTabGroup [
 	^ GLMTabPanelBorder new 
 		width: 1;
-		baseColor: ((self glamorousLightColorFor: aTabGroup));
+		baseColor: (self glamorousLightColorFor: aTabGroup);
 		tabSelector: aTabGroup tabSelectorMorph
 ]
 
@@ -1101,6 +1101,8 @@ GLMWhitespaceTheme >> windowActiveDropShadowStyle: anObject [
 { #category : #'fill-styles' }
 GLMWhitespaceTheme >> windowActiveFillStyleFor: aWindow [
 	"We do not want the lighting effect when the window goes inactive"
+	"^ SolidFillStyle color: (self class lightBaseColor)"
+	
 	^ SolidFillStyle color: (self glamorousBaseColorFor: aWindow)
 ]
 

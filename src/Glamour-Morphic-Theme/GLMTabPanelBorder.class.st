@@ -17,13 +17,16 @@ GLMTabPanelBorder >> frameRectangle: aRectangle on: aCanvas [
 	w isPoint ifTrue: [h := w y. w := w x] ifFalse:[h := w].
 	tab := self selectedTab.
 	tab ifNil: [	
-		r := aRectangle topLeft + (w@0) corner: aRectangle topRight - (w@h negated).
-		aCanvas fillRectangle: r color: self color.
+		"r := aRectangle topLeft + (w@0) corner: aRectangle topRight - (w@h negated).
+		aCanvas fillRectangle: r color: self color."
 		^self]. "top"
-	r := aRectangle topLeft + (w@0) corner: tab bounds left + w@(aRectangle top + h).
-	aCanvas fillRectangle: r color: self color. "top 1"
-	r := tab bounds left + w@ aRectangle top corner: tab bounds right - w@(aRectangle top + h).
-	aCanvas fillRectangle: r color: tab paneColor. "top 2"
-	r :=  tab bounds right - w@ aRectangle top corner: aRectangle topRight - (w@h negated).
-	aCanvas fillRectangle: r color: self color. "top 3"
+	r := aRectangle topLeft corner: tab bounds left @(aRectangle top + h).
+	aCanvas fillRectangle: r color: self color. 
+	r :=  tab bounds right @ aRectangle top corner: aRectangle topRight - (w@h negated).
+	aCanvas fillRectangle: r color: self color.
+	
+	r := aRectangle topLeft corner: aRectangle left + w @ (aRectangle bottom).
+	aCanvas fillRectangle: r color: tab paneColor.
+	r := aRectangle topRight corner: aRectangle right + w @ (aRectangle bottom).
+	aCanvas fillRectangle: r color: tab paneColor.
 ]
