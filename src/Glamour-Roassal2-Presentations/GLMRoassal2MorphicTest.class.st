@@ -20,6 +20,18 @@ GLMRoassal2MorphicTest >> testCanvas [
 ]
 
 { #category : #tests }
+GLMRoassal2MorphicTest >> testMondrianViewBuilder [
+	| composite |
+	composite := GLMCompositePresentation new.
+	composite roassal2 
+					initializeView: [ RTMondrianViewBuilder new ];
+					painting: [ :view | view nodes: (1 to: 42) ].
+	window := composite openOn: 42.
+	self assert: composite first view class = RTMondrianViewBuilder.
+	self assert: composite first view view elements size = 42
+]
+
+{ #category : #tests }
 GLMRoassal2MorphicTest >> testRoassalPresentationConstructor [
 	| composite |
 	composite := GLMCompositePresentation new.

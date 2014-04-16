@@ -35,5 +35,5 @@ GLMMorphicRoassal2Renderer >> render: aRoassalPresentation [
 	view := aRoassalPresentation view.
 	aRoassalPresentation renderOn: view.
 	aRoassalPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdate: to: self.
-	^ myMorph := view setUpCanvas buildMorph
+	^ myMorph := view view setUpCanvas buildMorph
 ]

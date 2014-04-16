@@ -96,7 +96,7 @@ GLMRoassal2Presentation >> renderOn: aView [
 "	self flag: 'This should be the responsibility of the the view'.
 	aView applyLayout.	"
 	self shouldPopulateSelection ifTrue: [
-		aView elements do: [:each |  
+		aView view elements do: [:each |  
 			each on: TRMouseLeftClick do: [:event | self selection: each model ]] ].
 	self view: aView
 ]
