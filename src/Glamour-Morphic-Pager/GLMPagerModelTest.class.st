@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'pagerModel'
 	],
-	#category : #'GLM-NewFinder-Tests'
+	#category : #'Glamour-Morphic-Pager-Tests'
 }
 
 { #category : #private }

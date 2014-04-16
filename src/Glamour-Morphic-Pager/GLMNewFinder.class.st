@@ -1,7 +1,7 @@
 Class {
 	#name : #GLMNewFinder,
 	#superclass : #GLMFinder,
-	#category : #'GLM-NewFinder-Glamour'
+	#category : #'Glamour-Morphic-Pager-Glamour'
 }
 
 { #category : #'as yet unclassified' }
