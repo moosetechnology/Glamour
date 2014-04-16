@@ -1,7 +1,7 @@
 Extension { #name : #GLMMorphicRenderer }
 
 { #category : #'*Glamour-Morphic-Pager-Glamour' }
-GLMMorphicRenderer >> renderNewFinder: aBrowser [ 
+GLMMorphicRenderer >> renderPager: aBrowser [ 
 	^ aBrowser hasFixedSizePanes 
 		ifTrue: [GLMMorphicPagerFinderRenderer render: aBrowser from: self]
 		ifFalse: []

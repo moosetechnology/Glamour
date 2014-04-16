@@ -21,7 +21,7 @@ GLMMorphicPagerFinderRenderer >> actOnPaneReplaced: ann [
 
 { #category : #'as yet unclassified' }
 GLMMorphicPagerFinderRenderer >> render: aBrowser [
-	container := GLMPager new
+	container := GLMPagerMorph new
 		name: 'scroller';
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
