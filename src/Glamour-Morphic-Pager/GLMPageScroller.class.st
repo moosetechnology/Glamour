@@ -267,7 +267,7 @@ GLMPageScroller >> separator [
 
 { #category : #layout }
 GLMPageScroller >> separatorWidth [
-	^ 20
+	^ 10
 ]
 
 { #category : #scrolling }
