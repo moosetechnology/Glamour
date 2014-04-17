@@ -93,8 +93,7 @@ GLMRoassal2Presentation >> renderOn: aView [
 								aView asGlamorousMultiValue, 
 								self entity asGlamorousMultiValue,
 								self asGlamorousMultiValue ).
-"	self flag: 'This should be the responsibility of the the view'.
-	aView applyLayout.	"
+	aView build.
 	self shouldPopulateSelection ifTrue: [
 		aView view elements do: [:each |  
 			each on: TRMouseLeftClick do: [:event | self selection: each model ]] ].
