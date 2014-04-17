@@ -8,7 +8,9 @@ Class {
 		'adapter',
 		'resizingZoneWidth',
 		'isRightResizing',
-		'isLeftResizing'
+		'isLeftResizing',
+		'scrollResizingIcon',
+		'scrollSelectedIcon'
 	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
@@ -171,8 +173,9 @@ GLMSlidingScrollMorph >> initialize [
 	isLeftResizing := false.
 	isResizing := false.
 		
-	self image state normal: GLMPagerIcons normalScrollBar.
-	self image state selected: GLMPagerIcons selectedScrollBar.
+	self image state normal: GLMUIThemeExtraIcons glamorousLargeGrayCircleEmphasized.
+	scrollResizingIcon := GLMUIThemeExtraIcons glamorousLargeGrayCircleEmphasized.
+	scrollSelectedIcon := GLMUIThemeExtraIcons glamorousLargeGrayCircleEmphasized.
 ]
 
 { #category : #'as yet unclassified' }
@@ -232,8 +235,10 @@ GLMSlidingScrollMorph >> mouseDown: evt [
 	]
 	ifTrue: [ isLeftResizing := false ].
 
-	isResizing := (isLeftResizing or: isRightResizing). 
-	isResizing ifTrue: [self image state selected: GLMPagerIcons resizingScrollBar].
+	isResizing := (isLeftResizing or: isRightResizing).
+	
+	"during resizing we can use other image"
+	isResizing ifTrue: [ self image state selected: scrollResizingIcon ].
 	
 	super mouseDown: evt.
 ]
@@ -267,7 +272,9 @@ GLMSlidingScrollMorph >> mouseUp: evt [
 	adapter switchPageTo: adapter firstVisiblePageIndex.
 	
 	isResizing := false.
-	self image state selected: GLMPagerIcons selectedScrollBar.
+	
+	"setting selected image to default after resizie is complete"
+	self image state selected: scrollResizingIcon.
 	
 	(bounds containsPoint: evt position)
 		ifFalse: [ self setCursorToNormal: evt ] 

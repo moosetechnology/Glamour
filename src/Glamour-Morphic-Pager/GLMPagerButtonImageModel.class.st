@@ -42,7 +42,7 @@ GLMPagerButtonImageModel >> pressed: isPressed selected: isSelected checked: isC
 		
 	(isChecked & self state checked notNil)
 		ifTrue: [ ^ self state checked ].
-		
+	
 	^ self state normal.
 ]
 
