@@ -39,12 +39,12 @@ Class {
 
 { #category : #'initialize-release' }
 GLMRoassal2Presentation >> defaultActions [
-	self act: [ :roassal |  RTZoomInMove on: roassal view ]
+	self act: [ :roassal |  RTZoomInMove on: roassal view view ]
 			icon: GLMUIThemeExtraIcons glamorousZoomIn
 			entitled: 'Zoom in'.
-	self act: [ :roassal |  RTZoomOutMove on: roassal view ]
+	self act: [ :roassal |  RTZoomOutMove on: roassal view view ]
 			icon: GLMUIThemeExtraIcons glamorousZoomOut
-			entitled: 'Zoom out'
+			entitled: 'Zoom out' 
 ]
 
 { #category : #'initialize-release' }

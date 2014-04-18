@@ -71,3 +71,25 @@ GLMRoassal2MorphicTest >> testUpdateViewIsProperlyLaidOut [
 	newView := (self find: ROMorph in: window) view.
 	self assert: (newView elements detect: [ :each | each model = $b ]) bounds left equals: 20
 ]
+
+{ #category : #tests }
+GLMRoassal2MorphicTest >> testZoomingActionsWorkForMondrianBuilder [
+	| composite |
+	composite := GLMCompositePresentation new.
+	composite roassal2 initializeView: RTMondrianViewBuilder new.
+	window := composite openOn: 42.
+	self assert: composite first actions size = 2.
+	self shouldnt: (composite first actions first actOn: composite first) raise: Error.
+	self shouldnt: (composite first actions second actOn: composite first) raise: Error
+]
+
+{ #category : #tests }
+GLMRoassal2MorphicTest >> testZoomingActionsWorkForView [
+	| composite |
+	composite := GLMCompositePresentation new.
+	composite roassal2.
+	window := composite openOn: 42.
+	self assert: composite first actions size = 2.
+	self shouldnt: (composite first actions first actOn: composite first) raise: Error.
+	self shouldnt: (composite first actions second actOn: composite first) raise: Error
+]
