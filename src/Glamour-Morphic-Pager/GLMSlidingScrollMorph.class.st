@@ -75,12 +75,15 @@ GLMSlidingScrollMorph >> delete [
 
 { #category : #'as yet unclassified' }
 GLMSlidingScrollMorph >> dragResizingLeft: evt [
-	| leftDelta left right|
+	| leftDelta left right maxLeft|
 	
 	leftDelta:= (self bounds right - startResizingWidth - evt position x - startDragX).
 	
 	right := self layoutFrame rightOffset.
 	left := right - startResizingWidth - leftDelta.
+	maxLeft := right - (adapter circleButtonInset + adapter circleButtonSize).
+	
+	left := (left max: 0) min: maxLeft.
 	
 	self layoutFrame: (
 		LayoutFrame 
@@ -94,12 +97,16 @@ GLMSlidingScrollMorph >> dragResizingLeft: evt [
 
 { #category : #'as yet unclassified' }
 GLMSlidingScrollMorph >> dragResizingRight: evt [
-	| rightDelta left right|
+	| rightDelta left right minRight maxRight|
 	
 	rightDelta:= (evt position x - self left - startDragX).
 	
 	left := self layoutFrame leftOffset.
 	right := left + startResizingWidth + rightDelta.
+	minRight := left + (adapter circleButtonInset + adapter circleButtonSize).
+	maxRight := owner width.
+	
+	right := (right max: minRight) min: maxRight.
 	
 	self layoutFrame: (
 		LayoutFrame 
@@ -145,9 +152,7 @@ GLMSlidingScrollMorph >> glmAnimateValue: aValue duration: anInteger [
 { #category : #'as yet unclassified' }
 GLMSlidingScrollMorph >> handleMouseOver: anEvent [
 	super handleMouseOver: anEvent.
-	
-	Transcript show: isResizing asString; cr.
-	
+		
 	isResizing | (self isMouseEventInsideLeftResizingZone: anEvent) | (self isMouseEventInsideRightResizingZone: anEvent)
 	ifTrue: [
 		self setCursorToResizing: anEvent.
@@ -322,16 +327,12 @@ GLMSlidingScrollMorph >> scrollTo: aValue smooth: aBoolean [
 
 { #category : #'as yet unclassified' }
 GLMSlidingScrollMorph >> setCursorToNormal: evt [
-	
-	Transcript show: 'normal';  cr.
 		
 	evt hand showTemporaryCursor: nil
 ]
 
 { #category : #'as yet unclassified' }
 GLMSlidingScrollMorph >> setCursorToResizing: evt [
-
-	Transcript show: 'resizing';  cr.
 	
 	evt hand showTemporaryCursor: self resizeCursor
 ]
