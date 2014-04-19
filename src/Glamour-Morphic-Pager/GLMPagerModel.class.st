@@ -1,48 +1,49 @@
 Class {
-	#name : #GLMPagerPageModel,
+	#name : #GLMPagerModel,
 	#superclass : #Object,
 	#instVars : [
 		'numberOfVisiblePages',
 		'announcer',
 		'firstVisiblePageIndex',
 		'pagesCount',
-		'lastVisiblePageIndex'
+		'lastVisiblePageIndex',
+		'focusedPageIndex'
 	],
 	#category : #'Glamour-Morphic-Pager-Model'
 }
 
 { #category : #accessing }
-GLMPagerPageModel >> announcer [
+GLMPagerModel >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerPageModel >> circleButtonInset [
+GLMPagerModel >> circleButtonInset [
 	^ 6
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerPageModel >> circleButtonSize [
+GLMPagerModel >> circleButtonSize [
 	^ 16
 ]
 
 { #category : #accessing }
-GLMPagerPageModel >> defaultFirstVisiblePageIndex [
+GLMPagerModel >> defaultFirstVisiblePageIndex [
 	^ 1
 ]
 
 { #category : #accessing }
-GLMPagerPageModel >> defaultNumberOfVisiblePages [
+GLMPagerModel >> defaultNumberOfVisiblePages [
 	^ 2
 ]
 
 { #category : #accessing }
-GLMPagerPageModel >> firstVisiblePageIndex [
+GLMPagerModel >> firstVisiblePageIndex [
 	^ firstVisiblePageIndex
 ]
 
 { #category : #accessing }
-GLMPagerPageModel >> firstVisiblePageIndex: aNumber [
+GLMPagerModel >> firstVisiblePageIndex: aNumber [
 	aNumber < 1 ifTrue: [ 
 		firstVisiblePageIndex := 1.
 		^ self ].
@@ -52,11 +53,27 @@ GLMPagerPageModel >> firstVisiblePageIndex: aNumber [
 	firstVisiblePageIndex := aNumber.
 ]
 
+{ #category : #'as yet unclassified' }
+GLMPagerModel >> focusedPageIndex [
+	^ focusedPageIndex
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerModel >> focusedPageIndex: anIndex [
+
+	(self focusedPageIndex = anIndex) not ifTrue:[
+		focusedPageIndex := anIndex.
+		self notifyFocusedPageChanged.
+	].
+	
+]
+
 { #category : #initialization }
-GLMPagerPageModel >> initialize [
+GLMPagerModel >> initialize [
 	super initialize.
 
 	pagesCount := 0.
+	focusedPageIndex := 1.
 	self numberOfVisiblePages: self defaultNumberOfVisiblePages.
 	
 	firstVisiblePageIndex:= self defaultFirstVisiblePageIndex.
@@ -64,7 +81,7 @@ GLMPagerPageModel >> initialize [
 ]
 
 { #category : #accessing }
-GLMPagerPageModel >> lastVisiblePageIndex [
+GLMPagerModel >> lastVisiblePageIndex [
 	| lastIndex |
 	
 	lastIndex := self firstVisiblePageIndex + self numberOfVisiblePages - 1.
@@ -74,7 +91,7 @@ GLMPagerPageModel >> lastVisiblePageIndex [
 ]
 
 { #category : #accessing }
-GLMPagerPageModel >> lastVisiblePageIndex: aNumber [
+GLMPagerModel >> lastVisiblePageIndex: aNumber [
 	aNumber < 1 ifTrue: [ aNumber := 1 ].
 	aNumber > self pagesCount ifTrue: [ aNumber := self pagesCount ].
 	lastVisiblePageIndex := aNumber.
@@ -84,19 +101,25 @@ GLMPagerPageModel >> lastVisiblePageIndex: aNumber [
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerPageModel >> notifyNumberOfVisiblePagesChanged [
+GLMPagerModel >> notifyFocusedPageChanged [
+
+	self announcer announce: GLMFocusedPageChanged new.
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerModel >> notifyNumberOfVisiblePagesChanged [
 
 	self announcer announce: GLMNumberOfVisiblePagesChanged new.
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerPageModel >> notifyPagePoped [
+GLMPagerModel >> notifyPagePoped [
 
 	self announcer announce: GLMPagePoped new.
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerPageModel >> notifyPagePushed: aMorph scrollTo: aBoolean smooth: isSmooth [
+GLMPagerModel >> notifyPagePushed: aMorph scrollTo: aBoolean smooth: isSmooth [
 	
 	self announcer announce: (GLMPagePushed new morph: aMorph).
 	
@@ -104,27 +127,27 @@ GLMPagerPageModel >> notifyPagePushed: aMorph scrollTo: aBoolean smooth: isSmoot
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerPageModel >> notifyPageSwitched: isSmooth [
+GLMPagerModel >> notifyPageSwitched: isSmooth [
 	self announcer announce: (GLMPageSwitched new smooth: isSmooth).
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerPageModel >> notifyScrollerBoundsChanged: aBounds [
+GLMPagerModel >> notifyScrollerBoundsChanged: aBounds [
 	self announcer announce: (GLMPagerBoundsChanged new bounds: aBounds).
 ]
 
 { #category : #accessing }
-GLMPagerPageModel >> numberOfVisiblePages [
+GLMPagerModel >> numberOfVisiblePages [
 	^ numberOfVisiblePages
 ]
 
 { #category : #accessing }
-GLMPagerPageModel >> numberOfVisiblePages: aNumber [
+GLMPagerModel >> numberOfVisiblePages: aNumber [
 	numberOfVisiblePages := aNumber.
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerPageModel >> numberOfVisiblePagesChanged [
+GLMPagerModel >> numberOfVisiblePagesChanged [
 	|currentNumberOfVisiblePages|
 	
 	currentNumberOfVisiblePages := lastVisiblePageIndex - self firstVisiblePageIndex + 1.
@@ -136,19 +159,19 @@ GLMPagerPageModel >> numberOfVisiblePagesChanged [
 ]
 
 { #category : #accessing }
-GLMPagerPageModel >> pagesCount [
+GLMPagerModel >> pagesCount [
 	^ pagesCount
 ]
 
 { #category : #panes }
-GLMPagerPageModel >> popAndReplacePane: aMorph [
+GLMPagerModel >> popAndReplacePane: aMorph [
 	self popPane.
 	self pushPane: aMorph smooth: false.
 	self notifyPageSwitched: false.
 ]
 
 { #category : #panes }
-GLMPagerPageModel >> popPane [
+GLMPagerModel >> popPane [
 	pagesCount >= 1 ifTrue: [
 		|scrollTo|
 		pagesCount := pagesCount - 1.
@@ -159,24 +182,24 @@ GLMPagerPageModel >> popPane [
 ]
 
 { #category : #panes }
-GLMPagerPageModel >> pushPane: aMorph smooth: aBoolean [
+GLMPagerModel >> pushPane: aMorph smooth: aBoolean [
 
 	pagesCount := pagesCount + 1.	
 	self notifyPagePushed: aMorph scrollTo: true smooth: aBoolean.
 ]
 
 { #category : #scrolling }
-GLMPagerPageModel >> scrollTo: aFloat smooth: aBoolean [
+GLMPagerModel >> scrollTo: aFloat smooth: aBoolean [
 	self announcer announce: (GLMPagerScrolled new value: aFloat; smooth: aBoolean).
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerPageModel >> scrollToRight: isSmooth [
+GLMPagerModel >> scrollToRight: isSmooth [
 	self scrollTo: 1.0 smooth: isSmooth
 ]
 
 { #category : #panes }
-GLMPagerPageModel >> switchPageTo: aNumber [
+GLMPagerModel >> switchPageTo: aNumber [
 
 	aNumber + self numberOfVisiblePages - 1 > self pagesCount
 		ifTrue: [ aNumber :=  self pagesCount - self numberOfVisiblePages + 1].

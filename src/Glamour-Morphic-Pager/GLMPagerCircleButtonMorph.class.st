@@ -1,6 +1,11 @@
 Class {
 	#name : #GLMPagerCircleButtonMorph,
 	#superclass : #GLMButton,
+	#instVars : [
+		'checkedIcon',
+		'checkedFocusedIcon',
+		'focused'
+	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
 
@@ -10,7 +15,37 @@ GLMPagerCircleButtonMorph >> initialize [
 	
 	self label: ''.
 	
+	checkedIcon := GLMUIThemeExtraIcons glamorousGrayCircle.
+	checkedFocusedIcon := GLMUIThemeExtraIcons glamorousRedCircle.
+	focused := false.
+	
 	self image state normal: GLMUIThemeExtraIcons glamorousGrayCircleEmpty.
-	self image state selected: GLMUIThemeExtraIcons glamorousGrayCircle.
-	self image state checked: GLMUIThemeExtraIcons glamorousGrayCircle.
+	self image state selected: checkedIcon.
+	self image state checked: checkedIcon.
+	
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerCircleButtonMorph >> isFocused [
+	^ focused
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerCircleButtonMorph >> setFocused [
+
+	focused ifFalse: [
+		self image state checked: checkedFocusedIcon.
+		self image state selected: checkedFocusedIcon.
+		focused := true.
+	]
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerCircleButtonMorph >> setNotFocused [
+
+	focused ifTrue: [
+		self image state checked: checkedIcon.
+		self image state selected: checkedIcon.
+		focused := false.
+	]
 ]

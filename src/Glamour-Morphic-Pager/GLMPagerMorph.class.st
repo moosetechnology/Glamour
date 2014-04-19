@@ -10,7 +10,7 @@ Class {
 { #category : #'as yet unclassified' }
 GLMPagerMorph class >> simpleExample [
 	|pager adapter|
-	adapter := GLMPagerPageModel new.
+	adapter := GLMPagerModel new.
 	pager :=	GLMPagerMorph new.
 	pager adapter: adapter.
 	

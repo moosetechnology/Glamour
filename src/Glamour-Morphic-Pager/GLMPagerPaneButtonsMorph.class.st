@@ -19,6 +19,9 @@ GLMPagerPaneButtonsMorph >> adapter: anAdapter [
 	adapter announcer weak
 		on: GLMPagerBoundsChanged send: #onScrollBoundsChanged: to: self.
 		
+	adapter announcer weak
+		on: GLMFocusedPageChanged send: #onFocusedPageChanged to: self.
+		
 	self updateIndicatorButtons.
 	self cellInset: adapter circleButtonInset.
 ]
@@ -80,7 +83,8 @@ GLMPagerPaneButtonsMorph >> markButtonsInside: aBounds [
 				]
 			]
 			ifFalse: [
-				indicator buttonModel uncheck.
+				"uncheck only if not focused"
+				indicator isFocused ifFalse: [ indicator buttonModel uncheck ].
 				(firstFound & (lastFound = false)) ifTrue: [
 					adapter lastVisiblePageIndex: index - 1.
 					lastFound := true.
@@ -93,6 +97,14 @@ GLMPagerPaneButtonsMorph >> markButtonsInside: aBounds [
 	]
 	
 		
+
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerPaneButtonsMorph >> onFocusedPageChanged [
+
+	self updateIndicatorButtonsFocus.
+	self updateIndicatorButtons.
 
 ]
 
@@ -121,6 +133,9 @@ GLMPagerPaneButtonsMorph >> onPagePushed: addedAnnouncement [
 	button width: adapter circleButtonSize.
 	
 	self addMorphBack: button.
+	
+	(indicatorButtons size = 1) ifTrue: [ self updateIndicatorButtonsFocus ].
+		
 	self updateIndicatorButtons.
 ]
 
@@ -142,13 +157,25 @@ GLMPagerPaneButtonsMorph >> updateIndicatorButtons [
 
 	"first we uncheck all buttons"
 	indicatorButtons do: [ :indicator |
-		indicator buttonModel uncheck.
+		"uncheck only if not focused"
+		indicator isFocused ifFalse: [ indicator buttonModel uncheck ].
 	].
 
 	"then check only necessary"
 	indicatorButtons from: adapter firstVisiblePageIndex to: adapter lastVisiblePageIndex do: [ :indicator |
 		indicator buttonModel check.
 	]
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerPaneButtonsMorph >> updateIndicatorButtonsFocus [
+
+	"unfocus all"
+	indicatorButtons do: [ :each |
+		 each setNotFocused.
+	].
+
+	(indicatorButtons at: adapter focusedPageIndex) setFocused.
 ]
 
 { #category : #'as yet unclassified' }

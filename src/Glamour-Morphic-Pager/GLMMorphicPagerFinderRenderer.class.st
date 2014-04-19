@@ -25,7 +25,7 @@ GLMMorphicPagerFinderRenderer >> render: aBrowser [
 		name: 'scroller';
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
-		adapter: GLMPagerPageModel new;
+		adapter: GLMPagerModel new;
 		beTransparent;
 		yourself.
 	"container maxPanes: aBrowser fixedSizePanes."

@@ -16,7 +16,7 @@ GLMPagerModelTest >> createSimplePaneMorph [
 { #category : #running }
 GLMPagerModelTest >> setUp [
 
-	pagerModel := GLMPagerPageModel new.
+	pagerModel := GLMPagerModel new.
 ]
 
 { #category : #tests }
