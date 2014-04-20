@@ -150,6 +150,7 @@ GLMListingPresentation >> computeTagsFor: aGlamourValue [
 GLMListingPresentation >> computeTagsFor: aGlamourValue from: aBlock [
 	| value |
 	
+	aBlock ifNil: [ ^ OrderedCollection new ].
 	value := aBlock glamourValue: aGlamourValue.
 	^ value isString
 		ifTrue: [ OrderedCollection with: value ]
@@ -196,12 +197,12 @@ GLMListingPresentation >> grayRoundedTags [
 
 { #category : #testing }
 GLMListingPresentation >> hasTags [
-	^ tagsBlock notNil
+	^ self tagsBlock notNil
 ]
 
 { #category : #testing }
 GLMListingPresentation >> hasTagsFilter [
-	^ tagsFilterBlock notNil
+	^ self tagsFilterBlock notNil
 ]
 
 { #category : #accessing }
@@ -316,31 +317,13 @@ GLMListingPresentation >> tagsFilterBlock [
 ]
 
 { #category : #accessing }
-GLMListingPresentation >> tagsFor: anObject [
-	| value |
-	self hasTags ifFalse: [ ^ OrderedCollection new ].
-	value := self tagsBlock glamourValue: (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue).
-	^ value isString
-		ifTrue: [ OrderedCollection with: value ]
-		ifFalse: [ value asOrderedCollection ]
-]
-
-{ #category : #accessing }
 GLMListingPresentation >> tagsFor: anObject fromProvider: aTagProvider to: operation [
-	| hasTags tags glamourValue |
+	| glamourValue |
 	
 	glamourValue := (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue).
-	operation == #show 
-		ifTrue: [ 
-			hasTags := aTagProvider hasTags.
-			hasTags ifTrue: [ tags := aTagProvider computeTagsFor: glamourValue ] ] 
-		ifFalse: [ 
-			hasTags := self hasTagsFilter.
-			hasTags ifTrue: [ tags := aTagProvider computeTagsFilterFor: glamourValue ] ] .
-	
-	hasTags 
-		ifFalse: [ ^ OrderedCollection new ]
-		ifTrue: [ ^ tags ]
+	^ operation == #show 
+		ifTrue: [ aTagProvider computeTagsFor: glamourValue ] 
+		ifFalse: [ aTagProvider computeTagsFilterFor: glamourValue ]
 ]
 
 { #category : #accessing }

@@ -44,6 +44,7 @@ GLMTableColumn >> computeTagsFor: aGlamourValue [
 GLMTableColumn >> computeTagsFor: aGlamourValue from: aBlock [
 	| value |
 	
+	aBlock ifNil: [ ^ OrderedCollection new ].
 	value := aBlock glamourValue: aGlamourValue.
 	^ value isString
 		ifTrue: [ OrderedCollection with: value ]
@@ -52,12 +53,12 @@ GLMTableColumn >> computeTagsFor: aGlamourValue from: aBlock [
 
 { #category : #testing }
 GLMTableColumn >> hasTags [
-	^ tagsBlock notNil
+	^ self tagsBlock notNil
 ]
 
 { #category : #testing }
 GLMTableColumn >> hasTagsFilter [
-	^ tagsFilterBlock notNil
+	^ self tagsFilterBlock notNil
 ]
 
 { #category : #accessing }
