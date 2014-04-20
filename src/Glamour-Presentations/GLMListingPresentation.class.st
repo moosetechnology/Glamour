@@ -16,12 +16,10 @@ Class {
 	#name : #GLMListingPresentation,
 	#superclass : #GLMFormatedPresentation,
 	#instVars : [
-		'tagsBlock',
 		'searchBlock',
 		'filterBlock',
 		'amountToShowBlock',
 		'allowsMultipleSelection',
-		'tagsFilterBlock',
 		'allowsDeselection',
 		'tagsStyle',
 		'helpMessage',
@@ -134,27 +132,14 @@ GLMListingPresentation >> columns [
 	^ OrderedCollection new
 ]
 
-{ #category : #accessing }
+{ #category : #tags }
 GLMListingPresentation >> computeTagsFilterFor: aGlamourValue [ 
-
-	^ self computeTagsFor: aGlamourValue from: self tagsFilterBlock
+	self subclassResponsibility 
 ]
 
-{ #category : #accessing }
+{ #category : #tags }
 GLMListingPresentation >> computeTagsFor: aGlamourValue [ 
-
-	^ self computeTagsFor: aGlamourValue from: self tagsBlock
-]
-
-{ #category : #accessing }
-GLMListingPresentation >> computeTagsFor: aGlamourValue from: aBlock [
-	| value |
-	
-	aBlock ifNil: [ ^ OrderedCollection new ].
-	value := aBlock glamourValue: aGlamourValue.
-	^ value isString
-		ifTrue: [ OrderedCollection with: value ]
-		ifFalse: [ value asOrderedCollection ]
+	self subclassResponsibility 
 ]
 
 { #category : #accessing }
@@ -193,16 +178,6 @@ GLMListingPresentation >> filterStrategy [
 GLMListingPresentation >> grayRoundedTags [
 
 	tagsStyle := #grayRoundedButton
-]
-
-{ #category : #testing }
-GLMListingPresentation >> hasTags [
-	^ self tagsBlock notNil
-]
-
-{ #category : #testing }
-GLMListingPresentation >> hasTagsFilter [
-	^ self tagsFilterBlock notNil
 ]
 
 { #category : #accessing }
@@ -288,35 +263,7 @@ GLMListingPresentation >> sorted: aBlock [
 	sortBlock := aBlock  
 ]
 
-{ #category : #scripting }
-GLMListingPresentation >> tags: anObject [
-	"Displays a tag along the node with a text and/or an icon, as returned when evaluating anObject. Clicking on such a node's' tag would remove all nodes that don't have this tag (this behavior can be changed by sending the #tagsFilter: message)"
-	tagsBlock := anObject.
-	self hasTagsFilter ifFalse:[ tagsFilterBlock := anObject ]
-]
-
-{ #category : #accessing }
-GLMListingPresentation >> tagsBlock [
-	^ tagsBlock
-]
-
-{ #category : #accessing }
-GLMListingPresentation >> tagsBlock: anObject [
-	tagsBlock := anObject
-]
-
-{ #category : #scripting }
-GLMListingPresentation >> tagsFilter: anObject [
-	"Changes the default behavior of hiding all nodes that don't have the exact same tag as the one just clicked"
-	tagsFilterBlock := anObject 
-]
-
-{ #category : #accessing }
-GLMListingPresentation >> tagsFilterBlock [
-	^ tagsFilterBlock
-]
-
-{ #category : #accessing }
+{ #category : #tags }
 GLMListingPresentation >> tagsFor: anObject fromProvider: aTagProvider to: operation [
 	| glamourValue |
 	
@@ -326,7 +273,7 @@ GLMListingPresentation >> tagsFor: anObject fromProvider: aTagProvider to: opera
 		ifFalse: [ aTagProvider computeTagsFilterFor: glamourValue ]
 ]
 
-{ #category : #accessing }
+{ #category : #tags }
 GLMListingPresentation >> tagsFor: anObject to: operation [
 	
 	^ self 

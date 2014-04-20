@@ -60,7 +60,7 @@ GLMTablePresentation >> columns: aCollection [
 	columns := aCollection 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tags }
 GLMTablePresentation >> computeTagsFilterFor: aGlamourValue [
 	| tags |
 	
@@ -70,7 +70,7 @@ GLMTablePresentation >> computeTagsFilterFor: aGlamourValue [
 	^ tags
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tags }
 GLMTablePresentation >> computeTagsFor: anObject [
 	| tags |
 	
@@ -80,13 +80,13 @@ GLMTablePresentation >> computeTagsFor: anObject [
 	^ tags
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GLMTablePresentation >> hasTags [
 
 	^ self columns anySatisfy: [ :aColumn | aColumn hasTags ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GLMTablePresentation >> hasTagsFilter [
 
 	^ self columns anySatisfy: [ :aColumn | aColumn hasTagsFilter ]

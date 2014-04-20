@@ -1,11 +1,15 @@
 Class {
 	#name : #GLMTreePresentation,
 	#superclass : #GLMListingPresentation,
+	#traits : 'GLMTBlockTags',
+	#classTraits : 'GLMTBlockTags classTrait',
 	#instVars : [
 		'children',
 		'rootsExpanded',
 		'allExpanded',
-		'expandLevel'
+		'expandLevel',
+		'tagsBlock',
+		'tagsFilterBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -100,6 +104,26 @@ GLMTreePresentation >> shouldRootsExpand [
 { #category : #accessing }
 GLMTreePresentation >> shouldRootsExpand: anObject [
 	rootsExpanded := anObject
+]
+
+{ #category : #accessing }
+GLMTreePresentation >> tagsBlock [
+	^ tagsBlock
+]
+
+{ #category : #scripting }
+GLMTreePresentation >> tagsBlock: anObject [
+	tagsBlock := anObject
+]
+
+{ #category : #scripting }
+GLMTreePresentation >> tagsFilter: aBlock [
+	tagsFilterBlock := aBlock 
+]
+
+{ #category : #accessing }
+GLMTreePresentation >> tagsFilterBlock [
+	^ tagsFilterBlock
 ]
 
 { #category : #validation }

@@ -8,6 +8,8 @@ Instance Variables:
 Class {
 	#name : #GLMTableColumn,
 	#superclass : #Object,
+	#traits : 'GLMTBlockTags',
+	#classTraits : 'GLMTBlockTags classTrait',
 	#instVars : [
 		'title',
 		'computation',
@@ -28,59 +30,19 @@ GLMTableColumn >> computation: anObject [
 	computation := anObject
 ]
 
-{ #category : #tags }
-GLMTableColumn >> computeTagsFilterFor: aGlamourValue [ 
-
-	^ self computeTagsFor: aGlamourValue from: self tagsFilterBlock
-]
-
-{ #category : #tags }
-GLMTableColumn >> computeTagsFor: aGlamourValue [ 
-
-	^ self computeTagsFor: aGlamourValue from: self tagsBlock
-]
-
-{ #category : #tags }
-GLMTableColumn >> computeTagsFor: aGlamourValue from: aBlock [
-	| value |
-	
-	aBlock ifNil: [ ^ OrderedCollection new ].
-	value := aBlock glamourValue: aGlamourValue.
-	^ value isString
-		ifTrue: [ OrderedCollection with: value ]
-		ifFalse: [ value asOrderedCollection ]
-]
-
-{ #category : #testing }
-GLMTableColumn >> hasTags [
-	^ self tagsBlock notNil
-]
-
-{ #category : #testing }
-GLMTableColumn >> hasTagsFilter [
-	^ self tagsFilterBlock notNil
-]
-
-{ #category : #accessing }
-GLMTableColumn >> tags: anObject [
-
-	tagsBlock := anObject.
-	self hasTagsFilter ifFalse:[ tagsFilterBlock := anObject ]
-]
-
 { #category : #accessing }
 GLMTableColumn >> tagsBlock [
 	^ tagsBlock
 ]
 
 { #category : #accessing }
-GLMTableColumn >> tagsBlock: anObject [
-	tagsBlock := anObject
+GLMTableColumn >> tagsBlock: aBlock [
+	tagsBlock := aBlock
 ]
 
 { #category : #accessing }
-GLMTableColumn >> tagsFilter: anObject [
-	tagsFilterBlock := anObject 
+GLMTableColumn >> tagsFilter: aBlock [
+	tagsFilterBlock := aBlock 
 ]
 
 { #category : #accessing }
