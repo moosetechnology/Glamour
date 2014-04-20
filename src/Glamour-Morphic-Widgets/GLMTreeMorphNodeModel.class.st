@@ -71,14 +71,14 @@ GLMTreeMorphNodeModel >> displayText [
 
 { #category : #callbacks }
 GLMTreeMorphNodeModel >> elementColumn [
-	| row tags tagsFilter |
-	row := OrderedCollection with: self displayText.
-	tags:= self containerTree glamourPresentation tagsFor: self item to: #show.
-	tagsFilter := self containerTree glamourPresentation tagsFor: self item to: #filter.
-	tags withIndexDo:[ :each :index | 
-			row addLast: (self buttonForTag: each 
-									  filter: (tagsFilter at: index ifAbsentPut:[ each ])) ].
-	^ (UITheme current newRowIn: World for: row).
+	| rowElements |
+	
+	rowElements := OrderedCollection new
+		add: self displayText;
+		addAll: (self tagMorphsFrom: self containerTree glamourPresentation);
+		yourself.
+	
+	^ (UITheme current newRowIn: World for: rowElements).
 ]
 
 { #category : #testing }
@@ -181,22 +181,19 @@ GLMTreeMorphNodeModel >> resetContentsRecursively [
 
 { #category : #callbacks }
 GLMTreeMorphNodeModel >> rowMorphForColumn: aGlamourColumn [
-	| row contentMorph tags tagsFilter |
+	| rowElements contentMorph tagMorphs |
 	
 	contentMorph := (self containerTree glamourPresentation 
 		column: aGlamourColumn 
 		valueFor: self item) asMorph asReadOnlyMorph.
+	tagMorphs := self tagMorphsFrom: aGlamourColumn.
+	tagMorphs ifEmpty: [ ^ contentMorph ].
 	
-	tags:= self containerTree glamourPresentation tagsFor: self item fromProvider: aGlamourColumn to: #show.
-	tagsFilter := self containerTree glamourPresentation tagsFor: self item fromProvider: aGlamourColumn to: #filter.
-	tags ifEmpty: [ ^ contentMorph ].
-	
-	row := OrderedCollection with: contentMorph.	
-	tags withIndexDo:[ :each :index | 
-			row addLast: (self buttonForTag: each 
-									  filter: (tagsFilter at: index ifAbsentPut:[ each ])) ].
-						
-	^ (UITheme current newRowIn: World for: row)
+	rowElements := OrderedCollection new
+		add: contentMorph;
+		addAll: tagMorphs;
+		yourself.			
+	^ (UITheme current newRowIn: World for: rowElements)
 ]
 
 { #category : #testing }
@@ -231,12 +228,15 @@ GLMTreeMorphNodeModel >> shouldBeDisplayedByText [
 ]
 
 { #category : #callbacks }
-GLMTreeMorphNodeModel >> tagsColumn [ 
-	| tags |
-	tags := (self containerTree glamourPresentation tagsFor: self item to: #show).
-	tags isEmpty ifFalse: [
-		^ self buttonForTag: tags last filter: tags last ].
-	^ RectangleMorph new
+GLMTreeMorphNodeModel >> tagMorphsFrom: aTagProvider [
+	| tagMorphs tags tagsFilter |
+	tagMorphs := OrderedCollection new.
+	tags:= self containerTree glamourPresentation tagsFor: self item fromProvider: aTagProvider to: #show.
+	tagsFilter := self containerTree glamourPresentation tagsFor: self item fromProvider: aTagProvider to: #filter.
+	tags withIndexDo:[ :each :index | 
+			tagMorphs addLast: (self buttonForTag: each 
+									  filter: (tagsFilter at: index ifAbsentPut:[ each ])) ].
+	^ tagMorphs
 ]
 
 { #category : #accessing }
