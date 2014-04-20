@@ -181,7 +181,22 @@ GLMTreeMorphNodeModel >> resetContentsRecursively [
 
 { #category : #callbacks }
 GLMTreeMorphNodeModel >> rowMorphForColumn: aGlamourColumn [
-	^ (self containerTree glamourPresentation column: aGlamourColumn valueFor: self item) asMorph asReadOnlyMorph
+	| row contentMorph tags tagsFilter |
+	
+	contentMorph := (self containerTree glamourPresentation 
+		column: aGlamourColumn 
+		valueFor: self item) asMorph asReadOnlyMorph.
+	
+	tags:= self containerTree glamourPresentation tagsFor: self item fromProvider: aGlamourColumn to: #show.
+	tagsFilter := self containerTree glamourPresentation tagsFor: self item fromProvider: aGlamourColumn to: #filter.
+	tags ifEmpty: [ ^ contentMorph ].
+	
+	row := OrderedCollection with: contentMorph.	
+	tags withIndexDo:[ :each :index | 
+			row addLast: (self buttonForTag: each 
+									  filter: (tagsFilter at: index ifAbsentPut:[ each ])) ].
+						
+	^ (UITheme current newRowIn: World for: row)
 ]
 
 { #category : #testing }
