@@ -18,6 +18,23 @@ GLMTablePresentation >> column: aBlockOrString evaluated: aBlock [
 ]
 
 { #category : #scripting }
+GLMTablePresentation >> column: aBlockOrString evaluated: aBlock tags: anObject [ 
+	self addColumn: (GLMTableColumn new 
+		title: aBlockOrString; 
+		computation: aBlock;
+		tags: anObject)
+]
+
+{ #category : #scripting }
+GLMTablePresentation >> column: aBlockOrString evaluated: aBlock tags: anObject filtered: anotherObject [
+	self addColumn: (GLMTableColumn new 
+		title: aBlockOrString; 
+		computation: aBlock;
+		tagsBlock: anObject;
+		tagsFilter: anotherObject)
+]
+
+{ #category : #scripting }
 GLMTablePresentation >> column: aBlockOrString evaluated: aBlock width: aNumber [ 
 	self addColumn: (GLMTableColumn new 
 		title: aBlockOrString; 
@@ -41,6 +58,38 @@ GLMTablePresentation >> columns [
 { #category : #accessing }
 GLMTablePresentation >> columns: aCollection [
 	columns := aCollection 
+]
+
+{ #category : #'as yet unclassified' }
+GLMTablePresentation >> computeTagsFilterFor: aGlamourValue [
+	| tags |
+	
+	tags := OrderedCollection new.
+	self columns collect: [ :aColumn | 
+		tags addAll: (aColumn computeTagsFilterFor: aGlamourValue) ].
+	^ tags
+]
+
+{ #category : #'as yet unclassified' }
+GLMTablePresentation >> computeTagsFor: anObject [
+	| tags |
+	
+	tags := OrderedCollection new.
+	self columns collect: [ :aColumn | 
+		tags addAll: (aColumn computeTagsFor: anObject) ].
+	^ tags
+]
+
+{ #category : #'as yet unclassified' }
+GLMTablePresentation >> hasTags [
+
+	^ self columns anySatisfy: [ :aColumn | aColumn hasTags ]
+]
+
+{ #category : #'as yet unclassified' }
+GLMTablePresentation >> hasTagsFilter [
+
+	^ self columns anySatisfy: [ :aColumn | aColumn hasTagsFilter ]
 ]
 
 { #category : #rendering }

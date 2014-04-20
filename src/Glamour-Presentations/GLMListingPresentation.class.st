@@ -135,6 +135,28 @@ GLMListingPresentation >> columns [
 ]
 
 { #category : #accessing }
+GLMListingPresentation >> computeTagsFilterFor: aGlamourValue [ 
+
+	^ self computeTagsFor: aGlamourValue from: self tagsFilterBlock
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> computeTagsFor: aGlamourValue [ 
+
+	^ self computeTagsFor: aGlamourValue from: self tagsBlock
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> computeTagsFor: aGlamourValue from: aBlock [
+	| value |
+	
+	value := aBlock glamourValue: aGlamourValue.
+	^ value isString
+		ifTrue: [ OrderedCollection with: value ]
+		ifFalse: [ value asOrderedCollection ]
+]
+
+{ #category : #accessing }
 GLMListingPresentation >> defaultAmountToShow [
 	^ 500
 ]
@@ -304,20 +326,30 @@ GLMListingPresentation >> tagsFor: anObject [
 ]
 
 { #category : #accessing }
-GLMListingPresentation >> tagsFor: anObject to: operation [
-	| value hasTags tags |
+GLMListingPresentation >> tagsFor: anObject fromProvider: aTagProvider to: operation [
+	| hasTags tags glamourValue |
 	
+	glamourValue := (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue).
 	operation == #show 
-	ifTrue: [ hasTags := self hasTags.
-				tags := self tagsBlock ] 
-	ifFalse: [ hasTags := self hasTagsFilter.
-				 tags := self tagsFilterBlock ].
+		ifTrue: [ 
+			hasTags := aTagProvider hasTags.
+			hasTags ifTrue: [ tags := aTagProvider computeTagsFor: glamourValue ] ] 
+		ifFalse: [ 
+			hasTags := self hasTagsFilter.
+			hasTags ifTrue: [ tags := aTagProvider computeTagsFilterFor: glamourValue ] ] .
 	
-	hasTags ifFalse: [ ^ OrderedCollection new ].
-	value := tags glamourValue: (anObject asGlamorousMultiValue, self entity asGlamorousMultiValue).
-	^ value isString
-		ifTrue: [ OrderedCollection with: value ]
-		ifFalse: [ value asOrderedCollection ]
+	hasTags 
+		ifFalse: [ ^ OrderedCollection new ]
+		ifTrue: [ ^ tags ]
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> tagsFor: anObject to: operation [
+	
+	^ self 
+		tagsFor: anObject 
+		fromProvider: self 
+		to: operation
 ]
 
 { #category : #accessing }
