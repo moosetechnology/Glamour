@@ -32,8 +32,9 @@ GLMPagerScrollMorph >> adapter: anAdapter [
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> addFocusHandlerTo: aMorph [
 
-	aMorph ifNotNil: [		
-		self modifyHandler: aMorph.
+	aMorph ifNotNil: [	
+		aMorph announcer weak
+			on: MorphGotFocus send: #focusChanged: to: self.
 		
 		aMorph submorphs do: [ :each |
 			self addFocusHandlerTo: each.
@@ -46,7 +47,7 @@ GLMPagerScrollMorph >> addFocusHandlerTo: aMorph [
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> focusChanged: anEvent [
 
-	adapter focusedPageIndex: (self pageOf: anEvent sourceMorph).
+	adapter focusedPageIndex: (self pageOf: anEvent morph).
 ]
 
 { #category : #'as yet unclassified' }
@@ -59,20 +60,6 @@ GLMPagerScrollMorph >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerScrollMorph >> modifyHandler: aMorph [
-	| handler |
-	
-	handler := aMorph eventHandler ifNotNil: [ 
-		GLMEventHandler fromHandler: aMorph eventHandler.
-	] ifNil: [ 
-		GLMEventHandler new.
-	].
-	
-	aMorph eventHandler: handler.	
-	handler subscribeOn: #mouseDown send: #focusChanged: to: self.
-]
-
-{ #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> onPagePoped [
 	self popPane.
 	
@@ -80,7 +67,7 @@ GLMPagerScrollMorph >> onPagePoped [
 
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> onPagePushed: pushedAnnouncement [
-	|morph|
+	|morph |
 	
 	morph := pushedAnnouncement morph.
 	
@@ -88,6 +75,10 @@ GLMPagerScrollMorph >> onPagePushed: pushedAnnouncement [
 	self pushPane: morph.
 	
 	self addFocusHandlerTo: morph.
+	
+	
+	
+	
 
 ]
 
