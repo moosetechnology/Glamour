@@ -271,10 +271,14 @@ GLMSlidingScrollMorph >> mouseMove: evt [
 GLMSlidingScrollMorph >> mouseUp: evt [
 	super mouseUp: evt.
 	
-	adapter numberOfVisiblePagesChanged.
-	self onResized.
-	
-	adapter switchPageTo: adapter firstVisiblePageIndex.
+	isResizing
+		ifTrue: [
+			adapter numberOfVisiblePagesChanged ifFalse: [ self onResized ].
+		]
+		ifFalse: [
+			"smooth scrolling to fisrt visible page"
+			adapter switchPageTo: adapter firstVisiblePageIndex
+		].	
 	
 	isResizing := false.
 	
@@ -286,6 +290,12 @@ GLMSlidingScrollMorph >> mouseUp: evt [
 ]
 
 { #category : #'as yet unclassified' }
+GLMSlidingScrollMorph >> notifyBoundsChanged [
+
+	adapter notifyScrollerBoundsChanged: (self left )@(self right).
+]
+
+{ #category : #'as yet unclassified' }
 GLMSlidingScrollMorph >> notifyScrollBarValue: aFloat [
 
 	adapter scrollTo: aFloat smooth: false.
@@ -293,9 +303,7 @@ GLMSlidingScrollMorph >> notifyScrollBarValue: aFloat [
 
 { #category : #'as yet unclassified' }
 GLMSlidingScrollMorph >> onResized [
-
-	isLeftResizing ifTrue: [ self setWidthAfterResizingLeft ].
-	isRightResizing ifTrue: [ self setWidthAfterResizingRight ]
+	self setWidthAfterResizing.
 ]
 
 { #category : #'as yet unclassified' }
@@ -338,24 +346,10 @@ GLMSlidingScrollMorph >> setCursorToResizing: evt [
 ]
 
 { #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> setWidthAfterResizingLeft [
+GLMSlidingScrollMorph >> setWidthAfterResizing [
 	| left right |
 	
-	right := self layoutFrame rightOffset.
-	left := right - self computeWidth.
-	
-	self layoutFrame: (
-		LayoutFrame 
-			fractions: (0 @ 0 corner: 0 @ 0)
-			offsets: (left @ 0 corner: right @ self height)
-	).
-]
-
-{ #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> setWidthAfterResizingRight [
-	| left right |
-	
-	left := self layoutFrame leftOffset.
+	left := (adapter circleButtonInset + adapter circleButtonSize) * (adapter firstVisiblePageIndex - 1).
 	right := left + self computeWidth.
 	
 	self layoutFrame: (
@@ -363,4 +357,6 @@ GLMSlidingScrollMorph >> setWidthAfterResizingRight [
 			fractions: (0 @ 0 corner: 0 @ 0)
 			offsets: (left @ 0 corner: right @ self height)
 	).
+	
+	adapter notifyScrollerBoundsChanged: (owner left + left )@(owner left + right).
 ]

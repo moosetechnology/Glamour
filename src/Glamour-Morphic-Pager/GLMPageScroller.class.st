@@ -248,6 +248,12 @@ GLMPageScroller >> scrollTo: aValue smooth: aBoolean [
 				ifFalse: [self scrollValue: aValue ].
 ]
 
+{ #category : #'as yet unclassified' }
+GLMPageScroller >> scrollToPaneByIndex: aNumber smooth: aBoolean [
+
+	self scrollTo: (self computeScrollValueToPaneByIndex: aNumber) smooth: aBoolean.
+]
+
 { #category : #scrolling }
 GLMPageScroller >> scrollValue: value [
 	transform hasSubmorphs ifFalse: [^ self].

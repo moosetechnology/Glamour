@@ -30,6 +30,20 @@ GLMPagerScrollMorph >> adapter: anAdapter [
 ]
 
 { #category : #'as yet unclassified' }
+GLMPagerScrollMorph >> addFocusHandlerTo: aMorph [
+
+	aMorph ifNotNil: [		
+		self modifyHandler: aMorph.
+		
+		aMorph submorphs do: [ :each |
+			self addFocusHandlerTo: each.
+		].
+	].
+	
+	
+]
+
+{ #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> focusChanged: anEvent [
 
 	adapter focusedPageIndex: (self pageOf: anEvent sourceMorph).
@@ -42,20 +56,6 @@ GLMPagerScrollMorph >> initialize [
 	self color: Color transparent.
 	
 
-]
-
-{ #category : #'as yet unclassified' }
-GLMPagerScrollMorph >> listenAnnouncementsOf: aMorph [
-	aMorph ifNotNil: [
-		
-		self modifyHandler: aMorph.
-	
-		aMorph submorphs do: [ :each |
-			self listenAnnouncementsOf: each.
-		].
-	].
-	
-	
 ]
 
 { #category : #'as yet unclassified' }
@@ -81,17 +81,19 @@ GLMPagerScrollMorph >> onPagePoped [
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> onPagePushed: pushedAnnouncement [
 	|morph|
+	
 	morph := pushedAnnouncement morph.
 	
 	"added new page to the end of pane"
 	self pushPane: morph.
 	
-	self listenAnnouncementsOf: morph.
+	self addFocusHandlerTo: morph.
 
 ]
 
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> onPageSwitched: switchedAnnouncement [
+
 	adapter scrollTo: (self computeScrollValueToPaneByIndex: adapter firstVisiblePageIndex) smooth: switchedAnnouncement smooth.
 ]
 
@@ -101,7 +103,7 @@ GLMPagerScrollMorph >> onPagesNumberChanged [
 	self maxPanes: adapter numberOfVisiblePages.
 	self basicUpdateSizing.
 	self layoutPanes.
-	self setScrollDeltas.
+	self scrollToPaneByIndex: adapter firstVisiblePageIndex smooth: false.
 ]
 
 { #category : #'as yet unclassified' }

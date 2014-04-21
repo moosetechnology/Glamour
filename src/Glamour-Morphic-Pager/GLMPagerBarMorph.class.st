@@ -93,7 +93,7 @@ GLMPagerBarMorph >> onPagePushed: addedAnnouncement [
 	buttons onPagePushed: addedAnnouncement.	
 	self showOrHideScrollBar.
 	scrollBar width: scrollBar computeWidth.
-	scrollBar setWidthAfterResizingRight.
+	scrollBar setWidthAfterResizing.
 ]
 
 { #category : #'as yet unclassified' }

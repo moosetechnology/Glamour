@@ -17,12 +17,12 @@ GLMPagerModel >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMPagerModel >> circleButtonInset [
 	^ 6
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMPagerModel >> circleButtonSize [
 	^ 16
 ]
@@ -37,32 +37,68 @@ GLMPagerModel >> defaultNumberOfVisiblePages [
 	^ 2
 ]
 
+{ #category : #panes }
+GLMPagerModel >> diminishToLeft [
+	self privateLastVisiblePageIndex: (self lastVisiblePageIndex - 1).
+	self numberOfVisiblePagesChanged.
+]
+
+{ #category : #panes }
+GLMPagerModel >> diminishToRight [
+	self privateFirstVisiblePageIndex: (self firstVisiblePageIndex + 1).
+	self numberOfVisiblePagesChanged.
+]
+
+{ #category : #panes }
+GLMPagerModel >> enlargeToLeft [
+	self privateFirstVisiblePageIndex: (self firstVisiblePageIndex - 1).
+	self numberOfVisiblePagesChanged.
+]
+
+{ #category : #panes }
+GLMPagerModel >> enlargeToRight [
+	self privateLastVisiblePageIndex: (self lastVisiblePageIndex + 1).
+	self numberOfVisiblePagesChanged.
+]
+
 { #category : #accessing }
 GLMPagerModel >> firstVisiblePageIndex [
 	^ firstVisiblePageIndex
 ]
 
-{ #category : #accessing }
-GLMPagerModel >> firstVisiblePageIndex: aNumber [
-	aNumber < 1 ifTrue: [ 
-		firstVisiblePageIndex := 1.
-		^ self ].
-	aNumber > self pagesCount ifTrue: [ 
-		firstVisiblePageIndex := self pagesCount.
-		^ self].
-	firstVisiblePageIndex := aNumber.
+{ #category : #panes }
+GLMPagerModel >> focusToLeft [
+	"moves focus to left"
+	self focusedPageIndex: (self focusedPageIndex - 1).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #panes }
+GLMPagerModel >> focusToRight [
+	"moves focus to right"
+	self focusedPageIndex: (self focusedPageIndex + 1).
+]
+
+{ #category : #accessing }
 GLMPagerModel >> focusedPageIndex [
 	^ focusedPageIndex
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMPagerModel >> focusedPageIndex: anIndex [
-
+	
+	anIndex < 1 ifTrue: [ anIndex := 1 ].
+	anIndex > self pagesCount ifTrue: [ anIndex := self pagesCount ].
+	
 	(self focusedPageIndex = anIndex) not ifTrue:[
 		focusedPageIndex := anIndex.
+		
+		(self isPaneVisible: focusedPageIndex) ifFalse: [ 
+			"we need to scroll if new focused page is invisible"
+			focusedPageIndex < self firstVisiblePageIndex
+				ifTrue: [ self switchPageTo: focusedPageIndex ]
+				ifFalse: [ self switchPageTo: (focusedPageIndex - self numberOfVisiblePages + 1) ]
+		].
+		
 		self notifyFocusedPageChanged.
 	].
 	
@@ -74,10 +110,15 @@ GLMPagerModel >> initialize [
 
 	pagesCount := 0.
 	focusedPageIndex := 1.
-	self numberOfVisiblePages: self defaultNumberOfVisiblePages.
+	numberOfVisiblePages := self defaultNumberOfVisiblePages.
 	
 	firstVisiblePageIndex:= self defaultFirstVisiblePageIndex.
 	lastVisiblePageIndex:= firstVisiblePageIndex.
+]
+
+{ #category : #panes }
+GLMPagerModel >> isPaneVisible: aNumber [
+	^ (aNumber >= self firstVisiblePageIndex) & (aNumber <= self lastVisiblePageIndex)
 ]
 
 { #category : #accessing }
@@ -88,16 +129,6 @@ GLMPagerModel >> lastVisiblePageIndex [
 	^ lastIndex > self pagesCount
 		ifTrue: [ self pagesCount ]
 		ifFalse: [ lastIndex ]
-]
-
-{ #category : #accessing }
-GLMPagerModel >> lastVisiblePageIndex: aNumber [
-	aNumber < 1 ifTrue: [ aNumber := 1 ].
-	aNumber > self pagesCount ifTrue: [ aNumber := self pagesCount ].
-	lastVisiblePageIndex := aNumber.
-	
-	lastVisiblePageIndex < firstVisiblePageIndex ifTrue: [
-		lastVisiblePageIndex := firstVisiblePageIndex ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -141,21 +172,25 @@ GLMPagerModel >> numberOfVisiblePages [
 	^ numberOfVisiblePages
 ]
 
-{ #category : #accessing }
-GLMPagerModel >> numberOfVisiblePages: aNumber [
-	numberOfVisiblePages := aNumber.
-]
-
 { #category : #'as yet unclassified' }
 GLMPagerModel >> numberOfVisiblePagesChanged [
+	"recalculates numberOfVisiblePages based on last and first visible index
+		and notifies observers if number was changed
+		returns true if changed, otherwise false
+		"
 	|currentNumberOfVisiblePages|
 	
 	currentNumberOfVisiblePages := lastVisiblePageIndex - self firstVisiblePageIndex + 1.
 	
-	self numberOfVisiblePages = currentNumberOfVisiblePages ifFalse: [
-		self numberOfVisiblePages: 	currentNumberOfVisiblePages.
+	self numberOfVisiblePages = currentNumberOfVisiblePages
+	ifFalse: [
+		numberOfVisiblePages := currentNumberOfVisiblePages.
 		self notifyNumberOfVisiblePagesChanged.
+		^ true
 	]
+	ifTrue: [ ^ false ].
+	
+	
 ]
 
 { #category : #accessing }
@@ -165,6 +200,7 @@ GLMPagerModel >> pagesCount [
 
 { #category : #panes }
 GLMPagerModel >> popAndReplacePane: aMorph [
+	
 	self popPane.
 	self pushPane: aMorph smooth: false.
 	self notifyPageSwitched: false.
@@ -172,6 +208,7 @@ GLMPagerModel >> popAndReplacePane: aMorph [
 
 { #category : #panes }
 GLMPagerModel >> popPane [
+
 	pagesCount >= 1 ifTrue: [
 		|scrollTo|
 		pagesCount := pagesCount - 1.
@@ -179,6 +216,31 @@ GLMPagerModel >> popPane [
 		self notifyPagePoped.
 		false ifTrue: [ self scrollToRight: true ].
 	]
+]
+
+{ #category : #private }
+GLMPagerModel >> privateFirstVisiblePageIndex: aNumber [
+	"private, don't use it as public api, because model will be in illegal state"
+	
+	aNumber > lastVisiblePageIndex ifTrue: [ aNumber := lastVisiblePageIndex ].
+	aNumber < 1 ifTrue: [ aNumber := 1 ].
+	aNumber > self pagesCount ifTrue: [ aNumber := self pagesCount ].
+	
+	firstVisiblePageIndex := aNumber.
+]
+
+{ #category : #private }
+GLMPagerModel >> privateLastVisiblePageIndex: aNumber [
+	"private, don't use it as public api, because model will be in illegal state"
+	
+	aNumber < self firstVisiblePageIndex ifTrue: [ aNumber := self firstVisiblePageIndex ].
+	aNumber < 1 ifTrue: [ aNumber := 1 ].
+	aNumber > self pagesCount ifTrue: [ aNumber := self pagesCount ].
+	
+	lastVisiblePageIndex := aNumber.
+	
+	lastVisiblePageIndex < firstVisiblePageIndex ifTrue: [
+		lastVisiblePageIndex := firstVisiblePageIndex ]
 ]
 
 { #category : #panes }
@@ -193,17 +255,22 @@ GLMPagerModel >> scrollTo: aFloat smooth: aBoolean [
 	self announcer announce: (GLMPagerScrolled new value: aFloat; smooth: aBoolean).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #panes }
 GLMPagerModel >> scrollToRight: isSmooth [
+	"scrolls to the most right"
+
 	self scrollTo: 1.0 smooth: isSmooth
 ]
 
 { #category : #panes }
 GLMPagerModel >> switchPageTo: aNumber [
-
+	"accepts any garbage number, but can't scroll away from real bounds"
+	
 	aNumber + self numberOfVisiblePages - 1 > self pagesCount
 		ifTrue: [ aNumber :=  self pagesCount - self numberOfVisiblePages + 1].
-		
-	self firstVisiblePageIndex: aNumber.
+	
+	lastVisiblePageIndex := aNumber + self numberOfVisiblePages.
+	self privateFirstVisiblePageIndex: aNumber.
+	"true means scrolling is smooth"
 	self notifyPageSwitched: true.
 ]

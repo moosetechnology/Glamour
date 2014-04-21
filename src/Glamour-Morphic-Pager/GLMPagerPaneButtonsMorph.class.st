@@ -78,7 +78,7 @@ GLMPagerPaneButtonsMorph >> markButtonsInside: aBounds [
 			ifTrue: [
 				indicator buttonModel check.
 				firstFound ifFalse: [
-					adapter firstVisiblePageIndex: index.
+					adapter privateFirstVisiblePageIndex: index.
 					firstFound := true.
 				]
 			]
@@ -86,13 +86,13 @@ GLMPagerPaneButtonsMorph >> markButtonsInside: aBounds [
 				"uncheck only if not focused"
 				indicator isFocused ifFalse: [ indicator buttonModel uncheck ].
 				(firstFound & (lastFound = false)) ifTrue: [
-					adapter lastVisiblePageIndex: index - 1.
+					adapter privateLastVisiblePageIndex: index - 1.
 					lastFound := true.
 				]
 			].
 	].
 	lastFound ifFalse: [
-		adapter lastVisiblePageIndex: index.
+		adapter privateLastVisiblePageIndex: index.
 		lastFound := true.
 	]
 	
@@ -176,6 +176,7 @@ GLMPagerPaneButtonsMorph >> updateIndicatorButtonsFocus [
 	].
 
 	(indicatorButtons at: adapter focusedPageIndex) setFocused.
+	(indicatorButtons at: adapter focusedPageIndex) buttonModel check.
 ]
 
 { #category : #'as yet unclassified' }
