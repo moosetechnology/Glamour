@@ -15,7 +15,8 @@ Class {
 		'glmAnnouncer',
 		'inputText',
 		'amountToFilterBy',
-		'defaultPageSize'
+		'defaultPageSize',
+		'columnSortBlock'
 	],
 	#category : #'Glamour-Morphic-Widgets'
 }
@@ -87,6 +88,14 @@ GLMTreeMorphModel >> displayFormat [
 { #category : #accessing }
 GLMTreeMorphModel >> displayFormat: aBlock [ 
 	displayFormat := aBlock 
+]
+
+{ #category : #accessing }
+GLMTreeMorphModel >> displayValue [
+	
+	^ columnSortBlock 
+		ifNil: [self glamourPresentation displayValue]
+		ifNotNil: [self glamourPresentation displayValue sorted: columnSortBlock]
 ]
 
 { #category : #'search and filtering' }
@@ -184,7 +193,7 @@ GLMTreeMorphModel >> explicitlySelectMultipleItems: aCollection [
 { #category : #accessing }
 GLMTreeMorphModel >> filteredRoots [
 	| filtered |
-	roots ifNil: [ self roots: self glamourPresentation displayValue ].
+	roots ifNil: [ self roots: self displayValue ].
 	filtered := roots select: [ :each | each shouldBeDisplayed ].
 	^ filtered
 ]
@@ -264,7 +273,7 @@ GLMTreeMorphModel >> rootNodes [
 { #category : #accessing }
 GLMTreeMorphModel >> roots [
 	| filtered |
-	roots ifNil: [ self roots: self glamourPresentation displayValue ].
+	roots ifNil: [ self roots: self displayValue ].
 	filtered := roots select: [ :each | each shouldBeDisplayed ].
 	((self shouldFilterByAmount and: [
 		self amountToFilterBy < filtered size]) and: [
@@ -308,6 +317,15 @@ GLMTreeMorphModel >> shouldFilterByTag: aTag [
 { #category : #'search and filtering' }
 GLMTreeMorphModel >> shouldFilterByTextInput [
 	^ self glamourPresentation allowsFilter and: [ self inputText notEmpty ]
+]
+
+{ #category : #callbacks }
+GLMTreeMorphModel >> sortByColumn: aGlamourColumn [
+
+	columnSortBlock == aGlamourColumn sortBlock
+		ifTrue: [ columnSortBlock := nil ]
+		ifFalse: [ columnSortBlock := aGlamourColumn sortBlock ].
+	self updateRoots
 ]
 
 { #category : #callbacks }
