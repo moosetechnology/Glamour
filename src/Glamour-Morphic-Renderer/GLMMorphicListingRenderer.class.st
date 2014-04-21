@@ -111,9 +111,9 @@ GLMMorphicListingRenderer >> treeMorphFor: tmpTreeModel and: aPresentation [
 					glamourColumn: each; 
 					headerButtonLabel: (aPresentation titleValueOfColumn: each)
 					font: StandardFonts menuFont 
-					target: nil 
-					actionSelector: nil 
-					arguments: #(); 
+					target: tmpTreeModel
+					actionSelector: #sortByColumn:
+					arguments: {each}; 
 					yourself ].
 		].
 	tmpTreeMorph
