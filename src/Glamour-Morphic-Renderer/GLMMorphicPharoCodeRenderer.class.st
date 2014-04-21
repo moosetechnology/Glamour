@@ -1,22 +1,18 @@
 Class {
 	#name : #GLMMorphicPharoCodeRenderer,
-	#superclass : #GLMMorphicTextRenderer,
+	#superclass : #GLMMorphicRubricTextRenderer,
 	#category : #'Glamour-Morphic-Renderer'
 }
 
 { #category : #rendering }
-GLMMorphicPharoCodeRenderer >> textModelFor: aPresentation [
-	| tm |
-	tm := GLMSmalltalkCodeModel new
-		text: aPresentation formatedDisplayValue;
-		glamourPresentation: aPresentation;
-		highlightSmalltalk: true.
-	^ tm
-]
+GLMMorphicPharoCodeRenderer >> morph [
+	
+	^ RubScrolledTextMorph new
+		beForSmalltalkCode;
+		model: textModel;
+		yourself
 
-{ #category : #rendering }
-GLMMorphicPharoCodeRenderer >> textMorphForModel: aTextModel [
-	| morph  |
+"	| morph  |
 	morph := GLMPluggableTextMorph new.
 	morph styler workspace: aTextModel.
 	morph
@@ -34,5 +30,5 @@ GLMMorphicPharoCodeRenderer >> textMorphForModel: aTextModel [
 		color: Color white;
 		font: StandardFonts codeFont;
 		yourself.
-	^ morph
+	^ morph"
 ]

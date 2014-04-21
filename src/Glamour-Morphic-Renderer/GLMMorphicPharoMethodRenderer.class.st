@@ -5,10 +5,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMMorphicPharoMethodRenderer >> textModelFor: aPresentation [
-	| tm |
-	tm := super textModelFor: aPresentation.
-	tm highlightSmalltalk: true;
-		highlightSmalltalkContext: aPresentation highlightSmalltalkContext.
-	^ tm
+GLMMorphicPharoMethodRenderer >> modelFor: aPresentation [
+
+	^ GLMRubricSmalltalkTextModel new
+		glamourPresentation: aPresentation;
+		highlightSmalltalk: true;
+		highlightSmalltalkContext: aPresentation highlightSmalltalkContext;
+		yourself
 ]
