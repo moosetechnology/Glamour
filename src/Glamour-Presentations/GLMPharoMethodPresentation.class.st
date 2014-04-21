@@ -1,12 +1,13 @@
 "
+|browser|
 browser := GLMTabulator new.
-browser row: #r1; row: #r2; row: #r3.
+browser row: #r1; row: #r2.
 
 browser transmit to: #r1; andShow: [ :aComposite |
-	aComposite smalltalkMethod
+	aComposite pharoMethod
 		display: [ :method | method sourceCode ] ].
 browser transmit to: #r2; andShow: [ :aComposite |
-	aComposite smalltalkMethod
+	aComposite pharoMethod
 		display: [ :method | method sourceCode ] ;
 		smalltalkClass: [ :method | method methodClass ] ].
 

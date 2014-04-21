@@ -1,5 +1,5 @@
 Class {
 	#name : #GLMNewSmalltalkCodePresentation,
-	#superclass : #GLMTextualPresentation,
+	#superclass : #GLMRubricTextPresentation,
 	#category : #'Glamour-Presentations'
 }
