@@ -14,7 +14,17 @@ GLMTablePresentation >> addColumn: aColumn [
 
 { #category : #scripting }
 GLMTablePresentation >> column: aBlockOrString evaluated: aBlock [
-	self addColumn: (GLMTableColumn new title: aBlockOrString; computation: aBlock)
+	self addColumn: (GLMTableColumn new 
+		title: aBlockOrString; 
+		computation: aBlock)
+]
+
+{ #category : #scripting }
+GLMTablePresentation >> column: aBlockOrString evaluated: aBlock sortedBy: aSortingBlock [
+	self addColumn: (GLMTableColumn new 
+		title: aBlockOrString; 
+		computation: aBlock;
+		sortedBy: aSortingBlock)
 ]
 
 { #category : #scripting }
@@ -32,6 +42,15 @@ GLMTablePresentation >> column: aBlockOrString evaluated: aBlock tags: anObject 
 		computation: aBlock;
 		tagsBlock: anObject;
 		tagsFilter: anotherObject)
+]
+
+{ #category : #scripting }
+GLMTablePresentation >> column: aBlockOrString evaluated: aBlock tags: anObject sortedBy: aSortingBlock [
+	self addColumn: (GLMTableColumn new 
+		title: aBlockOrString; 
+		computation: aBlock;
+		tags: anObject;
+		sortBlock: aSortingBlock)
 ]
 
 { #category : #scripting }

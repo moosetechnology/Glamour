@@ -15,7 +15,8 @@ Class {
 		'computation',
 		'width',
 		'tagsBlock',
-		'tagsFilterBlock'
+		'tagsFilterBlock',
+		'sortBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -28,6 +29,16 @@ GLMTableColumn >> computation [
 { #category : #accessing }
 GLMTableColumn >> computation: anObject [
 	computation := anObject
+]
+
+{ #category : #accessing }
+GLMTableColumn >> sortBlock [
+	^ sortBlock
+]
+
+{ #category : #accessing }
+GLMTableColumn >> sortBlock: aBlock [
+	sortBlock := aBlock
 ]
 
 { #category : #accessing }
