@@ -6,6 +6,7 @@ The theme is developed in the context of the Glamour project, and its goal is to
 
 self defaultSettings: nil.
 self beCurrent. 
+self setPreferredShoutColors
 "
 Class {
 	#name : #GLMUITheme,
@@ -116,7 +117,6 @@ GLMUITheme class >> setPreferredPreferences [
 { #category : #settings }
 GLMUITheme class >> setPreferredShoutColors [
 	"self setPreferredShoutColors"
-
 	SHTextStylerST80 styleTable: 
 		#(
 			"(symbol color [emphasisSymbolOrArray [textStyleName [pixelHeight]]])" 
@@ -135,16 +135,18 @@ GLMUITheme class >> setPreferredShoutColors [
 			(literalArray 							(magenta muchDarker))
 			(string 									(magenta muchDarker) normal)
 			(unfinishedString 						red normal)
-			(assignment 							nil)
+			(assignment 								nil)
 			(ansiAssignment 						nil)
 			(literal 									nil italic)
-			(keyword 								(black))
+			(keyword 									(black))
 			(binary 									(black)) 
 			(unary 									(black))
-			(incompleteKeyword 					red)
-			(incompleteBinary 						red) 
-			(incompleteUnary 						red )
-			(undefinedKeyword 					red)
+			(incompleteIdentifier 				(gray muchDarker))
+			(incompleteKeyword 					(gray muchDarker))
+			(incompleteBinary 						(gray muchDarker)) 
+			(incompleteUnary 						(gray muchDarker))
+			(undefinedIdentifier 					red)
+			(undefinedKeyword 						red)
 			(undefinedBinary 						red) 
 			(undefinedUnary 						red) 
 			(patternKeyword 						nil bold)
@@ -220,8 +222,6 @@ GLMUITheme class >> setPreferredShoutColors [
 			(blockPatternTempVar 					(blue muchDarker))
 			(instVar 								(blue muchDarker))
 			(workspaceVar 							(blue muchDarker))
-			(undefinedIdentifier 					red)
-			(incompleteIdentifier 					red)
 			(tempVar 								(blue muchDarker))
 			(patternTempVar 						(blue muchDarker))
 			(poolConstant 							(blue muchDarker))
