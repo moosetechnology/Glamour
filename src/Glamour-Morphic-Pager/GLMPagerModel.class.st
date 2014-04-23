@@ -74,15 +74,14 @@ GLMPagerModel >> firstVisiblePageIndex [
 
 { #category : #focus }
 GLMPagerModel >> focusedMorph: aMorph at: paneIndex [
+
 	focusedMorphs at: paneIndex put: aMorph.
 ]
 
 { #category : #focus }
 GLMPagerModel >> focusedMorphAt: pageIndex [
 	
-	^ (focusedMorphs includesKey: pageIndex)
-		ifTrue: [ focusedMorphs at: pageIndex ]
-		ifFalse: [ nil ]
+	^ focusedMorphs at: pageIndex ifAbsent: [ nil ]
 ]
 
 { #category : #focus }
@@ -353,7 +352,6 @@ GLMPagerModel >> updateFocus: pageIndex [
 	( self isFocusedMorphVisibleAt: pageIndex ) ifTrue: [
 		focusedPageIndex := pageIndex.
 		(self focusedMorphAt: pageIndex) activeHand newKeyboardFocus: (self focusedMorphAt: pageIndex).
+		self notifyFocusedPageChanged.
 	].
-
-	self notifyFocusedPageChanged.
 ]
