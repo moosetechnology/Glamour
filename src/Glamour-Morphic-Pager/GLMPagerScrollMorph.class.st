@@ -64,12 +64,9 @@ GLMPagerScrollMorph >> onPagePoped [
 
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> onPagePushed: pushedAnnouncement [
-	| morph |
-	
-	morph := pushedAnnouncement morph.
 
 	"added new page to the end of pane"
-	self pushPane: morph.
+	self pushPane: pushedAnnouncement morph.
 	
 	
 	
@@ -102,6 +99,7 @@ GLMPagerScrollMorph >> onScrolled: scrolledAnnouncement [
 
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> outOfWorld: aWorld [
+
 	Morph announcer unsubscribe: self.
 	^ super outOfWorld: aWorld.
 ]
@@ -115,7 +113,7 @@ GLMPagerScrollMorph >> pageOf: aSubMorph [
 	
 	parent := aSubMorph.
 	
-	[parent isNotNil & ((parent = transform) not) ] whileTrue: [
+	[parent isNotNil & ((parent == transform) not) ] whileTrue: [
 		page := parent.
 		parent := parent owner.
 	].
