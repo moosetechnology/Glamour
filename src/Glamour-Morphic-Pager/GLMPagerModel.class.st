@@ -39,28 +39,28 @@ GLMPagerModel >> defaultNumberOfVisiblePages [
 
 { #category : #panes }
 GLMPagerModel >> diminishToLeft [
-	Transcript show: 'diminish left'; cr.
+
 	self privateLastVisiblePageIndex: (self lastVisiblePageIndex - 1).
 	self numberOfVisiblePagesChanged.
 ]
 
 { #category : #panes }
 GLMPagerModel >> diminishToRight [
-	Transcript show: 'diminish right'; cr.
+
 	self privateFirstVisiblePageIndex: (self firstVisiblePageIndex + 1).
 	self numberOfVisiblePagesChanged.
 ]
 
 { #category : #panes }
 GLMPagerModel >> enlargeToLeft [
-	Transcript show: 'enlarge left'; cr.
+
 	self privateFirstVisiblePageIndex: (self firstVisiblePageIndex - 1).
 	self numberOfVisiblePagesChanged.
 ]
 
 { #category : #panes }
 GLMPagerModel >> enlargeToRight [
-	Transcript show: 'enlarge right'; cr.
+
 	self privateLastVisiblePageIndex: (self lastVisiblePageIndex + 1).
 	self numberOfVisiblePagesChanged.
 ]
@@ -73,14 +73,12 @@ GLMPagerModel >> firstVisiblePageIndex [
 { #category : #panes }
 GLMPagerModel >> focusToLeft [
 	"moves focus to left"
-	Transcript show: 'focus left'; cr.
 	self focusedPageIndex: (self focusedPageIndex - 1).
 ]
 
 { #category : #panes }
 GLMPagerModel >> focusToRight [
 	"moves focus to right"
-	Transcript show: 'focus right'; cr.
 	self focusedPageIndex: (self focusedPageIndex + 1).
 ]
 

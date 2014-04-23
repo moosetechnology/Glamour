@@ -71,13 +71,14 @@ GLMPagerMorph >> initialize [
 { #category : #'as yet unclassified' }
 GLMPagerMorph >> initializeShortcuts [
 
-	"self bindKeyCombination: Character arrowLeft alt command toAction: [ adapter focusToLeft ].
-	self bindKeyCombination: Character arrowRight alt command toAction: [ adapter focusToRight ]."
+	self bindKeyCombination: Character arrowLeft alt command toAction: [ adapter focusToLeft ].
+	self bindKeyCombination: Character arrowRight alt command toAction: [ adapter focusToRight ].
 	
-	self bindKeyCombination: Character arrowLeft alt command toAction: [
+	self bindKeyCombination: Character arrowLeft alt shift command toAction: [
 		self pressedScrollerSizeCombination: #left.
 	].
-	self bindKeyCombination: Character arrowRight alt command toAction: [
+
+	self bindKeyCombination: Character arrowRight alt shift command toAction: [
 		self pressedScrollerSizeCombination: #right.
 	].
 ]
@@ -94,7 +95,7 @@ GLMPagerMorph >> popPane [
 
 { #category : #'as yet unclassified' }
 GLMPagerMorph >> pressedScrollerSizeCombination: aSymbol [
-	Transcript show: aSymbol asString; cr.
+
 	firstCombination ifNil: [ firstCombination := aSymbol. ^ self].
 	secondCombination ifNil: [ secondCombination := aSymbol ].
 	
@@ -106,6 +107,7 @@ GLMPagerMorph >> pressedScrollerSizeCombination: aSymbol [
 
 { #category : #'as yet unclassified' }
 GLMPagerMorph >> pushPane: aMorph [
+
 	adapter pushPane: aMorph smooth: true.
 	
 ]
