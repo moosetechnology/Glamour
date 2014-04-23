@@ -3,7 +3,9 @@ Class {
 	#superclass : #GLMPageScroller,
 	#instVars : [
 		'pane',
-		'adapter'
+		'adapter',
+		'hand',
+		'currentFocus'
 	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
@@ -30,24 +32,25 @@ GLMPagerScrollMorph >> adapter: anAdapter [
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerScrollMorph >> addFocusHandlerTo: aMorph [
-
-	aMorph ifNotNil: [	
-		aMorph announcer weak
-			on: MorphGotFocus send: #focusChanged: to: self.
-		
-		aMorph submorphs do: [ :each |
-			self addFocusHandlerTo: each.
-		].
-	].
+GLMPagerScrollMorph >> focusChanged: anEvent [
+	| pageIndex |
 	
+	pageIndex := self pageOf: hand keyboardFocus.
 	
+	(pageIndex > 0) ifTrue: [
+		adapter focusedPageIndex: pageIndex.
+	]
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerScrollMorph >> focusChanged: anEvent [
-
-	adapter focusedPageIndex: (self pageOf: anEvent morph).
+GLMPagerScrollMorph >> handleListenEvent: anEvent [
+	| newFocus |
+	newFocus := hand keyboardFocus.
+	
+	currentFocus = newFocus ifFalse: [
+		currentFocus := newFocus.
+		self focusChanged: anEvent.
+	]
 ]
 
 { #category : #'as yet unclassified' }
@@ -56,6 +59,9 @@ GLMPagerScrollMorph >> initialize [
 	
 	self color: Color transparent.
 	
+	hand := self activeHand.
+	currentFocus := hand keyboardFocus.
+	hand addEventListener: self.
 
 ]
 
@@ -67,14 +73,12 @@ GLMPagerScrollMorph >> onPagePoped [
 
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> onPagePushed: pushedAnnouncement [
-	|morph |
+	| morph |
 	
 	morph := pushedAnnouncement morph.
-	
+
 	"added new page to the end of pane"
 	self pushPane: morph.
-	
-	self addFocusHandlerTo: morph.
 	
 	
 	
@@ -106,14 +110,25 @@ GLMPagerScrollMorph >> onScrolled: scrolledAnnouncement [
 ]
 
 { #category : #'as yet unclassified' }
+GLMPagerScrollMorph >> outOfWorld: aWorld [
+	hand removeEventListener: self.
+	^ super outOfWorld: aWorld.
+]
+
+{ #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> pageOf: aSubMorph [
-	|parent|
+	"returns 0 of morph is not in pager"
+	|parent page|	
+	
+	aSubMorph ifNil: [ ^ 0 ].
 	
 	parent := aSubMorph.
 	
-	[parent isNotNil & (panes includes: parent) not ] whileTrue: [
+	[parent isNotNil & ((parent = transform) not) ] whileTrue: [
+		page := parent.
 		parent := parent owner.
 	].
-
-	^ panes indexOf: parent.
+	
+	^ parent isNil ifTrue: [ 0 ] ifFalse: [ panes indexOf: page. ].
+	
 ]

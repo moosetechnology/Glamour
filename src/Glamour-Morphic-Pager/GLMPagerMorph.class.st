@@ -76,5 +76,7 @@ GLMPagerMorph >> popPane [
 
 { #category : #'as yet unclassified' }
 GLMPagerMorph >> pushPane: aMorph [
+	
 	adapter pushPane: aMorph smooth: true.
+	
 ]

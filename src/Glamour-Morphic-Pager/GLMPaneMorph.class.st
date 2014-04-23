@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+GLMPaneMorph >> handlesMouseDown: evt [
+	^ true.
+]
+
+{ #category : #'as yet unclassified' }
 GLMPaneMorph >> mouseDown: evt [
 	super mouseDown: evt.
 	Transcript show: self asString; cr.
