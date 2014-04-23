@@ -1216,12 +1216,10 @@ ConfigurationOfGlamour >> baseline29: spec [
 			package: 'Glamour-Rubric-Presentations' with: [spec requires: 'Rubric'];
 			package: 'Glamour-Roassal-Presentations' with: [spec requires: #('Roassal for Glamour' 'Glamour-Morphic-Renderer')];
 			package: 'Glamour-Roassal2-Presentations' with: [spec requires: #('Roassal2 for Glamour' 'Glamour-Morphic-Renderer')];
-			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];
-			package: 'Glamour-EyeSee-Presentations' with: [spec requires: 'EyeSee for Glamour'];
+			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];			
 			package: 'Glamour-GraphET-Presentations' with: [spec requires: #('Graph-ET' 'Glamour-Tools')];
 			package: 'Glamour-Tests-Rubric' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Rubric-Presentations')];
 			package: 'Glamour-Tests-Roassal' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Roassal-Presentations')];
-			package: 'Glamour-Tests-EyeSee' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-EyeSee-Presentations')];
 			package: 'Glamour-Tests-Resources'].
 
 	spec for: #squeakCommon do: [ 
@@ -1251,7 +1249,6 @@ ConfigurationOfGlamour >> baseline29: spec [
 						'Glamour-Roassal2-Presentations').
 		spec group: 'Extras' with: #(
 						'Glamour-Magritte-Presentations'
-						'Glamour-EyeSee-Presentations'
 						'Glamour-Roassal-Presentations').
 		spec group: 'Core Tests' with: #(
 						'Glamour-Tests-Core'
@@ -1262,7 +1259,6 @@ ConfigurationOfGlamour >> baseline29: spec [
 						'Glamour-Tests-Core'
 						'Glamour-Examples'
 						'Glamour-Tests-Morphic'
-						'Glamour-Tests-EyeSee'
 						'Glamour-Tests-Roassal'
 						'Glamour-Tests-Rubric'
 						'Glamour-Tests-Resources'). 
@@ -1280,13 +1276,6 @@ ConfigurationOfGlamour >> baseline29: spec [
 					file: 'ConfigurationOfRoassal2';
 					version: #development;
 					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ].
-		spec
-			project: 'EyeSee for Glamour' with: [
-				spec
-					className: 'ConfigurationOfEyeSee';
-					file: 'ConfigurationOfEyeSee';
-					version: #development;
-					repository: 'http://www.smalltalkhub.com/mc/Moose/EyeSee/main' ].
 		spec
 			project: 'Graph-ET' with: [
 				spec
