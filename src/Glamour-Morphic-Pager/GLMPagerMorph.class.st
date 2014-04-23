@@ -2,7 +2,9 @@ Class {
 	#name : #GLMPagerMorph,
 	#superclass : #Morph,
 	#instVars : [
-		'adapter'
+		'adapter',
+		'firstCombination',
+		'secondCombination'
 	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
@@ -43,6 +45,8 @@ GLMPagerMorph >> adapter: anObject [
 	
 	self addMorphBack: (GLMPagerScrollMorph new adapter: adapter).
 	self addMorphBack: (GLMPagerBarMorph new adapter: adapter).
+	
+	self initializeShortcuts.
 ]
 
 { #category : #initialization }
@@ -65,6 +69,20 @@ GLMPagerMorph >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
+GLMPagerMorph >> initializeShortcuts [
+
+	"self bindKeyCombination: Character arrowLeft alt command toAction: [ adapter focusToLeft ].
+	self bindKeyCombination: Character arrowRight alt command toAction: [ adapter focusToRight ]."
+	
+	self bindKeyCombination: Character arrowLeft alt command toAction: [
+		self pressedScrollerSizeCombination: #left.
+	].
+	self bindKeyCombination: Character arrowRight alt command toAction: [
+		self pressedScrollerSizeCombination: #right.
+	].
+]
+
+{ #category : #'as yet unclassified' }
 GLMPagerMorph >> popAndReplacePane: aMorph [
 	adapter popAndReplacePane: aMorph
 ]
@@ -75,8 +93,28 @@ GLMPagerMorph >> popPane [
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerMorph >> pushPane: aMorph [
+GLMPagerMorph >> pressedScrollerSizeCombination: aSymbol [
+	Transcript show: aSymbol asString; cr.
+	firstCombination ifNil: [ firstCombination := aSymbol. ^ self].
+	secondCombination ifNil: [ secondCombination := aSymbol ].
 	
+	self scrollerSizeShortcutAction: firstCombination second: secondCombination.
+	
+	firstCombination := nil.
+	secondCombination := nil.
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerMorph >> pushPane: aMorph [
 	adapter pushPane: aMorph smooth: true.
 	
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerMorph >> scrollerSizeShortcutAction: first second: second [
+	
+	(first = #left & second = #left) ifTrue: [ adapter enlargeToLeft ].
+	(first = #left & second = #right) ifTrue: [ adapter diminishToRight ].
+	(first = #right & second = #left) ifTrue: [ adapter diminishToLeft ].
+	(first = #right & second = #right) ifTrue: [ adapter enlargeToRight ]
 ]

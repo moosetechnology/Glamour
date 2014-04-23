@@ -15,13 +15,13 @@ GLMPagerCircleButtonMorph >> initialize [
 	
 	self label: ''.
 	
-	checkedIcon := GLMUIThemeExtraIcons glamorousGrayCircle.
-	checkedFocusedIcon := GLMUIThemeExtraIcons glamorousRedCircle.
+	checkedIcon := GLMUIThemeExtraIcons glamorousGrayCircleEmpty.
+	checkedFocusedIcon := GLMUIThemeExtraIcons glamorousGrayCircle.
 	focused := false.
 	
 	self image state normal: GLMUIThemeExtraIcons glamorousGrayCircleEmpty.
-	self image state selected: checkedIcon.
-	self image state checked: checkedIcon.
+	self image state selected: GLMUIThemeExtraIcons glamorousGrayCircle.
+	self image state checked: GLMUIThemeExtraIcons glamorousGrayCircleEmpty.
 	
 ]
 
