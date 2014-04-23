@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'pane',
 		'adapter',
-		'hand',
 		'currentFocus'
 	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
@@ -33,23 +32,17 @@ GLMPagerScrollMorph >> adapter: anAdapter [
 
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> focusChanged: anEvent [
-	| pageIndex |
+	| pageIndex newFocus |
 	
-	pageIndex := self pageOf: hand keyboardFocus.
-	
-	(pageIndex > 0) ifTrue: [
-		adapter focusedPageIndex: pageIndex.
-	]
-]
-
-{ #category : #'as yet unclassified' }
-GLMPagerScrollMorph >> handleListenEvent: anEvent [
-	| newFocus |
-	newFocus := hand keyboardFocus.
+	newFocus := anEvent morph.
 	
 	currentFocus = newFocus ifFalse: [
 		currentFocus := newFocus.
-		self focusChanged: anEvent.
+		pageIndex := self pageOf: newFocus.
+	
+		(pageIndex > 0) ifTrue: [
+			adapter focusedPageIndex: pageIndex.
+		]
 	]
 ]
 
@@ -59,10 +52,8 @@ GLMPagerScrollMorph >> initialize [
 	
 	self color: Color transparent.
 	
-	hand := self activeHand.
-	currentFocus := hand keyboardFocus.
-	hand addEventListener: self.
-
+	Morph announcer weak 
+		on: MorphGotFocus send: #focusChanged: to: self.
 ]
 
 { #category : #'as yet unclassified' }
@@ -111,13 +102,13 @@ GLMPagerScrollMorph >> onScrolled: scrolledAnnouncement [
 
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> outOfWorld: aWorld [
-	hand removeEventListener: self.
+	Morph announcer unsubscribe: self.
 	^ super outOfWorld: aWorld.
 ]
 
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> pageOf: aSubMorph [
-	"returns 0 of morph is not in pager"
+	"returns 0 if morph is not in pager"
 	|parent page|	
 	
 	aSubMorph ifNil: [ ^ 0 ].

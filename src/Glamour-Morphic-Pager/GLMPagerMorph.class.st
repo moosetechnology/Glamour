@@ -3,8 +3,7 @@ Class {
 	#superclass : #Morph,
 	#instVars : [
 		'adapter',
-		'firstCombination',
-		'secondCombination'
+		'firstCombination'
 	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
@@ -68,7 +67,7 @@ GLMPagerMorph >> initialize [
 		wrapCentering: #center
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GLMPagerMorph >> initializeShortcuts [
 
 	self bindKeyCombination: Character arrowLeft alt command toAction: [ adapter focusToLeft ].
@@ -97,12 +96,9 @@ GLMPagerMorph >> popPane [
 GLMPagerMorph >> pressedScrollerSizeCombination: aSymbol [
 
 	firstCombination ifNil: [ firstCombination := aSymbol. ^ self].
-	secondCombination ifNil: [ secondCombination := aSymbol ].
 	
-	self scrollerSizeShortcutAction: firstCombination second: secondCombination.
-	
+	self scrollerSizeShortcutAction: firstCombination second: aSymbol.
 	firstCombination := nil.
-	secondCombination := nil.
 ]
 
 { #category : #'as yet unclassified' }
