@@ -28,6 +28,9 @@ GLMPagerScrollMorph >> adapter: anAdapter [
 		
 	adapter announcer weak 
 		on: GLMNumberOfVisiblePagesChanged send: #onPagesNumberChanged to: self.
+		
+	adapter announcer weak 
+		on: GLMSelectedPageChanged send: #onSelectedPageChanged to: self.
 ]
 
 { #category : #'as yet unclassified' }
@@ -41,7 +44,7 @@ GLMPagerScrollMorph >> focusChanged: anEvent [
 		pageIndex := self pageOf: newFocus.
 	
 		(pageIndex > 0) ifTrue: [
-			adapter focusedPageIndex: pageIndex.
+			adapter focusedMorphChanged: newFocus at: pageIndex.
 		]
 	]
 ]
@@ -78,6 +81,7 @@ GLMPagerScrollMorph >> onPagePushed: pushedAnnouncement [
 GLMPagerScrollMorph >> onPageSwitched: switchedAnnouncement [
 
 	adapter scrollTo: (self computeScrollValueToPaneByIndex: adapter firstVisiblePageIndex) smooth: switchedAnnouncement smooth.
+	
 ]
 
 { #category : #'as yet unclassified' }
@@ -95,6 +99,14 @@ GLMPagerScrollMorph >> onScrolled: scrolledAnnouncement [
 	"directly scrolls to value"
 	self scrollTo: scrolledAnnouncement value smooth: scrolledAnnouncement smooth.
 	
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerScrollMorph >> onSelectedPageChanged [
+	
+	panes do: [ :each | each color: Color white ].
+	
+	(panes at: adapter selectedPageIndex) color: Color red.
 ]
 
 { #category : #'as yet unclassified' }

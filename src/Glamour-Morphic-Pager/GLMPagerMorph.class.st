@@ -70,8 +70,8 @@ GLMPagerMorph >> initialize [
 { #category : #initialization }
 GLMPagerMorph >> initializeShortcuts [
 
-	self bindKeyCombination: Character arrowLeft alt command toAction: [ adapter focusToLeft ].
-	self bindKeyCombination: Character arrowRight alt command toAction: [ adapter focusToRight ].
+	self bindKeyCombination: Character arrowLeft alt command toAction: [ adapter selectToLeft ].
+	self bindKeyCombination: Character arrowRight alt command toAction: [ adapter selectToRight ].
 	
 	self bindKeyCombination: Character arrowLeft alt shift command toAction: [
 		self pressedScrollerSizeCombination: #left.

@@ -277,7 +277,7 @@ GLMSlidingScrollMorph >> mouseUp: evt [
 		]
 		ifFalse: [
 			"smooth scrolling to fisrt visible page"
-			adapter switchPageTo: adapter firstVisiblePageIndex
+			adapter switchPageTo: adapter firstVisiblePageIndex updateFocus: false updateSelection: false.
 		].	
 	
 	isResizing := false.

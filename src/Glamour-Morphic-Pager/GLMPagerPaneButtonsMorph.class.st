@@ -38,7 +38,7 @@ GLMPagerPaneButtonsMorph >> buttonCenterByIndex: aNumber [
 GLMPagerPaneButtonsMorph >> circleButtonClicked: clickedAnnouncement [
 
 	"notify adapter that we need to switch page"
-	adapter switchPageTo: clickedAnnouncement buttonModel pageIndex
+	adapter switchPageTo: clickedAnnouncement buttonModel pageIndex updateFocus: true updateSelection: true.
 ]
 
 { #category : #'as yet unclassified' }
@@ -174,9 +174,10 @@ GLMPagerPaneButtonsMorph >> updateIndicatorButtonsFocus [
 	indicatorButtons do: [ :each |
 		 each setNotFocused.
 	].
-
-	(indicatorButtons at: adapter focusedPageIndex) setFocused.
-	(indicatorButtons at: adapter focusedPageIndex) buttonModel check.
+	
+	"because it's possible when nothing has focus"
+	adapter focusedPageIndex ifNotNil: [ (indicatorButtons at: adapter focusedPageIndex) setFocused ].
+	
 ]
 
 { #category : #'as yet unclassified' }

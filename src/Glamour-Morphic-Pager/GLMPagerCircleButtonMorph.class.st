@@ -21,8 +21,7 @@ GLMPagerCircleButtonMorph >> initialize [
 	
 	self image state normal: GLMUIThemeExtraIcons glamorousGrayCircleEmpty.
 	self image state selected: GLMUIThemeExtraIcons glamorousGrayCircle.
-	self image state checked: GLMUIThemeExtraIcons glamorousGrayCircleEmpty.
-	
+	self image state checked: checkedIcon.
 ]
 
 { #category : #'as yet unclassified' }
@@ -38,6 +37,7 @@ GLMPagerCircleButtonMorph >> onDeselected [
 { #category : #'as yet unclassified' }
 GLMPagerCircleButtonMorph >> onSelected [
 	super onSelected.
+	
 ]
 
 { #category : #'as yet unclassified' }
@@ -45,7 +45,7 @@ GLMPagerCircleButtonMorph >> setFocused [
 
 	focused ifFalse: [
 		self image state checked: checkedFocusedIcon.
-		self image state selected: checkedFocusedIcon.
+		self buttonModel check.
 		focused := true.
 	]
 ]
@@ -55,7 +55,7 @@ GLMPagerCircleButtonMorph >> setNotFocused [
 
 	focused ifTrue: [
 		self image state checked: checkedIcon.
-		self image state selected: checkedIcon.
+		self buttonModel uncheck.
 		focused := false.
 	]
 ]

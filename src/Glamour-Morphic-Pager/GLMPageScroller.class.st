@@ -8,7 +8,8 @@ Class {
 		'paneCount',
 		'maxPanes',
 		'panes',
-		'currentScrollValue'
+		'currentScrollValue',
+		'focus'
 	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
@@ -106,6 +107,7 @@ GLMPageScroller >> initialize [
 	paneCount := 0.
 	maxPanes := 2.
 	panes := OrderedCollection new.
+	focus := Dictionary new.
 ]
 
 { #category : #initialization }

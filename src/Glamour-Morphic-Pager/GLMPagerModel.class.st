@@ -7,6 +7,8 @@ Class {
 		'firstVisiblePageIndex',
 		'pagesCount',
 		'lastVisiblePageIndex',
+		'selectedPageIndex',
+		'focusedMorphs',
 		'focusedPageIndex'
 	],
 	#category : #'Glamour-Morphic-Pager-Model'
@@ -70,16 +72,27 @@ GLMPagerModel >> firstVisiblePageIndex [
 	^ firstVisiblePageIndex
 ]
 
-{ #category : #panes }
-GLMPagerModel >> focusToLeft [
-	"moves focus to left"
-	self focusedPageIndex: (self focusedPageIndex - 1).
+{ #category : #focus }
+GLMPagerModel >> focusedMorph: aMorph at: paneIndex [
+	focusedMorphs at: paneIndex put: aMorph.
 ]
 
-{ #category : #panes }
-GLMPagerModel >> focusToRight [
-	"moves focus to right"
-	self focusedPageIndex: (self focusedPageIndex + 1).
+{ #category : #focus }
+GLMPagerModel >> focusedMorphAt: pageIndex [
+	
+	^ (focusedMorphs includesKey: pageIndex)
+		ifTrue: [ focusedMorphs at: pageIndex ]
+		ifFalse: [ nil ]
+]
+
+{ #category : #focus }
+GLMPagerModel >> focusedMorphChanged: aMorph at: pageIndex [
+	
+	focusedPageIndex := pageIndex.
+	self focusedMorph: aMorph at: pageIndex.
+	
+	self selectedPageIndex: pageIndex.
+	self notifyFocusedPageChanged.
 ]
 
 { #category : #accessing }
@@ -87,37 +100,27 @@ GLMPagerModel >> focusedPageIndex [
 	^ focusedPageIndex
 ]
 
-{ #category : #accessing }
-GLMPagerModel >> focusedPageIndex: anIndex [
-	
-	anIndex < 1 ifTrue: [ anIndex := 1 ].
-	anIndex > self pagesCount ifTrue: [ anIndex := self pagesCount ].
-	
-	(self focusedPageIndex = anIndex) not ifTrue:[
-		focusedPageIndex := anIndex.
-		
-		(self isPaneVisible: focusedPageIndex) ifFalse: [ 
-			"we need to scroll if new focused page is invisible"
-			focusedPageIndex < self firstVisiblePageIndex
-				ifTrue: [ self switchPageTo: focusedPageIndex ]
-				ifFalse: [ self switchPageTo: (focusedPageIndex - self numberOfVisiblePages + 1) ]
-		].
-		
-		self notifyFocusedPageChanged.
-	].
-	
-]
-
 { #category : #initialization }
 GLMPagerModel >> initialize [
 	super initialize.
 
 	pagesCount := 0.
-	focusedPageIndex := 1.
+	selectedPageIndex := 0.
+	focusedMorphs := Dictionary new.
+	
 	numberOfVisiblePages := self defaultNumberOfVisiblePages.
 	
 	firstVisiblePageIndex:= self defaultFirstVisiblePageIndex.
 	lastVisiblePageIndex:= firstVisiblePageIndex.
+]
+
+{ #category : #focus }
+GLMPagerModel >> isFocusedMorphVisibleAt: paneIndex [
+	|morph|
+	
+	morph := self focusedMorphAt: paneIndex.
+	morph ifNil: [ ^ false ].
+	^ morph isInWorld.
 ]
 
 { #category : #panes }
@@ -162,13 +165,19 @@ GLMPagerModel >> notifyPagePushed: aMorph scrollTo: aBoolean smooth: isSmooth [
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerModel >> notifyPageSwitched: isSmooth [
-	self announcer announce: (GLMPageSwitched new smooth: isSmooth).
+GLMPagerModel >> notifyPageSwitched: pageIndex smooth: isSmooth [
+	self announcer announce: (GLMPageSwitched new smooth: isSmooth; pageIndex: pageIndex; yourself).
 ]
 
 { #category : #'as yet unclassified' }
 GLMPagerModel >> notifyScrollerBoundsChanged: aBounds [
 	self announcer announce: (GLMPagerBoundsChanged new bounds: aBounds).
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerModel >> notifySelectedPageChanged [
+
+	self announcer announce: GLMSelectedPageChanged new.
 ]
 
 { #category : #accessing }
@@ -207,7 +216,7 @@ GLMPagerModel >> popAndReplacePane: aMorph [
 	
 	self popPane.
 	self pushPane: aMorph smooth: false.
-	self notifyPageSwitched: false.
+	self notifyPageSwitched: (self pagesCount - 1) smooth: false.
 ]
 
 { #category : #panes }
@@ -215,6 +224,8 @@ GLMPagerModel >> popPane [
 
 	pagesCount >= 1 ifTrue: [
 		|scrollTo|
+		
+		focusedMorphs removeKey: pagesCount  ifAbsent: [ true ].
 		pagesCount := pagesCount - 1.
 		scrollTo := ((pagesCount = self firstVisiblePageIndex) & (pagesCount > self numberOfVisiblePages)).
 		self notifyPagePoped.
@@ -267,14 +278,82 @@ GLMPagerModel >> scrollToRight: isSmooth [
 ]
 
 { #category : #panes }
-GLMPagerModel >> switchPageTo: aNumber [
+GLMPagerModel >> selectToLeft [
+	"moves focus to left"
+	self selectedPageIndex: (self selectedPageIndex - 1).
+]
+
+{ #category : #panes }
+GLMPagerModel >> selectToRight [
+	"moves focus to right"
+	self selectedPageIndex: (self selectedPageIndex + 1).
+]
+
+{ #category : #accessing }
+GLMPagerModel >> selectedPageIndex [
+	^ selectedPageIndex
+]
+
+{ #category : #accessing }
+GLMPagerModel >> selectedPageIndex: anIndex [
+	
+	anIndex < 1 ifTrue: [ anIndex := 1 ].
+	anIndex > self pagesCount ifTrue: [ anIndex := self pagesCount ].
+	
+	(self selectedPageIndex = anIndex) not ifTrue: [
+		
+		(self isPaneVisible: anIndex) ifFalse: [
+			"we need to scroll if new focused page is invisible"
+			anIndex < self firstVisiblePageIndex
+				ifTrue: [
+					self switchPageTo: anIndex updateFocus: true updateSelection: true
+				]
+				ifFalse: [
+					self switchPageTo: (anIndex - self numberOfVisiblePages + 1) updateFocus: false updateSelection: false.
+					self updateFocus: anIndex.
+				].
+			^ self.
+		].
+	
+		selectedPageIndex  := anIndex.
+		self updateFocus: anIndex.	
+		self notifySelectedPageChanged.
+	].
+	
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerModel >> switchPageTo: aNumber updateFocus: isUpdateFocus updateSelection: isUpdateSelection [
 	"accepts any garbage number, but can't scroll away from real bounds"
+	|pageIndex|
+	pageIndex := aNumber.
 	
 	aNumber + self numberOfVisiblePages - 1 > self pagesCount
 		ifTrue: [ aNumber :=  self pagesCount - self numberOfVisiblePages + 1].
 	
 	lastVisiblePageIndex := aNumber + self numberOfVisiblePages.
 	self privateFirstVisiblePageIndex: aNumber.
+	
 	"true means scrolling is smooth"
-	self notifyPageSwitched: true.
+	self notifyPageSwitched: pageIndex smooth: true.
+	
+	"update focus if true"
+	isUpdateFocus ifTrue: [ self updateFocus: pageIndex ].
+	
+	"update selected pane if true"
+	isUpdateSelection ifTrue: [
+		selectedPageIndex := pageIndex.
+		self notifySelectedPageChanged
+	].
+]
+
+{ #category : #focus }
+GLMPagerModel >> updateFocus: pageIndex [
+	
+	( self isFocusedMorphVisibleAt: pageIndex ) ifTrue: [
+		focusedPageIndex := pageIndex.
+		(self focusedMorphAt: pageIndex) activeHand newKeyboardFocus: (self focusedMorphAt: pageIndex).
+	].
+
+	self notifyFocusedPageChanged.
 ]
