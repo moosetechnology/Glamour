@@ -19,6 +19,7 @@ GLMTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	textMorph simulateClick.
 	self simulateKeyStroke: $s command.
 	self simulateKeyStroke: $s control.
+	self simulateKeyStroke: $s alt.
 	self assert: overriden.
 ]
 
