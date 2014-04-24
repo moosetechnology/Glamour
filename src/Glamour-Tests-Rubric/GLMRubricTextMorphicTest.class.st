@@ -19,6 +19,7 @@ GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	textMorph := self find: RubScrolledTextMorph in: window.
 	self simulateOnlyOneClickOn: textMorph.
 	self simulateKeyStroke: $s command.
+	self simulateKeyStroke: $s control.
 	self assert: overriden.
 ]
 
