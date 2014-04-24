@@ -106,7 +106,7 @@ GLMPagerScrollMorph >> onSelectedPageChanged [
 	
 	panes do: [ :each | each color: Color white ].
 	
-	(panes at: adapter selectedPageIndex) color: Color red.
+	self theme pagerWidgetThemer selectedPaneStyleFor: (panes at: adapter selectedPageIndex)
 ]
 
 { #category : #'as yet unclassified' }
