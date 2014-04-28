@@ -1241,7 +1241,8 @@ ConfigurationOfGlamour >> baseline29: spec [
 						'Glamour-Rubric-Presentations').
 		spec group: 'Morphic' with: #(
 						'Glamour-Morphic-Renderer'
-						'Glamour-Morphic-Theme').
+						'Glamour-Morphic-Theme'
+						'Glamour-Morphic-Pager').
 		spec group: 'Roassal' with: #(
 						'Glamour-Roassal-Presentations'
 						'Glamour-GraphET-Presentations').				
