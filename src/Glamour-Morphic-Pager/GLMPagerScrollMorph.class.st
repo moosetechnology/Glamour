@@ -104,9 +104,9 @@ GLMPagerScrollMorph >> onScrolled: scrolledAnnouncement [
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> onSelectedPageChanged [
 	
-	panes do: [ :each | each color: Color white ].
+	"panes do: [ :each | each color: Color white ].
 	
-	self theme pagerWidgetThemer selectedPaneStyleFor: (panes at: adapter selectedPageIndex)
+	self theme pagerWidgetThemer selectedPaneStyleFor: (panes at: adapter selectedPageIndex)"
 ]
 
 { #category : #'as yet unclassified' }

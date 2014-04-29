@@ -20,14 +20,9 @@ GLMPagerMorph class >> simpleExample [
 	pager pushPane: (Morph new color: Color yellow).
 	pager pushPane: (Morph new color: Color blue).
 	pager pushPane: (Morph new color: Color pink).
-	pager pushPane: (Morph new color: Color red).
-	pager pushPane: (Morph new color: Color green).
-	pager pushPane: (Morph new color: Color yellow).
-	pager pushPane: (Morph new color: Color blue).
-	pager pushPane: (Morph new color: Color pink).
 	
-	pager height: 777.
-	pager width: 1337.
+	pager height: 600.
+	pager width: 1024.
 	pager openInWindow.
 	
 	"pager inspect."
