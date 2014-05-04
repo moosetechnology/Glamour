@@ -117,7 +117,7 @@ GLMMorphicListingRenderer >> treeMorphFor: tmpTreeModel and: aPresentation [
 					yourself ].
 		].
 	tmpTreeMorph
-		preferedPaneColor: UITheme current windowColor;	
+		preferedPaneColor: Color white;	
 		model: tmpTreeModel;
 		columns: columns.
 	aPresentation isMultiple 

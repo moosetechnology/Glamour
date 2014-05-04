@@ -96,7 +96,7 @@ GLMMorphicTextRenderer >> textMorphForModel:  aTextModel [
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
-		color: UITheme current windowColor;
+		color: Color white;
 		detachAllKeymapCategories;
 		yourself
 ]

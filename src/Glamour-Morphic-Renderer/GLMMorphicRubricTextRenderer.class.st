@@ -38,6 +38,13 @@ GLMMorphicRubricTextRenderer >> morph [
 		yourself
 ]
 
+{ #category : #private }
+GLMMorphicRubricTextRenderer >> registerEventsForPresentation: aPresentation [
+
+	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
+	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
+]
+
 { #category : #rendering }
 GLMMorphicRubricTextRenderer >> render: aPresentation [
 	textModel := self modelFor: aPresentation.
@@ -79,8 +86,8 @@ GLMMorphicRubricTextRenderer >> render: aPresentation [
 		
 	self installActionsOnModel: textModel fromPresentation: aPresentation .
 	self installKeystrokeActionsOnMorph: textMorph textArea fromPresentation: aPresentation.
-
-	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
-	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
+	
+	self registerEventsForPresentation: aPresentation.
+	
 	^ textMorph
 ]
