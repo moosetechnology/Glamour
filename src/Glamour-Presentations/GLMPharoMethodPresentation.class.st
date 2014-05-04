@@ -25,20 +25,20 @@ Class {
 	#category : #'Glamour-Presentations'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMPharoMethodPresentation >> highlightSmalltalkContext [
 	^ highlightSmalltalkContext isNil 
 		ifTrue: [nil] 
 		ifFalse: [highlightSmalltalkContext glamourValue: self entity]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMPharoMethodPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
 	^ aRenderer renderSmalltalkMethodPresentation: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMPharoMethodPresentation >> smalltalkClass: aBlock [
 	"aBlock takes as parameters the entity objects and 
 	its evaluation is expected to produce a Smalltalk class"

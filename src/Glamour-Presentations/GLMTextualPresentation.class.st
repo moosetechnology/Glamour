@@ -7,7 +7,6 @@ Class {
 		'text',
 		'doItReceiver',
 		'doItContext',
-		'variableBindingsBlock',
 		'textBlock',
 		'selectedTextBlock'
 	],
@@ -127,20 +126,4 @@ GLMTextualPresentation >> textBlock [
 { #category : #accessing }
 GLMTextualPresentation >> textBlock: anObject [ 
 	textBlock := anObject
-]
-
-{ #category : #accessing }
-GLMTextualPresentation >> updateVariableBindings [
-
-	self announce: (GLMVariableBindingsChanged new presentation: self).
-]
-
-{ #category : #accessing }
-GLMTextualPresentation >> variableBindings [
-	^ (variableBindingsBlock glamourValue: self entity) ifNil: [OrderedCollection new]
-]
-
-{ #category : #accessing }
-GLMTextualPresentation >> variableBindings: aBlock [
-	^ variableBindingsBlock := aBlock
 ]

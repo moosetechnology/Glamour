@@ -2,7 +2,8 @@ Class {
 	#name : #GLMSmalltalkCodePresentation,
 	#superclass : #GLMTextualPresentation,
 	#instVars : [
-		'highlightSmalltalkContext'
+		'highlightSmalltalkContext',
+		'variableBindingsBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -25,4 +26,20 @@ GLMSmalltalkCodePresentation >> smalltalkClass: aBlock [
 	"aBlock takes as parameters the entity objects and 
 	its evaluation is expected to produce a Smalltalk class"
 	highlightSmalltalkContext := aBlock.
+]
+
+{ #category : #accessing }
+GLMSmalltalkCodePresentation >> updateVariableBindings [
+
+	self announce: (GLMVariableBindingsChanged new presentation: self).
+]
+
+{ #category : #accessing }
+GLMSmalltalkCodePresentation >> variableBindings [
+	^ (variableBindingsBlock glamourValue: self entity) ifNil: [OrderedCollection new]
+]
+
+{ #category : #accessing }
+GLMSmalltalkCodePresentation >> variableBindings: aBlock [
+	^ variableBindingsBlock := aBlock
 ]

@@ -34,23 +34,24 @@ browser openOn:''self halt'' '
 Class {
 	#name : #GLMPharoPlaygroundPresentation,
 	#superclass : #GLMNewSmalltalkCodePresentation,
+	#instVars : [
+		'variableBindingsBlock'
+	],
 	#category : #'Glamour-Presentations'
 }
 
-{ #category : #'as yet unclassified' }
-GLMPharoPlaygroundPresentation >> evaluateSelection [
-
-	self evaluateSelectionAndDo: [ :result | result ]
-]
-
-{ #category : #'as yet unclassified' }
-GLMPharoPlaygroundPresentation >> evaluateSelectionAndDo: aBlock [
-
-	self announce: (GLMEvaluateSelection new action: aBlock)
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMPharoPlaygroundPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
 	^ aRenderer renderWorkspacePresentation: self
+]
+
+{ #category : #accessing }
+GLMPharoPlaygroundPresentation >> variableBindings [
+	^ (variableBindingsBlock glamourValue: self entity) ifNil: [OrderedCollection new]
+]
+
+{ #category : #accessing }
+GLMPharoPlaygroundPresentation >> variableBindings: aBlock [
+	^ variableBindingsBlock := aBlock
 ]
