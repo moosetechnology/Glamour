@@ -117,7 +117,7 @@ GLMMorphicListingRenderer >> treeMorphFor: tmpTreeModel and: aPresentation [
 					yourself ].
 		].
 	tmpTreeMorph
-		preferedPaneColor: Color white;	
+		preferedPaneColor: Smalltalk ui theme windowColor;	
 		model: tmpTreeModel;
 		columns: columns.
 	aPresentation isMultiple 

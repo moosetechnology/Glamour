@@ -19,24 +19,9 @@ GLMMorphicPharoPlaygroundRenderer >> actOnVariableBindingsUpdated: ann [
 ]
 
 { #category : #'as yet unclassified' }
-GLMMorphicPharoPlaygroundRenderer >> modelFor: aPresentation [
+GLMMorphicPharoPlaygroundRenderer >> addVariableBindingsOn: aTextModel from: aPresentation [
 
-	^ GLMRubricSmalltalkTextModel new
-		glamourPresentation: aPresentation;
-		highlightSmalltalk: true;
-		bindingsStrategy: self workspaceBindingsStrategy;
-		appendVariableBinding: aPresentation variableBindings;
-		yourself
-]
-
-{ #category : #'as yet unclassified' }
-GLMMorphicPharoPlaygroundRenderer >> morph [
-	
-	^ RubScrolledTextMorph new
-		getSelectionSelector: #primarySelectionInterval;
-		model: textModel;
-		beForSmalltalkScripting;
-		yourself
+	aPresentation variableBindings do: [ :each | aTextModel addVariableBinding: each ].
 ]
 
 { #category : #'as yet unclassified' }
@@ -45,6 +30,15 @@ GLMMorphicPharoPlaygroundRenderer >> registerEventsForPresentation: aPresentatio
 	super registerEventsForPresentation: aPresentation.
 	aPresentation on: GLMVariableBindingsChanged send: #actOnVariableBindingsUpdated: to: self.
 	aPresentation on: GLMEvaluateSelection send: #actOnEvaluateSelection: to: self
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphicPharoPlaygroundRenderer >> textModelFor: aPresentation [
+	| tm |
+	tm := super textModelFor: aPresentation.
+	self addVariableBindingsOn: tm from: aPresentation.
+	tm bindingsStrategy: self workspaceBindingsStrategy.
+	^ tm
 ]
 
 { #category : #'as yet unclassified' }

@@ -13,12 +13,3 @@ GLMMorphicPharoMethodRenderer >> modelFor: aPresentation [
 		highlightSmalltalkContext: aPresentation highlightSmalltalkContext;
 		yourself
 ]
-
-{ #category : #'as yet unclassified' }
-GLMMorphicPharoMethodRenderer >> morph [
-	
-	^ RubScrolledTextMorph new
-		beForSmalltalkCode;
-		model: textModel;
-		yourself
-]
