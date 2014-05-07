@@ -194,6 +194,12 @@ GLMPageScroller >> paneWidthsToFit: limit [
 	
 ]
 
+{ #category : #accessing }
+GLMPageScroller >> panes [
+
+	^ panes
+]
+
 { #category : #panes }
 GLMPageScroller >> popAndReplacePane: aMorph [	
 	transform removeMorph: transform lastSubmorph. "one for the separator"
