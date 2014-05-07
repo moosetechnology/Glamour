@@ -5,25 +5,17 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMMorphicPharoPlaygroundRenderer >> actOnEvaluateSelection: ann [ 
-
-	textMorph evaluateSelectionAndDo: ann action
-]
-
-{ #category : #'as yet unclassified' }
 GLMMorphicPharoPlaygroundRenderer >> actOnVariableBindingsUpdated: ann [ 
 
 	textModel variableBindings: nil.
-	self addVariableBindingsOn: textModel from: ann presentation.
+	textModel appendVariableBinding: ann presentation variableBindings.
 	textModel changed: #text. self flag: 'update just the style here'
 ]
 
 { #category : #'as yet unclassified' }
 GLMMorphicPharoPlaygroundRenderer >> modelFor: aPresentation [
 
-	^ GLMRubricSmalltalkTextModel new
-		glamourPresentation: aPresentation;
-		highlightSmalltalk: true;
+	^ (super modelFor: aPresentation)
 		bindingsStrategy: self workspaceBindingsStrategy;
 		appendVariableBinding: aPresentation variableBindings;
 		yourself
@@ -33,7 +25,6 @@ GLMMorphicPharoPlaygroundRenderer >> modelFor: aPresentation [
 GLMMorphicPharoPlaygroundRenderer >> morph [
 	
 	^ RubScrolledTextMorph new
-		getSelectionSelector: #primarySelectionInterval;
 		model: textModel;
 		beForSmalltalkScripting;
 		yourself
@@ -44,7 +35,6 @@ GLMMorphicPharoPlaygroundRenderer >> registerEventsForPresentation: aPresentatio
 
 	super registerEventsForPresentation: aPresentation.
 	aPresentation on: GLMVariableBindingsChanged send: #actOnVariableBindingsUpdated: to: self.
-	aPresentation on: GLMEvaluateSelection send: #actOnEvaluateSelection: to: self
 ]
 
 { #category : #'as yet unclassified' }

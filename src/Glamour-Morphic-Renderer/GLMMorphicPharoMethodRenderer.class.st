@@ -5,12 +5,18 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+GLMMorphicPharoMethodRenderer >> methodBindingsStrategy [
+
+	^ [ :currentBindings :aSymbol |
+		 currentBindings associationAt: aSymbol ifAbsent: [nil] ]
+]
+
+{ #category : #'as yet unclassified' }
 GLMMorphicPharoMethodRenderer >> modelFor: aPresentation [
 
-	^ GLMRubricSmalltalkTextModel new
-		glamourPresentation: aPresentation;
-		highlightSmalltalk: true;
+	^ (super modelFor: aPresentation)
 		highlightSmalltalkContext: aPresentation highlightSmalltalkContext;
+		bindingsStrategy: self methodBindingsStrategy;
 		yourself
 ]
 
