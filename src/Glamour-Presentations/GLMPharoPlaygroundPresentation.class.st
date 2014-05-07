@@ -1,11 +1,12 @@
 "
+|browser|
 browser := GLMTabulator new.
-browser row: #r1; row: #r2; row: #r3.
-
+browser row: #r1; ""row: #r2; ""row: #r3.
+ 
 browser transmit to: #r1; andShow: [ :aComposite |
-	aComposite workspace].
-browser transmit to: #r2; andShow: [ :aComposite |
-	aComposite workspace
+	aComposite pharoPlayground].
+""browser transmit to: #r2; andShow: [ :aComposite |
+	aComposite pharoPlayground
 		selectionAct: [ :workspace :page |
 				workspace evaluateSelection ]
 			on: $d
@@ -17,10 +18,10 @@ browser transmit to: #r2; andShow: [ :aComposite |
 		selectionAct: [ :workspace :page |
 				workspace evaluateSelectionAndDo: [:result | result explore] ]
 			on: $e
-			entitled: 'Explore it'] .
+			entitled: 'Explore it'] .""
 browser transmit to: #r3; andShow: [ :aComposite |
-	aComposite workspace
-		variableBindings: [{#browser -> browser}] ].
+	aComposite pharoPlayground
+		variableBindings: [{#browser -> browser. #a->1}] ].
 
 
 browser openOn: 'browser := GLMTabulator new.
@@ -44,6 +45,12 @@ Class {
 GLMPharoPlaygroundPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
 	^ aRenderer renderWorkspacePresentation: self
+]
+
+{ #category : #actions }
+GLMPharoPlaygroundPresentation >> updateVariableBindings [
+
+	self announce: (GLMVariableBindingsChanged new presentation: self).
 ]
 
 { #category : #accessing }
