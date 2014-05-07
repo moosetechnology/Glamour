@@ -6,7 +6,7 @@ Class {
 		'errorLocation',
 		'errorSource'
 	],
-	#category : #'Glamour-Morphic-Renderer'
+	#category : #'Glamour-Morphic-Renderer-Announcements'
 }
 
 { #category : #accessing }
