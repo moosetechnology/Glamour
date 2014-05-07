@@ -27,7 +27,7 @@ GLMPluggableTextMorph >> announcer [
 { #category : #'do-its' }
 GLMPluggableTextMorph >> evaluateSelectionAndDo: aBlock [
 
-	^ textMorph editor evaluateSelectionAndDo: aBlock
+	^ self handleEdit: [textMorph editor evaluateSelectionAndDo: aBlock]
 ]
 
 { #category : #private }
