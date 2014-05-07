@@ -27,7 +27,7 @@ GLMRubricSmalltalkTextModel >> bindingOf: aSymbol [
 { #category : #bindings }
 GLMRubricSmalltalkTextModel >> bindingsStrategy [
 
-	^ bindingsStrategy ifNil: [ bindingsStrategy := self defaultBindingsStrategy ]
+	^ bindingsStrategy
 ]
 
 { #category : #bindings }
@@ -36,11 +36,14 @@ GLMRubricSmalltalkTextModel >> bindingsStrategy: aBlock [
 	bindingsStrategy := aBlock
 ]
 
-{ #category : #bindings }
-GLMRubricSmalltalkTextModel >> defaultBindingsStrategy [
+{ #category : #accessing }
+GLMRubricSmalltalkTextModel >> doItContext [
+	^ self glamourPresentation doItContext 
+]
 
-	^ [ :currentBindings :aSymbol |
-		 currentBindings associationAt: aSymbol ifAbsent: [nil] ]
+{ #category : #accessing }
+GLMRubricSmalltalkTextModel >> doItReceiver [
+	^ self glamourPresentation doItReceiver 
 ]
 
 { #category : #bindings }
@@ -79,7 +82,7 @@ GLMRubricSmalltalkTextModel >> highlightSmalltalkContext: aClassOrMetaclass [
 	highlightSmalltalkContext := aClassOrMetaclass
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GLMRubricSmalltalkTextModel >> isCodeCompletionAllowed [ 
 	^true
 ]
