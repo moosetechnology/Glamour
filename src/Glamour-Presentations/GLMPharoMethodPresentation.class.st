@@ -35,7 +35,7 @@ GLMPharoMethodPresentation >> highlightSmalltalkContext [
 { #category : #rendering }
 GLMPharoMethodPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
-	^ aRenderer renderSmalltalkMethodPresentation: self
+	^ aRenderer renderPharoMethodPresentation: self
 ]
 
 { #category : #accessing }
