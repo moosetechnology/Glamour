@@ -129,6 +129,16 @@ GLMMorphicRenderer >> renderPane: aPane [
 ]
 
 { #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderPharoMethodPresentation: aSmalltalkMethodPresentation [ 
+	^ GLMMorphicPharoMethodRenderer render: aSmalltalkMethodPresentation from: self
+]
+
+{ #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderPharoPlaygroundPresentation: aWorkspacePresentation [ 
+	^ GLMMorphicPharoPlaygroundRenderer render: aWorkspacePresentation from: self
+]
+
+{ #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderRoassalPresentation: aPresentation [
 	^ GLMMorphicRoassalRenderer render: aPresentation from: self
 ]
@@ -152,11 +162,6 @@ GLMMorphicRenderer >> renderRubricTextPresentation: aPresentation [
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderSmalltalkCodePresentation: aSmalltalkCodePresentation [ 
 	^ GLMMorphicSmalltalkCodeRenderer render: aSmalltalkCodePresentation from: self
-]
-
-{ #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderSmalltalkMethodPresentation: aSmalltalkMethodPresentation [ 
-	^ GLMMorphicPharoMethodRenderer render: aSmalltalkMethodPresentation from: self
 ]
 
 { #category : #'rendering presentations' }
@@ -215,11 +220,6 @@ GLMMorphicRenderer >> renderWizard: aGLMWizard [
 	tmpRenderer :=  GLMMorphicWizardRenderer new.
 	aGLMWizard  setSpecificAnnouncementActionsTo: tmpRenderer.  
 	^ (tmpRenderer renderer: self) render: aGLMWizard
-]
-
-{ #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderWorkspacePresentation: aWorkspacePresentation [ 
-	^ GLMMorphicPharoPlaygroundRenderer render: aWorkspacePresentation from: self
 ]
 
 { #category : #'rendering browsers' }
