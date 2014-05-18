@@ -44,7 +44,7 @@ Class {
 { #category : #rendering }
 GLMPharoPlaygroundPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
-	^ aRenderer renderPharoPlaygroundPresentation: self
+	^ aRenderer renderWorkspacePresentation: self
 ]
 
 { #category : #actions }

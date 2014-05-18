@@ -24,7 +24,7 @@ GLMTablePresentation >> column: aBlockOrString evaluated: aBlock sortedBy: aSort
 	self addColumn: (GLMTableColumn new 
 		title: aBlockOrString; 
 		computation: aBlock;
-		sortedBy: aSortingBlock)
+		sortBlock: aSortingBlock)
 ]
 
 { #category : #scripting }
