@@ -4,6 +4,21 @@ Class {
 	#category : #'Glamour-Presentations'
 }
 
+{ #category : #actions }
+GLMNewSmalltalkCodePresentation >> compileTextIn: aContext from:  aSession [ 
+
+	self announce: (GLMCompileText new
+		presentation: self;
+		context: aContext;
+		session: aSession)
+]
+
+{ #category : #actions }
+GLMNewSmalltalkCodePresentation >> debugSelection [
+
+	self announce: GLMDebugSelection
+]
+
 { #category : #rendering }
 GLMNewSmalltalkCodePresentation >> defaultSelectionActions [
 
@@ -59,4 +74,16 @@ GLMNewSmalltalkCodePresentation >> installDefaultSelectionActions [
 
 	self defaultSelectionActions do: [ :anAction |
 		self addSelectionAction: anAction ]
+]
+
+{ #category : #actions }
+GLMNewSmalltalkCodePresentation >> printSelection [
+
+	self announce: GLMPrintSelection
+]
+
+{ #category : #actions }
+GLMNewSmalltalkCodePresentation >> profileSelection [
+
+	self announce: GLMProfileSelection
 ]
