@@ -23,6 +23,12 @@ GLMRubricTextModel >> getText [
 	^ self glamourPresentation formatedDisplayValue
 ]
 
+{ #category : #callbacks }
+GLMRubricTextModel >> menu [
+
+	^ self menu: MenuMorph new
+]
+
 { #category : #accessing }
 GLMRubricTextModel >> primarySelectionInterval [
 	^ primarySelectionInterval
