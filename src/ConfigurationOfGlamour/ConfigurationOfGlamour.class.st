@@ -1212,7 +1212,6 @@ ConfigurationOfGlamour >> baseline29: spec [
 			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
 			package: 'Glamour-Examples' with: [spec requires: #('Glamour-Tools')];
 			package: 'Glamour-Tools' with: [spec requires: #('Glamour-Core')];
-			package: 'Rubric' with: [spec repository: 'http://www.smalltalkhub.com/mc/AlainPlantec/Rubric/main'];
 			package: 'Glamour-Rubric-Presentations' with: [spec requires: 'Rubric'];
 			package: 'Glamour-Roassal-Presentations' with: [spec requires: #('Roassal for Glamour' 'Glamour-Morphic-Renderer')];
 			package: 'Glamour-Roassal2-Presentations' with: [spec requires: #('Roassal2 for Glamour' 'Glamour-Morphic-Renderer')];
@@ -1303,7 +1302,13 @@ ConfigurationOfGlamour >> baseline29: spec [
 					className: 'ConfigurationOfSpotlight2';
 					file: 'ConfigurationOfSpotlight2';
 					version: #development;
-					repository: 'http://www.smalltalkhub.com/mc/PharoExtras/Spotlight2/main' ]
+					repository: 'http://www.smalltalkhub.com/mc/PharoExtras/Spotlight2/main' ].
+		spec project: 'Rubric' with: [ 
+			spec 
+					className: 'ConfigurationOfRubric';
+					file: 'ConfigurationOfRubric';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/AlainPlantec/Rubric/main' ]
 	]
 ]
 
