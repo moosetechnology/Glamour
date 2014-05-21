@@ -1212,7 +1212,7 @@ ConfigurationOfGlamour >> baseline29: spec [
 			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
 			package: 'Glamour-Examples' with: [spec requires: #('Glamour-Tools')];
 			package: 'Glamour-Tools' with: [spec requires: #('Glamour-Core')];
-			package: 'Glamour-Rubric-Presentations' with: [spec requires: 'Rubric'];
+			package: 'Glamour-Rubric-Presentations' with: [spec requires: #('Rubric' 'Glamour-Presentations')];
 			package: 'Glamour-Roassal-Presentations' with: [spec requires: #('Roassal for Glamour' 'Glamour-Morphic-Renderer')];
 			package: 'Glamour-Roassal2-Presentations' with: [spec requires: #('Roassal2 for Glamour' 'Glamour-Morphic-Renderer')];
 			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];			
