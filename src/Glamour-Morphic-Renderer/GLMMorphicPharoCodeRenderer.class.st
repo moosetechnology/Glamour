@@ -5,6 +5,18 @@ Class {
 }
 
 { #category : #callbacks }
+GLMMorphicPharoCodeRenderer >> actOnCompileText: ann [ 
+	
+	"The current compiler wants to notify a text morph object in case of errors. 
+	The compilation is delagated to the renderer, as the renderer has access
+	to the text morph object."
+	ann session 
+		recompileMethodTo: ann presentation text 
+		inContext: ann context 
+		notifying: textMorph
+]
+
+{ #category : #callbacks }
 GLMMorphicPharoCodeRenderer >> actOnEvaluateSelection: ann [ 
 
 	"We get here as a result of an announcement.
@@ -13,6 +25,18 @@ GLMMorphicPharoCodeRenderer >> actOnEvaluateSelection: ann [
 	UIManager default defer: [ 
 		textMorph textArea editor evaluateSelectionAndDo: ann action ]
 	
+]
+
+{ #category : #callbacks }
+GLMMorphicPharoCodeRenderer >> debugSelection [
+
+	textMorph textArea editor debugIt
+]
+
+{ #category : #callbacks }
+GLMMorphicPharoCodeRenderer >> evaluateAndPrintSelection [
+
+	textMorph textArea editor printIt
 ]
 
 { #category : #rendering }
@@ -24,12 +48,22 @@ GLMMorphicPharoCodeRenderer >> modelFor: aPresentation [
 		yourself
 ]
 
+{ #category : #callbacks }
+GLMMorphicPharoCodeRenderer >> profileSelection [
+
+	textMorph textArea editor tallyIt
+]
+
 { #category : #private }
 GLMMorphicPharoCodeRenderer >> registerEventsForPresentation: aPresentation [
 
 	super registerEventsForPresentation: aPresentation.
 	aPresentation on: GLMSelectCurrentLine send: #selectLine to: self.
-	aPresentation on: GLMEvaluateSelection send: #actOnEvaluateSelection: to: self
+	aPresentation on: GLMEvaluateSelection send: #actOnEvaluateSelection: to: self.
+	aPresentation on: GLMCompileText send: #actOnCompileText: to: self.
+	aPresentation on: GLMDebugSelection send: #debugSelection to: self.
+	aPresentation on: GLMProfileSelection send: #profileSelection to: self.
+	aPresentation on: GLMPrintSelection send: #evaluateAndPrintSelection to: self
 	
 ]
 
