@@ -231,16 +231,6 @@ GLMCompositePresentation >> pane: aPane [
 	self presentations do: [:each | each pane: aPane ]
 ]
 
-{ #category : #scripting }
-GLMCompositePresentation >> pharoMethod [
-	^ self custom: GLMPharoMethodPresentation new
-]
-
-{ #category : #scripting }
-GLMCompositePresentation >> pharoPlayground [
-	^ self custom: GLMPharoPlaygroundPresentation new
-]
-
 { #category : #comparison }
 GLMCompositePresentation >> postCopy [
 	super postCopy.
