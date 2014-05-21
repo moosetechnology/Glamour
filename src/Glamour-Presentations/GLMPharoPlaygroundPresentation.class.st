@@ -1,11 +1,9 @@
 "
 |browser|
 browser := GLMTabulator new.
-browser row: #r1; ""row: #r2; ""row: #r3.
+browser row: #r1;  row: #r2.
  
 browser transmit to: #r1; andShow: [ :aComposite |
-	aComposite pharoPlayground].
-""browser transmit to: #r2; andShow: [ :aComposite |
 	aComposite pharoPlayground
 		selectionAct: [ :workspace :page |
 				workspace evaluateSelection ]
@@ -18,8 +16,8 @@ browser transmit to: #r1; andShow: [ :aComposite |
 		selectionAct: [ :workspace :page |
 				workspace evaluateSelectionAndDo: [:result | result explore] ]
 			on: $e
-			entitled: 'Explore it'] .""
-browser transmit to: #r3; andShow: [ :aComposite |
+			entitled: 'Explore it'] .
+browser transmit to: #r2; andShow: [ :aComposite |
 	aComposite pharoPlayground
 		variableBindings: [{#browser -> browser. #a->1}] ].
 
