@@ -18,10 +18,10 @@ GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	window := composite openOn: '4'.
 	textMorph := self find: RubScrolledTextMorph in: window.
 	self simulateOnlyOneClickOn: textMorph.
-	self simulateKeyStroke: $s command.
-	self simulateKeyStroke: $s control.
-	self simulateKeyStroke: $s alt.
-	self assert: overriden.
+	Smalltalk os isMacOSX ifTrue: [self simulateKeyStroke: $s command].
+	Smalltalk os isUnix ifTrue: [self simulateKeyStroke: $s alt].
+	Smalltalk os isWindows ifTrue: [self simulateKeyStroke: $s alt].
+	self assert: overriden
 ]
 
 { #category : #tests }
