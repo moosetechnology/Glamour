@@ -87,6 +87,12 @@ GLMRubricSmalltalkTextModel >> isCodeCompletionAllowed [
 	^true
 ]
 
+{ #category : #accessing }
+GLMRubricSmalltalkTextModel >> selectedBehavior [
+	
+	^ self highlightSmalltalkContext
+]
+
 { #category : #shout }
 GLMRubricSmalltalkTextModel >> shoutAboutToStyle: aPluggableShoutMorph [
 	self highlightSmalltalk ifFalse: [^ false].
