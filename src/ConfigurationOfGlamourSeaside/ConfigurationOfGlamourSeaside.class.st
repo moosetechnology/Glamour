@@ -310,6 +310,67 @@ ConfigurationOfGlamourSeaside >> baseline04: spec [
 			group: 'Tests' with: #( 'Glamour-Seaside-Tests' ) ]
 ]
 
+{ #category : #baselines }
+ConfigurationOfGlamourSeaside >> baseline05: spec [ 
+	<version: '0.5-baseline'>
+	
+	spec for: #common do: [
+		spec blessing: #baseline.
+		spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'.
+
+		spec
+			project: 'Glamour' with: [
+				spec
+					className: 'ConfigurationOfGlamour';
+					version: #development;
+					loads: #( 'Core' );
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ];
+			project: 'Seaside' with: [
+				spec
+					className: 'ConfigurationOfSeaside3';
+					versionString: #'stable';
+					loads: 'Core';
+					repository: 'http://www.smalltalkhub.com/mc/Seaside/MetacelloConfigurations/main' ];
+			project: 'SeasideTesting' with: [
+				spec
+					className: 'ConfigurationOfSeasideTesting';
+					version: #'development';
+					loads: #('SimulatedBrowserTesting');
+					repository: 'http://www.smalltalkhub.com/mc/Seaside/MetacelloConfigurations/main' ];
+			project: 'BeachParasol' with: [
+				spec
+					className: 'ConfigurationOfParasol';
+					version: #'development';
+					loads: #('dev');
+					repository: 'http://ss3.gemstone.com/ss/Parasol' ].
+				
+		spec
+			package: 'Glamour-Seaside-Core' with: [
+				spec requires: #('Seaside' 'Glamour' 'JQWidgetBox-Core' 'JQWidgetBox-MbMenu-Core' 'JQWidgetBox-HoverIntent-Core' 'Glamour-Morphic-Theme') ];
+			package: 'Glamour-Seaside-Rendering' with: [
+				spec requires: #('Glamour-Seaside-Core') ];
+			package: 'Glamour-Seaside-Examples' with: [
+				spec requires: #('Seaside' 'Glamour-Seaside-Rendering') ];
+			package: 'Glamour-Seaside-Tests' with: [
+				spec requires: #('Glamour-Seaside-Rendering' 'SeasideTesting' 'BeachParasol') ];
+			package: 'JQWidgetBox-Core' with: [
+				spec requires: #('Seaside').
+				spec repository: 'http://www.smalltalkhub.com/mc/Seaside/JQueryWidgetBox/main'];
+			package: 'JQWidgetBox-MbMenu-Core' with: [
+				spec repository: 'http://www.smalltalkhub.com/mc/Seaside/JQueryWidgetBox/main'.
+				spec requires: #('Seaside') ];
+			package: 'JQWidgetBox-HoverIntent-Core' with: [
+				spec requires: #('Seaside').
+				spec repository: 'http://www.smalltalkhub.com/mc/Seaside/JQueryWidgetBox/main'];
+			package: 'Glamour-Morphic-Theme'.
+
+		spec
+			group: 'default' with: #( 'Examples' );
+			group: 'Core' with: #( 'Glamour-Seaside-Rendering' );
+			group: 'Examples' with: #( 'Glamour-Seaside-Examples' );
+			group: 'Tests' with: #( 'Glamour-Seaside-Tests' ) ]
+]
+
 { #category : #'symbolic versions' }
 ConfigurationOfGlamourSeaside >> bleedingEdge: spec [
 	<symbolicVersion: #'bleedingEdge'>
@@ -322,7 +383,7 @@ ConfigurationOfGlamourSeaside >> bleedingEdge: spec [
 ConfigurationOfGlamourSeaside >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '0.4-baseline'.
+	spec for: #'common' version: '0.5-baseline'.
 
 ]
 
