@@ -329,7 +329,7 @@ ConfigurationOfGlamourSeaside >> baseline05: spec [
 				spec
 					className: 'ConfigurationOfSeaside3';
 					versionString: #'stable';
-					loads: 'Core';
+					loads: #('Core','JQuery-Tests-Core' 'Seaside-JSON-Core');
 					repository: 'http://www.smalltalkhub.com/mc/Seaside/MetacelloConfigurations/main' ];
 			project: 'SeasideTesting' with: [
 				spec
