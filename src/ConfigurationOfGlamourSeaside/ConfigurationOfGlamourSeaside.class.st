@@ -329,7 +329,7 @@ ConfigurationOfGlamourSeaside >> baseline05: spec [
 				spec
 					className: 'ConfigurationOfSeaside3';
 					versionString: #'stable';
-					loads: #('Core' 'JQuery-Tests-Core' 'Seaside-JSON-Core');
+					loads: #('JQuery' 'JQueryUI');
 					repository: 'http://www.smalltalkhub.com/mc/Seaside/MetacelloConfigurations/main' ];
 			project: 'SeasideTesting' with: [
 				spec
@@ -363,6 +363,16 @@ ConfigurationOfGlamourSeaside >> baseline05: spec [
 				spec requires: #('Seaside').
 				spec repository: 'http://www.smalltalkhub.com/mc/Seaside/JQueryWidgetBox/main'];
 			package: 'Glamour-Morphic-Theme'.
+	spec
+		for: #pharo
+		do: [ 
+			spec
+				project: 'Seaside Zinc' copyFrom: 'Seaside' with: [ spec loads: #('Zinc') ];
+				package: 'Pier-Seaside'
+					with: [ 
+							spec
+								requires: #('Seaside Zinc');
+								postLoadDoIt: #startSeasideAndRegisterPier ] ].
 
 		spec
 			group: 'default' with: #( 'Examples' );
