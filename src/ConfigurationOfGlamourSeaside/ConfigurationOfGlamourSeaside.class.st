@@ -328,8 +328,8 @@ ConfigurationOfGlamourSeaside >> baseline05: spec [
 			project: 'Seaside' with: [
 				spec
 					className: 'ConfigurationOfSeaside3';
-					versionString: #'stable';
-					loads: #('JQuery' 'JQueryUI');
+					versionString: #'release3.1';
+					loads: #('Zinc' 'JQuery' 'JQueryUI');
 					repository: 'http://www.smalltalkhub.com/mc/Seaside/MetacelloConfigurations/main' ];
 			project: 'SeasideTesting' with: [
 				spec
@@ -343,10 +343,17 @@ ConfigurationOfGlamourSeaside >> baseline05: spec [
 					version: #'development';
 					loads: #('dev');
 					repository: 'http://ss3.gemstone.com/ss/Parasol' ].
+		spec project: 'Magritte3' with: [
+			spec
+					className: 'ConfigurationOfMagritte3';
+					file: 'ConfigurationOfMagritte3';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/Magritte/Magritte3/main';
+					loads: #('Magritte-Seaside') ].
 				
 		spec
 			package: 'Glamour-Seaside-Core' with: [
-				spec requires: #('Seaside' 'Glamour' 'JQWidgetBox-Core' 'JQWidgetBox-MbMenu-Core' 'JQWidgetBox-HoverIntent-Core' 'Glamour-Morphic-Theme') ];
+				spec requires: #('Seaside' 'Glamour' 'JQWidgetBox-Core' 'JQWidgetBox-MbMenu-Core' 'JQWidgetBox-HoverIntent-Core' 'Glamour-Morphic-Theme' 'Magritte3') ];
 			package: 'Glamour-Seaside-Rendering' with: [
 				spec requires: #('Glamour-Seaside-Core') ];
 			package: 'Glamour-Seaside-Examples' with: [
@@ -368,11 +375,11 @@ ConfigurationOfGlamourSeaside >> baseline05: spec [
 		do: [ 
 			spec
 				project: 'Seaside Zinc' copyFrom: 'Seaside' with: [ spec loads: #('Zinc') ];
-				package: 'Pier-Seaside'
+				package: 'Glamour-Seaside-Core'
 					with: [ 
 							spec
 								requires: #('Seaside Zinc');
-								postLoadDoIt: #startSeasideAndRegisterPier ] ].
+								postLoadDoIt: #startSeaside ] ].
 
 		spec
 			group: 'default' with: #( 'Examples' );
@@ -414,6 +421,12 @@ ConfigurationOfGlamourSeaside >> stable: spec [
 	<symbolicVersion: #'stable'>
 
 	spec for: #'common' version: #'notDefined'.
+
+]
+
+{ #category : #'as yet unclassified' }
+ConfigurationOfGlamourSeaside >> startSeaside [
+	ZnZincServerAdaptor startOn: 8080.
 
 ]
 
