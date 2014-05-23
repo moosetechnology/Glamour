@@ -7,5 +7,5 @@ Class {
 { #category : #'as yet unclassified' }
 GLMPagerWidgetThemer >> selectedPaneStyleFor: aMorph [
 
-	aMorph color: Color transparent
+	aMorph borderColor: (Color transparent)
 ]

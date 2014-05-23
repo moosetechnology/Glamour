@@ -237,7 +237,8 @@ GLMPageScroller >> popPane [
 { #category : #panes }
 GLMPageScroller >> pushPane: aMorph [	
 	aMorph 
-		borderWidth: 0;
+		borderWidth: 1;
+		borderColor: Color transparent;
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		layoutInset: 0.
