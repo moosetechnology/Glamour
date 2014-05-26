@@ -21,12 +21,12 @@ GLMPagerModel >> announcer [
 
 { #category : #accessing }
 GLMPagerModel >> circleButtonInset [
-	^ 6
+	^ 0
 ]
 
 { #category : #accessing }
 GLMPagerModel >> circleButtonSize [
-	^ 16
+	^ 22
 ]
 
 { #category : #accessing }
@@ -354,4 +354,10 @@ GLMPagerModel >> updateFocus: pageIndex [
 		(self focusedMorphAt: pageIndex) activeHand newKeyboardFocus: (self focusedMorphAt: pageIndex).
 		self notifyFocusedPageChanged.
 	].
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerModel >> updatePreview: anIndex [
+
+	self announcer announce: (GLMPagerPreviewUpdate new pageIndex: anIndex )
 ]

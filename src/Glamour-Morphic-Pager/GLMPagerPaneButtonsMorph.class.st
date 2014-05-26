@@ -42,6 +42,15 @@ GLMPagerPaneButtonsMorph >> circleButtonClicked: clickedAnnouncement [
 ]
 
 { #category : #'as yet unclassified' }
+GLMPagerPaneButtonsMorph >> circleButtonSelected: selectedAnnouncement [
+
+	"notify adapter that we need to update pane preview"
+	
+	GLMPagerPanePreviewMorph showAt: (indicatorButtons at: selectedAnnouncement buttonModel pageIndex) bounds topCenter.
+	adapter updatePreview: selectedAnnouncement buttonModel pageIndex.
+]
+
+{ #category : #'as yet unclassified' }
 GLMPagerPaneButtonsMorph >> initialize [
 	super initialize.
 		
@@ -129,6 +138,7 @@ GLMPagerPaneButtonsMorph >> onPagePushed: addedAnnouncement [
 	
 	button buttonModel: (GLMPagerCircleButtonModel new pageIndex: indicatorButtons size).
 	button buttonModel on: GLMPagerButtonClicked send: #circleButtonClicked: to: self.
+	button buttonModel on: GLMPagerButtonSelected send: #circleButtonSelected: to: self.
 	button height: adapter circleButtonSize.
 	button width: adapter circleButtonSize.
 	

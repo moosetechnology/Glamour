@@ -78,6 +78,13 @@ GLMPagerMorph >> initializeShortcuts [
 ]
 
 { #category : #'as yet unclassified' }
+GLMPagerMorph >> outOfWorld: aWorld [
+
+	GLMPagerPanePreviewMorph delete.
+	^ super outOfWorld: aWorld.
+]
+
+{ #category : #'as yet unclassified' }
 GLMPagerMorph >> popAndReplacePane: aMorph [
 	adapter popAndReplacePane: aMorph
 ]

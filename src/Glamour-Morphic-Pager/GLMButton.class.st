@@ -40,7 +40,7 @@ GLMButton >> buttonModel: aModel [
 		on: GLMPagerButtonDepressed send: #onDepressed to: self.
 		
 	buttonModel announcer weak
-		on: GTPagerButtonSelected send: #onSelected to: self.
+		on: GLMPagerButtonSelected send: #onSelected to: self.
 		
 	buttonModel announcer weak
 		on: GLMPagerButtonDeselected send: #onDeselected to: self.

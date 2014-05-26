@@ -173,6 +173,11 @@ GLMPageScroller >> maxPanes: anInteger [
 	maxPanes := anInteger
 ]
 
+{ #category : #accessing }
+GLMPageScroller >> paneAt: anIndex [
+	^ self panes at: anIndex.
+]
+
 { #category : #layout }
 GLMPageScroller >> paneCount [
 	^ paneCount

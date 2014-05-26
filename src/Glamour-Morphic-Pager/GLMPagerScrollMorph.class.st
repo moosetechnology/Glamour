@@ -31,6 +31,9 @@ GLMPagerScrollMorph >> adapter: anAdapter [
 		
 	adapter announcer weak 
 		on: GLMSelectedPageChanged send: #onSelectedPageChanged to: self.
+		
+	adapter announcer weak 
+		on: GLMPagerPreviewUpdate send: #onPagePreviewUpdate: to: self.
 ]
 
 { #category : #'as yet unclassified' }
@@ -63,6 +66,12 @@ GLMPagerScrollMorph >> initialize [
 GLMPagerScrollMorph >> onPagePoped [
 	self popPane.
 	
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerScrollMorph >> onPagePreviewUpdate: updateAnnouncement [
+
+	GLMPagerPanePreviewMorph for: (self paneAt: updateAnnouncement pageIndex).
 ]
 
 { #category : #'as yet unclassified' }
