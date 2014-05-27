@@ -80,7 +80,7 @@ GLMPagerMorph >> initializeShortcuts [
 { #category : #'as yet unclassified' }
 GLMPagerMorph >> outOfWorld: aWorld [
 
-	GLMPagerPanePreviewMorph delete.
+	GLMPagerPanePreviewMorph remove.
 	^ super outOfWorld: aWorld.
 ]
 

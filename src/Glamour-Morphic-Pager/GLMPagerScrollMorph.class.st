@@ -71,7 +71,7 @@ GLMPagerScrollMorph >> onPagePoped [
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> onPagePreviewUpdate: updateAnnouncement [
 
-	GLMPagerPanePreviewMorph for: (self paneAt: updateAnnouncement pageIndex).
+	GLMPagerPanePreviewMorph uniqueInstance updateFor: (self paneAt: updateAnnouncement pageIndex).
 ]
 
 { #category : #'as yet unclassified' }

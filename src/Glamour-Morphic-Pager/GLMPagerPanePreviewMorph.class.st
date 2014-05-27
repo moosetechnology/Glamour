@@ -5,67 +5,47 @@ Class {
 		'thumbnail',
 		'position'
 	],
-	#classVars : [
-		'preview'
+	#classInstVars : [
+		'uniqueInstance'
 	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
 
-{ #category : #'as yet unclassified' }
-GLMPagerPanePreviewMorph class >> delete [
+{ #category : #actions }
+GLMPagerPanePreviewMorph class >> remove [
 
-	self morph delete.	
-	preview := nil.
+	self uniqueInstance delete.	
+	uniqueInstance := nil.
 ]
 
-{ #category : #'as yet unclassified' }
-GLMPagerPanePreviewMorph class >> for: aMorph [
-
-	self morph for: aMorph.
+{ #category : #accessing }
+GLMPagerPanePreviewMorph class >> uniqueInstance [
+	^ uniqueInstance ifNil: [ uniqueInstance := GLMPagerPanePreviewMorph new ].
 ]
 
-{ #category : #'as yet unclassified' }
-GLMPagerPanePreviewMorph class >> hide [
-	preview ifNotNil: [ preview delete ].
-]
-
-{ #category : #'as yet unclassified' }
-GLMPagerPanePreviewMorph class >> morph [
- ^ 	preview ifNil: [ preview := GLMPagerPanePreviewMorph new ].
-]
-
-{ #category : #'as yet unclassified' }
-GLMPagerPanePreviewMorph class >> showAt: aPoint [
-	self morph openInWorld.
-	self morph align: aPoint.
-	^ self morph.
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 GLMPagerPanePreviewMorph >> align: aPoint [
 	
 	position := aPoint.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GLMPagerPanePreviewMorph >> defaultBorderWidth [
 	^ 5
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GLMPagerPanePreviewMorph >> defaultBottomMargin [
 	^ 11
 ]
 
-{ #category : #'as yet unclassified' }
-GLMPagerPanePreviewMorph >> for: aMorph [
-	thumbnail := aMorph taskThumbnailOfSize: self maxExtent.
-	self image: thumbnail form.
-	
-	self position: position - ((thumbnail width / 2)@(thumbnail height + self defaultBottomMargin + self defaultBorderWidth)).
+{ #category : #actions }
+GLMPagerPanePreviewMorph >> hideFromWorld [
+	"Remove the morph from the world"
+	self delete
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GLMPagerPanePreviewMorph >> initialize [
 	super initialize.
 
@@ -73,11 +53,25 @@ GLMPagerPanePreviewMorph >> initialize [
 	
 	self theme pagerWidgetThemer previewPaneStyleFor: self.
 	self borderWidth: self defaultBorderWidth.
-	
-	preview := self.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GLMPagerPanePreviewMorph >> maxExtent [
 	^ 300@300.
+]
+
+{ #category : #actions }
+GLMPagerPanePreviewMorph >> showAt: aPoint [
+
+	self 
+		openInWorld;
+		align: aPoint.
+]
+
+{ #category : #actions }
+GLMPagerPanePreviewMorph >> updateFor: aMorph [
+	thumbnail := aMorph taskThumbnailOfSize: self maxExtent.
+	self image: thumbnail form.
+	
+	self position: position - ((thumbnail width / 2)@(thumbnail height + self defaultBottomMargin + self defaultBorderWidth)).
 ]

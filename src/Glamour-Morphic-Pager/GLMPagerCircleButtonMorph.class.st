@@ -48,13 +48,6 @@ GLMPagerCircleButtonMorph >> isFocused [
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerCircleButtonMorph >> onDeselected [
-	super onDeselected.
-	
-	GLMPagerPanePreviewMorph hide.
-]
-
-{ #category : #'as yet unclassified' }
 GLMPagerCircleButtonMorph >> setFocused [
 
 	focused ifFalse: [
