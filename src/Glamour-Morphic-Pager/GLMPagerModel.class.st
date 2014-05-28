@@ -162,6 +162,8 @@ GLMPagerModel >> initialize [
 GLMPagerModel >> invariant [
 	"If any of these exceptions rise, please notify us through moose-dev mail list. Your help is appreciated"
 	
+	self isDebug ifFalse: [ ^ self ].
+	
 	pagesCount >= 0 ifFalse: [ GLMPagerException signal: 'The number of page must be non negative' ].
 
 	pagesCount > 1 ifTrue: [
@@ -186,6 +188,11 @@ GLMPagerModel >> invariant [
 		self actualNumberOfVisiblePages = 0 ifFalse: [ GLMPagerException signal: 'Actual number of visible pages must be 0 if there is no pages' ].
 		selectedPageIndex = 0 ifFalse: [ GLMPagerException signal: 'Selected page index must be 0 if number of pages is 0' ].
 	]
+]
+
+{ #category : #initialization }
+GLMPagerModel >> isDebug [
+	^ false
 ]
 
 { #category : #focus }
