@@ -9,14 +9,31 @@ Class {
 		'lastVisiblePageIndex',
 		'selectedPageIndex',
 		'focusedMorphs',
-		'focusedPageIndex'
+		'focusedPageIndex',
+		'virtualFirstVisiblePageIndex',
+		'virtualLastVisiblePageIndex'
 	],
 	#category : #'Glamour-Morphic-Pager-Model'
 }
 
 { #category : #accessing }
+GLMPagerModel >> actualNumberOfVisiblePages [
+	"returns actual number of visible pages based on first and last visible page indexes"
+
+	(firstVisiblePageIndex = lastVisiblePageIndex) & (firstVisiblePageIndex = 0) ifTrue: [ ^ 0 ].
+	^ lastVisiblePageIndex - firstVisiblePageIndex + 1.
+]
+
+{ #category : #accessing }
 GLMPagerModel >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
+]
+
+{ #category : #focus }
+GLMPagerModel >> assignFocusableMorph: aMorph withPaneAt: paneIndex [
+	"assigns previosely focused morph with corresponding pane"
+	
+	focusedMorphs at: paneIndex put: aMorph.
 ]
 
 { #category : #accessing }
@@ -29,9 +46,18 @@ GLMPagerModel >> circleButtonSize [
 	^ 22
 ]
 
-{ #category : #accessing }
-GLMPagerModel >> defaultFirstVisiblePageIndex [
-	^ 1
+{ #category : #scrolling }
+GLMPagerModel >> convertIndexToValue: anIndex [
+	
+	self size = self actualNumberOfVisiblePages
+		ifTrue: [ ^ 0 ]
+		ifFalse: [ ^ (anIndex - 1) / (self size - self actualNumberOfVisiblePages ) ]
+]
+
+{ #category : #scrolling }
+GLMPagerModel >> convertValueToIndex: aValue [
+	
+	^ (self size - self actualNumberOfVisiblePages) * aValue + 1.
 ]
 
 { #category : #accessing }
@@ -39,56 +65,73 @@ GLMPagerModel >> defaultNumberOfVisiblePages [
 	^ 2
 ]
 
+{ #category : #accessing }
+GLMPagerModel >> defaultNumberOfVisiblePages: anInteger [
+	"use it only when the number of pages is 0"
+	self size = 0 ifFalse: [ GLMPagerException signal: 'You can change default number of visible pages only when there is no pages' ].
+	numberOfVisiblePages := anInteger.
+]
+
 { #category : #panes }
 GLMPagerModel >> diminishToLeft [
 
-	self privateLastVisiblePageIndex: (self lastVisiblePageIndex - 1).
-	self numberOfVisiblePagesChanged.
+	self actualNumberOfVisiblePages = 1 ifTrue: [ ^ self ].
+	self virtualLastVisiblePageIndex: (self lastVisiblePageIndex - 1).
+	self recomputeState.
 ]
 
 { #category : #panes }
 GLMPagerModel >> diminishToRight [
 
-	self privateFirstVisiblePageIndex: (self firstVisiblePageIndex + 1).
-	self numberOfVisiblePagesChanged.
+	self actualNumberOfVisiblePages = 1 ifTrue: [ ^ self ].
+	self virtualFirstVisiblePageIndex: (self firstVisiblePageIndex + 1).
+	self recomputeState.
 ]
 
 { #category : #panes }
 GLMPagerModel >> enlargeToLeft [
 
-	self privateFirstVisiblePageIndex: (self firstVisiblePageIndex - 1).
-	self numberOfVisiblePagesChanged.
+	self virtualFirstVisiblePageIndex: (self firstVisiblePageIndex - 1).
+	self recomputeState.
 ]
 
 { #category : #panes }
 GLMPagerModel >> enlargeToRight [
 
-	self privateLastVisiblePageIndex: (self lastVisiblePageIndex + 1).
-	self numberOfVisiblePagesChanged.
+	self virtualLastVisiblePageIndex: (self lastVisiblePageIndex + 1).
+	self recomputeState.
 ]
 
 { #category : #accessing }
 GLMPagerModel >> firstVisiblePageIndex [
+	self invariant.
 	^ firstVisiblePageIndex
 ]
 
 { #category : #focus }
-GLMPagerModel >> focusedMorph: aMorph at: paneIndex [
-
-	focusedMorphs at: paneIndex put: aMorph.
+GLMPagerModel >> focusPaneAt: pageIndex [
+	"tries to focus previosely focused morph at specified pane by its index"
+	
+	( self isFocusedMorphVisibleAt: pageIndex ) ifTrue: [
+		focusedPageIndex := pageIndex.
+		(self focusedMorphAt: pageIndex) activeHand newKeyboardFocus: (self focusedMorphAt: pageIndex).
+		self notifyFocusedPageChanged.
+	].
 ]
 
 { #category : #focus }
 GLMPagerModel >> focusedMorphAt: pageIndex [
+	"returns previosely focused morph in the pane or nil if no morph was focused"
 	
 	^ focusedMorphs at: pageIndex ifAbsent: [ nil ]
 ]
 
 { #category : #focus }
 GLMPagerModel >> focusedMorphChanged: aMorph at: pageIndex [
+	"call this method if a morph was focused in a pane with specified index. As a result corresponding pane will be marked as selected"
 	
 	focusedPageIndex := pageIndex.
-	self focusedMorph: aMorph at: pageIndex.
+	self assignFocusableMorph: aMorph withPaneAt: pageIndex.
 	
 	self selectedPageIndex: pageIndex.
 	self notifyFocusedPageChanged.
@@ -106,11 +149,43 @@ GLMPagerModel >> initialize [
 	pagesCount := 0.
 	selectedPageIndex := 0.
 	focusedMorphs := Dictionary new.
-	
+		
 	numberOfVisiblePages := self defaultNumberOfVisiblePages.
 	
-	firstVisiblePageIndex:= self defaultFirstVisiblePageIndex.
-	lastVisiblePageIndex:= firstVisiblePageIndex.
+	firstVisiblePageIndex:= 0.
+	lastVisiblePageIndex:= 0.
+	
+	self invariant.
+]
+
+{ #category : #invariant }
+GLMPagerModel >> invariant [
+	"If any of these exceptions rise, please notify us through moose-dev mail list. Your help is appreciated"
+	
+	pagesCount >= 0 ifFalse: [ GLMPagerException signal: 'The number of page must be non negative' ].
+
+	pagesCount > 1 ifTrue: [
+		firstVisiblePageIndex >= 1 ifFalse: [GLMPagerException signal: 'First visible page index must be > 1 if number of pages > 0'].
+		lastVisiblePageIndex >= 1 ifFalse: [GLMPagerException signal: 'Last visible page index must be > 1 if number of pages > 0'].
+		lastVisiblePageIndex <= pagesCount ifFalse: [ GLMPagerException signal: 'Last visible page index must be less or equals to the number of pages' ].
+		self actualNumberOfVisiblePages <= numberOfVisiblePages ifFalse: [ GLMPagerException signal: 'Actual number of visible pages must be less or equals to current number of visible pages' ].
+		selectedPageIndex >= 1 ifFalse: [ GLMPagerException signal: 'Selected page index must be greater or equals then 1 if number of pages is more than 1' ].
+	].
+
+	pagesCount = 1 ifTrue: [ 
+		firstVisiblePageIndex = 1 ifFalse: [GLMPagerException signal: 'First visible page index must be 1 if number of pages is 1'].
+		lastVisiblePageIndex = 1 ifFalse: [GLMPagerException signal: 'Last visible page index must be 1 if number of pages is 1'].
+		lastVisiblePageIndex = firstVisiblePageIndex ifFalse: [ GLMPagerException signal: 'First and Last visible page indexes must be equal if number of pages is 1' ].
+		self actualNumberOfVisiblePages = 1 ifFalse: [ GLMPagerException signal: 'Actual number of visible pages must be 1 if number of pages is 1' ].
+		selectedPageIndex = 1 ifFalse: [ GLMPagerException signal: 'Selected page index must be 1 if number of pages is 1' ].
+	].
+
+	pagesCount = 0 ifTrue: [ 
+		firstVisiblePageIndex = 0 ifFalse: [GLMPagerException signal: 'First visible page index must be 0 if number of pages is 0'].
+		lastVisiblePageIndex = 0 ifFalse: [GLMPagerException signal: 'Last visible page index must be 0 if number of pages is 0'].
+		self actualNumberOfVisiblePages = 0 ifFalse: [ GLMPagerException signal: 'Actual number of visible pages must be 0 if there is no pages' ].
+		selectedPageIndex = 0 ifFalse: [ GLMPagerException signal: 'Selected page index must be 0 if number of pages is 0' ].
+	]
 ]
 
 { #category : #focus }
@@ -124,59 +199,78 @@ GLMPagerModel >> isFocusedMorphVisibleAt: paneIndex [
 
 { #category : #panes }
 GLMPagerModel >> isPaneVisible: aNumber [
+
 	^ (aNumber >= self firstVisiblePageIndex) & (aNumber <= self lastVisiblePageIndex)
 ]
 
 { #category : #accessing }
 GLMPagerModel >> lastVisiblePageIndex [
 	| lastIndex |
+	self invariant.
 	
 	lastIndex := self firstVisiblePageIndex + self numberOfVisiblePages - 1.
-	^ lastIndex > self pagesCount
-		ifTrue: [ self pagesCount ]
+	^ lastIndex > self size
+		ifTrue: [ self size ]
 		ifFalse: [ lastIndex ]
 ]
 
 { #category : #'as yet unclassified' }
+GLMPagerModel >> normalizePaneIndex: anIndex [
+	"retunes normalized pane index. For example: returns 1 if index < 1 and size if index > self size"
+	
+	anIndex < 1 ifTrue: [ ^ 1 ].
+	anIndex > self size ifTrue: [ ^ self size ].
+	^ anIndex.
+]
+
+{ #category : #notifying }
 GLMPagerModel >> notifyFocusedPageChanged [
 
 	self announcer announce: GLMFocusedPageChanged new.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #notifying }
 GLMPagerModel >> notifyNumberOfVisiblePagesChanged [
 
 	self announcer announce: GLMNumberOfVisiblePagesChanged new.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #notifying }
 GLMPagerModel >> notifyPagePoped [
 
 	self announcer announce: GLMPagePoped new.
 ]
 
-{ #category : #'as yet unclassified' }
-GLMPagerModel >> notifyPagePushed: aMorph scrollTo: aBoolean smooth: isSmooth [
+{ #category : #notifying }
+GLMPagerModel >> notifyPagePushed: aMorph scrollTo: isScroll smooth: isSmooth [
 	
 	self announcer announce: (GLMPagePushed new morph: aMorph).
 	
-	aBoolean ifTrue: [self scrollToRight: isSmooth ]
+	isScroll ifTrue: [self scrollToRight: isSmooth ]
 ]
 
-{ #category : #'as yet unclassified' }
-GLMPagerModel >> notifyPageSwitched: pageIndex smooth: isSmooth [
-	self announcer announce: (GLMPageSwitched new smooth: isSmooth; pageIndex: pageIndex; yourself).
+{ #category : #notifying }
+GLMPagerModel >> notifyScrollPositionChanged: isSmooth [
+
+	self announcer announce: (GLMPagerScrollPositionChanged new smooth: isSmooth).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #notifying }
 GLMPagerModel >> notifyScrollerBoundsChanged: aBounds [
+
 	self announcer announce: (GLMPagerBoundsChanged new bounds: aBounds).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #notifying }
 GLMPagerModel >> notifySelectedPageChanged [
 
 	self announcer announce: GLMSelectedPageChanged new.
+]
+
+{ #category : #notifying }
+GLMPagerModel >> notifySynchronizeScrollTo: aValue [ 
+	
+	self announcer announce: (GLMPagerSynchronizeScrollAnnouncement new value: aValue).
 ]
 
 { #category : #accessing }
@@ -184,94 +278,142 @@ GLMPagerModel >> numberOfVisiblePages [
 	^ numberOfVisiblePages
 ]
 
-{ #category : #'as yet unclassified' }
-GLMPagerModel >> numberOfVisiblePagesChanged [
-	"recalculates numberOfVisiblePages based on last and first visible index
-		and notifies observers if number was changed
-		returns true if changed, otherwise false
-		"
-	|currentNumberOfVisiblePages|
-	
-	currentNumberOfVisiblePages := lastVisiblePageIndex - self firstVisiblePageIndex + 1.
-	
-	self numberOfVisiblePages = currentNumberOfVisiblePages
-	ifFalse: [
-		numberOfVisiblePages := currentNumberOfVisiblePages.
-		self notifyNumberOfVisiblePagesChanged.
-		^ true
-	]
-	ifTrue: [ ^ false ].
-	
-	
-]
-
-{ #category : #accessing }
-GLMPagerModel >> pagesCount [
-	^ pagesCount
-]
-
 { #category : #panes }
 GLMPagerModel >> popAndReplacePane: aMorph [
 	
 	self popPane.
 	self pushPane: aMorph smooth: false.
-	self notifyPageSwitched: (self pagesCount - 1) smooth: false.
 ]
 
 { #category : #panes }
 GLMPagerModel >> popPane [
 
+	self invariant.
+	
 	pagesCount >= 1 ifTrue: [
 		|scrollTo|
 		
 		focusedMorphs removeKey: pagesCount  ifAbsent: [ true ].
 		pagesCount := pagesCount - 1.
+		
+		lastVisiblePageIndex > pagesCount ifTrue: [
+			firstVisiblePageIndex := firstVisiblePageIndex - 1.
+			lastVisiblePageIndex := lastVisiblePageIndex - 1.
+		].
+	
+		firstVisiblePageIndex < 1 ifTrue: [
+			firstVisiblePageIndex := 1.
+		].
+	
+		pagesCount = 0 ifTrue: [
+			selectedPageIndex := 0.
+		].
+		
 		scrollTo := ((pagesCount = self firstVisiblePageIndex) & (pagesCount > self numberOfVisiblePages)).
 		self notifyPagePoped.
-		false ifTrue: [ self scrollToRight: true ].
-	]
+	].
+
+	self invariant.
 ]
 
 { #category : #private }
-GLMPagerModel >> privateFirstVisiblePageIndex: aNumber [
-	"private, don't use it as public api, because model will be in illegal state"
+GLMPagerModel >> privateRecomputeIndexesAfterScrollAt: aFloat [
+	"while rounding fractional part < 0.5"
+	|left right|
 	
-	aNumber > lastVisiblePageIndex ifTrue: [ aNumber := lastVisiblePageIndex ].
-	aNumber < 1 ifTrue: [ aNumber := 1 ].
-	aNumber > self pagesCount ifTrue: [ aNumber := self pagesCount ].
+	self invariant.
 	
-	firstVisiblePageIndex := aNumber.
-]
-
-{ #category : #private }
-GLMPagerModel >> privateLastVisiblePageIndex: aNumber [
-	"private, don't use it as public api, because model will be in illegal state"
+	left := self convertValueToIndex: aFloat.
+	right := left + self actualNumberOfVisiblePages - 1.
+	firstVisiblePageIndex := left rounded.
+	lastVisiblePageIndex := right rounded.
 	
-	aNumber < self firstVisiblePageIndex ifTrue: [ aNumber := self firstVisiblePageIndex ].
-	aNumber < 1 ifTrue: [ aNumber := 1 ].
-	aNumber > self pagesCount ifTrue: [ aNumber := self pagesCount ].
+	lastVisiblePageIndex > self size ifTrue: [
+		|delta|
+		delta := lastVisiblePageIndex - self size.
+		firstVisiblePageIndex := firstVisiblePageIndex - delta.
+		lastVisiblePageIndex := lastVisiblePageIndex - delta.
+	].
+		
+	self invariant.
 	
-	lastVisiblePageIndex := aNumber.
 	
-	lastVisiblePageIndex < firstVisiblePageIndex ifTrue: [
-		lastVisiblePageIndex := firstVisiblePageIndex ]
 ]
 
 { #category : #panes }
 GLMPagerModel >> pushPane: aMorph smooth: aBoolean [
 
-	pagesCount := pagesCount + 1.	
+	self invariant.
+	
+	pagesCount := pagesCount + 1.
+	
+	self size = 1
+		ifTrue: [ 
+			firstVisiblePageIndex := 1.
+			lastVisiblePageIndex := 1.
+			selectedPageIndex := 1.
+		]
+		ifFalse: [ 
+			(self actualNumberOfVisiblePages < self numberOfVisiblePages) ifTrue: [
+				lastVisiblePageIndex := lastVisiblePageIndex + 1.
+			].
+		].
+	
 	self notifyPagePushed: aMorph scrollTo: true smooth: aBoolean.
+	self size = 1 ifTrue: [ self notifySelectedPageChanged ].
+	
+	self invariant.
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerModel >> recomputeState [
+	"recomputes current model state and if necessary notifies all listeners about changes"
+	|tmpNumberOfVisiblePages notifyNumberOfVisiblePagesChanged|
+	
+	notifyNumberOfVisiblePagesChanged := false.
+	
+	self invariant.
+	
+	((virtualFirstVisiblePageIndex isNil) & (virtualLastVisiblePageIndex isNil)) ifTrue: [ ^ self ].
+	virtualFirstVisiblePageIndex ifNil: [ virtualFirstVisiblePageIndex := self firstVisiblePageIndex ].
+	virtualLastVisiblePageIndex ifNil: [ virtualLastVisiblePageIndex := self lastVisiblePageIndex ].
+	
+	tmpNumberOfVisiblePages := virtualLastVisiblePageIndex - virtualFirstVisiblePageIndex + 1.
+	tmpNumberOfVisiblePages = numberOfVisiblePages ifFalse: [ notifyNumberOfVisiblePagesChanged := true ].
+	numberOfVisiblePages := tmpNumberOfVisiblePages.
+	
+	firstVisiblePageIndex := virtualFirstVisiblePageIndex.
+	lastVisiblePageIndex := virtualLastVisiblePageIndex.
+
+	self invariant.
+	
+	virtualFirstVisiblePageIndex = nil.
+	virtualLastVisiblePageIndex = nil.
+	
+	notifyNumberOfVisiblePagesChanged ifTrue: [ self notifyNumberOfVisiblePagesChanged ].
+	self notifyScrollPositionChanged: true.
+	
 ]
 
 { #category : #scrolling }
-GLMPagerModel >> scrollTo: aFloat smooth: aBoolean [
-	self announcer announce: (GLMPagerScrolled new value: aFloat; smooth: aBoolean).
+GLMPagerModel >> scrollTo: aFloat smooth: isSmooth [
+	"notifies all listeners to scroll at the specified value"
+	
+	self privateRecomputeIndexesAfterScrollAt: aFloat.
+	self notifyScrollPositionChanged: isSmooth.
 ]
 
-{ #category : #panes }
+{ #category : #scrolling }
+GLMPagerModel >> scrollToPane: pageIndex [
+	"scrolls to specified pane specified by its index"
+
+	self scrollTo: (self convertIndexToValue: pageIndex) smooth: true.
+	
+]
+
+{ #category : #scrolling }
 GLMPagerModel >> scrollToRight: isSmooth [
-	"scrolls to the most right"
+	"notifies all listeners that it is time to scroll most right"
 
 	self scrollTo: 1.0 smooth: isSmooth
 ]
@@ -279,12 +421,14 @@ GLMPagerModel >> scrollToRight: isSmooth [
 { #category : #panes }
 GLMPagerModel >> selectToLeft [
 	"moves focus to left"
+	
 	self selectedPageIndex: (self selectedPageIndex - 1).
 ]
 
 { #category : #panes }
 GLMPagerModel >> selectToRight [
 	"moves focus to right"
+	
 	self selectedPageIndex: (self selectedPageIndex + 1).
 ]
 
@@ -295,69 +439,78 @@ GLMPagerModel >> selectedPageIndex [
 
 { #category : #accessing }
 GLMPagerModel >> selectedPageIndex: anIndex [
+	"changes current selected page and scrolls to it if necessary. Also if possible re-focused available morph"
 	
-	anIndex < 1 ifTrue: [ anIndex := 1 ].
-	anIndex > self pagesCount ifTrue: [ anIndex := self pagesCount ].
+	self invariant.
 	
-	(self selectedPageIndex = anIndex) not ifTrue: [
-		
-		(self isPaneVisible: anIndex) ifFalse: [
-			"we need to scroll if new focused page is invisible"
-			anIndex < self firstVisiblePageIndex
-				ifTrue: [
-					self switchPageTo: anIndex updateFocus: true updateSelection: true
-				]
-				ifFalse: [
-					self switchPageTo: (anIndex - self numberOfVisiblePages + 1) updateFocus: false updateSelection: false.
-					self updateFocus: anIndex.
-				].
-			^ self.
-		].
+	anIndex := self normalizePaneIndex: anIndex.
 	
-		selectedPageIndex  := anIndex.
-		self updateFocus: anIndex.	
-		self notifySelectedPageChanged.
+	(self isPaneVisible: anIndex) ifFalse: [
+		"we need to scroll if new selected page is invisible"
+		self scrollToPane: (anIndex < self firstVisiblePageIndex ifTrue: [ anIndex ] ifFalse: [(anIndex - self numberOfVisiblePages + 1)]).
 	].
 	
+	selectedPageIndex := anIndex.
+	self focusPaneAt: anIndex.
+	self notifySelectedPageChanged.
+
+	self invariant.
 ]
 
-{ #category : #'as yet unclassified' }
-GLMPagerModel >> switchPageTo: aNumber updateFocus: isUpdateFocus updateSelection: isUpdateSelection [
-	"accepts any garbage number, but can't scroll away from real bounds"
-	|pageIndex|
-	pageIndex := aNumber.
-	
-	aNumber + self numberOfVisiblePages - 1 > self pagesCount
-		ifTrue: [ aNumber :=  self pagesCount - self numberOfVisiblePages + 1].
-	
-	lastVisiblePageIndex := aNumber + self numberOfVisiblePages.
-	self privateFirstVisiblePageIndex: aNumber.
-	
-	"true means scrolling is smooth"
-	self notifyPageSwitched: pageIndex smooth: true.
-	
-	"update focus if true"
-	isUpdateFocus ifTrue: [ self updateFocus: pageIndex ].
-	
-	"update selected pane if true"
-	isUpdateSelection ifTrue: [
-		selectedPageIndex := pageIndex.
-		self notifySelectedPageChanged
-	].
+{ #category : #accessing }
+GLMPagerModel >> size [
+	^ pagesCount.
 ]
 
-{ #category : #focus }
-GLMPagerModel >> updateFocus: pageIndex [
+{ #category : #scrolling }
+GLMPagerModel >> switchPaneTo: anIndex [
+	"switches pane to specified. Works as scrollToPane, but additionaly selects and focuses that pane."
 	
-	( self isFocusedMorphVisibleAt: pageIndex ) ifTrue: [
-		focusedPageIndex := pageIndex.
-		(self focusedMorphAt: pageIndex) activeHand newKeyboardFocus: (self focusedMorphAt: pageIndex).
-		self notifyFocusedPageChanged.
-	].
+	self invariant.
+	
+	anIndex := self normalizePaneIndex: anIndex.
+	
+	self scrollToPane: anIndex.	
+	self focusPaneAt: anIndex.
+	
+	selectedPageIndex := anIndex.
+	self notifySelectedPageChanged.
+	
+	self invariant.
+]
+
+{ #category : #scrolling }
+GLMPagerModel >> synchronizeScrollTo: aValue [
+	
+	self notifySynchronizeScrollTo: aValue.
 ]
 
 { #category : #'as yet unclassified' }
 GLMPagerModel >> updatePreview: anIndex [
 
 	self announcer announce: (GLMPagerPreviewUpdate new pageIndex: anIndex )
+]
+
+{ #category : #private }
+GLMPagerModel >> virtualFirstVisiblePageIndex [
+	^ virtualFirstVisiblePageIndex
+]
+
+{ #category : #private }
+GLMPagerModel >> virtualFirstVisiblePageIndex: anIndex [
+
+	virtualFirstVisiblePageIndex := self normalizePaneIndex: anIndex.
+	
+]
+
+{ #category : #private }
+GLMPagerModel >> virtualLastVisiblePageIndex [
+
+	^ virtualLastVisiblePageIndex
+]
+
+{ #category : #private }
+GLMPagerModel >> virtualLastVisiblePageIndex: anIndex. [
+
+	virtualLastVisiblePageIndex := self normalizePaneIndex: anIndex.
 ]

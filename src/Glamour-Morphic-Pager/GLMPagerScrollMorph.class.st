@@ -19,12 +19,12 @@ GLMPagerScrollMorph >> adapter: anAdapter [
 	
 	adapter announcer weak
 		on: GLMPagePoped send: #onPagePoped to: self.
+						
+	adapter announcer weak
+		on: GLMPagerSynchronizeScrollAnnouncement send: #onSynchronizeScroll: to: self.
 		
-	adapter announcer weak
-		on: GLMPageSwitched send: #onPageSwitched: to: self.
-				
-	adapter announcer weak
-		on: GLMPagerScrolled send: #onScrolled: to: self.
+	adapter announcer weak 
+		on: GLMPagerScrollPositionChanged send: #onScrollPositionChanged: to: self.
 		
 	adapter announcer weak 
 		on: GLMNumberOfVisiblePagesChanged send: #onPagesNumberChanged to: self.
@@ -87,27 +87,18 @@ GLMPagerScrollMorph >> onPagePushed: pushedAnnouncement [
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerScrollMorph >> onPageSwitched: switchedAnnouncement [
-
-	adapter scrollTo: (self computeScrollValueToPaneByIndex: adapter firstVisiblePageIndex) smooth: switchedAnnouncement smooth.
-	
-]
-
-{ #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> onPagesNumberChanged [
 
 	self maxPanes: adapter numberOfVisiblePages.
 	self basicUpdateSizing.
 	self layoutPanes.
-	self scrollToPaneByIndex: adapter firstVisiblePageIndex smooth: false.
+	self scrollToPane: adapter firstVisiblePageIndex smooth: false.
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerScrollMorph >> onScrolled: scrolledAnnouncement [
+GLMPagerScrollMorph >> onScrollPositionChanged: announcement [
 
-	"directly scrolls to value"
-	self scrollTo: scrolledAnnouncement value smooth: scrolledAnnouncement smooth.
-	
+	self scrollToPane: adapter firstVisiblePageIndex smooth: announcement smooth.
 ]
 
 { #category : #'as yet unclassified' }
@@ -116,6 +107,14 @@ GLMPagerScrollMorph >> onSelectedPageChanged [
 	panes do: [ :each | each borderColor: Color transparent ].
 	
 	self theme pagerWidgetThemer selectedPaneStyleFor: (panes at: adapter selectedPageIndex)
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerScrollMorph >> onSynchronizeScroll: announcement [
+
+	"directly scrolls to value"
+	self scrollTo: announcement value smooth: false.
+	
 ]
 
 { #category : #'as yet unclassified' }
@@ -141,4 +140,17 @@ GLMPagerScrollMorph >> pageOf: aSubMorph [
 	
 	^ parent isNil ifTrue: [ 0 ] ifFalse: [ panes indexOf: page. ].
 	
+]
+
+{ #category : #scrolling }
+GLMPagerScrollMorph >> scrollTo: aValue smooth: isSmooth [
+
+ 	isSmooth ifTrue: [	self glmAnimateValue: aValue duration: 200]
+				ifFalse: [self scrollValue: aValue ].
+]
+
+{ #category : #scrolling }
+GLMPagerScrollMorph >> scrollToPane: anIndex smooth: isSmooth [
+
+	self scrollTo: (adapter convertIndexToValue: anIndex) smooth: isSmooth.
 ]

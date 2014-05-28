@@ -10,7 +10,8 @@ Class {
 		'isRightResizing',
 		'isLeftResizing',
 		'scrollResizingIcon',
-		'scrollSelectedIcon'
+		'scrollSelectedIcon',
+		'drawCache'
 	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
@@ -19,12 +20,12 @@ Class {
 GLMSlidingScrollMorph >> adapter: anAdapter [
 	
 	adapter := anAdapter.
-	
-	adapter announcer weak
-		on: GLMPagerScrolled send: #onScrolled: to: self.
-		
+			
 	adapter announcer weak 
 		on: GLMNumberOfVisiblePagesChanged send: #onResized to: self.
+		
+	adapter announcer weak 
+		on: GLMPagerScrollPositionChanged send: #onScrollPositionChanged: to: self.
 		
 	self width: self computeWidth.
 ]
@@ -40,11 +41,9 @@ GLMSlidingScrollMorph >> computeScrollValue: aNumber [
 	aNumber > maxLeft ifTrue: [ aNumber := maxLeft ].
 	
 	interval := owner width.
-	
-	self flag: 'TODO: DIRTY HACK'.
-	
+		
 	value := (interval = self width)
-		ifTrue: [ 1.0 ]
+		ifTrue: [ 0.0 ]
 		ifFalse: [ (aNumber - minLeft) / (interval - self width) ].
 	
 	^ value.
@@ -54,12 +53,11 @@ GLMSlidingScrollMorph >> computeScrollValue: aNumber [
 GLMSlidingScrollMorph >> computeWidth [
 	|width numberOfVisiblePages|
 
-	
 	width := adapter isNotNil
 		ifTrue: [
 			numberOfVisiblePages := adapter numberOfVisiblePages.
-			numberOfVisiblePages > adapter pagesCount
-				ifTrue: [ numberOfVisiblePages := adapter pagesCount ].
+			numberOfVisiblePages > adapter size
+				ifTrue: [ numberOfVisiblePages := adapter size ].
 			(adapter circleButtonInset + adapter circleButtonSize) * numberOfVisiblePages.
 		]
 		ifFalse: [ 0 ].
@@ -125,31 +123,11 @@ GLMSlidingScrollMorph >> dragSliding: evt [
 	newLeft := (evt position x - startDragX).
 	value := self computeScrollValue: newLeft.
 	
-	self notifyScrollBarValue: value.
+	self scrollTo: value.
+	self synchronizeScrollTo: value.
 ]
 
-{ #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> glmAnimateValue: aValue duration: anInteger [
-
-	anInteger <= 0
-		"if duration is zero, move to the left immediately"
-		ifTrue: [ self leftTo: aValue ]
-		ifFalse: [
-			| startTime start currentValue |
-			currentValue := self computeScrollValue: self bounds left.
-			startTime := Time millisecondClockValue.
-			start := currentValue.
-			[	| delta |
-				[ (delta := Time millisecondClockValue - startTime) < anInteger ] whileTrue: [
-					self leftTo: (aValue - start) * (delta / anInteger) + start.
-					Processor yield
-				].
-				self leftTo: aValue
-			] fork
-		]
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #'event-mouse' }
 GLMSlidingScrollMorph >> handleMouseOver: anEvent [
 	super handleMouseOver: anEvent.
 		
@@ -181,9 +159,11 @@ GLMSlidingScrollMorph >> initialize [
 	self image state normal: GLMUIThemeExtraIcons glamorousLargeGrayCircleEmphasized.
 	scrollResizingIcon := GLMUIThemeExtraIcons glamorousLargeGrayCircleEmphasized.
 	scrollSelectedIcon := GLMUIThemeExtraIcons glamorousLargeGrayCircleEmphasized.
+	
+	drawCache := Dictionary new.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event-mouse' }
 GLMSlidingScrollMorph >> isMouseEventInsideLeftResizingZone: evt [
 	|resizingRectangle bottom right|
 	
@@ -197,7 +177,7 @@ GLMSlidingScrollMorph >> isMouseEventInsideLeftResizingZone: evt [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event-mouse' }
 GLMSlidingScrollMorph >> isMouseEventInsideRightResizingZone: evt [
 	|resizingRectangle top left|
 	
@@ -209,21 +189,6 @@ GLMSlidingScrollMorph >> isMouseEventInsideRightResizingZone: evt [
 	^ resizingRectangle containsPoint: evt position.
 	
 	
-]
-
-{ #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> leftTo: aValue [
-	|left|
-	
-	left := (owner width - self width) * aValue.
-		
-	self layoutFrame: (
-		LayoutFrame 
-			fractions: (0 @ 0 corner: 0 @ 0)
-			offsets: (left @ 0 corner: (left + self width)@ self height)
-	).
-	
-	adapter notifyScrollerBoundsChanged: (owner left + left)@(owner left + left + self width).
 ]
 
 { #category : #'event-mouse' }
@@ -248,7 +213,7 @@ GLMSlidingScrollMorph >> mouseDown: evt [
 	super mouseDown: evt.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event-mouse' }
 GLMSlidingScrollMorph >> mouseLeave: evt [
 
 	self setCursorToNormal: evt.
@@ -271,46 +236,53 @@ GLMSlidingScrollMorph >> mouseMove: evt [
 GLMSlidingScrollMorph >> mouseUp: evt [
 	super mouseUp: evt.
 	
+	adapter recomputeState.
+	
 	isResizing
 		ifTrue: [
-			adapter numberOfVisiblePagesChanged ifFalse: [ self onResized ].
+			"adapter numberOfVisiblePagesChanged ifFalse: [ self onResized ]."
 		]
 		ifFalse: [
 			"smooth scrolling to fisrt visible page"
-			adapter switchPageTo: adapter firstVisiblePageIndex updateFocus: false updateSelection: false.
+			"adapter switchPageTo: adapter firstVisiblePageIndex updateFocus: false updateSelection: false."
 		].	
 	
 	isResizing := false.
 	
-	"setting selected image to default after resizie is complete"
+	"setting selected image to default after resize is complete"
 	self image state selected: scrollResizingIcon.
 	
 	(bounds containsPoint: evt position)
-		ifFalse: [ self setCursorToNormal: evt ] 
+		ifFalse: [ self setCursorToNormal: evt ]
+		ifTrue: [ self setCursorToResizing: evt ] 
 ]
 
-{ #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> notifyBoundsChanged [
+{ #category : #scrolling }
+GLMSlidingScrollMorph >> moveLeft: left [ "Integer - pixels"
 
-	adapter notifyScrollerBoundsChanged: (self left )@(self right).
+	"moves scrollbar inside parent to the specified left distance in pixels and notifies all listeners about that"
+	| right |
+	
+	right := left + self computeWidth.
+	
+	self layoutFrame: (
+		LayoutFrame 
+			fractions: (0 @ 0 corner: 0 @ 0)
+			offsets: (left @ 0 corner: right @ self height)
+	).
+	
+	adapter notifyScrollerBoundsChanged: (owner left + left )@(owner left + right).
 ]
 
-{ #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> notifyScrollBarValue: aFloat [
-
-	adapter scrollTo: aFloat smooth: false.
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #'announcement handling' }
 GLMSlidingScrollMorph >> onResized [
 	self setWidthAfterResizing.
 ]
 
 { #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> onScrolled: scrolledAnnouncement [
+GLMSlidingScrollMorph >> onScrollPositionChanged: announcement [
 
-	"directly scrolls to value"
-	self scrollTo: scrolledAnnouncement value smooth: scrolledAnnouncement smooth.
+	self scrollToPane: adapter firstVisiblePageIndex smooth: announcement smooth.
 ]
 
 { #category : #'as yet unclassified' }
@@ -321,16 +293,58 @@ GLMSlidingScrollMorph >> resizeCursor [
 
 { #category : #drawing }
 GLMSlidingScrollMorph >> resizeImage: anImage scale: aScale [
+	"uses drawCache to store already drawn slider image, so no need to redraw."
+	|form|
+	form := drawCache at: aScale ifAbsent: [ nil ].
+	
+	^ form ifNil: [
+		form := GLMForm scalePatchForm: anImage size: (aScale * anImage extent).
+		drawCache at: aScale put: form.
+		form yourself.
+	]
+]
 
-	^ GLMForm scalePatchForm: anImage size: (aScale * anImage extent)
+{ #category : #scrolling }
+GLMSlidingScrollMorph >> scrollTo: aFloat [ "Float - percentage/100"
+
+	"scrolls to a specified float number which must be in interval [0.0, 1.0]"
+
+	self moveLeft: (owner width - self width) * aFloat.
+]
+
+{ #category : #scrolling }
+GLMSlidingScrollMorph >> scrollTo: aValue duration: anInteger [
+
+	anInteger <= 0
+		"if duration is zero, move to the left immediately"
+		ifTrue: [ self scrollTo: aValue ]
+		ifFalse: [
+			| startTime start currentValue |
+			currentValue := self computeScrollValue: self bounds left.
+			startTime := Time millisecondClockValue.
+			start := currentValue.
+			[	| delta |
+				[ (delta := Time millisecondClockValue - startTime) < anInteger ] whileTrue: [
+					self scrollTo: ((aValue - start) * (delta / anInteger) + start).
+					Processor yield
+				].
+				self scrollTo: aValue.
+			] fork
+		]
 ]
 
 { #category : #scrolling }
 GLMSlidingScrollMorph >> scrollTo: aValue smooth: aBoolean [
 
 	aBoolean
-		ifTrue: [ self glmAnimateValue: aValue duration: 200 ]
-		ifFalse: [ self leftTo: aValue ] 
+		ifTrue: [ self scrollTo: aValue duration: 200 ]
+		ifFalse: [ self scrollTo: aValue ] 
+]
+
+{ #category : #scrolling }
+GLMSlidingScrollMorph >> scrollToPane: anIndex smooth: isSmooth [
+
+	self scrollTo: (adapter convertIndexToValue: anIndex) smooth: isSmooth.
 ]
 
 { #category : #'as yet unclassified' }
@@ -359,4 +373,10 @@ GLMSlidingScrollMorph >> setWidthAfterResizing [
 	).
 	
 	adapter notifyScrollerBoundsChanged: (owner left + left )@(owner left + right).
+]
+
+{ #category : #scrolling }
+GLMSlidingScrollMorph >> synchronizeScrollTo: aValue [
+
+	adapter synchronizeScrollTo: aValue.
 ]
