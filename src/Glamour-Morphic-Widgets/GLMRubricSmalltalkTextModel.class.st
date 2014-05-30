@@ -93,6 +93,12 @@ GLMRubricSmalltalkTextModel >> selectedBehavior [
 	^ self highlightSmalltalkContext
 ]
 
+{ #category : #accessing }
+GLMRubricSmalltalkTextModel >> selectedClassOrMetaClass [
+	
+	^ self selectedBehavior
+]
+
 { #category : #shout }
 GLMRubricSmalltalkTextModel >> shoutAboutToStyle: aPluggableShoutMorph [
 	self highlightSmalltalk ifFalse: [^ false].
