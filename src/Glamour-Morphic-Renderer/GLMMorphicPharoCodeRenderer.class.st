@@ -30,13 +30,17 @@ GLMMorphicPharoCodeRenderer >> actOnEvaluateSelection: ann [
 { #category : #callbacks }
 GLMMorphicPharoCodeRenderer >> debugSelection [
 
-	textMorph textArea editor debugIt
+	UIManager default defer: [ 
+		textMorph textArea editor debugIt ]
+	
 ]
 
 { #category : #callbacks }
 GLMMorphicPharoCodeRenderer >> evaluateAndPrintSelection [
 
-	textMorph textArea editor printIt
+	UIManager default defer: [ 
+		textMorph textArea editor printIt ]
+	
 ]
 
 { #category : #rendering }
