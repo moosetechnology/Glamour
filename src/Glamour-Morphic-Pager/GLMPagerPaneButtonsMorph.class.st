@@ -38,22 +38,7 @@ GLMPagerPaneButtonsMorph >> buttonCenterByIndex: aNumber [
 GLMPagerPaneButtonsMorph >> circleButtonClicked: clickedAnnouncement [
 
 	"notify adapter that we need to switch page"
-	adapter switchPaneTo: clickedAnnouncement buttonModel pageIndex.
-]
-
-{ #category : #'as yet unclassified' }
-GLMPagerPaneButtonsMorph >> circleButtonDeselected [
-
-	GLMPagerPanePreviewMorph uniqueInstance hideFromWorld.
-]
-
-{ #category : #'as yet unclassified' }
-GLMPagerPaneButtonsMorph >> circleButtonSelected: selectedAnnouncement [
-
-	"notify adapter that we need to update pane preview"
-	
-	GLMPagerPanePreviewMorph uniqueInstance showAt: (indicatorButtons at: selectedAnnouncement buttonModel pageIndex) bounds topCenter.
-	adapter updatePreview: selectedAnnouncement buttonModel pageIndex.
+	adapter switchPageTo: clickedAnnouncement buttonModel pageIndex updateFocus: true updateSelection: true.
 ]
 
 { #category : #'as yet unclassified' }
@@ -75,14 +60,13 @@ GLMPagerPaneButtonsMorph >> initialize [
 
 { #category : #'as yet unclassified' }
 GLMPagerPaneButtonsMorph >> markButtonsInside: aBounds [
-	""
 	|index boundsLeft boundsRight firstFound lastFound |	
 	
 	firstFound := false.
 	lastFound := false.
 	index := 0.
 	
-	(adapter size = 0) ifTrue: [ ^ self ].
+	(adapter pagesCount = 0) ifTrue: [ ^ self ].
 	boundsLeft := aBounds x.
 	boundsRight := aBounds y.
 	
@@ -90,11 +74,11 @@ GLMPagerPaneButtonsMorph >> markButtonsInside: aBounds [
 		|buttonCenter|
 		index := index + 1.
 		buttonCenter := self buttonCenterByIndex: index.
-		(boundsLeft <= buttonCenter ) & (boundsRight > buttonCenter)
+		(buttonCenter > boundsLeft) & (buttonCenter < boundsRight)
 			ifTrue: [
 				indicator buttonModel check.
 				firstFound ifFalse: [
-					adapter virtualFirstVisiblePageIndex: index.
+					adapter privateFirstVisiblePageIndex: index.
 					firstFound := true.
 				]
 			]
@@ -102,13 +86,13 @@ GLMPagerPaneButtonsMorph >> markButtonsInside: aBounds [
 				"uncheck only if not focused"
 				indicator isFocused ifFalse: [ indicator buttonModel uncheck ].
 				(firstFound & (lastFound = false)) ifTrue: [
-					adapter virtualLastVisiblePageIndex: index - 1.
+					adapter privateLastVisiblePageIndex: index - 1.
 					lastFound := true.
 				]
 			].
 	].
 	lastFound ifFalse: [
-		adapter virtualLastVisiblePageIndex: index.
+		adapter privateLastVisiblePageIndex: index.
 		lastFound := true.
 	]
 	
@@ -145,8 +129,6 @@ GLMPagerPaneButtonsMorph >> onPagePushed: addedAnnouncement [
 	
 	button buttonModel: (GLMPagerCircleButtonModel new pageIndex: indicatorButtons size).
 	button buttonModel on: GLMPagerButtonClicked send: #circleButtonClicked: to: self.
-	button buttonModel on: GLMPagerButtonSelected send: #circleButtonSelected: to: self.
-	button buttonModel on: GLMPagerButtonDeselected send: #circleButtonDeselected to: self.
 	button height: adapter circleButtonSize.
 	button width: adapter circleButtonSize.
 	
@@ -180,10 +162,8 @@ GLMPagerPaneButtonsMorph >> updateIndicatorButtons [
 	].
 
 	"then check only necessary"
-	adapter size > 0 ifTrue: [
-		indicatorButtons from: adapter firstVisiblePageIndex to: adapter lastVisiblePageIndex do: [ :indicator |
-			indicator buttonModel check.
-		]
+	indicatorButtons from: adapter firstVisiblePageIndex to: adapter lastVisiblePageIndex do: [ :indicator |
+		indicator buttonModel check.
 	]
 ]
 

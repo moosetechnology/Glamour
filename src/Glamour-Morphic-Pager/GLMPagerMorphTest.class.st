@@ -49,6 +49,16 @@ GLMPagerMorphTest >> tearDown [
 ]
 
 { #category : #tests }
+GLMPagerMorphTest >> testOpenWithEmptyPanes [
+
+	self should: [ pagerMorph openInWorld ] raise: Error.
+	
+
+	
+
+]
+
+{ #category : #tests }
 GLMPagerMorphTest >> testPushPanesAfterOpen [
 
 	pagerModel pushPane: self createSimplePaneMorph smooth: false.
@@ -56,7 +66,7 @@ GLMPagerMorphTest >> testPushPanesAfterOpen [
 	pagerModel pushPane: self createSimplePaneMorph smooth: false.
 	pagerModel pushPane: self createSimplePaneMorph smooth: false.
 	
-	self assert: pagerModel size equals: 3.
+	self assert: pagerModel pagesCount equals: 3.
 	self assert: self panesMorphs size equals: 3.
 	self assert: self buttonsMorphs size equals: 3.
 	
@@ -73,7 +83,7 @@ GLMPagerMorphTest >> testPushPanesBeforeOpen [
 
 	self openInWindow.
 	
-	self assert: pagerModel size equals: 3.
+	self assert: pagerModel pagesCount equals: 3.
 	self assert: self panesMorphs size equals: 3.
 	self assert: self buttonsMorphs size equals: 3.
 	

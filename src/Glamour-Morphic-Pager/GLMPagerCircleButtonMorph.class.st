@@ -1,21 +1,3 @@
-"
-A GLMPagerCircleButtonMorph is a grey circle representing one pane in the pager.
-
-Instance Variables
-	checkedFocusedIcon:		<Form>
-	checkedIcon:			<Form>
-	focused:					<Form>
-
-checkedFocusedIcon
-	- which icon will be used for focused+checked state
-
-checkedIcon
-	- which icon will be used for checked state
-
-focused
-	- which icon will be used for focused state
-
-"
 Class {
 	#name : #GLMPagerCircleButtonMorph,
 	#superclass : #GLMButton,

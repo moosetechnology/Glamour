@@ -173,11 +173,6 @@ GLMPageScroller >> maxPanes: anInteger [
 	maxPanes := anInteger
 ]
 
-{ #category : #accessing }
-GLMPageScroller >> paneAt: anIndex [
-	^ self panes at: anIndex.
-]
-
 { #category : #layout }
 GLMPageScroller >> paneCount [
 	^ paneCount
@@ -192,7 +187,6 @@ GLMPageScroller >> paneHeight [
 GLMPageScroller >> paneWidthsToFit: limit [
 	| padded |
 	padded := Array new: self paneCount.
-	self paneCount = 0 ifTrue: [ ^ padded ].
 	padded atAllPut: (limit / self sizing) floor.
 	(1 to: limit - padded sum) do: [:i | padded at: i put: (padded at: i) + 1].
 	^ padded
@@ -255,6 +249,18 @@ GLMPageScroller >> pushPane: aMorph [
 	panes addLast: aMorph.
 	paneCount := paneCount + 1.
 	self updatePanes
+]
+
+{ #category : #scrolling }
+GLMPageScroller >> scrollTo: aValue smooth: aBoolean [
+ 	aBoolean ifTrue: [	self glmAnimateValue: aValue duration: 200]
+				ifFalse: [self scrollValue: aValue ].
+]
+
+{ #category : #'as yet unclassified' }
+GLMPageScroller >> scrollToPaneByIndex: aNumber smooth: aBoolean [
+
+	self scrollTo: (self computeScrollValueToPaneByIndex: aNumber) smooth: aBoolean.
 ]
 
 { #category : #scrolling }
