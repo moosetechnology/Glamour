@@ -35,6 +35,7 @@ GLMMorphicRubricTextRenderer >> morph [
 	^ RubScrolledTextMorph new
 		getSelectionSelector: #primarySelectionInterval;
 		model: textModel;
+		color: Smalltalk ui theme windowColor;
 		yourself
 ]
 

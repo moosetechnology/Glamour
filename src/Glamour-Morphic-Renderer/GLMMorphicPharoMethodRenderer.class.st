@@ -26,5 +26,6 @@ GLMMorphicPharoMethodRenderer >> morph [
 	^ RubScrolledTextMorph new
 		beForSmalltalkCode;
 		model: textModel;
+		color: Smalltalk ui theme windowColor;
 		yourself
 ]
