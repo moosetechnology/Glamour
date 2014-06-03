@@ -1208,7 +1208,7 @@ ConfigurationOfGlamour >> baseline29: spec [
 			package: 'Glamour-Morphic-Widgets' with: [spec requires: 'Spotlight2'];
 			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core')];
 			package: 'Glamour-Morphic-Pager' with: [spec requires: #('Glamour-Morphic-Renderer')];
-			package: 'Glamour-Morphic-Theme';
+			package: 'Glamour-Morphic-Theme' with: [spec requires: 'Rubric'];
 			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
 			package: 'Glamour-Examples' with: [spec requires: #('Glamour-Tools')];
 			package: 'Glamour-Tools' with: [spec requires: #('Glamour-Core')];
