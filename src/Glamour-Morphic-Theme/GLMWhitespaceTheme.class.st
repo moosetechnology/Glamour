@@ -919,6 +919,11 @@ GLMWhitespaceTheme >> resizerGripNormalFillStyleFor: aResizer [
 	^SolidFillStyle color: Color red"
 ]
 
+{ #category : #themers }
+GLMWhitespaceTheme >> rubScrolledTextMorphThemer [
+	^ RubScrolledTextMorphThemerForGLMWhitespaceTheme new
+]
+
 { #category : #scrollbars }
 GLMWhitespaceTheme >> scrollbarArrowOfDirection: aSymbol size: finalSizeInteger color: aColor [
 	^ Form extent: 1@1
