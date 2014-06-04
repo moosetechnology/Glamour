@@ -1,3 +1,7 @@
+"
+PNGReadWriter putForm: GLMUIThemeExtraIcons glamorousGrayCircle onFileNamed: 'glamorousGrayCircle.png'.
+
+"
 Class {
 	#name : #GLMForm,
 	#superclass : #Object,
