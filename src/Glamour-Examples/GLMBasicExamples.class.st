@@ -886,10 +886,9 @@ GLMBasicExamples >> simpleTableWithSorting [
 				evaluated: [ :each | each asString ] 
 				tags: [:item | item even ifTrue: ['even'] ifFalse: ['odd'] ]
 				sortedBy: [ :x :y | x > y ] ;
-			column: 'Base 16 (alfabetic ascending sort)' 
+			column: 'Base 16 (default alfabetic ascending sort)' 
 				evaluated: [ :each | each printStringBase: 16 ]
-				tags: [:item | item < 7 ifTrue: ['<7'] ifFalse: ['>=7' ] ]
-				sortedBy: [ :x :y | x asString < y asString ] ].
+				tags: [:item | item < 7 ifTrue: ['<7'] ifFalse: ['>=7' ] ] ].
 
 	^ browser
 ]
