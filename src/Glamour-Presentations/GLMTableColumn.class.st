@@ -16,7 +16,8 @@ Class {
 		'width',
 		'tagsBlock',
 		'tagsFilterBlock',
-		'sortBlock'
+		'sortBlock',
+		'defaultSortBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -29,6 +30,18 @@ GLMTableColumn >> computation [
 { #category : #accessing }
 GLMTableColumn >> computation: anObject [
 	computation := anObject
+]
+
+{ #category : #accessing }
+GLMTableColumn >> defaultSortBlockForPresentation: aGlamourPresentation [
+	
+	^ [ :x :y | 		
+			(aGlamourPresentation
+				column: self 
+				valueFor: x) asString <
+			(aGlamourPresentation 
+				column: self 
+				valueFor: y) asString ] 
 ]
 
 { #category : #accessing }
