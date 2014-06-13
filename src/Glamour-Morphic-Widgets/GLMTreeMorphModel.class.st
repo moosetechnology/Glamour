@@ -16,7 +16,7 @@ Class {
 		'inputText',
 		'amountToFilterBy',
 		'defaultPageSize',
-		'columnSortBlock'
+		'columnToSortBy'
 	],
 	#category : #'Glamour-Morphic-Widgets'
 }
@@ -93,9 +93,9 @@ GLMTreeMorphModel >> displayFormat: aBlock [
 { #category : #accessing }
 GLMTreeMorphModel >> displayValue [
 	
-	^ columnSortBlock 
+	^ columnToSortBy 
 		ifNil: [self glamourPresentation displayValue]
-		ifNotNil: [self glamourPresentation displayValue sorted: columnSortBlock]
+		ifNotNil: [self glamourPresentation displayValue sorted: self sortBlock]
 ]
 
 { #category : #'search and filtering' }
@@ -320,11 +320,20 @@ GLMTreeMorphModel >> shouldFilterByTextInput [
 ]
 
 { #category : #callbacks }
+GLMTreeMorphModel >> sortBlock [
+
+	^ columnToSortBy sortBlock 
+		ifNotNil: [ :aBlock | aBlock ]
+		ifNil: [ 
+			columnToSortBy defaultSortBlockForPresentation: self glamourPresentation ]
+]
+
+{ #category : #callbacks }
 GLMTreeMorphModel >> sortByColumn: aGlamourColumn [
 
-	columnSortBlock == aGlamourColumn sortBlock
-		ifTrue: [ columnSortBlock := nil ]
-		ifFalse: [ columnSortBlock := aGlamourColumn sortBlock ].
+	columnToSortBy := (columnToSortBy == aGlamourColumn 
+		ifTrue: [ nil ]
+		ifFalse: [ aGlamourColumn ]).
 	self updateRoots
 ]
 
