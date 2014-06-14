@@ -20,6 +20,16 @@ GLMPort >> hasPane [
 	^ false
 ]
 
+{ #category : #testing }
+GLMPort >> isEntityPort [
+	^ self name = #entity
+]
+
+{ #category : #testing }
+GLMPort >> isSelectionPort [
+	^ self name = #selection
+]
+
 { #category : #accessing }
 GLMPort >> name [ 
 	 

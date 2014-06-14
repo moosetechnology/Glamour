@@ -49,6 +49,16 @@ GLMPortEvent >> initializeOn: aPort previouslyValued: anObject in: aTransmission
 	transmissionContext := aTransmissionContext
 ]
 
+{ #category : #testing }
+GLMPortEvent >> isEntityPort [
+	^ self port isEntityPort
+]
+
+{ #category : #testing }
+GLMPortEvent >> isSelectionPort [
+	^ self port isSelectionPort
+]
+
 { #category : #accessing }
 GLMPortEvent >> oldValue [ 
 	 
