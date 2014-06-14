@@ -99,11 +99,11 @@ GLMFinder >> hasFixedSizePanes: aBoolean [
 
 { #category : #events }
 GLMFinder >> innerPortEvent: aPortEvent [ 
-	aPortEvent portName = #entity ifFalse: [
+	aPortEvent isEntityPort ifFalse: [
 		"We don't want to resend the transmission, but use a new SimpleTransmission." 
 		(self pane port: aPortEvent portName) value: aPortEvent value]. 
 
-	aPortEvent port name = #selection ifTrue: [
+	aPortEvent isSelectionPort ifTrue: [
 		| index toReplace |
 		index := self panes reversed indexOf: aPortEvent pane.
 		(self panes reversed first: index - 2) do: [ :each |  
