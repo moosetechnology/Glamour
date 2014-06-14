@@ -1,26 +1,26 @@
 Class {
-	#name : #GLMMorphicPagerFinderRenderer,
+	#name : #GLMMorphicPagerRenderer,
 	#superclass : #GLMMorphicFinderRenderer,
 	#category : #'Glamour-Morphic-Pager-Glamour'
 }
 
 { #category : #'as yet unclassified' }
-GLMMorphicPagerFinderRenderer >> actOnPaneAdded: ann [
+GLMMorphicPagerRenderer >> actOnPaneAdded: ann [
 	container pushPane: (self renderObject: ann pane).
 ]
 
 { #category : #'as yet unclassified' }
-GLMMorphicPagerFinderRenderer >> actOnPaneRemoved: ann [
+GLMMorphicPagerRenderer >> actOnPaneRemoved: ann [
 	container popPane
 ]
 
 { #category : #'as yet unclassified' }
-GLMMorphicPagerFinderRenderer >> actOnPaneReplaced: ann [
+GLMMorphicPagerRenderer >> actOnPaneReplaced: ann [
 	container popAndReplacePane: (self renderObject: ann newPane)
 ]
 
 { #category : #'as yet unclassified' }
-GLMMorphicPagerFinderRenderer >> render: aBrowser [
+GLMMorphicPagerRenderer >> render: aBrowser [
 	container := GLMPagerMorph new
 		name: 'scroller';
 		vResizing: #spaceFill;
