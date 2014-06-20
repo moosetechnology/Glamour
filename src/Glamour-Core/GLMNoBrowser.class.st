@@ -39,3 +39,7 @@ GLMNoBrowser class >> uniqueInstance [
 GLMNoBrowser >> innerPortEvent: aPortEvent [ 
 	"Needed for simulating a browser"
 ]
+
+{ #category : #accessing }
+GLMNoBrowser >> lastActivePresentation: aPresentation [
+]
