@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #rendering }
+GLMMorphicTabbedRenderer >> actOnContextChanged: ann [
+	ann property = #activePresentation ifTrue: [ 
+		tabs announcer suspendAllWhile: [ tabs selectedPageIndex: (ann presentation matchingPresentations indexOf: ann value) ] ]
+]
+
+{ #category : #rendering }
 GLMMorphicTabbedRenderer >> actOnPresentationUpdated: ann [
 	| index presentations |
 	presentations := ann presentation matchingPresentations.
@@ -54,6 +60,7 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 			(aPresentation pane isLastActivePresentation: each)
 				ifTrue: [ index := i ] ].
 	tabs announcer suspendAllWhile: [ tabs selectedPageIndex: index ].
+	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
 	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
 	^ tabs
 ]
