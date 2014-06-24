@@ -47,7 +47,7 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 		font: self theme buttonFont.
 	tabs announcer
 		when: LazyTabPageChanged
-		do: [ :ann | aPresentation pane lastActivePresentation: (aPresentation matchingPresentations at: ann pageIndex) ].
+		do: [ :ann | aPresentation announcer suspendAllWhile: [ aPresentation  pane lastActivePresentation: (aPresentation matchingPresentations at: ann pageIndex) ]].
 	presentations
 		do: [ :each | 
 			tabs
