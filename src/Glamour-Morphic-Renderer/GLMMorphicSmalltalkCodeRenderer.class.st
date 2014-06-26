@@ -103,7 +103,7 @@ GLMMorphicSmalltalkCodeRenderer >> textMorphForModel: aTextModel [
 		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
-		color: Smalltalk ui theme windowColor;
+		color: Smalltalk ui theme backgroundColor;
 		font: StandardFonts codeFont;
 		yourself.
 	^ morph

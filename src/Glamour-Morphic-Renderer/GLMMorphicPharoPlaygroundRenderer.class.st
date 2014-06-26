@@ -27,7 +27,7 @@ GLMMorphicPharoPlaygroundRenderer >> morph [
 	^ RubScrolledTextMorph new
 		model: textModel;
 		beForSmalltalkScripting;
-		color: Smalltalk ui theme windowColor;
+		color: Smalltalk ui theme backgroundColor;
 		yourself
 ]
 
