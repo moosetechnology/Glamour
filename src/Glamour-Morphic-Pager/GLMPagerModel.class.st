@@ -526,7 +526,7 @@ GLMPagerModel >> virtualFirstVisiblePageIndex [
 
 { #category : #private }
 GLMPagerModel >> virtualFirstVisiblePageIndex: anIndex [
-	Transcript show: 'first: ',anIndex asString; cr.
+
 	virtualFirstVisiblePageIndex := self normalizePaneIndex: anIndex.
 	
 ]
@@ -540,6 +540,5 @@ GLMPagerModel >> virtualLastVisiblePageIndex [
 { #category : #private }
 GLMPagerModel >> virtualLastVisiblePageIndex: anIndex. [
 
-	Transcript show: 'last: ',anIndex asString; cr.
 	virtualLastVisiblePageIndex := self normalizePaneIndex: anIndex.
 ]
