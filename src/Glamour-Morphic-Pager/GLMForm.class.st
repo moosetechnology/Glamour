@@ -11,6 +11,8 @@ Class {
 { #category : #'as yet unclassified' }
 GLMForm class >> increaseFormExtentCentered: aForm to: aPoint [
 	| icon rect destination |
+	
+	aForm ifNil: [ ^ nil ].
 	rect := Rectangle origin: 0@0 extent: aPoint.
 	destination := (rect extent - aForm extent) / 2.
 	icon := (Form extent: rect extent depth: aForm depth).
@@ -20,12 +22,16 @@ GLMForm class >> increaseFormExtentCentered: aForm to: aPoint [
 
 { #category : #'as yet unclassified' }
 GLMForm class >> scaleForm: aForm by: aPoint [
+
+	aForm ifNil: [ ^ nil ].
 	^ aForm magnify: aForm boundingBox by: aPoint smoothing: 2
 ]
 
 { #category : #'as yet unclassified' }
 GLMForm class >> scaleForm: aForm to: aPoint [
 	|scaleX scaleY|
+	
+	aForm ifNil: [ ^ nil ].
 	scaleX := aPoint x / aForm width.
 	scaleY := aPoint y / aForm height.
 	^ self scaleForm: aForm by: scaleX @ scaleY.
@@ -47,6 +53,8 @@ form := PatchForm scaleForm: form by: (800/(form extent x))@(800/(form extent y)
 	"
 	
 	|x0 x1 y0 y1 width height newForm tmpForm color bottomHeight rightWidth newMiddleWidth newMiddleHeight|
+	
+	aForm ifNil: [ ^ nil ].
 	
 	color := Color red.
 	x0 := x1 := y0 := y1 := 0.

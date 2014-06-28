@@ -1,5 +1,5 @@
 Class {
-	#name : #GLMPagerCircleButtonModel,
+	#name : #GLMPagerScrollButtonModel,
 	#superclass : #GLMPagerButtonModel,
 	#instVars : [
 		'pageIndex'
@@ -8,11 +8,11 @@ Class {
 }
 
 { #category : #accessing }
-GLMPagerCircleButtonModel >> pageIndex [
+GLMPagerScrollButtonModel >> pageIndex [
 	^ pageIndex
 ]
 
 { #category : #accessing }
-GLMPagerCircleButtonModel >> pageIndex: anObject [
+GLMPagerScrollButtonModel >> pageIndex: anObject [
 	pageIndex := anObject
 ]

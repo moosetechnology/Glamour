@@ -17,7 +17,7 @@ focused
 
 "
 Class {
-	#name : #GLMPagerCircleButtonMorph,
+	#name : #GLMPagerScrollButtonMorph,
 	#superclass : #GLMButton,
 	#instVars : [
 		'checkedIcon',
@@ -28,37 +28,40 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMPagerCircleButtonMorph >> checkedFocusedIcon: aForm [
+GLMPagerScrollButtonMorph >> checkedFocusedIcon [
+	^ checkedFocusedIcon
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerScrollButtonMorph >> checkedFocusedIcon: aForm [
 	checkedFocusedIcon := aForm.
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerCircleButtonMorph >> checkedIcon: aForm [
+GLMPagerScrollButtonMorph >> checkedIcon [
+	^ checkedIcon
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerScrollButtonMorph >> checkedIcon: aForm [
 	checkedIcon := aForm.
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerCircleButtonMorph >> initialize [
+GLMPagerScrollButtonMorph >> initialize [
 	super initialize.
 	
 	self label: ''.
-	
-	checkedIcon := GLMUIThemeExtraIcons glamorousGrayCircleEmpty.
-	checkedFocusedIcon := GLMUIThemeExtraIcons glamorousGrayCircle.
 	focused := false.
-	
-	self image state normal: GLMUIThemeExtraIcons glamorousGrayCircleEmpty.
-	self image state selected: GLMUIThemeExtraIcons glamorousGrayCircle.
-	self image state checked: checkedIcon.
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerCircleButtonMorph >> isFocused [
+GLMPagerScrollButtonMorph >> isFocused [
 	^ focused
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerCircleButtonMorph >> setFocused [
+GLMPagerScrollButtonMorph >> setFocused [
 
 	focused ifFalse: [
 		self image state checked: checkedFocusedIcon.
@@ -68,7 +71,7 @@ GLMPagerCircleButtonMorph >> setFocused [
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerCircleButtonMorph >> setNotFocused [
+GLMPagerScrollButtonMorph >> setNotFocused [
 
 	focused ifTrue: [
 		self image state checked: checkedIcon.

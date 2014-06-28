@@ -8,7 +8,7 @@ Class {
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMPagerPaneButtonsMorph >> adapter: anAdapter [
 	
 	adapter := anAdapter.
@@ -25,8 +25,8 @@ GLMPagerPaneButtonsMorph >> adapter: anAdapter [
 	self updateIndicatorButtons.
 ]
 
-{ #category : #'as yet unclassified' }
-GLMPagerPaneButtonsMorph >> addCircleButton: aMorph [
+{ #category : #adding }
+GLMPagerPaneButtonsMorph >> addScrollButton: aMorph [
 	self addMorphBack: aMorph.
 ]
 
@@ -38,29 +38,7 @@ GLMPagerPaneButtonsMorph >> buttonCenterByIndex: aNumber [
 	^ left + ( ( aNumber - 1 ) * ( width ) ) + ( width / 2 ).
 ]
 
-{ #category : #'as yet unclassified' }
-GLMPagerPaneButtonsMorph >> circleButtonClicked: clickedAnnouncement [
-
-	"notify adapter that we need to switch page"
-	adapter switchPaneTo: clickedAnnouncement buttonModel pageIndex.
-]
-
-{ #category : #'as yet unclassified' }
-GLMPagerPaneButtonsMorph >> circleButtonDeselected [
-
-	GLMPagerPanePreviewMorph uniqueInstance hideFromWorld.
-]
-
-{ #category : #'as yet unclassified' }
-GLMPagerPaneButtonsMorph >> circleButtonSelected: selectedAnnouncement [
-
-	"notify adapter that we need to update pane preview"
-	
-	GLMPagerPanePreviewMorph uniqueInstance showAt: (indicatorButtons at: selectedAnnouncement buttonModel pageIndex) bounds topCenter.
-	adapter updatePreview: selectedAnnouncement buttonModel pageIndex.
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GLMPagerPaneButtonsMorph >> initialize [
 	super initialize.
 		
@@ -77,8 +55,8 @@ GLMPagerPaneButtonsMorph >> initialize [
 	indicatorButtons := OrderedCollection new.
 ]
 
-{ #category : #'as yet unclassified' }
-GLMPagerPaneButtonsMorph >> isCircleMustBeChecked: anIndex withLeft: leftBound andRight: rightBound [
+{ #category : #testing }
+GLMPagerPaneButtonsMorph >> isScrollMustBeChecked: anIndex withLeft: leftBound andRight: rightBound [
 	| buttonCenter |
 	
 	buttonCenter := self buttonCenterByIndex: anIndex.
@@ -100,7 +78,7 @@ GLMPagerPaneButtonsMorph >> markButtonsInside: aBounds [
 	
 	indicatorButtons do: [ :indicator |
 		index := index + 1.
-		(self isCircleMustBeChecked: index withLeft: boundsLeft andRight: boundsRight)
+		(self isScrollMustBeChecked: index withLeft: boundsLeft andRight: boundsRight)
 			ifTrue: [
 				indicator buttonModel check.
 				firstFound ifFalse: [
@@ -142,7 +120,7 @@ GLMPagerPaneButtonsMorph >> onPagePoped [
 	indicatorButtons removeLast.
 	button announcer unsubscribe: self.
 	
-	self removeCircleButton: button.
+	self removeScrollButton: button.
 	self updateIndicatorButtons.
 ]
 
@@ -150,25 +128,25 @@ GLMPagerPaneButtonsMorph >> onPagePoped [
 GLMPagerPaneButtonsMorph >> onPagePushed: addedAnnouncement [
 	|button|
 	
-	button := GLMPagerCircleButtonMorph new.
+	button := GLMPagerScrollButtonMorph new.
 	indicatorButtons addLast: button.
 	
-	button buttonModel: (GLMPagerCircleButtonModel new pageIndex: indicatorButtons size).
-	button buttonModel on: GLMPagerButtonClicked send: #circleButtonClicked: to: self.
-	button buttonModel on: GLMPagerButtonSelected send: #circleButtonSelected: to: self.
-	button buttonModel on: GLMPagerButtonDeselected send: #circleButtonDeselected to: self.
-	adapter circleButtonIconRenderBlock ifNotNil: [ 
-		button image state normal: (adapter circleButtonIconRenderBlock value: indicatorButtons size).
-		button image state selected: (adapter circleButtonIconRenderBlock value: indicatorButtons size).
-		button image state checked: (adapter circleButtonIconRenderBlock value: indicatorButtons size).
-		button checkedIcon: (adapter circleButtonIconRenderBlock value: indicatorButtons size).
-		button checkedFocusedIcon: (adapter circleButtonIconRenderBlock value: indicatorButtons size).
+	button buttonModel: (GLMPagerScrollButtonModel new pageIndex: indicatorButtons size).
+	button buttonModel on: GLMPagerButtonClicked send: #scrollButtonClicked: to: self.
+	button buttonModel on: GLMPagerButtonSelected send: #scrollButtonSelected: to: self.
+	button buttonModel on: GLMPagerButtonDeselected send: #scrollButtonDeselected to: self.
+	
+	adapter scrollButtonIconRenderBlock ifNotNil: [
+		self renderCustomScrollButtonIcons: (adapter scrollButtonIconRenderBlock value: indicatorButtons size) for: button.
+	]	ifNil: [ 
+		GLMPagerWidgetThemer new defaultScrollButtonStyleFor: button.
 	].
+	
 	
 	button height: adapter circleButtonSize.
 	button width: adapter circleButtonSize.
 	
-	self addCircleButton: button.
+	self addScrollButton: button.
 	
 	(indicatorButtons size = 1) ifTrue: [ self updateIndicatorButtonsFocus ].
 		
@@ -189,9 +167,57 @@ GLMPagerPaneButtonsMorph >> onScrollBoundsChanged: boundsChangedAnnouncement [
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerPaneButtonsMorph >> removeCircleButton: aButton [
+GLMPagerPaneButtonsMorph >> removeScrollButton: aButton [
 
 	self removeMorph: aButton.
+]
+
+{ #category : #testing }
+GLMPagerPaneButtonsMorph >> renderCustomScrollButtonIcons: anIcons for: aButton [
+	| normalIcon focusedIcon source iconSize|
+	anIcons isCollection ifTrue: [
+		normalIcon := anIcons first.
+		focusedIcon := anIcons second.
+	] ifFalse: [
+		normalIcon := anIcons.
+	].
+
+	iconSize := adapter circleButtonSize @ adapter circleButtonSize.
+	
+	source := GLMForm scaleForm: normalIcon to: iconSize / 1.6.
+	normalIcon := GLMForm increaseFormExtentCentered: source to: iconSize.
+	
+	source := GLMForm scaleForm: focusedIcon to: iconSize / 1.6.
+	focusedIcon := GLMForm increaseFormExtentCentered: source to: iconSize.
+	
+	aButton checkedIcon: normalIcon.
+	aButton checkedFocusedIcon: focusedIcon.
+	
+	aButton image state normal: normalIcon.
+	aButton image state selected: focusedIcon.
+	aButton image state checked: aButton checkedIcon.
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerPaneButtonsMorph >> scrollButtonClicked: clickedAnnouncement [
+
+	"notify adapter that we need to switch page"
+	adapter switchPaneTo: clickedAnnouncement buttonModel pageIndex.
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerPaneButtonsMorph >> scrollButtonDeselected [
+
+	GLMPagerPanePreviewMorph uniqueInstance hideFromWorld.
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerPaneButtonsMorph >> scrollButtonSelected: selectedAnnouncement [
+
+	"notify adapter that we need to update pane preview"
+	
+	GLMPagerPanePreviewMorph uniqueInstance showAt: (indicatorButtons at: selectedAnnouncement buttonModel pageIndex) bounds topCenter.
+	adapter updatePreview: selectedAnnouncement buttonModel pageIndex.
 ]
 
 { #category : #'as yet unclassified' }
@@ -224,7 +250,7 @@ GLMPagerPaneButtonsMorph >> updateIndicatorButtonsFocus [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #geometry }
 GLMPagerPaneButtonsMorph >> width [
 	|width|
 	width := adapter isNotNil

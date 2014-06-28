@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMPagerPaneDependencyButtonsMorph >> addCircleButton: aMorph [
+GLMPagerPaneDependencyButtonsMorph >> addScrollButton: aMorph [
 	|arrowScaleMultiplier|
 	arrowScaleMultiplier := 2.
 	
@@ -13,7 +13,7 @@ GLMPagerPaneDependencyButtonsMorph >> addCircleButton: aMorph [
 		self addMorphBack: (ImageMorph new image: (GLMForm increaseFormExtentCentered: (GLMForm scaleForm: GLMUIThemeExtraIcons glamorousPlay to: (adapter dependencyButtonSize @ self height) / arrowScaleMultiplier ) to: (adapter dependencyButtonSize @ self height)))
 	].
 	
-	super addCircleButton: aMorph.
+	super addScrollButton: aMorph.
 ]
 
 { #category : #'as yet unclassified' }
@@ -25,13 +25,13 @@ GLMPagerPaneDependencyButtonsMorph >> buttonCenterByIndex: aNumber isLeft: isLef
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerPaneDependencyButtonsMorph >> isCircleMustBeChecked: anIndex withLeft: leftBound andRight: rightBound [
+GLMPagerPaneDependencyButtonsMorph >> isScrollMustBeChecked: anIndex withLeft: leftBound andRight: rightBound [
 
 	^ (leftBound <= (self buttonCenterByIndex: anIndex isLeft: true) ) & (rightBound > (self buttonCenterByIndex: anIndex isLeft: false))
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerPaneDependencyButtonsMorph >> removeCircleButton: aButton [
+GLMPagerPaneDependencyButtonsMorph >> removeScrollButton: aButton [
 
 	self removeMorph: aButton.
 	

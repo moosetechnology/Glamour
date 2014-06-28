@@ -12,7 +12,7 @@ Class {
 		'focusedPageIndex',
 		'virtualFirstVisiblePageIndex',
 		'virtualLastVisiblePageIndex',
-		'circleButtonIconRenderBlock'
+		'scrollButtonIconRenderBlock'
 	],
 	#category : #'Glamour-Morphic-Pager-Model'
 }
@@ -35,16 +35,6 @@ GLMPagerModel >> assignFocusableMorph: aMorph withPaneAt: paneIndex [
 	"assigns previosely focused morph with corresponding pane"
 	
 	focusedMorphs at: paneIndex put: aMorph.
-]
-
-{ #category : #accessing }
-GLMPagerModel >> circleButtonIconRenderBlock [
-	^ circleButtonIconRenderBlock
-]
-
-{ #category : #accessing }
-GLMPagerModel >> circleButtonIconRenderBlock: anObject [
-	circleButtonIconRenderBlock := anObject
 ]
 
 { #category : #accessing }
@@ -199,11 +189,6 @@ GLMPagerModel >> invariant [
 		self actualNumberOfVisiblePages = 0 ifFalse: [ GLMPagerException signal: 'Actual number of visible pages must be 0 if there is no pages' ].
 		selectedPageIndex = 0 ifFalse: [ GLMPagerException signal: 'Selected page index must be 0 if number of pages is 0' ].
 	]
-]
-
-{ #category : #accessing }
-GLMPagerModel >> isClassIconShown [
-	^ false
 ]
 
 { #category : #initialization }
@@ -421,6 +406,16 @@ GLMPagerModel >> recomputeState [
 	notifyNumberOfVisiblePagesChanged ifTrue: [ self notifyNumberOfVisiblePagesChanged ].
 	self notifyScrollPositionChanged: true.
 	
+]
+
+{ #category : #accessing }
+GLMPagerModel >> scrollButtonIconRenderBlock [
+	^ scrollButtonIconRenderBlock
+]
+
+{ #category : #accessing }
+GLMPagerModel >> scrollButtonIconRenderBlock: anObject [
+	scrollButtonIconRenderBlock := anObject
 ]
 
 { #category : #scrolling }
