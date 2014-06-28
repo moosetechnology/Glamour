@@ -1,10 +1,10 @@
 Class {
 	#name : #GLMRoassalPresentationExample,
 	#superclass : #Object,
-	#category : #'Glamour-Examples'
+	#category : #'Glamour-Roassal-Presentations'
 }
 
-{ #category : #'*glamour-roassal-presentations' }
+{ #category : #'as yet unclassified' }
 GLMRoassalPresentationExample >> roassalDirect [
 	"self new roassalDirect openOn: (1 to: 20)"
 
