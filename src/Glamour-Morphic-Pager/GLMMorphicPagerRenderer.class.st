@@ -33,7 +33,10 @@ GLMMorphicPagerRenderer >> defaultScrollButtonIconRenderBlock [
 GLMMorphicPagerRenderer >> render: aBrowser [
 	|adapter|
 	adapter := GLMPagerModel new.
-	adapter circleButtonIconRenderBlock: aBrowser scrollButtonIconRenderBlock. 
+	
+	aBrowser scrollButtonIconRenderBlock ifNotNil: [
+		adapter circleButtonIconRenderBlock: [:index | aBrowser scrollButtonIconRenderBlock cull: ((aBrowser panes at: index) port: #entity) value ] ].
+	 
 	"adapter isClassIconShown ifTrue: [ adapter circleButtonIconRenderBlock: [ :index |
 		| source |
 		source := GLMForm scaleForm: ((aBrowser panes at: index) port: #entity) value class systemIcon to: (adapter circleButtonSize @ adapter circleButtonSize) / 1.6.
