@@ -58,7 +58,7 @@ GLMSlidingScrollMorph >> computeWidth [
 			numberOfVisiblePages := adapter numberOfVisiblePages.
 			numberOfVisiblePages > adapter size
 				ifTrue: [ numberOfVisiblePages := adapter size ].
-			(adapter circleButtonInset + adapter circleButtonSize) * numberOfVisiblePages.
+			(adapter circleButtonSize) * numberOfVisiblePages + ((numberOfVisiblePages - 1) * adapter dependencyButtonSize).
 		]
 		ifFalse: [ 0 ].
 		
@@ -79,7 +79,7 @@ GLMSlidingScrollMorph >> dragResizingLeft: evt [
 	
 	right := self layoutFrame rightOffset.
 	left := right - startResizingWidth - leftDelta.
-	maxLeft := right - (adapter circleButtonInset + adapter circleButtonSize).
+	maxLeft := right - adapter circleButtonSize.
 	
 	left := (left max: 0) min: maxLeft.
 	
@@ -101,7 +101,7 @@ GLMSlidingScrollMorph >> dragResizingRight: evt [
 	
 	left := self layoutFrame leftOffset.
 	right := left + startResizingWidth + rightDelta.
-	minRight := left + (adapter circleButtonInset + adapter circleButtonSize).
+	minRight := left + adapter circleButtonSize.
 	maxRight := owner width.
 	
 	right := (right max: minRight) min: maxRight.
@@ -359,7 +359,7 @@ GLMSlidingScrollMorph >> setCursorToResizing: evt [
 GLMSlidingScrollMorph >> setWidthAfterResizing [
 	| left right |
 	
-	left := (adapter circleButtonInset + adapter circleButtonSize) * (adapter firstVisiblePageIndex - 1).
+	left := ( adapter circleButtonSize + adapter dependencyButtonSize ) * (adapter firstVisiblePageIndex - 1).
 	right := left + self computeWidth.
 	
 	self layoutFrame: (

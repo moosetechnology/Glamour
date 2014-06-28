@@ -26,7 +26,7 @@ GLMPagerBarMorph >> adapter: anAdapter [
 { #category : #'as yet unclassified' }
 GLMPagerBarMorph >> addButtons [
 	buttons ifNil: [
-		buttons := GLMPagerPaneButtonsMorph new.
+		buttons := adapter isDependencyShown ifTrue: [ GLMPagerPaneDependencyButtonsMorph new ] ifFalse: [ GLMPagerPaneButtonsMorph new ].
 		buttons adapter: adapter.
 		self addMorph: buttons fullFrame: (0@0 extent: 1@1).
 	]
@@ -39,11 +39,11 @@ GLMPagerBarMorph >> addScrollBar [
 		scrollBar := GLMSlidingScrollMorph new.
 		scrollBar adapter: adapter.
 		"scrollBar height: self height."
-		scrollBar height: adapter circleButtonSize + adapter circleButtonInset.
+		scrollBar height: adapter circleButtonSize.
 		
 		self addMorph: scrollBar fullFrame: (LayoutFrame 
 					fractions: (0 @ 0 corner: 0 @ 0)
-					offsets: (0 @ 0 corner: (scrollBar computeWidth) @ (adapter circleButtonSize + adapter circleButtonInset)))
+					offsets: (0 @ 0 corner: (scrollBar computeWidth) @ (adapter circleButtonSize)))
 	]
 ]
 
@@ -55,12 +55,6 @@ GLMPagerBarMorph >> bounds: newBounds [
 	
 	left := rect origin.
 	right := rect corner.
-	
-	
-	adapter ifNotNil: [
-		left := left  - (adapter circleButtonInset / 2 @ 0).
-		right := right  + (adapter circleButtonInset / 2 @ 0).
-	].
 	
 	rect := left corner: right.
 	

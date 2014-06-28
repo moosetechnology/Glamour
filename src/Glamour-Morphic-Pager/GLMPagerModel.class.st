@@ -11,7 +11,8 @@ Class {
 		'focusedMorphs',
 		'focusedPageIndex',
 		'virtualFirstVisiblePageIndex',
-		'virtualLastVisiblePageIndex'
+		'virtualLastVisiblePageIndex',
+		'circleButtonIconRenderBlock'
 	],
 	#category : #'Glamour-Morphic-Pager-Model'
 }
@@ -37,8 +38,13 @@ GLMPagerModel >> assignFocusableMorph: aMorph withPaneAt: paneIndex [
 ]
 
 { #category : #accessing }
-GLMPagerModel >> circleButtonInset [
-	^ 0
+GLMPagerModel >> circleButtonIconRenderBlock [
+	^ circleButtonIconRenderBlock
+]
+
+{ #category : #accessing }
+GLMPagerModel >> circleButtonIconRenderBlock: anObject [
+	circleButtonIconRenderBlock := anObject
 ]
 
 { #category : #accessing }
@@ -70,6 +76,11 @@ GLMPagerModel >> defaultNumberOfVisiblePages: anInteger [
 	"use it only when the number of pages is 0"
 	self size = 0 ifFalse: [ GLMPagerException signal: 'You can change default number of visible pages only when there is no pages' ].
 	numberOfVisiblePages := anInteger.
+]
+
+{ #category : #accessing }
+GLMPagerModel >> dependencyButtonSize [
+	^ self isDependencyShown ifTrue: [ self circleButtonSize ] ifFalse: [ 0 ].
 ]
 
 { #category : #panes }
@@ -190,8 +201,18 @@ GLMPagerModel >> invariant [
 	]
 ]
 
+{ #category : #accessing }
+GLMPagerModel >> isClassIconShown [
+	^ false
+]
+
 { #category : #initialization }
 GLMPagerModel >> isDebug [
+	^ true
+]
+
+{ #category : #accessing }
+GLMPagerModel >> isDependencyShown [
 	^ false
 ]
 
@@ -505,7 +526,7 @@ GLMPagerModel >> virtualFirstVisiblePageIndex [
 
 { #category : #private }
 GLMPagerModel >> virtualFirstVisiblePageIndex: anIndex [
-
+	Transcript show: 'first: ',anIndex asString; cr.
 	virtualFirstVisiblePageIndex := self normalizePaneIndex: anIndex.
 	
 ]
@@ -519,5 +540,6 @@ GLMPagerModel >> virtualLastVisiblePageIndex [
 { #category : #private }
 GLMPagerModel >> virtualLastVisiblePageIndex: anIndex. [
 
+	Transcript show: 'last: ',anIndex asString; cr.
 	virtualLastVisiblePageIndex := self normalizePaneIndex: anIndex.
 ]

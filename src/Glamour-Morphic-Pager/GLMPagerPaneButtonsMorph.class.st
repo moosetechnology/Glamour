@@ -23,7 +23,11 @@ GLMPagerPaneButtonsMorph >> adapter: anAdapter [
 		on: GLMFocusedPageChanged send: #onFocusedPageChanged to: self.
 		
 	self updateIndicatorButtons.
-	self cellInset: adapter circleButtonInset.
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerPaneButtonsMorph >> addCircleButton: aMorph [
+	self addMorphBack: aMorph.
 ]
 
 { #category : #'as yet unclassified' }
@@ -31,7 +35,7 @@ GLMPagerPaneButtonsMorph >> buttonCenterByIndex: aNumber [
 	|left width|
 	width := adapter circleButtonSize.
 	left := self bounds left.
-	^ left + (adapter circleButtonInset / 2) + ( ( aNumber - 1 ) * (adapter circleButtonInset + width)) + (width / 2).
+	^ left + ( ( aNumber - 1 ) * ( width ) ) + ( width / 2 ).
 ]
 
 { #category : #'as yet unclassified' }
@@ -74,6 +78,14 @@ GLMPagerPaneButtonsMorph >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
+GLMPagerPaneButtonsMorph >> isCircleMustBeChecked: anIndex withLeft: leftBound andRight: rightBound [
+	| buttonCenter |
+	
+	buttonCenter := self buttonCenterByIndex: anIndex.
+	^ (leftBound <= buttonCenter ) & (rightBound > buttonCenter)
+]
+
+{ #category : #'as yet unclassified' }
 GLMPagerPaneButtonsMorph >> markButtonsInside: aBounds [
 	""
 	|index boundsLeft boundsRight firstFound lastFound |	
@@ -87,10 +99,8 @@ GLMPagerPaneButtonsMorph >> markButtonsInside: aBounds [
 	boundsRight := aBounds y.
 	
 	indicatorButtons do: [ :indicator |
-		|buttonCenter|
 		index := index + 1.
-		buttonCenter := self buttonCenterByIndex: index.
-		(boundsLeft <= buttonCenter ) & (boundsRight > buttonCenter)
+		(self isCircleMustBeChecked: index withLeft: boundsLeft andRight: boundsRight)
 			ifTrue: [
 				indicator buttonModel check.
 				firstFound ifFalse: [
@@ -132,7 +142,7 @@ GLMPagerPaneButtonsMorph >> onPagePoped [
 	indicatorButtons removeLast.
 	button announcer unsubscribe: self.
 	
-	self removeMorph: button.
+	self removeCircleButton: button.
 	self updateIndicatorButtons.
 ]
 
@@ -147,10 +157,18 @@ GLMPagerPaneButtonsMorph >> onPagePushed: addedAnnouncement [
 	button buttonModel on: GLMPagerButtonClicked send: #circleButtonClicked: to: self.
 	button buttonModel on: GLMPagerButtonSelected send: #circleButtonSelected: to: self.
 	button buttonModel on: GLMPagerButtonDeselected send: #circleButtonDeselected to: self.
+	adapter circleButtonIconRenderBlock ifNotNil: [ 
+		button image state normal: (adapter circleButtonIconRenderBlock value: indicatorButtons size).
+		button image state selected: (adapter circleButtonIconRenderBlock value: indicatorButtons size).
+		button image state checked: (adapter circleButtonIconRenderBlock value: indicatorButtons size).
+		button checkedIcon: (adapter circleButtonIconRenderBlock value: indicatorButtons size).
+		button checkedFocusedIcon: (adapter circleButtonIconRenderBlock value: indicatorButtons size).
+	].
+	
 	button height: adapter circleButtonSize.
 	button width: adapter circleButtonSize.
 	
-	self addMorphBack: button.
+	self addCircleButton: button.
 	
 	(indicatorButtons size = 1) ifTrue: [ self updateIndicatorButtonsFocus ].
 		
@@ -168,6 +186,12 @@ GLMPagerPaneButtonsMorph >> onScrollBoundsChanged: boundsChangedAnnouncement [
 
 	self markButtonsInside: boundsChangedAnnouncement bounds.
 	
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerPaneButtonsMorph >> removeCircleButton: aButton [
+
+	self removeMorph: aButton.
 ]
 
 { #category : #'as yet unclassified' }
@@ -204,7 +228,7 @@ GLMPagerPaneButtonsMorph >> updateIndicatorButtonsFocus [
 GLMPagerPaneButtonsMorph >> width [
 	|width|
 	width := adapter isNotNil
-		ifTrue: [ (indicatorButtons size * (adapter circleButtonSize + adapter circleButtonInset )) ]
+		ifTrue: [ ( indicatorButtons size * ( adapter circleButtonSize ) ) ]
 		ifFalse: [ 0 ].
 	^ width
 ]

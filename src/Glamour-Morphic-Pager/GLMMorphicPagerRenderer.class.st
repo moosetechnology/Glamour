@@ -21,13 +21,22 @@ GLMMorphicPagerRenderer >> actOnPaneReplaced: ann [
 
 { #category : #'as yet unclassified' }
 GLMMorphicPagerRenderer >> render: aBrowser [
+	|adapter|
+	adapter := GLMPagerModel new.
+	adapter isClassIconShown ifTrue: [ adapter circleButtonIconRenderBlock: [ :index |
+		| source |
+		source := GLMForm scaleForm: ((aBrowser panes at: index) port: #entity) value class systemIcon to: (adapter circleButtonSize @ adapter circleButtonSize) / 1.6.
+		GLMForm increaseFormExtentCentered: source to: (adapter circleButtonSize @ adapter circleButtonSize).
+	] ].
+	
 	container := GLMPagerMorph new
 		name: 'scroller';
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
-		adapter: GLMPagerModel new;
+		adapter: adapter;
 		beTransparent;
 		yourself.
+
 	"container maxPanes: aBrowser fixedSizePanes."
 	self registerAnnouncementsFor: aBrowser.  
 	aBrowser panes

@@ -28,6 +28,16 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+GLMPagerCircleButtonMorph >> checkedFocusedIcon: aForm [
+	checkedFocusedIcon := aForm.
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerCircleButtonMorph >> checkedIcon: aForm [
+	checkedIcon := aForm.
+]
+
+{ #category : #'as yet unclassified' }
 GLMPagerCircleButtonMorph >> initialize [
 	super initialize.
 	
