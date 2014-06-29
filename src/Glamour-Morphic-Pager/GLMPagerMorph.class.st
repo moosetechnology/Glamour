@@ -142,7 +142,7 @@ GLMPagerMorph >> scrollerSizeShortcutAction: first second: second [
 { #category : #initialization }
 GLMPagerMorph >> showOrHideScrollBar [
 	
-	(adapter size > adapter numberOfVisiblePages)
+	(adapter size > 1)
 		ifTrue: [ self addMorphBack: pagerBar ]
 		ifFalse: [ self removeMorph: pagerBar ].
 ]
