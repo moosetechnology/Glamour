@@ -10,7 +10,7 @@ GLMPagerPaneDependencyButtonsMorph >> addScrollButton: aMorph [
 	arrowScaleMultiplier := 2.
 	
 	adapter size > 1 ifTrue: [
-		self addMorphBack: (ImageMorph new image: (GLMForm increaseFormExtentCentered: (GLMForm scaleForm: GLMUIThemeExtraIcons glamorousPlay to: (adapter dependencyButtonSize @ self height) / arrowScaleMultiplier ) to: (adapter dependencyButtonSize @ self height)))
+		self addMorphBack: (ImageMorph withForm: (GLMForm increaseFormExtentCentered: (GLMForm scaleForm: GLMUIThemeExtraIcons glamorousPlay to: (adapter dependencyButtonSize @ adapter dependencyButtonSize) / arrowScaleMultiplier ) to: (adapter dependencyButtonSize @ adapter dependencyButtonSize)))
 	].
 	
 	super addScrollButton: aMorph.
@@ -35,7 +35,7 @@ GLMPagerPaneDependencyButtonsMorph >> removeScrollButton: aButton [
 
 	self removeMorph: aButton.
 	
-	indicatorButtons size > 0 ifTrue: [ 
+	adapter size > 0 ifTrue: [ 
 		self removeMorph: (self submorphs last).
 	]
 ]

@@ -32,7 +32,8 @@ GLMMorphicPagerRenderer >> defaultScrollButtonIconRenderBlock [
 { #category : #rendering }
 GLMMorphicPagerRenderer >> render: aBrowser [
 	|adapter|
-	adapter := GLMPagerModel new.
+	adapter := GLMPagerModel new
+		isDependenciesShown: false.
 	
 	aBrowser scrollButtonIconRenderBlock ifNotNil: [
 		"result value of the block is raw icon of the Form class"

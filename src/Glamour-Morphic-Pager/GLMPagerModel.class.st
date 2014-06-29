@@ -12,7 +12,8 @@ Class {
 		'focusedPageIndex',
 		'virtualFirstVisiblePageIndex',
 		'virtualLastVisiblePageIndex',
-		'scrollButtonIconRenderBlock'
+		'scrollButtonIconRenderBlock',
+		'isDependenciesShown'
 	],
 	#category : #'Glamour-Morphic-Pager-Model'
 }
@@ -70,7 +71,7 @@ GLMPagerModel >> defaultNumberOfVisiblePages: anInteger [
 
 { #category : #accessing }
 GLMPagerModel >> dependencyButtonSize [
-	^ self isDependencyShown ifTrue: [ self circleButtonSize ] ifFalse: [ 0 ].
+	^ self isDependenciesShown ifTrue: [ self circleButtonSize ] ifFalse: [ 0 ].
 ]
 
 { #category : #panes }
@@ -150,6 +151,7 @@ GLMPagerModel >> initialize [
 	pagesCount := 0.
 	selectedPageIndex := 0.
 	focusedMorphs := Dictionary new.
+	isDependenciesShown := false.
 		
 	numberOfVisiblePages := self defaultNumberOfVisiblePages.
 	
@@ -197,8 +199,13 @@ GLMPagerModel >> isDebug [
 ]
 
 { #category : #accessing }
-GLMPagerModel >> isDependencyShown [
-	^ false
+GLMPagerModel >> isDependenciesShown [
+	^ isDependenciesShown
+]
+
+{ #category : #accessing }
+GLMPagerModel >> isDependenciesShown: aBoolean [
+	isDependenciesShown := aBoolean
 ]
 
 { #category : #focus }

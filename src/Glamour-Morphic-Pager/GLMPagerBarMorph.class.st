@@ -27,7 +27,7 @@ GLMPagerBarMorph >> adapter: anAdapter [
 { #category : #'as yet unclassified' }
 GLMPagerBarMorph >> addButtons [
 	buttons ifNil: [
-		buttons := adapter isDependencyShown ifTrue: [ GLMPagerPaneDependencyButtonsMorph new ] ifFalse: [ GLMPagerPaneButtonsMorph new ].
+		buttons := adapter isDependenciesShown ifTrue: [ GLMPagerPaneDependencyButtonsMorph new ] ifFalse: [ GLMPagerPaneButtonsMorph new ].
 		buttons adapter: adapter.
 		self addMorph: buttons fullFrame: (0@0 extent: 1@1).
 	]
