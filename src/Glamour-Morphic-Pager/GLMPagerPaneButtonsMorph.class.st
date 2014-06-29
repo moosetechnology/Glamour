@@ -179,7 +179,8 @@ GLMPagerPaneButtonsMorph >> renderCustomScrollButtonIcons: anIcons for: aButton 
 		normalIcon := anIcons first.
 		focusedIcon := anIcons second.
 	] ifFalse: [
-		normalIcon := anIcons.
+		focusedIcon := anIcons.
+		normalIcon := GLMForm makeFormTransparent: focusedIcon factor: 0.1.
 	].
 
 	iconSize := adapter circleButtonSize @ adapter circleButtonSize.

@@ -15,9 +15,37 @@ GLMForm class >> increaseFormExtentCentered: aForm to: aPoint [
 	aForm ifNil: [ ^ nil ].
 	rect := Rectangle origin: 0@0 extent: aPoint.
 	destination := (rect extent - aForm extent) / 2.
-	icon := (Form extent: rect extent depth: aForm depth).
+	icon := Form extent: rect extent depth: aForm depth.
 	icon copyBits: rect from: aForm at: destination clippingBox: icon boundingBox rule: Form over fillColor: nil.
 	^ icon
+]
+
+{ #category : #'as yet unclassified' }
+GLMForm class >> makeForm32Bit: aForm [
+	aForm ifNil: [ ^ nil ].
+	aForm depth = 32 ifTrue: [ ^ aForm ].
+	aForm depth: 32.
+	aForm fixAlpha.
+	^ aForm.
+]
+
+{ #category : #'as yet unclassified' }
+GLMForm class >> makeFormTransparent: aForm factor: aFloat [
+	"a float must be in interval [0.0, 1.0]"
+	| a |
+	
+	aForm ifNil: [ ^ nil ].
+	aForm depth = 32 ifFalse: [^ aForm ].
+	
+	a := (aFloat * 255) asInteger.
+	1 to: aForm bits size do: [:i |
+		| v r g b |
+		v := aForm bits at: i.
+		r := ((v bitShift: -16) bitAnd: 255) * a // 255.
+		g := ((v bitShift: -8) bitAnd: 255) * a // 255.
+		b := (v bitAnd: 255) * a // 255.
+		aForm bits at: i put: (a bitShift: 24) + (r bitShift: 16) + (g bitShift: 8) + b ].
+	^ aForm 
 ]
 
 { #category : #'as yet unclassified' }

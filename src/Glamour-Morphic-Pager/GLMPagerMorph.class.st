@@ -3,7 +3,8 @@ Class {
 	#superclass : #Morph,
 	#instVars : [
 		'adapter',
-		'firstCombination'
+		'firstCombination',
+		'pagerBar'
 	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
@@ -38,7 +39,14 @@ GLMPagerMorph >> adapter: anObject [
 	adapter := anObject.
 	
 	self addMorphBack: (GLMPagerScrollMorph new adapter: adapter).
-	self addMorphBack: (GLMPagerBarMorph new adapter: adapter).
+	
+	pagerBar := GLMPagerBarMorph new adapter: adapter.
+	
+	adapter announcer weak
+		on: GLMPagePushed send: #onPagePushed to: self.
+		
+	adapter announcer weak
+		on: GLMPagePoped send: #onPagePoped to: self.
 	
 	self initializeShortcuts.
 ]
@@ -75,6 +83,18 @@ GLMPagerMorph >> initializeShortcuts [
 	self bindKeyCombination: Character arrowRight alt shift command toAction: [
 		self pressedScrollerSizeCombination: #right.
 	].
+]
+
+{ #category : #initialization }
+GLMPagerMorph >> onPagePoped [
+
+	self showOrHideScrollBar.
+]
+
+{ #category : #initialization }
+GLMPagerMorph >> onPagePushed [
+
+	self showOrHideScrollBar.
 ]
 
 { #category : #'as yet unclassified' }
@@ -117,4 +137,12 @@ GLMPagerMorph >> scrollerSizeShortcutAction: first second: second [
 	(first = #left & second = #right) ifTrue: [ adapter diminishToRight ].
 	(first = #right & second = #left) ifTrue: [ adapter diminishToLeft ].
 	(first = #right & second = #right) ifTrue: [ adapter enlargeToRight ]
+]
+
+{ #category : #initialization }
+GLMPagerMorph >> showOrHideScrollBar [
+	
+	(adapter size > adapter numberOfVisiblePages)
+		ifTrue: [ self addMorphBack: pagerBar ]
+		ifFalse: [ self removeMorph: pagerBar ].
 ]

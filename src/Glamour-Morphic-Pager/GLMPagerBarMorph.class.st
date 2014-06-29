@@ -21,6 +21,7 @@ GLMPagerBarMorph >> adapter: anAdapter [
 		on: GLMPagePoped send: #onPagePoped to: self.
 	
 	self addButtons.
+	self addScrollBar.
 ]
 
 { #category : #'as yet unclassified' }
@@ -78,33 +79,23 @@ GLMPagerBarMorph >> initialize [
 GLMPagerBarMorph >> onPagePoped [
 
 	buttons onPagePoped.
-	scrollBar width: scrollBar computeWidth.
+	self recomputeScrollBar.
 ]
 
 { #category : #'as yet unclassified' }
 GLMPagerBarMorph >> onPagePushed: addedAnnouncement [
 
-	buttons onPagePushed: addedAnnouncement.	
-	self showOrHideScrollBar.
-	scrollBar width: scrollBar computeWidth.
-	scrollBar setWidthAfterResizing.
+	buttons onPagePushed: addedAnnouncement.
+	self recomputeScrollBar.
 ]
 
-{ #category : #'as yet unclassified' }
-GLMPagerBarMorph >> removeScrollBar [
-	scrollBar ifNotNil: [
-		self removeMorph: scrollBar.
-		scrollBar delete.
-		scrollBar := nil.
-	] 
-]
-
-{ #category : #'as yet unclassified' }
-GLMPagerBarMorph >> showOrHideScrollBar [
+{ #category : #initialization }
+GLMPagerBarMorph >> recomputeScrollBar [
 	
-	true "adapter pagesCount > adapter numberOfVisiblePages"
-		ifTrue: [self addScrollBar ]
-		ifFalse: [ self removeScrollBar ].
+	scrollBar ifNotNil: [
+		scrollBar width: scrollBar computeWidth.
+		scrollBar setWidthAfterResizing.
+	]
 ]
 
 { #category : #'as yet unclassified' }
