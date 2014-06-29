@@ -175,12 +175,14 @@ GLMPagerPaneButtonsMorph >> removeScrollButton: aButton [
 { #category : #testing }
 GLMPagerPaneButtonsMorph >> renderCustomScrollButtonIcons: anIcons for: aButton [
 	| normalIcon focusedIcon source iconSize|
-	anIcons isCollection ifTrue: [
+	
+	anIcons isCollection ifTrue: [ 
 		normalIcon := anIcons first.
 		focusedIcon := anIcons second.
-	] ifFalse: [
+	]
+	ifFalse: [ 
 		focusedIcon := anIcons.
-		normalIcon := GLMForm makeFormTransparent: focusedIcon factor: 0.1.
+		normalIcon := (AlphaImageMorph new image: anIcons asGrayScaleWithAlpha; alpha: 0.6) cachedForm.
 	].
 
 	iconSize := adapter circleButtonSize @ adapter circleButtonSize.
