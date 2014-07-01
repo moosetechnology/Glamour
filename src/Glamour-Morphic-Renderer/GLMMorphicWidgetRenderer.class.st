@@ -26,8 +26,7 @@ GLMMorphicWidgetRenderer >> installActionsOnModel: aMorphicModel fromPresentatio
 { #category : #rendering }
 GLMMorphicWidgetRenderer >> installKeystrokeActionsOnMorph: aMorph fromPresentation: aPresentation [
 	aPresentation allActionsWithShortcuts do: [ :each |
-		aMorph on: each shortcut command do: [ 
-			each actOn: aPresentation ] ]
+		each installKeyCombinationForPresentation: aPresentation onMorph: aMorph ]
 ]
 
 { #category : #private }
