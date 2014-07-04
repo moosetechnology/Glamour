@@ -36,6 +36,27 @@ GLMMorphicPharoCodeRenderer >> debugSelection [
 ]
 
 { #category : #callbacks }
+GLMMorphicPharoCodeRenderer >> evaluateAndPopPrintSelection [
+
+	| popper |
+	UIManager default defer: [ 
+		popper := RubEditingArea new.
+		popper
+					on: Character escape do: [ popper delete. textMorph takeKeyboardFocus];
+					beWrapped;
+					width: World width / 3;
+					top: textMorph textArea cursor top + textMorph positionInWorld y;
+					left: textMorph textArea cursor right + textMorph positionInWorld x;
+					updateTextWith: (textMorph textArea editor evaluateSelectionAndDo: [ :result | result printString ]);
+					takeKeyboardFocus;
+					backgroundColor: Color paleYellow;
+					onAnnouncement: MorphLostFocus do: [ :ann | ann morph delete ];
+					openInWorld.
+	 ]
+	
+]
+
+{ #category : #callbacks }
 GLMMorphicPharoCodeRenderer >> evaluateAndPrintSelection [
 
 	UIManager default defer: [ 
