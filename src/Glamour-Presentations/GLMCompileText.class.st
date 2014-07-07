@@ -7,10 +7,23 @@ Class {
 	#instVars : [
 		'context',
 		'session',
-		'presentation'
+		'presentation',
+		'action'
 	],
 	#category : #'Glamour-Presentations-Announcements'
 }
+
+{ #category : #accessing }
+GLMCompileText >> action [
+
+	^ action
+]
+
+{ #category : #accessing }
+GLMCompileText >> action: aBlock [
+
+	action := aBlock
+]
 
 { #category : #accessing }
 GLMCompileText >> context [

@@ -16,12 +16,13 @@ GLMSmalltalkCodePresentation >> beForScripting [
 ]
 
 { #category : #actions }
-GLMSmalltalkCodePresentation >> compileTextIn: aContext from:  aSession [ 
+GLMSmalltalkCodePresentation >> compileTextIn: aContext from:  aSession andDo: aBlock [
 
 	self announce: (GLMCompileText new
 		presentation: self;
 		context: aContext;
-		session: aSession)
+		session: aSession;
+		action: aBlock)
 ]
 
 { #category : #actions }
