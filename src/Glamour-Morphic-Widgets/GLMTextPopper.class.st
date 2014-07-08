@@ -16,11 +16,13 @@ GLMTextPopper >> initialize [
 GLMTextPopper >> openInWorldFromRubric: aMorph [
 	| top cursorLeft left width text |
 	text := aMorph textArea editor evaluateSelectionAndDo: [ :result | result asString ].
+	aMorph textArea scrollSelectionIntoView: nil.
 	self updateTextWith: text.
 	width := self width min: World width / 3.
 	top := aMorph textArea cursor bottom + aMorph positionInWorld y.
 	cursorLeft := aMorph textArea cursor right + aMorph positionInWorld x.
 	left := cursorLeft + width > World width ifTrue: [ World width - width ] ifFalse: [ cursorLeft ].
+
 	self
 		beWrapped;
 		takeKeyboardFocus;
