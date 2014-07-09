@@ -32,5 +32,6 @@ GLMTextPopper >> openInWorldFromRubric: aMorph [
 		top: top;
 		left: left;
 		width: width;
+		selectAll;
 		openInWorld
 ]
