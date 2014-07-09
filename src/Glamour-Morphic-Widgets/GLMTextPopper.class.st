@@ -9,7 +9,8 @@ GLMTextPopper >> initialize [
 	super initialize.
 	self 
 		backgroundColor: Color paleYellow;
-		onAnnouncement: MorphLostFocus do: [ :ann | ann morph delete ]
+		onAnnouncement: MorphLostFocus do: [ :ann | ann morph delete ];
+		beReadOnly
 ]
 
 { #category : #'as yet unclassified' }
