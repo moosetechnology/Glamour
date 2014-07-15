@@ -132,11 +132,15 @@ GLMPagerModel >> focusedMorphAt: pageIndex [
 GLMPagerModel >> focusedMorphChanged: aMorph at: pageIndex [
 	"call this method if a morph was focused in a pane with specified index. As a result corresponding pane will be marked as selected"
 	
-	focusedPageIndex := pageIndex.
+	
 	self assignFocusableMorph: aMorph withPaneAt: pageIndex.
 	
-	self selectedPageIndex: pageIndex.
-	self notifyFocusedPageChanged.
+	focusedPageIndex = pageIndex ifFalse: [ 
+		focusedPageIndex := pageIndex.
+		self selectedPageIndex: pageIndex.
+		self notifyFocusedPageChanged.
+	]
+	
 ]
 
 { #category : #accessing }
