@@ -38,7 +38,7 @@ GLMMorphicPharoCodeRenderer >> debugSelection [
 { #category : #callbacks }
 GLMMorphicPharoCodeRenderer >> evaluateAndPopPrintSelection [
 	UIManager default defer: [ 
-		GLMTextPopper new openInWorldFromRubric: textMorph
+		GLMPopper new openInWorldFromRubric: textMorph
 	 ]
 	
 ]
