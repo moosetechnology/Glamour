@@ -9,13 +9,16 @@ Class {
 
 { #category : #'as yet unclassified' }
 GLMPopper >> atLeft: desiredLeft top: desiredTop withString: string from: aMorph [
-	| top width left stringMorph |
+	| top width left stringMorph height |
 	stringMorph := RubEditingArea new updateTextWith: string.
 	width := (stringMorph width + 12) min: World width / 3.
 	left := desiredLeft + width > World width
 		ifTrue: [ World width - width ]
 		ifFalse: [ desiredLeft ].
-	top := desiredTop.
+	height := (stringMorph beWrapped; width: width; yourself) height + 6 min: World height / 3.
+	top := desiredTop + height > World height 
+		ifTrue: [ World height - height ]
+		ifFalse: [ height ].
 	textMorph
 		updateTextWith: string;
 		takeKeyboardFocus;
@@ -27,12 +30,12 @@ GLMPopper >> atLeft: desiredLeft top: desiredTop withString: string from: aMorph
 			do: [ :ann | 
 					self delete.
 					aMorph takeKeyboardFocus ].
-	textMorph textArea selectAll.
+"	textMorph textArea selectAll."
 	self
 		top: top;
 		left: left;
 		width: width;
-		height: ((stringMorph beWrapped; width: width; yourself) height + 6 min: 100)
+		height: (height)
 ]
 
 { #category : #'as yet unclassified' }
