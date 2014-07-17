@@ -12,29 +12,22 @@ Class {
 	#category : #'Glamour-Morphic-Widgets-Popper'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 GLMPopper >> atLeft: desiredLeft top: desiredTop withString: string from: aMorph [
 	| top width left stringMorph height |
 	stringMorph := RubEditingArea new updateTextWith: string.
-	width := (stringMorph width + 12) min: World width / 3.
+	width := stringMorph width + 12 min: World width / 3.
 	left := desiredLeft + width > World width
 		ifTrue: [ World width - width ]
 		ifFalse: [ desiredLeft ].
-	height := (stringMorph beWrapped; width: width; yourself) height min: World height / 3.
-	top := desiredTop + height > World height 
+	height := (stringMorph
+		beWrapped;
+		width: width;
+		yourself) height min: World height / 3.
+	top := desiredTop + height > World height
 		ifTrue: [ World height - height ]
 		ifFalse: [ desiredTop ].
-	textMorph
-		updateTextWith: string;
-		takeKeyboardFocus;
-		on: Character escape
-			do: [ 
-				self delete.
-				aMorph takeKeyboardFocus ];
-		onAnnouncement: MorphLostFocus
-			do: [ :ann | 
-					self delete.
-					aMorph takeKeyboardFocus ].
+	self updateWithString: string from: aMorph.
 	self
 		top: top;
 		left: left;
@@ -42,7 +35,7 @@ GLMPopper >> atLeft: desiredLeft top: desiredTop withString: string from: aMorph
 		height: height
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GLMPopper >> initialize [
 	super initialize.
 	self changeProportionalLayout.
@@ -64,7 +57,7 @@ GLMPopper >> initialize [
 		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #public }
 GLMPopper >> openInWorldFromRubric: aMorph [
 	| desiredTop desiredLeft string |
 	string := aMorph textArea editor evaluateSelectionAndDo: [ :result | result asString ].
@@ -77,4 +70,19 @@ GLMPopper >> openInWorldFromRubric: aMorph [
 		withString: string
 		from: aMorph.
 	self openInWorld
+]
+
+{ #category : #private }
+GLMPopper >> updateWithString: string from: aMorph [
+	textMorph
+		updateTextWith: string;
+		takeKeyboardFocus;
+		on: Character escape
+			do: [ 
+				self delete.
+				aMorph takeKeyboardFocus ];
+		onAnnouncement: MorphLostFocus
+			do: [ :ann | 
+					self delete.
+					aMorph takeKeyboardFocus ]
 ]
