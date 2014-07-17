@@ -15,7 +15,7 @@ GLMPopper >> atLeft: desiredLeft top: desiredTop withString: string from: aMorph
 	left := desiredLeft + width > World width
 		ifTrue: [ World width - width ]
 		ifFalse: [ desiredLeft ].
-	height := (stringMorph beWrapped; width: width; yourself) height + 6 min: World height / 3.
+	height := (stringMorph beWrapped; width: width; yourself) height min: World height / 3.
 	top := desiredTop + height > World height 
 		ifTrue: [ World height - height ]
 		ifFalse: [ desiredTop ].
