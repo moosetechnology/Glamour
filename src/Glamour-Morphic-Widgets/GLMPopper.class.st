@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMPopper,
-	#superclass : #BorderedMorph,
+	#superclass : #Morph,
 	#instVars : [
 		'textMorph'
 	],
@@ -18,7 +18,7 @@ GLMPopper >> atLeft: desiredLeft top: desiredTop withString: string from: aMorph
 	height := (stringMorph beWrapped; width: width; yourself) height + 6 min: World height / 3.
 	top := desiredTop + height > World height 
 		ifTrue: [ World height - height ]
-		ifFalse: [ height ].
+		ifFalse: [ desiredTop ].
 	textMorph
 		updateTextWith: string;
 		takeKeyboardFocus;
@@ -30,12 +30,11 @@ GLMPopper >> atLeft: desiredLeft top: desiredTop withString: string from: aMorph
 			do: [ :ann | 
 					self delete.
 					aMorph takeKeyboardFocus ].
-"	textMorph textArea selectAll."
 	self
 		top: top;
 		left: left;
 		width: width;
-		height: (height)
+		height: height
 ]
 
 { #category : #'as yet unclassified' }
@@ -45,8 +44,7 @@ GLMPopper >> initialize [
 
 	self 
 		onAnnouncement: MorphLostFocus do: [ :ann | ann morph delete ];
-		color: Color paleYellow;
-		borderColor: (Color gray alpha: 0.5).
+		color: Color paleYellow.
 	textMorph := RubScrolledTextMorph new.
 	textMorph textArea 
 		backgroundColor: Color transparent;
