@@ -1297,12 +1297,6 @@ ConfigurationOfGlamour >> baseline29: spec [
 					version: #development;
 					repository: 'http://www.smalltalkhub.com/mc/Magritte/Magritte3/main';
 					loads: #('Magritte-Model' 'Magritte-Tests-Model' 'Magritte-Morph' 'Magritte-Pharo-Model') ].
-		spec project: 'Spotlight2' with: [ 
-			spec 
-					className: 'ConfigurationOfSpotlight2';
-					file: 'ConfigurationOfSpotlight2';
-					version: #development;
-					repository: 'http://www.smalltalkhub.com/mc/PharoExtras/Spotlight2/main' ].
 		spec project: 'Rubric' with: [ 
 			spec 
 					className: 'ConfigurationOfRubric';
