@@ -13,7 +13,7 @@ Class {
 }
 
 { #category : #private }
-GLMPopper >> atLeft: desiredLeft top: desiredTop withString: string from: aMorph [
+GLMPopper >> atLeft: desiredLeft top: desiredTop withString: string withObject: anObject from: aMorph [
 	| top width left stringMorph height |
 	stringMorph := RubEditingArea new updateTextWith: string.
 	width := stringMorph width + 12 min: World width / 3.
@@ -28,6 +28,7 @@ GLMPopper >> atLeft: desiredLeft top: desiredTop withString: string from: aMorph
 		ifTrue: [ World height - height ]
 		ifFalse: [ desiredTop ].
 	self updateWithString: string from: aMorph.
+	textMorph on: $i command do: [ anObject inspect ].
 	self
 		top: top;
 		left: left;
@@ -59,8 +60,10 @@ GLMPopper >> initialize [
 
 { #category : #public }
 GLMPopper >> openInWorldFromRubric: aMorph [
-	| desiredTop desiredLeft string |
-	string := aMorph textArea editor evaluateSelectionAndDo: [ :result | result asString ].
+	| desiredTop desiredLeft string result |
+
+	result := aMorph textArea editor evaluateSelectionAndDo: [ :result | result ].
+	string := result asString.
 	aMorph textArea scrollSelectionIntoView: nil.
 	desiredTop := aMorph textArea cursor top + aMorph positionInWorld y - 6 - aMorph textArea owner offset y.	"unclear why 6 is the magic number"
 	desiredLeft := aMorph textArea cursor right + aMorph positionInWorld x.
@@ -68,6 +71,7 @@ GLMPopper >> openInWorldFromRubric: aMorph [
 		atLeft: desiredLeft
 		top: desiredTop
 		withString: string
+		withObject: result
 		from: aMorph.
 	self openInWorld
 ]
