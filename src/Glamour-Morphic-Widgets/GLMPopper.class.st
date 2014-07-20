@@ -7,7 +7,8 @@ Class {
 	#name : #GLMPopper,
 	#superclass : #Morph,
 	#instVars : [
-		'textMorph'
+		'textMorph',
+		'inspectButton'
 	],
 	#category : #'Glamour-Morphic-Widgets-Popper'
 }
@@ -29,10 +30,11 @@ GLMPopper >> atLeft: desiredLeft top: desiredTop withString: string withObject: 
 		ifFalse: [ desiredTop ].
 	self updateWithString: string from: aMorph.
 	textMorph on: $i command do: [ anObject inspect ].
+	inspectButton addUpAction: [ anObject inspect ].
 	self
 		top: top;
 		left: left;
-		width: width;
+		width: width + 16;
 		height: height
 ]
 
@@ -43,29 +45,44 @@ GLMPopper >> initialize [
 
 	self 
 		onAnnouncement: MorphLostFocus do: [ :ann | ann morph delete ];
-		color: Color paleYellow.
+		color: Color transparent.
 	textMorph := RubScrolledTextMorph new.
 	textMorph textArea 
 		backgroundColor: Color transparent;
 		beReadOnly.
 	textMorph 
 		beWrapped;
-		color: Color transparent.
+		color: Color paleYellow.
 	self 
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
 		addMorph: textMorph
-		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1))
+		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ 0 corner: -16 @ 0)).
+	
+	inspectButton := MultistateButtonMorph new
+				extent: GLMUIThemeExtraIcons glamorousInspect extent;
+				activeEnabledOverUpFillStyle: (ImageFillStyle form: GLMUIThemeExtraIcons glamorousInspect);
+"				passiveEnabledOverUpFillStyle: (ImageFillStyle form: activeForm);
+				activeEnabledOverDownFillStyle: (ImageFillStyle form: passiveForm);
+				passiveEnabledOverDownFillStyle: (ImageFillStyle form: passiveForm);
+"		
+				setBalloonText: 'Inspect' translated.
+	self 
+		addMorph: inspectButton
+		fullFrame: (LayoutFrame fractions: (1 @ 0 corner: 1 @ 0) offsets: (-16 @ 6 corner: 6 @ 16))
 ]
 
 { #category : #public }
 GLMPopper >> openInWorldFromRubric: aMorph [
 	| desiredTop desiredLeft string result |
 
-	result := aMorph textArea editor evaluateSelectionAndDo: [ :result | result ].
+	result := aMorph textArea editor evaluateSelectionAndDo: [ :x | x ].
 	string := result asString.
 	aMorph textArea scrollSelectionIntoView: nil.
-	desiredTop := aMorph textArea cursor top + aMorph positionInWorld y - 6 - aMorph textArea owner offset y.	"unclear why 6 is the magic number"
+	desiredTop := aMorph textArea cursor top + 
+						aMorph positionInWorld y - 6 - 
+						aMorph textArea owner offset y.
+						"unclear why 6 is the magic number"
 	desiredLeft := aMorph textArea cursor right + aMorph positionInWorld x.
 	self
 		atLeft: desiredLeft
@@ -81,12 +98,13 @@ GLMPopper >> updateWithString: string from: aMorph [
 	textMorph
 		updateTextWith: string;
 		takeKeyboardFocus;
-		on: Character escape
-			do: [ 
-				self delete.
-				aMorph takeKeyboardFocus ];
-		onAnnouncement: MorphLostFocus
-			do: [ :ann | 
-					self delete.
-					aMorph takeKeyboardFocus ]
+		on: Character escape do: [ 
+			self delete.
+			aMorph takeKeyboardFocus ];
+		on: Character backspace do: [ 
+			self delete.
+			aMorph takeKeyboardFocus ];
+		onAnnouncement: MorphLostFocus do: [ :ann | 
+			self delete.
+			aMorph takeKeyboardFocus ]
 ]
