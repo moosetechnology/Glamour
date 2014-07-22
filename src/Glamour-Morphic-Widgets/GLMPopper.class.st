@@ -24,7 +24,7 @@ GLMPopper >> atLeft: desiredLeft top: desiredTop withString: string withObject: 
 	height := (stringMorph
 		beWrapped;
 		width: width;
-		yourself) height min: World height / 3.
+		yourself) height + 2 min: World height / 3.
 	top := desiredTop + height > World height
 		ifTrue: [ World height - height ]
 		ifFalse: [ desiredTop ].
@@ -47,10 +47,8 @@ GLMPopper >> initialize [
 		onAnnouncement: MorphLostFocus do: [ :ann | ann morph delete ];
 		color: Color transparent.
 	textMorph := RubScrolledTextMorph new.
-	textMorph textArea 
-		backgroundColor: Color transparent;
-		beReadOnly.
 	textMorph 
+		beReadOnly;
 		beWrapped;
 		color: Color paleYellow.
 	self 
@@ -69,7 +67,7 @@ GLMPopper >> initialize [
 				setBalloonText: 'Inspect' translated.
 	self 
 		addMorph: inspectButton
-		fullFrame: (LayoutFrame fractions: (1 @ 0 corner: 1 @ 0) offsets: (-16 @ 6 corner: 6 @ 16))
+		fullFrame: (LayoutFrame fractions: (1 @ 0 corner: 1 @ 0) offsets: (-16 @ 6 corner: 6 @ 28))
 ]
 
 { #category : #public }
@@ -83,7 +81,7 @@ GLMPopper >> openInWorldFromRubric: aMorph [
 						aMorph positionInWorld y - 6 - 
 						aMorph textArea owner offset y.
 						"unclear why 6 is the magic number"
-	desiredLeft := aMorph textArea cursor right + aMorph positionInWorld x.
+	desiredLeft := aMorph textArea cursor right + aMorph positionInWorld x + 6.
 	self
 		atLeft: desiredLeft
 		top: desiredTop
@@ -97,7 +95,7 @@ GLMPopper >> openInWorldFromRubric: aMorph [
 GLMPopper >> updateWithString: string from: aMorph [
 	textMorph
 		updateTextWith: string;
-		takeKeyboardFocus;
+"		takeKeyboardFocus;"
 		on: Character escape do: [ 
 			self delete.
 			aMorph takeKeyboardFocus ];
@@ -105,6 +103,10 @@ GLMPopper >> updateWithString: string from: aMorph [
 			self delete.
 			aMorph takeKeyboardFocus ];
 		onAnnouncement: MorphLostFocus do: [ :ann | 
+			self delete.
+			aMorph takeKeyboardFocus ].
+	aMorph textArea
+		onAnnouncement: RubKeystroke do: [ :ann | 
 			self delete.
 			aMorph takeKeyboardFocus ]
 ]
