@@ -62,10 +62,10 @@ GLMMorphicTabulatorRenderer >> renderCustomColumn: aCell ofPane: aPane inUI: aMo
 	aCell children last size > 0
 		ifTrue: [ 
 			(aMorph submorphs atLast: 2) layoutFrame
-				bottomOffset: (aMorph submorphs atLast: 2) layoutFrame bottomOffset - aCell children last size.
-			aMorph submorphs last layoutFrame topOffset: aMorph submorphs last layoutFrame topOffset - aCell children last size.
+				bottomOffset: (aMorph submorphs atLast: 2) layoutFrame bottomOffset - currentOffset.
+			aMorph submorphs last layoutFrame topOffset: aMorph submorphs last layoutFrame topOffset - currentOffset.
 			aMorph submorphs last layoutFrame
-				bottomOffset: aMorph submorphs last layoutFrame bottomOffset - aCell children last size ].
+				bottomOffset: aMorph submorphs last layoutFrame bottomOffset - currentOffset ].
 	aMorph addPaneSplitters
 ]
 
@@ -96,8 +96,8 @@ GLMMorphicTabulatorRenderer >> renderCustomRow: aCell ofPane: aPane inUI: aMorph
 		currentSpanPosition := currentSpanPosition + each span.
 		currentOffset := currentOffset + each size ].
 	(aCell children last size > 0) ifTrue: [
-		(aMorph submorphs atLast: 2) layoutFrame rightOffset: (aMorph submorphs atLast: 2) layoutFrame rightOffset - aCell children last size. 
-		aMorph submorphs last layoutFrame leftOffset: aMorph submorphs last layoutFrame leftOffset - aCell children last size. 
-		aMorph submorphs last layoutFrame rightOffset: aMorph submorphs last layoutFrame rightOffset - aCell children last size.].
+		(aMorph submorphs atLast: 2) layoutFrame rightOffset: (aMorph submorphs atLast: 2) layoutFrame rightOffset - currentOffset. 
+		aMorph submorphs last layoutFrame leftOffset: aMorph submorphs last layoutFrame leftOffset - currentOffset. 
+		aMorph submorphs last layoutFrame rightOffset: aMorph submorphs last layoutFrame rightOffset - currentOffset.].
 	aMorph addPaneSplitters
 ]
