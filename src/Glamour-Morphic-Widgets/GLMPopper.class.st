@@ -42,32 +42,35 @@ GLMPopper >> atLeft: desiredLeft top: desiredTop withString: string withObject: 
 GLMPopper >> initialize [
 	super initialize.
 	self changeProportionalLayout.
-
-	self 
+	self
 		onAnnouncement: MorphLostFocus do: [ :ann | ann morph delete ];
 		color: Color transparent.
+	self initializeInspectButton.
+	self initializeTextMorph
+]
+
+{ #category : #initialization }
+GLMPopper >> initializeInspectButton [
+	inspectButton := MultistateButtonMorph new
+		extent: GLMUIThemeExtraIcons glamorousInspect extent;
+		activeEnabledOverUpFillStyle: (ImageFillStyle form: GLMUIThemeExtraIcons glamorousInspect);
+		setBalloonText: 'Inspect' translated.
+	self
+		addMorph: inspectButton
+		fullFrame: (LayoutFrame fractions: (1 @ 0 corner: 1 @ 0) offsets: (-16 @ 6 corner: 6 @ 28))
+]
+
+{ #category : #initialization }
+GLMPopper >> initializeTextMorph [
 	textMorph := RubScrolledTextMorph new.
-	textMorph 
+	textMorph
 		beReadOnly;
 		beWrapped;
 		color: Color paleYellow.
-	self 
+	self
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
-		addMorph: textMorph
-		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ 0 corner: -16 @ 0)).
-	
-	inspectButton := MultistateButtonMorph new
-				extent: GLMUIThemeExtraIcons glamorousInspect extent;
-				activeEnabledOverUpFillStyle: (ImageFillStyle form: GLMUIThemeExtraIcons glamorousInspect);
-"				passiveEnabledOverUpFillStyle: (ImageFillStyle form: activeForm);
-				activeEnabledOverDownFillStyle: (ImageFillStyle form: passiveForm);
-				passiveEnabledOverDownFillStyle: (ImageFillStyle form: passiveForm);
-"		
-				setBalloonText: 'Inspect' translated.
-	self 
-		addMorph: inspectButton
-		fullFrame: (LayoutFrame fractions: (1 @ 0 corner: 1 @ 0) offsets: (-16 @ 6 corner: 6 @ 28))
+		addMorph: textMorph fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ 0 corner: -16 @ 0))
 ]
 
 { #category : #public }
@@ -78,8 +81,7 @@ GLMPopper >> openInWorldFromRubric: aMorph [
 	string := result asString.
 	aMorph textArea scrollSelectionIntoView: nil.
 	desiredTop := aMorph textArea cursor top + 
-						aMorph positionInWorld y - 6 - 
-						aMorph textArea owner offset y.
+						aMorph positionInWorld y - 6.
 						"unclear why 6 is the magic number"
 	desiredLeft := aMorph textArea cursor right + aMorph positionInWorld x + 6.
 	self
