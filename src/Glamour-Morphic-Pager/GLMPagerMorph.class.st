@@ -67,7 +67,9 @@ GLMPagerMorph >> initialize [
 		vResizing: #spaceFill;
 		cellPositioning: #center;
 		listCentering: #center;
-		wrapCentering: #center
+		wrapCentering: #center;
+		"for visual centering of the circle buttons"
+		cellInset: EdgeGripMorph new defaultHeight
 ]
 
 { #category : #initialization }
