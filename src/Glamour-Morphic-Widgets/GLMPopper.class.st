@@ -57,7 +57,7 @@ GLMPopper >> initializeInspectButton [
 		setBalloonText: 'Inspect' translated.
 	self
 		addMorph: inspectButton
-		fullFrame: (LayoutFrame fractions: (1 @ 0 corner: 1 @ 0) offsets: (-16 @ 6 corner: 6 @ 28))
+		fullFrame: (LayoutFrame fractions: (1 @ 0 corner: 1 @ 0) offsets: (inspectButton width negated @ 6 corner: 6 @ 28))
 ]
 
 { #category : #initialization }
@@ -70,7 +70,7 @@ GLMPopper >> initializeTextMorph [
 	self
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
-		addMorph: textMorph fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ 0 corner: -16 @ 0))
+		addMorph: textMorph fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ 0 corner: inspectButton width negated @ 0))
 ]
 
 { #category : #public }
