@@ -40,7 +40,7 @@ GLMPagerBarMorph >> addScrollBar [
 		scrollBar := GLMSlidingScrollMorph new.
 		scrollBar adapter: adapter.
 		"scrollBar height: self height."
-		scrollBar height: adapter circleButtonSize.
+		scrollBar height: adapter circleButtonSize + 6.
 		
 		self addMorph: scrollBar fullFrame: (LayoutFrame 
 					fractions: (0 @ 0 corner: 0 @ 0)

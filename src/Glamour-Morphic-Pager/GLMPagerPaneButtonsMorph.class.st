@@ -42,7 +42,8 @@ GLMPagerPaneButtonsMorph >> buttonCenterByIndex: aNumber [
 GLMPagerPaneButtonsMorph >> initialize [
 	super initialize.
 		
-	self changeTableLayout;
+	self 
+		changeTableLayout;
 		changeListDirection: #leftToRight;
 		cellPositioning: #center;
 		listCentering: #center;
@@ -51,8 +52,7 @@ GLMPagerPaneButtonsMorph >> initialize [
 		
 	self hResizing: #shrinkWrap.
 	
-	
-	indicatorButtons := OrderedCollection new.
+	indicatorButtons := OrderedCollection new
 ]
 
 { #category : #testing }
