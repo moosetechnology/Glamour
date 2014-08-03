@@ -1205,7 +1205,7 @@ ConfigurationOfGlamour >> baseline29: spec [
 			package: 'Glamour-Presentations'  with: [spec requires: #('Glamour-Core')];
 			package: 'Glamour-Browsers'  with: [spec requires: #('Glamour-Core')];
 			package: 'Glamour-Tests-Core' ;
-			package: 'Glamour-Morphic-Widgets';
+			package: 'Glamour-Morphic-Widgets' with: [spec requires: #('Rubric')];
 			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core')];
 			package: 'Glamour-Morphic-Pager' with: [spec requires: #('Glamour-Morphic-Renderer')];
 			package: 'Glamour-Morphic-Theme' with: [spec requires: 'Rubric'];
