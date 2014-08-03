@@ -7,35 +7,20 @@ Class {
 	#name : #GLMPopper,
 	#superclass : #Morph,
 	#instVars : [
-		'textMorph',
-		'inspectButton'
+		'textMorph'
 	],
 	#category : #'Glamour-Morphic-Widgets-Popper'
 }
 
-{ #category : #private }
-GLMPopper >> atLeft: desiredLeft top: desiredTop withString: string withObject: anObject from: aMorph [
-	| top width left stringMorph height |
-	stringMorph := RubEditingArea new updateTextWith: string.
-	width := stringMorph width + 12 min: World width / 3.
-	left := desiredLeft + width > World width
-		ifTrue: [ World width - width ]
-		ifFalse: [ desiredLeft ].
-	height := (stringMorph
-		beWrapped;
-		width: width;
-		yourself) height + 2 min: World height / 3.
-	top := desiredTop + height > World height
-		ifTrue: [ World height - height ]
-		ifFalse: [ desiredTop ].
-	self updateWithString: string from: aMorph.
-	textMorph on: $i command do: [ anObject inspect ].
-	inspectButton addUpAction: [ anObject inspect ].
-	self
-		top: top;
-		left: left;
-		width: width + inspectButton width;
-		height: height
+{ #category : #public }
+GLMPopper >> computeOriginFor: aMorph [	
+	| desiredTop desiredLeft |
+	"self halt."
+	aMorph textArea scrollSelectionIntoView: nil.
+	desiredTop := aMorph textArea cursor positionInWorld y - 6.
+						"unclear why 6 is the magic number"
+	desiredLeft := aMorph textArea cursor right + aMorph positionInWorld x + 6.
+	^ desiredLeft @ desiredTop
 ]
 
 { #category : #initialization }
@@ -44,53 +29,7 @@ GLMPopper >> initialize [
 	self changeProportionalLayout.
 	self
 		onAnnouncement: MorphLostFocus do: [ :ann | ann morph delete ];
-		color: Color transparent.
-	self initializeInspectButton.
-	self initializeTextMorph
-]
-
-{ #category : #initialization }
-GLMPopper >> initializeInspectButton [
-	inspectButton := MultistateButtonMorph new
-		extent: GLMUIThemeExtraIcons glamorousInspect extent;
-		activeEnabledOverUpFillStyle: (ImageFillStyle form: GLMUIThemeExtraIcons glamorousInspect);
-		setBalloonText: 'Inspect' translated.
-	self
-		addMorph: inspectButton
-		fullFrame: (LayoutFrame fractions: (1 @ 0 corner: 1 @ 0) offsets: (inspectButton width negated @ 6 corner: 6 @ 28))
-]
-
-{ #category : #initialization }
-GLMPopper >> initializeTextMorph [
-	textMorph := RubScrolledTextMorph new.
-	textMorph
-		beReadOnly;
-		beWrapped;
-		color: BalloonMorph balloonColor.
-	self
-		vResizing: #spaceFill;
-		hResizing: #spaceFill;
-		addMorph: textMorph fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ 0 corner: inspectButton width negated @ 0))
-]
-
-{ #category : #public }
-GLMPopper >> openInWorldFromRubric: aMorph [
-	| desiredTop desiredLeft string result |
-
-	result := aMorph textArea editor evaluateSelectionAndDo: [ :x | x ].
-	string := result asString.
-	aMorph textArea scrollSelectionIntoView: nil.
-	desiredTop := aMorph textArea cursor top + 
-						aMorph positionInWorld y - 6.
-						"unclear why 6 is the magic number"
-	desiredLeft := aMorph textArea cursor right + aMorph positionInWorld x + 6.
-	self
-		atLeft: desiredLeft
-		top: desiredTop
-		withString: string
-		withObject: result
-		from: aMorph.
-	self openInWorld
+		color: Color transparent
 ]
 
 { #category : #private }
@@ -107,4 +46,28 @@ GLMPopper >> updateWithString: string from: aMorph [
 		onAnnouncement: MorphLostFocus do: [ :ann | 
 			self delete.
 			aMorph takeKeyboardFocus ]
+]
+
+{ #category : #private }
+GLMPopper >> withString: string from: aMorph [
+	| top width left stringMorph height desiredOrigin |
+	desiredOrigin := self computeOriginFor: aMorph.
+	stringMorph := RubEditingArea new updateTextWith: string.
+	width := stringMorph width + 12 min: World width / 3.
+	left := desiredOrigin x + width > World width
+		ifTrue: [ World width - width ]
+		ifFalse: [ desiredOrigin x ].
+	height := (stringMorph
+		beWrapped;
+		width: width;
+		yourself) height + 2 min: World height / 3.
+	top := desiredOrigin y + height > World height
+		ifTrue: [ World height - height ]
+		ifFalse: [ desiredOrigin y ].
+	self updateWithString: string from: aMorph.
+	self
+		top: top;
+		left: left;
+		width: width;
+		height: height
 ]
