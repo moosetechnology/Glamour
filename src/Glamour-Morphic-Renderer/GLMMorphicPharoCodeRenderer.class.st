@@ -38,7 +38,7 @@ GLMMorphicPharoCodeRenderer >> debugSelection [
 { #category : #callbacks }
 GLMMorphicPharoCodeRenderer >> evaluateAndPopPrintSelection [
 	UIManager default defer: [ 
-		GLMPrintPopper new evaluateAndOpenFromRubric: textMorph textArea
+		GLMPopper new openInWorldFromRubric: textMorph
 	 ]
 	
 ]
@@ -75,7 +75,7 @@ GLMMorphicPharoCodeRenderer >> registerEventsForPresentation: aPresentation [
 	aPresentation on: GLMCompileText send: #actOnCompileText: to: self.
 	aPresentation on: GLMDebugSelection send: #debugSelection to: self.
 	aPresentation on: GLMProfileSelection send: #profileSelection to: self.
-	aPresentation on: GLMPrintSelection send: #evaluateAndPopPrintSelection to: self
+	aPresentation on: GLMPrintSelection send: #evaluateAndPrintSelection to: self
 	
 ]
 
