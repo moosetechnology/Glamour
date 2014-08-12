@@ -198,6 +198,12 @@ GLMTablePresentation >> hasTagsFilter [
 	^ self columns anySatisfy: [ :aColumn | aColumn hasTagsFilter ]
 ]
 
+{ #category : #initialization }
+GLMTablePresentation >> initialize [
+	super initialize.
+	children := [ #() ]
+]
+
 { #category : #'default actions' }
 GLMTablePresentation >> installExportToCSV [
 	self 
