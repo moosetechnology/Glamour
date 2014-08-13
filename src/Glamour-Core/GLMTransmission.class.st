@@ -223,6 +223,13 @@ GLMTransmission >> fromOutsidePort: aPortSymbol transformed: aBlock [
 	^ self from: #outer port: aPortSymbol transformed: aBlock
 ]
 
+{ #category : #'as yet unclassified' }
+GLMTransmission >> gtDisplayOn: stream [
+	self origins asArray gtDisplayOn: stream.
+	stream nextPutAll: '->'.
+	self destination gtDisplayOn: stream
+]
+
 { #category : #'initialize-release' }
 GLMTransmission >> initialize [
 	super initialize.

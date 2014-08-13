@@ -67,6 +67,14 @@ GLMBrowser >> defaultRenderer [
 	^GLMRenderer subclasses first new
 ]
 
+{ #category : #'as yet unclassified' }
+GLMBrowser >> gtInspectorTransmissionsIn: composite [
+	<gtInspectorPresentationOrder: 35>  
+	^ composite list 
+		title: 'Transmissions';
+		display: [ self transmissions ]
+]
+
 { #category : #accessing }
 GLMBrowser >> initialExtent [
 
