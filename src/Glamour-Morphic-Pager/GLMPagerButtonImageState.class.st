@@ -6,7 +6,11 @@ Class {
 		'pressedImage',
 		'selectedImage',
 		'checkedImage',
-		'announcer'
+		'announcer',
+		'checkedColor',
+		'normalColor',
+		'pressedColor',
+		'selectedColor'
 	],
 	#category : #'Glamour-Morphic-Pager-Model'
 }
@@ -27,9 +31,15 @@ GLMPagerButtonImageState >> checked: anImage [
 	self stateUpdated.
 ]
 
+{ #category : #getters }
+GLMPagerButtonImageState >> checkedColor [
+	^ checkedColor
+]
+
 { #category : #'setters-color' }
 GLMPagerButtonImageState >> checkedColor: aColor [
-	self checked: (self imageFromColor: aColor)
+	self checked: (self imageFromColor: aColor).
+	checkedColor:= aColor.
 ]
 
 { #category : #'setters-file' }
@@ -58,9 +68,15 @@ GLMPagerButtonImageState >> normal: anImage [
 	self stateUpdated.
 ]
 
+{ #category : #getters }
+GLMPagerButtonImageState >> normalColor [
+	^ normalColor
+]
+
 { #category : #'setters-color' }
 GLMPagerButtonImageState >> normalColor: aColor [
-	self normal: (self imageFromColor: aColor)
+	self normal: (self imageFromColor: aColor).
+	normalColor := aColor.
 ]
 
 { #category : #'setters-file' }
@@ -79,9 +95,15 @@ GLMPagerButtonImageState >> pressed: anImage [
 	self stateUpdated.
 ]
 
+{ #category : #getters }
+GLMPagerButtonImageState >> pressedColor [
+	^ pressedColor
+]
+
 { #category : #'setters-color' }
 GLMPagerButtonImageState >> pressedColor: aColor [
-	self pressed: (self imageFromColor: aColor)
+	self pressed: (self imageFromColor: aColor).
+	pressedColor := aColor.
 ]
 
 { #category : #'setters-file' }
@@ -100,9 +122,15 @@ GLMPagerButtonImageState >> selected: anImage [
 	self stateUpdated.
 ]
 
+{ #category : #getters }
+GLMPagerButtonImageState >> selectedColor [
+	^ selectedColor
+]
+
 { #category : #'setters-color' }
 GLMPagerButtonImageState >> selectedColor: aColor [
-	self selected: (self imageFromColor: aColor)
+	self selected: (self imageFromColor: aColor).
+	selectedColor := aColor.
 ]
 
 { #category : #'setters-file' }

@@ -53,9 +53,19 @@ GLMButton >> buttonModel: aModel [
 ]
 
 { #category : #drawing }
+GLMButton >> currentColor [
+	^ self image pressedColor: (self buttonModel isPressed) selectedColor: (self buttonModel isSelected) checkedColor: (self buttonModel isChecked).
+]
+
+{ #category : #drawing }
+GLMButton >> currentImage [
+	^ self image pressed: (self buttonModel isPressed) selected: (self buttonModel isSelected) checked: (self buttonModel isChecked).
+]
+
+{ #category : #drawing }
 GLMButton >> drawOn: aCanvas [
 	|image|
-	image := self image pressed: (self buttonModel isPressed) selected: (self buttonModel isSelected) checked: (self buttonModel isChecked).
+	image := self currentImage.
 	image ifNotNil: [
 		aCanvas 
 			translucentImage: (self resizeImage: image scale:  (bounds extent / image extent))
