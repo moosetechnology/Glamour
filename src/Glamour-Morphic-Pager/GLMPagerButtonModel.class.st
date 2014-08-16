@@ -95,6 +95,6 @@ GLMPagerButtonModel >> select [
 GLMPagerButtonModel >> uncheck [
 	self isChecked ifTrue: [
 		isChecked := false.
-		self announcer announce: (GLMPagerButtonChecked new).
+		self announcer announce: (GLMPagerButtonUnChecked new).
 	]
 ]

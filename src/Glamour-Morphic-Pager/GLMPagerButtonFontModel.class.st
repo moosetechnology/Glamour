@@ -34,7 +34,7 @@ GLMPagerButtonFontModel >> defaultColor [
 
 { #category : #defaults }
 GLMPagerButtonFontModel >> defaultFamilyName [
-	^ 'Bitmap DejaVu Sans'
+	^ 'Source Code Pro'
 ]
 
 { #category : #defaults }
@@ -91,7 +91,7 @@ GLMPagerButtonFontModel >> size [
 { #category : #accessing }
 GLMPagerButtonFontModel >> size: aNumber [
 	size := aNumber.
-	self notifyUpdate.
+	self updateFont.
 ]
 
 { #category : #private }
