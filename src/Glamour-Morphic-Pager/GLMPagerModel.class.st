@@ -391,6 +391,12 @@ GLMPagerModel >> pushPane: aMorph smooth: aBoolean [
 
 { #category : #'as yet unclassified' }
 GLMPagerModel >> recomputeState [
+	self recomputeState: true
+	
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerModel >> recomputeState: isSmooth [
 	"recomputes current model state and if necessary notifies all listeners about changes"
 	|tmpNumberOfVisiblePages notifyNumberOfVisiblePagesChanged|
 	
@@ -415,7 +421,7 @@ GLMPagerModel >> recomputeState [
 	virtualLastVisiblePageIndex = nil.
 	
 	notifyNumberOfVisiblePagesChanged ifTrue: [ self notifyNumberOfVisiblePagesChanged ].
-	self notifyScrollPositionChanged: true.
+	self notifyScrollPositionChanged: isSmooth.
 	
 ]
 

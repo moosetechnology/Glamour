@@ -271,16 +271,12 @@ GLMSlidingScrollMorph >> mouseMove: evt [
 GLMSlidingScrollMorph >> mouseUp: evt [
 	super mouseUp: evt.
 	
-	adapter recomputeState.
+	adapter recomputeState: (isResizing not).
 	
 	isResizing
 		ifTrue: [
-			"adapter numberOfVisiblePagesChanged ifFalse: [ self onResized ]."
-		]
-		ifFalse: [
-			"smooth scrolling to fisrt visible page"
-			"adapter switchPageTo: adapter firstVisiblePageIndex updateFocus: false updateSelection: false."
-		].	
+			self setWidthAfterResizing.
+		].
 	
 	isResizing := false.
 		
@@ -295,7 +291,7 @@ GLMSlidingScrollMorph >> moveLeft: left [ "Integer - pixels"
 	"moves scrollbar inside parent to the specified left distance in pixels and notifies all listeners about that"
 	| right |
 	
-	right := left + self computeWidth.
+	right := left + self width.
 	
 	self layoutFrame: (
 		LayoutFrame 
@@ -308,12 +304,17 @@ GLMSlidingScrollMorph >> moveLeft: left [ "Integer - pixels"
 
 { #category : #'announcement handling' }
 GLMSlidingScrollMorph >> onResized [
+
+	Transcript show: 'onResized'; cr.
+
 	self setWidthAfterResizing.
 ]
 
 { #category : #'as yet unclassified' }
 GLMSlidingScrollMorph >> onScrollPositionChanged: announcement [
 
+	Transcript show: 'onScrollPositionChanged: ',announcement smooth asString; cr.
+	
 	self scrollToPane: adapter firstVisiblePageIndex smooth: announcement smooth.
 ]
 
