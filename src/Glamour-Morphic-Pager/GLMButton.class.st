@@ -113,7 +113,10 @@ GLMButton >> initialize [
 	self font: GLMPagerButtonFontModel new.
 	self buttonModel: GLMPagerButtonModel new.
 	
-	super initialize.	
+	super initialize.
+	
+	self label: ''.
+	self font size: 0.
 	
 	self borderWidth: 0.
 	

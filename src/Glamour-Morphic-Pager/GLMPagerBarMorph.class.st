@@ -39,8 +39,7 @@ GLMPagerBarMorph >> addScrollBar [
 	scrollBar ifNil: [
 		scrollBar := GLMSlidingScrollMorph new.
 		scrollBar adapter: adapter.
-		"scrollBar height: self height."
-		scrollBar height: adapter circleButtonSize + 6.
+		scrollBar height: adapter circleButtonSize.
 		
 		self addMorph: scrollBar fullFrame: (LayoutFrame 
 					fractions: (0 @ 0 corner: 0 @ 0)
@@ -48,26 +47,12 @@ GLMPagerBarMorph >> addScrollBar [
 	]
 ]
 
-{ #category : #'as yet unclassified' }
-GLMPagerBarMorph >> bounds: newBounds [
-	|rect left right   |
-	
-	rect := newBounds.
-	
-	left := rect origin.
-	right := rect corner.
-	
-	rect := left corner: right.
-	
-	super bounds: rect
-]
-
 { #category : #initialization }
 GLMPagerBarMorph >> initialize [
 	super initialize.
 		
 	self 
-		color: Color transparent;
+		beTransparent
 		changeProportionalLayout;
 		borderWidth: 0.
 	self

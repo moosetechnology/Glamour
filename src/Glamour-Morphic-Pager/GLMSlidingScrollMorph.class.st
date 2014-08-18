@@ -1,3 +1,48 @@
+"
+A GLMPagerScrollSlidingMorph is xxxxxxxxx.
+
+Instance Variables
+	adapter:		<Object>
+	isLeftResizing:		<Object>
+	isResizing:		<Object>
+	isRightResizing:		<Object>
+	resizingZoneWidth:		<Object>
+	scrollResizingIcon:		<Object>
+	scrollSelectedIcon:		<Object>
+	startDragX:		<Object>
+	startResizingWidth:		<Object>
+
+adapter
+	- xxxxx
+
+drawCache
+	- xxxxx
+
+isLeftResizing
+	- xxxxx
+
+isResizing
+	- xxxxx
+
+isRightResizing
+	- xxxxx
+
+resizingZoneWidth
+	- xxxxx
+
+scrollResizingIcon
+	- xxxxx
+
+scrollSelectedIcon
+	- xxxxx
+
+startDragX
+	- xxxxx
+
+startResizingWidth
+	- xxxxx
+
+"
 Class {
 	#name : #GLMSlidingScrollMorph,
 	#superclass : #GLMButton,
@@ -8,10 +53,7 @@ Class {
 		'adapter',
 		'resizingZoneWidth',
 		'isRightResizing',
-		'isLeftResizing',
-		'scrollResizingIcon',
-		'scrollSelectedIcon',
-		'drawCache'
+		'isLeftResizing'
 	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
@@ -148,19 +190,15 @@ GLMSlidingScrollMorph >> handlesMouseOverDragging: evt [
 { #category : #initialization }
 GLMSlidingScrollMorph >> initialize [
 	super initialize.
-	
-	self label: ''.
-	
+		
 	resizingZoneWidth := 7.
 	isRightResizing := false.
 	isLeftResizing := false.
 	isResizing := false.
-		
-	self image state normal: GLMUIThemeExtraIcons glamorousLargeGrayCircleEmphasized.
-	scrollResizingIcon := GLMUIThemeExtraIcons glamorousLargeGrayCircleEmphasized.
-	scrollSelectedIcon := GLMUIThemeExtraIcons glamorousLargeGrayCircleEmphasized.
 	
-	drawCache := Dictionary new.
+	self image state normalColor: (Color veryLightGray alpha: 0.15).
+	self flag: 'Do we need a :hover effect?'.
+	self image state selectedColor: (Color veryLightGray alpha: 0.25).
 ]
 
 { #category : #'event-mouse' }
@@ -206,10 +244,7 @@ GLMSlidingScrollMorph >> mouseDown: evt [
 	ifTrue: [ isLeftResizing := false ].
 
 	isResizing := (isLeftResizing or: isRightResizing).
-	
-	"during resizing we can use other image"
-	isResizing ifTrue: [ self image state selected: scrollResizingIcon ].
-	
+		
 	super mouseDown: evt.
 ]
 
@@ -248,10 +283,7 @@ GLMSlidingScrollMorph >> mouseUp: evt [
 		].	
 	
 	isResizing := false.
-	
-	"setting selected image to default after resize is complete"
-	self image state selected: scrollResizingIcon.
-	
+		
 	(bounds containsPoint: evt position)
 		ifFalse: [ self setCursorToNormal: evt ]
 		ifTrue: [ self setCursorToResizing: evt ] 
@@ -289,15 +321,6 @@ GLMSlidingScrollMorph >> onScrollPositionChanged: announcement [
 GLMSlidingScrollMorph >> resizeCursor [
 
 	^ Cursor resizeForEdge: #left
-]
-
-{ #category : #drawing }
-GLMSlidingScrollMorph >> resizeImage: anImage scale: aScale [
-
-	| form |
-	form := (Form extent: (aScale * anImage extent) depth: 32).
-	form fillColor: (Color veryLightGray alpha: 0.5).
-	^ form 
 ]
 
 { #category : #scrolling }

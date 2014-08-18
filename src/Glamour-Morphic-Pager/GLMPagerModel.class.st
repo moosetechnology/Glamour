@@ -40,7 +40,7 @@ GLMPagerModel >> assignFocusableMorph: aMorph withPaneAt: paneIndex [
 
 { #category : #accessing }
 GLMPagerModel >> circleButtonSize [
-	^ 16
+	^ 22
 ]
 
 { #category : #scrolling }

@@ -56,7 +56,7 @@ GLMPagerScrollMorph >> focusChanged: anEvent [
 GLMPagerScrollMorph >> initialize [
 	super initialize.
 	
-	self color: Color transparent.
+	self beTransparent.
 	
 	Morph announcer weak 
 		on: MorphGotFocus send: #focusChanged: to: self.
