@@ -2,28 +2,11 @@ Class {
 	#name : #GLMPagerPaneButtonsMorph,
 	#superclass : #Morph,
 	#instVars : [
-		'adapter',
-		'indicatorButtons'
+		'indicatorButtons',
+		'pagerModel'
 	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
-
-{ #category : #accessing }
-GLMPagerPaneButtonsMorph >> adapter: anAdapter [
-	
-	adapter := anAdapter.
-		
-	adapter announcer weak
-		on: GLMPageSwitched send: #onPageSwitched to: self.
-				
-	adapter announcer weak
-		on: GLMPagerBoundsChanged send: #onScrollBoundsChanged: to: self.
-		
-	adapter announcer weak
-		on: GLMFocusedPageChanged send: #onFocusedPageChanged to: self.
-		
-	self updateIndicatorButtons.
-]
 
 { #category : #adding }
 GLMPagerPaneButtonsMorph >> addScrollButton: aMorph [
@@ -33,7 +16,7 @@ GLMPagerPaneButtonsMorph >> addScrollButton: aMorph [
 { #category : #'as yet unclassified' }
 GLMPagerPaneButtonsMorph >> buttonCenterByIndex: aNumber [
 	|left width|
-	width := adapter circleButtonSize.
+	width := pagerModel circleButtonSize.
 	left := self bounds left.
 	^ left + ( ( aNumber - 1 ) * ( width ) ) + ( width / 2 ).
 ]
@@ -71,7 +54,7 @@ GLMPagerPaneButtonsMorph >> markButtonsInside: aBounds [
 	lastFound := false.
 	index := 0.
 	
-	(adapter size = 0) ifTrue: [ ^ self ].
+	(pagerModel size = 0) ifTrue: [ ^ self ].
 	boundsLeft := aBounds x.
 	boundsRight := aBounds y.
 	
@@ -81,7 +64,7 @@ GLMPagerPaneButtonsMorph >> markButtonsInside: aBounds [
 			ifTrue: [
 				indicator buttonModel check.
 				firstFound ifFalse: [
-					adapter virtualFirstVisiblePageIndex: index.
+					pagerModel virtualFirstVisiblePageIndex: index.
 					firstFound := true.
 				]
 			]
@@ -89,13 +72,13 @@ GLMPagerPaneButtonsMorph >> markButtonsInside: aBounds [
 				"uncheck only if not focused"
 				indicator isFocused ifFalse: [ indicator buttonModel uncheck ].
 				(firstFound & (lastFound = false)) ifTrue: [
-					adapter virtualLastVisiblePageIndex: index - 1.
+					pagerModel virtualLastVisiblePageIndex: index - 1.
 					lastFound := true.
 				]
 			].
 	].
 	lastFound ifFalse: [
-		adapter virtualLastVisiblePageIndex: index.
+		pagerModel virtualLastVisiblePageIndex: index.
 		lastFound := true.
 	]
 	
@@ -135,15 +118,15 @@ GLMPagerPaneButtonsMorph >> onPagePushed: addedAnnouncement [
 	button buttonModel on: GLMPagerButtonSelected send: #scrollButtonSelected: to: self.
 	button buttonModel on: GLMPagerButtonDeselected send: #scrollButtonDeselected to: self.
 	
-	adapter scrollButtonIconRenderBlock ifNotNil: [
-		self renderCustomScrollButtonIcons: (adapter scrollButtonIconRenderBlock value: indicatorButtons size) for: button.
+	pagerModel scrollButtonIconRenderBlock ifNotNil: [
+		self renderCustomScrollButtonIcons: (pagerModel scrollButtonIconRenderBlock value: indicatorButtons size) for: button.
 	]	ifNil: [ 
 		GLMPagerWidgetThemer new defaultScrollButtonStyleFor: button.
 	].
 	
 	
-	button height: adapter circleButtonSize.
-	button width: adapter circleButtonSize.
+	button height: pagerModel circleButtonSize.
+	button width: pagerModel circleButtonSize.
 	
 	self addScrollButton: button.
 	
@@ -165,6 +148,23 @@ GLMPagerPaneButtonsMorph >> onScrollBoundsChanged: boundsChangedAnnouncement [
 	
 ]
 
+{ #category : #accessing }
+GLMPagerPaneButtonsMorph >> pagerModel: aModel [
+	
+	pagerModel := aModel.
+		
+	pagerModel announcer weak
+		on: GLMPageSwitched send: #onPageSwitched to: self.
+				
+	pagerModel announcer weak
+		on: GLMPagerBoundsChanged send: #onScrollBoundsChanged: to: self.
+		
+	pagerModel announcer weak
+		on: GLMFocusedPageChanged send: #onFocusedPageChanged to: self.
+		
+	self updateIndicatorButtons.
+]
+
 { #category : #'as yet unclassified' }
 GLMPagerPaneButtonsMorph >> removeScrollButton: aButton [
 
@@ -184,7 +184,7 @@ GLMPagerPaneButtonsMorph >> renderCustomScrollButtonIcons: anIcons for: aButton 
 		normalIcon := (AlphaImageMorph new image: anIcons asGrayScaleWithAlpha; alpha: 0.6) cachedForm.
 	].
 
-	iconSize := adapter circleButtonSize @ adapter circleButtonSize.
+	iconSize := pagerModel circleButtonSize @ pagerModel circleButtonSize.
 	
 	source := GLMForm scaleForm: normalIcon to: iconSize / 1.6.
 	normalIcon := GLMForm increaseFormExtentCentered: source to: iconSize.
@@ -204,7 +204,7 @@ GLMPagerPaneButtonsMorph >> renderCustomScrollButtonIcons: anIcons for: aButton 
 GLMPagerPaneButtonsMorph >> scrollButtonClicked: clickedAnnouncement [
 
 	"notify adapter that we need to switch page"
-	adapter switchPaneTo: clickedAnnouncement buttonModel pageIndex.
+	pagerModel switchPaneTo: clickedAnnouncement buttonModel pageIndex.
 ]
 
 { #category : #'as yet unclassified' }
@@ -219,7 +219,7 @@ GLMPagerPaneButtonsMorph >> scrollButtonSelected: selectedAnnouncement [
 	"notify adapter that we need to update pane preview"
 	
 	GLMPagerPanePreviewMorph uniqueInstance showAt: (indicatorButtons at: selectedAnnouncement buttonModel pageIndex) bounds topCenter.
-	adapter updatePreview: selectedAnnouncement buttonModel pageIndex.
+	pagerModel updatePreview: selectedAnnouncement buttonModel pageIndex.
 ]
 
 { #category : #'as yet unclassified' }
@@ -232,8 +232,8 @@ GLMPagerPaneButtonsMorph >> updateIndicatorButtons [
 	].
 
 	"then check only necessary"
-	adapter size > 0 ifTrue: [
-		indicatorButtons from: adapter firstVisiblePageIndex to: adapter lastVisiblePageIndex do: [ :indicator |
+	pagerModel size > 0 ifTrue: [
+		indicatorButtons from: pagerModel firstVisiblePageIndex to: pagerModel lastVisiblePageIndex do: [ :indicator |
 			indicator buttonModel check.
 		]
 	]
@@ -248,15 +248,15 @@ GLMPagerPaneButtonsMorph >> updateIndicatorButtonsFocus [
 	].
 	
 	"because it's possible when nothing has focus"
-	adapter focusedPageIndex ifNotNil: [ (indicatorButtons at: adapter focusedPageIndex) setFocused ].
+	pagerModel focusedPageIndex ifNotNil: [ (indicatorButtons at: pagerModel focusedPageIndex) setFocused ].
 	
 ]
 
 { #category : #geometry }
 GLMPagerPaneButtonsMorph >> width [
 	|width|
-	width := adapter isNotNil
-		ifTrue: [ ( indicatorButtons size * ( adapter circleButtonSize ) ) ]
+	width := pagerModel isNotNil
+		ifTrue: [ ( indicatorButtons size * ( pagerModel circleButtonSize ) ) ]
 		ifFalse: [ 0 ].
 	^ width
 ]

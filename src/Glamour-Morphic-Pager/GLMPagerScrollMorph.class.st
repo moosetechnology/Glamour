@@ -3,38 +3,11 @@ Class {
 	#superclass : #GLMPageScroller,
 	#instVars : [
 		'pane',
-		'adapter',
-		'currentFocus'
+		'currentFocus',
+		'pagerModel'
 	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
-
-{ #category : #'as yet unclassified' }
-GLMPagerScrollMorph >> adapter: anAdapter [
-	
-	adapter := anAdapter.
-	
-	adapter announcer weak
-		on: GLMPagePushed send: #onPagePushed: to: self.
-	
-	adapter announcer weak
-		on: GLMPagePoped send: #onPagePoped to: self.
-						
-	adapter announcer weak
-		on: GLMPagerSynchronizeScrollAnnouncement send: #onSynchronizeScroll: to: self.
-		
-	adapter announcer weak 
-		on: GLMPagerScrollPositionChanged send: #onScrollPositionChanged: to: self.
-		
-	adapter announcer weak 
-		on: GLMNumberOfVisiblePagesChanged send: #onPagesNumberChanged to: self.
-		
-	adapter announcer weak 
-		on: GLMSelectedPageChanged send: #onSelectedPageChanged to: self.
-		
-	adapter announcer weak 
-		on: GLMPagerPreviewUpdate send: #onPagePreviewUpdate: to: self.
-]
 
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> focusChanged: anEvent [
@@ -47,7 +20,7 @@ GLMPagerScrollMorph >> focusChanged: anEvent [
 		pageIndex := self pageOf: newFocus.
 	
 		(pageIndex > 0) ifTrue: [
-			adapter focusedMorphChanged: newFocus at: pageIndex.
+			pagerModel focusedMorphChanged: newFocus at: pageIndex.
 		]
 	]
 ]
@@ -89,16 +62,16 @@ GLMPagerScrollMorph >> onPagePushed: pushedAnnouncement [
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> onPagesNumberChanged [
 
-	self maxPanes: adapter numberOfVisiblePages.
+	self maxPanes: pagerModel numberOfVisiblePages.
 	self basicUpdateSizing.
 	self layoutPanes.
-	self scrollToPane: adapter firstVisiblePageIndex smooth: false.
+	self scrollToPane: pagerModel firstVisiblePageIndex smooth: false.
 ]
 
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> onScrollPositionChanged: announcement [
 
-	self scrollToPane: adapter firstVisiblePageIndex smooth: announcement smooth.
+	self scrollToPane: pagerModel firstVisiblePageIndex smooth: announcement smooth.
 ]
 
 { #category : #'as yet unclassified' }
@@ -106,7 +79,7 @@ GLMPagerScrollMorph >> onSelectedPageChanged [
 	
 	panes do: [ :each | each borderColor: Color transparent ].
 	
-	self theme pagerWidgetThemer selectedPaneStyleFor: (panes at: adapter selectedPageIndex)
+	self theme pagerWidgetThemer selectedPaneStyleFor: (panes at: pagerModel selectedPageIndex)
 ]
 
 { #category : #'as yet unclassified' }
@@ -142,6 +115,33 @@ GLMPagerScrollMorph >> pageOf: aSubMorph [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+GLMPagerScrollMorph >> pagerModel: aModel [
+	
+	pagerModel := aModel.
+	
+	pagerModel announcer weak
+		on: GLMPagePushed send: #onPagePushed: to: self.
+	
+	pagerModel announcer weak
+		on: GLMPagePoped send: #onPagePoped to: self.
+						
+	pagerModel announcer weak
+		on: GLMPagerSynchronizeScrollAnnouncement send: #onSynchronizeScroll: to: self.
+		
+	pagerModel announcer weak 
+		on: GLMPagerScrollPositionChanged send: #onScrollPositionChanged: to: self.
+		
+	pagerModel announcer weak 
+		on: GLMNumberOfVisiblePagesChanged send: #onPagesNumberChanged to: self.
+		
+	pagerModel announcer weak 
+		on: GLMSelectedPageChanged send: #onSelectedPageChanged to: self.
+		
+	pagerModel announcer weak 
+		on: GLMPagerPreviewUpdate send: #onPagePreviewUpdate: to: self.
+]
+
 { #category : #scrolling }
 GLMPagerScrollMorph >> scrollTo: aValue smooth: isSmooth [
 
@@ -152,5 +152,5 @@ GLMPagerScrollMorph >> scrollTo: aValue smooth: isSmooth [
 { #category : #scrolling }
 GLMPagerScrollMorph >> scrollToPane: anIndex smooth: isSmooth [
 
-	self scrollTo: (adapter convertIndexToValue: anIndex) smooth: isSmooth.
+	self scrollTo: (pagerModel convertIndexToValue: anIndex) smooth: isSmooth.
 ]

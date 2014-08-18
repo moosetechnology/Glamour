@@ -31,20 +31,20 @@ GLMMorphicPagerRenderer >> defaultScrollButtonIconRenderBlock [
 
 { #category : #rendering }
 GLMMorphicPagerRenderer >> render: aBrowser [
-	|adapter|
-	adapter := GLMPagerModel new
+	|pagerModel|
+	pagerModel := GLMPagerModel new
 		isDependenciesShown: false.
 	
 	aBrowser scrollButtonIconRenderBlock ifNotNil: [
 		"result value of the block is raw icon of the Form class"
-		adapter scrollButtonIconRenderBlock: [ :index | aBrowser scrollButtonIconRenderBlock cull: ((aBrowser panes at: index) port: #entity) value ]
+		pagerModel scrollButtonIconRenderBlock: [ :index | aBrowser scrollButtonIconRenderBlock cull: ((aBrowser panes at: index) port: #entity) value ]
 	].
 	
 	container := GLMPagerMorph new
 		name: 'scroller';
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
-		adapter: adapter;
+		pagerModel: pagerModel;
 		beTransparent;
 		yourself.
 

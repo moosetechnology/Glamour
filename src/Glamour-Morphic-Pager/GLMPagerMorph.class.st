@@ -2,9 +2,9 @@ Class {
 	#name : #GLMPagerMorph,
 	#superclass : #Morph,
 	#instVars : [
-		'adapter',
 		'firstCombination',
-		'pagerBar'
+		'pagerBar',
+		'pagerModel'
 	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
@@ -14,7 +14,7 @@ GLMPagerMorph class >> simpleExample [
 	|pager adapter|
 	adapter := GLMPagerModel new.
 	pager :=	GLMPagerMorph new.
-	pager adapter: adapter.
+	pager pagerModel: adapter.
 	
 	pager pushPane: (Morph new color: Color red).
 	pager pushPane: (Morph new color: Color green).
@@ -27,28 +27,6 @@ GLMPagerMorph class >> simpleExample [
 	pager openInWindow.
 	
 	"pager inspect."
-]
-
-{ #category : #accessing }
-GLMPagerMorph >> adapter [
-	^ adapter
-]
-
-{ #category : #accessing }
-GLMPagerMorph >> adapter: anObject [
-	adapter := anObject.
-	
-	self addMorphBack: (GLMPagerScrollMorph new adapter: adapter).
-	
-	pagerBar := GLMPagerBarMorph new adapter: adapter.
-	
-	adapter announcer weak
-		on: GLMPagePushed send: #onPagePushed to: self.
-		
-	adapter announcer weak
-		on: GLMPagePoped send: #onPagePoped to: self.
-	
-	self initializeShortcuts.
 ]
 
 { #category : #initialization }
@@ -75,8 +53,8 @@ GLMPagerMorph >> initialize [
 { #category : #initialization }
 GLMPagerMorph >> initializeShortcuts [
 
-	self bindKeyCombination: Character arrowLeft alt command toAction: [ adapter selectToLeft ].
-	self bindKeyCombination: Character arrowRight alt command toAction: [ adapter selectToRight ].
+	self bindKeyCombination: Character arrowLeft alt command toAction: [ pagerModel selectToLeft ].
+	self bindKeyCombination: Character arrowRight alt command toAction: [ pagerModel selectToRight ].
 	
 	self bindKeyCombination: Character arrowLeft alt shift command toAction: [
 		self pressedScrollerSizeCombination: #left.
@@ -106,14 +84,36 @@ GLMPagerMorph >> outOfWorld: aWorld [
 	^ super outOfWorld: aWorld.
 ]
 
+{ #category : #accessing }
+GLMPagerMorph >> pagerModel [
+	^ pagerModel
+]
+
+{ #category : #accessing }
+GLMPagerMorph >> pagerModel: aModel [
+	pagerModel := aModel.
+	
+	self addMorphBack: (GLMPagerScrollMorph new pagerModel: pagerModel).
+	
+	pagerBar := GLMPagerBarMorph new pagerModel: pagerModel.
+	
+	pagerModel announcer weak
+		on: GLMPagePushed send: #onPagePushed to: self.
+		
+	pagerModel announcer weak
+		on: GLMPagePoped send: #onPagePoped to: self.
+	
+	self initializeShortcuts.
+]
+
 { #category : #'as yet unclassified' }
 GLMPagerMorph >> popAndReplacePane: aMorph [
-	adapter popAndReplacePane: aMorph
+	pagerModel popAndReplacePane: aMorph
 ]
 
 { #category : #'as yet unclassified' }
 GLMPagerMorph >> popPane [
-	adapter popPane.
+	pagerModel popPane.
 ]
 
 { #category : #'as yet unclassified' }
@@ -128,23 +128,23 @@ GLMPagerMorph >> pressedScrollerSizeCombination: aSymbol [
 { #category : #'as yet unclassified' }
 GLMPagerMorph >> pushPane: aMorph [
 
-	adapter pushPane: aMorph smooth: true.
+	pagerModel pushPane: aMorph smooth: true.
 	
 ]
 
 { #category : #'as yet unclassified' }
 GLMPagerMorph >> scrollerSizeShortcutAction: first second: second [
 	
-	(first = #left & second = #left) ifTrue: [ adapter enlargeToLeft ].
-	(first = #left & second = #right) ifTrue: [ adapter diminishToRight ].
-	(first = #right & second = #left) ifTrue: [ adapter diminishToLeft ].
-	(first = #right & second = #right) ifTrue: [ adapter enlargeToRight ]
+	(first = #left & second = #left) ifTrue: [ pagerModel enlargeToLeft ].
+	(first = #left & second = #right) ifTrue: [ pagerModel diminishToRight ].
+	(first = #right & second = #left) ifTrue: [ pagerModel diminishToLeft ].
+	(first = #right & second = #right) ifTrue: [ pagerModel enlargeToRight ]
 ]
 
 { #category : #initialization }
 GLMPagerMorph >> showOrHideScrollBar [
 	
-	(adapter size > 1)
+	(pagerModel size > 1)
 		ifTrue: [ self addMorphBack: pagerBar ]
 		ifFalse: [ self removeMorph: pagerBar ].
 ]

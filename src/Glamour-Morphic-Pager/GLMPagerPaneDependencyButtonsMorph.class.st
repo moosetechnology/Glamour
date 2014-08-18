@@ -9,8 +9,8 @@ GLMPagerPaneDependencyButtonsMorph >> addScrollButton: aMorph [
 	|arrowScaleMultiplier|
 	arrowScaleMultiplier := 2.
 	
-	adapter size > 1 ifTrue: [
-		self addMorphBack: (ImageMorph withForm: (GLMForm increaseFormExtentCentered: (GLMForm scaleForm: GLMUIThemeExtraIcons glamorousPlay to: (adapter dependencyButtonSize @ adapter dependencyButtonSize) / arrowScaleMultiplier ) to: (adapter dependencyButtonSize @ adapter dependencyButtonSize)))
+	pagerModel size > 1 ifTrue: [
+		self addMorphBack: (ImageMorph withForm: (GLMForm increaseFormExtentCentered: (GLMForm scaleForm: GLMUIThemeExtraIcons glamorousPlay to: (pagerModel dependencyButtonSize @ pagerModel dependencyButtonSize) / arrowScaleMultiplier ) to: (pagerModel dependencyButtonSize @ pagerModel dependencyButtonSize)))
 	].
 	
 	super addScrollButton: aMorph.
@@ -35,7 +35,7 @@ GLMPagerPaneDependencyButtonsMorph >> removeScrollButton: aButton [
 
 	self removeMorph: aButton.
 	
-	adapter size > 0 ifTrue: [ 
+	pagerModel size > 0 ifTrue: [ 
 		self removeMorph: (self submorphs last).
 	]
 ]
@@ -43,8 +43,8 @@ GLMPagerPaneDependencyButtonsMorph >> removeScrollButton: aButton [
 { #category : #'as yet unclassified' }
 GLMPagerPaneDependencyButtonsMorph >> width [
 	|width|
-	width := adapter isNotNil
-		ifTrue: [ ((indicatorButtons size * (adapter circleButtonSize )) + ((indicatorButtons size - 1) * adapter dependencyButtonSize)) ]
+	width := pagerModel isNotNil
+		ifTrue: [ ((indicatorButtons size * (pagerModel circleButtonSize )) + ((indicatorButtons size - 1) * pagerModel dependencyButtonSize)) ]
 		ifFalse: [ 0 ].
 	^ width
 ]

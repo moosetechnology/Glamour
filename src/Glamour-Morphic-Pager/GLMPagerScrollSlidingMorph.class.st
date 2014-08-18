@@ -2,7 +2,7 @@
 A GLMPagerScrollSlidingMorph is xxxxxxxxx.
 
 Instance Variables
-	adapter:		<Object>
+	pagerModel		<Object>
 	isLeftResizing:		<Object>
 	isResizing:		<Object>
 	isRightResizing:		<Object>
@@ -12,10 +12,7 @@ Instance Variables
 	startDragX:		<Object>
 	startResizingWidth:		<Object>
 
-adapter
-	- xxxxx
-
-drawCache
+pagerModel
 	- xxxxx
 
 isLeftResizing
@@ -44,36 +41,22 @@ startResizingWidth
 
 "
 Class {
-	#name : #GLMSlidingScrollMorph,
+	#name : #GLMPagerScrollSlidingMorph,
 	#superclass : #GLMButton,
 	#instVars : [
 		'startDragX',
 		'isResizing',
 		'startResizingWidth',
-		'adapter',
 		'resizingZoneWidth',
 		'isRightResizing',
-		'isLeftResizing'
+		'isLeftResizing',
+		'pagerModel'
 	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
 
-{ #category : #accessing }
-GLMSlidingScrollMorph >> adapter: anAdapter [
-	
-	adapter := anAdapter.
-			
-	adapter announcer weak 
-		on: GLMNumberOfVisiblePagesChanged send: #onResized to: self.
-		
-	adapter announcer weak 
-		on: GLMPagerScrollPositionChanged send: #onScrollPositionChanged: to: self.
-		
-	self width: self computeWidth.
-]
-
 { #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> computeScrollValue: aNumber [
+GLMPagerScrollSlidingMorph >> computeScrollValue: aNumber [
 	|minLeft maxLeft value interval|
 	
 	minLeft := owner bounds left.
@@ -92,15 +75,15 @@ GLMSlidingScrollMorph >> computeScrollValue: aNumber [
 ]
 
 { #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> computeWidth [
+GLMPagerScrollSlidingMorph >> computeWidth [
 	|width numberOfVisiblePages|
 
-	width := adapter isNotNil
+	width := pagerModel isNotNil
 		ifTrue: [
-			numberOfVisiblePages := adapter numberOfVisiblePages.
-			numberOfVisiblePages > adapter size
-				ifTrue: [ numberOfVisiblePages := adapter size ].
-			(adapter circleButtonSize) * numberOfVisiblePages + ((numberOfVisiblePages - 1) * adapter dependencyButtonSize).
+			numberOfVisiblePages := pagerModel numberOfVisiblePages.
+			numberOfVisiblePages > pagerModel size
+				ifTrue: [ numberOfVisiblePages := pagerModel size ].
+			(pagerModel circleButtonSize) * numberOfVisiblePages + ((numberOfVisiblePages - 1) * pagerModel dependencyButtonSize).
 		]
 		ifFalse: [ 0 ].
 		
@@ -108,20 +91,20 @@ GLMSlidingScrollMorph >> computeWidth [
 ]
 
 { #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> delete [
+GLMPagerScrollSlidingMorph >> delete [
 	super delete.
-	adapter announcer unsubscribe: self.
+	pagerModel announcer unsubscribe: self.
 ]
 
 { #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> dragResizingLeft: evt [
+GLMPagerScrollSlidingMorph >> dragResizingLeft: evt [
 	| leftDelta left right maxLeft|
 	
 	leftDelta:= (self bounds right - startResizingWidth - evt position x - startDragX).
 	
 	right := self layoutFrame rightOffset.
 	left := right - startResizingWidth - leftDelta.
-	maxLeft := right - adapter circleButtonSize.
+	maxLeft := right - pagerModel circleButtonSize.
 	
 	left := (left max: 0) min: maxLeft.
 	
@@ -131,19 +114,19 @@ GLMSlidingScrollMorph >> dragResizingLeft: evt [
 			offsets: (left @ 0 corner: right @ self height)
 	).
 	
-	adapter notifyScrollerBoundsChanged: (owner left + left)@(owner left + right).
+	pagerModel notifyScrollerBoundsChanged: (owner left + left)@(owner left + right).
 	
 ]
 
 { #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> dragResizingRight: evt [
+GLMPagerScrollSlidingMorph >> dragResizingRight: evt [
 	| rightDelta left right minRight maxRight|
 	
 	rightDelta:= (evt position x - self left - startDragX).
 	
 	left := self layoutFrame leftOffset.
 	right := left + startResizingWidth + rightDelta.
-	minRight := left + adapter circleButtonSize.
+	minRight := left + pagerModel circleButtonSize.
 	maxRight := owner width.
 	
 	right := (right max: minRight) min: maxRight.
@@ -154,12 +137,12 @@ GLMSlidingScrollMorph >> dragResizingRight: evt [
 			offsets: (left @ 0 corner: right @ self height)
 	).
 	
-	adapter notifyScrollerBoundsChanged: (owner left + left)@(owner left + right).
+	pagerModel notifyScrollerBoundsChanged: (owner left + left)@(owner left + right).
 	
 ]
 
 { #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> dragSliding: evt [
+GLMPagerScrollSlidingMorph >> dragSliding: evt [
 	| newLeft value|
 	
 	newLeft := (evt position x - startDragX).
@@ -170,7 +153,7 @@ GLMSlidingScrollMorph >> dragSliding: evt [
 ]
 
 { #category : #'event-mouse' }
-GLMSlidingScrollMorph >> handleMouseOver: anEvent [
+GLMPagerScrollSlidingMorph >> handleMouseOver: anEvent [
 	super handleMouseOver: anEvent.
 		
 	isResizing | (self isMouseEventInsideLeftResizingZone: anEvent) | (self isMouseEventInsideRightResizingZone: anEvent)
@@ -183,12 +166,12 @@ GLMSlidingScrollMorph >> handleMouseOver: anEvent [
 ]
 
 { #category : #'event-mouse' }
-GLMSlidingScrollMorph >> handlesMouseOverDragging: evt [
+GLMPagerScrollSlidingMorph >> handlesMouseOverDragging: evt [
 	^ true
 ]
 
 { #category : #initialization }
-GLMSlidingScrollMorph >> initialize [
+GLMPagerScrollSlidingMorph >> initialize [
 	super initialize.
 		
 	resizingZoneWidth := 7.
@@ -202,7 +185,7 @@ GLMSlidingScrollMorph >> initialize [
 ]
 
 { #category : #'event-mouse' }
-GLMSlidingScrollMorph >> isMouseEventInsideLeftResizingZone: evt [
+GLMPagerScrollSlidingMorph >> isMouseEventInsideLeftResizingZone: evt [
 	|resizingRectangle bottom right|
 	
 	bottom := self bounds bottom.
@@ -216,7 +199,7 @@ GLMSlidingScrollMorph >> isMouseEventInsideLeftResizingZone: evt [
 ]
 
 { #category : #'event-mouse' }
-GLMSlidingScrollMorph >> isMouseEventInsideRightResizingZone: evt [
+GLMPagerScrollSlidingMorph >> isMouseEventInsideRightResizingZone: evt [
 	|resizingRectangle top left|
 	
 	top := self bounds top.
@@ -230,7 +213,7 @@ GLMSlidingScrollMorph >> isMouseEventInsideRightResizingZone: evt [
 ]
 
 { #category : #'event-mouse' }
-GLMSlidingScrollMorph >> mouseDown: evt [
+GLMPagerScrollSlidingMorph >> mouseDown: evt [
 
 	startDragX := (evt position x - self left).
 	startResizingWidth := self width.
@@ -249,14 +232,14 @@ GLMSlidingScrollMorph >> mouseDown: evt [
 ]
 
 { #category : #'event-mouse' }
-GLMSlidingScrollMorph >> mouseLeave: evt [
+GLMPagerScrollSlidingMorph >> mouseLeave: evt [
 
 	self setCursorToNormal: evt.
 	super mouseLeave: evt.
 ]
 
 { #category : #'event-mouse' }
-GLMSlidingScrollMorph >> mouseMove: evt [
+GLMPagerScrollSlidingMorph >> mouseMove: evt [
 
 	isRightResizing
 		ifTrue: [ self dragResizingRight: evt ]
@@ -268,10 +251,10 @@ GLMSlidingScrollMorph >> mouseMove: evt [
 ]
 
 { #category : #'event-mouse' }
-GLMSlidingScrollMorph >> mouseUp: evt [
+GLMPagerScrollSlidingMorph >> mouseUp: evt [
 	super mouseUp: evt.
 	
-	adapter recomputeState: (isResizing not).
+	pagerModel recomputeState: (isResizing not).
 	
 	isResizing
 		ifTrue: [
@@ -286,7 +269,7 @@ GLMSlidingScrollMorph >> mouseUp: evt [
 ]
 
 { #category : #scrolling }
-GLMSlidingScrollMorph >> moveLeft: left [ "Integer - pixels"
+GLMPagerScrollSlidingMorph >> moveLeft: left [ "Integer - pixels"
 
 	"moves scrollbar inside parent to the specified left distance in pixels and notifies all listeners about that"
 	| right |
@@ -299,33 +282,43 @@ GLMSlidingScrollMorph >> moveLeft: left [ "Integer - pixels"
 			offsets: (left @ 0 corner: right @ self height)
 	).
 	
-	adapter notifyScrollerBoundsChanged: (owner left + left )@(owner left + right).
+	pagerModel notifyScrollerBoundsChanged: (owner left + left )@(owner left + right).
 ]
 
 { #category : #'announcement handling' }
-GLMSlidingScrollMorph >> onResized [
-
-	Transcript show: 'onResized'; cr.
+GLMPagerScrollSlidingMorph >> onResized [
 
 	self setWidthAfterResizing.
 ]
 
 { #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> onScrollPositionChanged: announcement [
-
-	Transcript show: 'onScrollPositionChanged: ',announcement smooth asString; cr.
+GLMPagerScrollSlidingMorph >> onScrollPositionChanged: announcement [
 	
-	self scrollToPane: adapter firstVisiblePageIndex smooth: announcement smooth.
+	self scrollToPane: pagerModel firstVisiblePageIndex smooth: announcement smooth.
+]
+
+{ #category : #accessing }
+GLMPagerScrollSlidingMorph >> pagerModel: anAdapter [
+	
+	pagerModel := anAdapter.
+			
+	pagerModel announcer weak 
+		on: GLMNumberOfVisiblePagesChanged send: #onResized to: self.
+		
+	pagerModel announcer weak 
+		on: GLMPagerScrollPositionChanged send: #onScrollPositionChanged: to: self.
+		
+	self width: self computeWidth.
 ]
 
 { #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> resizeCursor [
+GLMPagerScrollSlidingMorph >> resizeCursor [
 
 	^ Cursor resizeForEdge: #left
 ]
 
 { #category : #scrolling }
-GLMSlidingScrollMorph >> scrollTo: aFloat [ "Float - percentage/100"
+GLMPagerScrollSlidingMorph >> scrollTo: aFloat [ "Float - percentage/100"
 
 	"scrolls to a specified float number which must be in interval [0.0, 1.0]"
 
@@ -333,7 +326,7 @@ GLMSlidingScrollMorph >> scrollTo: aFloat [ "Float - percentage/100"
 ]
 
 { #category : #scrolling }
-GLMSlidingScrollMorph >> scrollTo: aValue duration: anInteger [
+GLMPagerScrollSlidingMorph >> scrollTo: aValue duration: anInteger [
 
 	anInteger <= 0
 		"if duration is zero, move to the left immediately"
@@ -354,7 +347,7 @@ GLMSlidingScrollMorph >> scrollTo: aValue duration: anInteger [
 ]
 
 { #category : #scrolling }
-GLMSlidingScrollMorph >> scrollTo: aValue smooth: aBoolean [
+GLMPagerScrollSlidingMorph >> scrollTo: aValue smooth: aBoolean [
 
 	aBoolean
 		ifTrue: [ self scrollTo: aValue duration: 200 ]
@@ -362,28 +355,28 @@ GLMSlidingScrollMorph >> scrollTo: aValue smooth: aBoolean [
 ]
 
 { #category : #scrolling }
-GLMSlidingScrollMorph >> scrollToPane: anIndex smooth: isSmooth [
+GLMPagerScrollSlidingMorph >> scrollToPane: anIndex smooth: isSmooth [
 
-	self scrollTo: (adapter convertIndexToValue: anIndex) smooth: isSmooth.
+	self scrollTo: (pagerModel convertIndexToValue: anIndex) smooth: isSmooth.
 ]
 
 { #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> setCursorToNormal: evt [
+GLMPagerScrollSlidingMorph >> setCursorToNormal: evt [
 		
 	evt hand showTemporaryCursor: nil
 ]
 
 { #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> setCursorToResizing: evt [
+GLMPagerScrollSlidingMorph >> setCursorToResizing: evt [
 	
 	evt hand showTemporaryCursor: self resizeCursor
 ]
 
 { #category : #'as yet unclassified' }
-GLMSlidingScrollMorph >> setWidthAfterResizing [
+GLMPagerScrollSlidingMorph >> setWidthAfterResizing [
 	| left right |
 	
-	left := ( adapter circleButtonSize + adapter dependencyButtonSize ) * (adapter firstVisiblePageIndex - 1).
+	left := ( pagerModel circleButtonSize + pagerModel dependencyButtonSize ) * (pagerModel firstVisiblePageIndex - 1).
 	right := left + self computeWidth.
 	
 	self layoutFrame: (
@@ -392,11 +385,11 @@ GLMSlidingScrollMorph >> setWidthAfterResizing [
 			offsets: (left @ 0 corner: right @ self height)
 	).
 	
-	adapter notifyScrollerBoundsChanged: (owner left + left )@(owner left + right).
+	pagerModel notifyScrollerBoundsChanged: (owner left + left )@(owner left + right).
 ]
 
 { #category : #scrolling }
-GLMSlidingScrollMorph >> synchronizeScrollTo: aValue [
+GLMPagerScrollSlidingMorph >> synchronizeScrollTo: aValue [
 
-	adapter synchronizeScrollTo: aValue.
+	pagerModel synchronizeScrollTo: aValue.
 ]

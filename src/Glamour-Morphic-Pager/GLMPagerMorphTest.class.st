@@ -38,7 +38,7 @@ GLMPagerMorphTest >> setUp [
 
 	pagerModel := GLMPagerModel new.
 	pagerMorph := GLMPagerMorph new
-		adapter: pagerModel
+		pagerModel: pagerModel
 		yourself.
 ]
 

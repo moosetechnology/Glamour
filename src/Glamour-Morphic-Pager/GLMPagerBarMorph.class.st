@@ -4,31 +4,16 @@ Class {
 	#instVars : [
 		'buttons',
 		'scrollBar',
-		'adapter'
+		'pagerModel'
 	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
 
 { #category : #'as yet unclassified' }
-GLMPagerBarMorph >> adapter: anAdapter [
-	
-	adapter := anAdapter.
-	
-	adapter announcer weak
-		on: GLMPagePushed send: #onPagePushed: to: self.
-		
-	adapter announcer weak
-		on: GLMPagePoped send: #onPagePoped to: self.
-	
-	self addButtons.
-	self addScrollBar.
-]
-
-{ #category : #'as yet unclassified' }
 GLMPagerBarMorph >> addButtons [
 	buttons ifNil: [
-		buttons := adapter isDependenciesShown ifTrue: [ GLMPagerPaneDependencyButtonsMorph new ] ifFalse: [ GLMPagerPaneButtonsMorph new ].
-		buttons adapter: adapter.
+		buttons := pagerModel isDependenciesShown ifTrue: [ GLMPagerPaneDependencyButtonsMorph new ] ifFalse: [ GLMPagerPaneButtonsMorph new ].
+		buttons pagerModel: pagerModel.
 		self addMorph: buttons fullFrame: (0@0 extent: 1@1).
 	]
 	
@@ -37,13 +22,13 @@ GLMPagerBarMorph >> addButtons [
 { #category : #'as yet unclassified' }
 GLMPagerBarMorph >> addScrollBar [
 	scrollBar ifNil: [
-		scrollBar := GLMSlidingScrollMorph new.
-		scrollBar adapter: adapter.
-		scrollBar height: adapter circleButtonSize.
+		scrollBar := GLMPagerScrollSlidingMorph new.
+		scrollBar pagerModel: pagerModel.
+		scrollBar height: pagerModel circleButtonSize.
 		
 		self addMorph: scrollBar fullFrame: (LayoutFrame 
 					fractions: (0 @ 0 corner: 0 @ 0)
-					offsets: (0 @ 0 corner: (scrollBar computeWidth) @ (adapter circleButtonSize)))
+					offsets: (0 @ 0 corner: (scrollBar computeWidth) @ (pagerModel circleButtonSize)))
 	]
 ]
 
@@ -72,6 +57,21 @@ GLMPagerBarMorph >> onPagePushed: addedAnnouncement [
 
 	buttons onPagePushed: addedAnnouncement.
 	self recomputeScrollBar.
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerBarMorph >> pagerModel: aModel [
+	
+	pagerModel := aModel.
+	
+	pagerModel announcer weak
+		on: GLMPagePushed send: #onPagePushed: to: self.
+		
+	pagerModel announcer weak
+		on: GLMPagePoped send: #onPagePoped to: self.
+	
+	self addButtons.
+	self addScrollBar.
 ]
 
 { #category : #initialization }
