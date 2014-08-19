@@ -11,7 +11,8 @@ Class {
 	#instVars : [
 		'fontModel',
 		'buttonModel',
-		'imageModel'
+		'imageModel',
+		'buttonRenderer'
 	],
 	#classInstVars : [
 		'model'
@@ -52,6 +53,16 @@ GLMButton >> buttonModel: aModel [
 		on: GLMPagerButtonUnChecked send: #onUnChecked to: self.
 ]
 
+{ #category : #accessing }
+GLMButton >> buttonRenderer [
+	^ buttonRenderer
+]
+
+{ #category : #accessing }
+GLMButton >> buttonRenderer: aRenderer [
+	buttonRenderer := aRenderer
+]
+
 { #category : #drawing }
 GLMButton >> currentColor [
 	^ self image pressedColor: (self buttonModel isPressed) selectedColor: (self buttonModel isSelected) checkedColor: (self buttonModel isChecked).
@@ -64,14 +75,8 @@ GLMButton >> currentImage [
 
 { #category : #drawing }
 GLMButton >> drawOn: aCanvas [
-	|image|
-	image := self currentImage.
-	image ifNotNil: [
-		aCanvas 
-			translucentImage: (self resizeImage: image scale:  (bounds extent / image extent))
-			at: bounds origin.
-	].
-	
+
+	self buttonRenderer render: self on: aCanvas. 
 	super drawOn: aCanvas.
 ]
 
@@ -112,6 +117,7 @@ GLMButton >> initialize [
 	self image: GLMPagerButtonImageModel new.
 	self font: GLMPagerButtonFontModel new.
 	self buttonModel: GLMPagerButtonModel new.
+	self buttonRenderer: GLMPagerButtonRenderer new.
 	
 	super initialize.
 	
@@ -125,6 +131,7 @@ GLMButton >> initialize [
 
 { #category : #accessing }
 GLMButton >> label: aString [
+
 	super label: aString font: self logicalFont.
 	"we need to update label color because label in button is completely recreated =/ "
 	label color: self font color.
