@@ -47,6 +47,8 @@ GLMPagerButtonModel >> depress [
 	self isPressed ifTrue: [ 
 		isPressed := false.
 		self announcer announce: (GLMPagerButtonDepressed new).
+		
+		self click.
 	]
 ]
 
@@ -93,7 +95,6 @@ GLMPagerButtonModel >> press [
 	self isPressed ifFalse: [
 		isPressed := true.
 		self announcer announce: (GLMPagerButtonPressed new).
-		self click.
 	]
 ]
 

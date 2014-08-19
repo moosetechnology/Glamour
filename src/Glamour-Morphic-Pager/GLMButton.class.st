@@ -51,6 +51,9 @@ GLMButton >> buttonModel: aModel [
 	
 	buttonModel announcer weak
 		on: GLMPagerButtonUnChecked send: #onUnChecked to: self.
+		
+	buttonModel announcer weak
+		on: GLMPagerButtonClicked send: #onClicked: to: self.
 ]
 
 { #category : #accessing }
@@ -168,6 +171,10 @@ GLMButton >> mouseUp: evt [
 { #category : #'event-handling' }
 GLMButton >> onChecked [
 	self changed
+]
+
+{ #category : #'event-handling' }
+GLMButton >> onClicked: announcement [
 ]
 
 { #category : #'event-handling' }
