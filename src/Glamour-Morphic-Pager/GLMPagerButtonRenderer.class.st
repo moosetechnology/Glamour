@@ -6,12 +6,24 @@ Class {
 
 { #category : #rendering }
 GLMPagerButtonRenderer >> render: aGLMButton on: aCanvas [
-	|image color|
+
+	self renderColorOf: aGLMButton on: aCanvas.
+	self renderImageOf: aGLMButton on: aCanvas.
+]
+
+{ #category : #rendering }
+GLMPagerButtonRenderer >> renderColorOf: aGLMButton on: aCanvas [
+	|color|
+	
+	color := aGLMButton currentColor.
+	color ifNotNil: [ aCanvas fillRectangle: aGLMButton bounds color: color ].
+]
+
+{ #category : #rendering }
+GLMPagerButtonRenderer >> renderImageOf: aGLMButton on: aCanvas [
+	|image|
 	
 	image := aGLMButton currentImage.
-	color := aGLMButton currentColor.
-	
-	color ifNotNil: [ aCanvas fillRectangle: aGLMButton bounds color: color ].
 	
 	image ifNotNil: [
 		aCanvas 

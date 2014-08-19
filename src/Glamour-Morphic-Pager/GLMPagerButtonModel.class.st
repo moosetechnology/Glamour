@@ -5,7 +5,8 @@ Class {
 		'announcer',
 		'isSelected',
 		'isPressed',
-		'isChecked'
+		'isChecked',
+		'data'
 	],
 	#category : #'Glamour-Morphic-Pager-Model'
 }
@@ -26,6 +27,18 @@ GLMPagerButtonModel >> check [
 { #category : #'as yet unclassified' }
 GLMPagerButtonModel >> click [
 	self announcer announce: (GLMPagerButtonClicked new buttonModel: self).
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerButtonModel >> data [
+
+	^ data
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerButtonModel >> data: anObject [
+
+	data := anObject.
 ]
 
 { #category : #'as yet unclassified' }
