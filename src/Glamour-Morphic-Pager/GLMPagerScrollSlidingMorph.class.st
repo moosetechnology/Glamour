@@ -179,9 +179,9 @@ GLMPagerScrollSlidingMorph >> initialize [
 	isLeftResizing := false.
 	isResizing := false.
 	
-	self image state normalColor: (Color veryLightGray alpha: 0.15).
+	self image state normalColor: (Color veryLightGray alpha: 0.4).
 	self flag: 'Do we need a :hover effect?'.
-	self image state selectedColor: (Color veryLightGray alpha: 0.25).
+	self image state selectedColor: (Color veryLightGray alpha: 0.55).
 ]
 
 { #category : #'event-mouse' }

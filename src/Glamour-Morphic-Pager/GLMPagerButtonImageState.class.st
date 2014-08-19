@@ -38,8 +38,8 @@ GLMPagerButtonImageState >> checkedColor [
 
 { #category : #'setters-color' }
 GLMPagerButtonImageState >> checkedColor: aColor [
-	self checked: (self imageFromColor: aColor).
 	checkedColor:= aColor.
+	self stateUpdated.
 ]
 
 { #category : #'setters-file' }
@@ -75,8 +75,8 @@ GLMPagerButtonImageState >> normalColor [
 
 { #category : #'setters-color' }
 GLMPagerButtonImageState >> normalColor: aColor [
-	self normal: (self imageFromColor: aColor).
 	normalColor := aColor.
+	self stateUpdated.
 ]
 
 { #category : #'setters-file' }
@@ -102,8 +102,8 @@ GLMPagerButtonImageState >> pressedColor [
 
 { #category : #'setters-color' }
 GLMPagerButtonImageState >> pressedColor: aColor [
-	self pressed: (self imageFromColor: aColor).
 	pressedColor := aColor.
+	self stateUpdated.
 ]
 
 { #category : #'setters-file' }
@@ -129,8 +129,8 @@ GLMPagerButtonImageState >> selectedColor [
 
 { #category : #'setters-color' }
 GLMPagerButtonImageState >> selectedColor: aColor [
-	self selected: (self imageFromColor: aColor).
 	selectedColor := aColor.
+	self stateUpdated.
 ]
 
 { #category : #'setters-file' }
