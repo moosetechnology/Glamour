@@ -39,7 +39,7 @@ GLMPagerButtonModel >> data [
 GLMPagerButtonModel >> data: anObject [
 
 	data := anObject.
-	"self announcer announce: (GLMPagerButtonDataChanged new)."
+	self announcer announce: (GLMPagerButtonDataChanged new).
 ]
 
 { #category : #'as yet unclassified' }
