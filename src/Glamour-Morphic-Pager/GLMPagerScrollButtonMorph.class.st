@@ -60,20 +60,6 @@ GLMPagerScrollButtonMorph >> isFocused [
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerScrollButtonMorph >> resizeImage: anImage scale: aScale [
-	
-	aScale > (1@1) ifTrue: [
-		^ GLMForm increaseFormExtentCentered: anImage to: (anImage extent * aScale).
-	].
-
-	aScale = (1@1) ifTrue: [
-		^ anImage
-	].
-	
-	^ anImage magnify: anImage boundingBox by: aScale smoothing: 2.
-]
-
-{ #category : #'as yet unclassified' }
 GLMPagerScrollButtonMorph >> setFocused [
 
 	focused ifFalse: [

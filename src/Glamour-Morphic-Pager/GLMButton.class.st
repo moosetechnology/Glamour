@@ -214,5 +214,14 @@ GLMButton >> onUnChecked [
 
 { #category : #drawing }
 GLMButton >> resizeImage: anImage scale: aScale [
-	^ anImage magnify: anImage boundingBox by: aScale smoothing: 2
+
+	((aScale > (1@0)) | (aScale > (0@1))) ifTrue: [
+		^ GLMForm increaseFormExtentCentered: anImage to: (anImage extent * aScale).
+	].
+
+	aScale = (1@1) ifTrue: [
+		^ anImage
+	].
+	
+	^ anImage magnify: anImage boundingBox by: aScale smoothing: 2.
 ]
