@@ -249,11 +249,25 @@ GLMButton >> onLabelPositionChanged [
 { #category : #'event-handling' }
 GLMButton >> onLabelTextChanged [
 
-	labelMorph ifNotNil: [labelMorph delete].
-	labelMorph := StringMorph contents: self label text font: self logicalFont.
+	labelMorph ifNil: [ 
+		self label text size = 0 ifTrue: [ ^ self ].
+		labelMorph := StringMorph contents: self label text font: self logicalFont.
+		self updateExtent.
+		self addMorph: labelMorph.
+		^ self.
+	].
+
+	self label text size = 0 ifTrue: [
+		labelMorph delete.
+		labelMorph := nil.
+		self updateExtent.
+		^ self
+	].
+
+	self setLabelText: self label text.
 	self updateExtent.
-	self addMorph: labelMorph.
-	labelMorph lock
+
+	
 ]
 
 { #category : #'event-handling' }
@@ -271,7 +285,7 @@ GLMButton >> onUnChecked [
 	self changed
 ]
 
-{ #category : #geometry }
+{ #category : #label }
 GLMButton >> positionLabel [
 
 	self label position == #center ifTrue: [
@@ -317,10 +331,20 @@ GLMButton >> resizeImage: anImage scale: aScale [
 	^ anImage magnify: anImage boundingBox by: aScale smoothing: 2.
 ]
 
+{ #category : #label }
+GLMButton >> setLabelText: aString [
+
+	labelMorph ifNotNil: [ labelMorph contents: aString ].
+]
+
 { #category : #geometry }
 GLMButton >> updateExtent [
 
 	labelMorph ifNotNil: [ 
 		self extent: (self geometry calculateExtent: ((labelMorph width) @ (labelMorph height))).
 	]
+]
+
+{ #category : #label }
+GLMButton >> updateLabelTextToFit: width [
 ]
