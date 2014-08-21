@@ -23,11 +23,6 @@ Class {
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
 
-{ #category : #'as yet unclassified' }
-GLMButton class >> with: aModel [
-	^ ABCButtonView new model: aModel
-]
-
 { #category : #accessing }
 GLMButton >> buttonModel [
 	^ buttonModel
@@ -230,6 +225,7 @@ GLMButton >> onDeselected [
 GLMButton >> onFontUpdated [
 	labelMorph ifNotNil: [
 		labelMorph font: self logicalFont.
+		labelMorph color: self font color.
 		self updateExtent.
 	].
 ]
