@@ -68,7 +68,10 @@ GLMButton >> buttonRenderer: aRenderer [
 
 { #category : #drawing }
 GLMButton >> currentColor [
-	^ self image pressedColor: (self buttonModel isPressed) selectedColor: (self buttonModel isSelected) checkedColor: (self buttonModel isChecked).
+	^ self image 
+		pressedColor: (self buttonModel isPressed) 
+		selectedColor: (self buttonModel isSelected) 
+		checkedColor: (self buttonModel isChecked).
 ]
 
 { #category : #drawing }

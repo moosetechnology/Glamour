@@ -34,12 +34,12 @@ GLMPagerButtonFontModel >> defaultColor [
 
 { #category : #defaults }
 GLMPagerButtonFontModel >> defaultFamilyName [
-	^ 'Source Code Pro'
+	^ 'Source Sans'
 ]
 
 { #category : #defaults }
 GLMPagerButtonFontModel >> defaultSize [
-	^ 15
+	^ 12
 ]
 
 { #category : #accessing }
