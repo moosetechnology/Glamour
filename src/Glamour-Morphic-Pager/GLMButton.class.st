@@ -228,7 +228,10 @@ GLMButton >> onDeselected [
 
 { #category : #'event-handling' }
 GLMButton >> onFontUpdated [
-	self label: self label.
+	labelMorph ifNotNil: [
+		labelMorph font: self logicalFont.
+		self updateExtent.
+	].
 ]
 
 { #category : #'event-handling' }
@@ -275,31 +278,31 @@ GLMButton >> onUnChecked [
 { #category : #geometry }
 GLMButton >> positionLabel [
 
-	self label position = #center ifTrue: [
+	self label position == #center ifTrue: [
 		labelMorph position: self center - (labelMorph extent // 2)
 	].
 
-	self label position = #leftCenter ifTrue: [
+	self label position == #leftCenter ifTrue: [
 		labelMorph position: self leftCenter - (0@(labelMorph height // 2)) + (self geometry paddingLeft @ 0)
 	].
 
-	self label position = #rightCenter ifTrue: [ 
+	self label position == #rightCenter ifTrue: [ 
 		labelMorph position: self rightCenter - (labelMorph width@(labelMorph height // 2)) - (self geometry paddingRight @ 0)
 	].
 
-	self label position = #leftTop ifTrue: [
+	self label position == #leftTop ifTrue: [
 		labelMorph position: self topLeft + (self geometry paddingLeft @ self geometry paddingTop)
 	].
 
-	self label position = #rightTop ifTrue: [ 
+	self label position == #rightTop ifTrue: [ 
 		labelMorph position: self topRight - (labelMorph width@0) - (self geometry paddingRight @ (self geometry paddingTop * (-1)))
 	].
 
-	self label position = #leftBottom ifTrue: [ 
+	self label position == #leftBottom ifTrue: [ 
 		labelMorph position: self bottomLeft - (0@labelMorph height) + (self geometry paddingLeft @ (self geometry paddingBottom  * (-1)))
 	].
 
-	self label position = #rightBottom ifTrue: [ 
+	self label position == #rightBottom ifTrue: [ 
 		labelMorph position: self bottomRight - (labelMorph width@labelMorph height) - (self geometry paddingRight @ self geometry paddingBottom )
 	].
 ]
