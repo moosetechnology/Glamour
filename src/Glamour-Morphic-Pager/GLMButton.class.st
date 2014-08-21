@@ -7,12 +7,14 @@ newForm := Patch9Form scalePatch9Form: form size:  100@100.
 "
 Class {
 	#name : #GLMButton,
-	#superclass : #SimpleButtonMorph,
+	#superclass : #BorderedMorph,
 	#instVars : [
 		'fontModel',
 		'buttonModel',
 		'imageModel',
-		'buttonRenderer'
+		'geometryModel',
+		'buttonRenderer',
+		'label'
 	],
 	#classInstVars : [
 		'model'
@@ -68,10 +70,7 @@ GLMButton >> buttonRenderer: aRenderer [
 
 { #category : #drawing }
 GLMButton >> currentColor [
-	^ self image 
-		pressedColor: (self buttonModel isPressed) 
-		selectedColor: (self buttonModel isSelected) 
-		checkedColor: (self buttonModel isChecked).
+	^ self image pressedColor: (self buttonModel isPressed) selectedColor: (self buttonModel isSelected) checkedColor: (self buttonModel isChecked).
 ]
 
 { #category : #drawing }
@@ -86,6 +85,15 @@ GLMButton >> drawOn: aCanvas [
 	super drawOn: aCanvas.
 ]
 
+{ #category : #geometry }
+GLMButton >> extent: newExtent [
+
+	super extent: newExtent.
+	
+	label ifNotNil: [ self positionLabel ].
+	
+]
+
 { #category : #accessing }
 GLMButton >> font [
 	^ fontModel
@@ -97,6 +105,24 @@ GLMButton >> font: aModel [
 	
 	fontModel announcer weak
 		on: GLMPagerButtonFontUpdated send: #onFontUpdated to: self.
+]
+
+{ #category : #accessing }
+GLMButton >> geometry [
+	^ geometryModel
+]
+
+{ #category : #accessing }
+GLMButton >> geometry: aGeometryModel [
+	geometryModel := aGeometryModel.
+	
+	geometryModel announcer weak
+		on: GLMPagerButtonGeometryChanged send: #onGeometryChanged to: self.
+]
+
+{ #category : #'event-mouse' }
+GLMButton >> handlesMouseDown: evt [
+	^  true
 ]
 
 { #category : #'event-mouse' }
@@ -122,13 +148,11 @@ GLMButton >> initialize [
 
 	self image: GLMPagerButtonImageModel new.
 	self font: GLMPagerButtonFontModel new.
+	self geometry: GLMPagerButtonGeometryModel new.
 	self buttonModel: GLMPagerButtonModel new.
 	self buttonRenderer: GLMPagerButtonRenderer new.
 	
 	super initialize.
-	
-	self label: ''.
-	self font size: 0.
 	
 	self borderWidth: 0.
 	
@@ -136,11 +160,28 @@ GLMButton >> initialize [
 ]
 
 { #category : #accessing }
-GLMButton >> label: aString [
+GLMButton >> label [
 
-	super label: aString font: self logicalFont.
-	"we need to update label color because label in button is completely recreated =/ "
-	label color: self font color.
+	| s |
+	s := ''.
+	self allMorphsDo: [:m | (m isKindOf: StringMorph) ifTrue: [s := m contents]].
+	^ s
+]
+
+{ #category : #accessing }
+GLMButton >> label: aString [
+	
+	self label: aString font: self logicalFont.
+]
+
+{ #category : #accessing }
+GLMButton >> label: aString font: aFont [
+
+	label ifNotNil: [label delete].
+	label := StringMorph contents: aString font: (aFont ifNil: [StandardFonts buttonFont]).
+	self updateExtent.
+	self addMorph: label.
+	label lock
 ]
 
 { #category : #accessing }
@@ -196,6 +237,11 @@ GLMButton >> onFontUpdated [
 ]
 
 { #category : #'event-handling' }
+GLMButton >> onGeometryChanged [
+	self updateExtent.
+]
+
+{ #category : #'event-handling' }
 GLMButton >> onImageUpdated [
 	self changed
 ]
@@ -215,6 +261,38 @@ GLMButton >> onUnChecked [
 	self changed
 ]
 
+{ #category : #geometry }
+GLMButton >> positionLabel [
+
+	self geometry labelPosition = #center ifTrue: [
+		label position: self center - (label extent // 2)
+	].
+
+	self geometry labelPosition = #leftCenter ifTrue: [
+		label position: self leftCenter - (0@(label height // 2)) + (self geometry paddingLeft @ 0)
+	].
+
+	self geometry labelPosition = #rightCenter ifTrue: [ 
+		label position: self rightCenter - (label width@(label height // 2)) - (self geometry paddingRight @ 0)
+	].
+
+	self geometry labelPosition = #leftTop ifTrue: [
+		label position: self topLeft + (self geometry paddingLeft @ self geometry paddingTop)
+	].
+
+	self geometry labelPosition = #rightTop ifTrue: [ 
+		label position: self topRight - (label width@0) - (self geometry paddingRight @ (self geometry paddingTop * (-1)))
+	].
+
+	self geometry labelPosition = #leftBottom ifTrue: [ 
+		label position: self bottomLeft - (0@label height) + (self geometry paddingLeft @ (self geometry paddingBottom  * (-1)))
+	].
+
+	self geometry labelPosition = #rightBottom ifTrue: [ 
+		label position: self bottomRight - (label width@label height) - (self geometry paddingRight @ self geometry paddingBottom )
+	].
+]
+
 { #category : #drawing }
 GLMButton >> resizeImage: anImage scale: aScale [
 
@@ -227,4 +305,12 @@ GLMButton >> resizeImage: anImage scale: aScale [
 	].
 	
 	^ anImage magnify: anImage boundingBox by: aScale smoothing: 2.
+]
+
+{ #category : #geometry }
+GLMButton >> updateExtent [
+
+	label ifNotNil: [ 
+		self extent: (self geometry calculateExtent: ((label width) @ (label height))).
+	]
 ]
