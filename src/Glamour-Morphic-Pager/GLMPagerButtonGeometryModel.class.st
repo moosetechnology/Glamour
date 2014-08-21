@@ -6,7 +6,6 @@ Class {
 		'paddingRight',
 		'paddingTop',
 		'paddingBottom',
-		'labelPosition',
 		'announcer'
 	],
 	#category : #'Glamour-Morphic-Pager-Model'
@@ -40,23 +39,6 @@ GLMPagerButtonGeometryModel >> initialize [
 	paddingRight := 0.
 	paddingTop := 0.
 	paddingBottom := 0.
-	labelPosition := #center.
-]
-
-{ #category : #'accessing-label' }
-GLMPagerButtonGeometryModel >> labelPosition [
-	^ labelPosition
-]
-
-{ #category : #'accessing-label' }
-GLMPagerButtonGeometryModel >> labelPosition: aSymbol [
-	"aSymbol can be:
-		#center 			- 	will be centered vertically and horizontally;
-		#leftCenter 		- 	will be moved to the left and be centered vertically
-		#rightCenter 	- 	will be moved to the right an be centered vertically"
-				
-	labelPosition := aSymbol.
-	self notifyGeometryChanged.
 ]
 
 { #category : #private }

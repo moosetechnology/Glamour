@@ -14,7 +14,8 @@ Class {
 		'imageModel',
 		'geometryModel',
 		'buttonRenderer',
-		'label'
+		'labelMorph',
+		'labelModel'
 	],
 	#classInstVars : [
 		'model'
@@ -90,7 +91,7 @@ GLMButton >> extent: newExtent [
 
 	super extent: newExtent.
 	
-	label ifNotNil: [ self positionLabel ].
+	labelMorph ifNotNil: [ self positionLabel ].
 	
 ]
 
@@ -147,6 +148,7 @@ GLMButton >> image: anImageModel [
 GLMButton >> initialize [
 
 	self image: GLMPagerButtonImageModel new.
+	self label: GLMPagerButtonLabelModel new.
 	self font: GLMPagerButtonFontModel new.
 	self geometry: GLMPagerButtonGeometryModel new.
 	self buttonModel: GLMPagerButtonModel new.
@@ -161,27 +163,20 @@ GLMButton >> initialize [
 
 { #category : #accessing }
 GLMButton >> label [
-
-	| s |
-	s := ''.
-	self allMorphsDo: [:m | (m isKindOf: StringMorph) ifTrue: [s := m contents]].
-	^ s
-]
-
-{ #category : #accessing }
-GLMButton >> label: aString [
 	
-	self label: aString font: self logicalFont.
+	^ labelModel
 ]
 
 { #category : #accessing }
-GLMButton >> label: aString font: aFont [
+GLMButton >> label: aLabelModel [
 
-	label ifNotNil: [label delete].
-	label := StringMorph contents: aString font: (aFont ifNil: [StandardFonts buttonFont]).
-	self updateExtent.
-	self addMorph: label.
-	label lock
+	labelModel := aLabelModel.
+	
+	labelModel announcer weak
+		on: GLMPagerButtonLabelPositionChanged send: #onLabelPositionChanged to: self.
+		
+	labelModel announcer weak
+		on: GLMPagerButtonLabelTextChanged send: #onLabelTextChanged to: self.
 ]
 
 { #category : #accessing }
@@ -247,6 +242,22 @@ GLMButton >> onImageUpdated [
 ]
 
 { #category : #'event-handling' }
+GLMButton >> onLabelPositionChanged [
+
+	self positionLabel
+]
+
+{ #category : #'event-handling' }
+GLMButton >> onLabelTextChanged [
+
+	labelMorph ifNotNil: [labelMorph delete].
+	labelMorph := StringMorph contents: self label text font: self logicalFont.
+	self updateExtent.
+	self addMorph: labelMorph.
+	labelMorph lock
+]
+
+{ #category : #'event-handling' }
 GLMButton >> onPressed [
 	self changed
 ]
@@ -264,32 +275,32 @@ GLMButton >> onUnChecked [
 { #category : #geometry }
 GLMButton >> positionLabel [
 
-	self geometry labelPosition = #center ifTrue: [
-		label position: self center - (label extent // 2)
+	self label position = #center ifTrue: [
+		labelMorph position: self center - (labelMorph extent // 2)
 	].
 
-	self geometry labelPosition = #leftCenter ifTrue: [
-		label position: self leftCenter - (0@(label height // 2)) + (self geometry paddingLeft @ 0)
+	self label position = #leftCenter ifTrue: [
+		labelMorph position: self leftCenter - (0@(labelMorph height // 2)) + (self geometry paddingLeft @ 0)
 	].
 
-	self geometry labelPosition = #rightCenter ifTrue: [ 
-		label position: self rightCenter - (label width@(label height // 2)) - (self geometry paddingRight @ 0)
+	self label position = #rightCenter ifTrue: [ 
+		labelMorph position: self rightCenter - (labelMorph width@(labelMorph height // 2)) - (self geometry paddingRight @ 0)
 	].
 
-	self geometry labelPosition = #leftTop ifTrue: [
-		label position: self topLeft + (self geometry paddingLeft @ self geometry paddingTop)
+	self label position = #leftTop ifTrue: [
+		labelMorph position: self topLeft + (self geometry paddingLeft @ self geometry paddingTop)
 	].
 
-	self geometry labelPosition = #rightTop ifTrue: [ 
-		label position: self topRight - (label width@0) - (self geometry paddingRight @ (self geometry paddingTop * (-1)))
+	self label position = #rightTop ifTrue: [ 
+		labelMorph position: self topRight - (labelMorph width@0) - (self geometry paddingRight @ (self geometry paddingTop * (-1)))
 	].
 
-	self geometry labelPosition = #leftBottom ifTrue: [ 
-		label position: self bottomLeft - (0@label height) + (self geometry paddingLeft @ (self geometry paddingBottom  * (-1)))
+	self label position = #leftBottom ifTrue: [ 
+		labelMorph position: self bottomLeft - (0@labelMorph height) + (self geometry paddingLeft @ (self geometry paddingBottom  * (-1)))
 	].
 
-	self geometry labelPosition = #rightBottom ifTrue: [ 
-		label position: self bottomRight - (label width@label height) - (self geometry paddingRight @ self geometry paddingBottom )
+	self label position = #rightBottom ifTrue: [ 
+		labelMorph position: self bottomRight - (labelMorph width@labelMorph height) - (self geometry paddingRight @ self geometry paddingBottom )
 	].
 ]
 
@@ -310,7 +321,7 @@ GLMButton >> resizeImage: anImage scale: aScale [
 { #category : #geometry }
 GLMButton >> updateExtent [
 
-	label ifNotNil: [ 
-		self extent: (self geometry calculateExtent: ((label width) @ (label height))).
+	labelMorph ifNotNil: [ 
+		self extent: (self geometry calculateExtent: ((labelMorph width) @ (labelMorph height))).
 	]
 ]
