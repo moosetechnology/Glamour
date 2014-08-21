@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'position',
 		'text',
-		'announcer'
+		'announcer',
+		'isFitBounds'
 	],
 	#category : #'Glamour-Morphic-Pager-Model'
 }
@@ -20,6 +21,17 @@ GLMPagerButtonLabelModel >> initialize [
 	
 	text := ''.
 	position := #center.
+	isFitBounds := false.
+]
+
+{ #category : #accessing }
+GLMPagerButtonLabelModel >> isFitBounds [
+	^ isFitBounds
+]
+
+{ #category : #accessing }
+GLMPagerButtonLabelModel >> isFitBounds: aBoolean [
+	isFitBounds := aBoolean
 ]
 
 { #category : #private }
