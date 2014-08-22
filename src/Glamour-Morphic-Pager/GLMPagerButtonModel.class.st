@@ -6,7 +6,8 @@ Class {
 		'isSelected',
 		'isPressed',
 		'isChecked',
-		'data'
+		'data',
+		'enabled'
 	],
 	#category : #'Glamour-Morphic-Pager-Model'
 }
@@ -61,17 +62,38 @@ GLMPagerButtonModel >> deselect [
 ]
 
 { #category : #'as yet unclassified' }
+GLMPagerButtonModel >> disable [
+
+	enabled := false.
+	self announcer announce: GLMPagerButtonDisabled new.
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerButtonModel >> enable [
+	
+	enabled := true.
+	self announcer announce: GLMPagerButtonEnabled new.
+]
+
+{ #category : #'as yet unclassified' }
 GLMPagerButtonModel >> initialize [
 	super initialize.
 	
 	isSelected := false.
 	isPressed := false.
 	isChecked := false.
+	enabled := true.
 ]
 
 { #category : #'as yet unclassified' }
 GLMPagerButtonModel >> isChecked [
 	^ isChecked.
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerButtonModel >> isEnabled [
+
+	^ enabled
 ]
 
 { #category : #'as yet unclassified' }

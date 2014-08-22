@@ -52,6 +52,12 @@ GLMButton >> buttonModel: aModel [
 		
 	buttonModel announcer weak
 		on: GLMPagerButtonClicked send: #onClicked: to: self.
+		
+	buttonModel announcer weak
+		on: GLMPagerButtonEnabled send: #onEnabled to: self.
+		
+	buttonModel announcer weak
+		on: GLMPagerButtonDisabled send: #onDisabled to: self.
 ]
 
 { #category : #accessing }
@@ -74,11 +80,23 @@ GLMButton >> currentImage [
 	^ self image pressed: (self buttonModel isPressed) selected: (self buttonModel isSelected) checked: (self buttonModel isChecked).
 ]
 
+{ #category : #status }
+GLMButton >> disable [
+
+	self buttonModel disable
+]
+
 { #category : #drawing }
 GLMButton >> drawOn: aCanvas [
 
 	self buttonRenderer render: self on: aCanvas. 
 	super drawOn: aCanvas.
+]
+
+{ #category : #status }
+GLMButton >> enable [
+
+	self buttonModel enable
 ]
 
 { #category : #geometry }
@@ -118,12 +136,14 @@ GLMButton >> geometry: aGeometryModel [
 
 { #category : #'event-mouse' }
 GLMButton >> handlesMouseDown: evt [
-	^  true
+
+	^  self buttonModel isEnabled
 ]
 
 { #category : #'event-mouse' }
 GLMButton >> handlesMouseOver: evt [
-	^ true
+	
+	^  self buttonModel isEnabled
 ]
 
 { #category : #accessing }
@@ -150,7 +170,7 @@ GLMButton >> initialize [
 	self buttonRenderer: GLMPagerButtonRenderer new.
 	
 	super initialize.
-	
+		
 	self borderWidth: 0.
 	
 	self color: (Color transparent).
@@ -177,6 +197,25 @@ GLMButton >> label: aLabelModel [
 { #category : #accessing }
 GLMButton >> logicalFont [
 	^ self font logicalFont
+]
+
+{ #category : #label }
+GLMButton >> measureLabelWidthFor: aText [
+	| f |
+	
+	labelMorph ifNil: [ ^ 0 ].
+	
+	f := labelMorph fontToUse.
+	^(((((f widthOfString: aText) max: labelMorph minimumWidth)  @ f height) + (labelMorph layoutInset * 2)) ceiling) x
+]
+
+{ #category : #geometry }
+GLMButton >> measureWidth [
+	"Returns theoretical width of the morph. If label has no text returns current width"
+	
+	labelMorph ifNil: [ ^ self width ].
+
+	^ (self geometry calculateExtent: ((self measureLabelWidthFor: self label text) @ (labelMorph height))) x
 ]
 
 { #category : #'event-mouse' }
@@ -219,6 +258,18 @@ GLMButton >> onDepressed [
 { #category : #'event-handling' }
 GLMButton >> onDeselected [
 	self changed
+]
+
+{ #category : #'event-handling' }
+GLMButton >> onDisabled [
+
+	self changed.
+]
+
+{ #category : #'event-handling' }
+GLMButton >> onEnabled [
+
+	self changed.
 ]
 
 { #category : #'event-handling' }
@@ -288,6 +339,8 @@ GLMButton >> onUnChecked [
 { #category : #label }
 GLMButton >> positionLabel [
 
+	labelMorph ifNil: [ ^ self ].
+
 	self label position == #center ifTrue: [
 		labelMorph position: self center - (labelMorph extent // 2)
 	].
@@ -339,12 +392,34 @@ GLMButton >> setLabelText: aString [
 
 { #category : #geometry }
 GLMButton >> updateExtent [
-
-	labelMorph ifNotNil: [ 
-		self extent: (self geometry calculateExtent: ((labelMorph width) @ (labelMorph height))).
+	"Updated extent to fit label' size"
+	
+	labelMorph ifNotNil: [
+		self extent: (self geometry calculateExtent: ((labelMorph measureContents x) @ (labelMorph height))).
 	]
 ]
 
 { #category : #label }
 GLMButton >> updateLabelTextToFit: width [
+	|index text|
+	"cuts displayed label text to fit passed width"
+	
+	(self measureWidth <= width) & (self measureWidth <= self width) ifTrue: [
+		^ self
+	].
+
+	(self measureWidth <= width) ifTrue: [ 
+		self label text: self label text.
+	].
+	
+	text := self label text.
+	index := text size.
+	[ ((self measureLabelWidthFor: text) > width) & (index > 1) ] whileTrue: [
+		text := (self label text copyReplaceFrom: index
+		to: self label text size with: '...').
+		index := index - 1.
+	].
+	
+	self setLabelText: text.
+	self updateExtent.
 ]
