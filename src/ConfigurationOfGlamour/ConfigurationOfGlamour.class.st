@@ -1211,6 +1211,7 @@ ConfigurationOfGlamour >> baseline291: spec [
 			package: 'Glamour-Morphic-Theme' with: [spec requires: 'Rubric'];
 			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
 			package: 'Glamour-Examples' with: [spec requires: #('Glamour-Core')];
+			package: 'Glamour-Examples-Extras' with: [spec requires: #('Glamour-Examples')];
 			package: 'Glamour-Tools' with: [spec requires: #('Glamour-Examples')];
 			package: 'Glamour-Rubric-Presentations' with: [spec requires: #('Rubric' 'Glamour-Presentations')];
 			package: 'Glamour-Roassal-Presentations' with: [spec requires: #('Roassal for Glamour' 'Glamour-Morphic-Renderer' 'Glamour-Tools')];
@@ -1238,7 +1239,8 @@ ConfigurationOfGlamour >> baseline291: spec [
 						'Glamour-Examples'
 						'Glamour-Rubric-Presentations').
 		spec group: 'CoreExtras' with: #(
-						'Glamour-Tools').
+						'Glamour-Tools'
+						'Glamour-Examples-Extras').
 		spec group: 'Morphic' with: #(
 						'Glamour-Morphic-Renderer'
 						'Glamour-Morphic-Theme'
