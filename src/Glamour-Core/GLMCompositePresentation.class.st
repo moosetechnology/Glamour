@@ -169,11 +169,6 @@ GLMCompositePresentation >> list [
 	^ self custom: GLMListPresentation new
 ]
 
-{ #category : #scripting }
-GLMCompositePresentation >> magritte [
-	^ self custom: GLMMagrittePresentation new
-]
-
 { #category : #accessing }
 GLMCompositePresentation >> matchingPresentations [
 	^ self presentations select: [:each | each matches]
