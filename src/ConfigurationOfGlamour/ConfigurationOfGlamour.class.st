@@ -1257,7 +1257,8 @@ ConfigurationOfGlamour >> baseline291: spec [
 						'Glamour-Tests-Core'
 						'Glamour-Examples'
 						'Glamour-Tests-Resources'
-						'Glamour-Tests-Morphic'). 
+						'Glamour-Tests-Morphic'
+						'Glamour-Tests-Rubric'). 
 		spec group: 'Tests' with: #(
 						'Glamour-Tests-Core'
 						'Glamour-Examples'
