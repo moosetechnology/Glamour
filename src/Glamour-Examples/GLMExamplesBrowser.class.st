@@ -42,12 +42,16 @@ GLMExamplesBrowser >> exampleBrowserForPragma: each in: aClass [
 
 { #category : #building }
 GLMExamplesBrowser >> exampleIn: composer [
-	composer dynamic
+	| dynamicPresentation |
+	dynamicPresentation := composer dynamic
 		title: 'Browser';
-		display: [ :exampleClass :examplePragma | self exampleBrowserForPragma: examplePragma in: exampleClass ];
-		act: [ :dynamic | 
+		display: [ :exampleClass :examplePragma | self exampleBrowserForPragma: examplePragma in: exampleClass ].
+	self flag: 'openTree is a method that depends on Roassal. It is not loaded in the core version of Glamour. A better solution is needed here for loading this actions maybe based on pragmas.'.
+	(GLMBrowser canUnderstand: #openTree) ifTrue: [ 
+		dynamicPresentation act: [ :dynamic | 
 				dynamic cachedPresentation presentations first panes first presentations first openTree ] 
-			entitled: 'View browser tree'.
+			entitled: 'View browser tree' ].
+		
 	composer smalltalkCode
 		title: 'Source code';
 		act: [ :text :exampleClass :examplePragma | Smalltalk tools browser fullOnClass: exampleClass selector: examplePragma selector ]
