@@ -54,3 +54,68 @@ GLMBasicExamples >> roassalWithMenu [
 				  ]].
 	^ browser
 ]
+
+{ #category : #'*glamour-roassal-presentations' }
+GLMBasicExamples >> updateableIndividualPresentations [
+	<glmBrowser: 'Updateable individual presentations' input: '|collection|
+	collection := GLMAnnouncingCollection new.
+	collection add: 1; add: 2; add: 3.
+	collection'>
+	"
+	|collection|
+	collection := GLMAnnouncingCollection new.
+	collection add: 1; add: 2; add: 3.
+	self new updateableIndividualPresentations openOn: collection."
+	
+	| browser |
+	browser := GLMTabulator new.
+	browser column: #automatic; column: #menu.
+	browser 
+		act: [:b | b entity add: (b entity size + 1) ] 	
+		icon: GLMUIThemeExtraIcons glamorousAdd
+		entitled: 'Add an item in the collection'.
+	browser 
+		act: [:b | b entity removeLast ] 
+		icon: GLMUIThemeExtraIcons glamorousRemove
+		entitled: 'Remove last item from the collection'.
+	browser 
+		act: [:b | b update ] 
+		icon: GLMUIThemeExtraIcons glamorousRefresh
+		entitled: 'Update complete browser'.
+	browser transmit to: #automatic; andShow: [ :a :x |
+		a title: 'Updated automatically'.
+		a stackedArrangement.
+		a list title: [ 'List: ', x size printString ];
+			shouldValidate: true;
+			updateOn: GLMItemAdded from: #yourself;
+			updateOn: GLMItemRemoved from: #yourself.
+		a text title: 'Text';
+			updateOn: GLMItemAdded from: #yourself;
+			updateOn: GLMItemRemoved from: #yourself .
+		a roassal title: 'Roassal';
+			updateOn: GLMItemAdded from: #yourself;
+			updateOn: GLMItemRemoved from: #yourself;
+			painting: [:view | 
+				view shape label.
+				view nodes: x ] ].
+	browser transmit to: #menu; andShow: [ :a :x |
+		a title: 'Updated via menu'.
+		a stackedArrangement.
+		a list title: 'List';
+			shouldValidate: true;
+			act: [:p | p update] 
+				icon: GLMUIThemeExtraIcons glamorousRefresh
+				entitled: 'Update'.
+		a text title: 'Text';
+			act: [:p | p update] 
+				icon: GLMUIThemeExtraIcons glamorousRefresh
+				entitled: 'Update'.
+		a roassal title: 'Roassal';
+			act: [:p | p update]
+				icon: GLMUIThemeExtraIcons glamorousRefresh
+				entitled: 'Update';
+			painting: [:view | 
+				view shape label.
+				view nodes: x ] ].
+	^ browser
+]
