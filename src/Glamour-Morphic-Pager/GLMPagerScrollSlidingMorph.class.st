@@ -57,19 +57,20 @@ Class {
 
 { #category : #'as yet unclassified' }
 GLMPagerScrollSlidingMorph >> computeScrollValue: aNumber [
-	|minLeft maxLeft value interval|
+	|newValue minLeft maxLeft value interval|
 	
+	newValue := aNumber.
 	minLeft := owner bounds left.
 	maxLeft := owner bounds right - self width.
 	
-	aNumber < minLeft ifTrue: [ aNumber := minLeft ].
-	aNumber > maxLeft ifTrue: [ aNumber := maxLeft ].
+	newValue < minLeft ifTrue: [ newValue := minLeft ].
+	newValue > maxLeft ifTrue: [ newValue := maxLeft ].
 	
 	interval := owner width.
 		
 	value := (interval = self width)
 		ifTrue: [ 0.0 ]
-		ifFalse: [ (aNumber - minLeft) / (interval - self width) ].
+		ifFalse: [ (newValue - minLeft) / (interval - self width) ].
 	
 	^ value.
 ]
