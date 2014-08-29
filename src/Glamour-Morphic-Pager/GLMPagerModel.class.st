@@ -479,19 +479,20 @@ GLMPagerModel >> selectedPageIndex [
 
 { #category : #accessing }
 GLMPagerModel >> selectedPageIndex: anIndex [
+	| normalizedIndex |
 	"changes current selected page and scrolls to it if necessary. Also if possible re-focused available morph"
 	
 	self invariant.
 	
-	anIndex := self normalizePaneIndex: anIndex.
+	normalizedIndex := self normalizePaneIndex: anIndex.
 	
-	(self isPaneVisible: anIndex) ifFalse: [
+	(self isPaneVisible: normalizedIndex) ifFalse: [
 		"we need to scroll if new selected page is invisible"
-		self scrollToPane: (anIndex < self firstVisiblePageIndex ifTrue: [ anIndex ] ifFalse: [(anIndex - self numberOfVisiblePages + 1)]).
+		self scrollToPane: (normalizedIndex < self firstVisiblePageIndex ifTrue: [ normalizedIndex ] ifFalse: [(normalizedIndex - self numberOfVisiblePages + 1)]).
 	].
 	
-	selectedPageIndex := anIndex.
-	self focusPaneAt: anIndex.
+	selectedPageIndex := normalizedIndex.
+	self focusPaneAt: normalizedIndex.
 	self notifySelectedPageChanged.
 
 	self invariant.
