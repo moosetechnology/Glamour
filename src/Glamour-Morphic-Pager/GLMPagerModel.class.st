@@ -505,16 +505,17 @@ GLMPagerModel >> size [
 
 { #category : #scrolling }
 GLMPagerModel >> switchPaneTo: anIndex [
+	| normalizedIndex |
 	"switches pane to specified. Works as scrollToPane, but additionaly selects and focuses that pane."
 	
 	self invariant.
 	
-	anIndex := self normalizePaneIndex: anIndex.
+	normalizedIndex := self normalizePaneIndex: anIndex.
 	
-	self scrollToPane: anIndex.	
-	self focusPaneAt: anIndex.
+	self scrollToPane: normalizedIndex.	
+	self focusPaneAt: normalizedIndex.
 	
-	selectedPageIndex := anIndex.
+	selectedPageIndex := normalizedIndex.
 	self notifySelectedPageChanged.
 	
 	self invariant.
