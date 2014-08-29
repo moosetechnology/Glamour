@@ -1214,7 +1214,7 @@ ConfigurationOfGlamour >> baseline291: spec [
 			package: 'Glamour-Examples-Extras' with: [spec requires: #('Glamour-Examples' 'Glamour-Tools')];
 			package: 'Glamour-Tools' with: [spec requires: #('Glamour-Examples')];
 			package: 'Glamour-Rubric-Presentations' with: [spec requires: #('Rubric' 'Glamour-Presentations')];
-			package: 'Glamour-Roassal-Presentations' with: [spec requires: #('Roassal for Glamour' 'Glamour-Morphic-Renderer' 'Glamour-Tools')];
+			package: 'Glamour-Roassal-Presentations' with: [spec requires: #('Roassal for Glamour' 'Glamour-Morphic-Renderer' 'Glamour-Tools' 'Glamour-Examples-Extras')];
 			package: 'Glamour-Roassal2-Presentations' with: [spec requires: #('Roassal2 for Glamour' 'Glamour-Morphic-Renderer' 'Glamour-Tools')];
 			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];			
 			package: 'Glamour-GraphET-Presentations' with: [spec requires: #('Graph-ET' 'Glamour-Tools')];
