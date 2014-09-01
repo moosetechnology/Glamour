@@ -2,50 +2,49 @@ Class {
 	#name : #GLMHighlighterTextRubEditingMode,
 	#superclass : #RubEditingMode,
 	#instVars : [
-		'registerStylerKey'
+		'styler'
 	],
 	#category : #'Glamour-Rubric-Presentations'
 }
 
 { #category : #'as yet unclassified' }
-GLMHighlighterTextRubEditingMode class >> forStyler: aStylerKey [
+GLMHighlighterTextRubEditingMode class >> forStyler: aStyler [
 
-	^ self new
-		registerStylerKey: aStylerKey
+	^ self new styler: aStyler
 ]
 
 { #category : #accessing }
-GLMHighlighterTextRubEditingMode >> registerStylerKey [
+GLMHighlighterTextRubEditingMode >> styler [
 	
-	^ registerStylerKey
+	^ styler
 ]
 
 { #category : #accessing }
-GLMHighlighterTextRubEditingMode >> registerStylerKey: anObject [
+GLMHighlighterTextRubEditingMode >> styler: anObject [
 	
-	registerStylerKey := anObject
+	styler := anObject
 ]
 
 { #category : #'initialize-release' }
 GLMHighlighterTextRubEditingMode >> updateTextAreaWhenPlugged [
-	self withRegistryStyler.
+	self withStyler.
 	super updateTextAreaWhenPlugged
 ]
 
 { #category : #'initialize-release' }
 GLMHighlighterTextRubEditingMode >> updateTextAreaWhenUnplugged [
-	self withoutRegistryStyler.
+	self withoutStyler.
 	super updateTextAreaWhenUnplugged
 
 
 ]
 
 { #category : #'initialize-release' }
-GLMHighlighterTextRubEditingMode >> withRegistryStyler [
-	self textArea withDecoratorNamed: self registerStylerKey
+GLMHighlighterTextRubEditingMode >> withStyler [
+	self textArea withDecorator: self styler
 ]
 
 { #category : #'initialize-release' }
-GLMHighlighterTextRubEditingMode >> withoutRegistryStyler [
-	self textArea withoutDecoratorNamed: self registerStylerKey
+GLMHighlighterTextRubEditingMode >> withoutStyler [
+	self textArea withoutDecorator: self styler
 ]

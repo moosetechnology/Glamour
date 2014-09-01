@@ -28,7 +28,7 @@ Class {
 GLMRubricHighlightedTextPresentation >> editingMode [
 	^ editingMode isNil 
 		ifTrue: [nil] 
-		ifFalse: [editingMode glamourValue: self entity]
+		ifFalse: [editingMode glamourValue: self]
 ]
 
 { #category : #accessing }
