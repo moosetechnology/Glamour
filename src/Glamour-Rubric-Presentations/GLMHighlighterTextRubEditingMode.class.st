@@ -2,27 +2,34 @@ Class {
 	#name : #GLMHighlighterTextRubEditingMode,
 	#superclass : #RubEditingMode,
 	#instVars : [
-		'styler'
+		'stylerDecorator'
 	],
 	#category : #'Glamour-Rubric-Presentations'
 }
 
 { #category : #'as yet unclassified' }
-GLMHighlighterTextRubEditingMode class >> forStyler: aStyler [
+GLMHighlighterTextRubEditingMode class >> withParserStyler: aParser [
 
-	^ self new styler: aStyler
+	^ self new stylerDecorator: (GLMHighlighterTextStylerDecorator new
+			withParserStyler: aParser)
+]
+
+{ #category : #'as yet unclassified' }
+GLMHighlighterTextRubEditingMode class >> withStylerDecorator: aDecorator [
+
+	^ self new stylerDecorator: aDecorator
 ]
 
 { #category : #accessing }
-GLMHighlighterTextRubEditingMode >> styler [
+GLMHighlighterTextRubEditingMode >> stylerDecorator [
 	
-	^ styler
+	^ stylerDecorator
 ]
 
 { #category : #accessing }
-GLMHighlighterTextRubEditingMode >> styler: anObject [
+GLMHighlighterTextRubEditingMode >> stylerDecorator: anObject [
 	
-	styler := anObject
+	stylerDecorator := anObject
 ]
 
 { #category : #'initialize-release' }
@@ -41,10 +48,10 @@ GLMHighlighterTextRubEditingMode >> updateTextAreaWhenUnplugged [
 
 { #category : #'initialize-release' }
 GLMHighlighterTextRubEditingMode >> withStyler [
-	self textArea withDecorator: self styler
+	self textArea withDecorator: self stylerDecorator
 ]
 
 { #category : #'initialize-release' }
 GLMHighlighterTextRubEditingMode >> withoutStyler [
-	self textArea withoutDecorator: self styler
+	self textArea withoutDecorator: self stylerDecorator
 ]

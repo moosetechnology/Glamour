@@ -5,7 +5,10 @@ browser row: #row.
 
 browser transmit to: #row; andShow: [ :composite |
 	composite custom: (GLMRubricHighlightedTextPresentation new
-		editingMode: [GLMHighlighterTextRubEditingMode forStyler: #personStyler]) ].
+		editingMode: [GLMHighlighterTextRubEditingMode 
+			withStylerDecorator: (RbEPersonDecorator new
+				styler:  (GLMHighlighterTextParserStyler new
+					parser: RbEPersonColorizer new))]) ].
 	
 browser openOn: '
 person {	
