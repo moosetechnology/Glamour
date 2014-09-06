@@ -123,8 +123,10 @@ LazyTabGroupMorph >> layoutChanged [
 	super layoutChanged.
 	
 	self tabSelectorMorph ifNotNil: [
-		tabSelectorWidth = self tabSelectorMorph width ifFalse: [
-			tabSelectorWidth := self tabSelectorMorph width.
+		|newWidth|
+		newWidth := self tabSelectorMorph width min: self width.
+		tabSelectorWidth = newWidth ifFalse: [
+			tabSelectorWidth := newWidth.
 			self fitLabelsIn: tabSelectorWidth - 10.
 		].
 	].
