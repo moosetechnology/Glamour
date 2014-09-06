@@ -23,6 +23,78 @@ Class {
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
 
+{ #category : #'as yet unclassified' }
+GLMButton class >> shrinkButtons: GLMButtons by: delta [
+	|sortBlock morphs|
+	
+	morphs := OrderedCollection new.
+	
+	GLMButtons do: [ :each | 
+		morphs add: each -> each measureWidth.
+	].
+	
+	"we need to sort all resizable elements one time by their measured width"
+	sortBlock := [ :first :second |
+		first value > second value
+	].
+	morphs sort: sortBlock.
+	
+	"no need to do anything if there is no resizable elements"
+	morphs size = 0 ifTrue: [ 
+		delta = 0.
+	].
+	
+	"when there is only one resizable we can calculate width directly"
+	morphs size = 1 ifTrue: [ 
+		morphs first value: morphs first value - delta.
+		delta = 0.
+	].
+
+	"euristics for the case when all new widths will be the same.
+	it happens when delta >= the summ of all differences between each element and the smallest"
+	delta > 0 ifTrue: [
+		|lastValue diff|
+		diff := 0.
+		lastValue := morphs last value.
+		morphs do: [ :each |
+			diff := diff + each value - lastValue .
+		].
+	
+		diff <= delta ifTrue: [ 
+			|newValue|
+			newValue := lastValue - ((delta - diff) / morphs size).
+			morphs do: [ :each |
+				each value: newValue.
+			].
+			delta = 0.
+		].
+	].
+	
+	"first iteration only when the number of resizable morphs > 1"
+	delta > 0 ifTrue: [ 
+		|index|
+		index := 1.
+		[  delta > 0 ] whileTrue: [ 
+			
+			(morphs at: index) value: ((morphs at: index) value - 1).
+			
+			(index + 1) > morphs size ifTrue: [ 
+				index := 1.
+			].
+		
+			(morphs at: index) value > (morphs at: (index + 1)) value ifTrue: [ 
+				index := 1.
+			].
+			
+			delta := delta - 1.
+		].
+	].
+
+	morphs do: [ :each |
+		each key updateLabelTextToFit: each value.
+	].
+]
+
 { #category : #accessing }
 GLMButton >> buttonModel [
 	^ buttonModel
@@ -110,11 +182,21 @@ GLMButton >> extent: newExtent [
 
 { #category : #accessing }
 GLMButton >> font [
+	^ self fontModel logicalFont
+]
+
+{ #category : #accessing }
+GLMButton >> font: aLogicalFont [
+	self fontModel logicalFont: aLogicalFont.
+]
+
+{ #category : #accessing }
+GLMButton >> fontModel [
 	^ fontModel
 ]
 
 { #category : #accessing }
-GLMButton >> font: aModel [
+GLMButton >> fontModel: aModel [
 	fontModel := aModel.
 	
 	fontModel announcer weak
@@ -164,7 +246,7 @@ GLMButton >> initialize [
 
 	self image: GLMPagerButtonImageModel new.
 	self label: GLMPagerButtonLabelModel new.
-	self font: GLMPagerButtonFontModel new.
+	self fontModel: GLMPagerButtonFontModel new.
 	self geometry: GLMPagerButtonGeometryModel new.
 	self buttonModel: GLMPagerButtonModel new.
 	self buttonRenderer: GLMPagerButtonRenderer new.
@@ -196,7 +278,7 @@ GLMButton >> label: aLabelModel [
 
 { #category : #accessing }
 GLMButton >> logicalFont [
-	^ self font logicalFont
+	^ self fontModel font
 ]
 
 { #category : #label }
@@ -275,8 +357,8 @@ GLMButton >> onEnabled [
 { #category : #'event-handling' }
 GLMButton >> onFontUpdated [
 	labelMorph ifNotNil: [
-		labelMorph font: self logicalFont.
-		labelMorph color: self font color.
+		labelMorph font: self font.
+		labelMorph color: self fontModel color.
 		self updateExtent.
 	].
 ]
@@ -302,7 +384,7 @@ GLMButton >> onLabelTextChanged [
 
 	labelMorph ifNil: [ 
 		self label text size = 0 ifTrue: [ ^ self ].
-		labelMorph := StringMorph contents: self label text font: self logicalFont.
+		labelMorph := StringMorph contents: self label text font: self font.
 		self updateExtent.
 		self addMorph: labelMorph.
 		^ self.
