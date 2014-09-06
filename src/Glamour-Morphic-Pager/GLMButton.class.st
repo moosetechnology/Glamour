@@ -41,13 +41,13 @@ GLMButton class >> shrinkButtons: GLMButtons by: delta [
 	
 	"no need to do anything if there is no resizable elements"
 	morphs size = 0 ifTrue: [ 
-		delta = 0.
+		delta := 0.
 	].
 	
 	"when there is only one resizable we can calculate width directly"
 	morphs size = 1 ifTrue: [ 
 		morphs first value: morphs first value - delta.
-		delta = 0.
+		delta := 0.
 	].
 
 	"euristics for the case when all new widths will be the same.
@@ -66,7 +66,7 @@ GLMButton class >> shrinkButtons: GLMButtons by: delta [
 			morphs do: [ :each |
 				each value: newValue.
 			].
-			delta = 0.
+			delta := 0.
 		].
 	].
 	
