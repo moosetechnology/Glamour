@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'announcer',
 		'toolbarMorph',
-		'headerMorph'
+		'headerMorph',
+		'tabSelectorWidth'
 	],
 	#category : #'Glamour-Morphic-Widgets'
 }
@@ -29,10 +30,12 @@ LazyTabGroupMorph >> addLazyPage: aBlock label: aStringOrMorph toolbar: aToolbar
 		toolbar: aToolbar.
 	innerLabel := aStringOrMorph isMorph
 		ifTrue: [aStringOrMorph]
-		ifFalse: [(self theme buttonLabelForText: aStringOrMorph)
-					font: self font;
-					vResizing: #shrinkWrap;
-					hResizing: #shrinkWrap].
+		ifFalse: [
+			|labelMorph|
+			labelMorph := GLMButton new disable.
+			labelMorph label text: aStringOrMorph.
+			labelMorph
+		].
 	label := aBoolean 
 			ifTrue: [UITheme builder newRow: { 
 				innerLabel .
@@ -43,12 +46,40 @@ LazyTabGroupMorph >> addLazyPage: aBlock label: aStringOrMorph toolbar: aToolbar
 			ifFalse: [innerLabel].
 	self 
 		addPage: newPage
-		label: label
+		label: label.
 ]
 
 { #category : #accessing }
 LazyTabGroupMorph >> announcer [
 	^ announcer ifNil: [announcer := GLMAnnouncer new]
+]
+
+{ #category : #'as yet unclassified' }
+LazyTabGroupMorph >> fitLabelsIn: width [
+	|delta morphs |
+	
+	delta := (self measureWidth - width).
+	
+	delta < 0 ifTrue: [
+		self tabSelectorMorph tabs do: [ :each |
+			(each label isKindOf: GLMButton) ifTrue:[
+				each normalLabel updateLabelTextToFit: each normalLabel measureWidth.
+				each selectedLabel updateLabelTextToFit: each selectedLabel measureWidth.
+			].
+		].
+		^ self.
+	].
+	
+	morphs := OrderedCollection new.
+	self tabSelectorMorph tabs size > 0 ifTrue: [
+		self tabSelectorMorph tabs do: [ :each |
+			(each label isKindOf: GLMButton) ifTrue:[
+				morphs add: each label.
+			]
+		].
+	].
+
+	GLMButton shrinkButtons: morphs by: delta.
 ]
 
 { #category : #accessing }
@@ -72,7 +103,6 @@ LazyTabGroupMorph >> initialize [
 		headerMorph: self newHeaderMorph;
 		addMorph: self headerMorph;
 		addMorph: self contentMorph.
-
 	
 "	self
 		borderWidth: 0;
@@ -86,6 +116,37 @@ LazyTabGroupMorph >> initialize [
 		addMorph: self tabSelectorMorph;
 		addMorph: self contentMorph.
 	self tabSelectorMorph addDependent: self"
+]
+
+{ #category : #'as yet unclassified' }
+LazyTabGroupMorph >> layoutChanged [
+	super layoutChanged.
+	
+	self tabSelectorMorph ifNotNil: [
+		tabSelectorWidth = self tabSelectorMorph width ifFalse: [
+			tabSelectorWidth := self tabSelectorMorph width.
+			self fitLabelsIn: tabSelectorWidth - 10.
+		].
+	].
+	
+]
+
+{ #category : #'as yet unclassified' }
+LazyTabGroupMorph >> measureWidth [
+	|width|
+	
+	width := 0.
+	
+	self tabSelectorMorph tabs do: [ :each |
+		(each label isKindOf: GLMButton) ifTrue:[
+	 		width := width + each label measureWidth + each layoutInset left + each layoutInset right.
+		]
+		ifFalse: [ 
+			width := width + each width.
+		]
+	].
+
+	^ width.
 ]
 
 { #category : #private }
