@@ -4,10 +4,16 @@ The theme is developed in the context of the Glamour project, and its goal is to
 - maximizes whitespace.
 - is fast.
 
-PolymorphSystemSettings desktopColor: Color white.
-self defaultSettings: nil.
-self beCurrent.
-self setPreferredShoutColors
+!!Installation of the theme
+
+[[[
+	PolymorphSystemSettings desktopColor: Color white.
+	self defaultSettings: nil.
+	self beCurrent.
+	self setPreferredShoutColors
+]]]
+
+
 "
 Class {
 	#name : #GLMWhitespaceTheme,
