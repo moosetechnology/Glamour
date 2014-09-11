@@ -10,7 +10,7 @@ Class {
 { #category : #'as yet unclassified' }
 GLMHighlighterTextRubEditingMode class >> withParserStyler: aParser [
 
-	^ self new stylerDecorator: (GLMHighlighterTextStylerDecorator new
+	^ self new stylerDecorator: (GLMHighlighterTextStylerDecorator
 			withParserStyler: aParser)
 ]
 

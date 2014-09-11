@@ -22,8 +22,7 @@ Class {
 	#name : #GLMRubricHighlightedTextPresentation,
 	#superclass : #GLMRubricTextPresentation,
 	#instVars : [
-		'editingMode',
-		'font'
+		'editingMode'
 	],
 	#category : #'Glamour-Rubric-Presentations'
 }
@@ -39,23 +38,6 @@ GLMRubricHighlightedTextPresentation >> editingMode [
 GLMRubricHighlightedTextPresentation >> editingMode: aBlock [
 	
 	editingMode := aBlock
-]
-
-{ #category : #accessing }
-GLMRubricHighlightedTextPresentation >> font [
-	^ font
-]
-
-{ #category : #accessing }
-GLMRubricHighlightedTextPresentation >> font: anObject [
-	font := anObject
-]
-
-{ #category : #accessing }
-GLMRubricHighlightedTextPresentation >> morphicFont [
-	^ self font 
-		ifNil: [ StandardFonts defaultFont  ]
-		ifNotNil: [ :f | f glamourValue: self entity ]
 ]
 
 { #category : #accessing }
