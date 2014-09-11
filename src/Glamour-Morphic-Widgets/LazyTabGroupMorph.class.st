@@ -89,7 +89,9 @@ LazyTabGroupMorph >> headerMorph [
 
 { #category : #accessing }
 LazyTabGroupMorph >> headerMorph: anObject [
-	headerMorph := anObject
+	headerMorph := anObject.
+	
+	headerMorph clipSubmorphs: true.
 ]
 
 { #category : #initialization }
@@ -122,15 +124,14 @@ LazyTabGroupMorph >> initialize [
 LazyTabGroupMorph >> layoutChanged [
 	super layoutChanged.
 	
-	self tabSelectorMorph ifNotNil: [
+	self headerMorph ifNotNil: [
 		|newWidth|
-		newWidth := self tabSelectorMorph width min: self width.
+		newWidth := self width.
 		tabSelectorWidth = newWidth ifFalse: [
 			tabSelectorWidth := newWidth.
-			self fitLabelsIn: tabSelectorWidth - 10.
+			self fitLabelsIn: tabSelectorWidth - self toolbarMorph width.
 		].
 	].
-	
 ]
 
 { #category : #'as yet unclassified' }
@@ -145,6 +146,14 @@ LazyTabGroupMorph >> measureWidth [
 		]
 		ifFalse: [ 
 			width := width + each width.
+		]
+	].
+
+	self headerMorph ifNotNil: [
+		self headerMorph submorphs do: [ :each |
+			(each = self tabSelectorMorph) not ifTrue: [ 
+				width := width + each width.
+			]
 		]
 	].
 
@@ -203,7 +212,7 @@ LazyTabGroupMorph >> toolbarMorph [
 
 { #category : #accessing }
 LazyTabGroupMorph >> toolbarMorph: anObject [
-	toolbarMorph := anObject
+	toolbarMorph := anObject.
 ]
 
 { #category : #private }
