@@ -116,6 +116,6 @@ GLMAccumulatorMorphicTest >> testTabTitle [
 	window := browser openOn: $d.
 	firstTabLabel := self find: PanelMorph in: self tabGroup tabSelectorMorph.
 	self assert: firstTabLabel submorphs size equals: 2.
-	self assert: firstTabLabel submorphs first contents equals: 'd'.
+	self assert: firstTabLabel submorphs first label text equals: 'd'.
 	self find: MultistateButtonMorph in: firstTabLabel.
 ]
