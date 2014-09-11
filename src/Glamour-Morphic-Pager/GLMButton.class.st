@@ -24,10 +24,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMButton class >> shrinkButtons: GLMButtons by: delta [
-	|sortBlock morphs|
+GLMButton class >> shrinkButtons: GLMButtons by: aDeltaValue [
+	|sortBlock morphs delta |
 	
 	morphs := OrderedCollection new.
+	delta := aDeltaValue.
 	
 	GLMButtons do: [ :each | 
 		morphs add: each -> each measureWidth.
