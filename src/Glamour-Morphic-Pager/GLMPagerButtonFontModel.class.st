@@ -73,8 +73,11 @@ GLMPagerButtonFontModel >> logicalFont [
 { #category : #accessing }
 GLMPagerButtonFontModel >> logicalFont: aFont [
 	font := aFont.
-	familyName := font familyName.
-	size := font pointSize.
+	font ifNotNil: [ 
+		familyName := font familyName.
+		size := font pointSize.
+	].
+	
 	self notifyUpdate.
 ]
 
