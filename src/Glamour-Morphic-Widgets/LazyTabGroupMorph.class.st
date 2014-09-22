@@ -129,7 +129,8 @@ LazyTabGroupMorph >> layoutChanged [
 		newWidth := self width.
 		tabSelectorWidth = newWidth ifFalse: [
 			tabSelectorWidth := newWidth.
-			self fitLabelsIn: tabSelectorWidth - self toolbarMorph width.
+			"the difference between TabSelectorMorph and the summ of widths of all tabs is 40. I don't know why"
+			self fitLabelsIn: tabSelectorWidth - self toolbarMorph width - 40.
 		].
 	].
 ]
