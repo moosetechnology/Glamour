@@ -22,7 +22,7 @@ GLMMorphicSpecRenderer >> render: aPresentation [
 		vResizing: #spaceFill;
 		hResizing: #spaceFill.
 	
-	container addMorphBack: aPresentation displayValue widget.
+	container addMorphBack: aPresentation displayValue widget widget.
 	
 	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
 
