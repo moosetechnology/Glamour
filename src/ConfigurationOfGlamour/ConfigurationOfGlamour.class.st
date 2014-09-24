@@ -1305,7 +1305,7 @@ ConfigurationOfGlamour >> baseline291: spec [
 			spec 
 					className: 'ConfigurationOfRubric';
 					file: 'ConfigurationOfRubric';
-					version: #development;
+					version: '1.1';
 					repository: 'http://www.smalltalkhub.com/mc/AlainPlantec/Rubric/main' ]
 	]
 ]
