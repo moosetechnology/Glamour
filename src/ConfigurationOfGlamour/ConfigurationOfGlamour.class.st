@@ -2055,6 +2055,6 @@ ConfigurationOfGlamour >> version27: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '9/22/2014 14:24'.
 		spec 
-			project: 'Rubric' with: '1.1'. ].
+			project: 'Rubric' with: '1.2'. ].
 
 ]
