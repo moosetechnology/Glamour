@@ -44,7 +44,26 @@ GLMRoassal2Presentation >> defaultActions [
 			entitled: 'Zoom in'.
 	self act: [ :roassal |  RTZoomOutMove on: roassal view view ]
 			icon: GLMUIThemeExtraIcons glamorousZoomOut
-			entitled: 'Zoom out' 
+			entitled: 'Zoom out'.
+"	self 
+		act: [ :roassal |
+			RTInteractiveSVGExporter new 
+							backgroundColor: Color white;
+							builder: roassal view view filename: roassal titleValue;
+							exportToFile.   ]
+			entitled: 'Export to SVG'.
+"	self 
+		act: [ :roassal | 
+				| fileName |
+				fileName := UITheme builder 
+									fileSave: 'Your title here'
+									extensions: #('png')
+									path: nil.
+				RTPNGExporter new 
+							builder: roassal view view;
+							fileName: fileName;
+							exportToFile.   ]
+			entitled: 'Export to PNG'.
 ]
 
 { #category : #'initialize-release' }
