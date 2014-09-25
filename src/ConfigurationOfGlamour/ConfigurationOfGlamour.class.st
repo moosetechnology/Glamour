@@ -2039,7 +2039,7 @@ ConfigurationOfGlamour >> version27: spec [
 			package: 'Glamour-Presentations' with: 'Glamour-Presentations-TudorGirba.157';
 			package: 'Glamour-Browsers' with: 'Glamour-Browsers-TudorGirba.104';
 			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-AndreiChis.96';
-			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AliakseiSyrel.124';
+			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AliakseiSyrel.126';
 			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-AndreiChis.269';
 			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-AliakseiSyrel.67';
 			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-AndreiChis.180';
