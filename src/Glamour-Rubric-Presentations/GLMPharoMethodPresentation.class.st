@@ -8,7 +8,7 @@ self pharoMethodPresentationExample
 "
 Class {
 	#name : #GLMPharoMethodPresentation,
-	#superclass : #GLMNewSmalltalkCodePresentation,
+	#superclass : #GLMRubricSmalltalkCodePresentation,
 	#instVars : [
 		'highlightSmalltalkContext'
 	],

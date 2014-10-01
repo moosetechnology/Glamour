@@ -2,13 +2,13 @@
 I extend the simple Rubric text presentation with basic support for dealing with Smalltalk code.
 "
 Class {
-	#name : #GLMNewSmalltalkCodePresentation,
+	#name : #GLMRubricSmalltalkCodePresentation,
 	#superclass : #GLMRubricTextPresentation,
 	#category : #'Glamour-Rubric-Presentations'
 }
 
 { #category : #actions }
-GLMNewSmalltalkCodePresentation >> compileTextIn: aContext from:  aSession andDo: aBlock [
+GLMRubricSmalltalkCodePresentation >> compileTextIn: aContext from:  aSession andDo: aBlock [
 
 	self announce: (GLMCompileText new
 		presentation: self;
@@ -18,13 +18,13 @@ GLMNewSmalltalkCodePresentation >> compileTextIn: aContext from:  aSession andDo
 ]
 
 { #category : #actions }
-GLMNewSmalltalkCodePresentation >> debugSelection [
+GLMRubricSmalltalkCodePresentation >> debugSelection [
 
 	self announce: GLMDebugSelection
 ]
 
 { #category : #rendering }
-GLMNewSmalltalkCodePresentation >> defaultSelectionActions [
+GLMRubricSmalltalkCodePresentation >> defaultSelectionActions [
 
 	^ { 
 		(GLMGenericAction new) 
@@ -62,32 +62,32 @@ GLMNewSmalltalkCodePresentation >> defaultSelectionActions [
 ]
 
 { #category : #actions }
-GLMNewSmalltalkCodePresentation >> evaluateSelection [
+GLMRubricSmalltalkCodePresentation >> evaluateSelection [
 
 	self evaluateSelectionAndDo: [ :result | result ]
 ]
 
 { #category : #actions }
-GLMNewSmalltalkCodePresentation >> evaluateSelectionAndDo: aBlock [
+GLMRubricSmalltalkCodePresentation >> evaluateSelectionAndDo: aBlock [
 
 	self announce: (GLMEvaluateSelection new action: aBlock)
 ]
 
 { #category : #rendering }
-GLMNewSmalltalkCodePresentation >> installDefaultSelectionActions [
+GLMRubricSmalltalkCodePresentation >> installDefaultSelectionActions [
 
 	self defaultSelectionActions do: [ :anAction |
 		self addSelectionAction: anAction ]
 ]
 
 { #category : #actions }
-GLMNewSmalltalkCodePresentation >> printSelection [
+GLMRubricSmalltalkCodePresentation >> printSelection [
 
 	self announce: GLMPrintSelection
 ]
 
 { #category : #actions }
-GLMNewSmalltalkCodePresentation >> profileSelection [
+GLMRubricSmalltalkCodePresentation >> profileSelection [
 
 	self announce: GLMProfileSelection
 ]

@@ -5,7 +5,7 @@ self pharoPlaygroundPresentationExample
 "
 Class {
 	#name : #GLMPharoPlaygroundPresentation,
-	#superclass : #GLMNewSmalltalkCodePresentation,
+	#superclass : #GLMRubricSmalltalkCodePresentation,
 	#instVars : [
 		'variableBindingsBlock'
 	],
