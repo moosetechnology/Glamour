@@ -150,11 +150,6 @@ GLMMorphicRenderer >> renderRubricHighlightedTextPresentation: aPresentation [
 ]
 
 { #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderRubricSmalltalkCodePresentation: aPresentation [
-	^ GLMMorphicRubricSmalltalkCodeRenderer render: aPresentation from: self
-]
-
-{ #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderRubricTextPresentation: aPresentation [
 	^ GLMMorphicRubricTextRenderer render: aPresentation from: self
 ]
