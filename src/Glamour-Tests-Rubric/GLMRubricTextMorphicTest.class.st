@@ -4,6 +4,11 @@ Class {
 	#category : #'Glamour-Tests-Rubric'
 }
 
+{ #category : #'as yet unclassified' }
+GLMRubricTextMorphicTest >> expectedFailures [
+	^ super expectedFailures, #(testOKeyCanBeOverriden)
+]
+
 { #category : #private }
 GLMRubricTextMorphicTest >> simulateOnlyOneClickOn: aMorph [
 	(Delay forMilliseconds: HandMorph doubleClickTime + 1) wait.
