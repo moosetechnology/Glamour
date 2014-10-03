@@ -1,8 +1,3 @@
-"
-A presentation that displays text using Rubric.
-
-
-"
 Class {
 	#name : #GLMRubricTextPresentation,
 	#superclass : #GLMTextualPresentation,
