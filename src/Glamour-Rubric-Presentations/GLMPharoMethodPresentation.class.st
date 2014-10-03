@@ -1,29 +1,42 @@
 "
-|browser|
-browser := GLMTabulator new.
-browser row: #r1; row: #r2.
+I provide support for displaying a Smalltalk method.
 
-browser transmit to: #r1; andShow: [ :aComposite |
-	aComposite pharoMethod
-		display: [ :method | method sourceCode ] ].
-browser transmit to: #r2; andShow: [ :aComposite |
-	aComposite pharoMethod
-		display: [ :method | method sourceCode ] ;
-		smalltalkClass: [ :method | method methodClass ] ].
-
-browser openOn: (CompiledMethod class>>#gtExampleSimple) 
+self pharoMethodPresentationExample
 
 
 
 "
 Class {
 	#name : #GLMPharoMethodPresentation,
-	#superclass : #GLMNewSmalltalkCodePresentation,
+	#superclass : #GLMRubricSmalltalkCodePresentation,
 	#instVars : [
 		'highlightSmalltalkContext'
 	],
 	#category : #'Glamour-Rubric-Presentations'
 }
+
+{ #category : #examples }
+GLMPharoMethodPresentation class >> pharoMethodPresentationExample [
+	"
+	self pharoMethodPresentationExample
+	"
+	
+	| browser |
+	browser := GLMTabulator new.
+	browser
+		row: #r1;
+		row: #r2.
+	browser transmit
+		to: #r1;
+		andShow: [ :aComposite | aComposite pharoMethod display: [ :method | method sourceCode ] ].
+	browser transmit
+		to: #r2;
+		andShow: [ :aComposite | 
+					aComposite pharoMethod
+						display: [ :method | method sourceCode ];
+						smalltalkClass: [ :method | method methodClass ] ].
+	browser openOn: CompiledMethod class >> #gtExampleSimple
+]
 
 { #category : #accessing }
 GLMPharoMethodPresentation >> highlightSmalltalkContext [
