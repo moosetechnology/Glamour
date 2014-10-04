@@ -7,6 +7,12 @@ Class {
 	#category : #'Glamour-Rubric-Presentations'
 }
 
+{ #category : #'actions browsing' }
+GLMRubricSmalltalkCodePresentation >> browseIt [
+
+	self announce: (GLMTextEditorRequest for: #browseIt)
+]
+
 { #category : #actions }
 GLMRubricSmalltalkCodePresentation >> compileTextIn: aContext from:  aSession andDo: aBlock [
 
@@ -28,17 +34,17 @@ GLMRubricSmalltalkCodePresentation >> defaultSelectionActions [
 
 	^ { 
 		(GLMGenericAction new) 
-				title: 'Print it';
-				action: [ :aPresentation |
-					aPresentation printSelection ]; 
-				shortcut: $p; 
-				yourself.
-		(GLMGenericAction new) 
 				title: 'Do it';
 				action: [ :aPresentation |
 					aPresentation evaluateSelection ]; 
 				shortcut: $d; 
 				icon: GLMUIThemeExtraIcons glamorousSpawn;
+				yourself.
+		(GLMGenericAction new) 
+				title: 'Print it';
+				action: [ :aPresentation |
+					aPresentation printSelection ]; 
+				shortcut: $p; 
 				yourself.
 		(GLMGenericAction new) 
 				title: 'Inspect it'; 
@@ -82,6 +88,34 @@ GLMRubricSmalltalkCodePresentation >> defaultSelectionActions [
 					aPresentation pasteRecent  ]; 
 				yourself.
 		(GLMGenericAction new) 
+				title: 'browse it';
+				action: [ :aPresentation |
+					aPresentation browseIt  ]; 
+				shortcut: $b; 
+				category: 'Extended search...';
+				yourself.
+		(GLMGenericAction new) 
+				title: 'senders of it';
+				action: [ :aPresentation |
+					aPresentation sendersOfIt ]; 
+				shortcut: $n; 
+				category: 'Extended search...';
+				yourself.
+		(GLMGenericAction new) 
+				title: 'implementors of it';
+				action: [ :aPresentation |
+					aPresentation implementorsOfIt ]; 
+				shortcut: $m; 
+				category: 'Extended search...';
+				yourself.
+		(GLMGenericAction new) 
+				title: 'references to it';
+				action: [ :aPresentation |
+					aPresentation referencesToIt ]; 
+				shortcut: $N; 
+				category: 'Extended search...';
+				yourself.
+		(GLMGenericAction new) 
 				title: 'Extended string search'; 
 				action: [ :aPresentation |
 					aPresentation selectLine.
@@ -89,6 +123,7 @@ GLMRubricSmalltalkCodePresentation >> defaultSelectionActions [
 						browseMethodsWithString: aPresentation selectedText
 						matchCase: false ]; 
 				shortcut: $E;
+				category: 'Extended search...';
 				yourself
 		 }
 ]
@@ -103,6 +138,12 @@ GLMRubricSmalltalkCodePresentation >> evaluateSelection [
 GLMRubricSmalltalkCodePresentation >> evaluateSelectionAndDo: aBlock [
 
 	self announce: (GLMEvaluateSelection new action: aBlock)
+]
+
+{ #category : #'actions browsing' }
+GLMRubricSmalltalkCodePresentation >> implementorsOfIt [
+
+	self announce: (GLMTextEditorRequest for: #implementorsOfIt)
 ]
 
 { #category : #rendering }
@@ -122,4 +163,16 @@ GLMRubricSmalltalkCodePresentation >> printSelection [
 GLMRubricSmalltalkCodePresentation >> profileSelection [
 
 	self announce: GLMProfileSelection
+]
+
+{ #category : #'actions browsing' }
+GLMRubricSmalltalkCodePresentation >> referencesToIt [
+
+	self announce: (GLMTextEditorRequest for: #referencesToIt)
+]
+
+{ #category : #'actions browsing' }
+GLMRubricSmalltalkCodePresentation >> sendersOfIt [
+
+	self announce: (GLMTextEditorRequest for: #sendersOfIt)
 ]
