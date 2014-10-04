@@ -1316,7 +1316,7 @@ ConfigurationOfGlamour >> baseline292: spec [
 	
 	spec for: #common do: [
 		spec blessing: #baseline.
-		spec description: 'CoreExtras'.
+		spec description: 'removed GraphET'.
 		spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'.
 		spec 
 			package: 'Glamour-Announcements' ;
@@ -1398,13 +1398,6 @@ ConfigurationOfGlamour >> baseline292: spec [
 					file: 'ConfigurationOfRoassal2';
 					version: #development;
 					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ].
-		spec
-			project: 'Graph-ET2' with: [
-				spec
-					className: 'ConfigurationOfGraphET2';
-					file: 'ConfigurationOfGraphET2';
-					version: #development;
-					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/GraphET2/main' ].
 		spec project: 'Magritte3' with: [
 			spec
 					className: 'ConfigurationOfMagritte3';
