@@ -59,6 +59,29 @@ GLMRubricSmalltalkCodePresentation >> defaultSelectionActions [
 					aPresentation profileSelection ]; 
 				yourself.
 		(GLMGenericAction new) 
+				title: 'Copy';
+				action: [ :aPresentation |
+					aPresentation copySelection ]; 
+				shortcut: $c; 
+				yourself.
+		(GLMGenericAction new) 
+				title: 'Cut';
+				action: [ :aPresentation |
+					aPresentation cut ]; 
+				shortcut: $x; 
+				yourself.
+		(GLMGenericAction new) 
+				title: 'Paste';
+				action: [ :aPresentation |
+					aPresentation paste ]; 
+				shortcut: $v; 
+				yourself.
+		(GLMGenericAction new) 
+				title: 'Paste...';
+				action: [ :aPresentation |
+					aPresentation pasteRecent  ]; 
+				yourself.
+		(GLMGenericAction new) 
 				title: 'Extended string search'; 
 				action: [ :aPresentation |
 					aPresentation selectLine.

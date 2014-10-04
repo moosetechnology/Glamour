@@ -23,6 +23,30 @@ GLMRubricTextPresentation >> addTextSegment: aTextSegmentMorph [
 	self textSegments add: aTextSegmentMorph
 ]
 
+{ #category : #'actions text' }
+GLMRubricTextPresentation >> copySelection [
+
+	self announce: (GLMTextEditorRequest for: #copySelection)
+]
+
+{ #category : #'actions text' }
+GLMRubricTextPresentation >> cut [
+
+	self announce: (GLMTextEditorRequest for: #cut)
+]
+
+{ #category : #'actions text' }
+GLMRubricTextPresentation >> paste [
+
+	self announce: (GLMTextEditorRequest for: #paste)
+]
+
+{ #category : #'actions text' }
+GLMRubricTextPresentation >> pasteRecent [
+
+	self announce: (GLMTextEditorRequest for: #pasteRecent)
+]
+
 { #category : #accessing }
 GLMRubricTextPresentation >> primarySelectionInterval [
 	^ primarySelectionInterval
