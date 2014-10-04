@@ -1,7 +1,7 @@
 Class {
 	#name : #GLMPaneRemoved,
 	#superclass : #GLMPaneAnnouncement,
-	#category : #'Glamour-Browsers'
+	#category : #'Glamour-Browsers-Announcements'
 }
 
 { #category : #'instance creation' }

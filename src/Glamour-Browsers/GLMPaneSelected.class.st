@@ -1,5 +1,5 @@
 Class {
 	#name : #GLMPaneSelected,
 	#superclass : #GLMPaneAnnouncement,
-	#category : #'Glamour-Browsers'
+	#category : #'Glamour-Browsers-Announcements'
 }

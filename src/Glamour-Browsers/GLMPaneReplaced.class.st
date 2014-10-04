@@ -5,7 +5,7 @@ Class {
 		'oldPane',
 		'newPane'
 	],
-	#category : #'Glamour-Browsers'
+	#category : #'Glamour-Browsers-Announcements'
 }
 
 { #category : #'as yet unclassified' }

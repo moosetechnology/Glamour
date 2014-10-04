@@ -1,5 +1,5 @@
 Class {
 	#name : #GLMBrowserClosing,
 	#superclass : #Announcement,
-	#category : #'Glamour-Browsers'
+	#category : #'Glamour-Browsers-Announcements'
 }

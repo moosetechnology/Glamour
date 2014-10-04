@@ -14,7 +14,7 @@ Class {
 		'browser',
 		'position'
 	],
-	#category : #'Glamour-Browsers'
+	#category : #'Glamour-Browsers-Announcements'
 }
 
 { #category : #'instance creation' }
