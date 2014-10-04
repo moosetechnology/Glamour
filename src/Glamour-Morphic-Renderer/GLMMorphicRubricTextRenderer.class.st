@@ -23,6 +23,13 @@ GLMMorphicRubricTextRenderer >> actOnPresentationUpdated: ann [
 	textMorph setText: ann presentation formatedDisplayValue
 ]
 
+{ #category : #private }
+GLMMorphicRubricTextRenderer >> actOnTextEditorRequest: ann [
+
+	textMorph textArea editor perform: ann selector	
+
+]
+
 { #category : #rendering }
 GLMMorphicRubricTextRenderer >> modelFor: aPresentation [
 	^ GLMRubricTextModel new
@@ -44,6 +51,7 @@ GLMMorphicRubricTextRenderer >> registerEventsForPresentation: aPresentation [
 
 	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
 	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
+	aPresentation on: GLMTextEditorRequest send: #actOnTextEditorRequest: to: self.
 ]
 
 { #category : #rendering }
