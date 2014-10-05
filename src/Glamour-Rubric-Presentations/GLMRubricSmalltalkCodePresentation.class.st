@@ -41,7 +41,7 @@ GLMRubricSmalltalkCodePresentation >> browsingSelectionActions [
 				title: 'References to it';
 				action: [ :aPresentation |
 					aPresentation referencesToIt ]; 
-				shortcut: $N; 
+				"shortcut: $N; "
 				category: 'Code search...';
 				withSeparatorAfter;
 				yourself.
