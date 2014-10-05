@@ -114,6 +114,11 @@ GLMMorphicRenderer >> renderListingPresentation: aPresentation [
 ]
 
 { #category : #'rendering presentations' }
+GLMMorphicRenderer >> renderMagrittePresentation: aMagrittePresentation [ 
+	^ GLMMorphicMagritteRenderer render: aMagrittePresentation from: self
+]
+
+{ #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderMorphPresentation: aMorphPresentation [ 
 	^ GLMMorphicMorphRenderer render: aMorphPresentation from: self
 ]
