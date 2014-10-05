@@ -27,7 +27,7 @@ GLMPopper class >> installAlarmFor: aBlock [
 ]
 
 { #category : #public }
-GLMPopper >> computeOriginFor: aMorph [	
+GLMPopper >> computeOriginFor: aMorph [
 	| desiredTop desiredLeft |
 	"self halt."
 	aMorph textArea scrollSelectionIntoView: nil.
