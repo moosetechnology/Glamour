@@ -19,12 +19,15 @@ GLMTurboHorizontalProportionalLinearLayout >> percentageWidthOf: aTrick in: owne
 { #category : #'as yet unclassified' }
 GLMTurboHorizontalProportionalLinearLayout >> position: aTrick [
 	
-	|allowedWidth|
+	|allowedWidth summPercent|
+	
 	allowedWidth := aTrick width.
+	summPercent := 100.
 	
 	aTrick subtricks do: [ :each |
 		(self percentageWidthOf: each in: aTrick) < (each layoutParams minWidth) ifTrue: [ 
 			allowedWidth := allowedWidth - each layoutParams minWidth.
+			summPercent := summPercent - each layoutParams horizontalPercent.
 		]
 	].
 	
@@ -41,11 +44,12 @@ GLMTurboHorizontalProportionalLinearLayout >> position: aTrick [
 				extent := (each layoutParams minWidth - each layoutParams marginLeft - each layoutParams marginRight) @ ((self extentOf: each in: aTrick) y).
 			]
 			ifFalse: [ 	
-				extent := (((allowedWidth * each layoutParams horizontalPercent / 100) ceiling) - each layoutParams marginLeft - each layoutParams marginRight) @ ((self extentOf: each in: aTrick) y).
+				extent := (((allowedWidth * each layoutParams horizontalPercent / summPercent) ceiling) - each layoutParams marginLeft - each layoutParams marginRight) @ ((self extentOf: each in: aTrick) y).
 			].
 					
 			each bounds: ((left@top) extent: extent).
-			width + each width + each layoutParams marginRight.
+			width := width + each width + each layoutParams marginRight.
+			width
 		]
 
 ]
