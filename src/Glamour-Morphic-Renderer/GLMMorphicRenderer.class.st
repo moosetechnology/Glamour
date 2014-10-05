@@ -134,11 +134,6 @@ GLMMorphicRenderer >> renderPharoPlaygroundPresentation: aWorkspacePresentation 
 ]
 
 { #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderRoassalPresentation: aPresentation [
-	^ GLMMorphicRoassalRenderer render: aPresentation from: self
-]
-
-{ #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderRubricHighlightedTextPresentation: aPresentation [
 
 	^ GLMMorphicRubricHighlightedTextRenderer render: aPresentation from: self
