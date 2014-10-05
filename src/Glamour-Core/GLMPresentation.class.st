@@ -936,6 +936,12 @@ GLMPresentation >> updateOn: anAnnouncement fromAll: aBlockOrSymbol [
 		yourself)
 ]
 
+{ #category : #updating }
+GLMPresentation >> updateToolbar [
+
+	self announce: (GLMPresentationToolbarUpdated new presentation: self)
+]
+
 { #category : #accessing }
 GLMPresentation >> useExplicitAllNil [ 
 	 
