@@ -17,32 +17,32 @@ GLMRubricSmalltalkCodePresentation >> browseIt [
 GLMRubricSmalltalkCodePresentation >> browsingSelectionActions [
 
 	^ { (GLMGenericAction new) 
-				title: 'browse it';
+				title: 'Browse it';
 				action: [ :aPresentation |
 					aPresentation browseIt  ]; 
 				shortcut: $b; 
-				category: 'Extended search...';
+				category: 'Code search...';
 				yourself.
 		(GLMGenericAction new) 
-				title: 'senders of it';
+				title: 'Senders of it';
 				action: [ :aPresentation |
 					aPresentation sendersOfIt ]; 
 				shortcut: $n; 
-				category: 'Extended search...';
+				category: 'Code search...';
 				yourself.
 		(GLMGenericAction new) 
-				title: 'implementors of it';
+				title: 'Implementors of it';
 				action: [ :aPresentation |
 					aPresentation implementorsOfIt ]; 
 				shortcut: $m; 
-				category: 'Extended search...';
+				category: 'Code search...';
 				yourself.
 		(GLMGenericAction new) 
-				title: 'references to it';
+				title: 'References to it';
 				action: [ :aPresentation |
 					aPresentation referencesToIt ]; 
 				shortcut: $N; 
-				category: 'Extended search...';
+				category: 'Code search...';
 				withSeparatorAfter;
 				yourself.
 		(GLMGenericAction new) 
@@ -53,8 +53,18 @@ GLMRubricSmalltalkCodePresentation >> browsingSelectionActions [
 						browseMethodsWithString: aPresentation selectedText
 						matchCase: false ]; 
 				shortcut: $E;
-				category: 'Extended search...';
-				yourself }
+				category: 'Code search...';
+				yourself.
+		(GLMGenericAction new) 
+				title: 'Method source with it';
+				action: [ :aPresentation |
+					aPresentation selectLine.
+					self systemNavigation 
+						browseMethodsWithSourceString: aPresentation selectedText
+						matchCase: false.]; 
+				category: 'Code search...';
+				withSeparatorAfter;
+				yourself. }
 ]
 
 { #category : #actions }
