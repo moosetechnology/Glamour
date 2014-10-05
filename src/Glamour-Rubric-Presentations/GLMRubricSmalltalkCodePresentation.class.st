@@ -13,6 +13,50 @@ GLMRubricSmalltalkCodePresentation >> browseIt [
 	self announce: (GLMTextEditorRequest for: #browseIt)
 ]
 
+{ #category : #accessing }
+GLMRubricSmalltalkCodePresentation >> browsingSelectionActions [
+
+	^ { (GLMGenericAction new) 
+				title: 'browse it';
+				action: [ :aPresentation |
+					aPresentation browseIt  ]; 
+				shortcut: $b; 
+				category: 'Extended search...';
+				yourself.
+		(GLMGenericAction new) 
+				title: 'senders of it';
+				action: [ :aPresentation |
+					aPresentation sendersOfIt ]; 
+				shortcut: $n; 
+				category: 'Extended search...';
+				yourself.
+		(GLMGenericAction new) 
+				title: 'implementors of it';
+				action: [ :aPresentation |
+					aPresentation implementorsOfIt ]; 
+				shortcut: $m; 
+				category: 'Extended search...';
+				yourself.
+		(GLMGenericAction new) 
+				title: 'references to it';
+				action: [ :aPresentation |
+					aPresentation referencesToIt ]; 
+				shortcut: $N; 
+				category: 'Extended search...';
+				withSeparatorAfter;
+				yourself.
+		(GLMGenericAction new) 
+				title: 'Extended string search'; 
+				action: [ :aPresentation |
+					aPresentation selectLine.
+					self systemNavigation 
+						browseMethodsWithString: aPresentation selectedText
+						matchCase: false ]; 
+				shortcut: $E;
+				category: 'Extended search...';
+				yourself }
+]
+
 { #category : #actions }
 GLMRubricSmalltalkCodePresentation >> compileTextIn: aContext from:  aSession andDo: aBlock [
 
@@ -29,8 +73,29 @@ GLMRubricSmalltalkCodePresentation >> debugSelection [
 	self announce: GLMDebugSelection
 ]
 
-{ #category : #rendering }
+{ #category : #accessing }
 GLMRubricSmalltalkCodePresentation >> defaultSelectionActions [
+
+	^ self executionSelectionActions, 
+		self codeEditingSelectionActions, 
+		self browsingSelectionActions
+	
+]
+
+{ #category : #actions }
+GLMRubricSmalltalkCodePresentation >> evaluateSelection [
+
+	self evaluateSelectionAndDo: [ :result | result ]
+]
+
+{ #category : #actions }
+GLMRubricSmalltalkCodePresentation >> evaluateSelectionAndDo: aBlock [
+
+	self announce: (GLMEvaluateSelection new action: aBlock)
+]
+
+{ #category : #accessing }
+GLMRubricSmalltalkCodePresentation >> executionSelectionActions [
 
 	^ { 
 		(GLMGenericAction new) 
@@ -63,81 +128,9 @@ GLMRubricSmalltalkCodePresentation >> defaultSelectionActions [
 				title: 'Profile it'; 
 				action: [ :aPresentation |
 					aPresentation profileSelection ]; 
+				withSeparatorAfter;
 				yourself.
-		(GLMGenericAction new) 
-				title: 'Copy';
-				action: [ :aPresentation |
-					aPresentation copySelection ]; 
-				shortcut: $c; 
-				yourself.
-		(GLMGenericAction new) 
-				title: 'Cut';
-				action: [ :aPresentation |
-					aPresentation cut ]; 
-				shortcut: $x; 
-				yourself.
-		(GLMGenericAction new) 
-				title: 'Paste';
-				action: [ :aPresentation |
-					aPresentation paste ]; 
-				shortcut: $v; 
-				yourself.
-		(GLMGenericAction new) 
-				title: 'Paste...';
-				action: [ :aPresentation |
-					aPresentation pasteRecent  ]; 
-				yourself.
-		(GLMGenericAction new) 
-				title: 'browse it';
-				action: [ :aPresentation |
-					aPresentation browseIt  ]; 
-				shortcut: $b; 
-				category: 'Extended search...';
-				yourself.
-		(GLMGenericAction new) 
-				title: 'senders of it';
-				action: [ :aPresentation |
-					aPresentation sendersOfIt ]; 
-				shortcut: $n; 
-				category: 'Extended search...';
-				yourself.
-		(GLMGenericAction new) 
-				title: 'implementors of it';
-				action: [ :aPresentation |
-					aPresentation implementorsOfIt ]; 
-				shortcut: $m; 
-				category: 'Extended search...';
-				yourself.
-		(GLMGenericAction new) 
-				title: 'references to it';
-				action: [ :aPresentation |
-					aPresentation referencesToIt ]; 
-				shortcut: $N; 
-				category: 'Extended search...';
-				yourself.
-		(GLMGenericAction new) 
-				title: 'Extended string search'; 
-				action: [ :aPresentation |
-					aPresentation selectLine.
-					self systemNavigation 
-						browseMethodsWithString: aPresentation selectedText
-						matchCase: false ]; 
-				shortcut: $E;
-				category: 'Extended search...';
-				yourself
 		 }
-]
-
-{ #category : #actions }
-GLMRubricSmalltalkCodePresentation >> evaluateSelection [
-
-	self evaluateSelectionAndDo: [ :result | result ]
-]
-
-{ #category : #actions }
-GLMRubricSmalltalkCodePresentation >> evaluateSelectionAndDo: aBlock [
-
-	self announce: (GLMEvaluateSelection new action: aBlock)
 ]
 
 { #category : #'actions browsing' }

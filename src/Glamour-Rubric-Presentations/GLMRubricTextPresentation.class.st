@@ -23,6 +23,35 @@ GLMRubricTextPresentation >> addTextSegment: aTextSegmentMorph [
 	self textSegments add: aTextSegmentMorph
 ]
 
+{ #category : #accessing }
+GLMRubricTextPresentation >> codeEditingSelectionActions [
+
+	^ { (GLMGenericAction new) 
+				title: 'Copy';
+				action: [ :aPresentation |
+					aPresentation copySelection ]; 
+				shortcut: $c; 
+				yourself.
+		(GLMGenericAction new) 
+				title: 'Cut';
+				action: [ :aPresentation |
+					aPresentation cut ]; 
+				shortcut: $x; 
+				yourself.
+		(GLMGenericAction new) 
+				title: 'Paste';
+				action: [ :aPresentation |
+					aPresentation paste ]; 
+				shortcut: $v; 
+				yourself.
+		(GLMGenericAction new) 
+				title: 'Paste...';
+				action: [ :aPresentation |
+					aPresentation pasteRecent  ]; 
+				withSeparatorAfter;
+				yourself. }
+]
+
 { #category : #'actions text' }
 GLMRubricTextPresentation >> copySelection [
 
@@ -33,6 +62,13 @@ GLMRubricTextPresentation >> copySelection [
 GLMRubricTextPresentation >> cut [
 
 	self announce: (GLMTextEditorRequest for: #cut)
+]
+
+{ #category : #accessing }
+GLMRubricTextPresentation >> defaultSelectionActions [
+
+	^ self executionSelectionActions
+	
 ]
 
 { #category : #'actions text' }
