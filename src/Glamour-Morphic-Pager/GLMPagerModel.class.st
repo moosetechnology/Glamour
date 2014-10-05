@@ -106,7 +106,6 @@ GLMPagerModel >> enlargeToRight [
 
 { #category : #accessing }
 GLMPagerModel >> firstVisiblePageIndex [
-	self invariant.
 	^ firstVisiblePageIndex
 ]
 
@@ -230,7 +229,6 @@ GLMPagerModel >> isPaneVisible: aNumber [
 { #category : #accessing }
 GLMPagerModel >> lastVisiblePageIndex [
 	| lastIndex |
-	self invariant.
 	
 	lastIndex := self firstVisiblePageIndex + self numberOfVisiblePages - 1.
 	^ lastIndex > self size
@@ -333,8 +331,15 @@ GLMPagerModel >> popPane [
 			selectedPageIndex := 0.
 		].
 		
-		scrollTo := ((pagesCount = self firstVisiblePageIndex) & (pagesCount > self numberOfVisiblePages)).
+		selectedPageIndex > pagesCount ifTrue: [
+			self selectedPageIndex: pagesCount.
+		].
+	
+		scrollTo := ((pagesCount = firstVisiblePageIndex) & (pagesCount > self numberOfVisiblePages)).
 		self notifyPagePoped.
+		
+		
+
 	].
 
 	self invariant.
@@ -481,8 +486,6 @@ GLMPagerModel >> selectedPageIndex [
 GLMPagerModel >> selectedPageIndex: anIndex [
 	| normalizedIndex |
 	"changes current selected page and scrolls to it if necessary. Also if possible re-focused available morph"
-	
-	self invariant.
 	
 	normalizedIndex := self normalizePaneIndex: anIndex.
 	
