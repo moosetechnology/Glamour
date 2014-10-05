@@ -304,7 +304,6 @@ GLMWizard >> hasUniquePane [
 GLMWizard >> initialize [
 
 	super initialize.
-	scriptTransmission := GLMTransmission new.
 ]
 
 { #category : #'accessing - buttons actions ' }
