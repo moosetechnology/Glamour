@@ -13,7 +13,9 @@ Class {
 		'position',
 		'category',
 		'icon',
-		'condition'
+		'condition',
+		'separatorAfter',
+		'separatorBefore'
 	],
 	#category : #'Glamour-Core'
 }
@@ -141,6 +143,30 @@ GLMAction >> renderGlamorouslyOn: aRenderer [
 ]
 
 { #category : #accessing }
+GLMAction >> separatorAfter [
+	
+	^ separatorAfter ifNil: [ false ]
+]
+
+{ #category : #accessing }
+GLMAction >> separatorAfter: aBoolean [
+	
+	separatorAfter := aBoolean
+]
+
+{ #category : #accessing }
+GLMAction >> separatorBefore [
+	
+	^ separatorBefore ifNil: [ false ]
+]
+
+{ #category : #accessing }
+GLMAction >> separatorBefore: aBoolean [
+	
+	separatorBefore := aBoolean
+]
+
+{ #category : #accessing }
 GLMAction >> shortcut [ 
 	"Shortcut character that this action should be triggered with when the focus rests on the corresponding presentation. 
 	Modifiers are platform specific an can not be defined." 
@@ -181,6 +207,18 @@ GLMAction >> title: anObject [
 	"Title that this action should use in a context menu." 
 	 
 	title := anObject
+]
+
+{ #category : #accessing }
+GLMAction >> withSeparatorAfter [
+
+	self separatorAfter: true
+]
+
+{ #category : #accessing }
+GLMAction >> withSeparatorBefore [
+
+	self separatorBefore: true
 ]
 
 { #category : #testing }
