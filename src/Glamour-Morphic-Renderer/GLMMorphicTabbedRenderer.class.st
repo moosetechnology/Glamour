@@ -14,6 +14,18 @@ GLMMorphicTabbedRenderer >> actOnContextChanged: ann [
 ]
 
 { #category : #rendering }
+GLMMorphicTabbedRenderer >> actOnPresentationToolbarUpdated: ann [
+	| presentations |
+
+	presentations := ann presentation matchingPresentations.
+	tabs pages size to: 1 by: -1 do: [ :i | (tabs pages at: i) toolbar: GLMMorphic emptyMorph ].	
+	presentations withIndexDo: [ :each :i | 
+		(tabs pages at: i)
+			toolbar: (self renderToolbarForPresentation: each inMorph: tabs ).
+		tabs updatePageIndex: i ]
+]
+
+{ #category : #rendering }
 GLMMorphicTabbedRenderer >> actOnPresentationUpdated: ann [
 	| index presentations |
 	presentations := ann presentation matchingPresentations.
@@ -37,7 +49,7 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 	presentations := aPresentation matchingPresentations.
 	presentations isEmpty
 		ifTrue: [ ^ GLMMorphic emptyMorph ].
-	(presentations size = 1 and: [ presentations first hasTitleIcon not ])
+	(presentations size = 1 and: [ presentations first hasTitle ] )
 		ifTrue: [ ^ self renderWithTitleOrNil: presentations first ].
 	tabs := LazyTabGroupMorph new.
 	tabs
@@ -62,5 +74,6 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 	tabs announcer suspendAllWhile: [ tabs selectedPageIndex: index ].
 	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
 	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
+	aPresentation on: GLMPresentationToolbarUpdated send: #actOnPresentationToolbarUpdated: to: self.
 	^ tabs
 ]
