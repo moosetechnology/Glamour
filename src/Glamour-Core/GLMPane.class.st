@@ -298,6 +298,12 @@ GLMPane >> update [
 	self presentations do: [ :each | each update ]
 ]
 
+{ #category : #updating }
+GLMPane >> updateToolbar [
+
+	self announce: (GLMPresentationToolbarUpdated new presentation: self presentations)
+]
+
 { #category : #enumerating }
 GLMPane >> withAllPanes [
 	| result |
