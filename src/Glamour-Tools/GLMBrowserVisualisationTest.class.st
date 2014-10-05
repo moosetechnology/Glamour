@@ -21,18 +21,6 @@ GLMBrowserVisualisationTest >> testViewAnnouncements [
 ]
 
 { #category : #tests }
-GLMBrowserVisualisationTest >> testViewNested [
-
-	self shouldnt: [ window := GLMBrowser new viewNested ] raise: Error
-]
-
-{ #category : #tests }
-GLMBrowserVisualisationTest >> testViewSketch [
-
-	self shouldnt: [ window := GLMBrowser new viewSketch ] raise: Error
-]
-
-{ #category : #tests }
 GLMBrowserVisualisationTest >> testViewTree [
 
 	self shouldnt: [ window := GLMBrowser new viewTree ] raise: Error
