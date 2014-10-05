@@ -1,3 +1,12 @@
+"
+I am a popper that displays a notification message: I can display a given object or evaluate the selection of the attached text editor. 
+
+I also offer a button for inspecting the object that is displayed.
+
+GLMPrintPopper simpleObjectPopper
+	
+GLMPrintPopper selectionEvaluationPopper
+"
 Class {
 	#name : #GLMPrintPopper,
 	#superclass : #GLMPopper,
@@ -7,18 +16,35 @@ Class {
 	#category : #'Glamour-Morphic-Widgets-Popper'
 }
 
+{ #category : #examples }
+GLMPrintPopper class >> selectionEvaluationPopper [
+	"
+	self selectionEvaluationPopper
+	"
+	GLMPrintPopper new 
+		evaluateAndOpenFromRubric: (RubScrolledTextMorph new 
+			beForSmalltalkCode;
+			updateTextWith: '1+2+4';
+			setSelection: (1to:6))
+]
+
+{ #category : #examples }
+GLMPrintPopper class >> simpleObjectPopper [
+	"
+	self simpleObjectPopper
+	"
+
+	GLMPrintPopper new 
+		openFromRubric: RubScrolledTextMorph new 
+		withResult: 'notification goes here'.
+]
+
 { #category : #public }
 GLMPrintPopper >> evaluateAndOpenFromRubric: aMorph [
-	| string result |
-	result := aMorph textArea editor evaluateSelectionAndDo: [ :x | x ].
-	string := result asString.
-	self withString: string from: aMorph.
-	self width: self width + inspectButton width.
-	textMorph
-		on: $i command
-		do: [ result inspect ].
-	inspectButton addUpAction: [ result inspect ].
-	self openInWorld
+
+	self 
+		openFromRubric: aMorph
+		withResult: aMorph textArea editor evaluateSelection
 ]
 
 { #category : #initialization }
@@ -30,13 +56,14 @@ GLMPrintPopper >> initialize [
 
 { #category : #initialization }
 GLMPrintPopper >> initializeInspectButton [
+
 	inspectButton := MultistateButtonMorph new
 		extent: GLMUIThemeExtraIcons glamorousInspect extent;
 		activeEnabledOverUpFillStyle: (ImageFillStyle form: GLMUIThemeExtraIcons glamorousInspect);
 		setBalloonText: 'Inspect' translated.
 	self
 		addMorph: inspectButton
-		fullFrame: (LayoutFrame fractions: (1 @ 0 corner: 1 @ 0) offsets: (inspectButton width negated @ 6 corner: 6 @ 28))
+		fullFrame: (LayoutFrame fractions: (1 @ 0 corner: 1 @ 0) offsets: (inspectButton width  @ 0 corner: 0 @ (2*inspectButton width) ))
 ]
 
 { #category : #initialization }
@@ -49,5 +76,18 @@ GLMPrintPopper >> initializeTextMorph [
 	self
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
-		addMorph: textMorph fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ 0 corner: inspectButton width negated @ 0))
+		addMorph: textMorph fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ 0 corner: 0 @ 0))
+]
+
+{ #category : #public }
+GLMPrintPopper >> openFromRubric: aMorph withResult: anObject [
+	| string |
+	string := anObject asString.
+	self withString: string from: aMorph.
+	self width: self width + inspectButton width.
+	textMorph
+		on: $i command
+		do: [ anObject inspect ].
+	inspectButton addUpAction: [ anObject inspect ].
+	self openInWorld
 ]

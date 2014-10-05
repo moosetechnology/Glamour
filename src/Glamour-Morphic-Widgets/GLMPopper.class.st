@@ -1,7 +1,11 @@
 "
-This is a morph used for previewing print it actions.
+This is a morph used for displaying various notifications.
 
 It has a special ability to delete itself either when Esc is pressed, or when the focus is lost.
+
+When opened the user has to spefify a text morph whose position and cursor are user to position this morph.
+
+When triggered from a context menu action the class method installAlarmFor: should be used to open the popper as the text morph gets back the focus after the action was executed (and, hence, the popper is closed).
 "
 Class {
 	#name : #GLMPopper,
@@ -11,6 +15,16 @@ Class {
 	],
 	#category : #'Glamour-Morphic-Widgets-Popper'
 }
+
+{ #category : #utils }
+GLMPopper class >> installAlarmFor: aBlock [
+
+	World
+		addAlarm: #value
+		withArguments: #()
+		for: aBlock
+		at: Time millisecondClockValue + 50.
+]
 
 { #category : #public }
 GLMPopper >> computeOriginFor: aMorph [	
@@ -45,7 +59,8 @@ GLMPopper >> updateWithString: string from: aMorph [
 			aMorph takeKeyboardFocus ];
 		onAnnouncement: MorphLostFocus do: [ :ann | 
 			self delete.
-			aMorph takeKeyboardFocus ]
+			"If this event is triggered then another morph already has the focus.
+			Do not attempt to give the focus back to the original morph" ]
 ]
 
 { #category : #private }

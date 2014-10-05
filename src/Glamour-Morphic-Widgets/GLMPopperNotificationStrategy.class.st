@@ -1,3 +1,6 @@
+"
+I opened a new popper window that displays the given notification. (I do not alter the content of the text editor.)
+"
 Class {
 	#name : #GLMPopperNotificationStrategy,
 	#superclass : #RubNotificationStrategy,
@@ -12,6 +15,7 @@ GLMPopperNotificationStrategy >> notify: aString at: anInteger in: aStream [
 		ifFalse: [anInteger].
 	self editor selectFrom: pos to: pos.
 	
-	(GLMErrorPopper new withString: aString from: self editor textArea owner owner owner)
-		openInWorld
+	GLMErrorPopper installAlarmFor: [ 
+		(GLMErrorPopper new withString: aString from: self editor textArea owner owner owner)
+			openInWorld ]
 ]

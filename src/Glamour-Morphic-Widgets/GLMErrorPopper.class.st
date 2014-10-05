@@ -1,8 +1,24 @@
+"
+I am a popper that displays an error message.
+
+GLMErrorPopper simpleErrorPopper
+"
 Class {
 	#name : #GLMErrorPopper,
 	#superclass : #GLMPopper,
 	#category : #'Glamour-Morphic-Widgets-Popper'
 }
+
+{ #category : #examples }
+GLMErrorPopper class >> simpleErrorPopper [
+	"
+	self simpleErrorPopper
+	"
+
+	(GLMErrorPopper new 
+		withString: 'error message goes here' 
+		from: RubScrolledTextMorph new) openInWorld
+]
 
 { #category : #initialization }
 GLMErrorPopper >> initialize [
