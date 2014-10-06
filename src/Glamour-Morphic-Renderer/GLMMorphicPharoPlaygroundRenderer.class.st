@@ -42,8 +42,8 @@ GLMMorphicPharoPlaygroundRenderer >> registerEventsForPresentation: aPresentatio
 { #category : #'as yet unclassified' }
 GLMMorphicPharoPlaygroundRenderer >> workspaceBindingsStrategy [
 
-	^ [ :currentBindings :aSymbol |
-		(currentBindings includesKey: aSymbol)
-			ifFalse: [currentBindings at: aSymbol put: nil].
-		currentBindings associationAt: aSymbol]
+	^ [ :currentBindings :aString |
+		(currentBindings includesKey: aString)
+			ifFalse: [currentBindings add: (WorkspaceVariable key: aString asSymbol) ].
+		currentBindings associationAt: aString]
 ]

@@ -43,6 +43,8 @@ GLMMorphicRubricTextRenderer >> morph [
 		getSelectionSelector: #primarySelectionInterval;
 		model: textModel;
 		color: Smalltalk ui theme backgroundColor;
+		textFont: StandardFonts defaultFont;
+		textColor: Smalltalk ui theme  textColor;
 		yourself
 ]
 
