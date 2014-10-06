@@ -115,7 +115,7 @@ GLMRoassal2Presentation >> renderOn: aView [
 	aView build.
 	self shouldPopulateSelection ifTrue: [
 		aView view elements do: [:each |  
-			each on: TRMouseLeftClick do: [:event | self selection: each model ]] ].
+			each when: TRMouseLeftClick do: [:event | self selection: each model ]] ].
 	self view: aView
 ]
 
