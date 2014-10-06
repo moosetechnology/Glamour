@@ -2301,7 +2301,7 @@ ConfigurationOfGlamour >> version275: spec [
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-AndreiChis.36';
 			package: 'Glamour-Core' with: 'Glamour-Core-AndreiChis.280';
 			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.159';
-			package: 'Glamour-Browsers' with: 'Glamour-Browsers-TudorGirba.106';
+			package: 'Glamour-Browsers' with: 'Glamour-Browsers-AndreiChis.106';
 			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-AndreiChis.96';
 			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.134';
 			package: 'Glamour-Morphic-Renderer' with: [
