@@ -37,7 +37,8 @@ Class {
 		'statusPane',
 		'sourceLink',
 		'initializationBlock',
-		'cachedDisplayedValue'
+		'cachedDisplayedValue',
+		'labelActionBlock'
 	],
 	#category : #'Glamour-Core'
 }
@@ -417,6 +418,27 @@ GLMPresentation >> initializePresentation [
 GLMPresentation >> innerPortEvent: aPortEvent [ 
 	 "Regular presentations do not have inner ports,
 	  so the default behaviour is to do nothing"
+]
+
+{ #category : #accessing }
+GLMPresentation >> labelAction [
+
+	^ self labelActionBlock 
+		ifNil: [ nil ]
+		ifNotNil: [ :aBlock |
+			aBlock glamourValue: self ]
+]
+
+{ #category : #scripting }
+GLMPresentation >> labelActionBlock [
+
+	^ labelActionBlock
+]
+
+{ #category : #scripting }
+GLMPresentation >> labelActionBlock: aBlock [ 
+
+	labelActionBlock := aBlock
 ]
 
 { #category : #testing }
