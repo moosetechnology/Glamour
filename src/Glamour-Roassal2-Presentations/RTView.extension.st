@@ -4,7 +4,7 @@ Extension { #name : #RTView }
 RTView >> openWithToolbar [
 	^ GLMCompositePresentation new 
 		title: 'Roassal painting';
-		with: [:composite | composite roassal2 ];
+		with: [:composite | composite roassal2 initializeView: [self ] ];
 		openOn: self
 ]
 
