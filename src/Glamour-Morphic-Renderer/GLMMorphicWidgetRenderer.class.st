@@ -30,6 +30,23 @@ GLMMorphicWidgetRenderer >> installKeystrokeActionsOnMorph: aMorph fromPresentat
 ]
 
 { #category : #private }
+GLMMorphicWidgetRenderer >> labelActionMorphFor: aPresentation [
+	
+	 ^ aPresentation labelAction 
+		ifNil: [ nil ]
+		ifNotNil: [ :labelAction |
+			((labelAction isAvailableOn: aPresentation) and: [ labelAction hasIcon ])
+				ifTrue: [ 
+					MultistateButtonMorph new
+						extent: labelAction icon extent;
+						activeEnabledOverUpFillStyle: (ImageFillStyle form: labelAction icon);
+						setBalloonText: labelAction title;
+						addUpAction: [ labelAction actOn: aPresentation ] ]
+				ifFalse: [ nil ] ]
+	
+]
+
+{ #category : #private }
 GLMMorphicWidgetRenderer >> menuIn: aMenuMorph for: aPresentation [
 	| subMenus targetMenuMorph subMenu |
 	subMenus := Dictionary new.
@@ -80,7 +97,8 @@ GLMMorphicWidgetRenderer >> morph: aMorph withTitleOf: aPresentation [
 	tabs 
 		addLazyPage: [aMorph]
 		label: (self titleOrIconOf: aPresentation in: tabs)
-		toolbar: (self renderToolbarForPresentation: aPresentation inMorph: aMorph).
+		toolbar: (self renderToolbarForPresentation: aPresentation inMorph: aMorph)
+		action: (self labelActionMorphFor: aPresentation).
 	tabs selectedPageIndex: 1.
 	^ tabs
 ]

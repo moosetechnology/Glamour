@@ -20,9 +20,10 @@ GLMMorphicTabbedRenderer >> actOnPresentationToolbarUpdated: ann [
 	presentations := ann presentation matchingPresentations.
 	tabs pages size to: 1 by: -1 do: [ :i | (tabs pages at: i) toolbar: GLMMorphic emptyMorph ].	
 	presentations withIndexDo: [ :each :i | 
-		(tabs pages at: i)
-			toolbar: (self renderToolbarForPresentation: each inMorph: tabs ).
-		tabs updatePageIndex: i ]
+		tabs updatePageAtIndex: i
+			withLabel: (self titleOrIconOf: each in: tabs)
+			toolbar: (self renderToolbarForPresentation: each inMorph: tabs)
+			action: (self labelActionMorphFor: each)]
 ]
 
 { #category : #rendering }
@@ -34,7 +35,8 @@ GLMMorphicTabbedRenderer >> actOnPresentationUpdated: ann [
 		tabs 
 			addLazyPage: [ self renderObject: each ]
 			label: (self titleOrIconOf: each in: tabs)
-			toolbar: (self renderToolbarForPresentation: each inMorph: tabs ) ].
+			toolbar: (self renderToolbarForPresentation: each inMorph: tabs )
+			action: (self labelActionMorphFor: each) ].
 	index := 1.
 	presentations withIndexDo: [ :each :i | 
 		ann presentation pane lastActivePresentation notNil and: [ 
@@ -65,7 +67,8 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 			tabs
 				addLazyPage: [ self renderObject: each ]
 				label: (self titleOrIconOf: each in: tabs)
-				toolbar: (self renderToolbarForPresentation: each inMorph: tabs) ].
+				toolbar: (self renderToolbarForPresentation: each inMorph: tabs)
+				action: (self labelActionMorphFor: each) ].
 	index := 1.
 	presentations
 		withIndexDo: [ :each :i | 
