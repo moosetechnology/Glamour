@@ -21,37 +21,65 @@ LazyTabGroupMorph >> addLazyPage: aBlock label: aStringOrMorph toolbar: aToolbar
 ]
 
 { #category : #adding }
-LazyTabGroupMorph >> addLazyPage: aBlock label: aStringOrMorph toolbar: aToolbar collapsable: aBoolean [
-	| newPage label innerLabel |
+LazyTabGroupMorph >> addLazyPage: aBlock label: aStringOrMorph toolbar: aToolbar action: anActionMorphOrNil [
+	| newPage label |
 	newPage := LazyTabPage new.
 	newPage
 		lazyPageMorphCreation: aBlock; 
 		labelMorph: aStringOrMorph; 
 		toolbar: aToolbar.
+	label := self 
+			buildLabelFrom: aStringOrMorph 
+			withAction: anActionMorphOrNil.
+	self 
+		addPage: newPage
+		label: label
+]
+
+{ #category : #adding }
+LazyTabGroupMorph >> addLazyPage: aBlock label: aStringOrMorph toolbar: aToolbar collapsable: aBoolean [
+	| newPage label |
+	newPage := LazyTabPage new.
+	newPage
+		lazyPageMorphCreation: aBlock; 
+		labelMorph: aStringOrMorph; 
+		toolbar: aToolbar.
+	label := self 
+			buildLabelFrom: aStringOrMorph 
+			withAction: (aBoolean 
+				ifTrue: [UITheme builder
+					newCloseControlFor: nil
+					action: [self removePage: newPage]
+					help: nil]
+				ifFalse: [nil]).
+	self 
+		addPage: newPage
+		label: label.
+	
+]
+
+{ #category : #accessing }
+LazyTabGroupMorph >> announcer [
+	^ announcer ifNil: [announcer := GLMAnnouncer new]
+]
+
+{ #category : #private }
+LazyTabGroupMorph >> buildLabelFrom: aStringOrMorph withAction: anActionMorphOrNil [
+	| label innerLabel |
+
 	innerLabel := aStringOrMorph isMorph
 		ifTrue: [aStringOrMorph]
 		ifFalse: [
 			|labelMorph|
 			labelMorph := GLMButton new disable.
 			labelMorph label text: aStringOrMorph.
-			labelMorph
-		].
-	label := aBoolean 
-			ifTrue: [UITheme builder newRow: { 
-				innerLabel .
-				UITheme builder
-					newCloseControlFor: nil
-					action: [self removePage: newPage]
-					help: nil}]
-			ifFalse: [innerLabel].
-	self 
-		addPage: newPage
-		label: label.
-]
+			labelMorph ].
+	label := anActionMorphOrNil
+			ifNil: [innerLabel]
+			ifNotNil: [  UITheme builder newRow: { 
+				innerLabel. anActionMorphOrNil }].
+	^ label
 
-{ #category : #accessing }
-LazyTabGroupMorph >> announcer [
-	^ announcer ifNil: [announcer := GLMAnnouncer new]
 ]
 
 { #category : #'as yet unclassified' }
@@ -214,6 +242,20 @@ LazyTabGroupMorph >> toolbarMorph [
 { #category : #accessing }
 LazyTabGroupMorph >> toolbarMorph: anObject [
 	toolbarMorph := anObject.
+]
+
+{ #category : #'as yet unclassified' }
+LazyTabGroupMorph >> updatePageAtIndex: anInteger withLabel: aStringOrMorph toolbar: aToolbar action: anActionMorph [
+	
+	(self pages at: anInteger)
+			toolbar: aToolbar.
+	self 
+		relabelPage: (self pages at: anInteger)
+		with: (self 
+			buildLabelFrom: aStringOrMorph 
+			withAction: anActionMorph).
+	self updatePageIndex: anInteger.
+
 ]
 
 { #category : #private }
