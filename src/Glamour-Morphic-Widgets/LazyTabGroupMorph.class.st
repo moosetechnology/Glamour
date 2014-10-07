@@ -87,25 +87,17 @@ LazyTabGroupMorph >> fitLabelsIn: width [
 	|delta morphs |
 	
 	delta := (self measureWidth - width).
-	
 	delta < 0 ifTrue: [
-		self tabSelectorMorph tabs do: [ :each |
-			(each label isKindOf: GLMButton) ifTrue:[
-				each normalLabel updateLabelTextToFit: each normalLabel measureWidth.
-				each selectedLabel updateLabelTextToFit: each selectedLabel measureWidth.
-			].
-		].
-		^ self.
-	].
-	
+		self tabSelectorMorph tabs do: [ :aTabMorph |
+			(aTabMorph label isKindOf: GLMButton) ifTrue:[
+				aTabMorph label updateLabelTextToFit: aTabMorph label measureWidth ] ].
+		^ self ].
+
 	morphs := OrderedCollection new.
 	self tabSelectorMorph tabs size > 0 ifTrue: [
-		self tabSelectorMorph tabs do: [ :each |
-			(each label isKindOf: GLMButton) ifTrue:[
-				morphs add: each label.
-			]
-		].
-	].
+		self tabSelectorMorph tabs do: [ :aTabMorph |
+			(aTabMorph label isKindOf: GLMButton) ifTrue: [
+				morphs add: aTabMorph label ] ] ].
 
 	GLMButton shrinkButtons: morphs by: delta.
 ]
