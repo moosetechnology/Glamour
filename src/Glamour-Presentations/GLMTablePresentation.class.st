@@ -73,6 +73,14 @@ GLMTablePresentation >> column: aBlockOrString evaluated: aBlock [
 		computation: aBlock)
 ]
 
+{ #category : #'as yet unclassified' }
+GLMTablePresentation >> column: aBlockOrString evaluated: aBlock modified: aModifiedBlock [
+	self addColumn: (GLMTableColumn new 
+		title: aBlockOrString;
+		computation: aBlock;
+		modifiedBlock: aModifiedBlock)
+]
+
 { #category : #scripting }
 GLMTablePresentation >> column: aBlockOrString evaluated: aBlock sortedBy: aSortingBlock [
 	self addColumn: (GLMTableColumn new 

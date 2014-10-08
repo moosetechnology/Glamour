@@ -17,7 +17,8 @@ Class {
 		'tagsBlock',
 		'tagsFilterBlock',
 		'sortBlock',
-		'defaultSortBlock'
+		'defaultSortBlock',
+		'modifiedBlock'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -42,6 +43,16 @@ GLMTableColumn >> defaultSortBlockForPresentation: aGlamourPresentation [
 			(aGlamourPresentation 
 				column: self 
 				valueFor: y) asString ] 
+]
+
+{ #category : #accessing }
+GLMTableColumn >> modifiedBlock [
+	^ modifiedBlock
+]
+
+{ #category : #accessing }
+GLMTableColumn >> modifiedBlock: anObject [
+	modifiedBlock := anObject
 ]
 
 { #category : #accessing }
