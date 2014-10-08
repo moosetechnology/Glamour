@@ -7,6 +7,66 @@ Class {
 	#category : #'Glamour-Rubric-Presentations'
 }
 
+{ #category : #'actions browsing' }
+GLMRubricSmalltalkCodePresentation >> browseIt [
+
+	self announce: (GLMTextEditorRequest for: #browseIt)
+]
+
+{ #category : #accessing }
+GLMRubricSmalltalkCodePresentation >> browsingSelectionActions [
+
+	^ { (GLMGenericAction new) 
+				title: 'Browse it';
+				action: [ :aPresentation |
+					aPresentation browseIt  ]; 
+				shortcut: $b; 
+				category: 'Code search...';
+				yourself.
+		(GLMGenericAction new) 
+				title: 'Senders of it';
+				action: [ :aPresentation |
+					aPresentation sendersOfIt ]; 
+				shortcut: $n; 
+				category: 'Code search...';
+				yourself.
+		(GLMGenericAction new) 
+				title: 'Implementors of it';
+				action: [ :aPresentation |
+					aPresentation implementorsOfIt ]; 
+				shortcut: $m; 
+				category: 'Code search...';
+				yourself.
+		(GLMGenericAction new) 
+				title: 'References to it';
+				action: [ :aPresentation |
+					aPresentation referencesToIt ]; 
+				"shortcut: $N; "
+				category: 'Code search...';
+				withSeparatorAfter;
+				yourself.
+		(GLMGenericAction new) 
+				title: 'Extended string search'; 
+				action: [ :aPresentation |
+					aPresentation selectLine.
+					self systemNavigation 
+						browseMethodsWithString: aPresentation selectedText
+						matchCase: false ]; 
+				shortcut: $E;
+				category: 'Code search...';
+				yourself.
+		(GLMGenericAction new) 
+				title: 'Method source with it';
+				action: [ :aPresentation |
+					aPresentation selectLine.
+					self systemNavigation 
+						browseMethodsWithSourceString: aPresentation selectedText
+						matchCase: false.]; 
+				category: 'Code search...';
+				withSeparatorAfter;
+				yourself. }
+]
+
 { #category : #actions }
 GLMRubricSmalltalkCodePresentation >> compileTextIn: aContext from:  aSession andDo: aBlock [
 
@@ -23,22 +83,43 @@ GLMRubricSmalltalkCodePresentation >> debugSelection [
 	self announce: GLMDebugSelection
 ]
 
-{ #category : #rendering }
+{ #category : #accessing }
 GLMRubricSmalltalkCodePresentation >> defaultSelectionActions [
 
+	^ self executionSelectionActions, 
+		self codeEditingSelectionActions, 
+		self browsingSelectionActions
+	
+]
+
+{ #category : #actions }
+GLMRubricSmalltalkCodePresentation >> evaluateSelection [
+
+	self evaluateSelectionAndDo: [ :result | result ]
+]
+
+{ #category : #actions }
+GLMRubricSmalltalkCodePresentation >> evaluateSelectionAndDo: aBlock [
+
+	self announce: (GLMEvaluateSelection new action: aBlock)
+]
+
+{ #category : #accessing }
+GLMRubricSmalltalkCodePresentation >> executionSelectionActions [
+
 	^ { 
-		(GLMGenericAction new) 
-				title: 'Print it';
-				action: [ :aPresentation |
-					aPresentation printSelection ]; 
-				shortcut: $p; 
-				yourself.
 		(GLMGenericAction new) 
 				title: 'Do it';
 				action: [ :aPresentation |
 					aPresentation evaluateSelection ]; 
 				shortcut: $d; 
 				icon: GLMUIThemeExtraIcons glamorousSpawn;
+				yourself.
+		(GLMGenericAction new) 
+				title: 'Print it';
+				action: [ :aPresentation |
+					aPresentation printSelection ]; 
+				shortcut: $p; 
 				yourself.
 		(GLMGenericAction new) 
 				title: 'Inspect it'; 
@@ -57,37 +138,15 @@ GLMRubricSmalltalkCodePresentation >> defaultSelectionActions [
 				title: 'Profile it'; 
 				action: [ :aPresentation |
 					aPresentation profileSelection ]; 
+				withSeparatorAfter;
 				yourself.
-		(GLMGenericAction new) 
-				title: 'Extended string search'; 
-				action: [ :aPresentation |
-					aPresentation selectLine.
-					self systemNavigation 
-						browseMethodsWithString: aPresentation selectedText
-						matchCase: false ]; 
-				shortcut: $E;
-				yourself.
-		(GLMGenericAction new) 
-				title: 'Method source with it'; 
-				action: [ :aPresentation |
-					aPresentation selectLine.
-					self systemNavigation 
-						browseMethodsWithSourceString: aPresentation selectedText
-						matchCase: false ]; 
-				yourself
 		 }
 ]
 
-{ #category : #actions }
-GLMRubricSmalltalkCodePresentation >> evaluateSelection [
+{ #category : #'actions browsing' }
+GLMRubricSmalltalkCodePresentation >> implementorsOfIt [
 
-	self evaluateSelectionAndDo: [ :result | result ]
-]
-
-{ #category : #actions }
-GLMRubricSmalltalkCodePresentation >> evaluateSelectionAndDo: aBlock [
-
-	self announce: (GLMEvaluateSelection new action: aBlock)
+	self announce: (GLMTextEditorRequest for: #implementorsOfIt)
 ]
 
 { #category : #rendering }
@@ -107,4 +166,16 @@ GLMRubricSmalltalkCodePresentation >> printSelection [
 GLMRubricSmalltalkCodePresentation >> profileSelection [
 
 	self announce: GLMProfileSelection
+]
+
+{ #category : #'actions browsing' }
+GLMRubricSmalltalkCodePresentation >> referencesToIt [
+
+	self announce: (GLMTextEditorRequest for: #referencesToIt)
+]
+
+{ #category : #'actions browsing' }
+GLMRubricSmalltalkCodePresentation >> sendersOfIt [
+
+	self announce: (GLMTextEditorRequest for: #sendersOfIt)
 ]
