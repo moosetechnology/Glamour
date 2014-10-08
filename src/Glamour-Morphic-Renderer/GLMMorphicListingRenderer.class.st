@@ -24,6 +24,12 @@ GLMMorphicListingRenderer >> actOnUpdatedPresentation: anAnnouncement [
 	treeMorph updateList
 ]
 
+{ #category : #private }
+GLMMorphicListingRenderer >> newTreeMorph [
+
+	^ PaginatedMorphTreeMorph new
+]
+
 { #category : #rendering }
 GLMMorphicListingRenderer >> render: aPresentation [
 	| container textInput |
@@ -86,7 +92,7 @@ GLMMorphicListingRenderer >> textInputFor: aTreeModel withHelpMessage: helpStrin
 { #category : #private }
 GLMMorphicListingRenderer >> treeMorphFor: tmpTreeModel and: aPresentation [
 	| tmpTreeMorph columns |
-	tmpTreeMorph := PaginatedMorphTreeMorph new.
+	tmpTreeMorph := self newTreeMorph.
 	tmpTreeMorph
 		makeLastColumnUnbounded;
 		doubleClickSelector: #onDoubleClick;
