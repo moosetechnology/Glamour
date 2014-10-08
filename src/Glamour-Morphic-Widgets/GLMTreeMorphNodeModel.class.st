@@ -182,10 +182,26 @@ GLMTreeMorphNodeModel >> resetContentsRecursively [
 { #category : #callbacks }
 GLMTreeMorphNodeModel >> rowMorphForColumn: aGlamourColumn [
 	| rowElements contentMorph tagMorphs |
+		
+	aGlamourColumn modifiedBlock
+		ifNil: [
+			contentMorph := (self containerTree glamourPresentation 
+			column: aGlamourColumn
+			valueFor: self item) asMorph asReadOnlyMorph ]
+		ifNotNil: [
+			|presentation|
+			
+			presentation := GLMRubricTextFieldPresentation new.
+			presentation wrapped: false.
+			contentMorph := presentation renderGlamorouslyOn: (GLMMorphicRenderer new).
+			contentMorph setText: (
+				self containerTree glamourPresentation 
+				column: aGlamourColumn 
+				valueFor: self item 
+			) asString.
+			contentMorph hResizing: #spaceFill.
+		].
 	
-	contentMorph := (self containerTree glamourPresentation 
-		column: aGlamourColumn 
-		valueFor: self item) asMorph asReadOnlyMorph.
 	tagMorphs := self tagMorphsFrom: aGlamourColumn.
 	tagMorphs ifEmpty: [ ^ contentMorph ].
 	
