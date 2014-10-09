@@ -20,11 +20,11 @@ GLMMorphicValidatorPaneRenderer >> actOnMatchingPresentationsChanged: anAnnounce
 GLMMorphicValidatorPaneRenderer >> buttonRowFrom: aCollectionOfButtons [
 	"Answer a new ok/cancel button row."
 
-	|answer buttons e|
-	buttons := aCollectionOfButtons.
+	|answer curentButtons e|
+	curentButtons := aCollectionOfButtons.
 	e := 0@0.
-	buttons do: [:b | e := e max: b minExtent].
-	buttons do: [:b | b extent: e].
+	curentButtons do: [:b | e := e max: b minExtent].
+	curentButtons do: [:b | b extent: e].
 	answer := Morph new
 		color: Color transparent;
 		changeTableLayout;
@@ -33,7 +33,7 @@ GLMMorphicValidatorPaneRenderer >> buttonRowFrom: aCollectionOfButtons [
 		listCentering: #bottomRight;
 		hResizing: #spaceFill;
 		vResizing: #shrinkWrap.
-	buttons do: [:b | answer addMorphBack: b].
+	curentButtons do: [:b | answer addMorphBack: b].
 	^answer
 
 	

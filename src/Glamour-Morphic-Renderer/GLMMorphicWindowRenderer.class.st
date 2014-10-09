@@ -54,8 +54,8 @@ GLMMorphicWindowRenderer >> render: aRenderable [
 ]
 
 { #category : #rendering }
-GLMMorphicWindowRenderer >> setLabelOf: window for: aRenderable [
-	window	setLabel: (self titleFor: aRenderable).
+GLMMorphicWindowRenderer >> setLabelOf: aWindow for: aRenderable [
+	aWindow setLabel: (self titleFor: aRenderable).
 ]
 
 { #category : #rendering }
