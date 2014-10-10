@@ -75,9 +75,11 @@ LazyTabGroupMorph >> buildLabelFrom: aStringOrMorph withAction: anActionMorphOrN
 			labelMorph label text: aStringOrMorph.
 			labelMorph ].
 	label := anActionMorphOrNil
-			ifNil: [innerLabel]
-			ifNotNil: [  UITheme builder newRow: { 
-				innerLabel. anActionMorphOrNil }].
+			ifNil: [
+				self flag: 'Added this to make resizing work uniformly. Remove once better resizing mechanism is added.'.
+				UITheme builder newRow:{innerLabel} ]
+			ifNotNil: [ UITheme builder newRow:{ 
+				innerLabel. anActionMorphOrNil}].
 	^ label
 
 ]
@@ -89,20 +91,17 @@ LazyTabGroupMorph >> fitLabelsIn: width [
 	delta := (self measureWidth - width).
 	delta < 0 ifTrue: [
 		self tabSelectorMorph tabs do: [ :aTabMorph |
-			(aTabMorph label isKindOf: GLMButton) ifTrue:[
-				aTabMorph label updateLabelTextToFit: aTabMorph label measureWidth ]
-			"aTabMorph label requestUpdateToFix: aTabMorph label measureWidth" ].
+			(aTabMorph label submorphs first isKindOf: GLMButton) ifTrue:[
+				aTabMorph label submorphs first updateLabelTextToFit: aTabMorph label submorphs first measureWidth ] ].
 		^ self ].
 
 	morphs := OrderedCollection new.
 	self tabSelectorMorph tabs size > 0 ifTrue: [
 		self tabSelectorMorph tabs do: [ :aTabMorph |
-			(aTabMorph label isKindOf: GLMButton) ifTrue: [
-				morphs add: aTabMorph label ]
-			"morphs add: aTabMorph label" ] ].
+			(aTabMorph label submorphs first isKindOf: GLMButton) ifTrue: [
+				morphs add: aTabMorph label submorphs first] ] ].
 
 	GLMButton shrinkButtons: morphs by: delta.
-	"morphs shrinkBy: delta"
 ]
 
 { #category : #accessing }
@@ -163,13 +162,10 @@ LazyTabGroupMorph >> measureWidth [
 	|width|
 	
 	width := 0.
-	self tabSelectorMorph tabs do: [ :each |
-		(each label isKindOf: GLMButton) 
-			ifTrue:[
-	 			width := width + each label measureWidth + each layoutInset left + each layoutInset right ]
-			ifFalse: [ 
-				width := width + each width ] 
-			"each label measureWidth" ].
+	((self tabSelectorMorph tabs collect: #label) flatCollect: #submorphs) do: [ :each |
+		width := width + ((each isKindOf: GLMButton) 
+			ifTrue:[ each measureWidth ]
+			ifFalse: [ each width ]) ].
 
 	self headerMorph ifNotNil: [
 		self headerMorph submorphs do: [ :each |
