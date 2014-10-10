@@ -189,18 +189,14 @@ GLMTreeMorphNodeModel >> rowMorphForColumn: aGlamourColumn [
 			column: aGlamourColumn
 			valueFor: self item) asMorph asReadOnlyMorph ]
 		ifNotNil: [
-			|presentation|
-			
-			presentation := GLMRubricTextFieldPresentation new.
-			presentation wrapped: false.
-			contentMorph := presentation renderGlamorouslyOn: (GLMMorphicRenderer new).
+			contentMorph := self textFieldMorphFor: nil.
 			contentMorph setText: (
 				self containerTree glamourPresentation 
-				column: aGlamourColumn 
-				valueFor: self item 
-			) asString.
+					column: aGlamourColumn 
+					valueFor: self item) asString.
 			contentMorph hResizing: #spaceFill.
-		].
+			contentMorph announcer when: RubReturnEntered do: [ :ann |
+				 aGlamourColumn modifiedBlock cull: contentMorph text cull: self item cull: self containerTree glamourPresentation ] ].
 	
 	tagMorphs := self tagMorphsFrom: aGlamourColumn.
 	tagMorphs ifEmpty: [ ^ contentMorph ].
@@ -258,6 +254,26 @@ GLMTreeMorphNodeModel >> tagMorphsFrom: aTagProvider [
 { #category : #accessing }
 GLMTreeMorphNodeModel >> textBackgroundColor [
 	^ self containerTree glamourPresentation textBackgroundColorFor: self item
+]
+
+{ #category : #callbacks }
+GLMTreeMorphNodeModel >> textFieldMorphFor: textModel [
+	|morph|
+	
+	morph := GLMRubricTextFieldMorph new
+		"getSelectionSelector: #primarySelectionInterval;"
+		"model: textModel;"
+		"color: Smalltalk ui theme backgroundColor;"
+		color: Color transparent;
+		editingMode: RubPlainTextMode new;
+		textFont: StandardFonts defaultFont;
+		yourself.
+		
+	self flag: 'Temporary solution until Moose moves to Pharo 4'.
+	(Smalltalk ui theme class canPerform: #textColor) ifTrue: [ 
+		morph textColor: Smalltalk ui theme  textColor ].
+	
+	^ morph
 ]
 
 { #category : #callbacks }
