@@ -2341,7 +2341,7 @@ ConfigurationOfGlamour >> version276: spec [
 			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AliakseiSyrel.160';
 			package: 'Glamour-Browsers' with: 'Glamour-Browsers-AndreiChis.106';
 			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-AndreiChis.96';
-			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.142';
+			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.143';
 			package: 'Glamour-Morphic-Renderer' with: [
 				spec file: 'Glamour-Morphic-Renderer-AndreiChis.293'.
 				spec repository: 'http://www.smalltalkhub.com/mc/PharoExtras/GTToolsIntegration/main' ];
