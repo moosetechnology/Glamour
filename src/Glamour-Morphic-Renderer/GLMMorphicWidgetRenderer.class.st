@@ -32,7 +32,7 @@ GLMMorphicWidgetRenderer >> installKeystrokeActionsOnMorph: aMorph fromPresentat
 { #category : #private }
 GLMMorphicWidgetRenderer >> labelActionMorphFor: aPresentation [
 	
-	 ^ aPresentation labelAction 
+	 ^ aPresentation titleAction 
 		ifNil: [ nil ]
 		ifNotNil: [ :labelAction |
 			((labelAction isAvailableOn: aPresentation) and: [ labelAction hasIcon ])
