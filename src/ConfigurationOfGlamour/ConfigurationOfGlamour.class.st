@@ -2343,7 +2343,7 @@ ConfigurationOfGlamour >> version276: spec [
 			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-AndreiChis.96';
 			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.142';
 			package: 'Glamour-Morphic-Renderer' with: [
-				spec file: 'Glamour-Morphic-Renderer-AndreiChis.282'.
+				spec file: 'Glamour-Morphic-Renderer-AndreiChis.293'.
 				spec repository: 'http://www.smalltalkhub.com/mc/PharoExtras/GTToolsIntegration/main' ];
 			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-AliakseiSyrel.69';
 			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-AndreiChis.181';
