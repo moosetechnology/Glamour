@@ -140,11 +140,6 @@ GLMMorphicRenderer >> renderRubricHighlightedTextPresentation: aPresentation [
 ]
 
 { #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderRubricTextFieldPresentation: aPresentation [
-	^ GLMMorphicRubricTextFieldRenderer render: aPresentation from: self
-]
-
-{ #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderRubricTextPresentation: aPresentation [
 	^ GLMMorphicRubricTextRenderer render: aPresentation from: self
 ]
