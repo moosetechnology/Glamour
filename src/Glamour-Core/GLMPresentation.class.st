@@ -420,27 +420,6 @@ GLMPresentation >> innerPortEvent: aPortEvent [
 	  so the default behaviour is to do nothing"
 ]
 
-{ #category : #accessing }
-GLMPresentation >> labelAction [
-
-	^ self labelActionBlock 
-		ifNil: [ nil ]
-		ifNotNil: [ :aBlock |
-			aBlock glamourValue: self ]
-]
-
-{ #category : #scripting }
-GLMPresentation >> labelActionBlock [
-
-	^ labelActionBlock
-]
-
-{ #category : #scripting }
-GLMPresentation >> labelActionBlock: aBlock [ 
-
-	labelActionBlock := aBlock
-]
-
 { #category : #testing }
 GLMPresentation >> matches [ 
 	<debuggingStone: #presentationCondition label: 'Presentation condition'>
@@ -881,6 +860,27 @@ GLMPresentation >> title [
 GLMPresentation >> title: aStringOrBlock [ 
 	 
 	title := aStringOrBlock
+]
+
+{ #category : #accessing }
+GLMPresentation >> titleAction [
+
+	^ self titleActionBlock 
+		ifNil: [ nil ]
+		ifNotNil: [ :aBlock |
+			aBlock glamourValue: self ]
+]
+
+{ #category : #scripting }
+GLMPresentation >> titleAction: aBlock [ 
+
+	labelActionBlock := aBlock
+]
+
+{ #category : #accessing }
+GLMPresentation >> titleActionBlock [
+
+	^ labelActionBlock
 ]
 
 { #category : #accessing }
