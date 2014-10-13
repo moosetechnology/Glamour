@@ -678,6 +678,19 @@ GLMPresentation >> selectionAct: aBlock icon: anIcon entitled: aString [
 ]
 
 { #category : #scripting }
+GLMPresentation >> selectionAct: aBlock icon: anIcon on: aCharacter entitled: aString [ 
+	 
+	self 
+		addSelectionAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				icon: anIcon;
+				shortcut: aCharacter; 
+				title: aString; 
+				yourself)
+]
+
+{ #category : #scripting }
 GLMPresentation >> selectionAct: aBlock on: aCharacter [ 
 	 
 	self 
