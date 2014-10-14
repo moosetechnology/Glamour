@@ -46,9 +46,15 @@ GLMPagerModel >> circleButtonSize [
 { #category : #scrolling }
 GLMPagerModel >> convertIndexToValue: anIndex [
 	
-	self size = self actualNumberOfVisiblePages
+	^ self convertIndexToValue: anIndex with: self size
+]
+
+{ #category : #private }
+GLMPagerModel >> convertIndexToValue: anIndex with: numberOfPagers [
+	"private"
+	numberOfPagers = self actualNumberOfVisiblePages
 		ifTrue: [ ^ 0 ]
-		ifFalse: [ ^ (anIndex - 1) / (self size - self actualNumberOfVisiblePages ) ]
+		ifFalse: [ ^ (anIndex - 1) / (numberOfPagers - self actualNumberOfVisiblePages ) ]
 ]
 
 { #category : #scrolling }
@@ -258,9 +264,9 @@ GLMPagerModel >> notifyNumberOfVisiblePagesChanged [
 ]
 
 { #category : #notifying }
-GLMPagerModel >> notifyPagePoped [
+GLMPagerModel >> notifyPagePoped: isSmooth [
 
-	self announcer announce: GLMPagePoped new.
+	self announcer announce: (GLMPagePoped new smooth: isSmooth).
 ]
 
 { #category : #notifying }
@@ -310,36 +316,40 @@ GLMPagerModel >> popAndReplacePane: aMorph [
 { #category : #panes }
 GLMPagerModel >> popPane [
 
+	self popPane: false.
+]
+
+{ #category : #panes }
+GLMPagerModel >> popPane: isSmooth [
+
 	self invariant.
 	
 	pagesCount >= 1 ifTrue: [
-		|scrollTo|
+		|scrollTo smooth|
+		smooth := isSmooth.
 		
 		focusedMorphs removeKey: pagesCount  ifAbsent: [ true ].
 		pagesCount := pagesCount - 1.
+		
+		firstVisiblePageIndex = 1 ifTrue: [ smooth := false ].
 		
 		lastVisiblePageIndex > pagesCount ifTrue: [
 			firstVisiblePageIndex := firstVisiblePageIndex - 1.
 			lastVisiblePageIndex := lastVisiblePageIndex - 1.
 		].
 	
-		firstVisiblePageIndex < 1 ifTrue: [
-			firstVisiblePageIndex := 1.
-		].
+		firstVisiblePageIndex := firstVisiblePageIndex max: 1.
 	
 		pagesCount = 0 ifTrue: [
 			selectedPageIndex := 0.
 		].
 		
-		selectedPageIndex > pagesCount ifTrue: [
+		self selectedPageIndex > pagesCount ifTrue: [
 			self selectedPageIndex: pagesCount.
 		].
 	
 		scrollTo := ((pagesCount = firstVisiblePageIndex) & (pagesCount > self numberOfVisiblePages)).
-		self notifyPagePoped.
-		
-		
-
+		self notifyPagePoped: smooth.
 	].
 
 	self invariant.

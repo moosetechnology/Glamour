@@ -36,8 +36,8 @@ GLMPagerScrollMorph >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerScrollMorph >> onPagePoped [
-	self popPane.
+GLMPagerScrollMorph >> onPagePoped: popedAnnouncement [
+	self popPane: popedAnnouncement smooth.
 	
 ]
 
@@ -124,7 +124,7 @@ GLMPagerScrollMorph >> pagerModel: aModel [
 		on: GLMPagePushed send: #onPagePushed: to: self.
 	
 	pagerModel announcer weak
-		on: GLMPagePoped send: #onPagePoped to: self.
+		on: GLMPagePoped send: #onPagePoped: to: self.
 						
 	pagerModel announcer weak
 		on: GLMPagerSynchronizeScrollAnnouncement send: #onSynchronizeScroll: to: self.
@@ -142,15 +142,36 @@ GLMPagerScrollMorph >> pagerModel: aModel [
 		on: GLMPagerPreviewUpdate send: #onPagePreviewUpdate: to: self.
 ]
 
+{ #category : #'as yet unclassified' }
+GLMPagerScrollMorph >> popPane: isSmooth [
+
+	(isSmooth not or: [self lastPane isNil]) ifTrue: [ ^ self popPane ].
+	
+	self lastPane removeAllMorphs.
+	self scrollTo: (pagerModel convertIndexToValue: pagerModel firstVisiblePageIndex with: self paneCount) smooth: true callback: [ self popPane ]
+]
+
 { #category : #scrolling }
 GLMPagerScrollMorph >> scrollTo: aValue smooth: isSmooth [
 
- 	isSmooth ifTrue: [	self glmAnimateValue: aValue duration: 200]
-				ifFalse: [self scrollValue: aValue ].
+ 	self scrollTo: aValue smooth: isSmooth callback: nil 
+]
+
+{ #category : #scrolling }
+GLMPagerScrollMorph >> scrollTo: aValue smooth: isSmooth callback: aBlock [
+
+ 	isSmooth ifTrue: [	self glmAnimateValue: aValue duration: 200 callback: aBlock]
+				ifFalse: [self scrollValue: aValue. aBlock value ].
 ]
 
 { #category : #scrolling }
 GLMPagerScrollMorph >> scrollToPane: anIndex smooth: isSmooth [
 
-	self scrollTo: (pagerModel convertIndexToValue: anIndex) smooth: isSmooth.
+	self scrollToPane: anIndex smooth: isSmooth callback: nil
+]
+
+{ #category : #scrolling }
+GLMPagerScrollMorph >> scrollToPane: anIndex smooth: isSmooth callback: aBlock [
+
+	self scrollTo: (pagerModel convertIndexToValue: anIndex) smooth: isSmooth callback: aBlock.
 ]

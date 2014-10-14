@@ -113,7 +113,7 @@ GLMPagerMorph >> popAndReplacePane: aMorph [
 
 { #category : #'as yet unclassified' }
 GLMPagerMorph >> popPane [
-	pagerModel popPane.
+	pagerModel popPane: true.
 ]
 
 { #category : #'as yet unclassified' }

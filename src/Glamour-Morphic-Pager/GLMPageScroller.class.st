@@ -73,6 +73,12 @@ GLMPageScroller >> currentScrollValue [
 { #category : #scrolling }
 GLMPageScroller >> glmAnimateValue: aValue duration: anInteger [
 
+	self glmAnimateValue: aValue duration: anInteger callback: nil.
+]
+
+{ #category : #scrolling }
+GLMPageScroller >> glmAnimateValue: aValue duration: anInteger callback: aBlock [
+
 	anInteger <= 0
 		"if duration is zero, move to the left immediately"
 		ifTrue: [ self leftTo: aValue ]
@@ -86,7 +92,9 @@ GLMPageScroller >> glmAnimateValue: aValue duration: anInteger [
 					self scrollValue: (aValue - start) * (delta / anInteger) + start.
 					Processor yield
 				].
-				self scrollValue: aValue
+				self scrollValue: aValue.
+				Processor yield.
+				aBlock ifNotNil: [ aBlock value ].
 			] fork
 		]
 ]
@@ -134,6 +142,13 @@ GLMPageScroller >> initializeTransform [
 		bounds: super innerBounds.
 	self addMorphBack: transform.
 
+]
+
+{ #category : #panes }
+GLMPageScroller >> lastPane [
+
+	self paneCount = 0 ifTrue: [ ^ nil ].
+	^ self panes last.
 ]
 
 { #category : #layout }
@@ -233,7 +248,7 @@ GLMPageScroller >> popAndReplacePane: aMorph [
 GLMPageScroller >> popPane [
 	transform removeMorph: transform lastSubmorph. "one for the separator"
 	transform submorphs isEmpty
-		ifFalse: [ transform removeMorph: transform lastSubmorph ].
+		ifFalse: [ transform removeMorph: transform lastSubmorph ].	"next for pane"
 	"remove from collection"
 	panes removeLast.
 	paneCount := paneCount - 1.
