@@ -47,6 +47,22 @@ GLMMorphicWidgetRenderer >> labelActionMorphFor: aPresentation [
 ]
 
 { #category : #private }
+GLMMorphicWidgetRenderer >> labelActionTrickFor: aPresentation [
+	
+	 ^ aPresentation titleAction 
+		ifNil: [ nil ]
+		ifNotNil: [ :labelAction |
+			((labelAction isAvailableOn: aPresentation) and: [ labelAction hasIcon ])
+				ifTrue: [
+					GLMActionButtonBrick new
+						icon: labelAction icon;
+						setBalloonText: labelAction title;
+						addUpAction: [ labelAction actOn: aPresentation ] ]
+				ifFalse: [ nil ] ]
+	
+]
+
+{ #category : #private }
 GLMMorphicWidgetRenderer >> menuIn: aMenuMorph for: aPresentation [
 	| subMenus targetMenuMorph subMenu |
 	subMenus := Dictionary new.
@@ -98,7 +114,7 @@ GLMMorphicWidgetRenderer >> morph: aMorph withTitleOf: aPresentation [
 		addLazyPage: [aMorph]
 		label: (self titleOrIconOf: aPresentation in: tabs)
 		toolbar: (self renderToolbarForPresentation: aPresentation inMorph: aMorph)
-		action: (self labelActionMorphFor: aPresentation).
+		action: (self labelActionTrickFor: aPresentation).
 	tabs selectedPageIndex: 1.
 	^ tabs
 ]
@@ -210,9 +226,9 @@ GLMMorphicWidgetRenderer >> titleOrIconOf: aPresentation in: container [
 	^ aPresentation hasTitleIcon 
 		ifTrue: [
 			| image |
-			image := self theme 
-					newImageIn: container
-					form: aPresentation titleIconValue.
+			image := GLMInteractableBrick new
+						normalImage: aPresentation titleIconValue.
+			image layoutProperties maxWidthBlock: [ :aTrick | aPresentation titleIconValue width * 2 ].
 			aPresentation titleValue ifNotNil: [
 				image setBalloonText: aPresentation titleValue maxLineLength: 100 ].
 			image  ]
