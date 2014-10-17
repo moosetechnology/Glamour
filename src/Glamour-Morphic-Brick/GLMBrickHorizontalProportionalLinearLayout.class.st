@@ -47,8 +47,11 @@ GLMBrickHorizontalProportionalLinearLayout >> layout: aBrick in: newBounds [
 			ifFalse: [ 	
 				extent := ((((allowedWidth * each layoutProperties horizontalPercent / maxPercent) ceiling) - each layoutProperties marginLeft - each layoutProperties marginRight) min: maxWidth) @ ((self extentOf: each in: aBrick) y).
 			].
-					
-			each brickBounds: ((left@top) extent: extent).
+			
+			each isBrick
+				ifTrue: [ each brickBounds: ((left@top) extent: extent) ]
+				ifFalse: [ each bounds: (((left@top) extent: extent) translateBy: aBrick globalBounds origin) ].
+			
 			width + each width + each layoutProperties marginRight.
 		]
 

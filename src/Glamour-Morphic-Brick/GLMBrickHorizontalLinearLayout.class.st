@@ -20,7 +20,10 @@ GLMBrickHorizontalLinearLayout >> layout: aBrick in: newBounds [
 			width := width + each layoutProperties marginLeft.
 			left := width.
 			
-			each brickBounds: ((left@top) extent: (self extentOf: each in: aBrick)).
+			each isBrick
+				ifTrue: [ each brickBounds: ((left@top) extent: (self extentOf: each in: aBrick)) ]
+				ifFalse: [ each bounds: (((left@top) extent: (self extentOf: each in: aBrick)) translateBy: aBrick globalBounds origin) ].
+				
 			width + each width + each layoutProperties marginRight.
 		]
 

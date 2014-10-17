@@ -45,24 +45,32 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMBrick class >> openInWindow [
-
-	^ GLMFoundationBrick new
-		root: self new;
-		openInWindow;
-		yourself
+GLMBrick class >> morphInsideBrickExample [
+	|foundation brick morph|
 	
-]
+	foundation := GLMFoundationBrick new.
+	foundation extent: 800@400.
 
-{ #category : #'as yet unclassified' }
-GLMBrick class >> openInWorld [
+	brick := GLMLabelBrick new.
+	brick text: 'Hello, I''m a Brick inside another Brick!'.
+	brick layoutProperties horizontalPercent: 50.
+	brick color: Color lightBlue lighter.
 
-	^ GLMFoundationBrick new
-		extent: 200@50;
-		root: self new;
-		openInWorld;
-		yourself
-	
+	morph := Morph new.
+	morph color: Color lightGreen lighter.
+	morph layoutProperties: GLMBrickLayoutProperties new.
+	morph layoutProperties horizontalPercent: 50.
+
+	morph addMorphBack: (LabelMorph new
+		contents: 'Hello, I''m a Morph inside another Morph inside Brick!';
+		hResizing: #spaceFill;
+		vResizing: #spaceFill).
+
+	foundation
+		addBrickBack: brick;
+		addBrickBack: morph;
+		doLayout;
+		openInWindow.
 ]
 
 { #category : #'as yet unclassified' }
@@ -90,8 +98,10 @@ GLMBrick >> addBrickBack: aBrick [
 
 	subbricks add: aBrick.
 	
-	aBrick brickRoot: self brickRoot.
-	aBrick brickOwner: self.
+	aBrick isBrick ifTrue: [
+		aBrick brickRoot: self brickRoot.
+		aBrick brickOwner: self.
+	].
 	
 	super addMorphBack: aBrick.
 	^ aBrick
@@ -189,7 +199,7 @@ GLMBrick >> doLayout [
 	
 	self layoutPolicy layout: self in: self bounds.
 	
-	subbricks do: [ :each | each doLayout ]
+	subbricks do: [ :each | each isBrick ifTrue: [ each doLayout ] ]
 	
 ]
 
@@ -203,7 +213,7 @@ GLMBrick >> drawOn: aCanvas [
 
 { #category : #drawing }
 GLMBrick >> drawSubmorphsOn: aCanvas [
-	|  area outerBounds |
+	|  area |
 	
 	submorphs isEmpty ifTrue: [ ^ self ].
 
@@ -213,11 +223,14 @@ GLMBrick >> drawSubmorphsOn: aCanvas [
 			"draw nothing"
 			^ self ].
 	
-	outerBounds := self brickGlobalOuterBounds.
 	subbricks
 		do: [ :each | 
-			| intersection canvas  |
-			intersection := area intersect: each globalBounds ifNone: (0 @ 0 extent: 0 @ 0).
+			| intersection canvas globalBounds |
+			globalBounds := each isBrick
+				ifTrue: [ each globalBounds ]
+				ifFalse: [ each fullBounds ].
+			
+			intersection := area intersect: globalBounds ifNone: (0 @ 0 extent: 0 @ 0).
 			canvas := aCanvas copyClipRect: intersection.
 			each fullDrawOn: canvas ]
 ]
@@ -269,6 +282,11 @@ GLMBrick >> initialize [
 ]
 
 { #category : #testing }
+GLMBrick >> isBrick [
+	^ true
+]
+
+{ #category : #testing }
 GLMBrick >> isFitsInParent [
 
 	^ self brickOwner
@@ -294,8 +312,9 @@ GLMBrick >> relativeBounds [
 GLMBrick >> removeAllBricks [
 
 	subbricks do: [ :each |
-		each brickRoot: nil.
-		each brickOwner: nil ].
+		each isBrick ifTrue: [
+			each brickRoot: nil.
+			each brickOwner: nil ] ].
 	
 	subbricks removeAll.
 	self removeAllMorphs
@@ -303,9 +322,12 @@ GLMBrick >> removeAllBricks [
 
 { #category : #adding }
 GLMBrick >> removeBrick: aBrick [
-
-	aBrick brickRoot: nil.
-	aBrick brickOwner: nil.
+	
+	aBrick isBrick ifTrue: [
+		aBrick brickRoot: nil.
+		aBrick brickOwner: nil.
+	].
+	
 	self removeMorph: aBrick.
 	subbricks remove: aBrick ifAbsent: [ ^ aBrick ].
 	^ aBrick
