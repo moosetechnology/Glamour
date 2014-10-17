@@ -47,10 +47,9 @@ LazyTabGroupMorph >> addLazyPage: aBlock label: aStringOrMorph toolbar: aToolbar
 	label := self 
 			buildLabelFrom: aStringOrMorph 
 			withAction: (aBoolean 
-				ifTrue: [UITheme builder
-					newCloseControlFor: nil
-					action: [self removePage: newPage]
-					help: nil]
+				ifTrue: [GLMActionButtonBrick new
+					addUpAction: [self removePage: newPage];
+					icon: self theme windowCloseForm ]
 				ifFalse: [nil]).
 	self 
 		addPage: newPage
@@ -70,38 +69,24 @@ LazyTabGroupMorph >> buildLabelFrom: aStringOrMorph withAction: anActionMorphOrN
 	innerLabel := aStringOrMorph isMorph
 		ifTrue: [aStringOrMorph]
 		ifFalse: [
-			|labelMorph|
-			labelMorph := GLMButton new disable.
-			labelMorph label text: aStringOrMorph.
-			labelMorph ].
+			|container labelMorph|
+			container := GLMBrick new.
+			labelMorph := GLMLabelBrick new.
+			labelMorph text: aStringOrMorph.
+			labelMorph layoutProperties horizontalPercent: 100.
+			container addBrickBack: labelMorph.
+			container layoutProperties horizontalPercent: 100.
+			labelMorph layoutProperties marginLeft: 5.
+			
+			container layoutProperties maxWidthBlock: [ :aTrick |
+				labelMorph label textSize x + (2 *  labelMorph layoutProperties marginLeft) + (anActionMorphOrNil ifNotNil: [ anActionMorphOrNil normalImage width * 1.5 ] ifNil: [ 0 ])].
+			container ].
+		
 	label := anActionMorphOrNil
-			ifNil: [
-				self flag: 'Added this to make resizing work uniformly. Remove once better resizing mechanism is added.'.
-				UITheme builder newRow:{innerLabel} ]
-			ifNotNil: [ UITheme builder newRow:{ 
-				innerLabel. anActionMorphOrNil}].
+			ifNil: [ innerLabel ]
+			ifNotNil: [ 	anActionMorphOrNil layoutProperties horizontalPercent: 0.	anActionMorphOrNil layoutProperties minWidth: (anActionMorphOrNil normalImage width * 1.5). innerLabel addBrickBack: anActionMorphOrNil. innerLabel ].
+					
 	^ label
-
-]
-
-{ #category : #'as yet unclassified' }
-LazyTabGroupMorph >> fitLabelsIn: width [
-	|delta morphs |
-	
-	delta := (self measureWidth - width).
-	delta < 0 ifTrue: [
-		self tabSelectorMorph tabs do: [ :aTabMorph |
-			(aTabMorph label submorphs first isKindOf: GLMButton) ifTrue:[
-				aTabMorph label submorphs first updateLabelTextToFit: aTabMorph label submorphs first measureWidth ] ].
-		^ self ].
-
-	morphs := OrderedCollection new.
-	self tabSelectorMorph tabs size > 0 ifTrue: [
-		self tabSelectorMorph tabs do: [ :aTabMorph |
-			(aTabMorph label submorphs first isKindOf: GLMButton) ifTrue: [
-				morphs add: aTabMorph label submorphs first] ] ].
-
-	GLMButton shrinkButtons: morphs by: delta.
 ]
 
 { #category : #accessing }
@@ -152,27 +137,9 @@ LazyTabGroupMorph >> layoutChanged [
 		tabSelectorWidth = newWidth ifFalse: [
 			tabSelectorWidth := newWidth.
 			"the difference between TabSelectorMorph and the summ of widths of all tabs is 40. I don't know why"
-			self fitLabelsIn: tabSelectorWidth - self toolbarMorph width - 40.
+			"self fitLabelsIn: tabSelectorWidth - self toolbarMorph width - 40."
 		].
 	].
-]
-
-{ #category : #'as yet unclassified' }
-LazyTabGroupMorph >> measureWidth [
-	|width|
-	
-	width := 0.
-	((self tabSelectorMorph tabs collect: #label) flatCollect: #submorphs) do: [ :each |
-		width := width + ((each isKindOf: GLMButton) 
-			ifTrue:[ each measureWidth ]
-			ifFalse: [ each width ]) ].
-
-	self headerMorph ifNotNil: [
-		self headerMorph submorphs do: [ :each |
-			(each = self tabSelectorMorph) not ifTrue: [ 
-				width := width + each width ] ] ].
-
-	^ width.
 ]
 
 { #category : #private }
@@ -180,6 +147,15 @@ LazyTabGroupMorph >> newHeaderMorph [
 	^ (self theme 
 			newRowIn: self theme
 			for: {self tabSelectorMorph . self toolbarMorph}) cellInset: 0; cellPositioning: #bottomCenter; borderWidth: 0
+]
+
+{ #category : #'as yet unclassified' }
+LazyTabGroupMorph >> newTabSelectorMorph [
+	"Answer a new tab selector morph"
+
+	^ GLMTabSelectorBrick new
+		vResizing: #shrinkWrap;
+		hResizing: #spaceFill
 ]
 
 { #category : #private }
