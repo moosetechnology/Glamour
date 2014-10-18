@@ -49,6 +49,7 @@ GLMMorphicRenderer >> renderAction: anAction [
 		valueOfProperty: #noBorder ifAbsentPut: [true]; "this is a hack to tell the GLMUITheme to not draw the border and the fill"
 		valueOfProperty: #noFill ifAbsentPut: [true];
 		setProperty: #wantsKeyboardFocusNavigation toValue: false; "to disable the focus"
+		borderWidth: 0;
 		yourself
 ]
 
