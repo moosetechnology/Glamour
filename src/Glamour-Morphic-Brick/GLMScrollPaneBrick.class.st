@@ -29,6 +29,26 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+GLMScrollPaneBrick class >> defaultMaxVelocity [
+	^ self defaultScrollVelocity * 4
+]
+
+{ #category : #'as yet unclassified' }
+GLMScrollPaneBrick class >> defaultScrollAcceleration [
+	^ 2
+]
+
+{ #category : #'as yet unclassified' }
+GLMScrollPaneBrick class >> defaultScrollTimeReset [
+	^ 350
+]
+
+{ #category : #'as yet unclassified' }
+GLMScrollPaneBrick class >> defaultScrollVelocity [
+	^ 15
+]
+
+{ #category : #'as yet unclassified' }
 GLMScrollPaneBrick class >> example [
 	|foundation scrollPane|
 	
@@ -56,33 +76,13 @@ GLMScrollPaneBrick >> addBrickBack: aBrick [
 { #category : #'as yet unclassified' }
 GLMScrollPaneBrick >> calculateVelocity: event [
 	
-	event timeStamp - lastScrollTimeStamp > self defaultScrollTimeReset
-		ifTrue: [ currentVelocity := self defaultScrollVelocity ]
-		ifFalse: [ currentVelocity := (currentVelocity + self defaultScrollAcceleration) min: self defaultMaxVelocity ].
+	event timeStamp - lastScrollTimeStamp > self class defaultScrollTimeReset
+		ifTrue: [ currentVelocity := self class defaultScrollVelocity ]
+		ifFalse: [ currentVelocity := (currentVelocity + self class defaultScrollAcceleration) min: self class defaultMaxVelocity ].
 		
 	lastScrollTimeStamp := event timeStamp.
 	
 	^ currentVelocity
-]
-
-{ #category : #'as yet unclassified' }
-GLMScrollPaneBrick >> defaultMaxVelocity [
-	^ self defaultScrollVelocity * 4
-]
-
-{ #category : #'as yet unclassified' }
-GLMScrollPaneBrick >> defaultScrollAcceleration [
-	^ 2
-]
-
-{ #category : #'as yet unclassified' }
-GLMScrollPaneBrick >> defaultScrollTimeReset [
-	^ 350
-]
-
-{ #category : #'as yet unclassified' }
-GLMScrollPaneBrick >> defaultScrollVelocity [
-	^ 10
 ]
 
 { #category : #initialization }
@@ -90,7 +90,7 @@ GLMScrollPaneBrick >> initialize [
 	super initialize.
 	
 	lastScrollTimeStamp := 0.
-	currentVelocity := self defaultScrollVelocity.
+	currentVelocity := self class defaultScrollVelocity.
 	
 	band := GLMBandBrick new.
 	
@@ -106,7 +106,7 @@ GLMScrollPaneBrick >> removeAllBricks [
 			each brickRoot: nil.
 			each brickOwner: nil ] ].
 	
-	band nd subbricks removeAll.
+	band subbricks removeAll.
 	band removeAllMorphs
 ]
 

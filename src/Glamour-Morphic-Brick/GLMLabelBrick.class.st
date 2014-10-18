@@ -113,3 +113,17 @@ GLMLabelBrick >> text: aString [
 
 	self label text: aString
 ]
+
+{ #category : #accessing }
+GLMLabelBrick >> textColor: aColor [
+
+	self label textColor: aColor.
+	self dotsBrick textColor: aColor
+]
+
+{ #category : #accessing }
+GLMLabelBrick >> textPosition: aSymbol [
+
+	self label textPosition: aSymbol.
+	self dotsBrick textPosition: aSymbol.
+]

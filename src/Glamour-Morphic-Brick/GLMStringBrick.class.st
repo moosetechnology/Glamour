@@ -58,6 +58,10 @@ GLMStringBrick >> calculateTextPosition [
 		^ self brickBounds origin + self textPositionVerticalCenter + self textPositionHorizontalCenter.
 	].
 
+	self textPosition = #leftTop ifTrue: [
+		^ self brickBounds origin
+	].
+
 	^ 0@0
 ]
 
@@ -199,6 +203,7 @@ GLMStringBrick >> textPosition: aSymbol [
 	"supported:
 	#leftCenter
 	#center
+	#leftTop
 	"
 	textPosition := aSymbol.
 ]

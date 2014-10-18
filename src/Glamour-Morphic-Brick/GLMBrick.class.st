@@ -181,6 +181,23 @@ GLMBrick >> brickRoot: aGLMFoundationBrick [
 	self subbricks do: [ :each | each brickRoot: brickRoot ]
 ]
 
+{ #category : #drawing }
+GLMBrick >> changed [
+	"Report that the area occupied by this morph should be redrawn.
+	Fixed to include submorphs outside the outerBounds."
+	
+	"fixed direct reference to fullBounds, causing wrong results, because fullBounds are not being updated when parent's or child's bounds changed"
+	^ self fullBounds 
+		ifNil: [self invalidRect: self privateFullBounds]
+		ifNotNil: [self invalidRect: self fullBounds]
+]
+
+{ #category : #geometry }
+GLMBrick >> clippingBounds [
+
+	^ self fullBounds
+]
+
 { #category : #geometry }
 GLMBrick >> computeBounds [
 	"nothing to compute"
@@ -323,6 +340,16 @@ GLMBrick >> isFitsInParent [
 GLMBrick >> onDraw: aCanvas [
 
 	self renderer render: self on: aCanvas. 
+]
+
+{ #category : #geometry }
+GLMBrick >> outerBounds [
+	^ self fullBounds
+]
+
+{ #category : #geometry }
+GLMBrick >> privateFullBounds [
+	^ self fullBounds
 ]
 
 { #category : #geometry }
