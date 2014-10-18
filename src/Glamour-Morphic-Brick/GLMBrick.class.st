@@ -181,6 +181,16 @@ GLMBrick >> brickRoot: aGLMFoundationBrick [
 	self subbricks do: [ :each | each brickRoot: brickRoot ]
 ]
 
+{ #category : #geometry }
+GLMBrick >> computeBounds [
+	"nothing to compute"
+]
+
+{ #category : #geometry }
+GLMBrick >> computeFullBounds [
+	"nothing to compute"
+]
+
 { #category : #accessing }
 GLMBrick >> data [
 
@@ -243,8 +253,21 @@ GLMBrick >> extent [
 
 { #category : #geometry }
 GLMBrick >> extent: aPoint [
-	
-	self brickBounds: (self brickBounds origin corner: aPoint)
+
+	self brickBounds: (self brickBounds origin extent: aPoint)
+]
+
+{ #category : #geometry }
+GLMBrick >> fullBounds [
+
+	^ self globalBounds
+]
+
+{ #category : #drawing }
+GLMBrick >> fullDrawOn: aCanvas [
+	"fixes bug in canvas, when it tries to draw a morph even if clip rect has size 0"
+	aCanvas clipRect width = 0 | (aCanvas clipRect height = 0) ifTrue: [ ^ self ].
+	super fullDrawOn: aCanvas.
 ]
 
 { #category : #geometry }

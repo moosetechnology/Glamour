@@ -1,0 +1,31 @@
+"
+A GLMBrickVerticalLinearLayout is Linear layout, where all Bricks are being positioned vertically in one line. The size of Bricks depends only from each Brick's extent. If any Bricks goes outside of the parent with this layout, outside part will not be drawn.
+
+"
+Class {
+	#name : #GLMBrickVerticalLinearLayout,
+	#superclass : #GLMBrickLayout,
+	#category : #'Glamour-Morphic-Brick-Layouts'
+}
+
+{ #category : #'as yet unclassified' }
+GLMBrickVerticalLinearLayout >> layout: aBrick in: newBounds [
+	
+	aBrick subbricks
+		inject: 0
+		into: [ :topOffset :each |
+			|left top |
+			topOffset := topOffset + each layoutProperties marginTop.
+			
+			left := each layoutProperties marginLeft.
+			top := topOffset.
+			
+			each isBrick
+				ifTrue: [ each brickBounds: ((left@top) extent: (self extentOf: each in: aBrick)) ]
+				ifFalse: [ each bounds: (((left@top) extent: (self extentOf: each in: aBrick)) translateBy: aBrick globalBounds origin) ].
+				
+			topOffset + each height + each layoutProperties marginBottom.
+		]
+
+	
+]

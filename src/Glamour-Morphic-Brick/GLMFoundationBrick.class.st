@@ -69,6 +69,12 @@ GLMFoundationBrick >> extent: aPoint [
 	self brickRoot doLayout.
 ]
 
+{ #category : #'as yet unclassified' }
+GLMFoundationBrick >> fullDrawOn: aCanvas [
+	"preventing from drawing outside of me"
+	super fullDrawOn: (aCanvas copyClipRect: self fullBounds).
+]
+
 { #category : #geometry }
 GLMFoundationBrick >> globalBounds [
 
