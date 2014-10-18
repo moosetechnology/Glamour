@@ -107,10 +107,12 @@ GLMStringBrick >> font [
 GLMStringBrick >> font: aFont [
 
 	font := aFont.
-	font ifNotNil: [ 
-		familyName := font familyName.
-		fontSize := font pointSize.
-	]
+	
+	aFont ifNil: [ self updateFont ].
+	
+	familyName := font familyName.
+	fontSize := font pointSize.
+	weightValue := font weightValue.
 ]
 
 { #category : #accessing }
@@ -137,6 +139,7 @@ GLMStringBrick >> initialize [
 	textPosition := #leftCenter.
 	
 	self updateFont.
+	
 ]
 
 { #category : #testing }
