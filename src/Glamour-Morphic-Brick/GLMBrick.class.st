@@ -129,7 +129,8 @@ GLMBrick >> brickBounds [
 
 { #category : #geometry }
 GLMBrick >> brickBounds: aRectangle [
-
+	"if you want to change brick's position or bounds use only this method!"
+	
 	brickBounds := (aRectangle origin + ((self layoutProperties paddingLeft) @ (self layoutProperties paddingTop)))
 		corner: (aRectangle corner - ((self layoutProperties paddingRight) @ (self layoutProperties paddingBottom))).
 	
@@ -137,7 +138,7 @@ GLMBrick >> brickBounds: aRectangle [
 	fullBounds := bounds
 ]
 
-{ #category : #geometry }
+{ #category : #private }
 GLMBrick >> brickGlobalOuterBounds [
 
 	^ self brickOwner
@@ -200,12 +201,12 @@ GLMBrick >> clippingBounds [
 
 { #category : #geometry }
 GLMBrick >> computeBounds [
-	"nothing to compute"
+	"nothing to compute, everything is already computed"
 ]
 
 { #category : #geometry }
 GLMBrick >> computeFullBounds [
-	"nothing to compute"
+	"nothing to compute, everything is already computed"
 ]
 
 { #category : #accessing }
@@ -223,6 +224,8 @@ GLMBrick >> data: anObject [
 
 { #category : #layouting }
 GLMBrick >> doLayout [
+	"most of the time you don't want to call this method manually"
+	"nice example to check is GLMLabelBrick>>doLayout"
 	
 	self layoutPolicy layout: self in: self bounds.
 	
@@ -270,7 +273,8 @@ GLMBrick >> extent [
 
 { #category : #geometry }
 GLMBrick >> extent: aPoint [
-
+	"to change brick's size use only this method!"
+	
 	self brickBounds: (self brickBounds origin extent: aPoint)
 ]
 
@@ -289,11 +293,12 @@ GLMBrick >> fullDrawOn: aCanvas [
 
 { #category : #geometry }
 GLMBrick >> globalBounds [
-
+	"converts brickBounds to morhic bounds on fly"
+	"if you want to implement something sophisticated that combines bricks and morphic this is right method to use"
 	^ self brickOwner ifNotNil: [ self brickBounds translateBy: brickOwner globalBounds origin ] ifNil: [ 0@0 extent: 20@20 ].
 ]
 
-{ #category : #geometry }
+{ #category : #private }
 GLMBrick >> globalBoundsOfArea: aRectangle [
 
 	^ aRectangle translateBy: brickOwner globalBounds origin

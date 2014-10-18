@@ -42,7 +42,8 @@ Class {
 		'textSize',
 		'text',
 		'textColor',
-		'textPosition'
+		'textPosition',
+		'weightValue'
 	],
 	#category : #'Glamour-Morphic-Brick-UI'
 }
@@ -78,6 +79,11 @@ GLMStringBrick >> defaultFamilyName [
 { #category : #defaults }
 GLMStringBrick >> defaultSize [
 	^ self theme labelFont pointSize
+]
+
+{ #category : #defaults }
+GLMStringBrick >> defaultWeight [
+	^ LogicalFont weightRegular
 ]
 
 { #category : #accessing }
@@ -125,6 +131,7 @@ GLMStringBrick >> initialize [
 	fontSize := self defaultSize.
 	familyName := self defaultFamilyName.
 	textColor := self defaultColor.
+	weightValue := self defaultWeight.
 	text := ''.
 	
 	textPosition := #leftCenter.
@@ -229,4 +236,16 @@ GLMStringBrick >> textSize [
 { #category : #private }
 GLMStringBrick >> updateFont [
 	font := LogicalFont familyName: self familyName pointSize: self fontSize.
+	font weightValue: self weightValue.
+]
+
+{ #category : #accessing }
+GLMStringBrick >> weightValue [
+	^ weightValue
+]
+
+{ #category : #accessing }
+GLMStringBrick >> weightValue: anInteger. [
+	weightValue := anInteger.
+	self updateFont.
 ]

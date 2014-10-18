@@ -1,6 +1,8 @@
 "
 A GLMLabelBrick is standard label Brick, that can shrink text if it's size becomes smaller then actual text size.
 
+Text shrinking works out of box, you don't need to do anything
+
 Instance Variables
 	dotsBrick		<GLMStringBrick>
 	isDotsAdded:		<boolean>
@@ -68,6 +70,13 @@ GLMLabelBrick >> dotsBrick [
 	^ dotsBrick
 ]
 
+{ #category : #accessing }
+GLMLabelBrick >> fontSize: anInteger [
+
+	self label fontSize: anInteger.
+	self dotsBrick fontSize: anInteger.
+]
+
 { #category : #initialization }
 GLMLabelBrick >> initialize [
 	super initialize.
@@ -126,4 +135,11 @@ GLMLabelBrick >> textPosition: aSymbol [
 
 	self label textPosition: aSymbol.
 	self dotsBrick textPosition: aSymbol.
+]
+
+{ #category : #accessing }
+GLMLabelBrick >> weightValue: anInteger [
+
+	self label weightValue: anInteger.
+	self dotsBrick weightValue: anInteger.
 ]
