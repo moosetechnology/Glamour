@@ -637,6 +637,19 @@ GLMBasicExamples >> multipleFinderWithFilterAndSearch [
 	^ finder 
 ]
 
+{ #category : #'actions examples' }
+GLMBasicExamples >> onChangeOfPortAction [
+	<glmBrowser: 'On change of port' input: '''Type something and check the Transcript'''>
+	"self new onChangeOfPortAction openOn: 'Type something and check the Transcript' "
+
+	^ GLMCompositePresentation new 
+		with: [ :composite |
+			composite rubricText 
+				onChangeOfPort: #text act: [ :textPresentation | 
+					Transcript cr; cr; show: textPresentation text ] ];
+		act: [ Transcript open ] entitled: 'Open Transcript'
+]
+
 { #category : #text }
 GLMBasicExamples >> populatePortAction [
 	<glmBrowser: 'Populate port action' input: 'String withAll: ''Select a piece of text and open on the next pane via the contextual menu or by pressing Modifier+o. Otherwise just open the complete copy of the current text on the next pane via the menu or by pressing Modifier+l.'''>
