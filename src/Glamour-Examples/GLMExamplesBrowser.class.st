@@ -1,5 +1,5 @@
 "
-self new browser openOn: GLMBasicExamples
+self new  openOn: GLMBasicExamples
 "
 Class {
 	#name : #GLMExamplesBrowser,
