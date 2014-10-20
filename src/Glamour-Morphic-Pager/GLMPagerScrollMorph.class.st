@@ -119,6 +119,7 @@ GLMPagerScrollMorph >> pageOf: aSubMorph [
 GLMPagerScrollMorph >> pagerModel: aModel [
 	
 	pagerModel := aModel.
+	maxPanes := aModel numberOfVisiblePages.
 	
 	pagerModel announcer weak
 		on: GLMPagePushed send: #onPagePushed: to: self.
