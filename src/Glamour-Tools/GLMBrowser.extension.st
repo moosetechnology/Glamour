@@ -130,47 +130,52 @@ GLMBrowser >> viewAnnouncementsOn: view [
 GLMBrowser >> viewTree [
 
 	| view |
-	
-	view := ROMondrianViewBuilder new.
+	view := RTView new.
+	view @ RTDraggableView.
 	self viewTreeOn: view.
-	^ view openWithStatusbar setLabel: 'Tree'
+	^ view open.
 ]
 
 { #category : #'*glamour-tools' }
 GLMBrowser >> viewTreeOn: view [
-	| edges1 edges2 edges3 edges4 |
+	| b label line elements |
+
+	b := RTUMLClassBuilder new.
+	b
+		addObjects: self pane withAllPanes;
+		classname: #name;
+		instanceVariables: nil;
+		methodsNames: #ports;
+		methodselector: #name;
+		attributeselector: nil;
+		buildSchema: view.
+	elements := RTGroup new.
+	elements addAll: b classesGroup.
 	
-	self umlClassWithTitle: #name view: view nodes: self pane withAllPanes forEach: [ :each |
-		view interaction
-				nodraggable;
-				forward: ROAbstractMouseDragging.
-		view shape label text: #name.
-		view nodes: each ports.
-		view verticalLineLayout gapSize: 2 ].
-
-	view shape label text: [:p | (p class name removePrefix: 'GLM') removeSuffix: 'Presentation' ].
-	view nodes: self pane withAllPresentations.
-
-	view shape orthoVerticalLine color: Color lightGray. 	
-	edges1 := view edges: self pane withAllPanes from: #yourself to: [:each | each presentations ].
-
-	view shape orthoVerticalLine color: Color lightGray. 
-	edges2 := view edges: self pane withAllPanes from: #browser to: #yourself.
-
-	view shape orthoVerticalLine color: Color lightGray. 
-	edges3 := view edges: (self pane withAllPresentations select: [:each | each isKindOf: GLMDynamicPresentation]) from: #yourself to: #cachedPresentation.
-
-	view shape orthoVerticalLine color: Color lightGray.
-	edges4 := view edges: (self pane withAllPresentations select: [:each | each isKindOf: GLMCompositePresentation]) from: #yourself toAll: #presentations.
-
-
-	view treeLayout layered userDefinedEdges: (edges1, edges2, edges3, edges4).
-
-	view shape line color: Color blue. 
-	view 
-		edges: ((self pane withAllPresentations select: [:each | each isKindOf: GLMBrowser]) flatCollect: [:each | each transmissions])
-		fromAll: #origins
-		to: #destination.
-		view shape line color: Color blue
-
+	label := RTLabel new height: 10; text: [:p | (p class name removePrefix: 'GLM') removeSuffix: 'Presentation' ].
+	
+	self pane withAllPresentations do: [ :p | | e |
+		view add: (e:= (label elementOn: p ) @ RTDraggable).
+		elements add: e ].
+	
+	line := RTMultiLine new orthoVertical attachPoint: RTVerticalAttachPoint instance.
+	
+	RTEdge buildEdgesFromObjects: self pane withAllPanes 
+		from: #yourself to: [ :each | each presentations ] using: line inView: view.
+	
+	RTEdge buildEdgesFromObjects: self pane withAllPanes 
+		from: #browser to: #yourself using: line inView: view.
+		
+	RTEdge buildEdgesFromObjects: (self pane withAllPresentations select: [:each | each isKindOf: GLMDynamicPresentation])
+		from: #yourself to: #cachedPresentation using: line inView: view scope: elements.
+		
+	RTEdge buildEdgesFromObjects: (self pane withAllPresentations select: [:each | each isKindOf: GLMCompositePresentation])
+		from: #yourself toAll: #presentations using: line inView: view scope: elements.
+		
+	RTTreeLayout new on: elements.
+	
+	line := RTLine new color: Color blue; attachPoint: RTShorterDistanceAttachPoint instance.
+	RTEdge buildEdgesFromObjects: ((self pane withAllPresentations select: [:each | each isKindOf: GLMBrowser]) flatCollect: [:each | each transmissions])
+		from: #destination toAll: #origins using: line inView: view.
+	
 ]
