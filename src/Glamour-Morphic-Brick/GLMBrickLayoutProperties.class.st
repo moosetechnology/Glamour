@@ -83,6 +83,12 @@ Class {
 }
 
 { #category : #accessing }
+GLMBrickLayoutProperties >> horizontalMargin [
+
+	^ self marginLeft + self marginRight
+]
+
+{ #category : #accessing }
 GLMBrickLayoutProperties >> horizontalPercent [
 	^ horizontalPercent
 ]
@@ -230,6 +236,12 @@ GLMBrickLayoutProperties >> paddingTop [
 { #category : #accessing }
 GLMBrickLayoutProperties >> paddingTop: anObject [
 	paddingTop := anObject
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> verticalMargin [
+
+	^ self marginTop + self marginBottom
 ]
 
 { #category : #accessing }
