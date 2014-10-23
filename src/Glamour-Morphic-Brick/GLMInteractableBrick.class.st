@@ -308,7 +308,8 @@ GLMInteractableBrick >> mouseUp: evt [
 	(self bounds containsPoint: evt position) & (self isPressed) ifTrue: [
 		self depress.
 		^ self click: evt
-	] ifFalse: [ 
+	] ifFalse: [
+		self deselect.
 		^ self depress.
 	]
 ]
