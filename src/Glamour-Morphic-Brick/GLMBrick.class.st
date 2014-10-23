@@ -238,7 +238,7 @@ GLMBrick >> drawOn: aCanvas [
 	super drawOn: aCanvas.
 	
 	"translating canvas coordinates"
-	 (aCanvas isKindOf: ClippingCanvas) ifTrue: [ ^ self onDraw: (aCanvas copyClipRect: self globalBounds) ].
+	 (aCanvas isKindOf: ClippingCanvas) ifTrue: [ ^self "no need to draw anything" ].
 	self onDraw: ( aCanvas copy setOrigin: (aCanvas origin + self globalBounds origin - self brickBounds origin) clipRect: (aCanvas clipRect translateBy: aCanvas origin))
 ]
 
@@ -308,7 +308,22 @@ GLMBrick >> globalBoundsOfArea: aRectangle [
 
 { #category : #geometry }
 GLMBrick >> height [
-	^ self brickBounds height + self layoutProperties paddingTop  + self layoutProperties paddingTop
+
+	^ self heightBlock
+		ifNotNil: [ self heightBlock value: self ]
+		ifNil: [ self privateHeight ]
+]
+
+{ #category : #accessing }
+GLMBrick >> heightBlock [
+
+	^ self valueOfProperty: #brickHeightBlock ifAbsentPut: [ nil ]
+]
+
+{ #category : #accessing }
+GLMBrick >> heightBlock: aBlock [
+	"you can use a block to 'fake' a height or replace it's calculation logic without extending a brick"
+	self setProperty: #brickHeightBlock toValue: aBlock
 ]
 
 { #category : #initialization }
@@ -356,6 +371,18 @@ GLMBrick >> outerBounds [
 { #category : #geometry }
 GLMBrick >> privateFullBounds [
 	^ self fullBounds
+]
+
+{ #category : #private }
+GLMBrick >> privateHeight [
+
+	^ self brickBounds height + self layoutProperties paddingTop  + self layoutProperties paddingTop
+]
+
+{ #category : #private }
+GLMBrick >> privateWidth [
+
+	^ self brickBounds width + self layoutProperties paddingLeft  + self layoutProperties paddingRight
 ]
 
 { #category : #geometry }
@@ -410,5 +437,19 @@ GLMBrick >> subbricks [
 { #category : #geometry }
 GLMBrick >> width [
 
-	^ self brickBounds width + self layoutProperties paddingLeft  + self layoutProperties paddingRight 
+	^ self widthBlock
+		ifNotNil: [ self widthBlock value: self ]
+		ifNil: [ self privateWidth ]
+]
+
+{ #category : #accessing }
+GLMBrick >> widthBlock [
+
+	^ self valueOfProperty: #brickWidthBlock ifAbsentPut: [ nil ]
+]
+
+{ #category : #accessing }
+GLMBrick >> widthBlock: aBlock [
+	"you can use a block to 'fake' a width or replace it's calculation logic without extending a brick"
+	self setProperty: #brickWidthBlock toValue: aBlock
 ]
