@@ -179,7 +179,7 @@ GLMBrick >> brickRoot: aGLMFoundationBrick [
 	
 	brickRoot := aGLMFoundationBrick.
 	
-	self subbricks do: [ :each | each brickRoot: brickRoot ]
+	self subbricks do: [ :each | each isBrick ifTrue: [ each brickRoot: brickRoot ] ]
 ]
 
 { #category : #drawing }
@@ -238,7 +238,7 @@ GLMBrick >> drawOn: aCanvas [
 	super drawOn: aCanvas.
 	
 	"translating canvas coordinates"
-	self onDraw: ( aCanvas copy setOrigin: (aCanvas origin + self globalBounds origin - self brickBounds origin) clipRect: aCanvas privateClipRect)
+	self onDraw: ( aCanvas copy setOrigin: (aCanvas origin + self globalBounds origin - self brickBounds origin) clipRect: (aCanvas clipRect translateBy: aCanvas origin))
 ]
 
 { #category : #drawing }

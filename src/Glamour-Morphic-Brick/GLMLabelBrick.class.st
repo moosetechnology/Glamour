@@ -93,7 +93,6 @@ GLMLabelBrick >> initialize [
 	dotsBrick layoutProperties minWidth: (dotsBrick textSize x).
 	
 	isDotsAdded := false.
-	isExpandableOnHover := true.
 	
 ]
 
