@@ -231,6 +231,16 @@ GLMUIThemeExtraIcons class >> glamorousLeftSide [
 ]
 
 { #category : #icons }
+GLMUIThemeExtraIcons class >> glamorousMore [
+^ self icons
+		at: #glamorousMore ifAbsentPut: [(Form
+	extent: (16@16)
+	depth: 32
+	fromArray: #( 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4278190080 4278190080 0 0 4278190080 4278190080 0 0 4278190080 4278190080 0 0 0 0 0 0 4278190080 4278190080 0 0 4278190080 4278190080 0 0 4278190080 4278190080 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0)
+	offset: (0@0))]
+]
+
+{ #category : #icons }
 GLMUIThemeExtraIcons class >> glamorousOpen [
 ^ self icons
 		at: #glamorousOpen ifAbsentPut: [(Form
@@ -524,6 +534,7 @@ GLMUIThemeExtraIcons class >> importIcons [
 		'glamorousRightSide'
 		'glamorousZoomIn'
 		'glamorousZoomOut'
+		'glamorousMore'
 		"'glamourousNextParser'
 		'glamourousNextProduction'
 		'glamourousNextFailure'").
