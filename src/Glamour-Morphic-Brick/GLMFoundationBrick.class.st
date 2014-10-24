@@ -69,7 +69,7 @@ GLMFoundationBrick >> extent: aPoint [
 	self brickRoot doLayout.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #drawing }
 GLMFoundationBrick >> fullDrawOn: aCanvas [
 	"preventing from drawing outside of me"
 	super fullDrawOn: (aCanvas copyClipRect: self fullBounds).
@@ -95,6 +95,12 @@ GLMFoundationBrick >> initialize [
 GLMFoundationBrick >> isFocused [
 
 	^ false
+]
+
+{ #category : #private }
+GLMFoundationBrick >> privateExtent: aPoint [
+
+	super extent: aPoint.
 ]
 
 { #category : #geometry }
