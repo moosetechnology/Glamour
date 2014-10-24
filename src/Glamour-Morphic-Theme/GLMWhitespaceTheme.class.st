@@ -651,7 +651,7 @@ GLMWhitespaceTheme >> growlDismissHandleFor: aGrowlMorph [
 
 { #category : #'growl - specific' }
 GLMWhitespaceTheme >> growlFillColorFor: aGrowlMorph [
-	^ Color darkGray alpha: 0.5
+	^ Color white darker
 ]
 
 { #category : #'growl - specific' }
