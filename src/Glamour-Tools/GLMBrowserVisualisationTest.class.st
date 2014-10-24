@@ -15,12 +15,6 @@ GLMBrowserVisualisationTest >> tearDown [
 ]
 
 { #category : #tests }
-GLMBrowserVisualisationTest >> testViewAnnouncements [
-
-	self shouldnt: [ window := GLMBrowser new viewAnnouncements ] raise: Error
-]
-
-{ #category : #tests }
 GLMBrowserVisualisationTest >> testViewTree [
 
 	self shouldnt: [ window := GLMBrowser new viewTree ] raise: Error

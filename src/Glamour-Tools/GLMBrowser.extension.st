@@ -29,71 +29,8 @@ GLMBrowser >> screenshot: aFilenameString on: anObject after: aBlock [
 ]
 
 { #category : #'*glamour-tools' }
-GLMBrowser >> umlClassWithTitle: umlName view: view nodes: aNodes forEach: aOneArgForEachBlock [
-
-	self 
-		umlClassWithTitle: umlName 
-		view: view 
-		nodes: aNodes 
-		forEachInstanceVariable: [:e | e]
-		methods: aOneArgForEachBlock
-]
-
-{ #category : #'*glamour-tools' }
-GLMBrowser >> umlClassWithTitle: umlName view: view nodes: aNodes 
-forEachInstanceVariable: aOneArgForEachBlock1 methods: aOneArgForEachBlock2 [
-
-	view shape rectangle color: Color white.
-	view extensibleSizeWithPaddingGap: 0. 
-	view nodes: aNodes forEach: [ :eachNode |
-		view interaction 
-				nodraggable;
-				forward: ROAbstractMouseDragging;
-				forward: ROMouseClick.
-		view interaction popupText.
-		view shape centeredLabel text: umlName.
-		view node: eachNode.
-
-		view interaction 
-				nodraggable;
-				forward: ROAbstractMouseDragging;
-				forward: ROMouseClick.
-		view shape rectangle.
-		view nodes: (Array with: eachNode) forEach: aOneArgForEachBlock1.
-
-		view interaction 
-				nodraggable;
-				forward: ROAbstractMouseDragging;
-				forward: ROMouseClick.
-		view shape rectangle color: Color white.
-		view nodes: (Array with: eachNode) forEach: aOneArgForEachBlock2.
-		
-		view verticalLineLayout
-				gapSize: 0;
-				on: ROLayoutBegin
-				do: [ :event | | maxWidth |
-						maxWidth := event elements maxValue: #width. 
-						event elements do: [ :eachElement | 
-								eachElement width: maxWidth ] ];
-				on: ROLayoutEnd
-				do: [ :event | | strategy |
-						strategy := ROFixedSizedParent new paddingGap: 0.
-						event elements do: [ :eachElement |
-								eachElement resizeStrategy: strategy ] ]
-	].
-]
-
-{ #category : #'*glamour-tools' }
-GLMBrowser >> viewAnnouncements [
-	| view |
-	view := ROMondrianViewBuilder new.
-	self viewAnnouncementsOn: view.
-	^ view open setLabel: 'Announcements'
-]
-
-{ #category : #'*glamour-tools' }
 GLMBrowser >> viewAnnouncementsOn: view [
-	view shape rectangle withoutBorder.
+	"view shape rectangle withoutBorder.
 	view node: 'Glamour' forIt: [
 		self viewTreeOn: view ].
 	self umlClassWithTitle: #yourself view: view nodes: (Array with: 'Announced objects') forEach: [ :eachNode |
@@ -123,7 +60,7 @@ GLMBrowser >> viewAnnouncementsOn: view [
 			attachPoint: (ROHorizontalAttachPoint new).
 	view edges: self pane withAllPresentations from: #yourself toAll: [:each | 
 			each glmSubscriptions collect: [:eachSub | eachSub subscriber]].
-	view horizontalLineLayout horizontalGap: 50
+	view horizontalLineLayout horizontalGap: 50"
 ]
 
 { #category : #'*glamour-tools' }
