@@ -109,10 +109,12 @@ GLMBrowser >> viewTreeOn: view [
 	RTEdge buildEdgesFromObjects: (self pane withAllPresentations select: [:each | each isKindOf: GLMCompositePresentation])
 		from: #yourself toAll: #presentations using: line inView: view scope: elements.
 		
-	RTTreeLayout new on: elements.
 	
-	line := RTLine new color: Color blue; attachPoint: RTShorterDistanceAttachPoint instance.
+	
+	line := RTArrowedLine new color: Color blue; attachPoint: RTShorterDistanceAttachPoint instance.
 	RTEdge buildEdgesFromObjects: ((self pane withAllPresentations select: [:each | each isKindOf: GLMBrowser]) flatCollect: [:each | each transmissions])
 		from: #destination toAll: #origins using: line inView: view.
+		
+	RTTreeLayout new on: elements.
 	
 ]
