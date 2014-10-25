@@ -62,7 +62,7 @@ verticalPercent
 "
 Class {
 	#name : #GLMBrickLayoutProperties,
-	#superclass : #LayoutProperties,
+	#superclass : #TableLayoutProperties,
 	#instVars : [
 		'marginTop',
 		'marginRight',

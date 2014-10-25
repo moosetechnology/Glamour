@@ -51,18 +51,18 @@ Class {
 GLMStringBrick >> calculateTextPosition [
 
 	self textPosition = #leftCenter ifTrue: [ 
-		^ self brickBounds origin + self textPositionVerticalCenter.
+		^ (self brickBounds origin + self textPositionVerticalCenter) floor.
 	].
 
 	self textPosition = #center ifTrue: [ 
-		^ self brickBounds origin + self textPositionVerticalCenter + self textPositionHorizontalCenter.
+		^ (self brickBounds origin + self textPositionVerticalCenter + self textPositionHorizontalCenter)floor.
 	].
 
 	self textPosition = #leftTop ifTrue: [
 		^ self brickBounds origin
 	].
 
-	^ 0@0
+	^ self brickBounds origin
 ]
 
 { #category : #initialization }
@@ -219,7 +219,7 @@ GLMStringBrick >> textPositionHorizontalCenter [
 { #category : #geometry }
 GLMStringBrick >> textPositionVerticalCenter [
 
-	^ (0@(self brickBounds height / 2)) - (0@(self fontSize/2)) - (0@3).
+	^ (0@(self brickBounds height / 2)) - (0@(self fontSize/2)) - (0@3)
 ]
 
 { #category : #accessing }
