@@ -1733,7 +1733,7 @@ ConfigurationOfGlamour >> baseline29: spec [
 ConfigurationOfGlamour >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '2.93-baseline'.
+	spec for: #'common' version: '2.94-baseline'.
 	spec for: #'pharo2.x' version: '2.6-baseline'.
 
 ]
