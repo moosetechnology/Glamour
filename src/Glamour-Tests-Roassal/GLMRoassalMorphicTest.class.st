@@ -49,13 +49,11 @@ GLMRoassalMorphicTest >> testUpdateViewIsProperlyLaidOut [
 	browser column: #one.
 	browser transmit
 		to: #one;
-		andShow: [ :a | a roassal2 painting: [ :view :input | 
-			view addAll: (RTBox elementsOn: ($a to: input)).
-			RTHorizontalLineLayout on: view elements ] ].
+		andShow: [ :a | a roassal painting: [ :view :input | view nodes: ($a to: input) ] ].
 	window := browser openOn: $d.
-	originalView := browser panes first presentations first view.
-	self assert: (originalView elements detect: [ :each | each model = $b ]) center x equals: 17.5.
+	originalView := (self find: ROMorph in: window) view.
+	self assert: (originalView elements detect: [ :each | each model = $b ]) bounds left equals: 20.
 	browser panes first presentations first update.
-	newView := browser panes first presentations first view.
-	self assert: (newView elements detect: [ :each | each model = $b ]) center x equals: 17.5
+	newView := (self find: ROMorph in: window) view.
+	self assert: (newView elements detect: [ :each | each model = $b ]) bounds left equals: 20
 ]
