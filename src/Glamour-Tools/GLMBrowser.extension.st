@@ -11,7 +11,7 @@ GLMBrowser >> openTree [
 	composer tabulator with: [:t | 
 		t column: #theOne.
 		t transmit to: #theOne; andShow: [:a | 
-			a roassal 
+			a roassal2 
 				updateOn: GLMTransmissionTriggered from: [ self announcer ];
 				painting: [:view :b | self viewTreeOn: view ] ]].
 	composer openOn: self
