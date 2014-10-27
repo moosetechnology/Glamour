@@ -37,7 +37,7 @@ GLMExamplesBrowser >> exampleBrowserForPragma: each in: aClass [
 		to: #theOuterPane;
 		andShow: [:a | 
 			a custom: exampleBrowser ].
-	^ wrapperBrowser startOn: (Smalltalk compiler evaluate: (each argumentAt: 2) logged: false)
+	^ wrapperBrowser startOn: (Compiler evaluate: (each argumentAt: 2) logged: false)
 ]
 
 { #category : #building }
