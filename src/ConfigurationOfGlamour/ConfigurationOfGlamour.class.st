@@ -1574,8 +1574,8 @@ ConfigurationOfGlamour >> baseline294: spec [
 						'Glamour-Morphic-Pager').		
 		spec group: 'Roassal2' with: #(
 						'Glamour-Roassal2-Presentations').
-		"spec group: 'Roassal' with: #(
-						'Glamour-Roassal2-Presentations')."
+		spec group: 'Roassal' with: #(
+						'Glamour-Roassal2-Presentations').
 		spec group: 'Extras' with: #(
 						'Glamour-Magritte-Presentations'
 						'Roassal2').
@@ -1737,7 +1737,7 @@ ConfigurationOfGlamour >> development: spec [
 
 	spec for: #'common' version: '2.94-baseline'.
 	spec for: #'pharo2.x' version: '2.6-baseline'.
-
+	spec for: #'pharo3.x' version: '2.94-baseline'.
 ]
 
 { #category : #snapshots }
