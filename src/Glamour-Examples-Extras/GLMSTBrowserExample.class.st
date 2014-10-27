@@ -72,9 +72,10 @@ GLMSTBrowserExample >> classesIn: a [
 
 { #category : #accessing }
 GLMSTBrowserExample >> complexityIn: a [
-	^ a roassal
+	^ a roassal2
 		title: 'Complexity';
 		useExplicitNotNil;
+		initializeView: [ RTMondrianViewBuilder new ];
 		painting: [ :view :category :class :selector | 
 					view nodeShape
 						height: [ :model | model linesOfCode min: 50 max: 5 ];
