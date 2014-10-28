@@ -202,14 +202,14 @@ ConfigurationOfGlamourCore >> version100: spec [
 
 	spec for: #'common' do: [
 		spec blessing: #'stable'.
-		spec description: 'version 2.77'.
+		spec description: 'version 1.0.0'.
 		spec author: 'AndreiChis'.
 		spec timestamp: '10/28/2014 14:17'.
 		spec 
 			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-AndreiChis.36';
 			package: 'Glamour-Core' with: 'Glamour-Core-TudorGirba.285';
-			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.161';
+			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.162';
 			package: 'Glamour-Browsers' with: 'Glamour-Browsers-AndreiChis.106';
 			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-TudorGirba.97';
 			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AliakseiSyrel.150';
