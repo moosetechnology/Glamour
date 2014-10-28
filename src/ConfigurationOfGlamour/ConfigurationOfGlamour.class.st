@@ -1824,13 +1824,101 @@ ConfigurationOfGlamour >> baseline29: spec [
 	]
 ]
 
+{ #category : #baselines }
+ConfigurationOfGlamour >> baseline30: spec [ 
+	<version: '3.0-baseline'>
+	
+	spec for: #common do: [
+		spec blessing: #baseline.
+		spec description: 'baseline for pharo 4 integration withour roassal and magritte'.
+		spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'.
+		spec 
+			package: 'Glamour-Examples-Extras' with: [spec requires: #('GlamourCore-Core' 'Glamour-Tools')];
+			package: 'Glamour-Tools' with: [spec requires: #('GlamourCore-Core')];
+			package: 'Glamour-Roassal2-Presentations' with: [spec requires: #('Roassal2 for Glamour' 'GlamourCore-Core' 'Glamour-Tools')];
+			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')]].
+
+	spec for: #squeakCommon do: [ 
+		spec
+			package: 'CollectionExtensions' with: [spec repository: 'http://www.smalltalkhub.com/mc/Moose/CollectionExtensions/main'];
+			package: 'Glamour-Tools' with: [spec requires: #('Glamour-Core' 'CollectionExtensions')] ].
+
+	spec for: #common do: [ 
+		spec group: 'Core' with: #(
+						'GlamourCore-Core').
+		spec group: 'Morphic' with: #(
+						'GlamourCore-Morphic').
+		spec group: 'Core Tests' with: #(
+						'GlamourCore-Tests').
+						
+		spec group: 'CoreExtras' with: #(
+						'Glamour-Tools'
+						'Glamour-Examples-Extras').
+		spec group: 'Roassal2' with: #(
+						'Glamour-Roassal2-Presentations').
+		spec group: 'Extras' with: #(
+						'Glamour-Magritte-Presentations'
+						'Roassal2'). 
+		spec group: 'Tests' with: #(
+						'Core Tests'). 
+						
+		spec group: 'default' with: #(
+						'Core'
+						'CoreExtras'
+						'Morphic'
+						'Roassal2'
+						'Extras'
+						'Core Tests'
+						'Tests').
+		
+		spec 
+			project: 'GlamourCore-Core' with: [ 
+				spec 
+					className: 'ConfigurationOfGlamourCore';
+					file: 'ConfigurationOfGlamourCore';
+					version: #development;
+					loads: #('Core');
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'].
+		spec 
+			project: 'GlamourCore-Morphic' with: [ 
+				spec 
+					className: 'ConfigurationOfGlamourCore';
+					file: 'ConfigurationOfGlamourCore';
+					version: #development;
+					loads: #('Morphic');
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'].
+		spec 
+			project: 'GlamourCore-Tests' with: [ 
+				spec 
+					className: 'ConfigurationOfGlamourCore';
+					file: 'ConfigurationOfGlamourCore';
+					version: #development;
+					loads: #('Tests');
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'].
+		spec
+			project: 'Roassal2 for Glamour' with: [
+				spec
+					className: 'ConfigurationOfRoassal2';
+					file: 'ConfigurationOfRoassal2';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ].
+		spec 
+			project: 'Magritte3' with: [
+				spec
+					className: 'ConfigurationOfMagritte3';
+					file: 'ConfigurationOfMagritte3';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/Magritte/Magritte3/main';
+					loads: #('Magritte-Model' 'Magritte-Tests-Model' 'Magritte-Morph' 'Magritte-Pharo-Model') ] ]
+]
+
 { #category : #'symbolic versions' }
 ConfigurationOfGlamour >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '2.94-baseline'.
+	spec for: #'common' version: '3.0-baseline'.
 	spec for: #'pharo2.x' version: '2.6-baseline'.
-	spec for: #'pharo3.x' version: '2.94-baseline'.
+	spec for: #'pharo3.x' version: '3.0-baseline'.
 ]
 
 { #category : #snapshots }
