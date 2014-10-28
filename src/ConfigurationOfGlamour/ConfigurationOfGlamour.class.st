@@ -1614,6 +1614,101 @@ ConfigurationOfGlamour >> baseline294: spec [
 ]
 
 { #category : #baselines }
+ConfigurationOfGlamour >> baseline295: spec [ 
+	<version: '2.95-baseline'>
+	
+	spec for: #common do: [
+		spec blessing: #baseline.
+		spec description: 'baseline for pharo 4 integration withour roassal and magritte'.
+		spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'.
+		spec 
+			package: 'Glamour-Announcements' ;
+			package: 'Glamour-Helpers' ;
+			package: 'Glamour-Core' with: [spec requires: #('Glamour-Helpers' 'Glamour-Announcements')];
+			package: 'Glamour-Presentations'  with: [spec requires: #('Glamour-Core')];
+			package: 'Glamour-Browsers'  with: [spec requires: #('Glamour-Core')];
+			package: 'Glamour-Tests-Core' ;
+			package: 'Glamour-Morphic-Widgets' with: [spec requires: #('Rubric' 'Glamour-Morphic-Brick')];
+			package: 'Glamour-Morphic-Brick';
+			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core')];
+			package: 'Glamour-Morphic-Pager' with: [spec requires: #('Glamour-Morphic-Renderer')];
+			package: 'Glamour-Morphic-Theme' with: [spec requires: 'Rubric'];
+			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
+			package: 'Glamour-Examples' with: [spec requires: #('Glamour-Core')];
+			"package: 'Glamour-Examples-Extras' with: [spec requires: #('Glamour-Examples' 'Glamour-Tools')];"
+			"package: 'Glamour-Tools' with: [spec requires: #('Glamour-Examples')];"
+			package: 'Glamour-Rubric-Presentations' with: [spec requires: #('Rubric' 'Glamour-Presentations')];
+			"package: 'Glamour-Roassal2-Presentations' with: [spec requires: #('Roassal2 for Glamour' 'Glamour-Morphic-Renderer' 'Glamour-Tools')];
+			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];			"
+			package: 'Glamour-Tests-Rubric' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Rubric-Presentations')];
+			package: 'Glamour-Tests-Resources'].
+
+	spec for: #squeakCommon do: [ 
+		spec
+			package: 'CollectionExtensions' with: [spec repository: 'http://www.smalltalkhub.com/mc/Moose/CollectionExtensions/main'].
+		"spec
+			package: 'Glamour-Tools' with: [spec requires: #('Glamour-Core' 'CollectionExtensions')]."
+		 ].
+
+	spec for: #common do: [ 
+		spec group: 'Core' with: #(
+						'Glamour-Announcements'
+						'Glamour-Helpers'
+						'Glamour-Core'
+						'Glamour-Presentations'
+						'Glamour-Browsers'
+						'Glamour-Examples'
+						'Glamour-Rubric-Presentations').
+		"spec group: 'CoreExtras' with: #(
+						'Glamour-Tools'
+						'Glamour-Examples-Extras')."
+		spec group: 'Morphic' with: #(
+						'Glamour-Morphic-Renderer'
+						'Glamour-Morphic-Theme'
+						'Glamour-Morphic-Pager'
+						'Glamour-Morphic-Brick').		
+"		spec group: 'Roassal2' with: #(
+						'Glamour-Roassal2-Presentations').
+		spec group: 'Extras' with: #(
+						'Glamour-Magritte-Presentations'
+						'Roassal2')."
+		spec group: 'Core Tests' with: #(
+						'Glamour-Tests-Core'
+						'Glamour-Examples'
+						'Glamour-Tests-Resources'
+						'Glamour-Tests-Morphic'
+						'Glamour-Tests-Rubric'). 
+		spec group: 'Tests' with: #(
+						'Glamour-Tests-Core'
+						'Glamour-Examples'
+						'Glamour-Tests-Morphic'
+						"'Glamour-Roassal2-Presentations'"
+						'Glamour-Tests-Rubric'
+						'Glamour-Tests-Resources'). 
+		"spec
+			project: 'Roassal2 for Glamour' with: [
+				spec
+					className: 'ConfigurationOfRoassal2';
+					file: 'ConfigurationOfRoassal2';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ].
+		spec project: 'Magritte3' with: [
+			spec
+					className: 'ConfigurationOfMagritte3';
+					file: 'ConfigurationOfMagritte3';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/Magritte/Magritte3/main';
+					loads: #('Magritte-Model' 'Magritte-Tests-Model' 'Magritte-Morph' 'Magritte-Pharo-Model') ]."
+		spec project: 'Rubric' with: [ 
+			spec 
+					className: 'ConfigurationOfRubric';
+					file: 'ConfigurationOfRubric';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/AlainPlantec/Rubric/main' ]
+	]
+]
+
+{ #category : #baselines }
 ConfigurationOfGlamour >> baseline29: spec [ 
 	<version: '2.9-baseline'>
 	
@@ -2559,6 +2654,41 @@ ConfigurationOfGlamour >> version276: spec [
 		spec timestamp: '10/12/2014 19:53'.
 		spec 
 			project: 'Rubric' with: '1.2.2'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGlamour >> version277: spec [
+	<version: '2.77' imports: #('2.95-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 2.77'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '10/28/2014 14:17'.
+		spec 
+			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
+			package: 'Glamour-Helpers' with: 'Glamour-Helpers-AndreiChis.36';
+			package: 'Glamour-Core' with: 'Glamour-Core-TudorGirba.285';
+			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.161';
+			package: 'Glamour-Browsers' with: 'Glamour-Browsers-AndreiChis.106';
+			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-TudorGirba.97';
+			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AliakseiSyrel.150';
+			package: 'Glamour-Morphic-Renderer' with: [
+				spec file: 'Glamour-Morphic-Renderer-AndreiChis.298'.
+				spec repository: 'http://www.smalltalkhub.com/mc/PharoExtras/GTToolsIntegration/main' ];
+			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-AliakseiSyrel.15';
+			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-AndreiChis.71';
+			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-TudorGirba.186';
+			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-AndreiChis.118';
+			package: 'Glamour-Examples' with: 'Glamour-Examples-TudorGirba.288';
+			package: 'Glamour-Rubric-Presentations' with: 'Glamour-Rubric-Presentations-TudorGirba.33';
+			package: 'Glamour-Tests-Rubric' with: 'Glamour-Tests-Rubric-AndreiChis.14';
+			package: 'Glamour-Tests-Resources' with: 'Glamour-Tests-Resources-AndreiChis.3'. 
+		
+		spec 
+			project: 'Rubric' with: '1.2.2' ].
+
 
 ]
 
