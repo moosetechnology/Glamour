@@ -1574,8 +1574,6 @@ ConfigurationOfGlamour >> baseline294: spec [
 						'Glamour-Morphic-Pager').		
 		spec group: 'Roassal2' with: #(
 						'Glamour-Roassal2-Presentations').
-		spec group: 'Roassal' with: #(
-						'Glamour-Roassal2-Presentations').
 		spec group: 'Extras' with: #(
 						'Glamour-Magritte-Presentations'
 						'Roassal2').
