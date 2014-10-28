@@ -1841,7 +1841,7 @@ ConfigurationOfGlamour >> baseline30: spec [
 	spec for: #squeakCommon do: [ 
 		spec
 			package: 'CollectionExtensions' with: [spec repository: 'http://www.smalltalkhub.com/mc/Moose/CollectionExtensions/main'];
-			package: 'Glamour-Tools' with: [spec requires: #('Glamour-Core' 'CollectionExtensions')] ].
+			package: 'Glamour-Tools' with: [spec requires: #('GlamourCore-Core' 'CollectionExtensions')] ].
 
 	spec for: #common do: [ 
 		spec group: 'Core' with: #(
