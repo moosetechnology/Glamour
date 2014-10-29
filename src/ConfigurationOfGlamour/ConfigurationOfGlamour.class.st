@@ -1845,31 +1845,24 @@ ConfigurationOfGlamour >> baseline30: spec [
 
 	spec for: #common do: [ 
 		spec group: 'Core' with: #(
-						'GlamourCore-Core').
-		spec group: 'Morphic' with: #(
-						'GlamourCore-Morphic').
-		spec group: 'Core Tests' with: #(
-						'GlamourCore-Tests').
-						
-		spec group: 'CoreExtras' with: #(
+						'GlamourCore-Core'
+						'GlamourCore-Tests'
 						'Glamour-Tools'
 						'Glamour-Examples-Extras').
+		spec group: 'Morphic' with: #(
+						'GlamourCore-Morphic').
+						
 		spec group: 'Roassal2' with: #(
 						'Glamour-Roassal2-Presentations').
 		spec group: 'Extras' with: #(
 						'Glamour-Magritte-Presentations'
 						'Roassal2'). 
-		spec group: 'Tests' with: #(
-						'Core Tests'). 
 						
 		spec group: 'default' with: #(
 						'Core'
-						'CoreExtras'
 						'Morphic'
 						'Roassal2'
-						'Extras'
-						'Core Tests'
-						'Tests').
+						'Extras').
 		
 		spec 
 			project: 'GlamourCore-Core' with: [ 
