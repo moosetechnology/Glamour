@@ -201,6 +201,14 @@ ConfigurationOfGlamourCore >> project [
 		project ]
 ]
 
+{ #category : #'symbolic versions' }
+ConfigurationOfGlamourCore >> stable: spec [
+	<symbolicVersion: #'stable'>
+
+	spec for: #'common' version: '3.0.0'.
+
+]
+
 { #category : #versions }
 ConfigurationOfGlamourCore >> version300: spec [
 	<version: '3.0.0' imports: #('3.0-baseline' )>
@@ -214,9 +222,9 @@ ConfigurationOfGlamourCore >> version300: spec [
 			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-AndreiChis.36';
 			package: 'Glamour-Core' with: 'Glamour-Core-TudorGirba.285';
-			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.163';
+			package: 'Glamour-Presentations' with: 'Glamour-Presentations-TudorGirba.165';
 			package: 'Glamour-Browsers' with: 'Glamour-Browsers-AndreiChis.106';
-			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-TudorGirba.97';
+			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-AndreiChis.99';
 			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AliakseiSyrel.150';
 			package: 'Glamour-Morphic-Renderer' with: [
 				spec file: 'Glamour-Morphic-Renderer-AndreiChis.298'.
