@@ -1,3 +1,8 @@
+"
+Core configuration of Glamour for integrating with Pharo.
+
+self loadDevelopment
+"
 Class {
 	#name : #ConfigurationOfGlamourCore,
 	#superclass : #Object,
@@ -109,8 +114,8 @@ ConfigurationOfGlamourCore class >> validate [
 ]
 
 { #category : #baselines }
-ConfigurationOfGlamourCore >> baseline10: spec [
-	<version: '1.0-baseline'>
+ConfigurationOfGlamourCore >> baseline30: spec [
+	<version: '3.0-baseline'>
 	
 	spec for: #common do: [
 		spec blessing: #baseline.
@@ -179,7 +184,7 @@ ConfigurationOfGlamourCore >> customProjectAttributes [
 ConfigurationOfGlamourCore >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '1.0-baseline'.
+	spec for: #'common' version: '3.0-baseline'.
 
 ]
 
@@ -197,12 +202,12 @@ ConfigurationOfGlamourCore >> project [
 ]
 
 { #category : #versions }
-ConfigurationOfGlamourCore >> version100: spec [
-	<version: '1.0.0' imports: #('1.0-baseline' )>
+ConfigurationOfGlamourCore >> version300: spec [
+	<version: '3.0.0' imports: #('3.0-baseline' )>
 
 	spec for: #'common' do: [
 		spec blessing: #'stable'.
-		spec description: 'version 1.0.0'.
+		spec description: 'version 3.0.0'.
 		spec author: 'AndreiChis'.
 		spec timestamp: '10/28/2014 14:17'.
 		spec 
