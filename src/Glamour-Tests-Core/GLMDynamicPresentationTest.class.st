@@ -1,11 +1,11 @@
 Class {
-	#name : #GLMDyanmicPresentationTest,
+	#name : #GLMDynamicPresentationTest,
 	#superclass : #TestCase,
 	#category : #'Glamour-Tests-Core'
 }
 
 { #category : #tests }
-GLMDyanmicPresentationTest >> testCachedPresentation [
+GLMDynamicPresentationTest >> testCachedPresentation [
 	| dynamic currentPresentation |
 	dynamic := GLMDynamicPresentation new.
 	dynamic entity: 42.
@@ -16,7 +16,7 @@ GLMDyanmicPresentationTest >> testCachedPresentation [
 ]
 
 { #category : #tests }
-GLMDyanmicPresentationTest >> testDefaultPresentation [
+GLMDynamicPresentationTest >> testDefaultPresentation [
 	| dynamic |
 	dynamic := GLMDynamicPresentation new.
 	dynamic entity: 42.
@@ -27,7 +27,7 @@ GLMDyanmicPresentationTest >> testDefaultPresentation [
 ]
 
 { #category : #tests }
-GLMDyanmicPresentationTest >> testDirectEventsPropagationTransformation [
+GLMDynamicPresentationTest >> testDirectEventsPropagationTransformation [
 	| dynamic textPresentation counter |
 	counter := 0.
 	dynamic := GLMDynamicPresentation new.
@@ -45,7 +45,7 @@ GLMDyanmicPresentationTest >> testDirectEventsPropagationTransformation [
 ]
 
 { #category : #tests }
-GLMDyanmicPresentationTest >> testIndirectEventsPropagationTransformation [
+GLMDynamicPresentationTest >> testIndirectEventsPropagationTransformation [
 	| dynamic textPresentation counter |
 	counter := 0.
 	dynamic := GLMDynamicPresentation new.
@@ -63,7 +63,7 @@ GLMDyanmicPresentationTest >> testIndirectEventsPropagationTransformation [
 ]
 
 { #category : #tests }
-GLMDyanmicPresentationTest >> testPresentationInitializationBlock [
+GLMDynamicPresentationTest >> testPresentationInitializationBlock [
 	| dynamic count |
 	count := 0.
 	dynamic := GLMDynamicPresentation new.
@@ -79,7 +79,7 @@ GLMDyanmicPresentationTest >> testPresentationInitializationBlock [
 ]
 
 { #category : #tests }
-GLMDyanmicPresentationTest >> testPresentationTransformation [
+GLMDynamicPresentationTest >> testPresentationTransformation [
 	| dynamic |
 	dynamic := GLMDynamicPresentation new.
 	dynamic entity: 42.
