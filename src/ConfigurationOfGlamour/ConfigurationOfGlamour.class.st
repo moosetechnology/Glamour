@@ -1833,10 +1833,10 @@ ConfigurationOfGlamour >> baseline30: spec [
 		spec description: 'baseline for pharo 4 integration withour roassal and magritte'.
 		spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'.
 		spec 
-			package: 'Glamour-Examples-Extras' with: [spec requires: #('GlamourCore' 'Glamour-Tools')];
 			package: 'Glamour-Tools' with: [spec requires: #('GlamourCore')];
-			package: 'Glamour-Roassal2-Presentations' with: [spec requires: #('Roassal2 for Glamour' 'GlamourCore' 'Glamour-Tools')];
-			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')]].
+			package: 'Glamour-Examples-Extras' with: [spec requires: #('Glamour-Tools')];
+			package: 'Glamour-Roassal2-Presentations' with: [spec requires: #('Roassal2 for Glamour' 'Glamour-Tools')];
+			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3' 'GlamourCore')]].
 
 	spec for: #squeakCommon do: [ 
 		spec
@@ -1845,13 +1845,9 @@ ConfigurationOfGlamour >> baseline30: spec [
 
 	spec for: #common do: [ 
 		spec group: 'Core' with: #(
-						'GlamourCore').
-		spec group: 'CoreExtras' with: #(
 						'GlamourCore'
 						'Glamour-Tools'
 						'Glamour-Examples-Extras').
-"		spec group: 'Morphic' with: #(
-						'GlamourCore-Morphic')."
 						
 		spec group: 'Roassal2' with: #(
 						'Glamour-Roassal2-Presentations').
@@ -1861,9 +1857,7 @@ ConfigurationOfGlamour >> baseline30: spec [
 						
 		spec group: 'default' with: #(
 						'Core'
-						'CoreExtras'
-						'Roassal2'
-						'Extras').
+						'Roassal2' ).
 		
 		spec 
 			project: 'GlamourCore' with: [ 
