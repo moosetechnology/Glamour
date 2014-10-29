@@ -42,6 +42,15 @@ GLMDynamicPresentation >> initialize [
 	presentationTransformation := [ :aComposite :each | aComposite custom: each ]
 ]
 
+{ #category : #'as yet unclassified' }
+GLMDynamicPresentation >> outerPortEvent: aPortEvent [
+	
+	super outerPortEvent: aPortEvent.
+	"Propage the event to cached presentations"
+	self cachedPresentation ifNotNil: [ 
+		self cachedPresentation outerPortEvent: aPortEvent ] 
+]
+
 { #category : #scripting }
 GLMDynamicPresentation >> presentation: aBlock [
 	self presentationTransformation: aBlock
