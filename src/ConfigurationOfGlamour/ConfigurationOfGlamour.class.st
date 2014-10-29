@@ -1844,16 +1844,13 @@ ConfigurationOfGlamour >> baseline30: spec [
 			package: 'Glamour-Tools' with: [spec requires: #('GlamourCore' 'CollectionExtensions')] ].
 
 	spec for: #common do: [ 
-		
-		spec group: 'Roassal2' with: #(
-						'Glamour-Roassal2-Presentations').
+
 		spec group: 'Extras' with: #(
-						'Glamour-Magritte-Presentations'
-						'Roassal2'). 
+						'Glamour-Magritte-Presentations'). 
 						
 		spec group: 'default' with: #(
 						'GlamourCore'
-						'Roassal2'
+						'Glamour-Roassal2-Presentations'
 						'Glamour-Tools'
 						'Glamour-Examples-Extras' ).
 		
