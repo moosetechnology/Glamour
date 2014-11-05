@@ -2799,7 +2799,7 @@ ConfigurationOfGlamour >> version300: spec [
 		
 		spec 
 			project: 'GlamourCore' with: '3.0.0';
-			project: 'Roassal2 for Glamour' with: '1.458';
+			project: 'Roassal2 for Glamour' with: '1.1';
 			project: 'Magritte3' with: #'release3.2'. ].
 		
 	spec for: #squeakCommon do: [ 
