@@ -69,6 +69,11 @@ GLMScrollPaneBrick class >> example [
 ]
 
 { #category : #adding }
+GLMScrollPaneBrick >> addBrick: aBrick before: anotherBrick [
+	band addBrick: aBrick before: anotherBrick
+]
+
+{ #category : #adding }
 GLMScrollPaneBrick >> addBrickBack: aBrick [
 	band addBrickBack: aBrick
 ]

@@ -94,15 +94,19 @@ GLMBrick >> addAllBricks: aCollection [
 ]
 
 { #category : #adding }
+GLMBrick >> addBrick: aBrick before: anotherBrick [
+
+	subbricks add: aBrick before: anotherBrick.
+	self initializeBrick: aBrick.
+	super addMorph: aBrick inFrontOf: anotherBrick.
+	^ aBrick
+]
+
+{ #category : #adding }
 GLMBrick >> addBrickBack: aBrick [
 
 	subbricks add: aBrick.
-	
-	aBrick isBrick ifTrue: [
-		aBrick brickRoot: self brickRoot.
-		aBrick brickOwner: self.
-	].
-	
+	self initializeBrick: aBrick.
 	super addMorphBack: aBrick.
 	^ aBrick
 ]
@@ -340,6 +344,14 @@ GLMBrick >> initialize [
 	brickBounds := 0@0 extent: 50@50.
 	
 	self beTransparent
+]
+
+{ #category : #initialization }
+GLMBrick >> initializeBrick: aBrick [
+	
+	aBrick isBrick ifTrue: [
+		aBrick brickRoot: self brickRoot.
+		aBrick brickOwner: self ]
 ]
 
 { #category : #testing }
