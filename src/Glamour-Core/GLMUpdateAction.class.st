@@ -86,7 +86,7 @@ GLMUpdateAction >> presentation: anObject [
 GLMUpdateAction >> registerInPresentation [
 	self announcerObjects do: [: announcerObject |
 		announcerObject notNil ifTrue: [
-			(announcerObject on: self announcement send: #actOn: to: self) makeWeak.
+			(announcerObject when: self announcement send: #actOn: to: self) makeWeak.
 			
 			"we remember the announcer object to be able to 
 			unregister from it when the presentation goes away"
