@@ -49,13 +49,14 @@ GLMRoassal2Presentation >> defaultActions [
 		act: [ :roassal | 
 				| fileName |
 				fileName := UITheme builder 
-									fileSave: 'Your title here'
+									fileSave: 'Enter the PNG file name'
 									extensions: #('png')
 									path: nil.
-				RTPNGExporter new 
-							builder: roassal view view;
-							fileName: fileName fullName;
-							exportToFile.   ]
+				fileName notNil ifTrue: [ 
+					RTPNGExporter new 
+								builder: roassal view view;
+								fileName: fileName fullName;
+								exportToFile. ]  ]
 			entitled: 'Export to PNG'.
 ]
 
