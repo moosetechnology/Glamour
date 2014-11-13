@@ -38,8 +38,8 @@ GLMMorphicPharoCodeRenderer >> debugSelection [
 { #category : #callbacks }
 GLMMorphicPharoCodeRenderer >> evaluateAndPopPrintSelection [
 
-	textMorph textArea editor evaluateSelectionAndDo: [ :result | 
-		GLMPrintPopper installAlarmFor: [ 
+	GLMPrintPopper installAlarmFor: [ 
+		textMorph textArea editor evaluateSelectionAndDo: [ :result | 
 			GLMPrintPopper new 
 				openFromRubric: textMorph textArea withResult: result ] ]
 ]
