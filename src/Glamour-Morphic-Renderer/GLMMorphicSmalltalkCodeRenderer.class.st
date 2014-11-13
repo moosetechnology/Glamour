@@ -50,7 +50,7 @@ GLMMorphicSmalltalkCodeRenderer >> debugSelection [
 { #category : #callbacks }
 GLMMorphicSmalltalkCodeRenderer >> evaluateAndPrintSelection [
 
-	textMorph printIt
+	UIManager default defer: [ textMorph printIt ]
 ]
 
 { #category : #callbacks }
