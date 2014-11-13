@@ -22,17 +22,16 @@ GLMPaginatedResizableMorphTreeMorph >> resizeColumns [
 		self hHideScrollBar.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'events-processing' }
 GLMPaginatedResizableMorphTreeMorph >> toggleExpandedState: aMorph event: event [
 	super toggleExpandedState: aMorph event: event.
-	
-	self resizeColumns.
+	"self resizeColumns."
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #updating }
 GLMPaginatedResizableMorphTreeMorph >> updateColumnMorphs [
 	super updateColumnMorphs.
-	self resizeColumns.
+	"self resizeColumns."
 		
 	
 ]
