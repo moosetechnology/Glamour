@@ -103,7 +103,7 @@ GLMValidator >> renderGlamorouslyOn: aRenderer [
 GLMValidator >> setSpecificAnnouncementActionsTo: aRenderer [
 
 	self specificAnnouncementActions keysAndValuesDo: [:anAnnouncementClass :aSymbol |
-		self on: anAnnouncementClass send: aSymbol to: aRenderer.
+		self when: anAnnouncementClass send: aSymbol to: aRenderer.
 		]
 ]
 
