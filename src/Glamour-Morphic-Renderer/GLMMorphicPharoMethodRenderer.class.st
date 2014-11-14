@@ -4,14 +4,14 @@ Class {
 	#category : #'Glamour-Morphic-Renderer'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 GLMMorphicPharoMethodRenderer >> methodBindingsStrategy [
 
 	^ [ :currentBindings :aSymbol |
 		 currentBindings associationAt: aSymbol ifAbsent: [nil] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMMorphicPharoMethodRenderer >> modelFor: aPresentation [
 
 	^ (super modelFor: aPresentation)
@@ -20,7 +20,7 @@ GLMMorphicPharoMethodRenderer >> modelFor: aPresentation [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMMorphicPharoMethodRenderer >> morph [
 	
 	^ RubScrolledTextMorph new

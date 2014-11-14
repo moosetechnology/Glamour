@@ -4,12 +4,12 @@ Class {
 	#category : #'Glamour-Morphic-Renderer'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 GLMMorphicTableRenderer >> newTreeMorph [
 	^ GLMPaginatedResizableMorphTreeMorph new.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMMorphicTableRenderer >> render: aPresentation [
 	| container |
 	container := super render: aPresentation.

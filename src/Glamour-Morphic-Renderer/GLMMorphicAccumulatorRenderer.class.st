@@ -22,7 +22,7 @@ GLMMorphicAccumulatorRenderer >> actOnPaneSelected: anAnnouncement [
 	tabs selectedPageIndex: anAnnouncement position
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 GLMMorphicAccumulatorRenderer >> removePage: aPage [
 	| removedPageIndex |
 	removedPageIndex := self pages indexOf: aPage.

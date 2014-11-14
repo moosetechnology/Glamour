@@ -7,13 +7,13 @@ Class {
 	#category : #'Glamour-Morphic-Renderer'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMMorphicSpecRenderer >> actOnPresentationUpdated: ann [
 	container removeAllMorphs.
 	container addMorphBack: (self morphFrom: ann presentation)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMMorphicSpecRenderer >> render: aPresentation [
 	container := GLMMorphic containerMorph.
 	container 

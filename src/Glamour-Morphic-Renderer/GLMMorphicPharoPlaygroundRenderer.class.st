@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Morphic-Renderer'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #callbacks }
 GLMMorphicPharoPlaygroundRenderer >> actOnVariableBindingsUpdated: ann [ 
 
 	textModel variableBindings: nil.
@@ -12,7 +12,7 @@ GLMMorphicPharoPlaygroundRenderer >> actOnVariableBindingsUpdated: ann [
 	textModel changed: #text. self flag: 'update just the style here'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMMorphicPharoPlaygroundRenderer >> modelFor: aPresentation [
 
 	^ (super modelFor: aPresentation)
@@ -21,7 +21,7 @@ GLMMorphicPharoPlaygroundRenderer >> modelFor: aPresentation [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMMorphicPharoPlaygroundRenderer >> morph [
 	^ RubScrolledTextMorph new
 		model: textModel;
@@ -32,14 +32,14 @@ GLMMorphicPharoPlaygroundRenderer >> morph [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 GLMMorphicPharoPlaygroundRenderer >> registerEventsForPresentation: aPresentation [
 
 	super registerEventsForPresentation: aPresentation.
 	aPresentation on: GLMVariableBindingsChanged send: #actOnVariableBindingsUpdated: to: self.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 GLMMorphicPharoPlaygroundRenderer >> workspaceBindingsStrategy [
 
 	^ [ :currentBindings :aSymbol | 
