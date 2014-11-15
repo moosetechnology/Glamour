@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'firstCombination',
 		'pagerBar',
-		'pagerModel'
+		'pagerModel',
+		'showScrollBarWhenNeeded'
 	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
@@ -144,7 +145,19 @@ GLMPagerMorph >> scrollerSizeShortcutAction: first second: second [
 { #category : #initialization }
 GLMPagerMorph >> showOrHideScrollBar [
 	
-	(pagerModel size > 1)
+	((pagerModel size > 1) & (self showScrollBarWhenNeeded))
 		ifTrue: [ self addMorphBack: pagerBar ]
 		ifFalse: [ self removeMorph: pagerBar ].
+]
+
+{ #category : #accessing }
+GLMPagerMorph >> showScrollBarWhenNeeded [
+
+	^ showScrollBarWhenNeeded ifNil: [ showScrollBarWhenNeeded := true ]
+]
+
+{ #category : #accessing }
+GLMPagerMorph >> showScrollBarWhenNeeded: aBoolean [
+
+	showScrollBarWhenNeeded := aBoolean
 ]
