@@ -32,7 +32,7 @@ GLMPagerScrollMorph >> initialize [
 	self beTransparent.
 	
 	Morph announcer weak 
-		on: MorphGotFocus send: #focusChanged: to: self.
+		when: MorphGotFocus send: #focusChanged: to: self.
 ]
 
 { #category : #'as yet unclassified' }
@@ -71,7 +71,7 @@ GLMPagerScrollMorph >> onPagesNumberChanged [
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> onScrollPositionChanged: announcement [
 
-	self scrollToPane: pagerModel firstVisiblePageIndex smooth: announcement smooth callback: announcement callback
+	self scrollToPane: pagerModel firstVisiblePageIndex smooth: announcement smooth.
 ]
 
 { #category : #'as yet unclassified' }
@@ -122,25 +122,25 @@ GLMPagerScrollMorph >> pagerModel: aModel [
 	maxPanes := aModel numberOfVisiblePages.
 	
 	pagerModel announcer weak
-		on: GLMPagePushed send: #onPagePushed: to: self.
+		when: GLMPagePushed send: #onPagePushed: to: self.
 	
 	pagerModel announcer weak
-		on: GLMPagePoped send: #onPagePoped: to: self.
+		when: GLMPagePoped send: #onPagePoped: to: self.
 						
 	pagerModel announcer weak
-		on: GLMPagerSynchronizeScrollAnnouncement send: #onSynchronizeScroll: to: self.
+		when: GLMPagerSynchronizeScrollAnnouncement send: #onSynchronizeScroll: to: self.
 		
 	pagerModel announcer weak 
-		on: GLMPagerScrollPositionChanged send: #onScrollPositionChanged: to: self.
+		when: GLMPagerScrollPositionChanged send: #onScrollPositionChanged: to: self.
 		
 	pagerModel announcer weak 
-		on: GLMNumberOfVisiblePagesChanged send: #onPagesNumberChanged to: self.
+		when: GLMNumberOfVisiblePagesChanged send: #onPagesNumberChanged to: self.
 		
 	pagerModel announcer weak 
-		on: GLMSelectedPageChanged send: #onSelectedPageChanged to: self.
+		when: GLMSelectedPageChanged send: #onSelectedPageChanged to: self.
 		
 	pagerModel announcer weak 
-		on: GLMPagerPreviewUpdate send: #onPagePreviewUpdate: to: self.
+		when: GLMPagerPreviewUpdate send: #onPagePreviewUpdate: to: self.
 ]
 
 { #category : #'as yet unclassified' }

@@ -2,21 +2,10 @@ Class {
 	#name : #GLMPagerScrollPositionChanged,
 	#superclass : #Announcement,
 	#instVars : [
-		'smooth',
-		'callback'
+		'smooth'
 	],
 	#category : #'Glamour-Morphic-Pager-Announcement'
 }
-
-{ #category : #accessing }
-GLMPagerScrollPositionChanged >> callback [
-	^ callback
-]
-
-{ #category : #accessing }
-GLMPagerScrollPositionChanged >> callback: anObject [
-	callback := anObject
-]
 
 { #category : #accessing }
 GLMPagerScrollPositionChanged >> smooth [

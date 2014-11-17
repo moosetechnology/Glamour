@@ -109,7 +109,7 @@ GLMPagerButtonModel >> isSelected [
 { #category : #'as yet unclassified' }
 GLMPagerButtonModel >> on: anObject send: aSymbol to: aReceiver [
 	self announcer weak
-		on: anObject send: aSymbol to: aReceiver.
+		when: anObject send: aSymbol to: aReceiver.
 ]
 
 { #category : #'as yet unclassified' }

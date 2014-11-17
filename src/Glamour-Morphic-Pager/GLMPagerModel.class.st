@@ -280,13 +280,7 @@ GLMPagerModel >> notifyPagePushed: aMorph scrollTo: isScroll smooth: isSmooth [
 { #category : #notifying }
 GLMPagerModel >> notifyScrollPositionChanged: isSmooth [
 
-	self notifyScrollPositionChanged: isSmooth callback: nil
-]
-
-{ #category : #notifying }
-GLMPagerModel >> notifyScrollPositionChanged: isSmooth callback: aBlock [
-
-	self announcer announce: (GLMPagerScrollPositionChanged new smooth: isSmooth; callback: aBlock; yourself).
+	self announcer announce: (GLMPagerScrollPositionChanged new smooth: isSmooth).
 ]
 
 { #category : #notifying }
@@ -348,7 +342,6 @@ GLMPagerModel >> popPane: isSmooth [
 	
 		pagesCount = 0 ifTrue: [
 			selectedPageIndex := 0.
-			firstVisiblePageIndex := 0.
 		].
 		
 		self selectedPageIndex > pagesCount ifTrue: [
@@ -459,30 +452,17 @@ GLMPagerModel >> scrollButtonIconRenderBlock: anObject [
 
 { #category : #scrolling }
 GLMPagerModel >> scrollTo: aFloat smooth: isSmooth [
-	
-	self scrollTo: aFloat smooth: isSmooth callback: nil
-]
-
-{ #category : #scrolling }
-GLMPagerModel >> scrollTo: aFloat smooth: isSmooth callback: aBlock [
 	"notifies all listeners to scroll at the specified value"
 	
 	self privateRecomputeIndexesAfterScrollAt: aFloat.
-	self notifyScrollPositionChanged: isSmooth callback: aBlock
+	self notifyScrollPositionChanged: isSmooth.
 ]
 
 { #category : #scrolling }
 GLMPagerModel >> scrollToPane: pageIndex [
-	
-	self scrollToPane: pageIndex callback: nil
-	
-]
-
-{ #category : #scrolling }
-GLMPagerModel >> scrollToPane: pageIndex callback: aBlock [
 	"scrolls to specified pane specified by its index"
 
-	self scrollTo: (self convertIndexToValue: pageIndex) smooth: true callback: aBlock
+	self scrollTo: (self convertIndexToValue: pageIndex) smooth: true.
 	
 ]
 

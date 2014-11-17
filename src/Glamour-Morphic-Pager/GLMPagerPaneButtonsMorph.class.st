@@ -154,13 +154,13 @@ GLMPagerPaneButtonsMorph >> pagerModel: aModel [
 	pagerModel := aModel.
 		
 	pagerModel announcer weak
-		on: GLMPageSwitched send: #onPageSwitched to: self.
+		when: GLMPageSwitched send: #onPageSwitched to: self.
 				
 	pagerModel announcer weak
-		on: GLMPagerBoundsChanged send: #onScrollBoundsChanged: to: self.
+		when: GLMPagerBoundsChanged send: #onScrollBoundsChanged: to: self.
 		
 	pagerModel announcer weak
-		on: GLMFocusedPageChanged send: #onFocusedPageChanged to: self.
+		when: GLMFocusedPageChanged send: #onFocusedPageChanged to: self.
 		
 	self updateIndicatorButtons.
 ]

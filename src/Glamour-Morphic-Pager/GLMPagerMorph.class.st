@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'firstCombination',
 		'pagerBar',
-		'pagerModel',
-		'showScrollBarWhenNeeded'
+		'pagerModel'
 	],
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
@@ -99,10 +98,10 @@ GLMPagerMorph >> pagerModel: aModel [
 	pagerBar := GLMPagerBarMorph new pagerModel: pagerModel.
 	
 	pagerModel announcer weak
-		on: GLMPagePushed send: #onPagePushed to: self.
+		when: GLMPagePushed send: #onPagePushed to: self.
 		
 	pagerModel announcer weak
-		on: GLMPagePoped send: #onPagePoped to: self.
+		when: GLMPagePoped send: #onPagePoped to: self.
 	
 	self initializeShortcuts.
 ]
@@ -145,19 +144,7 @@ GLMPagerMorph >> scrollerSizeShortcutAction: first second: second [
 { #category : #initialization }
 GLMPagerMorph >> showOrHideScrollBar [
 	
-	((pagerModel size > 1) & (self showScrollBarWhenNeeded))
+	(pagerModel size > 1)
 		ifTrue: [ self addMorphBack: pagerBar ]
 		ifFalse: [ self removeMorph: pagerBar ].
-]
-
-{ #category : #accessing }
-GLMPagerMorph >> showScrollBarWhenNeeded [
-
-	^ showScrollBarWhenNeeded ifNil: [ showScrollBarWhenNeeded := true ]
-]
-
-{ #category : #accessing }
-GLMPagerMorph >> showScrollBarWhenNeeded: aBoolean [
-
-	showScrollBarWhenNeeded := aBoolean
 ]

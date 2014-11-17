@@ -33,31 +33,31 @@ GLMButton >> buttonModel: aModel [
 	buttonModel := aModel.
 	
 	buttonModel announcer weak
-		on: GLMPagerButtonPressed send: #onPressed to: self.
+		when: GLMPagerButtonPressed send: #onPressed to: self.
 	
 	buttonModel announcer weak
-		on: GLMPagerButtonDepressed send: #onDepressed to: self.
+		when: GLMPagerButtonDepressed send: #onDepressed to: self.
 		
 	buttonModel announcer weak
-		on: GLMPagerButtonSelected send: #onSelected to: self.
+		when: GLMPagerButtonSelected send: #onSelected to: self.
 		
 	buttonModel announcer weak
-		on: GLMPagerButtonDeselected send: #onDeselected to: self.
+		when: GLMPagerButtonDeselected send: #onDeselected to: self.
 		
 	buttonModel announcer weak
-		on: GLMPagerButtonChecked send: #onChecked to: self.
+		when: GLMPagerButtonChecked send: #onChecked to: self.
 	
 	buttonModel announcer weak
-		on: GLMPagerButtonUnChecked send: #onUnChecked to: self.
+		when: GLMPagerButtonUnChecked send: #onUnChecked to: self.
 		
 	buttonModel announcer weak
-		on: GLMPagerButtonClicked send: #onClicked: to: self.
+		when: GLMPagerButtonClicked send: #onClicked: to: self.
 		
 	buttonModel announcer weak
-		on: GLMPagerButtonEnabled send: #onEnabled to: self.
+		when: GLMPagerButtonEnabled send: #onEnabled to: self.
 		
 	buttonModel announcer weak
-		on: GLMPagerButtonDisabled send: #onDisabled to: self.
+		when: GLMPagerButtonDisabled send: #onDisabled to: self.
 ]
 
 { #category : #accessing }
@@ -128,7 +128,7 @@ GLMButton >> fontModel: aModel [
 	fontModel := aModel.
 	
 	fontModel announcer weak
-		on: GLMPagerButtonFontUpdated send: #onFontUpdated to: self.
+		when: GLMPagerButtonFontUpdated send: #onFontUpdated to: self.
 ]
 
 { #category : #accessing }
@@ -141,7 +141,7 @@ GLMButton >> geometry: aGeometryModel [
 	geometryModel := aGeometryModel.
 	
 	geometryModel announcer weak
-		on: GLMPagerButtonGeometryChanged send: #onGeometryChanged to: self.
+		when: GLMPagerButtonGeometryChanged send: #onGeometryChanged to: self.
 ]
 
 { #category : #'event-mouse' }
@@ -166,7 +166,7 @@ GLMButton >> image: anImageModel [
 	imageModel := anImageModel.
 	
 	imageModel state announcer weak
-		on: GLMPagerButtonImageUpdated send: #onImageUpdated to: self.
+		when: GLMPagerButtonImageUpdated send: #onImageUpdated to: self.
 ]
 
 { #category : #initialization }
@@ -198,10 +198,10 @@ GLMButton >> label: aLabelModel [
 	labelModel := aLabelModel.
 	
 	labelModel announcer weak
-		on: GLMPagerButtonLabelPositionChanged send: #onLabelPositionChanged to: self.
+		when: GLMPagerButtonLabelPositionChanged send: #onLabelPositionChanged to: self.
 		
 	labelModel announcer weak
-		on: GLMPagerButtonLabelTextChanged send: #onLabelTextChanged to: self.
+		when: GLMPagerButtonLabelTextChanged send: #onLabelTextChanged to: self.
 ]
 
 { #category : #accessing }
