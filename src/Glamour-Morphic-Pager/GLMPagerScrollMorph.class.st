@@ -71,7 +71,7 @@ GLMPagerScrollMorph >> onPagesNumberChanged [
 { #category : #'as yet unclassified' }
 GLMPagerScrollMorph >> onScrollPositionChanged: announcement [
 
-	self scrollToPane: pagerModel firstVisiblePageIndex smooth: announcement smooth.
+	self scrollToPane: pagerModel firstVisiblePageIndex smooth: announcement smooth callback: announcement callback
 ]
 
 { #category : #'as yet unclassified' }
