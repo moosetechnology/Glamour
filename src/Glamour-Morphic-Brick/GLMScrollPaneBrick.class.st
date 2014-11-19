@@ -23,7 +23,9 @@ Class {
 	#instVars : [
 		'band',
 		'lastScrollTimeStamp',
-		'currentVelocity'
+		'currentVelocity',
+		'verticalScrollbar',
+		'scrollPosition'
 	],
 	#category : #'Glamour-Morphic-Brick-UI'
 }
@@ -78,6 +80,12 @@ GLMScrollPaneBrick >> addBrickBack: aBrick [
 	band addBrickBack: aBrick
 ]
 
+{ #category : #accessing }
+GLMScrollPaneBrick >> band [
+
+	^ band
+]
+
 { #category : #'as yet unclassified' }
 GLMScrollPaneBrick >> calculateVelocity: event [
 	
@@ -88,6 +96,27 @@ GLMScrollPaneBrick >> calculateVelocity: event [
 	lastScrollTimeStamp := event timeStamp.
 	
 	^ currentVelocity
+]
+
+{ #category : #accessing }
+GLMScrollPaneBrick >> defaultScrollbarPosition [
+
+	^ #right
+]
+
+{ #category : #accessing }
+GLMScrollPaneBrick >> defaultScrollbarWidth [
+
+	^ 5
+]
+
+{ #category : #layouting }
+GLMScrollPaneBrick >> doLayout [
+	super doLayout.
+	
+	band brickBounds: (band brickBounds translateBy: (0@(scrollPosition - band brickBounds top))).
+	
+	self verticalScrollbar update.
 ]
 
 { #category : #'mouse events' }
@@ -101,11 +130,14 @@ GLMScrollPaneBrick >> initialize [
 	
 	lastScrollTimeStamp := 0.
 	currentVelocity := self class defaultScrollVelocity.
+	scrollPosition := 0.
 	
 	band := GLMBandBrick new.
 	
 	self layoutPolicy: GLMBrickVerticalFillLinearLayout new.
 	super addBrickBack: band.
+	
+	self verticalScrollbar: self newVerticalScrollbar
 ]
 
 { #category : #'mouse events' }
@@ -127,8 +159,16 @@ GLMScrollPaneBrick >> mouseWheel: event [
 			band brickBounds corner y <= self height ifTrue: [ ^ self ].
 			band brickBounds: (band brickBounds translateBy: (0@ currentVelocity) negated).
 			band brickBounds corner y < self height ifTrue: [ band brickBounds: (band brickBounds translateBy: (0@ (self height - band brickBounds corner y))) ] ].
-		
+	
+	scrollPosition := band brickBounds top.
+	
+	self verticalScrollbar update.
 	self changed.
+]
+
+{ #category : #'instance creation' }
+GLMScrollPaneBrick >> newVerticalScrollbar [
+	^ GLMScrollbarBrick new
 ]
 
 { #category : #adding }
@@ -148,7 +188,7 @@ GLMScrollPaneBrick >> removeBrick: aBrick [
 	band removeBrick: aBrick
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #scrolling }
 GLMScrollPaneBrick >> scrollTo: aBrick [
 	|delta|
 	"if already visible no need to scroll"	
@@ -158,7 +198,27 @@ GLMScrollPaneBrick >> scrollTo: aBrick [
 	delta < 0 ifTrue: [ delta := delta + self height - aBrick height ].
 		
 	band brickBounds: (band brickBounds translateBy: (0@ delta)).
+	
+	scrollPosition := band brickBounds top.
+	
+	self verticalScrollbar update.
 	self changed.
 	
 	
+]
+
+{ #category : #accessing }
+GLMScrollPaneBrick >> verticalScrollbar [
+
+	^ verticalScrollbar
+]
+
+{ #category : #accessing }
+GLMScrollPaneBrick >> verticalScrollbar: aBrick [
+
+	verticalScrollbar := aBrick.
+	verticalScrollbar width: self defaultScrollbarWidth.
+	verticalScrollbar layoutProperties floating: self defaultScrollbarPosition.
+	verticalScrollbar scrollPane: self.
+	super addBrickBack: verticalScrollbar
 ]

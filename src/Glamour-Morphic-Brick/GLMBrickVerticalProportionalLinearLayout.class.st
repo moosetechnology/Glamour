@@ -22,37 +22,40 @@ GLMBrickVerticalProportionalLinearLayout >> layout: aBrick in: newBounds [
 	maxPercent := 100.
 	
 	aBrick subbricks do: [ :each |
-		(self percentageHeightOf: each in: aBrick) < (each layoutProperties minHeight) ifTrue: [ 
-			allowedHeight := allowedHeight - each layoutProperties minHeight.
-			maxPercent := maxPercent - each layoutProperties verticalPercent.
-		]
+		each layoutProperties floating = #none ifTrue: [
+			(self percentageHeightOf: each in: aBrick) < (each layoutProperties minHeight) ifTrue: [ 
+				allowedHeight := allowedHeight - each layoutProperties minHeight.
+				maxPercent := maxPercent - each layoutProperties verticalPercent.
+			] ]
 	].
 	
 	aBrick subbricks
 		inject: 0
 		into: [ :currentHeight :each |
 			|left top extent maxHeight newHeight|
-			left := each layoutProperties marginLeft.
+			each layoutProperties floating = #none ifTrue: [
+				left := each layoutProperties marginLeft.
 			
-			newHeight := currentHeight + each layoutProperties marginTop.
-			top := newHeight.
+				newHeight := currentHeight + each layoutProperties marginTop.
+				top := newHeight.
 						
-			maxHeight := (each layoutProperties maxHeightBlock value: each) >= 0
-						ifTrue: [ each layoutProperties maxHeightBlock value: each ]
-						ifFalse: [ SmallInteger maxVal ].
+				maxHeight := (each layoutProperties maxHeightBlock value: each) >= 0
+							ifTrue: [ each layoutProperties maxHeightBlock value: each ]
+							ifFalse: [ SmallInteger maxVal ].
 			
-			(self percentageHeightOf: each in: aBrick) < (each layoutProperties minHeight) ifTrue: [ 
-				extent := ((self extentOf: each in: aBrick) x) @ (each layoutProperties minHeight - each layoutProperties marginTop - each layoutProperties marginBottom).
-			]
-			ifFalse: [ 	
-				extent := ((self extentOf: each in: aBrick) x) @ ((((allowedHeight * each layoutProperties verticalPercent / maxPercent) ceiling) - each layoutProperties marginTop - each layoutProperties marginBottom) min: maxHeight).
-			].
+				(self percentageHeightOf: each in: aBrick) < (each layoutProperties minHeight) ifTrue: [ 
+					extent := ((self extentOf: each in: aBrick) x) @ (each layoutProperties minHeight - each layoutProperties marginTop - each layoutProperties marginBottom).
+				]
+				ifFalse: [ 	
+					extent := ((self extentOf: each in: aBrick) x) @ ((((allowedHeight * each layoutProperties verticalPercent / maxPercent) ceiling) - each layoutProperties marginTop - each layoutProperties marginBottom) min: maxHeight).
+				].
 			
-			each isBrick
-				ifTrue: [ each brickBounds: ((left@top) extent: extent) ]
-				ifFalse: [ each bounds: (((left@top) extent: extent) translateBy: aBrick globalBounds origin) ].
+				each isBrick
+					ifTrue: [ each brickBounds: ((left@top) extent: extent) ]
+					ifFalse: [ each bounds: (((left@top) extent: extent) translateBy: aBrick globalBounds origin) ].
 			
-			newHeight + each height + each layoutProperties marginBottom.
+				newHeight + each height + each layoutProperties marginBottom ]
+			ifFalse: [ self layoutFloating: each in: newBounds ]
 		]
 
 ]

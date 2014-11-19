@@ -77,10 +77,21 @@ Class {
 		'minWidth',
 		'minHeight',
 		'maxWidthBlock',
-		'maxHeightBlock'
+		'maxHeightBlock',
+		'floating'
 	],
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> floating [
+	^ floating
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> floating: aSymbol [
+	floating := aSymbol
+]
 
 { #category : #accessing }
 GLMBrickLayoutProperties >> horizontalMargin [
@@ -116,6 +127,7 @@ GLMBrickLayoutProperties >> initialize [
 	minHeight := 0.
 	maxWidthBlock := [ :aTrick | -1 ]. "negative value means undefined"
 	maxHeightBlock := [ :aTrick | -1 ]. "negative value means undefined"
+	floating := #none
 ]
 
 { #category : #accessing }
