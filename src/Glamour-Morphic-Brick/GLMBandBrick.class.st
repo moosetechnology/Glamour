@@ -9,7 +9,7 @@ Class {
 	#category : #'Glamour-Morphic-Brick-UI'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #geometry }
 GLMBandBrick >> height [
 	|height|
 	height := self layoutProperties verticalMargin.
@@ -17,7 +17,7 @@ GLMBandBrick >> height [
 	^ height
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GLMBandBrick >> initialize [
 	super initialize.
 	
