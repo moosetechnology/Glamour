@@ -147,3 +147,18 @@ GLMScrollPaneBrick >> removeAllBricks [
 GLMScrollPaneBrick >> removeBrick: aBrick [
 	band removeBrick: aBrick
 ]
+
+{ #category : #'as yet unclassified' }
+GLMScrollPaneBrick >> scrollTo: aBrick [
+	|delta|
+	"if already visible no need to scroll"	
+	(self globalBounds containsRect: aBrick globalBounds) ifTrue: [ ^ self ].
+	
+	delta := ((self globalBounds top - band globalBounds top) - (aBrick globalBounds top - band globalBounds top)).
+	delta < 0 ifTrue: [ delta := delta + self height - aBrick height ].
+		
+	band brickBounds: (band brickBounds translateBy: (0@ delta)).
+	self changed.
+	
+	
+]
