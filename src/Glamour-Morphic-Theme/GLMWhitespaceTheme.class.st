@@ -246,7 +246,7 @@ GLMWhitespaceTheme class >> setPreferredWorldBackground [
 
 { #category : #accessing }
 GLMWhitespaceTheme class >> themeName [
-	^ 'Glamorous'
+	^ 'Glamorous Whitespace'
 ]
 
 { #category : #accessing }
