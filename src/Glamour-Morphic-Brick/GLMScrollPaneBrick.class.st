@@ -191,8 +191,11 @@ GLMScrollPaneBrick >> removeBrick: aBrick [
 { #category : #scrolling }
 GLMScrollPaneBrick >> scrollTo: aBrick [
 	|delta|
-	"if already visible no need to scroll"	
-	(self globalBounds containsRect: aBrick globalBounds) ifTrue: [ ^ self ].
+	"if already visible no need to scroll"
+
+	"need to normalize bounds to take only y coordinate into account"
+	(((self globalBounds withWidth: 0) translateBy: (self globalBounds origin negated x@0))
+		containsRect: ((aBrick globalBounds withWidth: 0) translateBy: (aBrick globalBounds origin negated x@0))) ifTrue: [ ^ self ].
 	
 	delta := ((self globalBounds top - band globalBounds top) - (aBrick globalBounds top - band globalBounds top)).
 	delta < 0 ifTrue: [ delta := delta + self height - aBrick height ].
