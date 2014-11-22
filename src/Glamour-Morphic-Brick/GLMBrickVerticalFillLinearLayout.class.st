@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMBrickVerticalFillLinearLayout >> extentOf: aBrick in: owner [
-
-	^ (owner width - aBrick layoutProperties marginLeft - aBrick layoutProperties marginRight) @ (aBrick height)
+GLMBrickVerticalFillLinearLayout >> extentOf: aBrick in: owner withArguments: aHashTable [
+	
+	^ (owner brickInnerBounds width - aBrick layoutProperties horizontalMargin)@(self originalHeightOf: aBrick)
 ]

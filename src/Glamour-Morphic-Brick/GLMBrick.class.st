@@ -96,7 +96,7 @@ GLMBrick >> addAllBricks: aCollection [
 { #category : #adding }
 GLMBrick >> addBrick: aBrick before: anotherBrick [
 
-	subbricks add: aBrick before: anotherBrick.
+	self privateSubbricks add: aBrick before: anotherBrick.
 	self initializeBrick: aBrick.
 	super addMorph: aBrick inFrontOf: anotherBrick.
 	^ aBrick
@@ -105,7 +105,7 @@ GLMBrick >> addBrick: aBrick before: anotherBrick [
 { #category : #adding }
 GLMBrick >> addBrickBack: aBrick [
 
-	subbricks add: aBrick.
+	self privateSubbricks add: aBrick.
 	self initializeBrick: aBrick.
 	super addMorphBack: aBrick.
 	^ aBrick
@@ -135,11 +135,19 @@ GLMBrick >> brickBounds [
 GLMBrick >> brickBounds: aRectangle [
 	"if you want to change brick's position or bounds use only this method!"
 	
-	brickBounds := (aRectangle origin + ((self layoutProperties paddingLeft) @ (self layoutProperties paddingTop)))
-		corner: (aRectangle corner - ((self layoutProperties paddingRight) @ (self layoutProperties paddingBottom))).
+	brickBounds := aRectangle.
 	
 	bounds := self bounds.
 	fullBounds := bounds
+]
+
+{ #category : #private }
+GLMBrick >> brickGlobalInnerBounds [
+
+	^ self brickOwner
+		ifNotNil: [ self brickInnerBounds translateBy: brickOwner globalBounds origin ]
+		ifNil: [ super bounds ]
+
 ]
 
 { #category : #private }
@@ -152,9 +160,17 @@ GLMBrick >> brickGlobalOuterBounds [
 ]
 
 { #category : #geometry }
+GLMBrick >> brickInnerBounds [
+
+	^ (self brickBounds origin + ((self layoutProperties paddingLeft) @ (self layoutProperties paddingTop)))
+		corner: (self brickBounds corner - ((self layoutProperties paddingRight) @ (self layoutProperties paddingBottom))).
+]
+
+{ #category : #geometry }
 GLMBrick >> brickOuterBounds [
-	^ (self brickBounds origin - ((self layoutProperties paddingLeft) @ (self layoutProperties paddingTop)))
-		corner: (self brickBounds corner + ((self layoutProperties paddingRight) @ (self layoutProperties paddingBottom))).
+
+	^ (self brickBounds origin - ((self layoutProperties marginLeft) @ (self layoutProperties marginTop)))
+		corner: (self brickBounds corner + ((self layoutProperties marginRight) @ (self layoutProperties marginBottom))).
 
 
 ]
@@ -252,7 +268,8 @@ GLMBrick >> drawSubmorphsOn: aCanvas [
 	
 	submorphs isEmpty ifTrue: [ ^ self ].
 
-	area := aCanvas clipRect.
+	"make sure my children will not go away of my inner bounds (we take care about paddings)"
+	area := aCanvas clipRect intersect: self brickGlobalInnerBounds ifNone: (0 @ 0 extent: 0 @ 0).
 	"do smart drawing logic here"
 	area width = 0 | (area height = 0) ifTrue: [ 
 			"draw nothing"
@@ -388,13 +405,18 @@ GLMBrick >> privateFullBounds [
 { #category : #private }
 GLMBrick >> privateHeight [
 
-	^ self brickBounds height + self layoutProperties paddingTop  + self layoutProperties paddingTop
+	^ self brickBounds height
+]
+
+{ #category : #private }
+GLMBrick >> privateSubbricks [
+	^ subbricks
 ]
 
 { #category : #private }
 GLMBrick >> privateWidth [
 
-	^ self brickBounds width + self layoutProperties paddingLeft  + self layoutProperties paddingRight
+	^ self brickBounds width
 ]
 
 { #category : #geometry }
@@ -406,12 +428,12 @@ GLMBrick >> relativeBounds [
 { #category : #adding }
 GLMBrick >> removeAllBricks [
 
-	subbricks do: [ :each |
+	self privateSubbricks do: [ :each |
 		each isBrick ifTrue: [
 			each brickRoot: nil.
 			each brickOwner: nil ] ].
 	
-	subbricks removeAll.
+	self privateSubbricks removeAll.
 	self removeAllMorphs
 ]
 
@@ -424,7 +446,7 @@ GLMBrick >> removeBrick: aBrick [
 	].
 	
 	self removeMorph: aBrick.
-	subbricks remove: aBrick ifAbsent: [ ^ aBrick ].
+	self privateSubbricks remove: aBrick ifAbsent: [ ^ aBrick ].
 	^ aBrick
 ]
 

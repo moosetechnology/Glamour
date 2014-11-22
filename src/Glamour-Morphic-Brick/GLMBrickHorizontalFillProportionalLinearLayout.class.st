@@ -8,7 +8,8 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMBrickHorizontalFillProportionalLinearLayout >> extentOf: aBrick in: owner [
-	
-	^ ((owner width * aBrick layoutProperties horizontalPercent / 100) ceiling - aBrick layoutProperties marginLeft - aBrick layoutProperties marginRight) @ (owner height - aBrick layoutProperties marginTop - aBrick layoutProperties marginBottom)
+GLMBrickHorizontalFillProportionalLinearLayout >> extentOf: aBrick in: owner withArguments: aHashTable [
+	|extent|
+	extent := super extentOf: aBrick in: owner withArguments: aHashTable.
+	^ (extent x)@(owner brickInnerBounds height - aBrick layoutProperties verticalMargin)
 ]

@@ -9,56 +9,85 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMBrickHorizontalProportionalLinearLayout >> extentOf: aBrick in: owner [
-	
-	^ ((owner width * aBrick layoutProperties horizontalPercent / 100) ceiling - aBrick layoutProperties marginLeft - aBrick layoutProperties marginRight) @ (aBrick height)
-]
+GLMBrickHorizontalProportionalLinearLayout class >> example2 [
 
-{ #category : #accessing }
-GLMBrickHorizontalProportionalLinearLayout >> layout: aBrick in: newBounds [
+	|foundationBrick rootBrick brick1 brick2|
 	
-	|allowedWidth maxPercent|
-	allowedWidth := aBrick width.
-	maxPercent := 100.
+	rootBrick := GLMBrick new.
+	rootBrick layoutPolicy: self new.
 	
-	aBrick subbricks do: [ :each |
-		(self percentageWidthOf: each in: aBrick) < (each layoutProperties minWidth) ifTrue: [ 
-			allowedWidth := allowedWidth - each layoutProperties minWidth.
-			maxPercent := maxPercent - each layoutProperties horizontalPercent.
-		]
-	].
+	rootBrick layoutProperties paddingLeft: 10.	
+	rootBrick layoutProperties paddingTop: 10.
+	rootBrick layoutProperties paddingRight: 10.	
+	rootBrick layoutProperties paddingBottom: 10.
+	rootBrick color: Color blue.
 	
-	aBrick subbricks
-		inject: 0
-		into: [ :currentWidth :each |
-			|left top extent maxWidth newWidth|
-			top := each layoutProperties marginTop.
-			
-			newWidth := currentWidth + each layoutProperties marginLeft.
-			left := newWidth.
-						
-			maxWidth := (each layoutProperties maxWidthBlock value: each) >= 0
-						ifTrue: [ each layoutProperties maxWidthBlock value: each ]
-						ifFalse: [ SmallInteger maxVal ].
-			
-			(self percentageWidthOf: each in: aBrick) < (each layoutProperties minWidth) ifTrue: [ 
-				extent := (each layoutProperties minWidth - each layoutProperties marginLeft - each layoutProperties marginRight) @ ((self extentOf: each in: aBrick) y).
-			]
-			ifFalse: [ 	
-				extent := ((((allowedWidth * each layoutProperties horizontalPercent / maxPercent) ceiling) - each layoutProperties marginLeft - each layoutProperties marginRight) min: maxWidth) @ ((self extentOf: each in: aBrick) y).
-			].
-			
-			each isBrick
-				ifTrue: [ each brickBounds: ((left@top) extent: extent) ]
-				ifFalse: [ each bounds: (((left@top) extent: extent) translateBy: aBrick globalBounds origin) ].
-			
-			newWidth + each width + each layoutProperties marginRight.
-		]
+	brick1 := GLMBrick new.
+	brick1 layoutProperties horizontalPercent: 100.
+	brick1 extent: 50@70.
+	brick1 color: Color red.
+	
+	brick2 := GLMBrick new.
+	brick2 layoutProperties horizontalPercent: 0.
+	brick2 layoutProperties minWidthBlock: [ 50 ].
+	brick2 color: Color green.
+	brick2 extent: 70@60.
+	
+	rootBrick
+		addBrickBack: brick1;
+		addBrickBack: brick2.
+		
+	foundationBrick := GLMFoundationBrick new.
+	foundationBrick brickRoot: rootBrick.
+	foundationBrick openInWindow.
+	foundationBrick color: Color pink.
+		
+	
 
 ]
 
 { #category : #'as yet unclassified' }
-GLMBrickHorizontalProportionalLinearLayout >> percentageWidthOf: aBrick in: owner [
+GLMBrickHorizontalProportionalLinearLayout >> extentOf: aBrick in: owner withArguments: aHashTable [
+	| width requestedWidth allowedWidth minWidth maxWidth distributableWidth distributablePercents|
+	
+	minWidth := self minWidthOf: aBrick.
+	maxWidth := self maxWidthOf: aBrick.
+	distributableWidth := aHashTable at: #distributableWidth ifAbsent: [ owner brickInnerBounds width ].
+	distributablePercents := aHashTable at: #distributablePercents ifAbsent: [ 100 ].
+	
+	allowedWidth := self widthOf: aBrick allowed: distributableWidth percents: distributablePercents.
+	requestedWidth := self widthOf: aBrick allowed: owner brickInnerBounds width percents: 100.
+	
+	width := (requestedWidth < minWidth ifTrue: [ minWidth ] ifFalse: [ allowedWidth min: maxWidth ]) - aBrick layoutProperties horizontalMargin.
+	
+	^ width@(self originalHeightOf: aBrick)
+]
 
-	^ (owner width * aBrick layoutProperties horizontalPercent / 100) ceiling
+{ #category : #'as yet unclassified' }
+GLMBrickHorizontalProportionalLinearLayout >> prepareArgumentsFor: aBrick [
+	|allowedWidth maxPercent ownerWidth|
+	
+	ownerWidth := aBrick brickGlobalInnerBounds width.
+	allowedWidth := ownerWidth.
+	maxPercent := 100.
+	
+	aBrick subbricks do: [ :each |	|minWidth requestedWidth|
+		minWidth := self minWidthOf: each.
+		requestedWidth := self widthOf: each allowed: allowedWidth percents: maxPercent.
+			
+		requestedWidth < minWidth ifTrue: [ 
+			allowedWidth := allowedWidth - minWidth.
+			maxPercent := maxPercent - each layoutProperties horizontalPercent ] ].
+
+	^ HashTable new
+		add: (#distributableWidth -> allowedWidth);
+		add: (#distributablePercents -> maxPercent);
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
+GLMBrickHorizontalProportionalLinearLayout >> widthOf: aBrick allowed: width percents: percents [
+
+	percents <= 0 ifTrue: [ ^ 0 ].
+	^ (width * aBrick layoutProperties horizontalPercent / percents) ceiling
 ]

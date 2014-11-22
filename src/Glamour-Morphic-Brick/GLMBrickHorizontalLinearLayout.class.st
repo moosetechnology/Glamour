@@ -10,21 +10,23 @@ Class {
 
 { #category : #accessing }
 GLMBrickHorizontalLinearLayout >> layout: aBrick in: newBounds [
+	|arguments|
+	arguments := self prepareArgumentsFor: aBrick.
 	
 	aBrick subbricks
 		inject: 0
-		into: [ :currentWidth :each |
-			|left top newWidth|
-			top := each layoutProperties marginTop.
+		into: [ :leftOffset :each |
+			each layoutProperties floating = #none ifTrue: [
+				|layoutBounds|
 			
-			newWidth := currentWidth + each layoutProperties marginLeft.
-			left := newWidth.
+				layoutBounds := GLMBrickLayoutBounds on: (self boundsOf: each in: aBrick withArguments: arguments) of: each.
+				layoutBounds translateBy: (leftOffset@0).
+				layoutBounds moveOuterToOrigin.
 			
-			each isBrick
-				ifTrue: [ each brickBounds: ((left@top) extent: (self extentOf: each in: aBrick)) ]
-				ifFalse: [ each bounds: (((left@top) extent: (self extentOf: each in: aBrick)) translateBy: aBrick globalBounds origin) ].
-				
-			newWidth + each width + each layoutProperties marginRight ]
+				self setNewBounds: layoutBounds to: each in: aBrick.
+			
+				leftOffset + layoutBounds outerBounds width ]
+			ifFalse: [ self layoutFloating: each in: newBounds. leftOffset ] ]
 
 	
 ]

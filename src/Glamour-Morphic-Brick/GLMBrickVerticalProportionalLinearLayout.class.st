@@ -9,59 +9,47 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMBrickVerticalProportionalLinearLayout >> extentOf: aBrick in: owner [
+GLMBrickVerticalProportionalLinearLayout >> extentOf: aBrick in: owner withArguments: aHashTable [
+	| height requestedHeight allowedHeight minHeight maxHeight distributableHeight distributablePercents|
 	
-	^ (aBrick width) @ ((owner height * aBrick layoutProperties verticalPercent / 100) ceiling - aBrick layoutProperties marginTop - aBrick layoutProperties marginBottom)
-]
-
-{ #category : #accessing }
-GLMBrickVerticalProportionalLinearLayout >> layout: aBrick in: newBounds [
+	minHeight := self minHeightOf: aBrick.
+	maxHeight := self maxHeightOf: aBrick.
+	distributableHeight := aHashTable at: #distributableHeight ifAbsent: [ owner brickInnerBounds height ].
+	distributablePercents := aHashTable at: #distributablePercents ifAbsent: [ 100 ].
 	
-	|allowedHeight maxPercent|
-	allowedHeight := aBrick height.
-	maxPercent := 100.
+	allowedHeight := self heightOf: aBrick allowed: distributableHeight percents: distributablePercents.
+	requestedHeight := self heightOf: aBrick allowed: owner brickInnerBounds width percents: 100.
 	
-	aBrick subbricks do: [ :each |
-		each layoutProperties floating = #none ifTrue: [
-			(self percentageHeightOf: each in: aBrick) < (each layoutProperties minHeight) ifTrue: [ 
-				allowedHeight := allowedHeight - each layoutProperties minHeight.
-				maxPercent := maxPercent - each layoutProperties verticalPercent.
-			] ]
-	].
+	height := (requestedHeight < minHeight ifTrue: [ minHeight ] ifFalse: [ allowedHeight min: maxHeight ]) - aBrick layoutProperties verticalMargin.
 	
-	aBrick subbricks
-		inject: 0
-		into: [ :currentHeight :each |
-			|left top extent maxHeight newHeight|
-			each layoutProperties floating = #none ifTrue: [
-				left := each layoutProperties marginLeft.
-			
-				newHeight := currentHeight + each layoutProperties marginTop.
-				top := newHeight.
-						
-				maxHeight := (each layoutProperties maxHeightBlock value: each) >= 0
-							ifTrue: [ each layoutProperties maxHeightBlock value: each ]
-							ifFalse: [ SmallInteger maxVal ].
-			
-				(self percentageHeightOf: each in: aBrick) < (each layoutProperties minHeight) ifTrue: [ 
-					extent := ((self extentOf: each in: aBrick) x) @ (each layoutProperties minHeight - each layoutProperties marginTop - each layoutProperties marginBottom).
-				]
-				ifFalse: [ 	
-					extent := ((self extentOf: each in: aBrick) x) @ ((((allowedHeight * each layoutProperties verticalPercent / maxPercent) ceiling) - each layoutProperties marginTop - each layoutProperties marginBottom) min: maxHeight).
-				].
-			
-				each isBrick
-					ifTrue: [ each brickBounds: ((left@top) extent: extent) ]
-					ifFalse: [ each bounds: (((left@top) extent: extent) translateBy: aBrick globalBounds origin) ].
-			
-				newHeight + each height + each layoutProperties marginBottom ]
-			ifFalse: [ self layoutFloating: each in: newBounds ]
-		]
-
+	^ (self originalWidthOf: aBrick)@height
 ]
 
 { #category : #'as yet unclassified' }
-GLMBrickVerticalProportionalLinearLayout >> percentageHeightOf: aBrick in: owner [
+GLMBrickVerticalProportionalLinearLayout >> heightOf: aBrick allowed: height percents: percents [
 
-	^ (owner height * aBrick layoutProperties verticalPercent / 100) ceiling
+	percents <= 0 ifTrue: [ ^ 0 ].
+	^ (height * aBrick layoutProperties verticalPercent / percents) ceiling
+]
+
+{ #category : #'as yet unclassified' }
+GLMBrickVerticalProportionalLinearLayout >> prepareArgumentsFor: aBrick [
+	|allowedHeight maxPercent ownerHeight|
+	
+	ownerHeight := aBrick brickGlobalInnerBounds height.
+	allowedHeight := ownerHeight.
+	maxPercent := 100.
+	
+	aBrick subbricks do: [ :each |	|minHeight requestedHeight|
+		minHeight := self minHeightOf: each.
+		requestedHeight := self heightOf: each allowed: ownerHeight percents: 100.
+			
+		requestedHeight < minHeight ifTrue: [ 
+			allowedHeight := allowedHeight - minHeight.
+			maxPercent := maxPercent - each layoutProperties verticalPercent ] ].
+
+	^ HashTable new
+		add: (#distributableHeight -> allowedHeight);
+		add: (#distributablePercents -> maxPercent);
+		yourself
 ]

@@ -10,31 +10,23 @@ Class {
 
 { #category : #'as yet unclassified' }
 GLMBrickVerticalLinearLayout >> layout: aBrick in: newBounds [
+	|arguments|
+	arguments := self prepareArgumentsFor: aBrick.
 	
 	aBrick subbricks
 		inject: 0
-		into: [ :currentTopOffset :each |
-			|left top maxHeight extent newTopOffset|
+		into: [ :topOffset :each |
 			each layoutProperties floating = #none ifTrue: [
-				newTopOffset := currentTopOffset + each layoutProperties marginTop.
+				|layoutBounds|
 			
-				left := each layoutProperties marginLeft.
-				top := newTopOffset.
+				layoutBounds := GLMBrickLayoutBounds on: (self boundsOf: each in: aBrick withArguments: arguments) of: each.
+				layoutBounds translateBy: (0@topOffset).
+				layoutBounds moveOuterToOrigin.
 			
-				maxHeight := (each layoutProperties maxHeightBlock value: each) >= 0
-						ifTrue: [ each layoutProperties maxHeightBlock value: each ]
-						ifFalse: [ SmallInteger maxVal ].
+				self setNewBounds: layoutBounds to: each in: aBrick.
 			
-				extent := self extentOf: each in: aBrick.
-				extent := extent x @ (extent y min: maxHeight).
-			
-				each isBrick
-					ifTrue: [ each brickBounds: ((left@top) extent: extent) ]
-					ifFalse: [ each bounds: (((left@top) extent: extent) translateBy: aBrick globalBounds origin) ].
-				
-				newTopOffset + each height + each layoutProperties marginBottom ]
-			ifFalse: [ self layoutFloating: each in: newBounds ]
-		]
+				topOffset + layoutBounds outerBounds height ]
+			ifFalse: [ self layoutFloating: each in: newBounds. topOffset ] ]
 
 	
 ]

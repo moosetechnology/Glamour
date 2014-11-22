@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMBrickHorizontalFillLinearLayout >> extentOf: aBrick in: owner [
-
-	^ (aBrick width) @ (owner height - aBrick layoutProperties marginTop - aBrick layoutProperties marginBottom)
+GLMBrickHorizontalFillLinearLayout >> extentOf: aBrick in: owner withArguments: aHashTable [
+	
+	^ (self originalWidthOf: aBrick)@(owner brickInnerBounds height - aBrick layoutProperties verticalMargin)
 ]

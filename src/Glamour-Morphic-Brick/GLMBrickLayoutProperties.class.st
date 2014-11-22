@@ -74,10 +74,10 @@ Class {
 		'paddingLeft',
 		'horizontalPercent',
 		'verticalPercent',
-		'minWidth',
-		'minHeight',
 		'maxWidthBlock',
 		'maxHeightBlock',
+		'minHeightBlock',
+		'minWidthBlock',
 		'floating'
 	],
 	#category : #'Glamour-Morphic-Brick-Layouts'
@@ -97,6 +97,12 @@ GLMBrickLayoutProperties >> floating: aSymbol [
 GLMBrickLayoutProperties >> horizontalMargin [
 
 	^ self marginLeft + self marginRight
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> horizontalPadding [
+
+	^ self paddingLeft + self paddingRight
 ]
 
 { #category : #accessing }
@@ -121,12 +127,12 @@ GLMBrickLayoutProperties >> initialize [
 	paddingLeft := 0.
 	paddingRight := 0.
 	paddingTop := 0.
-	horizontalPercent := 10.
-	verticalPercent := 10.
-	minWidth := 0.
-	minHeight := 0.
+	horizontalPercent := 25.
+	verticalPercent := 25.
 	maxWidthBlock := [ :aTrick | -1 ]. "negative value means undefined"
 	maxHeightBlock := [ :aTrick | -1 ]. "negative value means undefined"
+	minWidthBlock := [ :aTrick | -1 ]. "negative value means undefined"
+	minHeightBlock := [ :aTrick | -1 ]. "negative value means undefined"
 	floating := #none
 ]
 
@@ -171,6 +177,11 @@ GLMBrickLayoutProperties >> marginTop: anObject [
 ]
 
 { #category : #accessing }
+GLMBrickLayoutProperties >> maxHeight: anObject [
+	maxHeightBlock := [ anObject ]
+]
+
+{ #category : #accessing }
 GLMBrickLayoutProperties >> maxHeightBlock [
 	^ maxHeightBlock
 ]
@@ -178,6 +189,11 @@ GLMBrickLayoutProperties >> maxHeightBlock [
 { #category : #accessing }
 GLMBrickLayoutProperties >> maxHeightBlock: anObject [
 	maxHeightBlock := anObject
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> maxWidth: anObject [
+	maxWidthBlock := [ anObject ]
 ]
 
 { #category : #accessing }
@@ -191,23 +207,33 @@ GLMBrickLayoutProperties >> maxWidthBlock: anObject [
 ]
 
 { #category : #accessing }
-GLMBrickLayoutProperties >> minHeight [
-	^ minHeight
-]
-
-{ #category : #accessing }
 GLMBrickLayoutProperties >> minHeight: anObject [
-	minHeight := anObject
+	minHeightBlock := [ anObject ]
 ]
 
 { #category : #accessing }
-GLMBrickLayoutProperties >> minWidth [
-	^ minWidth
+GLMBrickLayoutProperties >> minHeightBlock [
+	^ minHeightBlock
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> minHeightBlock: anObject [
+	minHeightBlock := anObject
 ]
 
 { #category : #accessing }
 GLMBrickLayoutProperties >> minWidth: anObject [
-	minWidth := anObject
+	minWidthBlock := [ anObject ]
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> minWidthBlock [
+	^ minWidthBlock
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> minWidthBlock: anObject [
+	minWidthBlock := anObject
 ]
 
 { #category : #accessing }
@@ -254,6 +280,12 @@ GLMBrickLayoutProperties >> paddingTop: anObject [
 GLMBrickLayoutProperties >> verticalMargin [
 
 	^ self marginTop + self marginBottom
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> verticalPadding [
+
+	^ self paddingTop + self paddingBottom
 ]
 
 { #category : #accessing }

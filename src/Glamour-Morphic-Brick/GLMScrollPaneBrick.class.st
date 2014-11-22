@@ -132,7 +132,7 @@ GLMScrollPaneBrick >> initialize [
 	currentVelocity := self class defaultScrollVelocity.
 	scrollPosition := 0.
 	
-	band := GLMBandBrick new.
+	band := self newBand.
 	
 	self layoutPolicy: GLMBrickVerticalFillLinearLayout new.
 	super addBrickBack: band.
@@ -164,6 +164,12 @@ GLMScrollPaneBrick >> mouseWheel: event [
 	
 	self verticalScrollbar update.
 	self changed.
+]
+
+{ #category : #'instance creation' }
+GLMScrollPaneBrick >> newBand [
+
+	^ GLMBandBrick new
 ]
 
 { #category : #'instance creation' }

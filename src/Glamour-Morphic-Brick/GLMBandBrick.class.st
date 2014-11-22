@@ -15,7 +15,7 @@ GLMBandBrick >> height [
 	self heightBlock ifNotNil: [ ^ self heightBlock value: self ].
 		
 	height := 0.
-	self subbricks do: [ :each | height := height + each layoutProperties marginTop + each layoutProperties marginBottom + each height ].
+	self subbricks do: [ :each | height := height + each height + each layoutProperties verticalMargin ].
 	^ height
 ]
 
