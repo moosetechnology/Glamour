@@ -58,6 +58,18 @@ GLMRoassal2Presentation >> defaultActions [
 								fileName: fileName fullName;
 								exportToFile. ]  ]
 			entitled: 'Export to PNG'.
+	self 
+		act: [ :roassal | 
+				| fileName |
+				fileName := UITheme builder 
+									fileSave: 'Enter the SVG file name'
+									extensions: #('SVG')
+									path: nil.
+				fileName notNil ifTrue: [ 
+					RTSVGExporter 
+								exportBuilderAsSVG: roassal view view 
+								filename: fileName fullName ]  ]
+			entitled: 'Export to SVG'.
 ]
 
 { #category : #'initialize-release' }
