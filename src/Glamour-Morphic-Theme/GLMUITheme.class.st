@@ -238,7 +238,7 @@ GLMUITheme class >> setPreferredWorldBackground [
 
 { #category : #accessing }
 GLMUITheme class >> themeName [
-	^ 'Glamorous'
+	^ 'Glamorous Gray'
 ]
 
 { #category : #accessing }
