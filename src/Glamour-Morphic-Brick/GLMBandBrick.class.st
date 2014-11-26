@@ -14,7 +14,7 @@ GLMBandBrick >> height [
 	|height|
 	self heightBlock ifNotNil: [ ^ self heightBlock value: self ].
 		
-	height := 0.
+	height := self layoutProperties verticalPadding.
 	self subbricks do: [ :each | height := height + each height + each layoutProperties verticalMargin ].
 	^ height
 ]
