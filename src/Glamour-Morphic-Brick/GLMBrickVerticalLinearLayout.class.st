@@ -17,7 +17,7 @@ GLMBrickVerticalLinearLayout >> layout: aBrick in: newBounds [
 		inject: 0
 		into: [ :topOffset :each |
 						
-			each layoutProperties floating = #none ifTrue: [
+			(self supportsFloating: each layoutProperties floating) ifFalse: [
 				|layoutBounds|
 			
 				layoutBounds := GLMBrickLayoutBounds on: (self boundsOf: each in: aBrick withArguments: arguments) of: each.
@@ -27,5 +27,5 @@ GLMBrickVerticalLinearLayout >> layout: aBrick in: newBounds [
 				self setNewBounds: layoutBounds to: each in: aBrick.
 			
 				topOffset + layoutBounds outerBounds height ]
-			ifFalse: [ topOffset + (self layoutFloating: each in: newBounds withArguments: arguments) ] ]
+			ifTrue: [ topOffset + (self layoutFloating: each in: newBounds withArguments: arguments) ] ]
 ]
