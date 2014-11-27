@@ -140,6 +140,17 @@ GLMScrollPaneBrick >> initialize [
 	self verticalScrollbar: self newVerticalScrollbar
 ]
 
+{ #category : #testing }
+GLMScrollPaneBrick >> isVisible: aBrick [
+	|myBounds testingBounds|
+	"need to normalize bounds to take only y coordinate into account"
+	
+	myBounds := (self globalBounds withWidth: 0) translateBy: (self globalBounds origin negated x@0).
+	testingBounds :=  (aBrick globalBounds withWidth: 0) translateBy: (aBrick globalBounds origin negated x@0).
+	
+	^ myBounds containsRect: testingBounds
+]
+
 { #category : #'mouse events' }
 GLMScrollPaneBrick >> mouseWheel: event [
 	|velocity|
@@ -198,10 +209,8 @@ GLMScrollPaneBrick >> removeBrick: aBrick [
 GLMScrollPaneBrick >> scrollTo: aBrick [
 	|delta|
 	"if already visible no need to scroll"
-
-	"need to normalize bounds to take only y coordinate into account"
-	(((self globalBounds withWidth: 0) translateBy: (self globalBounds origin negated x@0))
-		containsRect: ((aBrick globalBounds withWidth: 0) translateBy: (aBrick globalBounds origin negated x@0))) ifTrue: [ ^ self ].
+		
+	(self isVisible: aBrick) ifTrue: [ ^ self ].
 	
 	delta := ((self globalBounds top - band globalBounds top) - (aBrick globalBounds top - band globalBounds top)).
 	delta < 0 ifTrue: [ delta := delta + self height - aBrick height ].
