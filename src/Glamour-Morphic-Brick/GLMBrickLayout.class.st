@@ -76,26 +76,43 @@ GLMBrickLayout >> extentOf: aBrick in: owner withArguments: aHashTable [
 	^ (self originalWidthOf: aBrick)@(self originalHeightOf: aBrick)
 ]
 
+{ #category : #'as yet unclassified' }
+GLMBrickLayout >> floatingMethodFor: aSymbol [
+
+	^ ('layoutFloating', (aSymbol capitalized), ':in:withArguments:') asSymbol.
+]
+
 { #category : #accessing }
 GLMBrickLayout >> layout: aBrick in: newBounds [
 	self subclassResponsibility
 ]
 
 { #category : #'as yet unclassified' }
-GLMBrickLayout >> layoutFloating: aBrick in: newBounds [
-	|float left top right bottom|
-	float := aBrick layoutProperties floating.
-	float = #none ifTrue: [ ^ self ].
+GLMBrickLayout >> layoutFloating: aBrick in: newBounds withArguments: arguments [
+	"must return an integer that will be added to the offset, if necessary"
 	
-	float = #right ifTrue: [
-		left := aBrick owner width - aBrick width - aBrick layoutProperties marginRight.
-		top := aBrick layoutProperties marginTop.
-		right := aBrick owner width - aBrick layoutProperties marginRight.
-		bottom := aBrick owner height - aBrick layoutProperties marginBottom.
-		
-		aBrick isBrick
-				ifTrue: [ aBrick brickBounds: ((left@top) corner: right@bottom) ]
-				ifFalse: [ aBrick bounds: (((left@top) corner: right@bottom) translateBy: aBrick globalBounds origin) ] ].
+	|float symbol|
+	float := aBrick layoutProperties floating.
+	symbol := self floatingMethodFor: float.
+	
+	^ (self respondsTo: symbol)
+		ifTrue: [ self perform: symbol with: aBrick with: newBounds with: arguments ]
+		ifFalse: [ 0 ]
+]
+
+{ #category : #floating }
+GLMBrickLayout >> layoutFloatingRight: aBrick in: newBounds withArguments: arguments [
+
+	| left top right bottom |
+	
+	left := aBrick owner width - aBrick width - aBrick layoutProperties marginRight.
+	top := aBrick layoutProperties marginTop.
+	right := aBrick owner width - aBrick layoutProperties marginRight.
+	bottom := aBrick owner height - aBrick layoutProperties marginBottom.
+	
+	self setNewBounds: (GLMBrickLayoutBounds on: ((left@top) corner: right@bottom) of: aBrick) to: aBrick in: aBrick owner.
+	
+	^ 0
 ]
 
 { #category : #'as yet unclassified' }
@@ -166,4 +183,10 @@ GLMBrickLayout >> setNewBounds: aLayoutBounds to: aMorph in: aBrick [
 	aMorph isBrick
 				ifTrue: [ aMorph brickBounds: aLayoutBounds bounds ]
 				ifFalse: [ aMorph bounds: (aLayoutBounds bounds translateBy: aBrick globalBounds origin) ].
+]
+
+{ #category : #'as yet unclassified' }
+GLMBrickLayout >> supportsFloating: aSymbol [
+
+	^ self respondsTo: (self floatingMethodFor: aSymbol)
 ]

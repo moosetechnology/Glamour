@@ -207,7 +207,7 @@ GLMScrollPaneBrick >> mouseWheel: event [
 { #category : #'instance creation' }
 GLMScrollPaneBrick >> newBand [
 
-	^ GLMBandBrick new
+	^ GLMScrollPaneBandBrick new
 ]
 
 { #category : #'instance creation' }

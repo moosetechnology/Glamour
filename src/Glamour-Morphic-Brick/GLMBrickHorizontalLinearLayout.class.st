@@ -16,7 +16,7 @@ GLMBrickHorizontalLinearLayout >> layout: aBrick in: newBounds [
 	aBrick subbricks
 		inject: 0
 		into: [ :leftOffset :each |
-			each layoutProperties floating = #none ifTrue: [
+			(self supportsFloating: each layoutProperties floating) ifFalse: [
 				|layoutBounds|
 			
 				layoutBounds := GLMBrickLayoutBounds on: (self boundsOf: each in: aBrick withArguments: arguments) of: each.
@@ -26,7 +26,7 @@ GLMBrickHorizontalLinearLayout >> layout: aBrick in: newBounds [
 				self setNewBounds: layoutBounds to: each in: aBrick.
 			
 				leftOffset + layoutBounds outerBounds width ]
-			ifFalse: [ self layoutFloating: each in: newBounds. leftOffset ] ]
+			ifTrue: [ leftOffset  + ( self layoutFloating: each in: newBounds withArguments: arguments) ] ]
 
 	
 ]
