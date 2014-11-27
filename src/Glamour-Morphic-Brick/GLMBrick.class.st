@@ -331,7 +331,7 @@ GLMBrick >> globalBoundsOfArea: aRectangle [
 GLMBrick >> height [
 
 	^ self heightBlock
-		ifNotNil: [ self heightBlock value: self ]
+		ifNotNil: [ self heightBlock cull: self ]
 		ifNil: [ self privateHeight ]
 ]
 
@@ -472,7 +472,7 @@ GLMBrick >> subbricks [
 GLMBrick >> width [
 
 	^ self widthBlock
-		ifNotNil: [ self widthBlock value: self ]
+		ifNotNil: [ self widthBlock cull: self ]
 		ifNil: [ self privateWidth ]
 ]
 
