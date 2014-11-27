@@ -100,11 +100,11 @@ GLMInteractableBrick class >> pressed: isPressed selected: isSelected checked: i
 	(isPressed & aTrick pressedImage notNil)
 		ifTrue: [ ^ aTrick pressedImage ].
 	
-	(((isPressed & aTrick pressedImage isNil) | isSelected) & aTrick selectedImage notNil)
-		ifTrue: [ ^ aTrick selectedImage ].
-		
 	(isChecked & aTrick checkedImage notNil)
 		ifTrue: [ ^ aTrick checkedImage ].
+		
+	(((isPressed & aTrick pressedImage isNil) | isSelected) & aTrick selectedImage notNil)
+		ifTrue: [ ^ aTrick selectedImage ].
 	
 	^ aTrick normalImage.
 ]
@@ -126,12 +126,13 @@ GLMInteractableBrick class >> pressedColor: isPressed selectedColor: isSelected 
 	"pressed has the highest priority"
 	(isPressed & aTrick pressedColor notNil)
 		ifTrue: [ ^ aTrick pressedColor ].
-	
-	(((isPressed & aTrick pressedColor isNil) | isSelected) & aTrick selectedColor notNil)
-		ifTrue: [ ^ aTrick selectedColor ].
 		
 	(isChecked & aTrick checkedColor notNil)
 		ifTrue: [ ^ aTrick checkedColor ].
+		
+	(((isPressed & aTrick pressedColor isNil) | isSelected) & aTrick selectedColor notNil)
+		ifTrue: [ ^ aTrick selectedColor ].
+
 	
 	^ aTrick normalColor.
 ]
