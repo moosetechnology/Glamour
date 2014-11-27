@@ -104,8 +104,11 @@ GLMBrick >> addBrick: aBrick before: anotherBrick [
 
 { #category : #adding }
 GLMBrick >> addBrickBack: aBrick [
-
-	self privateSubbricks add: aBrick.
+	|link|
+	
+	link := self privateSubbricks add: aBrick.
+	aBrick privateBrickDoubleLink: link.
+	
 	self initializeBrick: aBrick.
 	super addMorphBack: aBrick.
 	^ aBrick
@@ -351,7 +354,7 @@ GLMBrick >> heightBlock: aBlock [
 GLMBrick >> initialize [
 	super initialize.
 	
-	subbricks := OrderedCollection new.
+	subbricks := GLMBrickDoubleLinkedList new.
 	
 	self layoutProperties: GLMBrickLayoutProperties new.
 	self layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new.
@@ -386,6 +389,12 @@ GLMBrick >> isFitsInParent [
 		ifNil: [ self owner ifNotNil: [ self owner bounds containsRect: self globalBounds ] ifNil: [ ^ true ] ]
 ]
 
+{ #category : #'as yet unclassified' }
+GLMBrick >> layoutChanged [
+
+	"empty"
+]
+
 { #category : #drawing }
 GLMBrick >> onDraw: aCanvas [
 
@@ -406,6 +415,11 @@ GLMBrick >> privateFullBounds [
 GLMBrick >> privateHeight [
 
 	^ self brickBounds height
+]
+
+{ #category : #'change reporting' }
+GLMBrick >> privateInvalidateMorph: aMorph [
+	"empty"
 ]
 
 { #category : #private }
@@ -429,6 +443,7 @@ GLMBrick >> relativeBounds [
 GLMBrick >> removeAllBricks [
 
 	self privateSubbricks do: [ :each |
+		each privateBrickDoubleLink: nil.
 		each isBrick ifTrue: [
 			each brickRoot: nil.
 			each brickOwner: nil ] ].
@@ -446,7 +461,8 @@ GLMBrick >> removeBrick: aBrick [
 	].
 	
 	self removeMorph: aBrick.
-	self privateSubbricks remove: aBrick ifAbsent: [ ^ aBrick ].
+	self privateSubbricks removeLink: aBrick privateBrickDoubleLink.
+	aBrick privateBrickDoubleLink: nil.
 	^ aBrick
 ]
 
@@ -466,6 +482,34 @@ GLMBrick >> renderer: aRenderer [
 GLMBrick >> subbricks [
 
 	^ subbricks
+]
+
+{ #category : #accessing }
+GLMBrick >> subbricksCount [
+
+	^ self submorphCount
+]
+
+{ #category : #'submorphs-accessing' }
+GLMBrick >> submorphAfter [
+
+	"Return the submorph after (behind) me, or nil"
+	| link |
+	link := self privateBrickDoubleLink.
+	link ifNil: [ ^ nil ].
+	link nextLink ifNil: [ ^ nil ].
+	^ link nextLink value
+]
+
+{ #category : #'submorphs-accessing' }
+GLMBrick >> submorphBefore [
+
+	"Return the submorph before me, or nil"
+	| link |
+	link := self privateBrickDoubleLink.
+	link ifNil: [ ^ nil ].
+	link previousLink ifNil: [ ^ nil ].
+	^ link previousLink value
 ]
 
 { #category : #geometry }
