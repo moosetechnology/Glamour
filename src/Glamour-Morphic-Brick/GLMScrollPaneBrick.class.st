@@ -151,7 +151,7 @@ GLMScrollPaneBrick >> doLayout [
 	
 	self band brickBounds: (self band brickBounds translateBy: (0@(self scrollPositionTop - self band brickBounds top))).
 	
-	self verticalScrollbar update.
+	self update
 ]
 
 { #category : #'mouse events' }
