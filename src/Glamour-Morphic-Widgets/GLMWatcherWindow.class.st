@@ -45,7 +45,7 @@ GLMWatcherWindow class >> uniqueInstance [
 GLMWatcherWindow >> activeFillStyle [
 	"Return the active fillStyle for the receiver."
 
-	^ Smalltalk ui icons watcherWindowActiveFillStyleFor: self
+	^ self theme watcherWindowActiveFillStyleFor: self
 ]
 
 { #category : #settings }
