@@ -10,7 +10,6 @@ GLMBrickVerticalStackLayout class >> example [
 	|foundationBrick rootBrick brick1 brick2 brick3 brick4 brick5 brick6 generator|	
 	
 	rootBrick := GLMStackedScrollPaneBrick new.
-	rootBrick band layoutPolicy: self new.
 	rootBrick color: Color white.
 	
 	brick1 := GLMLabelBrick new.
@@ -135,7 +134,7 @@ GLMBrickVerticalStackLayout >> layoutStacked: aBrick in: newBounds [
 				brick layoutProperties zIndex: 2.
 				allowedBounds := allowedBounds top: (allowedBounds top + brick brickGlobalOuterBounds height)
 			] ifFalse: [ forward := false. stackedBricks addFirst: brick ]
-		] ifTrue: [ forward := false. brick layoutProperties zIndex: 1. ] ].
+		] ifTrue: [ forward := false. brick layoutProperties zIndex: 1. stackedBricks addFirst: brick ] ].
 
 	"going from bottom to top"
 	[ stackedBricks isEmpty not ] whileTrue: [ |brick|

@@ -1,3 +1,7 @@
+"
+A GLMStackedScrollPaneBrick is a more complicated scrollpane, with scrollbars and stacking mechanism of subbricks that have #stack floating parameter
+
+"
 Class {
 	#name : #GLMStackedScrollPaneBrick,
 	#superclass : #GLMScrollPaneBrick,
@@ -5,6 +9,13 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+GLMStackedScrollPaneBrick >> initialize [
+	super initialize.
+	
+	self band layoutPolicy: GLMBrickVerticalStackLayout new
+]
+
+{ #category : #scrolling }
 GLMStackedScrollPaneBrick >> update [
 	super update.
 	

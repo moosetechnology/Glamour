@@ -1,6 +1,6 @@
 "
-A GLMScrollPaneBrick is a very simple scrollpane, that has no scrollbars.
-For scrolling used acceleration algorithm, so as longer user scroll so faster it becomes.
+A GLMScrollPaneBrick is a very simple scrollpane with support of light scrollbar.
+Acceleration mechanism is used for scrolling, so longer user scrolls faster it becomes.
 
 Instance Variables
 	band:		<Object>
