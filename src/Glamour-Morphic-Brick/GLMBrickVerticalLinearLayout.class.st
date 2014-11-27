@@ -27,6 +27,4 @@ GLMBrickVerticalLinearLayout >> layout: aBrick in: newBounds [
 			
 				topOffset + layoutBounds outerBounds height ]
 			ifFalse: [ self layoutFloating: each in: newBounds. topOffset ] ]
-
-	
 ]

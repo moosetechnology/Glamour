@@ -45,7 +45,48 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+GLMBrick class >> exampleZindex [
+
+	"self exampleZindex"
+
+	|foundationBrick rootBrick brick1 brick2 brick3|
+	
+	rootBrick := GLMBrick new.
+	rootBrick layoutPolicy: GLMBrickNoLayout new.
+
+	rootBrick color: Color blue.
+	
+	brick1 := GLMBrick new.
+	brick1 color: Color red.
+	brick1 brickBounds: (0@0 extent: 300@200).
+	brick1 layoutProperties zIndex: 1.
+	
+	brick2 := GLMBrick new.
+	brick2 color: Color green.
+	brick2 brickBounds: (50@50 extent: 200@100).
+	brick2 layoutProperties zIndex: 2.
+	
+	brick3 := GLMBrick new.
+	brick3 color: Color yellow.
+	brick3 brickBounds: (100@100 extent: 100@100).
+	brick3 layoutProperties zIndex: 3.
+	
+	rootBrick
+		addBrickBack: brick3;
+		addBrickBack: brick2;
+		addBrickBack: brick1.
+		
+	foundationBrick := GLMFoundationBrick new.
+	foundationBrick brickRoot: rootBrick.
+	foundationBrick openInWindow.
+	foundationBrick color: Color pink.
+]
+
+{ #category : #'as yet unclassified' }
 GLMBrick class >> morphInsideBrickExample [
+
+	"self morphInsideBrickExample"
+
 	|foundation brick morph|
 	
 	foundation := GLMFoundationBrick new.
@@ -267,9 +308,9 @@ GLMBrick >> drawOn: aCanvas [
 
 { #category : #drawing }
 GLMBrick >> drawSubmorphsOn: aCanvas [
-	|  area |
+	| area zIndexedBricks |
 	
-	submorphs isEmpty ifTrue: [ ^ self ].
+	self submorphs isEmpty ifTrue: [ ^ self ].
 
 	"make sure my children will not go away of my inner bounds (we take care about paddings)"
 	area := aCanvas clipRect intersect: self brickGlobalInnerBounds ifNone: (0 @ 0 extent: 0 @ 0).
@@ -278,16 +319,40 @@ GLMBrick >> drawSubmorphsOn: aCanvas [
 			"draw nothing"
 			^ self ].
 	
-	subbricks
+	zIndexedBricks := OrderedCollection new.
+	
+	self subbricks
 		do: [ :each | 
 			| intersection canvas globalBounds |
 			globalBounds := each isBrick
 				ifTrue: [ each globalBounds ]
 				ifFalse: [ each fullBounds ].
-			
+				
+			(area intersects: globalBounds) ifTrue: [
+				| zIndex |
+				zIndex := each layoutProperties zIndex.
+				zIndex = 1 ifTrue: [
+					"immediately draw ones with the lowest possible z-index.
+					With this approach performance doesn't degrade"
+					intersection := area intersect: globalBounds ifNone: (0 @ 0 extent: 0 @ 0).
+					canvas := aCanvas copyClipRect: intersection.
+					each fullDrawOn: canvas ]
+					"if z-index is not 1 we add it to collection, in order to sort and draw as second attempt"
+				ifFalse: [ zIndexedBricks add: each ] ] ].
+		
+		"z-index drawing section"
+		zIndexedBricks sort: [ :first :second | first layoutProperties zIndex < second layoutProperties zIndex ].
+		
+		zIndexedBricks do: [ :each |
+			| intersection canvas globalBounds |
+			globalBounds := each isBrick
+				ifTrue: [ each globalBounds ]
+				ifFalse: [ each fullBounds ].
+				
 			intersection := area intersect: globalBounds ifNone: (0 @ 0 extent: 0 @ 0).
 			canvas := aCanvas copyClipRect: intersection.
 			each fullDrawOn: canvas ]
+		
 ]
 
 { #category : #drawing }
@@ -389,7 +454,7 @@ GLMBrick >> isFitsInParent [
 		ifNil: [ self owner ifNotNil: [ self owner bounds containsRect: self globalBounds ] ifNil: [ ^ true ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #geometry }
 GLMBrick >> layoutChanged [
 
 	"empty"

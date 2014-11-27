@@ -78,7 +78,8 @@ Class {
 		'maxHeightBlock',
 		'minHeightBlock',
 		'minWidthBlock',
-		'floating'
+		'floating',
+		'zIndex'
 	],
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
@@ -129,6 +130,7 @@ GLMBrickLayoutProperties >> initialize [
 	paddingTop := 0.
 	horizontalPercent := 25.
 	verticalPercent := 25.
+	zIndex := 1. "the lowest one"
 	maxWidthBlock := [ :aTrick | -1 ]. "negative value means undefined"
 	maxHeightBlock := [ :aTrick | -1 ]. "negative value means undefined"
 	minWidthBlock := [ :aTrick | -1 ]. "negative value means undefined"
@@ -296,4 +298,14 @@ GLMBrickLayoutProperties >> verticalPercent [
 { #category : #accessing }
 GLMBrickLayoutProperties >> verticalPercent: anObject [
 	verticalPercent := anObject
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> zIndex [
+	^ zIndex
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> zIndex: anObject [
+	zIndex := anObject
 ]

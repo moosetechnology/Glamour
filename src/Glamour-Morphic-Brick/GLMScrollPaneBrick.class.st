@@ -85,13 +85,13 @@ GLMScrollPaneBrick class >> exampleLarge [
 	foundation := GLMFoundationBrick new.
 	foundation brickRoot: scrollPane.
 	
-	1 to: 20000 do: [ :index |
+	1 to: 10000 do: [ :index |
 		scrollPane addBrickBack: (GLMBrick new
 			color: Color random;
 			extent: 200@50).
 	].
 	
-	foundation extent: 200@200.
+	foundation extent: 400@300.
 	
 	foundation openInWindow
 ]
@@ -149,7 +149,7 @@ GLMScrollPaneBrick >> defaultScrollbarWidth [
 GLMScrollPaneBrick >> doLayout [
 	super doLayout.
 	
-	band brickBounds: (band brickBounds translateBy: (0@(scrollPosition - band brickBounds top))).
+	self band brickBounds: (self band brickBounds translateBy: (0@(self scrollPositionTop - self band brickBounds top))).
 	
 	self verticalScrollbar update.
 ]
@@ -196,12 +196,11 @@ GLMScrollPaneBrick >> mouseWheel: event [
 		ifTrue: [ self scrollUp: velocity ].
 		
 	event direction = #down
-		ifTrue: [ self scrollDown: -1 * velocity ].
+		ifTrue: [ self scrollDown: velocity ].
 	
 	scrollPosition := band brickBounds top.
 	
-	self verticalScrollbar update.
-	
+	self update.
 	self changed
 ]
 
@@ -237,8 +236,20 @@ GLMScrollPaneBrick >> removeBrick: aBrick [
 GLMScrollPaneBrick >> scrollDown: anInteger [
 
 	band brickBounds corner y <= self height ifTrue: [ ^ self ].
-	band brickBounds: (band brickBounds translateBy: (0@ anInteger)).
+	band brickBounds: (band brickBounds translateBy: (0@ anInteger) negated).
 	band brickBounds corner y < self height ifTrue: [ band brickBounds: (band brickBounds translateBy: (0@ (self height - band brickBounds corner y))) ]
+]
+
+{ #category : #accessing }
+GLMScrollPaneBrick >> scrollPositionBottom [
+
+	^ self scrollPositionTop + self brickInnerBounds height
+]
+
+{ #category : #accessing }
+GLMScrollPaneBrick >> scrollPositionTop [
+
+	^ scrollPosition ifNil: [ scrollPosition := 0 ]
 ]
 
 { #category : #scrolling }
@@ -270,6 +281,12 @@ GLMScrollPaneBrick >> scrollUp: anInteger [
 	band brickBounds: (band brickBounds translateBy: (0@ anInteger)).
 	"returning scrollpane back if went away"
 	band brickBounds origin y > 0 ifTrue: [ band brickBounds: (band brickBounds translateBy: (0@ band brickBounds origin y) negated) ]
+]
+
+{ #category : #scrolling }
+GLMScrollPaneBrick >> update [
+
+	self verticalScrollbar update
 ]
 
 { #category : #accessing }

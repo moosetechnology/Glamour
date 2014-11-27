@@ -61,8 +61,6 @@ GLMBrickLayout class >> example [
 	foundationBrick brickRoot: rootBrick.
 	foundationBrick openInWindow.
 	foundationBrick color: Color pink.
-		
-	
 
 ]
 
