@@ -51,7 +51,7 @@ GLMBrickVerticalLinedStackLayout >> layoutStacked: aBrick in: newBounds [
 	[ stackedBricks isEmpty not & forward] whileTrue: [ |brick|
 		brick := stackedBricks removeFirst value.
 		(self isVisible: brick in: allowedBounds) ifFalse: [
-			(self isAbove: brick in: allowedBounds ) ifTrue: [ |delta|
+			(self isAbove: brick in: allowedBounds) ifTrue: [ |delta|
 				delta := allowedBounds origin y - brick brickGlobalOuterBounds origin y - stackedTopHeight.
 				brick brickBounds: (brick brickBounds translateBy: (0@delta)).
 				brick layoutProperties zIndex: 2.
@@ -61,12 +61,12 @@ GLMBrickVerticalLinedStackLayout >> layoutStacked: aBrick in: newBounds [
 				stackedTopBricks add: brick.
 			] ifFalse: [ forward := false. stackedBricks addFirst: brick ]
 		] ifTrue: [
-			(self isFullyVisible: brick in: allowedBounds ) ifFalse: [ |delta|
+			((self isFullyVisible: brick in: allowedBounds) not &(self isAbove: brick in: allowedBounds)) ifTrue: [ |delta|
 				delta := allowedBounds origin y - brick brickGlobalOuterBounds origin y.
 				brick brickBounds: (brick brickBounds translateBy: (0@delta)).
 				brick layoutProperties zIndex: 2.
-				allowedBounds := allowedBounds top: (allowedBounds top + brick brickGlobalOuterBounds height)
-			] ifTrue: [ forward := false.	brick layoutProperties zIndex: 1.	stackedBricks addFirst: brick ] ] ].
+				allowedBounds := allowedBounds top: (allowedBounds top + brick brickGlobalOuterBounds height).
+			] ifFalse: [ forward := false.	brick layoutProperties zIndex: 1.	stackedBricks addFirst: brick ] ] ].
 
 	"going from bottom to top"
 	[ stackedBricks isEmpty not ] whileTrue: [ |brick|
@@ -85,7 +85,7 @@ GLMBrickVerticalLinedStackLayout >> layoutStacked: aBrick in: newBounds [
 				brick brickBounds: (brick brickBounds translateBy: (0@delta) negated).
 				brick layoutProperties zIndex: 2.
 				allowedBounds := allowedBounds bottom: (allowedBounds bottom - brick brickGlobalOuterBounds height)
-			] ifTrue: [ brick layoutProperties zIndex: 1 ] ] ].
+			] ifTrue: [ 	brick layoutProperties zIndex: 1 ] ] ].
 
 	self layoutProportional: stackedTopBricks in: aBrick.
 	self layoutProportional: stackedBottomBricks reverse in: aBrick
