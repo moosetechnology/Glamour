@@ -22,7 +22,7 @@ GLMBrickVerticalLinedStackLayout >> layoutProportional: aCollection in: aBrick [
 	aCollection isEmpty ifTrue: [ ^ self ].
 	
 	fullWidth := aBrick brickInnerBounds width.
-	eachWidth := fullWidth / aCollection size.
+	eachWidth := (fullWidth / aCollection size) floor.
 	
 	aCollection inject: aBrick layoutProperties paddingLeft into: [ :leftOffset :each |
 		|layoutBounds|
