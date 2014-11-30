@@ -269,6 +269,8 @@ GLMScrollPaneBrick >> scrollTo: aBrick [
 	delta < 0 ifTrue: [ delta := delta + self allowedBounds height - aBrick height ].
 		
 	band brickBounds: (band brickBounds translateBy: (0@ delta)).
+	band brickBounds corner y < self height
+		ifTrue: [ band brickBounds: (band brickBounds translateBy: (0@ (self height - band brickBounds corner y))) ].
 	
 	scrollPosition := band brickBounds top.
 	
