@@ -5,10 +5,25 @@ A GLMStackedScrollPaneBrick is a more complicated scrollpane, with scrollbars an
 Class {
 	#name : #GLMStackedScrollPaneBrick,
 	#superclass : #GLMScrollPaneBrick,
+	#instVars : [
+		'allowedBounds'
+	],
 	#category : #'Glamour-Morphic-Brick-UI'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+GLMStackedScrollPaneBrick >> allowedBounds [
+
+	^ allowedBounds ifNil: [ allowedBounds := self globalBounds ]
+]
+
+{ #category : #accessing }
+GLMStackedScrollPaneBrick >> allowedBounds: aRectangle [
+
+	allowedBounds := aRectangle
+]
+
+{ #category : #initialization }
 GLMStackedScrollPaneBrick >> initialize [
 	super initialize.
 	
@@ -20,5 +35,5 @@ GLMStackedScrollPaneBrick >> update [
 	super update.
 	
 	"we need to update band's layout to support stacking"
-	self band layoutChildren.
+	self allowedBounds: self band layoutChildren.
 ]

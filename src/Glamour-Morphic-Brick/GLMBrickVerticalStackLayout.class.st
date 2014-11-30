@@ -114,7 +114,7 @@ GLMBrickVerticalStackLayout >> isVisible: aBrick in: aRectangle [
 GLMBrickVerticalStackLayout >> layout: aBrick in: newBounds [
 	
 	super layout: aBrick in: newBounds.
-	self layoutStacked: aBrick in: newBounds
+	^ self layoutStacked: aBrick in: newBounds
 ]
 
 { #category : #'as yet unclassified' }
@@ -146,4 +146,6 @@ GLMBrickVerticalStackLayout >> layoutStacked: aBrick in: newBounds [
 			brick layoutProperties zIndex: 2.
 			allowedBounds := allowedBounds bottom: (allowedBounds bottom - brick brickGlobalOuterBounds height)
 		] ifTrue: [ brick layoutProperties zIndex: 1 ] ].
+
+	^ allowedBounds
 ]

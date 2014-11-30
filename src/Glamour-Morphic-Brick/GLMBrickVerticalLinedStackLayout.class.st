@@ -30,6 +30,7 @@ GLMBrickVerticalLinedStackLayout >> layoutProportional: aCollection in: aBrick [
 		layoutBounds makeOuterBoundsFitWidth: (eachWidth min: (fullWidth - leftOffset)).
 		layoutBounds translateBy: (leftOffset@0).
 		self setNewBounds: layoutBounds to: each in: aBrick.
+		each doLayout.
 		leftOffset + layoutBounds outerBounds width ]
 	
 ]
@@ -87,6 +88,8 @@ GLMBrickVerticalLinedStackLayout >> layoutStacked: aBrick in: newBounds [
 				allowedBounds := allowedBounds bottom: (allowedBounds bottom - brick brickGlobalOuterBounds height)
 			] ifTrue: [ 	brick layoutProperties zIndex: 1 ] ] ].
 
-	self layoutProportional: stackedTopBricks in: aBrick.
-	self layoutProportional: stackedBottomBricks reverse in: aBrick
+	self layoutProportional: stackedTopBricks reverse in: aBrick.
+	self layoutProportional: stackedBottomBricks reverse in: aBrick.
+	
+	^ allowedBounds
 ]

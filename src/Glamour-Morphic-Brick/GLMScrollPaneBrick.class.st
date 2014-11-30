@@ -107,6 +107,12 @@ GLMScrollPaneBrick >> addBrickBack: aBrick [
 ]
 
 { #category : #accessing }
+GLMScrollPaneBrick >> allowedBounds [
+
+	^ self globalBounds
+]
+
+{ #category : #accessing }
 GLMScrollPaneBrick >> band [
 
 	^ band
@@ -180,7 +186,7 @@ GLMScrollPaneBrick >> isVisible: aBrick [
 	|myBounds testingBounds|
 	"need to normalize bounds to take only y coordinate into account"
 	
-	myBounds := (self globalBounds withWidth: 0) translateBy: (self globalBounds origin negated x@0).
+	myBounds := (self allowedBounds withWidth: 0) translateBy: (self allowedBounds origin negated x@0).
 	testingBounds :=  (aBrick globalBounds withWidth: 0) translateBy: (aBrick globalBounds origin negated x@0).
 	
 	^ myBounds containsRect: testingBounds
@@ -259,8 +265,8 @@ GLMScrollPaneBrick >> scrollTo: aBrick [
 		
 	(self isVisible: aBrick) ifTrue: [ ^ self ].
 	
-	delta := ((self globalBounds top - band globalBounds top) - (aBrick globalBounds top - band globalBounds top)).
-	delta < 0 ifTrue: [ delta := delta + self height - aBrick height ].
+	delta := ((self allowedBounds top - band globalBounds top) - (aBrick globalBounds top - band globalBounds top)).
+	delta < 0 ifTrue: [ delta := delta + self allowedBounds height - aBrick height ].
 		
 	band brickBounds: (band brickBounds translateBy: (0@ delta)).
 	

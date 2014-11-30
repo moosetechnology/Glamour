@@ -44,5 +44,5 @@ GLMBandBrick >> layoutChildren [
 	mOwner := self owner ifNil: [ self ] ifNotNil: [ self owner ].
 	mBounds := mOwner isBrick ifTrue: [ mOwner brickGlobalInnerBounds ] ifFalse: [ mOwner globalBounds ].
 	
-	self layoutPolicy layout: self in: mBounds.
+	^ self layoutPolicy layout: self in: mBounds.
 ]
