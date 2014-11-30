@@ -20,5 +20,5 @@ GLMStackedScrollPaneBrick >> update [
 	super update.
 	
 	"we need to update band's layout to support stacking"
-	self band doLayout.
+	self band layoutChildren.
 ]

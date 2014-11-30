@@ -266,7 +266,7 @@ GLMScrollPaneBrick >> scrollTo: aBrick [
 	
 	scrollPosition := band brickBounds top.
 	
-	self verticalScrollbar update.
+	self update.
 	self changed.
 	
 	

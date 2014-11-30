@@ -11,16 +11,10 @@ Class {
 
 { #category : #'as yet unclassified' }
 GLMBandBrick >> doLayout [
-	|mBounds mOwner|
-	"most of the time you don't want to call this method manually"
-	"nice example to check is GLMLabelBrick>>doLayout"
 	
-	mOwner := self owner ifNil: [ self ] ifNotNil: [ self owner ].
-	mBounds := mOwner isBrick ifTrue: [ mOwner brickGlobalInnerBounds ] ifFalse: [ mOwner globalBounds ].
-	
-	self layoutPolicy layout: self in: mBounds.
+	self layoutChildren.
 
-	subbricks do: [ :each | each isBrick ifTrue: [ each doLayout ] ]
+	self subbricks do: [ :each | each isBrick ifTrue: [ each doLayout ] ]
 ]
 
 { #category : #geometry }
@@ -38,4 +32,17 @@ GLMBandBrick >> initialize [
 	super initialize.
 	
 	self layoutPolicy: GLMBrickVerticalFillLinearLayout new.
+]
+
+{ #category : #'as yet unclassified' }
+GLMBandBrick >> layoutChildren [
+
+	|mBounds mOwner|
+	"most of the time you don't want to call this method manually"
+	"nice example to check is GLMLabelBrick>>doLayout"
+	
+	mOwner := self owner ifNil: [ self ] ifNotNil: [ self owner ].
+	mBounds := mOwner isBrick ifTrue: [ mOwner brickGlobalInnerBounds ] ifFalse: [ mOwner globalBounds ].
+	
+	self layoutPolicy layout: self in: mBounds.
 ]
