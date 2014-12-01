@@ -150,7 +150,9 @@ GLMStringBrick >> isFitsInParent [
 
 { #category : #drawing }
 GLMStringBrick >> onDraw: aCanvas [
+
 	super onDraw: aCanvas.
+	
 	aCanvas
 		drawString: self text
 		at: self calculateTextPosition
