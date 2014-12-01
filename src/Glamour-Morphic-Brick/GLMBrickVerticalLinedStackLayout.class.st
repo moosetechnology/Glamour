@@ -46,9 +46,9 @@ GLMBrickVerticalLinedStackLayout >> layoutProportional: aCollection in: aBrick p
 
 { #category : #layouting }
 GLMBrickVerticalLinedStackLayout >> layoutStacked: aBrick in: newBounds [
-	| origStackedBricks stackedBricks allowedBounds forward stackedTopBricks stackedBottomBricks stackedTopHeight stackedBottomHeight|
+	| origStackedBricks stackedBricks forward stackedTopBricks stackedBottomBricks stackedTopHeight stackedBottomHeight|
 
-	allowedBounds := newBounds.
+	self allowedBounds: newBounds.
 	stackedBricks := self gatherStacked: aBrick.
 	origStackedBricks := DoubleLinkedList new.
 	origStackedBricks addAll: stackedBricks.
@@ -62,22 +62,23 @@ GLMBrickVerticalLinedStackLayout >> layoutStacked: aBrick in: newBounds [
 	"going from top to bottom"
 	[ stackedBricks isEmpty not & forward] whileTrue: [ |brick|
 		brick := stackedBricks removeFirst value.
-		(self isVisible: brick in: allowedBounds) ifFalse: [
-			(self isAbove: brick in: allowedBounds) ifTrue: [ |delta|
-				delta := allowedBounds origin y - brick brickGlobalOuterBounds origin y - stackedTopHeight.
+		(self isVisible: brick) ifFalse: [
+			(self isAbove: brick) ifTrue: [ |delta|
+				delta := (self deltaTop: brick) - stackedTopHeight.
 				self translate: brick by: delta.
-				brick layoutProperties zIndex: 2.
+				self increaseZindex: brick.
 				stackedTopBricks isEmpty ifTrue: [
 					stackedTopHeight := stackedTopHeight + brick brickGlobalOuterBounds height.
-					allowedBounds := allowedBounds top: (allowedBounds top + brick brickGlobalOuterBounds height) ].
+					self cutAllowedBoundsTop: brick ].
 				stackedTopBricks add: brick.
 			] ifFalse: [ forward := false. stackedBricks addFirst: brick ]
 		] ifTrue: [
-			((self isFullyVisible: brick in: allowedBounds) not & (self isAbove: brick in: allowedBounds)) ifTrue: [ |delta|
-				delta := allowedBounds origin y - brick brickGlobalOuterBounds origin y.
+			((self isFullyVisible: brick in: allowedBounds) not & (self isAbove: brick)) ifTrue: [ |delta|
+				delta := self deltaTop: brick.
 				self translate: brick by: delta.
-				brick layoutProperties zIndex: 2.
-				allowedBounds := allowedBounds top: (allowedBounds top + brick brickGlobalOuterBounds height).
+				self increaseZindex: brick.
+				self cutAllowedBoundsTop: brick.
+				
 			] ifFalse: [ forward := false.	brick layoutProperties zIndex: 1.	stackedBricks addFirst: brick ] ] ].
 
 	"going from bottom to top"

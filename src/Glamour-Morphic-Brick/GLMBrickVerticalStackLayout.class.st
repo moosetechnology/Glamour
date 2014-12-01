@@ -179,6 +179,24 @@ GLMBrickVerticalStackLayout >> layout: aBrick in: newBounds [
 ]
 
 { #category : #layouting }
+GLMBrickVerticalStackLayout >> layoutAllowedBottom: aBrick [
+
+	self
+		translate: aBrick by: (self deltaBottom: aBrick) negated;
+		increaseZindex: aBrick;
+		cutAllowedBoundsBottom: aBrick
+]
+
+{ #category : #layouting }
+GLMBrickVerticalStackLayout >> layoutAllowedTop: aBrick [
+
+	self
+		translate: aBrick by: (self deltaTop: aBrick);
+		increaseZindex: aBrick;
+		cutAllowedBoundsTop: aBrick
+]
+
+{ #category : #layouting }
 GLMBrickVerticalStackLayout >> layoutStacked: aBrick in: newBounds [
 	| stackedBricks forward|
 
@@ -190,26 +208,17 @@ GLMBrickVerticalStackLayout >> layoutStacked: aBrick in: newBounds [
 	[ stackedBricks isEmpty not & forward] whileTrue: [ |brick|
 		brick := stackedBricks first value.
 		(self isVisible: brick) ifFalse: [
-			(self isAbove: brick) ifTrue: [ |delta|
-				delta := self deltaTop: brick.
-				self
-					translate: brick by: delta;
-					increaseZindex: brick;
-					cutAllowedBoundsTop: brick.
+			(self isAbove: brick) ifTrue: [
+				self layoutAllowedTop: brick.
 				stackedBricks removeFirst.
 			] ifFalse: [ forward := false ]
 		] ifTrue: [ forward := false. self decreaseZindex: brick ] ].
 
 	"going from bottom to top"
-	[ stackedBricks isEmpty not ] whileTrue: [ |brick|
-		brick := stackedBricks removeLast value.
-		(self isVisible: brick) ifFalse: [ |delta|
-			delta := self deltaBottom: brick.
-			self
-				translate: brick by: delta negated;
-				increaseZindex: brick;
-				cutAllowedBoundsBottom: brick.
-		] ifTrue: [ self decreaseZindex: brick ] ].
+	stackedBricks reverseDo: [ :brick |
+		(self isVisible: brick)
+			ifFalse: [ self layoutAllowedBottom: brick ]
+			ifTrue: [ self decreaseZindex: brick ] ].
 
 	^ allowedBounds
 ]
