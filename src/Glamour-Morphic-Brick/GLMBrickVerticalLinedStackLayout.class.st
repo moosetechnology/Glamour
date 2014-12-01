@@ -40,7 +40,8 @@ GLMBrickVerticalLinedStackLayout >> layoutStacked: aBrick in: newBounds [
 
 	allowedBounds := newBounds.
 	stackedBricks := self gatherStacked: aBrick.
-	origStackedBricks := stackedBricks copy.
+	origStackedBricks := DoubleLinkedList new.
+	origStackedBricks addAll: stackedBricks.
 	forward := true.
 	
 	stackedTopHeight := 0.
