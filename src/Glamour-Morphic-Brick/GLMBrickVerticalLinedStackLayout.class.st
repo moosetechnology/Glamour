@@ -18,20 +18,31 @@ GLMBrickVerticalLinedStackLayout >> isVisible: aBrick in: aRectangle [
 
 { #category : #'as yet unclassified' }
 GLMBrickVerticalLinedStackLayout >> layoutProportional: aCollection in: aBrick [
-	| fullWidth eachWidth |
+	| fullWidth eachWidth isFirst |
 	aCollection isEmpty ifTrue: [ ^ self ].
 	
 	fullWidth := aBrick brickInnerBounds width.
+	
+	isFirst := true.
 	eachWidth := (fullWidth / aCollection size) floor.
 	
 	aCollection inject: aBrick layoutProperties paddingLeft into: [ :leftOffset :each |
 		|layoutBounds|
+				
 		layoutBounds := GLMBrickLayoutBounds on: each brickBounds of: each.
-		layoutBounds makeOuterBoundsFitWidth: (eachWidth min: (fullWidth - leftOffset)).
+		isFirst
+			ifTrue: [
+				layoutBounds makeOuterBoundsFitWidth: (((self maxWidthOf: each) max: eachWidth) min: (fullWidth - leftOffset)).
+				aCollection size > 1 ifTrue: [ eachWidth := ((fullWidth - layoutBounds outerBounds width) / (aCollection size - 1)) floor ] ]
+			ifFalse: [
+				layoutBounds makeOuterBoundsFitWidth: (eachWidth min: (fullWidth - leftOffset))
+			].
+		
+		
 		layoutBounds translateBy: (leftOffset@0).
 		self setNewBounds: layoutBounds to: each in: aBrick.
+		isFirst := false.
 		leftOffset + layoutBounds outerBounds width ]
-	
 ]
 
 { #category : #'as yet unclassified' }
