@@ -18,29 +18,29 @@ GLMBrickVerticalLinedStackLayout >> isVisible: aBrick in: aRectangle [
 
 { #category : #'as yet unclassified' }
 GLMBrickVerticalLinedStackLayout >> layoutProportional: aCollection in: aBrick [
-	| fullWidth eachWidth isFirst |
+	| fullWidth eachWidth isFirst index |
 	aCollection isEmpty ifTrue: [ ^ self ].
 	
 	fullWidth := aBrick brickInnerBounds width.
-	
 	isFirst := true.
-	eachWidth := (fullWidth / aCollection size) floor.
+	index := 0.
 	
 	aCollection inject: aBrick layoutProperties paddingLeft into: [ :leftOffset :each |
 		|layoutBounds|
 				
+		eachWidth := ((fullWidth - leftOffset) / (aCollection size - index)) ceiling.
+		
 		layoutBounds := GLMBrickLayoutBounds on: each brickBounds of: each.
 		isFirst
-			ifTrue: [
-				layoutBounds makeOuterBoundsFitWidth: (((self maxWidthOf: each) max: eachWidth) min: (fullWidth - leftOffset)).
-				aCollection size > 1 ifTrue: [ eachWidth := ((fullWidth - layoutBounds outerBounds width) / (aCollection size - 1)) floor ] ]
-			ifFalse: [
-				layoutBounds makeOuterBoundsFitWidth: (eachWidth min: (fullWidth - leftOffset))
-			].
-		
+			ifTrue: [ 	layoutBounds makeOuterBoundsFitWidth: (((self maxWidthOf: each) max: eachWidth) min: (fullWidth - leftOffset)) ]
+			ifFalse: [				
+				(index = (aCollection size - 1))
+					ifFalse: [ layoutBounds makeOuterBoundsFitWidth: (eachWidth min: (self maxWidthOf: each)) ]
+					ifTrue: [ layoutBounds makeOuterBoundsFitWidth: eachWidth ] ].
 		
 		layoutBounds translateBy: (leftOffset@0).
 		self setNewBounds: layoutBounds to: each in: aBrick.
+		index := index + 1.
 		isFirst := false.
 		leftOffset + layoutBounds outerBounds width ]
 ]
