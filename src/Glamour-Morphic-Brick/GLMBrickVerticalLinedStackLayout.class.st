@@ -5,9 +5,21 @@ Class {
 }
 
 { #category : #testing }
+GLMBrickVerticalLinedStackLayout >> isFullyVisible: aBrick [
+	
+	^ self allowedBounds containsRect: aBrick brickGlobalOuterBounds
+]
+
+{ #category : #testing }
 GLMBrickVerticalLinedStackLayout >> isFullyVisible: aBrick in: aRectangle [
 	
 	^ aRectangle containsRect: aBrick brickGlobalOuterBounds
+]
+
+{ #category : #testing }
+GLMBrickVerticalLinedStackLayout >> isPartiallyVisibleAbove: aBrick [
+
+	^ (self isFullyVisible: aBrick) not & (self isAbove: aBrick)
 ]
 
 { #category : #testing }
@@ -73,32 +85,25 @@ GLMBrickVerticalLinedStackLayout >> layoutStacked: aBrick in: newBounds [
 				stackedTopBricks add: brick.
 			] ifFalse: [ forward := false. stackedBricks addFirst: brick ]
 		] ifTrue: [
-			((self isFullyVisible: brick in: allowedBounds) not & (self isAbove: brick)) ifTrue: [ |delta|
-				delta := self deltaTop: brick.
-				self translate: brick by: delta.
-				self increaseZindex: brick.
-				self cutAllowedBoundsTop: brick.
-				
-			] ifFalse: [ forward := false.	brick layoutProperties zIndex: 1.	stackedBricks addFirst: brick ] ] ].
+			(self isPartiallyVisibleAbove: brick)
+				ifTrue: [ self layoutAllowedTop: brick ]
+				ifFalse: [ forward := false. self decreaseZindex: brick.	stackedBricks addFirst: brick ] ] ].
 
 	"going from bottom to top"
 	[ stackedBricks isEmpty not ] whileTrue: [ |brick|
 		brick := stackedBricks removeLast value.
-		(self isVisible: brick in: allowedBounds) ifFalse: [ |delta|
-			delta := brick brickGlobalOuterBounds corner y -  allowedBounds corner y - stackedBottomHeight.
+		(self isVisible: brick) ifFalse: [ |delta|
+			delta := (self deltaBottom: brick) - stackedBottomHeight.
 			self translate: brick by: delta negated.
-			brick layoutProperties zIndex: 2.
+			self increaseZindex: brick.
 			stackedBottomBricks isEmpty ifTrue: [
 				stackedBottomHeight := stackedBottomHeight + brick brickGlobalOuterBounds height.
-				allowedBounds := allowedBounds bottom: (allowedBounds bottom - brick brickGlobalOuterBounds height) ].
+				self cutAllowedBoundsBottom: brick ].
 			stackedBottomBricks add: brick.
 		] ifTrue: [
-			(self isFullyVisible: brick in: allowedBounds ) ifFalse: [ |delta|
-				delta := brick brickGlobalOuterBounds corner y -  allowedBounds corner y.
-				self translate: brick by: delta negated.
-				brick layoutProperties zIndex: 2.
-				allowedBounds := allowedBounds bottom: (allowedBounds bottom - brick brickGlobalOuterBounds height)
-			] ifTrue: [ 	brick layoutProperties zIndex: 1 ] ] ].
+			(self isFullyVisible: brick )
+				ifFalse: [ self layoutAllowedBottom: brick ]
+				ifTrue: [ self decreaseZindex: brick ] ] ].
 
 	self layoutProportional: stackedTopBricks reverse in: aBrick position: #top.
 	self layoutProportional: stackedBottomBricks reverse in: aBrick position: #bottom.
