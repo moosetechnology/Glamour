@@ -16,7 +16,8 @@ GLMBrickVerticalLinearLayout >> layout: aBrick in: newBounds [
 	aBrick subbricks
 		inject: 0
 		into: [ :topOffset :each |
-						
+			self prepareLayout: each.
+			
 			(self supportsFloating: each layoutProperties floating) ifFalse: [
 				|layoutBounds|
 			
@@ -28,4 +29,10 @@ GLMBrickVerticalLinearLayout >> layout: aBrick in: newBounds [
 			
 				topOffset + layoutBounds outerBounds height ]
 			ifTrue: [ topOffset + (self layoutFloating: each in: newBounds withArguments: arguments) ] ]
+]
+
+{ #category : #'as yet unclassified' }
+GLMBrickVerticalLinearLayout >> translate: aBrick by: anInteger [
+
+	aBrick brickBounds: (aBrick brickBounds translateBy: 0@anInteger)
 ]

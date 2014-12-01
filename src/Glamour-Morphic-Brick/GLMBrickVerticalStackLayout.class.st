@@ -1,12 +1,15 @@
 Class {
 	#name : #GLMBrickVerticalStackLayout,
 	#superclass : #GLMBrickVerticalFillLinearLayout,
+	#instVars : [
+		'allowedBounds'
+	],
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
 { #category : #'as yet unclassified' }
 GLMBrickVerticalStackLayout class >> example [
-
+	"self example"
 	|foundationBrick rootBrick brick1 brick2 brick3 brick4 brick5 brick6 generator|	
 	
 	rootBrick := GLMStackedScrollPaneBrick new.
@@ -89,6 +92,46 @@ GLMBrickVerticalStackLayout class >> example [
 
 ]
 
+{ #category : #accessing }
+GLMBrickVerticalStackLayout >> allowedBounds [
+	^ allowedBounds
+]
+
+{ #category : #accessing }
+GLMBrickVerticalStackLayout >> allowedBounds: anObject [
+	allowedBounds := anObject
+]
+
+{ #category : #'as yet unclassified' }
+GLMBrickVerticalStackLayout >> cutAllowedBoundsBottom: aBrick [
+
+	self allowedBounds: (self shrinkBottom: self allowedBounds with: aBrick )
+]
+
+{ #category : #'as yet unclassified' }
+GLMBrickVerticalStackLayout >> cutAllowedBoundsTop: aBrick [
+
+	self allowedBounds: (self shrinkTop: self allowedBounds with: aBrick )
+]
+
+{ #category : #'as yet unclassified' }
+GLMBrickVerticalStackLayout >> decreaseZindex: aBrick [
+
+	aBrick layoutProperties zIndex: 1.
+]
+
+{ #category : #'as yet unclassified' }
+GLMBrickVerticalStackLayout >> deltaBottom: aBrick [
+
+	^ aBrick brickGlobalOuterBounds corner y -  self allowedBounds corner y
+]
+
+{ #category : #'as yet unclassified' }
+GLMBrickVerticalStackLayout >> deltaTop: aBrick [
+
+	^ self allowedBounds origin y - aBrick brickGlobalOuterBounds origin y
+]
+
 { #category : #'as yet unclassified' }
 GLMBrickVerticalStackLayout >> gatherStacked: aBrick [
 	|list|
@@ -99,12 +142,30 @@ GLMBrickVerticalStackLayout >> gatherStacked: aBrick [
 ]
 
 { #category : #'as yet unclassified' }
+GLMBrickVerticalStackLayout >> increaseZindex: aBrick [
+
+	aBrick layoutProperties zIndex: 2.
+]
+
+{ #category : #testing }
+GLMBrickVerticalStackLayout >> isAbove: aBrick [
+
+	^ aBrick brickGlobalOuterBounds origin <= self allowedBounds origin
+]
+
+{ #category : #testing }
 GLMBrickVerticalStackLayout >> isAbove: aBrick in: aRectangle [
 
 	^ aBrick brickGlobalOuterBounds origin <= aRectangle origin
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
+GLMBrickVerticalStackLayout >> isVisible: aBrick [
+	
+	^ self allowedBounds containsRect: aBrick brickGlobalOuterBounds
+]
+
+{ #category : #testing }
 GLMBrickVerticalStackLayout >> isVisible: aBrick in: aRectangle [
 	
 	^ aRectangle containsRect: aBrick brickGlobalOuterBounds
@@ -119,33 +180,48 @@ GLMBrickVerticalStackLayout >> layout: aBrick in: newBounds [
 
 { #category : #'as yet unclassified' }
 GLMBrickVerticalStackLayout >> layoutStacked: aBrick in: newBounds [
-	| stackedBricks allowedBounds forward|
+	| stackedBricks forward|
 
-	allowedBounds := newBounds.
+	self allowedBounds: newBounds.
 	stackedBricks := self gatherStacked: aBrick.
 	forward := true.
 	
 	"going from top to bottom"
 	[ stackedBricks isEmpty not & forward] whileTrue: [ |brick|
-		brick := stackedBricks removeFirst value.
-		(self isVisible: brick in: allowedBounds) ifFalse: [
-			(self isAbove: brick in: allowedBounds ) ifTrue: [ |delta|
-				delta := allowedBounds origin y - brick brickGlobalOuterBounds origin y.
-				brick brickBounds: (brick brickBounds translateBy: (0@delta)).
-				brick layoutProperties zIndex: 2.
-				allowedBounds := allowedBounds top: (allowedBounds top + brick brickGlobalOuterBounds height)
-			] ifFalse: [ forward := false. stackedBricks addFirst: brick ]
-		] ifTrue: [ forward := false. brick layoutProperties zIndex: 1. stackedBricks addFirst: brick ] ].
+		brick := stackedBricks first value.
+		(self isVisible: brick) ifFalse: [
+			(self isAbove: brick) ifTrue: [ |delta|
+				delta := self deltaTop: brick.
+				self
+					translate: brick by: delta;
+					increaseZindex: brick;
+					cutAllowedBoundsTop: brick.
+				stackedBricks removeFirst.
+			] ifFalse: [ forward := false ]
+		] ifTrue: [ forward := false. self decreaseZindex: brick ] ].
 
 	"going from bottom to top"
 	[ stackedBricks isEmpty not ] whileTrue: [ |brick|
 		brick := stackedBricks removeLast value.
-		(self isVisible: brick in: allowedBounds) ifFalse: [ |delta|
-			delta := brick brickGlobalOuterBounds corner y -  allowedBounds corner y.
-			brick brickBounds: (brick brickBounds translateBy: (0@delta) negated).
-			brick layoutProperties zIndex: 2.
-			allowedBounds := allowedBounds bottom: (allowedBounds bottom - brick brickGlobalOuterBounds height)
-		] ifTrue: [ brick layoutProperties zIndex: 1 ] ].
+		(self isVisible: brick) ifFalse: [ |delta|
+			delta := self deltaBottom: brick.
+			self
+				translate: brick by: delta negated;
+				increaseZindex: brick;
+				cutAllowedBoundsBottom: brick.
+		] ifTrue: [ self decreaseZindex: brick ] ].
 
 	^ allowedBounds
+]
+
+{ #category : #'as yet unclassified' }
+GLMBrickVerticalStackLayout >> shrinkBottom: aRectangle with: aBrick [
+
+	^ aRectangle bottom: (aRectangle bottom - aBrick brickGlobalOuterBounds height)
+]
+
+{ #category : #'as yet unclassified' }
+GLMBrickVerticalStackLayout >> shrinkTop: aRectangle with: aBrick [
+
+	^ aRectangle top: (aRectangle top + aBrick brickGlobalOuterBounds height)
 ]

@@ -16,6 +16,7 @@ GLMBrickHorizontalLinearLayout >> layout: aBrick in: newBounds [
 	aBrick subbricks
 		inject: 0
 		into: [ :leftOffset :each |
+			self prepareLayout: each.
 			(self supportsFloating: each layoutProperties floating) ifFalse: [
 				|layoutBounds|
 			
@@ -29,4 +30,10 @@ GLMBrickHorizontalLinearLayout >> layout: aBrick in: newBounds [
 			ifTrue: [ leftOffset  + ( self layoutFloating: each in: newBounds withArguments: arguments) ] ]
 
 	
+]
+
+{ #category : #'as yet unclassified' }
+GLMBrickHorizontalLinearLayout >> translate: aBrick by: anInteger [
+
+	aBrick brickBounds: (aBrick brickBounds translateBy: anInteger@0)
 ]

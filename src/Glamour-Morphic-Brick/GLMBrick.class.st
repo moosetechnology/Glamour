@@ -466,6 +466,16 @@ GLMBrick >> onDraw: aCanvas [
 	self renderer render: self on: aCanvas. 
 ]
 
+{ #category : #layouting }
+GLMBrick >> onLayoutEvent: aLayoutEvent [
+	"in case layout want's to trigger any specific event"
+]
+
+{ #category : #layouting }
+GLMBrick >> onPrepareLayout [
+	"is called before I'm started layouting"
+]
+
 { #category : #geometry }
 GLMBrick >> outerBounds [
 	^ self fullBounds

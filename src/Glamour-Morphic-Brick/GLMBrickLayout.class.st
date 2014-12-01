@@ -178,6 +178,18 @@ GLMBrickLayout >> prepareArgumentsFor: aBrick [
 ]
 
 { #category : #'as yet unclassified' }
+GLMBrickLayout >> prepareLayout: aBrick [
+
+	aBrick isBrick ifTrue: [ aBrick onPrepareLayout ]
+]
+
+{ #category : #'as yet unclassified' }
+GLMBrickLayout >> sendEvent: aLayoutEvent to: aBrick [
+
+	aBrick isBrick ifTrue: [ aBrick onLayoutEvent: aLayoutEvent ]
+]
+
+{ #category : #'as yet unclassified' }
 GLMBrickLayout >> setNewBounds: aLayoutBounds to: aMorph in: aBrick [
 
 	aMorph isBrick
@@ -189,4 +201,10 @@ GLMBrickLayout >> setNewBounds: aLayoutBounds to: aMorph in: aBrick [
 GLMBrickLayout >> supportsFloating: aSymbol [
 
 	^ self respondsTo: (self floatingMethodFor: aSymbol)
+]
+
+{ #category : #'as yet unclassified' }
+GLMBrickLayout >> translate: aBrick by: anInteger [
+
+	self subclassResponsibility
 ]
