@@ -46,7 +46,7 @@ GLMBrickHorizontalProportionalLinearLayout class >> example2 [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 GLMBrickHorizontalProportionalLinearLayout >> extentOf: aBrick in: owner withArguments: aHashTable [
 	| width requestedWidth allowedWidth minWidth maxWidth distributableWidth distributablePercents|
 	
@@ -63,7 +63,7 @@ GLMBrickHorizontalProportionalLinearLayout >> extentOf: aBrick in: owner withArg
 	^ width@(self originalHeightOf: aBrick)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'set up' }
 GLMBrickHorizontalProportionalLinearLayout >> prepareArgumentsFor: aBrick [
 	|allowedWidth maxPercent ownerWidth|
 	
@@ -85,7 +85,7 @@ GLMBrickHorizontalProportionalLinearLayout >> prepareArgumentsFor: aBrick [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'extent functions' }
 GLMBrickHorizontalProportionalLinearLayout >> widthOf: aBrick allowed: width percents: percents [
 
 	percents <= 0 ifTrue: [ ^ 0 ].

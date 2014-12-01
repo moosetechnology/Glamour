@@ -8,7 +8,7 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 GLMBrickVerticalLinearLayout >> layout: aBrick in: newBounds [
 	|arguments|
 	arguments := self prepareArgumentsFor: aBrick.
@@ -31,7 +31,7 @@ GLMBrickVerticalLinearLayout >> layout: aBrick in: newBounds [
 			ifTrue: [ topOffset + (self layoutFloating: each in: newBounds withArguments: arguments) ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #bounds }
 GLMBrickVerticalLinearLayout >> translate: aBrick by: anInteger [
 
 	aBrick brickBounds: (aBrick brickBounds translateBy: 0@anInteger)

@@ -8,7 +8,7 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 GLMBrickVerticalFillLinearLayout >> extentOf: aBrick in: owner withArguments: aHashTable [
 	
 	^ (owner brickInnerBounds width - aBrick layoutProperties horizontalMargin)@(self originalHeightOf: aBrick)

@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 GLMBrickNoLayout >> layout: aBrick in: newBounds [
 	
 ]

@@ -8,7 +8,7 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 GLMBrickVerticalProportionalLinearLayout >> extentOf: aBrick in: owner withArguments: aHashTable [
 	| height requestedHeight allowedHeight minHeight maxHeight distributableHeight distributablePercents|
 	
@@ -25,14 +25,14 @@ GLMBrickVerticalProportionalLinearLayout >> extentOf: aBrick in: owner withArgum
 	^ (self originalWidthOf: aBrick)@height
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'extent functions' }
 GLMBrickVerticalProportionalLinearLayout >> heightOf: aBrick allowed: height percents: percents [
 
 	percents <= 0 ifTrue: [ ^ 0 ].
 	^ (height * aBrick layoutProperties verticalPercent / percents) ceiling
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'set up' }
 GLMBrickVerticalProportionalLinearLayout >> prepareArgumentsFor: aBrick [
 	|allowedHeight maxPercent ownerHeight|
 	

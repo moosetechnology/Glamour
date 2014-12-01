@@ -7,7 +7,7 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 GLMBrickVerticalFillProportionalLinearLayout >> extentOf: aBrick in: owner withArguments: aHashTable [
 	|extent|
 	extent := super extentOf: aBrick in: owner withArguments: aHashTable.

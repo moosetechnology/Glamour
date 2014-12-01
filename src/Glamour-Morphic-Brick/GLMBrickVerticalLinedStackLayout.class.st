@@ -4,19 +4,19 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GLMBrickVerticalLinedStackLayout >> isFullyVisible: aBrick in: aRectangle [
 	
 	^ aRectangle containsRect: aBrick brickGlobalOuterBounds
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GLMBrickVerticalLinedStackLayout >> isVisible: aBrick in: aRectangle [
 	
 	^ aRectangle intersects: aBrick brickGlobalOuterBounds
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 GLMBrickVerticalLinedStackLayout >> layoutProportional: aCollection in: aBrick position: aSymbol [
 	| fullWidth eachWidth index |
 	aCollection isEmpty ifTrue: [ ^ self ].
@@ -44,7 +44,7 @@ GLMBrickVerticalLinedStackLayout >> layoutProportional: aCollection in: aBrick p
 		leftOffset + layoutBounds outerBounds width ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 GLMBrickVerticalLinedStackLayout >> layoutStacked: aBrick in: newBounds [
 	| origStackedBricks stackedBricks allowedBounds forward stackedTopBricks stackedBottomBricks stackedTopHeight stackedBottomHeight|
 

@@ -171,14 +171,14 @@ GLMBrickVerticalStackLayout >> isVisible: aBrick in: aRectangle [
 	^ aRectangle containsRect: aBrick brickGlobalOuterBounds
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 GLMBrickVerticalStackLayout >> layout: aBrick in: newBounds [
 	
 	super layout: aBrick in: newBounds.
 	^ self layoutStacked: aBrick in: newBounds
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 GLMBrickVerticalStackLayout >> layoutStacked: aBrick in: newBounds [
 	| stackedBricks forward|
 

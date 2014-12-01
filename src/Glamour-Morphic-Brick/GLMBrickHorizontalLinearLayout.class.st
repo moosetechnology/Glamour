@@ -8,7 +8,7 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
-{ #category : #accessing }
+{ #category : #layouting }
 GLMBrickHorizontalLinearLayout >> layout: aBrick in: newBounds [
 	|arguments|
 	arguments := self prepareArgumentsFor: aBrick.
@@ -32,7 +32,7 @@ GLMBrickHorizontalLinearLayout >> layout: aBrick in: newBounds [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #bounds }
 GLMBrickHorizontalLinearLayout >> translate: aBrick by: anInteger [
 
 	aBrick brickBounds: (aBrick brickBounds translateBy: anInteger@0)

@@ -64,30 +64,30 @@ GLMBrickLayout class >> example [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #bounds }
 GLMBrickLayout >> boundsOf: aBrick in: owner withArguments: aHashTable [
 	
 	^ (owner layoutProperties paddingLeft@owner layoutProperties paddingTop) extent: (self extentOf: aBrick in: owner withArguments: aHashTable)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 GLMBrickLayout >> extentOf: aBrick in: owner withArguments: aHashTable [
 	
 	^ (self originalWidthOf: aBrick)@(self originalHeightOf: aBrick)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #reflection }
 GLMBrickLayout >> floatingMethodFor: aSymbol [
 
 	^ ('layoutFloating', (aSymbol capitalized), ':in:withArguments:') asSymbol.
 ]
 
-{ #category : #accessing }
+{ #category : #layouting }
 GLMBrickLayout >> layout: aBrick in: newBounds [
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layouting }
 GLMBrickLayout >> layoutFloating: aBrick in: newBounds withArguments: arguments [
 	"must return an integer that will be added to the offset, if necessary"
 	
@@ -100,7 +100,7 @@ GLMBrickLayout >> layoutFloating: aBrick in: newBounds withArguments: arguments 
 		ifFalse: [ 0 ]
 ]
 
-{ #category : #floating }
+{ #category : #layouting }
 GLMBrickLayout >> layoutFloatingRight: aBrick in: newBounds withArguments: arguments [
 
 	| left top right bottom |
@@ -115,7 +115,7 @@ GLMBrickLayout >> layoutFloatingRight: aBrick in: newBounds withArguments: argum
 	^ 0
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'extent functions' }
 GLMBrickLayout >> maxHeightOf: aBrick [
 	|blockValue|
 	
@@ -126,7 +126,7 @@ GLMBrickLayout >> maxHeightOf: aBrick [
 		ifFalse: [ SmallInteger maxVal ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'extent functions' }
 GLMBrickLayout >> maxWidthOf: aBrick [
 	|blockValue|
 	
@@ -137,7 +137,7 @@ GLMBrickLayout >> maxWidthOf: aBrick [
 		ifFalse: [ SmallInteger maxVal ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'extent functions' }
 GLMBrickLayout >> minHeightOf: aBrick [
 	|blockValue|
 	
@@ -148,7 +148,7 @@ GLMBrickLayout >> minHeightOf: aBrick [
 		ifFalse: [ SmallInteger minVal ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'extent functions' }
 GLMBrickLayout >> minWidthOf: aBrick [
 	|blockValue|
 	
@@ -159,37 +159,37 @@ GLMBrickLayout >> minWidthOf: aBrick [
 		ifFalse: [ SmallInteger minVal ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'extent functions' }
 GLMBrickLayout >> originalHeightOf: aBrick [
 
 	^ ((aBrick height) max: (self minHeightOf: aBrick)) min: (self maxHeightOf: aBrick).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'extent functions' }
 GLMBrickLayout >> originalWidthOf: aBrick [
 
 	^ ((aBrick width) max: (self minWidthOf: aBrick)) min: (self maxWidthOf: aBrick).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'set up' }
 GLMBrickLayout >> prepareArgumentsFor: aBrick [
 
 	^ nil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'set up' }
 GLMBrickLayout >> prepareLayout: aBrick [
 
 	aBrick isBrick ifTrue: [ aBrick onPrepareLayout ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #events }
 GLMBrickLayout >> sendEvent: aLayoutEvent to: aBrick [
 
 	aBrick isBrick ifTrue: [ aBrick onLayoutEvent: aLayoutEvent ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #bounds }
 GLMBrickLayout >> setNewBounds: aLayoutBounds to: aMorph in: aBrick [
 
 	aMorph isBrick
@@ -197,13 +197,13 @@ GLMBrickLayout >> setNewBounds: aLayoutBounds to: aMorph in: aBrick [
 				ifFalse: [ aMorph bounds: (aLayoutBounds bounds translateBy: aBrick globalBounds origin) ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #reflection }
 GLMBrickLayout >> supportsFloating: aSymbol [
 
 	^ self respondsTo: (self floatingMethodFor: aSymbol)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #bounds }
 GLMBrickLayout >> translate: aBrick by: anInteger [
 
 	self subclassResponsibility
