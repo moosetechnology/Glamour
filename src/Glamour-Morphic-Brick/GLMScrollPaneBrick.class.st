@@ -161,6 +161,17 @@ GLMScrollPaneBrick >> doLayout [
 ]
 
 { #category : #'mouse events' }
+GLMScrollPaneBrick >> handleListenEvent: anEvent [
+	
+	"checking if it's keyboard event (mouse wheel is keyboard event on windows o_O (wtf?)"
+	anEvent type = #keystroke ifTrue: [
+		"checking if mouse is inside me"
+		((self boundsInWorld containsPoint: anEvent position)) ifTrue: [
+			"actuall scrolling"
+			self scrollByKeyboard: anEvent ] ]
+]
+
+{ #category : #'mouse events' }
 GLMScrollPaneBrick >> handlesMouseWheel: evt [
 	^ true
 ]
@@ -178,7 +189,26 @@ GLMScrollPaneBrick >> initialize [
 	self layoutPolicy: GLMBrickVerticalFillLinearLayout new.
 	super addBrickBack: band.
 	
-	self verticalScrollbar: self newVerticalScrollbar
+	self verticalScrollbar: self newVerticalScrollbar.
+	
+	"initializes listener for mouse wheel scroll on windows vm"
+	self initializeListeners.
+]
+
+{ #category : #initialize }
+GLMScrollPaneBrick >> initializeListeners [
+
+	"using the most general event subscribtion for all events spawned by the hand"
+	self activeHand addEventListener: self.
+]
+
+{ #category : #testing }
+GLMScrollPaneBrick >> isKeyboardScrollEvent: anEvent [
+
+	(anEvent controlKeyPressed | anEvent commandKeyPressed) ifFalse: [^ false ].
+	anEvent keyValue = 30 ifTrue: [ ^ true ].
+	anEvent keyValue = 31 ifTrue: [ ^ true ].
+	^ false
 ]
 
 { #category : #testing }
@@ -221,6 +251,13 @@ GLMScrollPaneBrick >> newVerticalScrollbar [
 	^ GLMScrollbarBrick new
 ]
 
+{ #category : #initialize }
+GLMScrollPaneBrick >> outOfWorld: aWorld [
+	super outOfWorld: aWorld.
+	
+	self unsubscribeListeners
+]
+
 { #category : #adding }
 GLMScrollPaneBrick >> removeAllBricks [
 
@@ -236,6 +273,24 @@ GLMScrollPaneBrick >> removeAllBricks [
 { #category : #adding }
 GLMScrollPaneBrick >> removeBrick: aBrick [
 	band removeBrick: aBrick
+]
+
+{ #category : #scrolling }
+GLMScrollPaneBrick >> scrollByKeyboard: anEvent [
+	|velocity|
+	
+	(self isKeyboardScrollEvent: anEvent) ifFalse: [^ self ].
+	velocity := self calculateVelocity: anEvent.
+	
+	"keycode 30 is Event direction = #up"
+	anEvent keyValue = 30 ifTrue: [ self scrollUp: velocity ].
+	"keycode 31 is Event direction = #down"
+	anEvent keyValue = 31 ifTrue: [ self scrollDown: velocity ].
+	
+	scrollPosition := band brickBounds top.
+	
+	self update.
+	self changed
 ]
 
 { #category : #scrolling }
@@ -292,6 +347,12 @@ GLMScrollPaneBrick >> scrollUp: anInteger [
 	band brickBounds: (band brickBounds translateBy: (0@ anInteger)).
 	"returning scrollpane back if went away"
 	band brickBounds origin y > 0 ifTrue: [ band brickBounds: (band brickBounds translateBy: (0@ band brickBounds origin y) negated) ]
+]
+
+{ #category : #initialize }
+GLMScrollPaneBrick >> unsubscribeListeners [
+
+	self activeHand removeEventListener: self
 ]
 
 { #category : #scrolling }
