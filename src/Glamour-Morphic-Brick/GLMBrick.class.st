@@ -155,6 +155,11 @@ GLMBrick >> addBrickBack: aBrick [
 	^ aBrick
 ]
 
+{ #category : #'layout morph' }
+GLMBrick >> adjustLayoutBounds [
+	"no need in it"
+]
+
 { #category : #geometry }
 GLMBrick >> bounds [
 
@@ -263,12 +268,12 @@ GLMBrick >> clippingBounds [
 	^ self fullBounds
 ]
 
-{ #category : #geometry }
+{ #category : #'layout morph' }
 GLMBrick >> computeBounds [
 	"nothing to compute, everything is already computed"
 ]
 
-{ #category : #geometry }
+{ #category : #'layout morph' }
 GLMBrick >> computeFullBounds [
 	"nothing to compute, everything is already computed"
 ]
@@ -286,7 +291,7 @@ GLMBrick >> data: anObject [
 	self announcer announce: GLMBrickDataChanged new.
 ]
 
-{ #category : #layouting }
+{ #category : #'layout brick' }
 GLMBrick >> doLayout [
 	"most of the time you don't want to call this method manually"
 	"nice example to check is GLMLabelBrick>>doLayout"
@@ -295,6 +300,11 @@ GLMBrick >> doLayout [
 	
 	subbricks do: [ :each | each isBrick ifTrue: [ each doLayout ] ]
 	
+]
+
+{ #category : #'layout morph' }
+GLMBrick >> doLayoutIn: layoutBounds [
+	"we remove morphic layouting mechanism"
 ]
 
 { #category : #drawing }
@@ -374,7 +384,7 @@ GLMBrick >> firstSubbrick [
 	^ self subbricks first
 ]
 
-{ #category : #geometry }
+{ #category : #'layout morph' }
 GLMBrick >> fullBounds [
 
 	^ self globalBounds
@@ -484,6 +494,11 @@ GLMBrick >> lastSubbrick [
 	^ self subbricks last
 ]
 
+{ #category : #'layout morph' }
+GLMBrick >> layoutBounds: aRectangle [
+	"I'm not a morph anymore"
+]
+
 { #category : #geometry }
 GLMBrick >> layoutChanged [
 
@@ -496,12 +511,12 @@ GLMBrick >> onDraw: aCanvas [
 	self renderer render: self on: aCanvas. 
 ]
 
-{ #category : #layouting }
+{ #category : #'layout brick' }
 GLMBrick >> onLayoutEvent: aLayoutEvent [
 	"in case layout want's to trigger any specific event"
 ]
 
-{ #category : #layouting }
+{ #category : #'layout brick' }
 GLMBrick >> onPrepareLayout [
 	"is called before I'm started layouting"
 ]
@@ -555,6 +570,18 @@ GLMBrick >> removeAllBricks [
 	
 	self privateSubbricks removeAll.
 	self removeAllMorphs
+]
+
+{ #category : #'submorphs-add/remove' }
+GLMBrick >> removeAllMorphs [
+	| oldMorphs myWorld |
+	"we don't invalidate world"
+	myWorld := self world.
+	submorphs do: [:m | myWorld ifNotNil: [ m outOfWorld: myWorld ]. m privateOwner: nil].
+	oldMorphs := submorphs.
+	submorphs := EmptyArray.
+	oldMorphs do: [ :m | self removedMorph: m ].
+
 ]
 
 { #category : #adding }
