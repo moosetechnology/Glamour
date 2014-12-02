@@ -368,6 +368,12 @@ GLMBrick >> extent: aPoint [
 	self brickBounds: (self brickBounds origin extent: aPoint)
 ]
 
+{ #category : #'submorphs-accessing' }
+GLMBrick >> firstSubbrick [
+
+	^ self subbricks first
+]
+
 { #category : #geometry }
 GLMBrick >> fullBounds [
 
@@ -445,6 +451,12 @@ GLMBrick >> isBrick [
 ]
 
 { #category : #testing }
+GLMBrick >> isFirstInOwner [
+
+	^ self privateBrickDoubleLink hasPredecessor not
+]
+
+{ #category : #testing }
 GLMBrick >> isFitsInParent [
 
 	^ self brickOwner
@@ -452,6 +464,18 @@ GLMBrick >> isFitsInParent [
 		ifNotNil: [ self brickOwner globalBounds containsRect: self globalBounds ]
 		"if our owner is a morph"
 		ifNil: [ self owner ifNotNil: [ self owner bounds containsRect: self globalBounds ] ifNil: [ ^ true ] ]
+]
+
+{ #category : #testing }
+GLMBrick >> isLastInOwner [
+
+	^ self privateBrickDoubleLink hasSuccessor not
+]
+
+{ #category : #'submorphs-accessing' }
+GLMBrick >> lastSubbrick [
+
+	^ self subbricks last
 ]
 
 { #category : #geometry }

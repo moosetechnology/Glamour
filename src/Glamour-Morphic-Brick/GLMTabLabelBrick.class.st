@@ -134,7 +134,7 @@ GLMTabLabelBrick >> label: aTrickMorph selected: selectedTrickMorph [
 GLMTabLabelBrick >> normalFillStyle [
 	"Return the normal fillStyle of the receiver."
 	
-	^self theme tabLabelNormalFillStyleFor: self
+	^ self theme tabLabelNormalFillStyleFor: self
 ]
 
 { #category : #accessing }
@@ -170,7 +170,7 @@ GLMTabLabelBrick >> selected: aBoolean [
 GLMTabLabelBrick >> selectedFillStyle [
 	"Return the selected fillStyle of the receiver."
 	
-	^self theme tabLabelSelectedFillStyleFor: self
+	^ self theme tabLabelSelectedFillStyleFor: self
 ]
 
 { #category : #accessing }

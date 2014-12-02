@@ -47,6 +47,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-UI'
 }
 
+{ #category : #geometry }
+GLMStringBrick >> approximateWidth [
+
+	^ self textSize x + self layoutProperties horizontalMargin + self layoutProperties horizontalPadding
+]
+
 { #category : #accessing }
 GLMStringBrick >> calculateTextPosition [
 

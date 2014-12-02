@@ -29,6 +29,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-UI'
 }
 
+{ #category : #geometry }
+GLMLabelBrick >> approximateWidth [
+
+		^ self label approximateWidth + self layoutProperties horizontalMargin + self layoutProperties horizontalPadding
+]
+
 { #category : #'default values' }
 GLMLabelBrick >> defaultDotsText [
 	^ '...'
