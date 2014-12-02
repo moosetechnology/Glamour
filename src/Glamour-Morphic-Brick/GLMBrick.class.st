@@ -391,7 +391,7 @@ GLMBrick >> fullDrawOn: aCanvas [
 GLMBrick >> globalBounds [
 	"converts brickBounds to morhic bounds on fly"
 	"if you want to implement something sophisticated that combines bricks and morphic this is right method to use"
-	^ self brickOwner ifNotNil: [ self brickBounds translateBy: brickOwner globalBounds origin ] ifNil: [ 0@0 extent: 20@20 ].
+	^ self brickOwner ifNotNil: [ self brickBounds translateBy: self brickOwner globalBoundsTranslateFactor ] ifNil: [ 0@0 extent: 20@20 ].
 ]
 
 { #category : #private }
@@ -399,6 +399,12 @@ GLMBrick >> globalBoundsOfArea: aRectangle [
 
 	^ aRectangle translateBy: brickOwner globalBounds origin
 	
+]
+
+{ #category : #geometry }
+GLMBrick >> globalBoundsTranslateFactor [
+
+	^ self brickOwner ifNotNil: [ brickOwner globalBoundsTranslateFactor + self brickBounds origin ] ifNil: [ 0@0 ]
 ]
 
 { #category : #geometry }

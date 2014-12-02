@@ -19,6 +19,26 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Widgets'
 }
 
+{ #category : #'as yet unclassified' }
+GLMFoundationBrick class >> exampleLarge [
+	|foundation scrollPane|
+	
+	scrollPane := GLMScrollPaneBrick new.
+	
+	foundation := self new.
+	foundation brickRoot: scrollPane.
+	
+	1 to: 10000 do: [ :index |
+		scrollPane addBrickBack: (GLMBrick new
+			color: Color random;
+			extent: 200@50).
+	].
+	
+	foundation extent: 400@300.
+	
+	foundation openInWindow
+]
+
 { #category : #adding }
 GLMFoundationBrick >> addAllBricks: aCollection [
 
@@ -88,6 +108,12 @@ GLMFoundationBrick >> fullDrawOn: aCanvas [
 GLMFoundationBrick >> globalBounds [
 
 	^ self bounds
+]
+
+{ #category : #geometry }
+GLMFoundationBrick >> globalBoundsTranslateFactor [
+
+	^ self globalBounds origin
 ]
 
 { #category : #initialization }

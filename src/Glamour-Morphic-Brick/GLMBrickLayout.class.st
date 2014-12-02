@@ -199,7 +199,9 @@ GLMBrickLayout >> setNewBounds: aLayoutBounds to: aMorph in: aBrick [
 
 { #category : #reflection }
 GLMBrickLayout >> supportsFloating: aSymbol [
-
+	
+	aSymbol = #none ifTrue: [ ^ false ].
+	
 	^ self respondsTo: (self floatingMethodFor: aSymbol)
 ]
 
