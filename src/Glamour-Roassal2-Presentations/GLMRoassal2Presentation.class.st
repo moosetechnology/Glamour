@@ -70,6 +70,22 @@ GLMRoassal2Presentation >> defaultActions [
 								exportBuilderAsSVG: roassal view view 
 								filename: fileName fullName ]  ]
 			entitled: 'Export to SVG'.
+	
+	self
+		act: [ :roassal |
+				| fileName |
+				fileName := UITheme builder 
+									fileSave: 'Enter the html file name'
+									extensions: #('html')
+									path: nil.
+				fileName notNil ifTrue: [ 
+					RTHTML5Exporter new 
+						directory: fileName parent;
+						fileName: fileName basename; 
+						export: roassal view view.
+					"fileName asUrl open." ] ]
+			entitled: 'Export to HTML'.
+								
 ]
 
 { #category : #'initialize-release' }
