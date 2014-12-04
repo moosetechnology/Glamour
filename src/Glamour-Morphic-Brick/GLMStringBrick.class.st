@@ -42,7 +42,8 @@ Class {
 		'textSize',
 		'text',
 		'textColor',
-		'textPosition'
+		'textPosition',
+		'highlightedString'
 	],
 	#category : #'Glamour-Morphic-Brick-UI'
 }
@@ -51,6 +52,26 @@ Class {
 GLMStringBrick >> approximateWidth [
 
 	^ self textSize x + self layoutProperties horizontalMargin + self layoutProperties horizontalPadding
+]
+
+{ #category : #accessing }
+GLMStringBrick >> calculateHighlightingBounds [
+	|textBounds highlightBounds last|
+	
+	highlightBounds := OrderedCollection new.
+	
+	textBounds := (self calculateTextPosition extent: self textSize) translateBy: (4@0)negated.
+	
+	last := self text asLowercase findString: self highlightedText asLowercase startingAt: 1.
+	last = 0 ifTrue: [^ highlightBounds].
+	[last > 0] whileTrue: [ |beforeHighlightTextSize highlightSize matchingString|		
+		matchingString := self text copyFrom: last to: last + self highlightedText size - 1.
+		highlightSize := self sizeOf: matchingString.
+		beforeHighlightTextSize := self sizeOf: (self text first: (last - 1)).
+		highlightBounds add: ((textBounds translateBy: ((beforeHighlightTextSize x)@0)) withWidth: highlightSize x).
+		last := self text asLowercase findString: self highlightedText asLowercase startingAt: last + 1 ].
+	
+	^ highlightBounds
 ]
 
 { #category : #accessing }
@@ -129,6 +150,18 @@ GLMStringBrick >> fontSize: aNumber [
 	self updateFont.
 ]
 
+{ #category : #public }
+GLMStringBrick >> highlight: aString [
+
+	highlightedString := aString
+]
+
+{ #category : #accessing }
+GLMStringBrick >> highlightedText [
+	
+	^ highlightedString ifNil: [ highlightedString := '' ]
+]
+
 { #category : #initialization }
 GLMStringBrick >> initialize [
 	super initialize.
@@ -163,7 +196,11 @@ GLMStringBrick >> onDraw: aCanvas [
 		drawString: self text
 		at: self calculateTextPosition
 		font: self font
-		color: self textColor
+		color: self textColor.
+		
+	self calculateHighlightingBounds do: [ :each |
+		aCanvas line: each bottomLeft to: each bottomRight width: 1 color: Color gray
+	].
 ]
 
 { #category : #private }

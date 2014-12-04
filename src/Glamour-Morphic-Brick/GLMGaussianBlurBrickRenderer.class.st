@@ -210,7 +210,7 @@ GLMGaussianBlurBrickRenderer >> putRGBChannelsRed: red green: green blue: blue a
 	a atWrap: index put: (alpha asFloat/range).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 GLMGaussianBlurBrickRenderer >> render: aBrick on: aCanvas [
 	| origin corner height width  poker form formDest r g b a depth destR destG destB destA|
 	
