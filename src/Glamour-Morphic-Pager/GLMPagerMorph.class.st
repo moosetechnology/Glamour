@@ -30,6 +30,15 @@ GLMPagerMorph class >> simpleExample [
 	"pager inspect."
 ]
 
+{ #category : #'as yet unclassified' }
+GLMPagerMorph >> buildScrollMorph [
+	
+	^ GLMFoundationBrick new
+		brickRoot: (self newScrollMorph pagerModel: pagerModel);
+		hResizing: #spaceFill;
+		vResizing: #spaceFill.
+]
+
 { #category : #initialization }
 GLMPagerMorph >> initialColorInSystemWindow: aSystemWindow [
 	"Answer the colour the receiver should be when added to a SystemWindow."
@@ -66,6 +75,12 @@ GLMPagerMorph >> initializeShortcuts [
 	].
 ]
 
+{ #category : #'as yet unclassified' }
+GLMPagerMorph >> newScrollMorph [
+
+	^ GLMPagerScrollBrick new
+]
+
 { #category : #initialization }
 GLMPagerMorph >> onPagePoped [
 
@@ -94,7 +109,7 @@ GLMPagerMorph >> pagerModel [
 GLMPagerMorph >> pagerModel: aModel [
 	pagerModel := aModel.
 	
-	self addMorphBack: (GLMPagerScrollMorph new pagerModel: pagerModel).
+	self addMorphBack: self buildScrollMorph.
 	
 	pagerBar := GLMPagerBarMorph new pagerModel: pagerModel.
 	
