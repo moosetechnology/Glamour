@@ -34,6 +34,13 @@ GLMPagerScrollBrick >> convertScrollValue: aFloat [
 	^ (self width - ((self width / self pagerModel actualNumberOfVisiblePages + self paneMargin) * self band subbricksCount)) * aFloat
 ]
 
+{ #category : #accessing }
+GLMPagerScrollBrick >> doLayout [
+	
+	currentScrollDelta := self convertScrollValue: (self pagerModel convertIndexToValue: self pagerModel firstVisiblePageIndex).
+	super doLayout
+]
+
 { #category : #'event-handling' }
 GLMPagerScrollBrick >> focusChanged: anEvent [
 	| pageIndex newFocus |
