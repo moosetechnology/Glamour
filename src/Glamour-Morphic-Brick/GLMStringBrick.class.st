@@ -199,7 +199,7 @@ GLMStringBrick >> onDraw: aCanvas [
 		color: self textColor.
 		
 	self calculateHighlightingBounds do: [ :each |
-		aCanvas line: each bottomLeft to: each bottomRight width: 1 color: Color gray
+		aCanvas line: each bottomLeft to: each bottomRight width: 1 color: self textColor
 	].
 ]
 
