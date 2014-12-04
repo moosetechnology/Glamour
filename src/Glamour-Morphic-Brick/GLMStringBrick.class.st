@@ -60,7 +60,7 @@ GLMStringBrick >> calculateHighlightingBounds [
 	
 	highlightBounds := OrderedCollection new.
 	
-	textBounds := (self calculateTextPosition extent: self textSize) translateBy: (4@0)negated.
+	textBounds := (self calculateTextPosition extent: self textSize) translateBy: (0@0)negated.
 	
 	last := self text asLowercase findString: self highlightedText asLowercase startingAt: 1.
 	last = 0 ifTrue: [^ highlightBounds].
@@ -162,6 +162,20 @@ GLMStringBrick >> highlightedText [
 	^ highlightedString ifNil: [ highlightedString := '' ]
 ]
 
+{ #category : #accessing }
+GLMStringBrick >> highlightingLogic [
+	"[ :aCanvas :aRectangle ]"
+	
+	^ self valueOfProperty: #brickHighlightingLogic ifAbsentPut: [ nil ] 
+]
+
+{ #category : #accessing }
+GLMStringBrick >> highlightingLogic: aBlockWithTwoParameters [
+	"[ :aCanvas :aRectangle ]"
+	
+	self setProperty: #brickHighlightingLogic toValue: aBlockWithTwoParameters
+]
+
 { #category : #initialization }
 GLMStringBrick >> initialize [
 	super initialize.
@@ -192,15 +206,16 @@ GLMStringBrick >> onDraw: aCanvas [
 
 	super onDraw: aCanvas.
 	
+	self calculateHighlightingBounds do: [ :each |
+		self highlightingLogic
+			ifNil: [ aCanvas line: each bottomLeft to: each bottomRight width: 1 color: self textColor ]
+			ifNotNil: [ self highlightingLogic cull: aCanvas cull: each ] ].
+	
 	aCanvas
 		drawString: self text
 		at: self calculateTextPosition
 		font: self font
 		color: self textColor.
-		
-	self calculateHighlightingBounds do: [ :each |
-		aCanvas line: each bottomLeft to: each bottomRight width: 1 color: self textColor
-	].
 ]
 
 { #category : #private }
