@@ -6,12 +6,14 @@ Class {
 
 { #category : #private }
 GLMBrickListAdapter >> itemMorphAt: anInteger recycled: aMorph [
-
-	self subclassResponsibility
+	|item|
+	item := aMorph ifNil: [ GLMLabelBrick new ].
+	
+	^ item color: Color random muchLighter; text: anInteger asString; textPosition: #center; yourself
 ]
 
 { #category : #private }
 GLMBrickListAdapter >> itemsCount [
 
-	^ self subclassResponsibility
+	^ 2000000
 ]
