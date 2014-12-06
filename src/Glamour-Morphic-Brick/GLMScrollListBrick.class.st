@@ -32,6 +32,22 @@ GLMScrollListBrick >> adapter: anAdapter [
 	"self updateVisible"
 ]
 
+{ #category : #adding }
+GLMScrollListBrick >> addItemMorph: aMorph after: anotherMorph [
+
+	self band addBrickBack: aMorph.
+	self setBoundsOf: aMorph after: anotherMorph.
+	^ aMorph
+]
+
+{ #category : #adding }
+GLMScrollListBrick >> addItemMorph: aMorph before: anotherMorph [
+
+	self band addBrick: aMorph before: anotherMorph.
+	self setBoundsOf: aMorph before: anotherMorph.
+	^ aMorph
+]
+
 { #category : #accessing }
 GLMScrollListBrick >> calculateMaxVelocity [
 
@@ -55,10 +71,26 @@ GLMScrollListBrick >> gatherInvisibleItems [
 	^ (OrderedCollection newFrom: (self band submorphs)) select: [ :each | (self isPartiallyVisible: each) not ]
 ]
 
+{ #category : #'lazy scrolling' }
+GLMScrollListBrick >> getAndRemoveInvisibleMorph: aCollection [
+	|brick|
+	brick := self retrieveLast: aCollection.
+	^ brick ifNotNil: [ self band removeBrick: brick. brick morph ]
+]
+
 { #category : #accessing }
 GLMScrollListBrick >> getIndex: aMorph [ 
 
 	^ aMorph valueOfProperty: #brickScrollListIndex ifAbsent: [ nil ]
+]
+
+{ #category : #'lazy scrolling' }
+GLMScrollListBrick >> getMorphAt: anInteger recycled: aMorph [
+	|newMorph|
+	
+	newMorph := (self adapter itemMorphAt: anInteger recycled: aMorph) asBrick.
+	self setIndex: anInteger in: newMorph.
+	^ newMorph
 ]
 
 { #category : #initialization }
@@ -150,9 +182,9 @@ GLMScrollListBrick >> update [
 	self band doLayout
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'lazy scrolling' }
 GLMScrollListBrick >> updateVisible [
-	|invisible  |
+	|invisible|
 	
 	self adapter ifNil: [ ^ self ].
 	
@@ -167,24 +199,20 @@ GLMScrollListBrick >> updateVisible [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'lazy scrolling' }
 GLMScrollListBrick >> updateVisibleBottom: invisibleBricks [
 	|after|
 	
 	after := self band lastSubbrick.
 	[ (self isVisible: after) and: [ (self getIndex: after) < self adapter itemsCount ] ] whileTrue: [
-		|newAfter last|
-		last := self retrieveLast: invisibleBricks.
-		last ifNotNil: [ self band removeBrick: last. last := last morph ].
-		newAfter := (self adapter itemMorphAt: (self getIndex: after) + 1 recycled: last) asBrick.
-		self band addBrickBack: newAfter.
-		self setBoundsOf: newAfter after: after.
-		self setIndex: (self getIndex: after) + 1 in: newAfter.
-		after := newAfter ].
+		|newAfter index|
+		index := (self getIndex: after) + 1.
+		newAfter := self getMorphAt: index recycled: (self getAndRemoveInvisibleMorph: invisibleBricks).
+		after := self addItemMorph: newAfter after: after ]
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'lazy scrolling' }
 GLMScrollListBrick >> updateVisibleTop: invisibleBricks [
 	|before|
 	
@@ -193,22 +221,13 @@ GLMScrollListBrick >> updateVisibleTop: invisibleBricks [
 		ifTrue: [ nil ].
 		
 	before ifNil: [
-		|last|
-		last := self retrieveLast: invisibleBricks.
-		last ifNotNil: [ self band removeBrick: last. self setIndex: nil in: last. last := last morph ].
-		before := (self adapter itemMorphAt: 1 recycled: last) asBrick.
-		before extent: (self width@before height).
-		self setIndex: 1 in: before.
+		before := self getMorphAt: 1 recycled: (self getAndRemoveInvisibleMorph: invisibleBricks).
 		self band addBrickBack: before ].
 	
 	[ (self isVisible: before) and: [ (self getIndex: before) > 1 ] ] whileTrue: [
-		|newBefore last|
-		last := self retrieveLast: invisibleBricks.
-		last ifNotNil: [ self band removeBrick: last. self setIndex: nil in: last. last := last morph ].
-		newBefore := (self adapter itemMorphAt: (self getIndex: before) - 1 recycled: last) asBrick.
-		self band addBrick: newBefore before: before.
-		self setBoundsOf: newBefore before: before.
-		self setIndex: (self getIndex: before) - 1 in: newBefore.
-		before := newBefore ]
+		|newBefore index|
+		index := (self getIndex: before) - 1.
+		newBefore := self getMorphAt: index recycled: (self getAndRemoveInvisibleMorph: invisibleBricks).
+		before := self addItemMorph: newBefore before: before  ]
 	
 ]
