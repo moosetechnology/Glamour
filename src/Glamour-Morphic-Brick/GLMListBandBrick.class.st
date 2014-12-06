@@ -9,5 +9,5 @@ GLMListBandBrick >> height [
 	
 	self heightBlock ifNotNil: [ ^ self heightBlock cull: self ].
 	self subbricks isEmpty ifTrue: [ ^ 0 ].
-	^ self lastSubbrick bounds bottom
+	^ self lastSubbrick brickBounds bottom
 ]

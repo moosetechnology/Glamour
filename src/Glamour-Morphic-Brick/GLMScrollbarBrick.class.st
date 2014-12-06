@@ -37,6 +37,18 @@ GLMScrollbarBrick >> bar: aBrick [
 ]
 
 { #category : #'as yet unclassified' }
+GLMScrollbarBrick >> calculateScrollbarHeight [
+
+	^ (((self scrollPane height) / (self scrollPane band height)) * self height) ceiling.
+]
+
+{ #category : #'as yet unclassified' }
+GLMScrollbarBrick >> calculateScrollbarTopOffset [
+
+	^ (((self height) / (self scrollPane band height)) * (self scrollPane band brickBounds top abs)) floor.
+]
+
+{ #category : #'as yet unclassified' }
 GLMScrollbarBrick >> initialize [
 	super initialize.
 	
@@ -70,8 +82,8 @@ GLMScrollbarBrick >> update [
 		^ self changed.
 	].
 	
-	height := (((self scrollPane height) / (self scrollPane band height)) * self height) ceiling.
-	top := (((self height) / (self scrollPane band height)) * (self scrollPane band brickBounds top abs)) floor.
+	height := self calculateScrollbarHeight.
+	top := self calculateScrollbarTopOffset.
 	
 	width := (height >= self height)
 		ifTrue: [ 0 ]
