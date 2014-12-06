@@ -15,19 +15,27 @@ GLMApproximateScrollbarBrick >> approximateBandHeight [
 	|visible averageItemHeight|
 	
 	visible := self scrollPane band submorphs select: [ :each | self scrollPane isVisible: each ].
+	visible isEmpty ifTrue: [ ^ 0 ].
+	
 	averageItemHeight := (visible inject: 0 into: [ :visibleHeight :each | visibleHeight + each height ]) / visible size.
 	^ self scrollPane adapter count * averageItemHeight.
 ]
 
 { #category : #'as yet unclassified' }
 GLMApproximateScrollbarBrick >> calculateScrollbarHeight [
-
-	^ (((self scrollPane height) / (self approximateBandHeight)) * self height) ceiling.
+	|bandHeight|
+	bandHeight := self approximateBandHeight.
+	bandHeight = 0 ifTrue: [ ^ 0 ].
+	
+	^ (self scrollPane height / bandHeight * self height) ceiling.
 	
 ]
 
 { #category : #'as yet unclassified' }
 GLMApproximateScrollbarBrick >> calculateScrollbarTopOffset [
-
-	^ (((self height) / (self approximateBandHeight)) * (self scrollPane band brickBounds top abs)) floor.
+	|bandHeight|
+	bandHeight := self approximateBandHeight.
+	bandHeight = 0 ifTrue: [ ^ 0 ].
+	
+	^ (self height / bandHeight * self scrollPane band brickBounds top abs) floor.
 ]
