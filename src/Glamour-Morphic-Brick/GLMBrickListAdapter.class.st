@@ -1,12 +1,15 @@
+"
+A GLMBrickListAdapter is an adapter to be used with GLMScrollListBrick
+"
 Class {
 	#name : #GLMBrickListAdapter,
 	#superclass : #Object,
 	#category : #'Glamour-Morphic-Brick-Model'
 }
 
-{ #category : #private }
+{ #category : #api }
 GLMBrickListAdapter >> itemMorphAt: anInteger recycled: aMorph [
-
+	
 	^ (aMorph ifNil: [ GLMLabelBrick new ]) 
 			color: Color random muchLighter;
 			text: anInteger asString;
@@ -14,7 +17,7 @@ GLMBrickListAdapter >> itemMorphAt: anInteger recycled: aMorph [
 			yourself
 ]
 
-{ #category : #private }
+{ #category : #api }
 GLMBrickListAdapter >> itemsCount [
 
 	^ 4000000000

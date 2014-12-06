@@ -12,18 +12,11 @@ Class {
 
 { #category : #'as yet unclassified' }
 GLMScrollListBrick class >> example [
-	|foundation scrollPane|
 	
-	scrollPane := self new.
-	
-	foundation := GLMFoundationBrick new.
-	foundation brickRoot: scrollPane.
-	
-	foundation extent: 200@200.
-	scrollPane adapter: GLMBrickListAdapter new.
-	foundation doLayout.
-	
-	foundation openInWindow
+	GLMFoundationBrick new
+		brickRoot: (self new adapter: GLMBrickListAdapter new);
+		extent: 300@400;
+		openInWindow
 ]
 
 { #category : #accessing }
@@ -36,7 +29,7 @@ GLMScrollListBrick >> adapter [
 GLMScrollListBrick >> adapter: anAdapter [
 
 	adapter := anAdapter.
-	self updateVisible
+	"self updateVisible"
 ]
 
 { #category : #accessing }
@@ -50,7 +43,8 @@ GLMScrollListBrick >> calculateMaxVelocity [
 GLMScrollListBrick >> doLayout [
 	
 	self layoutPolicy layoutFloating: self verticalScrollbar in: self withArguments: nil.
-	self update
+	self update.
+	self verticalScrollbar update.
 ]
 
 { #category : #accessing }
@@ -76,8 +70,10 @@ GLMScrollListBrick >> initialize [
 
 { #category : #'instance creation' }
 GLMScrollListBrick >> newBand [
-
-	^ GLMListBandBrick new
+	^ super newBand heightBlock: [ :bandBrick |
+		bandBrick subbricks isEmpty
+		ifTrue: [ 0 ]
+		ifFalse: [ bandBrick lastSubbrick brickBounds bottom ] ].
 ]
 
 { #category : #'instance creation' }

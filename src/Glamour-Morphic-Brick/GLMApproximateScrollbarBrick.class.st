@@ -1,3 +1,9 @@
+"
+A GLMApproximateScrollbarBrick can be used only with GLMScrollListBrick or with other lists that uses adapters.
+
+Approximates the height of band depending on average height of all visible items.
+
+"
 Class {
 	#name : #GLMApproximateScrollbarBrick,
 	#superclass : #GLMScrollbarBrick,
