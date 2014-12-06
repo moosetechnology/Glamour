@@ -175,8 +175,8 @@ GLMScrollListBrick >> updateVisibleBottom: invisibleBricks [
 	[ (self isVisible: after) and: [ (self getIndex: after) < self adapter itemsCount ] ] whileTrue: [
 		|newAfter last|
 		last := self retrieveLast: invisibleBricks.
-		last ifNotNil: [ self band removeBrick: last ].
-		newAfter := self adapter itemMorphAt: (self getIndex: after) + 1 recycled: last.
+		last ifNotNil: [ self band removeBrick: last. last := last morph ].
+		newAfter := (self adapter itemMorphAt: (self getIndex: after) + 1 recycled: last) asBrick.
 		self band addBrickBack: newAfter.
 		self setBoundsOf: newAfter after: after.
 		self setIndex: (self getIndex: after) + 1 in: newAfter.
@@ -195,8 +195,8 @@ GLMScrollListBrick >> updateVisibleTop: invisibleBricks [
 	before ifNil: [
 		|last|
 		last := self retrieveLast: invisibleBricks.
-		last ifNotNil: [ self band removeBrick: last. self setIndex: nil in: last ].
-		before := self adapter itemMorphAt: 1 recycled: (last).
+		last ifNotNil: [ self band removeBrick: last. self setIndex: nil in: last. last := last morph ].
+		before := (self adapter itemMorphAt: 1 recycled: last) asBrick.
 		before extent: (self width@before height).
 		self setIndex: 1 in: before.
 		self band addBrickBack: before ].
@@ -204,8 +204,8 @@ GLMScrollListBrick >> updateVisibleTop: invisibleBricks [
 	[ (self isVisible: before) and: [ (self getIndex: before) > 1 ] ] whileTrue: [
 		|newBefore last|
 		last := self retrieveLast: invisibleBricks.
-		last ifNotNil: [ self band removeBrick: last. self setIndex: nil in: last ].
-		newBefore := self adapter itemMorphAt: (self getIndex: before) - 1 recycled: last.
+		last ifNotNil: [ self band removeBrick: last. self setIndex: nil in: last. last := last morph ].
+		newBefore := (self adapter itemMorphAt: (self getIndex: before) - 1 recycled: last) asBrick.
 		self band addBrick: newBefore before: before.
 		self setBoundsOf: newBefore before: before.
 		self setIndex: (self getIndex: before) - 1 in: newBefore.

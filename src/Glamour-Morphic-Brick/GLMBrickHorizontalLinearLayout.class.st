@@ -11,6 +11,7 @@ Class {
 { #category : #layouting }
 GLMBrickHorizontalLinearLayout >> layout: aBrick in: newBounds [
 	|arguments|
+	
 	arguments := self prepareArgumentsFor: aBrick.
 	
 	aBrick subbricks

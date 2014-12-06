@@ -162,6 +162,11 @@ GLMBrick >> adjustLayoutBounds [
 	"no need in it"
 ]
 
+{ #category : #converting }
+GLMBrick >> asBrick [
+	^ self
+]
+
 { #category : #geometry }
 GLMBrick >> bounds [
 
@@ -505,6 +510,11 @@ GLMBrick >> layoutBounds: aRectangle [
 GLMBrick >> layoutChanged [
 
 	"empty"
+]
+
+{ #category : #accessing }
+GLMBrick >> morph [
+	^ self
 ]
 
 { #category : #drawing }

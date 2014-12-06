@@ -35,6 +35,12 @@ GLMLabelBrick >> approximateWidth [
 		^ self label approximateWidth + self layoutProperties horizontalMargin + self layoutProperties horizontalPadding
 ]
 
+{ #category : #accessing }
+GLMLabelBrick >> contents: aStringOrText [
+
+	self text: aStringOrText asString
+]
+
 { #category : #'default values' }
 GLMLabelBrick >> defaultDotsText [
 	^ '...'
