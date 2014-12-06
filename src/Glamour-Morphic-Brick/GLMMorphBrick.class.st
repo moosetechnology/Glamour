@@ -10,7 +10,7 @@ morph
 "
 Class {
 	#name : #GLMMorphBrick,
-	#superclass : #GLMBrick,
+	#superclass : #GLMBandBrick,
 	#instVars : [
 		'morph'
 	],

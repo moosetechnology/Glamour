@@ -12,9 +12,28 @@ Class {
 
 { #category : #'as yet unclassified' }
 GLMScrollListBrick class >> example [
-	
+	|adaptor|
+	adaptor := nil.
+	adaptor := GLMBrickListAdaptor new
+		sizeLogic: [ 4000000000 ];
+		morphAtLogic: [ :index :morph | 
+			(morph ifNil: [ GLMLabelBrick new ])
+				color: Color random muchLighter;
+				text: index asString, ' of ', adaptor count asString;
+				textPosition: #center;
+				yourself ].
+
 	GLMFoundationBrick new
-		brickRoot: (self new adapter: GLMBrickListAdaptor new);
+		brickRoot: (self new adapter: adaptor);
+		extent: 300@400;
+		openInWindow
+]
+
+{ #category : #'as yet unclassified' }
+GLMScrollListBrick class >> exampleCollection [
+
+	GLMFoundationBrick new
+		brickRoot: (self new adapter: (GLMBrickListAdaptor new on: (GLMUIThemeExtraIcons icons values)));
 		extent: 300@400;
 		openInWindow
 ]
