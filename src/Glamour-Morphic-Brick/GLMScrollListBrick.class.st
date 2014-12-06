@@ -14,7 +14,7 @@ Class {
 GLMScrollListBrick class >> example [
 	
 	GLMFoundationBrick new
-		brickRoot: (self new adapter: GLMBrickListAdapter new);
+		brickRoot: (self new adapter: GLMBrickListAdaptor new);
 		extent: 300@400;
 		openInWindow
 ]
@@ -88,7 +88,7 @@ GLMScrollListBrick >> getIndex: aMorph [
 GLMScrollListBrick >> getMorphAt: anInteger recycled: aMorph [
 	|newMorph|
 	
-	newMorph := (self adapter itemMorphAt: anInteger recycled: aMorph) asBrick.
+	newMorph := (self adapter morphAt: anInteger convert: aMorph) asBrick.
 	self setIndex: anInteger in: newMorph.
 	^ newMorph
 ]
@@ -123,7 +123,7 @@ GLMScrollListBrick >> preventOverscrolling [
 		(self band brickBounds origin y > self band firstSubbrick brickBounds top) ifTrue: [
 			self band brickBounds: (self band brickBounds translateBy: (0@ self band brickBounds origin y) negated) ] ].
 	
-	((self getIndex: self band lastSubbrick) = self adapter itemsCount) ifTrue: [
+	((self getIndex: self band lastSubbrick) = self adapter count) ifTrue: [
 		(self band brickBounds corner y < self height) ifTrue: [
 			self band brickBounds: (self band brickBounds translateBy: (0@ (self height - self band brickBounds corner y))) ] ].
 ]
@@ -139,7 +139,7 @@ GLMScrollListBrick >> retrieveLast: aCollection [
 { #category : #scrolling }
 GLMScrollListBrick >> scrollDown: anInteger [
 
-	((self getIndex: self band lastSubbrick) = self adapter itemsCount) ifTrue: [
+	((self getIndex: self band lastSubbrick) = self adapter count) ifTrue: [
 		(self band brickBounds corner y <= self height) ifTrue: [ ^ self ] ].
 
 	band brickBounds: (band brickBounds translateBy: (0@ anInteger) negated).
@@ -204,11 +204,14 @@ GLMScrollListBrick >> updateVisibleBottom: invisibleBricks [
 	|after|
 	
 	after := self band lastSubbrick.
-	[ (self isVisible: after) and: [ (self getIndex: after) < self adapter itemsCount ] ] whileTrue: [
-		|newAfter index|
-		index := (self getIndex: after) + 1.
-		newAfter := self getMorphAt: index recycled: (self getAndRemoveInvisibleMorph: invisibleBricks).
-		after := self addItemMorph: newAfter after: after ]
+	
+	[ (self isVisible: after) and: [ (self getIndex: after) < self adapter count ] ] whileTrue: [
+		after := self
+			addItemMorph: (
+				self
+					getMorphAt: (self getIndex: after) + 1
+					recycled: (self getAndRemoveInvisibleMorph: invisibleBricks))
+			after: after ]
 
 ]
 
@@ -218,16 +221,14 @@ GLMScrollListBrick >> updateVisibleTop: invisibleBricks [
 	
 	before := self band subbricks isEmpty
 		ifFalse: [ self band firstSubbrick]
-		ifTrue: [ nil ].
+		ifTrue: [ self band addBrickBack: (self getMorphAt: 1 recycled: (self getAndRemoveInvisibleMorph: invisibleBricks)) ].
 		
-	before ifNil: [
-		before := self getMorphAt: 1 recycled: (self getAndRemoveInvisibleMorph: invisibleBricks).
-		self band addBrickBack: before ].
-	
 	[ (self isVisible: before) and: [ (self getIndex: before) > 1 ] ] whileTrue: [
-		|newBefore index|
-		index := (self getIndex: before) - 1.
-		newBefore := self getMorphAt: index recycled: (self getAndRemoveInvisibleMorph: invisibleBricks).
-		before := self addItemMorph: newBefore before: before  ]
+		before := self
+			addItemMorph: (
+				self
+					getMorphAt: (self getIndex: before) - 1
+					recycled: (self getAndRemoveInvisibleMorph: invisibleBricks))
+			before: before  ]
 	
 ]
