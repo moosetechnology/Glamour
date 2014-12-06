@@ -1,5 +1,5 @@
 "
-A GLMBrickListAdaptor is scriptable implementation of adapter that is mostly used with list scroll brick
+A GLMBrickListAdaptor is scriptable implementation of adaptor that is mostly used with list scroll brick
 
 Instance Variables
 	countLogic:		<Object>

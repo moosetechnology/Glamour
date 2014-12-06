@@ -1,5 +1,5 @@
 "
-A GLMApproximateScrollbarBrick can be used only with GLMScrollListBrick or with other lists that uses adapters.
+A GLMApproximateScrollbarBrick can be used only with GLMScrollListBrick or with other lists that uses adaptors.
 
 Approximates the height of band depending on average height of all visible items.
 
@@ -18,7 +18,7 @@ GLMApproximateScrollbarBrick >> approximateBandHeight [
 	visible isEmpty ifTrue: [ ^ 0 ].
 	
 	averageItemHeight := (visible inject: 0 into: [ :visibleHeight :each | visibleHeight + each height ]) / visible size.
-	^ self scrollPane adapter count * averageItemHeight.
+	^ self scrollPane adaptor count * averageItemHeight.
 ]
 
 { #category : #'as yet unclassified' }

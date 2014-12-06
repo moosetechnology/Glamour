@@ -5,7 +5,7 @@ Class {
 	#name : #GLMScrollListBrick,
 	#superclass : #GLMScrollPaneBrick,
 	#instVars : [
-		'adapter'
+		'adaptor'
 	],
 	#category : #'Glamour-Morphic-Brick-UI'
 }
@@ -24,7 +24,7 @@ GLMScrollListBrick class >> example [
 				yourself ].
 
 	GLMFoundationBrick new
-		brickRoot: (self new adapter: adaptor);
+		brickRoot: (self new adaptor: adaptor);
 		extent: 300@400;
 		openInWindow
 ]
@@ -33,22 +33,21 @@ GLMScrollListBrick class >> example [
 GLMScrollListBrick class >> exampleCollection [
 
 	GLMFoundationBrick new
-		brickRoot: (self new adapter: (GLMBrickListAdaptor new on: (GLMUIThemeExtraIcons icons values)));
+		brickRoot: (self new adaptor: (GLMBrickListAdaptor new on: (GLMUIThemeExtraIcons icons values)));
 		extent: 300@400;
 		openInWindow
 ]
 
 { #category : #accessing }
-GLMScrollListBrick >> adapter [
+GLMScrollListBrick >> adaptor [
 
-	^ adapter
+	^ adaptor
 ]
 
 { #category : #accessing }
-GLMScrollListBrick >> adapter: anAdapter [
+GLMScrollListBrick >> adaptor: anAdaptor [
 
-	adapter := anAdapter.
-	"self updateVisible"
+	adaptor := anAdaptor
 ]
 
 { #category : #adding }
@@ -107,7 +106,7 @@ GLMScrollListBrick >> getIndex: aMorph [
 GLMScrollListBrick >> getMorphAt: anInteger recycled: aMorph [
 	|newMorph|
 	
-	newMorph := (self adapter morphAt: anInteger convert: aMorph) asBrick.
+	newMorph := (self adaptor morphAt: anInteger convert: aMorph) asBrick.
 	self setIndex: anInteger in: newMorph.
 	^ newMorph
 ]
@@ -142,7 +141,7 @@ GLMScrollListBrick >> preventOverscrolling [
 		(self band brickBounds origin y > self band firstSubbrick brickBounds top) ifTrue: [
 			self band brickBounds: (self band brickBounds translateBy: (0@ self band brickBounds origin y) negated) ] ].
 	
-	((self getIndex: self band lastSubbrick) = self adapter count) ifTrue: [
+	((self getIndex: self band lastSubbrick) = self adaptor count) ifTrue: [
 		(((self band brickBounds corner y) < self height) and: [ (self isVisible: self band firstSubbrick) not ]) ifTrue: [
 			self band brickBounds: (self band brickBounds translateBy: (0@ (self height - self band brickBounds corner y))) ] ].
 ]
@@ -158,7 +157,7 @@ GLMScrollListBrick >> retrieveLast: aCollection [
 { #category : #scrolling }
 GLMScrollListBrick >> scrollDown: anInteger [
 
-	((self getIndex: self band lastSubbrick) = self adapter count) ifTrue: [
+	((self getIndex: self band lastSubbrick) = self adaptor count) ifTrue: [
 		(self band brickBounds corner y <= self height) ifTrue: [ ^ self ] ].
 
 	band brickBounds: (band brickBounds translateBy: (0@ anInteger) negated).
@@ -205,7 +204,7 @@ GLMScrollListBrick >> update [
 GLMScrollListBrick >> updateVisible [
 	|invisible|
 	
-	self adapter ifNil: [ ^ self ].
+	self adaptor ifNil: [ ^ self ].
 	
 	invisible := self gatherInvisibleItems.
 	self updateVisibleTop: invisible.
@@ -224,7 +223,7 @@ GLMScrollListBrick >> updateVisibleBottom: invisibleBricks [
 	
 	after := self band lastSubbrick.
 	
-	[ (self isPartiallyVisible: after) and: [ (self getIndex: after) < self adapter count ] ] whileTrue: [
+	[ (self isPartiallyVisible: after) and: [ (self getIndex: after) < self adaptor count ] ] whileTrue: [
 		after := self
 			addItemMorph: (
 				self
