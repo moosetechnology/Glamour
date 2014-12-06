@@ -12,7 +12,7 @@ GLMBrickListAdapter >> itemMorphAt: anInteger recycled: aMorph [
 	
 	^ (aMorph ifNil: [ GLMLabelBrick new ]) 
 			color: Color random muchLighter;
-			text: anInteger asString;
+			text: anInteger asString, ' of ', self itemsCount asString;
 			textPosition: #center;
 			yourself
 ]
