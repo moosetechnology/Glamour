@@ -205,7 +205,7 @@ GLMScrollListBrick >> updateVisibleBottom: invisibleBricks [
 	
 	after := self band lastSubbrick.
 	
-	[ (self isVisible: after) and: [ (self getIndex: after) < self adapter count ] ] whileTrue: [
+	[ (self isPartiallyVisible: after) and: [ (self getIndex: after) < self adapter count ] ] whileTrue: [
 		after := self
 			addItemMorph: (
 				self
@@ -223,7 +223,7 @@ GLMScrollListBrick >> updateVisibleTop: invisibleBricks [
 		ifFalse: [ self band firstSubbrick]
 		ifTrue: [ self band addBrickBack: (self getMorphAt: 1 recycled: (self getAndRemoveInvisibleMorph: invisibleBricks)) ].
 		
-	[ (self isVisible: before) and: [ (self getIndex: before) > 1 ] ] whileTrue: [
+	[ (self isPartiallyVisible: before) and: [ (self getIndex: before) > 1 ] ] whileTrue: [
 		before := self
 			addItemMorph: (
 				self
