@@ -124,7 +124,7 @@ GLMScrollListBrick >> preventOverscrolling [
 			self band brickBounds: (self band brickBounds translateBy: (0@ self band brickBounds origin y) negated) ] ].
 	
 	((self getIndex: self band lastSubbrick) = self adapter count) ifTrue: [
-		(self band brickBounds corner y < self height) ifTrue: [
+		(((self band brickBounds corner y) < self height) and: [ (self isVisible: self band firstSubbrick) not ]) ifTrue: [
 			self band brickBounds: (self band brickBounds translateBy: (0@ (self height - self band brickBounds corner y))) ] ].
 ]
 

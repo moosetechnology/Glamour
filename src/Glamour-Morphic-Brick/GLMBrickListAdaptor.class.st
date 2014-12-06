@@ -10,7 +10,7 @@ Class {
 { #category : #'adaptor api' }
 GLMBrickListAdaptor >> count [
 
-	^ 100
+	^ 5
 ]
 
 { #category : #'adaptor api' }
