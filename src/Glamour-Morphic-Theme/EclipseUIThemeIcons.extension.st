@@ -156,24 +156,7 @@ EclipseUIThemeIcons >> glamorousFolder [
 
 { #category : #'*Glamour-Morphic-Theme' }
 EclipseUIThemeIcons >> glamorousGo [
-	^ self icons
-			at: #'glamorousGo'
-			ifAbsentPut:[ Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: self glamorousGoIconContents readStream) ].
-]
-
-{ #category : #'*Glamour-Morphic-Theme-contents' }
-EclipseUIThemeIcons >> glamorousGoIconContents [
-	"Private - Method generated"
-	^ 'R0lGODlhEAAQAOYAAA1jQg9mQxBmQxJoRBJoRRNoRhRpRhxxThNoRBZrRxhsRxlsSCF2USJ3
-UhxwShxtSB5ySyF1TyJ3USR6UyN2UCJ0TyR5Uyh9Vil9Vit/WSx/WS1/WSZ7Uyd6UyZ3UTCC
-WlSqcVWrcVSpcVWqcUmmZUqnZkmlZVqvdFqvdVirckqnZE6raF6zd0yoZU+pZmO3eVGuZ2Wy
-YWSxYWi1Y4jAhGi2YYjAgoa+gYe/govBhWy5Yo7EhY/Eh5TJiXS7YXa8YZfIiHm/YXi+YZjI
-iJ7Ni5rJiZ7MjKPQjojHYozIYazRj67SkLHUkbTWkcLdl8Dblv///wAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAFAALAAAAAAQABAAAAdtgFCCg4SFhoeIiYUfGxmK
-gxpOTxMYjxdMSktNEh2JFkRDQEVGRwwchw07Njc4NDk8PRUehREnISIiICMpKCwvFIQHKyUm
-JCotLjAOEIULMzIyMTU6Cg+HBkI+P0EFCYkDSUgABI8IAgGP6eqHgQA7'
+	^ self smallDoItIcon
 ]
 
 { #category : #'*Glamour-Morphic-Theme' }
@@ -325,8 +308,25 @@ Us1hli5Ff37sAmH9BCU7deY1AAAAAElFTkSuQmCC'
 ]
 
 { #category : #'*Glamour-Morphic-Theme' }
-EclipseUIThemeIcons >> glamorousPlay [ 
-	^ self glamorousGo
+EclipseUIThemeIcons >> glamorousPlay [
+	^ self icons
+			at: #'glamorousPlay'
+			ifAbsentPut:[ Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: self glamorousGoIconContents readStream) ].
+]
+
+{ #category : #'*Glamour-Morphic-Theme-contents' }
+EclipseUIThemeIcons >> glamorousPlayIconContents [
+	"Private - Method generated"
+	^ 'R0lGODlhEAAQAOYAAA1jQg9mQxBmQxJoRBJoRRNoRhRpRhxxThNoRBZrRxhsRxlsSCF2USJ3
+UhxwShxtSB5ySyF1TyJ3USR6UyN2UCJ0TyR5Uyh9Vil9Vit/WSx/WS1/WSZ7Uyd6UyZ3UTCC
+WlSqcVWrcVSpcVWqcUmmZUqnZkmlZVqvdFqvdVirckqnZE6raF6zd0yoZU+pZmO3eVGuZ2Wy
+YWSxYWi1Y4jAhGi2YYjAgoa+gYe/govBhWy5Yo7EhY/Eh5TJiXS7YXa8YZfIiHm/YXi+YZjI
+iJ7Ni5rJiZ7MjKPQjojHYozIYazRj67SkLHUkbTWkcLdl8Dblv///wAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAFAALAAAAAAQABAAAAdtgFCCg4SFhoeIiYUfGxmK
+gxpOTxMYjxdMSktNEh2JFkRDQEVGRwwchw07Njc4NDk8PRUehREnISIiICMpKCwvFIQHKyUm
+JCotLjAOEIULMzIyMTU6Cg+HBkI+P0EFCYkDSUgABI8IAgGP6eqHgQA7'
 ]
 
 { #category : #'*Glamour-Morphic-Theme' }
