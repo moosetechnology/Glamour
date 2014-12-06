@@ -16,7 +16,7 @@ GLMApproximateScrollbarBrick >> approximateBandHeight [
 	
 	visible := self scrollPane band submorphs select: [ :each | self scrollPane isVisible: each ].
 	averageItemHeight := (visible inject: 0 into: [ :visibleHeight :each | visibleHeight + each height ]) / visible size.
-	^ self scrollPane adapter itemsCount * averageItemHeight.
+	^ self scrollPane adapter count * averageItemHeight.
 ]
 
 { #category : #'as yet unclassified' }
