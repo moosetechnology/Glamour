@@ -60,7 +60,7 @@ GLMWhitespaceTheme class >> importGlamorousIcons [
 		'glamorousCheckboxUnselected'
 		'glamorousRadioSelected'
 		'glamorousRadioUnselected').
-	self importIcons: icons fromFolder: 'icons' inClass: GLMUIThemeIcons category: '*glamour-morphic-theme'
+	self importIcons: icons fromFolder: 'icons' inClass: GLMThemeIcons category: '*glamour-morphic-theme'
 ]
 
 { #category : #private }
@@ -332,14 +332,14 @@ GLMWhitespaceTheme >> checkboxForm [
 GLMWhitespaceTheme >> checkboxSelectedForm [
 	"Answer the form to use for a selected checkbox."
 
-	^GLMUIThemeIcons checkboxSelectedForm
+	^GLMThemeIcons checkboxSelectedForm
 ]
 
 { #category : #forms }
 GLMWhitespaceTheme >> checkboxUnselectedForm [
 	"Answer the form to use for a selected checkbox."
 
-	^ GLMUIThemeIcons checkboxUnselectedForm
+	^ GLMThemeIcons checkboxUnselectedForm
 ]
 
 { #category : #'watcher window' }
@@ -707,7 +707,7 @@ GLMWhitespaceTheme >> menuItemInDockingBarSelectedFillStyleFor: aMenuItem [
 GLMWhitespaceTheme >> menuPinForm [
 	"Answer the form to use for the pin button of a menu."
 
-	^ GLMUIThemeIcons menuPinForm
+	^ GLMThemeIcons menuPinForm
 ]
 
 { #category : #'fill-styles' }
@@ -724,7 +724,7 @@ GLMWhitespaceTheme >> morphTreeSplitterPressedFillStyleFor: aSplitter [
 GLMWhitespaceTheme >> newCheckboxMarkerForm [
 	"Answer a new checkbox marker form."
 
-	^GLMUIThemeIcons checkboxMarkerForm
+	^GLMThemeIcons checkboxMarkerForm
 ]
 
 { #category : #'morph creation' }
@@ -773,7 +773,7 @@ GLMWhitespaceTheme >> newFocusIndicatorMorphFor: aMorph [
 GLMWhitespaceTheme >> newRadioButtonMarkerForm [
 	"Answer a new radio button marker form. We make it empty because we already have the selected radio button take care of the state."
 
-	^GLMUIThemeIcons radioButtonMarkerForm  
+	^GLMThemeIcons radioButtonMarkerForm  
 ]
 
 { #category : #'initialize-release' }
@@ -809,7 +809,7 @@ GLMWhitespaceTheme >> newTreeUnexpandedForm [
 GLMWhitespaceTheme >> newWindowCloseForm [
 	"Answer a new form for a window close box."
 
-	^ GLMUIThemeIcons windowCloseForm 
+	^ GLMThemeIcons windowCloseForm 
 ]
 
 { #category : #forms }
@@ -834,7 +834,7 @@ GLMWhitespaceTheme >> newWindowInactiveControlForm [
 GLMWhitespaceTheme >> newWindowMaximizeForm [
 	"Answer a new form for a window maximize box."
 
-	^ GLMUIThemeIcons windowMaximizeForm
+	^ GLMThemeIcons windowMaximizeForm
 ]
 
 { #category : #forms }
@@ -848,21 +848,21 @@ GLMWhitespaceTheme >> newWindowMaximizeOverForm [
 GLMWhitespaceTheme >> newWindowMenuForm [
 	"Answer a new form for a window menu box."
 
-	^ GLMUIThemeIcons windowMenuForm
+	^ GLMThemeIcons windowMenuForm
 ]
 
 { #category : #forms }
 GLMWhitespaceTheme >> newWindowMenuPassiveForm [
 	"Answer a new form for a window menu box."
 
-	^ GLMUIThemeIcons windowMenuInactiveForm
+	^ GLMThemeIcons windowMenuInactiveForm
 ]
 
 { #category : #forms }
 GLMWhitespaceTheme >> newWindowMinimizeForm [
 	"Answer a new form for a window minimize box."
 
-	^ GLMUIThemeIcons windowMinimizeForm
+	^ GLMThemeIcons windowMinimizeForm
 ]
 
 { #category : #forms }
@@ -901,14 +901,14 @@ GLMWhitespaceTheme >> progressFillStyleFor: aProgress [
 GLMWhitespaceTheme >> radioButtonForm [
 	"Answer the form to use for a normal radio button."
 
-	^ GLMUIThemeIcons radioButtonUnselectedForm
+	^ GLMThemeIcons radioButtonUnselectedForm
 ]
 
 { #category : #forms }
 GLMWhitespaceTheme >> radioButtonSelectedForm [
 	"Answer the form to use for a selected radio button."
 
-	^ GLMUIThemeIcons radioButtonSelectedForm 
+	^ GLMThemeIcons radioButtonSelectedForm 
 ]
 
 { #category : #'fill-styles' }
@@ -1135,7 +1135,7 @@ GLMWhitespaceTheme >> windowCloseOverForm [
 GLMWhitespaceTheme >> windowClosePassiveForm [
 	"Answer the form to use for passive (background) window close buttons"
 
-	^GLMUIThemeIcons windowCloseInactiveForm
+	^GLMThemeIcons windowCloseInactiveForm
 ]
 
 { #category : #'fill-styles' }
@@ -1169,7 +1169,7 @@ GLMWhitespaceTheme >> windowMaximizeOverForm [
 GLMWhitespaceTheme >> windowMaximizePassiveForm [
 	"Answer the form to use for passive (background) window maximize/restore buttons"
 
-	^GLMUIThemeIcons windowMaximizeInactiveForm
+	^GLMThemeIcons windowMaximizeInactiveForm
 ]
 
 { #category : #'label-styles' }
@@ -1190,7 +1190,7 @@ GLMWhitespaceTheme >> windowMinimizeOverForm [
 GLMWhitespaceTheme >> windowMinimizePassiveForm [
 	"Answer the form to use for passive (background) window minimize buttons"
 
-	^GLMUIThemeIcons windowMinimizeInactiveForm
+	^GLMThemeIcons windowMinimizeInactiveForm
 ]
 
 { #category : #defaults }
