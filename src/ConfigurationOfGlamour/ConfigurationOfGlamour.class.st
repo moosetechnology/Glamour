@@ -2868,3 +2868,32 @@ ConfigurationOfGlamour >> version302: spec [
 
 
 ]
+
+{ #category : #versions }
+ConfigurationOfGlamour >> version303: spec [
+	<version: '3.0.3' imports: #('3.0-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 3.0.3'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '12/07/2014 13:58'.
+		spec 
+			package: 'Glamour-Examples-Extras' with: 'Glamour-Examples-Extras-TudorGirba.2';
+			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.85';
+			package: 'Glamour-Roassal2-Presentations' with: 'Glamour-Roassal2-Presentations-TudorGirba.27';
+			package: 'Glamour-Magritte-Presentations' with: 'Glamour-Magritte-Presentations-AndreiChis.7'. 
+		
+		spec 
+			project: 'GlamourCore' with: '3.0.3';
+			project: 'Roassal2 for Glamour' with: '1.4';
+			project: 'Magritte3' with: #'release3.2'. ].
+		
+	spec for: #squeakCommon do: [ 
+		spec blessing: #'stable'.
+		spec 
+			package: 'CollectionExtensions' with: 'CollectionExtensions-TudorGirba.40';
+			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.85' ]
+
+
+]
