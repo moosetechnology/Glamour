@@ -325,7 +325,7 @@ Us1hli5Ff37sAmH9BCU7deY1AAAAAElFTkSuQmCC'
 EclipseUIThemeIcons >> glamorousPlay [
 	^ self icons
 			at: #'glamorousPlay'
-			ifAbsentPut:[ Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: self glamorousGoIconContents readStream) ].
+			ifAbsentPut:[ Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: self glamorousPlayIconContents readStream) ].
 ]
 
 { #category : #'*Glamour-Morphic-Theme-contents' }
