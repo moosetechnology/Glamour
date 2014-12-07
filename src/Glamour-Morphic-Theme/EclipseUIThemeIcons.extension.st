@@ -88,6 +88,20 @@ EclipseUIThemeIcons >> glamorousCancel [
 ]
 
 { #category : #'*Glamour-Morphic-Theme' }
+EclipseUIThemeIcons >> glamorousClose [
+	^ self icons
+			at: #'glamorousClose'
+			ifAbsentPut:[ Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: self glamorousCloseIconContents readStream) ].
+]
+
+{ #category : #'*Glamour-Morphic-Theme-contents' }
+EclipseUIThemeIcons >> glamorousCloseIconContents [
+	"Private - Method generated"
+	^ 'R0lGODlhEAAQAJEAAD9fPwAAAP///wAAACH5BAEAAAIALAAAAAAQABAAAAIalI+py+0PFQho
+NivwDdr1/UlUNi5dGKXqihQAOw=='
+]
+
+{ #category : #'*Glamour-Morphic-Theme' }
 EclipseUIThemeIcons >> glamorousDown [
 	^ self icons
 			at: #'glamorousDown'
@@ -311,7 +325,7 @@ Us1hli5Ff37sAmH9BCU7deY1AAAAAElFTkSuQmCC'
 EclipseUIThemeIcons >> glamorousPlay [
 	^ self icons
 			at: #'glamorousPlay'
-			ifAbsentPut:[ Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: self glamorousPlayIconContents readStream) ].
+			ifAbsentPut:[ Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: self glamorousGoIconContents readStream) ].
 ]
 
 { #category : #'*Glamour-Morphic-Theme-contents' }

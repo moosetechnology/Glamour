@@ -46,6 +46,11 @@ GLMUIThemeExtraIcons class >> glamorousCancel [
 ]
 
 { #category : #icons }
+GLMUIThemeExtraIcons class >> glamorousClose [ 
+	^ Smalltalk ui icons glamorousClose
+]
+
+{ #category : #icons }
 GLMUIThemeExtraIcons class >> glamorousDown [
 	^ Smalltalk ui icons glamorousDown
 ]

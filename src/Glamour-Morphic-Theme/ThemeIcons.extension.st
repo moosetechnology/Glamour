@@ -71,6 +71,11 @@ ThemeIcons >> glamorousCancel [
 ]
 
 { #category : #'*Glamour-Morphic-Theme' }
+ThemeIcons >> glamorousClose [
+	^ self glamorousCancel
+]
+
+{ #category : #'*Glamour-Morphic-Theme' }
 ThemeIcons >> glamorousDown [
 ^ self icons
 		at: #glamorousDown ifAbsentPut: [(Form
