@@ -1873,7 +1873,7 @@ ConfigurationOfGlamour >> baseline30: spec [
 				spec
 					className: 'ConfigurationOfMagritte3';
 					file: 'ConfigurationOfMagritte3';
-					version: #development;
+					version: #'release3.2';
 					repository: 'http://www.smalltalkhub.com/mc/Magritte/Magritte3/main';
 					loads: #('Magritte-Model' 'Magritte-Tests-Model' 'Magritte-Morph' 'Magritte-Pharo-Model') ] ]
 ]
