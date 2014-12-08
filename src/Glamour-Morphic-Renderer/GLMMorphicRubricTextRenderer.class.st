@@ -83,12 +83,12 @@ GLMMorphicRubricTextRenderer >> render: aPresentation [
 		ifTrue: [ textMorph withTextSegmentIcons ]
 		ifFalse: [ textMorph withoutTextSegmentIcons ].
 	textMorph textArea announcer
-		on: RubTextChanged
+		when: RubTextChanged
 		do: [ :ann | 
 			aPresentation announcer
 				suspendAllWhile: [ aPresentation text: textMorph text ] ].
 	textMorph textArea announcer
-		on: RubSelectionChanged
+		when: RubSelectionChanged
 		do: [ :ann | 
 			aPresentation announcer 
 				suspendAllWhile: [ 
@@ -96,7 +96,7 @@ GLMMorphicRubricTextRenderer >> render: aPresentation [
 					aPresentation selectedText: textMorph textArea selection ] ].
 			
 	textMorph textArea announcer
-		on: RubTextAccepted
+		when: RubTextAccepted
 		do: [ :ann | aPresentation suspendAllWhile: [ aPresentation text: ann text ] ].
 		
 	self installActionsOnModel: textModel fromPresentation: aPresentation .
