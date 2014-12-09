@@ -48,7 +48,7 @@ GLMBrickVerticalProportionalLinearLayout >> prepareArgumentsFor: aBrick [
 			allowedHeight := allowedHeight - minHeight.
 			maxPercent := maxPercent - each layoutProperties verticalPercent ] ].
 
-	^ HashTable new
+	^ Dictionary new
 		add: (#distributableHeight -> allowedHeight);
 		add: (#distributablePercents -> maxPercent);
 		yourself

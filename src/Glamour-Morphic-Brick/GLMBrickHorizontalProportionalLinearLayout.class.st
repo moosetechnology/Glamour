@@ -79,7 +79,7 @@ GLMBrickHorizontalProportionalLinearLayout >> prepareArgumentsFor: aBrick [
 			allowedWidth := allowedWidth - minWidth.
 			maxPercent := maxPercent - each layoutProperties horizontalPercent ] ].
 
-	^ HashTable new
+	^ Dictionary new
 		add: (#distributableWidth -> allowedWidth);
 		add: (#distributablePercents -> maxPercent);
 		yourself
