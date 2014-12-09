@@ -338,8 +338,8 @@ ConfigurationOfGlamourCore >> version303: spec [
 			package: 'Glamour-Morphic-Renderer' with: [
 				spec file: 'Glamour-Morphic-Renderer-AndreiChis.301'.
 				spec repository: 'http://www.smalltalkhub.com/mc/PharoExtras/GTToolsIntegration/main' ];
-			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-AliakseiSyrel.80';
-			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-AliakseiSyrel.77';
+			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-AliakseiSyrel.82';
+			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-AliakseiSyrel.78';
 			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-TudorGirba.194';
 			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-AndreiChis.118';
 			package: 'Glamour-Examples' with: 'Glamour-Examples-TudorGirba.290';
