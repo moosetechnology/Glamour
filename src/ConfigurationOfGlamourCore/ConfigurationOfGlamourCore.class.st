@@ -204,7 +204,7 @@ ConfigurationOfGlamourCore >> project [
 ConfigurationOfGlamourCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.0.2'.
+	spec for: #'common' version: '3.0.4'.
 
 ]
 
