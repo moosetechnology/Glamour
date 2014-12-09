@@ -33,7 +33,7 @@ GLMScrollListBrick class >> example [
 GLMScrollListBrick class >> exampleCollection [
 
 	GLMFoundationBrick new
-		brickRoot: (self new adaptor: (GLMBrickListAdaptor new on: (GLMUIThemeExtraIcons icons values)));
+		brickRoot: (self new adaptor: (GLMBrickListAdaptor new on: (1 to: 4000)));
 		extent: 300@400;
 		openInWindow
 ]
