@@ -30,7 +30,7 @@ GLMPagerMorphTest >> openInWindow [
 { #category : #accessing }
 GLMPagerMorphTest >> panesMorphs [
 
-	^ pagerMorph submorphs first panes
+	^ pagerMorph submorphs first submorphs first panes
 ]
 
 { #category : #running }
