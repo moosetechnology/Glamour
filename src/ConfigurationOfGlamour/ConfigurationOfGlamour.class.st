@@ -1873,7 +1873,7 @@ ConfigurationOfGlamour >> baseline30: spec [
 				spec
 					className: 'ConfigurationOfMagritte3';
 					file: 'ConfigurationOfMagritte3';
-					version: #development;
+					version: #'release3.2';
 					repository: 'http://www.smalltalkhub.com/mc/Magritte/Magritte3/main';
 					loads: #('Magritte-Model' 'Magritte-Tests-Model' 'Magritte-Morph' 'Magritte-Pharo-Model') ] ]
 ]
@@ -2064,7 +2064,7 @@ ConfigurationOfGlamour >> snapshot2 [
 ConfigurationOfGlamour >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '2.1'.
+	spec for: #'common' version: '3.0.4'.
 
 	spec for: #'pharo1.3.x' version: '2.2'.
 
