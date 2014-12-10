@@ -33,7 +33,7 @@ GLMScrollListBrick class >> example [
 GLMScrollListBrick class >> exampleCollection [
 
 	GLMFoundationBrick new
-		brickRoot: (self new adaptor: (GLMBrickListAdaptor new on: (1 to: 4000)));
+		brickRoot: (self new adaptor: (GLMBrickListAdaptor new on: (Smalltalk allClasses)));
 		extent: 300@400;
 		openInWindow
 ]
@@ -70,7 +70,7 @@ GLMScrollListBrick >> addItemMorph: aMorph before: anotherMorph [
 GLMScrollListBrick >> calculateMaxVelocity [
 
 	"max velocity must depend from the height of the band"
-	^ (self height * 0.9) asInteger min: self class defaultMaxVelocity
+	^ (self height * 0.9) asInteger
 ]
 
 { #category : #layouting }
@@ -160,7 +160,7 @@ GLMScrollListBrick >> scrollDown: anInteger [
 	((self getIndex: self band lastSubbrick) = self adaptor count) ifTrue: [
 		(self band brickBounds corner y <= self height) ifTrue: [ ^ self ] ].
 
-	band brickBounds: (band brickBounds translateBy: (0@ anInteger) negated).
+	band brickBounds: (band brickBounds translateBy: (0@ anInteger) negated)
 ]
 
 { #category : #scrolling }

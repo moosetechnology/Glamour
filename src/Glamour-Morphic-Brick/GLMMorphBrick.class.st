@@ -26,7 +26,7 @@ GLMMorphBrick class >> on: aMorph [
 { #category : #'as yet unclassified' }
 GLMMorphBrick >> doLayout [
 	
-	self layoutPolicy layout: self in: self brickBounds
+	self morph privateBounds: self globalBounds
 ]
 
 { #category : #'as yet unclassified' }
