@@ -1,41 +1,30 @@
 "
-A GLMBandBrick is a simple Brick with height and bounds to fit all subbricks.
-Usually used within scroll panes
-
+A GLMHorizontalBandBrick is a simple Brick with width and bounds to fit all subbricks.
+Usually used within horizontal scroll panes
 "
 Class {
-	#name : #GLMBandBrick,
+	#name : #GLMHorizontalBandBrick,
 	#superclass : #GLMBrick,
 	#category : #'Glamour-Morphic-Brick-UI'
 }
 
 { #category : #'layout brick' }
-GLMBandBrick >> doLayout [
+GLMHorizontalBandBrick >> doLayout [
 	
 	self layoutChildren.
 
 	self subbricks do: [ :each | each isBrick ifTrue: [ each doLayout ] ]
 ]
 
-{ #category : #geometry }
-GLMBandBrick >> height [
-	|height|
-	self heightBlock ifNotNil: [ ^ self heightBlock cull: self ].
-		
-	height := self layoutProperties verticalPadding.
-	self subbricks do: [ :each | height := height + each height + each layoutProperties verticalMargin ].
-	^ height
-]
-
 { #category : #initialization }
-GLMBandBrick >> initialize [
+GLMHorizontalBandBrick >> initialize [
 	super initialize.
 	
-	self layoutPolicy: GLMBrickVerticalFillLinearLayout new.
+	self layoutPolicy: GLMBrickHorizontalFillLinearLayout new.
 ]
 
 { #category : #'layout brick' }
-GLMBandBrick >> layoutChildren [
+GLMHorizontalBandBrick >> layoutChildren [
 
 	|mBounds mOwner|
 	"most of the time you don't want to call this method manually"
@@ -45,4 +34,14 @@ GLMBandBrick >> layoutChildren [
 	mBounds := mOwner isBrick ifTrue: [ mOwner brickGlobalInnerBounds ] ifFalse: [ mOwner globalBounds ].
 	
 	^ self layoutPolicy layout: self in: mBounds.
+]
+
+{ #category : #geometry }
+GLMHorizontalBandBrick >> width [
+	|width|
+	self widthBlock ifNotNil: [ ^ self widthBlock cull: self ].
+		
+	width := self layoutProperties horizontalPadding.
+	self subbricks do: [ :each | width := width + each width + each layoutProperties horizontalMargin ].
+	^ width
 ]

@@ -96,8 +96,6 @@ GLMGeneralScrollPaneBrick >> defaultScrollbarWidth [
 GLMGeneralScrollPaneBrick >> doLayout [
 	super doLayout.
 	
-	self band brickBounds: (self band brickBounds translateBy: (0@(self scrollPositionTop - self band brickBounds top))).
-	
 	self update
 ]
 
@@ -127,7 +125,7 @@ GLMGeneralScrollPaneBrick >> initialize [
 	
 	band := self newBand.
 	
-	self layoutPolicy: GLMBrickVerticalFillLinearLayout new.
+	self layoutPolicy: GLMBrickVerticalFillLayout new.
 	super addBrickBack: band.
 	
 	self verticalScrollbar: self newVerticalScrollbar.

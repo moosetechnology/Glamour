@@ -24,6 +24,13 @@ GLMMorphBrick class >> on: aMorph [
 ]
 
 { #category : #'as yet unclassified' }
+GLMMorphBrick >> brickBounds: aRectangle [
+	super brickBounds: aRectangle.
+	
+	self morph privateBounds: self globalBounds
+]
+
+{ #category : #'as yet unclassified' }
 GLMMorphBrick >> doLayout [
 	
 	self morph privateBounds: self globalBounds
