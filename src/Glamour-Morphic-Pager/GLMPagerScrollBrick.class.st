@@ -75,10 +75,10 @@ GLMPagerScrollBrick >> glmAnimateValue: aValue duration: anInteger callback: aBl
 			startTime := Time millisecondClockValue.
 			start := currentValue.
 			finish := self convertScrollValue: aValue.
-			[	| delta |
+			[ | delta |
 				[ (delta := Time millisecondClockValue - startTime) < anInteger ] whileTrue: [
 					self scrollValue: (finish - start) * (delta / anInteger) + start.
-					Processor yield
+					Processor yield.
 				].
 				self scrollValue: finish.
 				Processor yield.

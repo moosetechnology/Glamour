@@ -351,8 +351,8 @@ GLMPagerScrollSlidingMorph >> scrollTo: aValue duration: anInteger [
 GLMPagerScrollSlidingMorph >> scrollTo: aValue smooth: aBoolean [
 
 	aBoolean
-		ifTrue: [ self scrollTo: aValue duration: 200 ]
-		ifFalse: [ self scrollTo: aValue ] 
+		ifTrue: [ self scrollTo: aValue "duration: 200" ]
+		ifFalse: [ self scrollTo: aValue ]
 ]
 
 { #category : #scrolling }
