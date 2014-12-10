@@ -113,8 +113,8 @@ GLMMorphicSmalltalkCodeRenderer >> textMorphForModel: aTextModel [
 { #category : #private }
 GLMMorphicSmalltalkCodeRenderer >> workspaceBindingsStrategy [
 
-	^ [ :currentBindings :aString |
-		(currentBindings includesKey: aString)
-			ifFalse: [currentBindings add: (WorkspaceVariable key: aString asSymbol) ].
-		currentBindings associationAt: aString]
+	^ [ :currentBindings :aSymbol | 
+		(currentBindings includesKey: aSymbol)
+			ifFalse: [currentBindings at: aSymbol put: nil].
+		currentBindings associationAt: aSymbol]
 ]
