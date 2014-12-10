@@ -274,12 +274,14 @@ GLMPagerScrollBrick >> popPane: isSmooth [
 
 { #category : #api }
 GLMPagerScrollBrick >> pushPane: aMorph [	
+	|brick|
 	
-	aMorph layoutProperties: (GLMBrickLayoutProperties new).
-	aMorph layoutProperties marginLeft: self paneMargin.
-	aMorph layoutProperties marginRight: self paneMargin.
+	brick := aMorph asBrick.
+	brick layoutProperties: (GLMBrickLayoutProperties new).
+	brick layoutProperties marginLeft: self paneMargin.
+	brick layoutProperties marginRight: self paneMargin.
 	
-	self band addBrickBack: aMorph.
+	self band addBrickBack: brick.
 	self updatePanes
 ]
 
@@ -292,8 +294,8 @@ GLMPagerScrollBrick >> scrollTo: aValue smooth: isSmooth [
 { #category : #scrolling }
 GLMPagerScrollBrick >> scrollTo: aValue smooth: isSmooth callback: aBlock [
 	
- 	isSmooth ifTrue: [	self glmAnimateValue: aValue duration: 200 callback: aBlock]
-				ifFalse: [self scrollValue: (self convertScrollValue: aValue). aBlock value ].
+ 	isSmooth ifTrue: [ self glmAnimateValue: aValue duration: 300 callback: aBlock ]
+				ifFalse: [ self scrollValue: (self convertScrollValue: aValue). aBlock value ].
 ]
 
 { #category : #scrolling }
@@ -328,5 +330,5 @@ GLMPagerScrollBrick >> updatePanes [
 	self layoutPolicy layout: self in: nil.
 	self band layoutPolicy layout: self band in: nil.
 	
-	self changed.
+	self changed
 ]
