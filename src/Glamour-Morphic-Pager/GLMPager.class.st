@@ -24,3 +24,8 @@ GLMPager >> scrollButtonIconRenderBlock: aBlock [
 
 	scrollButtonIconRenderBlock := aBlock
 ]
+
+{ #category : #testing }
+GLMPager >> shouldDisplayPresentationCreateBy: aCollection [ 
+	^ true
+]
