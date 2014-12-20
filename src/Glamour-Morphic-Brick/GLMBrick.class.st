@@ -350,8 +350,7 @@ GLMBrick >> doLayoutIn: layoutBounds [
 GLMBrick >> drawOn: aCanvas [
 	super drawOn: aCanvas.
 	
-	"translating canvas coordinates"
-	 (aCanvas isKindOf: ClippingCanvas) ifTrue: [ ^self "no need to draw anything" ].
+	(aCanvas isKindOf: ClippingCanvas) ifTrue: [ ^self "no need to draw anything" ].
 	
 	self checkSession.
 	
@@ -489,7 +488,7 @@ GLMBrick >> initialize [
 	
 	self layoutProperties: GLMBrickLayoutProperties new.
 	self layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new.
-	self renderer: GLMBrickRenderer.
+	self renderer: GLMBrickRenderer new.
 	self brickRoot: self.
 	
 	brickBounds := 0@0 extent: 50@50.
