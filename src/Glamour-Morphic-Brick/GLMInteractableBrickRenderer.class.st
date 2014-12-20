@@ -10,7 +10,8 @@ Class {
 
 { #category : #rendering }
 GLMInteractableBrickRenderer class >> render: aBrick on: aCanvas [
-	
+
+	self renderBackgroundColorOf: aBrick on: aCanvas.
 	self renderColorOf: aBrick on: aCanvas.
 	self renderImageOf: aBrick on: aCanvas.
 	self renderBorderOf: aBrick on: aCanvas.
@@ -21,7 +22,7 @@ GLMInteractableBrickRenderer class >> renderColorOf: aBrick on: aCanvas [
 	|color|
 	
 	color := aBrick currentColor.
-	color ifNotNil: [ aCanvas fillRectangle: aBrick brickBounds color: color ].
+	color ifNotNil: [	aCanvas surface fillRectangle: (0@0 extent: aBrick brickBounds extent) withSolidColor: color ].
 ]
 
 { #category : #rendering }
@@ -31,17 +32,17 @@ GLMInteractableBrickRenderer class >> renderImageOf: aBrick on: aCanvas [
 	image := aBrick currentImage.
 	
 	image ifNotNil: [
-		aCanvas 
-			translucentImage: (GLMBrick resizeImage: image scale: (aBrick extent / image extent))
-			at: aBrick brickBounds origin.
-	].
+		aCanvas setPaint: (GLMBrick resizeImage: image scale: (aBrick extent / image extent)).
+		aCanvas draw ].
 ]
 
 { #category : #rendering }
 GLMInteractableBrickRenderer >> render: aBrick on: aCanvas [
 	
+	self renderBackgroundColorOf: aBrick on: aCanvas.
 	self renderColorOf: aBrick on: aCanvas.
 	self renderImageOf: aBrick on: aCanvas.
+	self renderBorderOf: aBrick on: aCanvas.
 ]
 
 { #category : #rendering }

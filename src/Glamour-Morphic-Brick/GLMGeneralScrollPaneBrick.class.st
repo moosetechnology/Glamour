@@ -174,20 +174,8 @@ GLMGeneralScrollPaneBrick >> isVisible: aBrick [
 
 { #category : #'mouse events' }
 GLMGeneralScrollPaneBrick >> mouseWheel: event [
-	|velocity|
-	
-	velocity := self calculateVelocity: event.
-	
-	event direction = #up
-		ifTrue: [ self scrollUp: velocity ].
-		
-	event direction = #down
-		ifTrue: [ self scrollDown: velocity ].
-	
-	scrollPosition := band brickBounds top.
-	
-	self update.
-	self changed
+
+	self scrollBy: (self calculateVelocity: event) direction: event direction.
 ]
 
 { #category : #'instance creation' }
@@ -226,21 +214,29 @@ GLMGeneralScrollPaneBrick >> removeBrick: aBrick [
 ]
 
 { #category : #scrolling }
-GLMGeneralScrollPaneBrick >> scrollByKeyboard: anEvent [
-	|velocity|
-	
-	(self isKeyboardScrollEvent: anEvent) ifFalse: [^ self ].
-	velocity := self calculateVelocity: anEvent.
-	
-	"keycode 30 is Event direction = #up"
-	anEvent keyValue = 30 ifTrue: [ self scrollUp: velocity ].
-	"keycode 31 is Event direction = #down"
-	anEvent keyValue = 31 ifTrue: [ self scrollDown: velocity ].
+GLMGeneralScrollPaneBrick >> scrollBy: anInteger direction: aSymbol [
+
+	aSymbol = #up ifTrue: [ self scrollUp: anInteger ].
+	aSymbol = #down ifTrue: [ self scrollDown: anInteger ].
 	
 	scrollPosition := band brickBounds top.
 	
 	self update.
 	self changed
+]
+
+{ #category : #scrolling }
+GLMGeneralScrollPaneBrick >> scrollByKeyboard: anEvent [
+	|velocity direction|
+	
+	(self isKeyboardScrollEvent: anEvent) ifFalse: [^ self ].
+	velocity := self calculateVelocity: anEvent.
+	
+	"keycode 30 is Event direction = #up"
+	anEvent keyValue = 30 ifTrue: [ direction := #up ].
+	"keycode 31 is Event direction = #down"
+	anEvent keyValue = 31 ifTrue: [ direction := #down ].
+	self scrollBy: velocity direction: direction
 ]
 
 { #category : #scrolling }
@@ -265,6 +261,12 @@ GLMGeneralScrollPaneBrick >> scrollPositionTop [
 GLMGeneralScrollPaneBrick >> scrollTo: aBrick [
 
 	self subclassResponsibility
+]
+
+{ #category : #scrolling }
+GLMGeneralScrollPaneBrick >> scrollToTop [
+
+	self scrollBy: self scrollPositionTop negated direction: #up
 ]
 
 { #category : #scrolling }

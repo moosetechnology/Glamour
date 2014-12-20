@@ -39,7 +39,10 @@ Class {
 		'brickBounds',
 		'brickOwner',
 		'brickRoot',
-		'subbricks'
+		'subbricks',
+		'session',
+		'surface',
+		'backgroundColor'
 	],
 	#category : #'Glamour-Morphic-Brick-UI'
 }
@@ -191,10 +194,12 @@ GLMBrick >> brickBounds [
 GLMBrick >> brickBounds: aRectangle [
 	"if you want to change brick's position or bounds use only this method!"
 	
+	brickBounds extent == aRectangle extent ifFalse: [ session := nil ].
+	
 	brickBounds := aRectangle.
 	
 	bounds := self bounds.
-	fullBounds := bounds
+	fullBounds := bounds.
 ]
 
 { #category : #private }
@@ -269,10 +274,30 @@ GLMBrick >> changed [
 		ifNotNil: [self invalidRect: self fullBounds]
 ]
 
+{ #category : #'session management' }
+GLMBrick >> checkSession [
+	session == Smalltalk session
+		ifFalse: [ 
+			surface := nil.
+			self createSurface ]
+]
+
 { #category : #geometry }
 GLMBrick >> clippingBounds [
 
 	^ self fullBounds
+]
+
+{ #category : #accessing }
+GLMBrick >> color [
+
+	^ backgroundColor ifNil: [ backgroundColor := Color transparent ]
+]
+
+{ #category : #accessing }
+GLMBrick >> color: aColor [
+
+	backgroundColor := aColor
 ]
 
 { #category : #'layout morph' }
@@ -283,6 +308,13 @@ GLMBrick >> computeBounds [
 { #category : #'layout morph' }
 GLMBrick >> computeFullBounds [
 	"nothing to compute, everything is already computed"
+]
+
+{ #category : #'session management' }
+GLMBrick >> createSurface [
+"	surface isNil ifFalse: [ ^ self ]."
+	surface := AthensCairoSurface extent: self extent asIntegerPoint.
+	session := Smalltalk session.
 ]
 
 { #category : #accessing }
@@ -320,7 +352,11 @@ GLMBrick >> drawOn: aCanvas [
 	
 	"translating canvas coordinates"
 	 (aCanvas isKindOf: ClippingCanvas) ifTrue: [ ^self "no need to draw anything" ].
-	self onDraw: ( aCanvas copy setOrigin: (aCanvas origin + self globalBounds origin - self brickBounds origin) clipRect: (aCanvas clipRect translateBy: aCanvas origin))
+	
+	self checkSession.
+	
+	surface drawDuring: [ :athensCanvas | surface clear. self onDraw: athensCanvas ].
+	aCanvas image: surface asForm at: self globalBounds origin sourceRect: (0 @ 0 extent: surface extent) rule: 34
 ]
 
 { #category : #drawing }
@@ -447,6 +483,7 @@ GLMBrick >> heightBlock: aBlock [
 { #category : #initialization }
 GLMBrick >> initialize [
 	super initialize.
+	super color: Color transparent.
 	
 	subbricks := GLMBrickDoubleLinkedList new.
 	

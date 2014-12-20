@@ -60,7 +60,7 @@ GLMStringBrick >> calculateHighlightingBounds [
 	
 	highlightBounds := OrderedCollection new.
 	
-	textBounds := (self calculateTextPosition extent: self textSize) translateBy: (0@0)negated.
+	textBounds := (self calculateTextPosition extent: (0@self fontSize asFloat/2)).
 	
 	last := self text asLowercase findString: self highlightedText asLowercase startingAt: 1.
 	last = 0 ifTrue: [^ highlightBounds].
@@ -78,22 +78,22 @@ GLMStringBrick >> calculateHighlightingBounds [
 GLMStringBrick >> calculateTextPosition [
 
 	self textPosition = #leftCenter ifTrue: [ 
-		^ (self brickBounds origin + self textPositionVerticalCenter) floor
+		^ self textPositionVerticalCenter
 	].
 
 	self textPosition = #center ifTrue: [ 
-		^ (self brickBounds origin + self textPositionVerticalCenter + self textPositionHorizontalCenter)floor
+		^ (self textPositionVerticalCenter + self textPositionHorizontalCenter)
 	].
 
 	self textPosition = #leftTop ifTrue: [
-		^ self brickBounds origin
+		^ 0@0
 	].
 
 	self textPosition = #rightCenter ifTrue: [
-		^ ((self brickBounds topRight + self textPositionVerticalCenter - (self textSize x@0)) max: self brickBounds origin) floor
+		^ ((self brickBounds width@0 + self textPositionVerticalCenter - (self textSize x@0)) max: 0@0)
 	].
 
-	^ self brickBounds origin
+	^ 0@0
 ]
 
 { #category : #initialization }
@@ -103,6 +103,7 @@ GLMStringBrick >> defaultColor [
 
 { #category : #defaults }
 GLMStringBrick >> defaultFamilyName [
+
 	^ self theme labelFont familyName
 ]
 
@@ -211,11 +212,14 @@ GLMStringBrick >> onDraw: aCanvas [
 			ifNil: [ aCanvas line: each bottomLeft to: each bottomRight width: 1 color: self textColor ]
 			ifNotNil: [ self highlightingLogic cull: aCanvas cull: each ] ].
 	
-	aCanvas
-		drawString: self text
-		at: self calculateTextPosition
-		font: self font
-		color: self textColor.
+	aCanvas pathTransform restoreAfter: [
+		"Draw the label centered on the position"
+		aCanvas pathTransform translateBy: self calculateTextPosition.
+		aCanvas
+			setFont: self font;
+			setPaint: self textColor;
+			drawString: self text.
+	]
 ]
 
 { #category : #private }
@@ -228,7 +232,7 @@ GLMStringBrick >> privateSetText: aString [
 { #category : #public }
 GLMStringBrick >> sizeOf: aString [
 
-	^ (self font widthOfString: aString) @ self font height
+	^ (self font widthOfString: aString) @ self font getPreciseHeight
 ]
 
 { #category : #accessing }
@@ -277,13 +281,14 @@ GLMStringBrick >> textPosition: aSymbol [
 { #category : #geometry }
 GLMStringBrick >> textPositionHorizontalCenter [
 
-	^ ((((self brickBounds width - self textSize x) max: 0) /2)@0)
+	^ ((((self brickBounds width - self textSize x) max: 0)asFloat /2)@0)
 ]
 
 { #category : #geometry }
 GLMStringBrick >> textPositionVerticalCenter [
 
-	^ (0@(self brickBounds height / 2)) - (0@(self fontSize/2)) - (0@3)
+	^ (0@self brickBounds height asFloat/2) + (0@self font getPreciseAscent asFloat/2) - (0@self font getPreciseDescent asFloat/2)
+	
 ]
 
 { #category : #accessing }
