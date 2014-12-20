@@ -39,6 +39,12 @@ GLMFoundationBrick class >> exampleLarge [
 	foundation openInWindow
 ]
 
+{ #category : #'as yet unclassified' }
+GLMFoundationBrick class >> root: aBrick [
+
+	^ self new brickRoot: aBrick
+]
+
 { #category : #adding }
 GLMFoundationBrick >> addAllBricks: aCollection [
 

@@ -67,7 +67,7 @@ GLMBrickHorizontalProportionalLinearLayout >> extentOf: aBrick in: owner withArg
 GLMBrickHorizontalProportionalLinearLayout >> prepareArgumentsFor: aBrick [
 	|allowedWidth maxPercent ownerWidth|
 	
-	ownerWidth := aBrick brickGlobalInnerBounds width.
+	ownerWidth := aBrick brickInnerBounds width.
 	allowedWidth := ownerWidth.
 	maxPercent := 100.
 	
