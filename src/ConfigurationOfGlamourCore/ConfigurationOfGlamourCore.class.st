@@ -430,7 +430,7 @@ ConfigurationOfGlamourCore >> version306: spec [
 		spec 
 			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-AndreiChis.36';
-			package: 'Glamour-Core' with: 'Glamour-Core-BernardoContreras.287';
+			package: 'Glamour-Core' with: 'Glamour-Core-EstebanLorenzano.287';
 			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.166';
 			package: 'Glamour-Browsers' with: 'Glamour-Browsers-BernardoContreras.107';
 			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-AndreiChis.100';
