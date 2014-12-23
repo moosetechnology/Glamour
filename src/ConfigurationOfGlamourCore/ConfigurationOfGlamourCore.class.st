@@ -448,7 +448,7 @@ ConfigurationOfGlamourCore >> version306: spec [
 			package: 'Glamour-Tests-Resources' with: 'Glamour-Tests-Resources-AndreiChis.3'. 
 		
 		spec 
-			project: 'Rubric' with: '1.2.5' ].
+			project: 'Rubric' with: '1.2.6' ].
 
 
 ]
