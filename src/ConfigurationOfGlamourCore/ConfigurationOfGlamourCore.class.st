@@ -433,7 +433,7 @@ ConfigurationOfGlamourCore >> version306: spec [
 			package: 'Glamour-Core' with: 'Glamour-Core-EstebanLorenzano.287';
 			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.166';
 			package: 'Glamour-Browsers' with: 'Glamour-Browsers-BernardoContreras.107';
-			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-AndreiChis.100';
+			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-EstebanLorenzano.100';
 			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.153';
 			package: 'Glamour-Morphic-Renderer' with: [
 				spec file: 'Glamour-Morphic-Renderer-AndreiChis.305'.
