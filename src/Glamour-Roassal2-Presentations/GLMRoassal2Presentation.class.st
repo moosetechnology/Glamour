@@ -91,7 +91,7 @@ GLMRoassal2Presentation >> defaultActions [
 			entitled: 'Export to HTML...'.
 
 	self
-		act: [ :roassal | roassal view view canvas camera focusOnCenterScaled. roassal view view signalUpdate ]
+		act: [ :roassal | roassal view view canvas focusOnCenterScaled. roassal view view signalUpdate ]
 			entitled: 'Camera center'.
 																
 ]
