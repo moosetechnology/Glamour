@@ -71,7 +71,9 @@ GLMRoassal2Presentation >> defaultActions [
 								filename: fileName fullName ]  ]
 			entitled: 'Export to SVG'.
 	self act: [ :roassal |
-		(RTHTML5Exporter new export: roassal view view) asUrl open
+		| fileName |
+		fileName := (RTHTML5Exporter new export: roassal view view) asUrl open.
+		self openIfPossible: fileName.
 		 ] entitled: 'Export to HTML'.
 	self
 		act: [ :roassal |
@@ -85,9 +87,13 @@ GLMRoassal2Presentation >> defaultActions [
 						directory: fileName parent;
 						fileName: fileName basename; 
 						export: roassal view view.
-					fileName asUrl open. ] ]
+					self openIfPossible: fileName ] ]
 			entitled: 'Export to HTML...'.
-								
+
+	self
+		act: [ :roassal | roassal view view canvas camera focusOnCenterScaled. roassal view view signalUpdate ]
+			entitled: 'Camera center'.
+																
 ]
 
 { #category : #'initialize-release' }
@@ -112,6 +118,21 @@ GLMRoassal2Presentation >> newView [
 { #category : #accessing }
 GLMRoassal2Presentation >> newViewBlock [
 	^ newViewBlock
+]
+
+{ #category : #'initialize-release' }
+GLMRoassal2Presentation >> openIfPossible: fileName [
+	"
+	By Sean
+	
+	Gofer it
+	smalltalkhubUser: 'SeanDeNigris' project: 'SeansPlayground';
+	package: 'NewExternalWebBrowser';
+	load.
+
+	'http://google.com' asUrl open.
+	"
+	#NewExternalWebBrowser asClassIfPresent: [ :cls | fileName asUrl open ]
 ]
 
 { #category : #scripting }
