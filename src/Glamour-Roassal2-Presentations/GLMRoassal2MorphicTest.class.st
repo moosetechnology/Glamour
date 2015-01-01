@@ -32,6 +32,28 @@ GLMRoassal2MorphicTest >> testMondrianViewBuilder [
 ]
 
 { #category : #tests }
+GLMRoassal2MorphicTest >> testOpenTitled [
+	| v |
+	v :=  RTBuilder new view.
+	window := v openTitled: 'hello'
+]
+
+{ #category : #tests }
+GLMRoassal2MorphicTest >> testOpenWithToolbarEntitled [
+
+	window := RTBuilder new openWithToolbarEntitled: 'hello'
+]
+
+{ #category : #tests }
+GLMRoassal2MorphicTest >> testOpenWithToolbarEntitled02 [
+
+	| v |
+	v := RTView new.
+	
+	window := v openWithToolbarEntitled: 'hello'
+]
+
+{ #category : #tests }
 GLMRoassal2MorphicTest >> testRoassalPresentationConstructor [
 	| composite |
 	composite := GLMCompositePresentation new.
