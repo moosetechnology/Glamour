@@ -1878,13 +1878,54 @@ ConfigurationOfGlamour >> baseline30: spec [
 					loads: #('Magritte-Model' 'Magritte-Tests-Model' 'Magritte-Morph' 'Magritte-Pharo-Model') ] ]
 ]
 
+{ #category : #baselines }
+ConfigurationOfGlamour >> baseline31: spec [ 
+	<version: '3.1-baseline'>
+	
+	spec for: #common do: [
+		spec blessing: #baseline.
+		spec description: 'baseline for pharo 4 integration withour roassal and magritte'.
+		spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'.
+		spec 
+			package: 'Glamour-Tools' with: [spec requires: #('GlamourCore')];
+			package: 'Glamour-Examples-Extras' with: [spec requires: #('Glamour-Tools')];
+			package: 'Glamour-Roassal2-Presentations' with: [spec requires: #('Roassal2 for Glamour' 'Glamour-Tools')]].
+
+	spec for: #squeakCommon do: [ 
+		spec
+			package: 'CollectionExtensions' with: [spec repository: 'http://www.smalltalkhub.com/mc/Moose/CollectionExtensions/main'];
+			package: 'Glamour-Tools' with: [spec requires: #('GlamourCore' 'CollectionExtensions')] ].
+
+	spec for: #common do: [ 						
+		spec group: 'default' with: #(
+						'GlamourCore'
+						'Glamour-Roassal2-Presentations'
+						'Glamour-Tools'
+						'Glamour-Examples-Extras' ).
+		spec 
+			project: 'GlamourCore' with: [ 
+				spec 
+					className: 'ConfigurationOfGlamourCore';
+					file: 'ConfigurationOfGlamourCore';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'].
+		spec
+			project: 'Roassal2 for Glamour' with: [
+				spec
+					className: 'ConfigurationOfRoassal2';
+					file: 'ConfigurationOfRoassal2';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ] ]
+]
+
 { #category : #'symbolic versions' }
 ConfigurationOfGlamour >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '3.0-baseline'.
 	spec for: #'pharo2.x' version: '2.6-baseline'.
 	spec for: #'pharo3.x' version: '3.0-baseline'.
+	spec for: #'pharo4.x' version: '3.1-baseline'.
+	
 ]
 
 { #category : #snapshots }
