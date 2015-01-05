@@ -102,7 +102,7 @@ GLMRoassal2MorphicTest >> testZoomingActionsWorkForMondrianBuilder [
 	composite := GLMCompositePresentation new.
 	composite roassal2 initializeView: RTMondrianViewBuilder new.
 	window := composite openOn: 42.
-	self assert: composite first actions size equals: 6.
+	self assert: composite first actions size equals: 7.
 	self shouldnt: (composite first actions first actOn: composite first) raise: Error.
 	self shouldnt: (composite first actions second actOn: composite first) raise: Error
 ]
@@ -113,7 +113,7 @@ GLMRoassal2MorphicTest >> testZoomingActionsWorkForView [
 	composite := GLMCompositePresentation new.
 	composite roassal2.
 	window := composite openOn: 42.
-	self assert: composite first actions size equals: 6.
+	self assert: composite first actions size equals: 7.
 	self shouldnt: (composite first actions first actOn: composite first) raise: Error.
 	self shouldnt: (composite first actions second actOn: composite first) raise: Error.
 ]
