@@ -254,6 +254,11 @@ GLMWhitespaceTheme class >> veryLightSelectionColor [
 	^ Color white darker
 ]
 
+{ #category : #'accessing colors' }
+GLMWhitespaceTheme >> borderColor [ 
+	^ Color transparent
+]
+
 { #category : #'border-styles-buttons' }
 GLMWhitespaceTheme >> buttonCornerStyleIn: aThemedMorph [
 	"If asked, we only allow square corners"
