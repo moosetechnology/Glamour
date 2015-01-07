@@ -32,7 +32,7 @@ brickRoot
 "
 Class {
 	#name : #GLMBrick,
-	#superclass : #Morph,
+	#superclass : #GLMBrickedMorph,
 	#instVars : [
 		'renderer',
 		'data',
@@ -160,11 +160,6 @@ GLMBrick >> addBrickBack: aBrick [
 	^ aBrick
 ]
 
-{ #category : #'layout morph' }
-GLMBrick >> adjustLayoutBounds [
-	"no need in it"
-]
-
 { #category : #converting }
 GLMBrick >> asBrick [
 	^ self
@@ -287,12 +282,6 @@ GLMBrick >> checkSession [
 			self createSurface ]
 ]
 
-{ #category : #geometry }
-GLMBrick >> clippingBounds [
-
-	^ self fullBounds
-]
-
 { #category : #accessing }
 GLMBrick >> color [
 
@@ -303,16 +292,6 @@ GLMBrick >> color [
 GLMBrick >> color: aColor [
 
 	backgroundColor := aColor
-]
-
-{ #category : #'layout morph' }
-GLMBrick >> computeBounds [
-	"nothing to compute, everything is already computed"
-]
-
-{ #category : #'layout morph' }
-GLMBrick >> computeFullBounds [
-	"nothing to compute, everything is already computed"
 ]
 
 { #category : #'session management' }
@@ -344,11 +323,6 @@ GLMBrick >> doLayout [
 	
 	subbricks do: [ :each | each isBrick ifTrue: [ each doLayout ] ]
 	
-]
-
-{ #category : #'layout morph' }
-GLMBrick >> doLayoutIn: layoutBounds [
-	"we remove morphic layouting mechanism"
 ]
 
 { #category : #drawing }
@@ -448,20 +422,13 @@ GLMBrick >> fullDrawOn: aCanvas [
 GLMBrick >> globalBounds [
 	"converts brickBounds to morhic bounds on fly"
 	"if you want to implement something sophisticated that combines bricks and morphic this is right method to use"
-	^ self brickOwner ifNotNil: [ self brickBounds translateBy: self brickOwner globalBoundsTranslateFactor ] ifNil: [ 0@0 extent: 20@20 ].
+	^ self brickOwner ifNotNil: [ self brickBounds translateBy: self brickOwner privateGlobalBoundsTranslateFactor ] ifNil: [ 0@0 extent: 20@20 ].
 ]
 
 { #category : #private }
-GLMBrick >> globalBoundsOfArea: aRectangle [
-
-	^ aRectangle translateBy: brickOwner globalBounds origin
-	
-]
-
-{ #category : #geometry }
 GLMBrick >> globalBoundsTranslateFactor [
 
-	^ self brickOwner ifNotNil: [ brickOwner globalBoundsTranslateFactor + self brickBounds origin ] ifNil: [ 0@0 ]
+	^ self brickOwner ifNotNil: [ brickOwner privateGlobalBoundsTranslateFactor + self brickBounds origin ] ifNil: [ 0@0 ]
 ]
 
 { #category : #geometry }
@@ -542,17 +509,6 @@ GLMBrick >> lastSubbrick [
 	^ self subbricks last
 ]
 
-{ #category : #'layout morph' }
-GLMBrick >> layoutBounds: aRectangle [
-	"I'm not a morph anymore"
-]
-
-{ #category : #geometry }
-GLMBrick >> layoutChanged [
-
-	"empty"
-]
-
 { #category : #accessing }
 GLMBrick >> morph [
 	^ self
@@ -574,25 +530,16 @@ GLMBrick >> onPrepareLayout [
 	"is called before I'm started layouting"
 ]
 
-{ #category : #geometry }
-GLMBrick >> outerBounds [
-	^ self fullBounds
-]
+{ #category : #private }
+GLMBrick >> privateGlobalBoundsTranslateFactor [
 
-{ #category : #geometry }
-GLMBrick >> privateFullBounds [
-	^ self fullBounds
+	^ self brickOwner ifNotNil: [ brickOwner globalBoundsTranslateFactor + self brickBounds origin ] ifNil: [ 0@0 ]
 ]
 
 { #category : #private }
 GLMBrick >> privateHeight [
 
 	^ self brickBounds height
-]
-
-{ #category : #'change reporting' }
-GLMBrick >> privateInvalidateMorph: aMorph [
-	"empty"
 ]
 
 { #category : #private }
@@ -604,12 +551,6 @@ GLMBrick >> privateSubbricks [
 GLMBrick >> privateWidth [
 
 	^ self brickBounds width
-]
-
-{ #category : #geometry }
-GLMBrick >> relativeBounds [
-
-	^ self brickBounds translateBy: brickOwner relativeBounds origin
 ]
 
 { #category : #adding }

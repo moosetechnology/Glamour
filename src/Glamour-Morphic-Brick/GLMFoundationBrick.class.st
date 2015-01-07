@@ -116,12 +116,6 @@ GLMFoundationBrick >> globalBounds [
 	^ self bounds
 ]
 
-{ #category : #geometry }
-GLMFoundationBrick >> globalBoundsTranslateFactor [
-
-	^ self globalBounds origin
-]
-
 { #category : #initialization }
 GLMFoundationBrick >> initialize [
 	super initialize.
@@ -142,6 +136,12 @@ GLMFoundationBrick >> isFocused [
 GLMFoundationBrick >> privateExtent: aPoint [
 
 	super extent: aPoint.
+]
+
+{ #category : #geometry }
+GLMFoundationBrick >> privateGlobalBoundsTranslateFactor [
+
+	^ self globalBounds origin
 ]
 
 { #category : #geometry }
