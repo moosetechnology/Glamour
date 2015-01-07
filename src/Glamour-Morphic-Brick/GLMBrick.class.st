@@ -533,7 +533,7 @@ GLMBrick >> onPrepareLayout [
 { #category : #private }
 GLMBrick >> privateGlobalBoundsTranslateFactor [
 
-	^ self brickOwner ifNotNil: [ brickOwner globalBoundsTranslateFactor + self brickBounds origin ] ifNil: [ 0@0 ]
+	^ self brickOwner ifNotNil: [ brickOwner privateGlobalBoundsTranslateFactor + self brickBounds origin ] ifNil: [ 0@0 ]
 ]
 
 { #category : #private }
