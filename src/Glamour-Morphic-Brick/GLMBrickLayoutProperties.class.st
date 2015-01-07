@@ -94,6 +94,20 @@ GLMBrickLayoutProperties >> floating: aSymbol [
 	floating := aSymbol
 ]
 
+{ #category : #scripting }
+GLMBrickLayoutProperties >> hShrinkWrap [
+	"doesn't work with proportional layout. use linear layout instead"
+	self horizontalPercent: 0.
+	self minWidthBlock: [ :brick | brick subbricks inject: 0 into: [ :width :each | width + each width + each layoutProperties horizontalMargin ] ]
+]
+
+{ #category : #scripting }
+GLMBrickLayoutProperties >> hSpaceFill [
+
+	self horizontalPercent: 100.
+	self minWidthBlock: [ :brick | brick owner width ].
+]
+
 { #category : #accessing }
 GLMBrickLayoutProperties >> horizontalMargin [
 
@@ -276,6 +290,20 @@ GLMBrickLayoutProperties >> paddingTop [
 { #category : #accessing }
 GLMBrickLayoutProperties >> paddingTop: anObject [
 	paddingTop := anObject
+]
+
+{ #category : #scripting }
+GLMBrickLayoutProperties >> vShrinkWrap [
+	"doesn't work with proportional layout. use linear layout instead"
+	self verticalPercent: 0.
+	self minHeightBlock: [ :brick | brick subbricks inject: 0 into: [ :each :height | height + each height + each layoutProperties verticalMargin ] ]
+]
+
+{ #category : #scripting }
+GLMBrickLayoutProperties >> vSpaceFill [
+
+	self verticalPercent: 100.
+	self minHeightBlock: [ :brick | brick owner height ]
 ]
 
 { #category : #accessing }

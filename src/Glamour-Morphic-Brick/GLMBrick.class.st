@@ -170,6 +170,12 @@ GLMBrick >> asBrick [
 	^ self
 ]
 
+{ #category : #converting }
+GLMBrick >> asBrickedMorph [
+
+	^ GLMFoundationBrick new brickRoot: self
+]
+
 { #category : #geometry }
 GLMBrick >> bounds [
 
