@@ -82,7 +82,7 @@ GLMPrintPopper >> initializeTextMorph [
 { #category : #public }
 GLMPrintPopper >> openFromRubric: aMorph withResult: anObject [
 	| string |
-	string := anObject asString.
+	string := anObject printString.
 	self withString: string from: aMorph.
 	self width: self width + inspectButton width.
 	textMorph
