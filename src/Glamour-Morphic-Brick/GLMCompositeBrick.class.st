@@ -34,19 +34,36 @@ GLMCompositeBrick class >> exampleListWithCustomItem [
 		openInWindow
 ]
 
+{ #category : #examples }
+GLMCompositeBrick class >> examplePharoMethod [
+	|composite|
+	
+	composite := self new.
+	composite pharoMethod
+		display: #getSource;
+		smalltalkClass: #methodClass;
+		title: #printString;
+		entity: Morph>>#bounds.
+	
+	composite asBrickedMorph
+		extent: 600@400;
+		openInWindow
+]
+
 { #category : #phlowr }
 GLMCompositeBrick >> list [
 	|list|
 	list := GLMPhlowrListBrick new.
-	list layoutProperties
-		horizontalPercent: 100;
-		verticalPercent: 100.
-		
+	list layoutProperties	hSpaceFill; vSpaceFill.
 	^ self addBrickBack: list
 ]
 
 { #category : #phlowr }
 GLMCompositeBrick >> pharoMethod [
+	|pharoMethod|
+	pharoMethod := GLMPhlowrPharoMethodBrick new.
+	pharoMethod layoutProperties hSpaceFill; vSpaceFill.
+	^ self addBrickBack: pharoMethod
 ]
 
 { #category : #phlowr }
