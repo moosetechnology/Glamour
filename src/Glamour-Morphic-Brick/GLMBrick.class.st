@@ -530,12 +530,6 @@ GLMBrick >> onPrepareLayout [
 	"is called before I'm started layouting"
 ]
 
-{ #category : #phlower }
-GLMBrick >> pharoMethod [
-
-	^  self addBrickBack: 1
-]
-
 { #category : #private }
 GLMBrick >> privateGlobalBoundsTranslateFactor [
 

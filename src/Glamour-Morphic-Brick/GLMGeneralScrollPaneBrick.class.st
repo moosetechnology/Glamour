@@ -196,6 +196,12 @@ GLMGeneralScrollPaneBrick >> outOfWorld: aWorld [
 	self unsubscribeListeners
 ]
 
+{ #category : #private }
+GLMGeneralScrollPaneBrick >> privateAddBrickBack: aBrick [
+
+	super addBrickBack: aBrick
+]
+
 { #category : #adding }
 GLMGeneralScrollPaneBrick >> removeAllBricks [
 

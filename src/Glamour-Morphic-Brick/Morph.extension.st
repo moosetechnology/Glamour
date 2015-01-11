@@ -3,11 +3,7 @@ Extension { #name : #Morph }
 { #category : #'*Glamour-Morphic-Brick' }
 Morph >> asBrick [
 	
-	^ self owner
-		ifNil: [ GLMMorphBrick on: self ]
-		ifNotNil: [ self owner isBrick
-			ifTrue: [ self owner ]
-			ifFalse: [ GLMMorphBrick on: self ] ]
+	^ GLMMorphBrick on: self
 ]
 
 { #category : #'*Glamour-Morphic-Brick' }

@@ -64,6 +64,12 @@ GLMBrickListAdaptor >> on: anObject [
 	origin := anObject
 ]
 
+{ #category : #accessing }
+GLMBrickListAdaptor >> origin [
+
+	^ origin
+]
+
 { #category : #'instance creation' }
 GLMBrickListAdaptor >> sizeLogic: aBlockWithNoParameters [
 

@@ -94,14 +94,10 @@ GLMScrollListBrick >> calculateMaxVelocity [
 	^ (self height * 0.9) asInteger
 ]
 
-{ #category : #phlower }
-GLMScrollListBrick >> display: haba [
-]
-
 { #category : #layouting }
 GLMScrollListBrick >> doLayout [
 	
-	self layoutPolicy layoutFloating: self verticalScrollbar in: self withArguments: nil.
+	self layoutPolicy layout: self in: self brickBounds.
 	self update.
 	self verticalScrollbar update.
 ]
