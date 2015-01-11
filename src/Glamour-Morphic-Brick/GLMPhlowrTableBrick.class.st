@@ -29,12 +29,6 @@ GLMPhlowrTableBrick >> columns [
 	^ columns ifNil: [ columns := OrderedCollection new ]
 ]
 
-{ #category : #accessing }
-GLMPhlowrTableBrick >> columnsCount [
-
-	^ self columns size
-]
-
 { #category : #phlowr }
 GLMPhlowrTableBrick >> display: aBlockOrSymbol [
 	
