@@ -214,7 +214,9 @@ GLMStringBrick >> onDraw: aCanvas [
 	
 	aCanvas pathTransform restoreAfter: [
 		"Draw the label centered on the position"
-		aCanvas pathTransform translateBy: self calculateTextPosition.
+		aCanvas pathTransform
+			translateBy: self calculateTextPosition;
+			scaleBy: 1.0001. "to fix font problems"
 		aCanvas
 			setFont: self font;
 			setPaint: self textColor;
