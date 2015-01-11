@@ -11,20 +11,20 @@ Class {
 { #category : #phlowr }
 GLMPhlowrListBrick >> display: aBlockOrSymbol [
 	
-	self scrollList adaptor
+	self listBrick adaptor
 		morphAtLogic: [ :index :morph | (aBlockOrSymbol value: (self entity at: index)) asBrick ]
 ]
 
 { #category : #phlowr }
 GLMPhlowrListBrick >> entity [
 
-	^ self scrollList adaptor origin
+	^ self listBrick adaptor origin
 ]
 
 { #category : #phlowr }
 GLMPhlowrListBrick >> entity: anObject [
 
-	self scrollList adaptor on: anObject
+	self listBrick adaptor on: anObject
 ]
 
 { #category : #initialization }
@@ -34,7 +34,23 @@ GLMPhlowrListBrick >> initialize [
 	self
 		layoutPolicy: GLMBrickVerticalFillProportionalLinearLayout new;
 		titleBrick: self newTitleBrick;
-		scrollList: self newScrollList
+		listBrick: self newScrollList
+]
+
+{ #category : #accessing }
+GLMPhlowrListBrick >> listBrick [
+
+	^ scrollList
+]
+
+{ #category : #accessing }
+GLMPhlowrListBrick >> listBrick: aBrick [
+
+	scrollList := aBrick.
+	
+	self listBrick adaptor: GLMBrickListAdaptor new.
+	self listBrick layoutProperties vSpaceFill.
+	self addBrickBack: self listBrick
 ]
 
 { #category : #'instance creation' }
@@ -47,22 +63,6 @@ GLMPhlowrListBrick >> newScrollList [
 GLMPhlowrListBrick >> newTitleBrick [
 
 	^ GLMLabelBrick new
-]
-
-{ #category : #accessing }
-GLMPhlowrListBrick >> scrollList [
-
-	^ scrollList
-]
-
-{ #category : #accessing }
-GLMPhlowrListBrick >> scrollList: aBrick [
-
-	scrollList := aBrick.
-	
-	self scrollList adaptor: GLMBrickListAdaptor new.
-	self scrollList layoutProperties verticalPercent: 100.
-	self addBrickBack: self scrollList
 ]
 
 { #category : #phlowr }
@@ -84,7 +84,6 @@ GLMPhlowrListBrick >> titleBrick: aBrick [
 		textPosition: #center.
 		
 	titleBrick layoutProperties
-		verticalPercent: 0;
-		minHeight: 30.
+		vShrinkWrap.
 	self addBrickBack: titleBrick
 ]

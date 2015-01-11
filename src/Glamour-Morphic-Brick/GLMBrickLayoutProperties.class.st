@@ -104,8 +104,7 @@ GLMBrickLayoutProperties >> hShrinkWrap [
 { #category : #scripting }
 GLMBrickLayoutProperties >> hSpaceFill [
 
-	self horizontalPercent: 100.
-	self minWidthBlock: [ :brick | brick owner width ].
+	self horizontalPercent: 100
 ]
 
 { #category : #accessing }
@@ -296,14 +295,13 @@ GLMBrickLayoutProperties >> paddingTop: anObject [
 GLMBrickLayoutProperties >> vShrinkWrap [
 	"doesn't work with proportional layout. use linear layout instead"
 	self verticalPercent: 0.
-	self minHeightBlock: [ :brick | brick subbricks inject: 0 into: [ :each :height | height + each height + each layoutProperties verticalMargin ] ]
+	self minHeightBlock: [ :brick | brick subbricks inject: 0 into: [ :height :each | height + each height + each layoutProperties verticalMargin ] ]
 ]
 
 { #category : #scripting }
 GLMBrickLayoutProperties >> vSpaceFill [
 
-	self verticalPercent: 100.
-	self minHeightBlock: [ :brick | brick owner height ]
+	self verticalPercent: 100
 ]
 
 { #category : #accessing }
