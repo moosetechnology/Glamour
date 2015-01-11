@@ -56,7 +56,8 @@ GLMPhlowrTableBrick >> entity: anObject [
 GLMPhlowrTableBrick >> initialize [
 	super initialize.
 
-	self listBrick adaptor morphAtLogic: [ :index | GLMPhlowrTableRowBrick new in: self; entity: (self transformedEntity at: index) ]
+	self listBrick adaptor
+		morphAtLogic: [ :index | GLMPhlowrTableRowBrick new in: self; entity: (self transformedEntity at: index) ]
 ]
 
 { #category : #accessing }
