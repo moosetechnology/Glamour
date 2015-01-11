@@ -292,6 +292,22 @@ GLMBrickLayoutProperties >> paddingTop: anObject [
 ]
 
 { #category : #scripting }
+GLMBrickLayoutProperties >> staticHeight: anInteger [
+
+	self
+		verticalPercent: 0;
+		minHeight: anInteger
+]
+
+{ #category : #scripting }
+GLMBrickLayoutProperties >> staticWidth: anInteger [
+
+	self
+		horizontalPercent: 0;
+		minWidth: anInteger
+]
+
+{ #category : #scripting }
 GLMBrickLayoutProperties >> vShrinkWrap [
 	"doesn't work with proportional layout. use linear layout instead"
 	self verticalPercent: 0.

@@ -68,7 +68,12 @@ GLMPhlowrListBrick >> newTitleBrick [
 { #category : #phlowr }
 GLMPhlowrListBrick >> title: aString [
 
-	self titleBrick text: aString
+	self titleBrick text: aString.
+	
+	titleBrick layoutProperties staticHeight: (
+		aString isEmpty
+			ifFalse: [ 30 ]
+			ifTrue: [ 0 ])
 ]
 
 { #category : #accessing }
@@ -80,10 +85,7 @@ GLMPhlowrListBrick >> titleBrick [
 GLMPhlowrListBrick >> titleBrick: aBrick [
 
 	titleBrick := aBrick.
-	titleBrick
-		textPosition: #center.
-		
-	titleBrick layoutProperties
-		vShrinkWrap.
+	titleBrick textPosition: #center.
+	titleBrick layoutProperties staticHeight: 0.
 	self addBrickBack: titleBrick
 ]
