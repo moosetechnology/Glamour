@@ -8,6 +8,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
+{ #category : #examples }
+GLMBrickVerticalFillLinearLayout class >> example [
+	"self example"
+	super example
+]
+
 { #category : #layouting }
 GLMBrickVerticalFillLinearLayout >> extentOf: aBrick in: owner withArguments: aHashTable [
 	

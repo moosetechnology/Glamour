@@ -4,6 +4,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
+{ #category : #examples }
+GLMBrickVerticalFillLayout class >> example [
+	"self example"
+	super example
+]
+
 { #category : #'as yet unclassified' }
 GLMBrickVerticalFillLayout >> boundsOf: aBrick in: owner withArguments: aHashTable [
 	

@@ -8,6 +8,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
+{ #category : #examples }
+GLMBrickHorizontalLinearLayout class >> example [
+	"self example"
+	super example
+]
+
 { #category : #layouting }
 GLMBrickHorizontalLinearLayout >> layout: aBrick in: newBounds [
 	|arguments|

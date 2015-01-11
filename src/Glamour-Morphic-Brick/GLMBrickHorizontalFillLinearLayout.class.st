@@ -7,6 +7,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
+{ #category : #examples }
+GLMBrickHorizontalFillLinearLayout class >> example [
+	"self example"
+	super example
+]
+
 { #category : #layouting }
 GLMBrickHorizontalFillLinearLayout >> extentOf: aBrick in: owner withArguments: aHashTable [
 	

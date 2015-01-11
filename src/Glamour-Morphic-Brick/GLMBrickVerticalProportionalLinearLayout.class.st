@@ -8,6 +8,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
+{ #category : #examples }
+GLMBrickVerticalProportionalLinearLayout class >> example [
+	"self example"
+	super example
+]
+
 { #category : #layouting }
 GLMBrickVerticalProportionalLinearLayout >> extentOf: aBrick in: owner withArguments: aHashTable [
 	| height requestedHeight allowedHeight minHeight maxHeight distributableHeight distributablePercents|

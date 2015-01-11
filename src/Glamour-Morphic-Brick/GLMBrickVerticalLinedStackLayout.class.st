@@ -4,6 +4,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
+{ #category : #examples }
+GLMBrickVerticalLinedStackLayout class >> example [
+	"self example"
+	super example
+]
+
 { #category : #testing }
 GLMBrickVerticalLinedStackLayout >> isFullyVisible: aBrick [
 	
