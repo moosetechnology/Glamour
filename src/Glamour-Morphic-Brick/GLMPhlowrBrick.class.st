@@ -35,7 +35,9 @@ GLMPhlowrBrick >> initialize [
 		
 	self
 		layoutPolicy: GLMBrickVerticalFillProportionalLinearLayout new;
-		titleBrick: self newTitleBrick
+		titleBrick: self newTitleBrick.
+		
+	self layoutProperties	hSpaceFill; vSpaceFill.
 ]
 
 { #category : #'instance creation' }

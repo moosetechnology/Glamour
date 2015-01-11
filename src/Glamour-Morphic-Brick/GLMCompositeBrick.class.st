@@ -52,18 +52,14 @@ GLMCompositeBrick class >> examplePharoMethod [
 
 { #category : #phlowr }
 GLMCompositeBrick >> list [
-	|list|
-	list := GLMPhlowrListBrick new.
-	list layoutProperties	hSpaceFill; vSpaceFill.
-	^ self addBrickBack: list
+
+	^ self addBrickBack: GLMPhlowrListBrick new
 ]
 
 { #category : #phlowr }
 GLMCompositeBrick >> pharoMethod [
-	|pharoMethod|
-	pharoMethod := GLMPhlowrPharoMethodBrick new.
-	pharoMethod layoutProperties hSpaceFill; vSpaceFill.
-	^ self addBrickBack: pharoMethod
+
+	^ self addBrickBack: GLMPhlowrPharoMethodBrick new
 ]
 
 { #category : #phlowr }
