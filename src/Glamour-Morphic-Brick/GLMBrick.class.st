@@ -519,6 +519,12 @@ GLMBrick >> lastSubbrick [
 	^ self subbricks last
 ]
 
+{ #category : #'layout brick' }
+GLMBrick >> margin: aCssMarginFormat [
+	"for format description see GLMBrickLayoutProperties>>margin:"
+	self layoutProperties margin: aCssMarginFormat
+]
+
 { #category : #accessing }
 GLMBrick >> morph [
 	^ self
@@ -538,6 +544,12 @@ GLMBrick >> onLayoutEvent: aLayoutEvent [
 { #category : #'layout brick' }
 GLMBrick >> onPrepareLayout [
 	"is called before I'm started layouting"
+]
+
+{ #category : #'layout brick' }
+GLMBrick >> padding: aCssPaddingFormat [
+	"for format description see GLMBrickLayoutProperties>>padding:"
+	self layoutProperties padding: aCssPaddingFormat
 ]
 
 { #category : #private }
