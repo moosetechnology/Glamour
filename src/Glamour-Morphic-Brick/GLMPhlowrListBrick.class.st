@@ -7,6 +7,18 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Phlowr'
 }
 
+{ #category : #examples }
+GLMPhlowrListBrick class >> example [
+	
+	^ GLMCompositeBrick exampleList
+]
+
+{ #category : #examples }
+GLMPhlowrListBrick class >> example2 [
+	
+	^ GLMCompositeBrick exampleListWithCustomItem
+]
+
 { #category : #phlowr }
 GLMPhlowrListBrick >> display: aBlockOrSymbol [
 	

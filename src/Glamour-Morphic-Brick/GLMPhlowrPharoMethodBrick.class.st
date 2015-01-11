@@ -9,6 +9,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Phlowr'
 }
 
+{ #category : #examples }
+GLMPhlowrPharoMethodBrick class >> example [
+	
+	^ GLMCompositeBrick examplePharoMethod
+]
+
 { #category : #phlowr }
 GLMPhlowrPharoMethodBrick >> display: aBlockOrSymbol [
 

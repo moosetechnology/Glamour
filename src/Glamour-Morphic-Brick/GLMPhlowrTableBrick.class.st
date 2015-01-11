@@ -9,6 +9,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Phlowr'
 }
 
+{ #category : #examples }
+GLMPhlowrTableBrick class >> example [
+	
+	^ GLMCompositeBrick exampleTable
+]
+
 { #category : #accessing }
 GLMPhlowrTableBrick >> addColumn: aColumn [
 
