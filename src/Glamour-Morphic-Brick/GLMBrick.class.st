@@ -439,6 +439,16 @@ GLMBrick >> height [
 		ifNil: [ self privateHeight ]
 ]
 
+{ #category : #geometry }
+GLMBrick >> height: aNumberOrBlockOrSymbol [
+
+	(aNumberOrBlockOrSymbol isBlock | aNumberOrBlockOrSymbol isSymbol)
+		ifTrue: [ self heightBlock: aNumberOrBlockOrSymbol ]
+		ifFalse: [ super height: aNumberOrBlockOrSymbol ]
+	
+	
+]
+
 { #category : #accessing }
 GLMBrick >> heightBlock [
 
@@ -644,6 +654,14 @@ GLMBrick >> width [
 	^ self widthBlock
 		ifNotNil: [ self widthBlock cull: self ]
 		ifNil: [ self privateWidth ]
+]
+
+{ #category : #geometry }
+GLMBrick >> width: aNumberOrBlockOrSymbol [
+
+	(aNumberOrBlockOrSymbol isBlock | aNumberOrBlockOrSymbol isSymbol)
+		ifTrue: [ self widthBlock: aNumberOrBlockOrSymbol ]
+		ifFalse: [ super width: aNumberOrBlockOrSymbol ]
 ]
 
 { #category : #accessing }

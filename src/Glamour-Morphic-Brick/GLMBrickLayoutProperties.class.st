@@ -292,19 +292,21 @@ GLMBrickLayoutProperties >> paddingTop: anObject [
 ]
 
 { #category : #scripting }
-GLMBrickLayoutProperties >> staticHeight: anInteger [
+GLMBrickLayoutProperties >> staticHeight: aNumberOrBlockOrSymbol [
 
-	self
-		verticalPercent: 0;
-		minHeight: anInteger
+	self verticalPercent: 0.
+	(aNumberOrBlockOrSymbol isBlock | aNumberOrBlockOrSymbol isSymbol)
+		ifTrue: [ self minHeightBlock: aNumberOrBlockOrSymbol ]
+		ifFalse: [ self minHeight: aNumberOrBlockOrSymbol ]
 ]
 
 { #category : #scripting }
-GLMBrickLayoutProperties >> staticWidth: anInteger [
+GLMBrickLayoutProperties >> staticWidth: aNumberOrBlockOrSymbol [
 
-	self
-		horizontalPercent: 0;
-		minWidth: anInteger
+	self horizontalPercent: 0.
+	(aNumberOrBlockOrSymbol isBlock | aNumberOrBlockOrSymbol isSymbol)
+		ifTrue: [ self minWidthBlock: aNumberOrBlockOrSymbol ]
+		ifFalse: [ self minWidth: aNumberOrBlockOrSymbol ]
 ]
 
 { #category : #scripting }
