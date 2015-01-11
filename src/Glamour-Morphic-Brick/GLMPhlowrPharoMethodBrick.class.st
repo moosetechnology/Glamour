@@ -29,7 +29,7 @@ GLMPhlowrPharoMethodBrick >> entity: anObject [
 GLMPhlowrPharoMethodBrick >> initialize [
 	super initialize.
 	
-	self textBrick: self newTextBrick
+	self textBrick: self newTextBrick.
 ]
 
 { #category : #'as yet unclassified' }

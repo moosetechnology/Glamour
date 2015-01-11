@@ -50,6 +50,25 @@ GLMCompositeBrick class >> examplePharoMethod [
 		openInWindow
 ]
 
+{ #category : #examples }
+GLMCompositeBrick class >> exampleTable [
+	|composite|
+	
+	composite := self new.
+	composite table
+		title: #asString;
+		display: [ :anObject | (anObject gtInspectorVariableValuePairs asSortedCollection asOrderedCollection yourself) addFirst: 'self' -> anObject; yourself ];
+		column: 'Variable'
+			evaluated: [:assoc | '  ',(GTObjectPrinter new asNonTruncatedTextFrom: assoc key) ];
+		column: 'Variable'
+			evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ];
+		entity: Morph new.
+	
+	composite asBrickedMorph
+		extent: 600@400;
+		openInWindow
+]
+
 { #category : #phlowr }
 GLMCompositeBrick >> list [
 
@@ -60,6 +79,12 @@ GLMCompositeBrick >> list [
 GLMCompositeBrick >> pharoMethod [
 
 	^ self addBrickBack: GLMPhlowrPharoMethodBrick new
+]
+
+{ #category : #phlowr }
+GLMCompositeBrick >> table [
+
+	^ self addBrickBack: GLMPhlowrTableBrick new
 ]
 
 { #category : #phlowr }
