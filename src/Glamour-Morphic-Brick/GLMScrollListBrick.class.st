@@ -139,6 +139,16 @@ GLMScrollListBrick >> initialize [
 	self band layoutPolicy: GLMBrickVerticalFillLayout new
 ]
 
+{ #category : #scrolling }
+GLMScrollListBrick >> invalidate [
+
+	self band removeAllBricks.
+	self band brickBounds: (self band brickBounds translateBy: (0@ self scrollPositionTop negated)).
+	self update.
+	self verticalScrollbar update.
+	self changed
+]
+
 { #category : #'instance creation' }
 GLMScrollListBrick >> newBand [
 	^ super newBand heightBlock: [ :bandBrick |
