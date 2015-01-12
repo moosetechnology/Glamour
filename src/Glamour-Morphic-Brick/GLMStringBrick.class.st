@@ -48,18 +48,6 @@ Class {
 	#category : #'Glamour-Morphic-Brick-UI'
 }
 
-{ #category : #configuration }
-GLMStringBrick class >> defaultFamilyFontName [
-	"Default Family font"
-	| fontList |
-	fontList := FontChooser new fontListStrings.
-	fontList ifEmpty: [ ^ StandardFonts defaultFont familyName ].
-	(fontList includes: 'Source Sans Pro') ifTrue: [ ^ 'Source Sans Pro' ].
-	(fontList includes: 'DejaVu Sans') ifTrue: [ ^ 'DejaVu Sans' ].
-	
-	^ StandardFonts defaultFont familyName
-]
-
 { #category : #geometry }
 GLMStringBrick >> approximateWidth [
 
@@ -72,7 +60,7 @@ GLMStringBrick >> calculateHighlightingBounds [
 	
 	highlightBounds := OrderedCollection new.
 	
-	textBounds := (self calculateTextPosition extent: (0@self fontSize asFloat/2)).
+	textBounds := (self calculateTextPosition extent: self textSize) translateBy: (0@0)negated.
 	
 	last := self text asLowercase findString: self highlightedText asLowercase startingAt: 1.
 	last = 0 ifTrue: [^ highlightBounds].
@@ -90,22 +78,22 @@ GLMStringBrick >> calculateHighlightingBounds [
 GLMStringBrick >> calculateTextPosition [
 
 	self textPosition = #leftCenter ifTrue: [ 
-		^ self textPositionVerticalCenter
+		^ (self brickBounds origin + self textPositionVerticalCenter) floor
 	].
 
 	self textPosition = #center ifTrue: [ 
-		^ (self textPositionVerticalCenter + self textPositionHorizontalCenter)
+		^ (self brickBounds origin + self textPositionVerticalCenter + self textPositionHorizontalCenter)floor
 	].
 
 	self textPosition = #leftTop ifTrue: [
-		^ 0@0
+		^ self brickBounds origin
 	].
 
 	self textPosition = #rightCenter ifTrue: [
-		^ ((self brickBounds width@0 + self textPositionVerticalCenter - (self textSize x@0)) max: 0@0)
+		^ ((self brickBounds topRight + self textPositionVerticalCenter - (self textSize x@0)) max: self brickBounds origin) floor
 	].
 
-	^ 0@0
+	^ self brickBounds origin
 ]
 
 { #category : #initialization }
@@ -116,7 +104,7 @@ GLMStringBrick >> defaultColor [
 { #category : #defaults }
 GLMStringBrick >> defaultFamilyName [
 
-	^ self class defaultFamilyFontName
+	^ self theme labelFont familyName
 ]
 
 { #category : #defaults }
@@ -224,16 +212,11 @@ GLMStringBrick >> onDraw: aCanvas [
 			ifNil: [ aCanvas line: each bottomLeft to: each bottomRight width: 1 color: self textColor ]
 			ifNotNil: [ self highlightingLogic cull: aCanvas cull: each ] ].
 	
-	aCanvas pathTransform restoreAfter: [
-		"Draw the label centered on the position"
-		aCanvas pathTransform
-			translateBy: self calculateTextPosition;
-			scaleBy: 0.9999. "to fix font problems"
-		aCanvas
-			setFont: self font;
-			setPaint: self textColor;
-			drawString: self text.
-	]
+	aCanvas
+		drawString: self text
+		at: self calculateTextPosition
+		font: self font
+		color: self textColor
 ]
 
 { #category : #private }
@@ -246,7 +229,7 @@ GLMStringBrick >> privateSetText: aString [
 { #category : #public }
 GLMStringBrick >> sizeOf: aString [
 
-	^ (self font widthOfString: aString) @ self font getPreciseHeight
+	^ (self font widthOfString: aString) @ self font height
 ]
 
 { #category : #accessing }
@@ -291,13 +274,13 @@ GLMStringBrick >> textPosition: aSymbol [
 { #category : #geometry }
 GLMStringBrick >> textPositionHorizontalCenter [
 
-	^ ((((self brickBounds width - self textSize x) max: 0)asFloat /2)@0)
+	^ (((self brickBounds width - self textSize x) max: 0) /2)@0
 ]
 
 { #category : #geometry }
 GLMStringBrick >> textPositionVerticalCenter [
 
-	^ (0@self brickBounds height asFloat/2) + (0@self font getPreciseAscent asFloat/2) - (0@self font getPreciseDescent asFloat/2)
+		^ (0@(self brickBounds height / 2)) - (0@(self fontSize/2)) - (0@3)
 	
 ]
 

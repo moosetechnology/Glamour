@@ -6,6 +6,7 @@ Class {
 
 { #category : #examples }
 GLMCompositeBrick class >> exampleList [
+	<example: 'Phlowr simple list'>
 	|composite|
 	
 	composite := self new.
@@ -22,6 +23,7 @@ GLMCompositeBrick class >> exampleList [
 
 { #category : #examples }
 GLMCompositeBrick class >> exampleListWithCustomItem [
+	<example: 'Phlowr list with custom items'>
 	|composite|
 	
 	composite := self new.
@@ -39,6 +41,7 @@ GLMCompositeBrick class >> exampleListWithCustomItem [
 
 { #category : #examples }
 GLMCompositeBrick class >> examplePharoMethod [
+	<example: 'Phlowr Pharo method'>
 	|composite|
 	
 	composite := self new.
@@ -55,6 +58,7 @@ GLMCompositeBrick class >> examplePharoMethod [
 
 { #category : #examples }
 GLMCompositeBrick class >> exampleTable [
+	<example: 'Phlowr table'>
 	|composite|
 	
 	composite := self new.
