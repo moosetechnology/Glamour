@@ -24,9 +24,16 @@ GLMPhlowrTableBrick >> addColumn: aColumn [
 { #category : #phlowr }
 GLMPhlowrTableBrick >> column: aStringOrBlockOrSymbol evaluated: aBlockOrSymbol [
 
-	self addColumn: (GLMTableColumn new 
+	self column: aStringOrBlockOrSymbol evaluated: aBlockOrSymbol styled: nil
+]
+
+{ #category : #phlowr }
+GLMPhlowrTableBrick >> column: aStringOrBlockOrSymbol evaluated: aBlockOrSymbol styled: aBlockOrSymbolForStyle [
+
+	self addColumn: (GLMPhlowrTableColumn new 
 		title: aStringOrBlockOrSymbol;
-		computation: aBlockOrSymbol)
+		computation: aBlockOrSymbol;
+		style: aBlockOrSymbolForStyle)
 ]
 
 { #category : #accessing }

@@ -25,7 +25,8 @@ GLMCompositeBrick class >> exampleListWithCustomItem [
 	
 	composite := self new.
 	composite list
-		display: [ :x | GLMLabelBrick new text: (x + 3) asString; textPosition: #center; textColor: Color random; yourself ];
+		display: [ :x | (x + 3) asString ];
+		styled: [ :aBrick | aBrick textPosition: #center; textColor: Color random ];
 		title: 'Example with custom items';
 		entity: (1 to: 100).
 	
@@ -59,14 +60,11 @@ GLMCompositeBrick class >> exampleTable [
 		title: #asString;
 		display: [ :anObject | (anObject gtInspectorVariableValuePairs asSortedCollection asOrderedCollection yourself) addFirst: 'self' -> anObject; yourself ];
 		column: 'Variable'
-			evaluated: [:assoc |
-				(GTObjectPrinter new asNonTruncatedTextFrom: assoc key) asBrick
-					textPosition: #rightCenter;
-					margin: #(0 15 0 0);
-					textColor: Color lightGray ];
+			evaluated: [:assoc |	GTObjectPrinter new asNonTruncatedTextFrom: assoc key ]
+			styled: [ :aBrick | aBrick textPosition: #rightCenter; margin: #(0 15 0 0); textColor: Color lightGray ];
 		column: 'Variable'
-			evaluated: [:assoc | (GTObjectPrinter new asTruncatedTextFrom: assoc value) asBrick
-					margin: #(0 0 0 15) ];
+			evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ]
+			styled: [ :aBrick | aBrick margin: #(0 0 0 15) ];
 		entity: Morph new.
 	
 	composite asBrickedMorph

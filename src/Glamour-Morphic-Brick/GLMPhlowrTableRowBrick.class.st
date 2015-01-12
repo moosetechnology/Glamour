@@ -10,8 +10,10 @@ Class {
 
 { #category : #adding }
 GLMPhlowrTableRowBrick >> addColumn: aColumn [
-
-	^ self addBrickBack: (aColumn computation cull: self entity) asBrick
+	|brick|
+	brick := (aColumn computation cull: self entity) asBrick.
+	aColumn style ifNotNil: [ brick := aColumn style cull: brick ].
+	^ self addBrickBack: brick
 ]
 
 { #category : #phlowr }
