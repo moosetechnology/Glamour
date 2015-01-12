@@ -31,9 +31,9 @@ GLMPopper >> computeOriginFor: aMorph [
 	| desiredTop desiredLeft |
 	"self halt."
 	aMorph textArea scrollSelectionIntoView: nil.
-	desiredTop := aMorph textArea cursor positionInWorld y - 6.
+	desiredTop := (self originMorphFor: aMorph) positionInWorld y - 6.
 						"unclear why 6 is the magic number"
-	desiredLeft := aMorph textArea cursor right + aMorph positionInWorld x + 6.
+	desiredLeft := (self originMorphFor: aMorph) right + aMorph positionInWorld x + 6.
 	^ desiredLeft @ desiredTop
 ]
 
@@ -44,6 +44,15 @@ GLMPopper >> initialize [
 	self
 		onAnnouncement: MorphLostFocus do: [ :ann | ann morph delete ];
 		color: Color transparent
+]
+
+{ #category : #public }
+GLMPopper >> originMorphFor: aMorph [
+
+	(aMorph textArea hasSelection not and: [ 
+		aMorph textArea hasHighlightSegment ]) ifTrue: [ 
+			^ aMorph textArea getHighlightSegment ].
+	^ aMorph textArea cursor
 ]
 
 { #category : #private }
