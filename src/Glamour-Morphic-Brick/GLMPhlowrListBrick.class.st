@@ -3,7 +3,8 @@ Class {
 	#superclass : #GLMPhlowrBrick,
 	#instVars : [
 		'scrollList',
-		'styleLogic'
+		'styleLogic',
+		'formatLogic'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlowr'
 }
@@ -24,7 +25,7 @@ GLMPhlowrListBrick class >> example2 [
 GLMPhlowrListBrick >> display: aBlockOrSymbol [
 	
 	self listBrick adaptor
-		morphAtLogic: [ :index :morph | self styled cull: (aBlockOrSymbol cull: (self entity at: index)) asBrick ]
+		morphAtLogic: [ :index :morph | self styled cull: (self format cull: (aBlockOrSymbol cull: (self entity at: index))) asBrick ]
 ]
 
 { #category : #phlowr }
@@ -32,6 +33,18 @@ GLMPhlowrListBrick >> entity: anObject [
 	super entity: anObject.
 	
 	self listBrick adaptor on: anObject
+]
+
+{ #category : #accessing }
+GLMPhlowrListBrick >> format [
+
+	^ formatLogic ifNil: [ formatLogic := #yourself ]
+]
+
+{ #category : #phlowr }
+GLMPhlowrListBrick >> format: aBlockOrSymbol [
+
+	formatLogic := aBlockOrSymbol
 ]
 
 { #category : #initialization }
@@ -63,7 +76,7 @@ GLMPhlowrListBrick >> newScrollList [
 	^ GLMScrollListBrick new
 ]
 
-{ #category : #phlowr }
+{ #category : #accessing }
 GLMPhlowrListBrick >> styled [
 	^ styleLogic ifNil: [ styleLogic := #yourself ]
 ]

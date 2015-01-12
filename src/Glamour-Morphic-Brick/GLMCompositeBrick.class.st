@@ -10,8 +10,9 @@ GLMCompositeBrick class >> exampleList [
 	
 	composite := self new.
 	composite list
-		display: [ :x | x + 3 ];
 		title: 'Example';
+		display: [ :x | x + 3 ];
+		format: [ :anInteger | anInteger asString, ')' ];
 		entity: (1 to: 100).
 	
 	composite asBrickedMorph
@@ -25,9 +26,10 @@ GLMCompositeBrick class >> exampleListWithCustomItem [
 	
 	composite := self new.
 	composite list
-		display: [ :x | (x + 3) asString ];
-		styled: [ :aBrick | aBrick textPosition: #center; textColor: Color random ];
 		title: 'Example with custom items';
+		display: [ :x | x + 3];
+		format: [ :anInteger | anInteger asString ];
+		styled: [ :aBrick | aBrick textPosition: #center; textColor: Color random ];
 		entity: (1 to: 100).
 	
 	composite asBrickedMorph
@@ -41,9 +43,9 @@ GLMCompositeBrick class >> examplePharoMethod [
 	
 	composite := self new.
 	composite pharoMethod
+		title: #printString;
 		display: #getSource;
 		smalltalkClass: #methodClass;
-		title: #printString;
 		entity: Morph>>#bounds.
 	
 	composite asBrickedMorph
