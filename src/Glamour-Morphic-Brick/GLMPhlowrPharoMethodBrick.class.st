@@ -2,9 +2,7 @@ Class {
 	#name : #GLMPhlowrPharoMethodBrick,
 	#superclass : #GLMPhlowrBrick,
 	#instVars : [
-		'displayLogic',
-		'textBrick',
-		'smalltalkClassLogic'
+		'textBrick'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlowr'
 }
@@ -18,16 +16,21 @@ GLMPhlowrPharoMethodBrick class >> example [
 { #category : #phlowr }
 GLMPhlowrPharoMethodBrick >> display: aBlockOrSymbol [
 
-	displayLogic := aBlockOrSymbol
-	
+	self setParameter: #display toValue: aBlockOrSymbol
+]
+
+{ #category : #accessing }
+GLMPhlowrPharoMethodBrick >> displayLogic [
+
+	^ self valueOfParameter: #display ifAbsent: #yourself
 ]
 
 { #category : #phlowr }
 GLMPhlowrPharoMethodBrick >> entity: anObject [
 	super entity: anObject.
 	
-	self textBrick setTextWith: (displayLogic cull: self entity).
-	self textBrick classOrMetaClass: (smalltalkClassLogic cull: self entity)
+	self textBrick setTextWith: (self displayLogic cull: self entity).
+	self textBrick classOrMetaClass: (self smalltalkClassLogic cull: self entity)
 	
 ]
 
@@ -38,7 +41,7 @@ GLMPhlowrPharoMethodBrick >> initialize [
 	self textBrick: self newTextBrick.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMPhlowrPharoMethodBrick >> newTextBrick [
 
 	^ RubScrolledTextMorph new
@@ -46,11 +49,17 @@ GLMPhlowrPharoMethodBrick >> newTextBrick [
 
 { #category : #phlowr }
 GLMPhlowrPharoMethodBrick >> smalltalkClass: aBlockOrSymbol [
-
-	smalltalkClassLogic := aBlockOrSymbol
+	
+	self setParameter: #smalltalkClass toValue: aBlockOrSymbol
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+GLMPhlowrPharoMethodBrick >> smalltalkClassLogic [
+
+	^ self valueOfParameter: #smalltalkClass ifAbsent: #yourself
+]
+
+{ #category : #accessing }
 GLMPhlowrPharoMethodBrick >> textBrick [
 
 	^ textBrick
@@ -58,7 +67,7 @@ GLMPhlowrPharoMethodBrick >> textBrick [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMPhlowrPharoMethodBrick >> textBrick: aBrick [
 
 	textBrick := aBrick.

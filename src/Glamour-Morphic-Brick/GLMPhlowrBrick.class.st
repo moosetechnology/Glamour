@@ -3,8 +3,8 @@ Class {
 	#superclass : #GLMBrick,
 	#instVars : [
 		'titleBrick',
-		'titleLogic',
-		'entity'
+		'entity',
+		'parameters'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlowr'
 }
@@ -25,8 +25,14 @@ GLMPhlowrBrick >> entity [
 GLMPhlowrBrick >> entity: anObject [
 
 	entity := anObject.
-	self setTitle: (titleLogic cull: self entity).
+	self setTitle: (self titleLogic cull: self entity)
 	
+]
+
+{ #category : #'accessing-parameters' }
+GLMPhlowrBrick >> hasParameter: aKey [
+
+	^ self parameters includesKey: aKey
 ]
 
 { #category : #initialization }
@@ -46,6 +52,24 @@ GLMPhlowrBrick >> newTitleBrick [
 	^ GLMLabelBrick new
 ]
 
+{ #category : #'accessing-parameters' }
+GLMPhlowrBrick >> parameters [
+
+	^ parameters ifNil: [ parameters := Dictionary new ]
+]
+
+{ #category : #'accessing-parameters' }
+GLMPhlowrBrick >> removeParameter: aSymbol [
+
+	self parameter removeKey: aSymbol ifAbsent: []
+]
+
+{ #category : #'accessing-parameters' }
+GLMPhlowrBrick >> setParameter: aSymbol toValue: abObject [
+
+	self parameters at: aSymbol put: abObject
+]
+
 { #category : #accessing }
 GLMPhlowrBrick >> setTitle: aString [
 
@@ -60,9 +84,9 @@ GLMPhlowrBrick >> setTitle: aString [
 { #category : #phlowr }
 GLMPhlowrBrick >> title: aStringOrSymbolOrBlock [
 	
-	titleLogic := (aStringOrSymbolOrBlock isSymbol | aStringOrSymbolOrBlock isBlock)
+	self setParameter: #title toValue: ((aStringOrSymbolOrBlock isSymbol | aStringOrSymbolOrBlock isBlock)
 		ifTrue: [ aStringOrSymbolOrBlock ]
-		ifFalse: [ [ aStringOrSymbolOrBlock asString ] ].
+		ifFalse: [ [ aStringOrSymbolOrBlock asString ] ])
 ]
 
 { #category : #accessing }
@@ -77,4 +101,23 @@ GLMPhlowrBrick >> titleBrick: aBrick [
 	titleBrick textPosition: #center.
 	titleBrick layoutProperties staticHeight: 0.
 	self addBrickBack: titleBrick
+]
+
+{ #category : #accessing }
+GLMPhlowrBrick >> titleLogic [
+
+	^ self valueOfParameter: #title ifAbsent: [ '' ]
+]
+
+{ #category : #'accessing-parameters' }
+GLMPhlowrBrick >> valueOfParameter: aSymbol [
+	^ self
+		valueOfParameter: aSymbol
+		ifAbsent: []
+]
+
+{ #category : #'accessing-parameters' }
+GLMPhlowrBrick >> valueOfParameter: aSymbol ifAbsent: aBlock [ 
+
+	^ self parameters at: aSymbol ifAbsent: [^ aBlock value]
 ]

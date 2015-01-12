@@ -48,6 +48,18 @@ Class {
 	#category : #'Glamour-Morphic-Brick-UI'
 }
 
+{ #category : #configuration }
+GLMStringBrick class >> defaultFamilyFontName [
+	"Default Family font"
+	| fontList |
+	fontList := FontChooser new fontListStrings.
+	fontList ifEmpty: [ ^ StandardFonts defaultFont familyName ].
+	(fontList includes: 'Source Sans Pro') ifTrue: [ ^ 'Source Sans Pro' ].
+	(fontList includes: 'DejaVu Sans') ifTrue: [ ^ 'DejaVu Sans' ].
+	
+	^ StandardFonts defaultFont familyName
+]
+
 { #category : #geometry }
 GLMStringBrick >> approximateWidth [
 
@@ -104,7 +116,7 @@ GLMStringBrick >> defaultColor [
 { #category : #defaults }
 GLMStringBrick >> defaultFamilyName [
 
-	^ self theme labelFont familyName
+	^ self class defaultFamilyFontName
 ]
 
 { #category : #defaults }

@@ -3,7 +3,6 @@ Class {
 	#superclass : #GLMPhlowrListBrick,
 	#instVars : [
 		'columns',
-		'transformation',
 		'transformedEntity'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlowr'
@@ -45,17 +44,21 @@ GLMPhlowrTableBrick >> columns [
 { #category : #phlowr }
 GLMPhlowrTableBrick >> display: aBlockOrSymbol [
 	
-	transformation := aBlockOrSymbol
+	self setParameter: #display toValue: aBlockOrSymbol
+	
+]
+
+{ #category : #accessing }
+GLMPhlowrTableBrick >> displayLogic [
+
+	^ self valueOfParameter: #display ifAbsent: #yourself
 ]
 
 { #category : #phlowr }
 GLMPhlowrTableBrick >> entity: anObject [
 	super entity: anObject.
 	
-	self transformedEntity: (transformation
-		ifNil: [ anObject ]
-		ifNotNil: [ transformation cull: anObject ]).
-	
+	self transformedEntity: (self displayLogic cull: anObject).
 	self listBrick adaptor on: self transformedEntity
 ]
 
