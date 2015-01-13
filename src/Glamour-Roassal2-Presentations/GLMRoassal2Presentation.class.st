@@ -39,12 +39,19 @@ Class {
 
 { #category : #'initialize-release' }
 GLMRoassal2Presentation >> defaultActions [
-	self act: [ :roassal |  RTZoomInMove on: roassal view view ]
-			icon: GLMUIThemeExtraIcons glamorousZoomIn
-			entitled: 'Zoom in'.
-	self act: [ :roassal |  RTZoomOutMove on: roassal view view ]
-			icon: GLMUIThemeExtraIcons glamorousZoomOut
-			entitled: 'Zoom out'.
+	self 
+		act: [ :roassal |  RTZoomInMove on: roassal view view ]
+		icon: GLMUIThemeExtraIcons glamorousZoomIn
+		entitled: 'Zoom in'.
+	self 
+		act: [ :roassal |  RTZoomOutMove on: roassal view view ]
+		icon: GLMUIThemeExtraIcons glamorousZoomOut
+		entitled: 'Zoom out'.
+	self
+		act: [ :roassal | roassal view view canvas focusOnCenterScaled. roassal view view signalUpdate ]
+		icon: GLMUIThemeExtraIcons glamorousZoomToFit
+		entitled: 'Camera center'.
+																
 	self 
 		act: [ :roassal | 
 				| fileName |
@@ -90,10 +97,7 @@ GLMRoassal2Presentation >> defaultActions [
 					self openIfPossible: fileName ] ]
 			entitled: 'Export to HTML...'.
 
-	self
-		act: [ :roassal | roassal view view canvas focusOnCenterScaled. roassal view view signalUpdate ]
-			entitled: 'Camera center'.
-																
+	
 ]
 
 { #category : #'initialize-release' }
