@@ -92,7 +92,7 @@ GLMPrintPopper >> openFromRubric: aMorph withResult: anObject [
 		on: Character cr asKeyCombination
 		do: [ 
 			self delete.
-			aMorph editor afterSelectionInsertAndSelect: string.
+			aMorph editor afterSelectionInsertAndSelect: string asComment.
 			aMorph takeKeyboardFocus ].
 	inspectButton addUpAction: [ anObject inspect ].
 	self openInWorld
