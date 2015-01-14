@@ -132,7 +132,7 @@ GLMRubricSmalltalkCodePresentation >> executionSelectionActions [
 				title: 'Debug it'; 
 				action: [ :aPresentation |
 					aPresentation debugSelection ]; 
-				"shortcut: $D; "
+				shortcut: $D;
 				yourself.
 		(GLMGenericAction new) 
 				title: 'Profile it'; 
