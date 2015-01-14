@@ -111,7 +111,7 @@ GLMRubricSmalltalkCodePresentation >> executionSelectionActions [
 		(GLMGenericAction new) 
 				title: 'Do it';
 				action: [ :aPresentation |
-					aPresentation evaluateSelection ]; 
+					aPresentation highlightEvaluateAndDo: [ :result | ] ]; 
 				shortcut: $d; 
 				icon: GLMUIThemeExtraIcons glamorousSpawn;
 				yourself.
@@ -124,7 +124,7 @@ GLMRubricSmalltalkCodePresentation >> executionSelectionActions [
 		(GLMGenericAction new) 
 				title: 'Inspect it'; 
 				action: [ :aPresentation |
-					aPresentation evaluateSelectionAndDo: [ :result | result inspect ] ]; 
+					aPresentation highlightEvaluateAndDo: [ :result | result inspect ] ]; 
 				shortcut: $i; 
 				icon: GLMUIThemeExtraIcons glamorousInspect;
 				yourself.
@@ -141,6 +141,12 @@ GLMRubricSmalltalkCodePresentation >> executionSelectionActions [
 				withSeparatorAfter;
 				yourself.
 		 }
+]
+
+{ #category : #actions }
+GLMRubricSmalltalkCodePresentation >> highlightEvaluateAndDo: aBlock [
+
+	self announce: (GLMHighlightAndEvaluate new action: aBlock)
 ]
 
 { #category : #'actions browsing' }
