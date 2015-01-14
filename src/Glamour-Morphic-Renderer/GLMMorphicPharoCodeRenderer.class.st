@@ -28,18 +28,28 @@ GLMMorphicPharoCodeRenderer >> actOnEvaluateSelection: ann [
 ]
 
 { #category : #callbacks }
-GLMMorphicPharoCodeRenderer >> debugSelection [
+GLMMorphicPharoCodeRenderer >> actOnHighlightAndEvaluate: ann [ 
+
+	"We get here as a result of an announcement.
+	If we do not defer the execution and an exception is triggered by the execution of the code
+	then resuming the execution in the debugger will trigger an error when unwinding the stack."
+	UIManager default defer: [ 
+		textMorph textArea handleEdit: [textMorph textArea editor highlightEvaluateAndDo: ann action ]]
+]
+
+{ #category : #callbacks }
+GLMMorphicPharoCodeRenderer >> debugHighlightedText [
 
 	UIManager default defer: [ 
-		textMorph textArea editor debugIt ]
+		textMorph textArea editor debugHighlight ]
 	
 ]
 
 { #category : #callbacks }
-GLMMorphicPharoCodeRenderer >> evaluateAndPopPrintSelection [
+GLMMorphicPharoCodeRenderer >> evaluateAndPopPrintHighlight [
 
 	GLMPrintPopper installAlarmFor: [ 
-		textMorph textArea editor evaluateSelectionAndDo: [ :result | 
+		textMorph textArea editor highlightEvaluateAndDo: [ :result | 
 			GLMPrintPopper new 
 				openFromRubric: textMorph textArea withResult: result ] ]
 ]
@@ -62,9 +72,9 @@ GLMMorphicPharoCodeRenderer >> modelFor: aPresentation [
 ]
 
 { #category : #callbacks }
-GLMMorphicPharoCodeRenderer >> profileSelection [
+GLMMorphicPharoCodeRenderer >> profileHighlightedText [
 
-	textMorph textArea editor tallyIt
+	textMorph textArea editor tallyHighlight
 ]
 
 { #category : #private }
@@ -73,10 +83,11 @@ GLMMorphicPharoCodeRenderer >> registerEventsForPresentation: aPresentation [
 	super registerEventsForPresentation: aPresentation.
 	aPresentation on: GLMSelectCurrentLine send: #selectLine to: self.
 	aPresentation on: GLMEvaluateSelection send: #actOnEvaluateSelection: to: self.
+	aPresentation on: GLMHighlightAndEvaluate send: #actOnHighlightAndEvaluate: to: self.
 	aPresentation on: GLMCompileText send: #actOnCompileText: to: self.
-	aPresentation on: GLMDebugSelection send: #debugSelection to: self.
-	aPresentation on: GLMProfileSelection send: #profileSelection to: self.
-	aPresentation on: GLMPrintSelection send: #evaluateAndPopPrintSelection to: self
+	aPresentation on: GLMDebugSelection send: #debugHighlightedText to: self.
+	aPresentation on: GLMProfileSelection send: #profileHighlightedText to: self.
+	aPresentation on: GLMPrintSelection send: #evaluateAndPopPrintHighlight to: self
 	
 ]
 
