@@ -17,26 +17,16 @@ GLMBandBrick >> doLayout [
 	self subbricks do: [ :each | each isBrick ifTrue: [ each doLayout ] ]
 ]
 
-{ #category : #geometry }
-GLMBandBrick >> height [
-	|height|
-	self heightBlock ifNotNil: [ ^ self heightBlock cull: self ].
-		
-	height := self layoutProperties verticalPadding.
-	self subbricks do: [ :each | height := height + each height + each layoutProperties verticalMargin ].
-	^ height
-]
-
 { #category : #initialization }
 GLMBandBrick >> initialize [
 	super initialize.
 	
 	self layoutPolicy: GLMBrickVerticalFillLinearLayout new.
+	self layoutProperties vShrinkWrap
 ]
 
 { #category : #'layout brick' }
 GLMBandBrick >> layoutChildren [
-
 	|mBounds mOwner|
 	"most of the time you don't want to call this method manually"
 	"nice example to check is GLMLabelBrick>>doLayout"

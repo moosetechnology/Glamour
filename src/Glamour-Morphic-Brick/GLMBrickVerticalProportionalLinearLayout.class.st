@@ -59,3 +59,9 @@ GLMBrickVerticalProportionalLinearLayout >> prepareArgumentsFor: aBrick [
 		add: (#distributablePercents -> maxPercent);
 		yourself
 ]
+
+{ #category : #'as yet unclassified' }
+GLMBrickVerticalProportionalLinearLayout >> setVShrinking: aBrick [
+
+	aBrick heightBlock: nil
+]

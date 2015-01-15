@@ -514,6 +514,18 @@ GLMBrick >> lastSubbrick [
 	^ self subbricks last
 ]
 
+{ #category : #'layout-properties' }
+GLMBrick >> layout [
+	"alias for layoutProperties"
+	^ self layoutProperties
+]
+
+{ #category : #'layout-properties' }
+GLMBrick >> layoutProperties: newProperties [
+	super layoutProperties: newProperties.
+	self layoutProperties brick: self
+]
+
 { #category : #'layout brick' }
 GLMBrick >> margin: aCssMarginFormat [
 	"for format description see GLMBrickLayoutProperties>>margin:"

@@ -79,10 +79,23 @@ Class {
 		'minHeightBlock',
 		'minWidthBlock',
 		'floating',
-		'zIndex'
+		'zIndex',
+		'brick'
 	],
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
+
+{ #category : #private }
+GLMBrickLayoutProperties >> brick [
+
+	^ brick
+]
+
+{ #category : #private }
+GLMBrickLayoutProperties >> brick: aBrick [
+	
+	brick := aBrick
+]
 
 { #category : #accessing }
 GLMBrickLayoutProperties >> floating [
@@ -96,9 +109,8 @@ GLMBrickLayoutProperties >> floating: aSymbol [
 
 { #category : #scripting }
 GLMBrickLayoutProperties >> hShrinkWrap [
-	"doesn't work with proportional layout. use linear layout instead"
-	self horizontalPercent: 0.
-	self minWidthBlock: [ :brick | brick subbricks inject: 0 into: [ :width :each | width + each width + each layoutProperties horizontalMargin ] ]
+
+	self brick layoutPolicy setHShrinking: self brick
 ]
 
 { #category : #scripting }
@@ -401,9 +413,8 @@ GLMBrickLayoutProperties >> staticWidth: aNumberOrBlockOrSymbol [
 
 { #category : #scripting }
 GLMBrickLayoutProperties >> vShrinkWrap [
-	"doesn't work with proportional layout. use linear layout instead"
-	self verticalPercent: 0.
-	self minHeightBlock: [ :brick | brick subbricks inject: 0 into: [ :height :each | height + each height + each layoutProperties verticalMargin ] ]
+
+	self brick layoutPolicy setVShrinking: self brick
 ]
 
 { #category : #scripting }

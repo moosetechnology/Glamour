@@ -14,6 +14,16 @@ GLMBrickHorizontalLinearLayout class >> example [
 	super example
 ]
 
+{ #category : #testing }
+GLMBrickHorizontalLinearLayout >> isHorizontal [
+	^ true
+]
+
+{ #category : #testing }
+GLMBrickHorizontalLinearLayout >> isVertical [
+	^ false
+]
+
 { #category : #layouting }
 GLMBrickHorizontalLinearLayout >> layout: aBrick in: newBounds [
 	|arguments|
@@ -37,6 +47,18 @@ GLMBrickHorizontalLinearLayout >> layout: aBrick in: newBounds [
 			ifTrue: [ leftOffset  + ( self layoutFloating: each in: newBounds withArguments: arguments) ] ]
 
 	
+]
+
+{ #category : #scripting }
+GLMBrickHorizontalLinearLayout >> setHShrinking: aBrick [
+	"my width is the sum of all subbricks width + horizontal padding"
+	aBrick width: [ :brick | brick subbricks inject: aBrick layoutProperties horizontalPadding into: [ :width :each | width + each width + each layoutProperties horizontalMargin ] ]
+]
+
+{ #category : #scripting }
+GLMBrickHorizontalLinearLayout >> setVShrinking: aBrick [
+	"my height is the height of the highest subbrick + vertical padding"
+	aBrick height: [ ((self subbricks detectMax: [ :each | each height ]) ifNil: [ 0 ] ifNotNil: [ :brick | brick height ])  + self layoutProperties verticalPadding ]
 ]
 
 { #category : #bounds }

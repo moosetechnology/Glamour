@@ -91,6 +91,18 @@ GLMBrickLayout >> floatingMethodFor: aSymbol [
 	^ ('layoutFloating', (aSymbol capitalized), ':in:withArguments:') asSymbol.
 ]
 
+{ #category : #testing }
+GLMBrickLayout >> isHorizontal [
+
+	self subclassResponsibility
+]
+
+{ #category : #testing }
+GLMBrickLayout >> isVertical [
+
+	self subclassResponsibility
+]
+
 { #category : #layouting }
 GLMBrickLayout >> layout: aBrick in: newBounds [
 	self subclassResponsibility
@@ -198,12 +210,24 @@ GLMBrickLayout >> sendEvent: aLayoutEvent to: aBrick [
 	aBrick isBrick ifTrue: [ aBrick onLayoutEvent: aLayoutEvent ]
 ]
 
+{ #category : #scripting }
+GLMBrickLayout >> setHShrinking: aBrick [
+	"configurates Brick to allow horizontal shrinking to its subbricks"
+	self subclassResponsibility
+]
+
 { #category : #bounds }
 GLMBrickLayout >> setNewBounds: aLayoutBounds to: aMorph in: aBrick [
 
 	aMorph isBrick
 				ifTrue: [ aMorph brickBounds: aLayoutBounds bounds compressed ]
 				ifFalse: [ aMorph bounds: (aLayoutBounds bounds translateBy: aBrick globalBounds origin) ].
+]
+
+{ #category : #scripting }
+GLMBrickLayout >> setVShrinking: aBrick [
+	"configurates Brick to allow vertical shrinking to its subbricks"
+	self subclassResponsibility
 ]
 
 { #category : #reflection }
