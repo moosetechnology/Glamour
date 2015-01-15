@@ -260,6 +260,11 @@ GLMCompositePresentation >> resetAnnouncer [
 ]
 
 { #category : #accessing }
+GLMCompositePresentation >> second [
+	^ self presentations second
+]
+
+{ #category : #accessing }
 GLMCompositePresentation >> select: aBlock [
 	^ self presentations select: aBlock
 ]
