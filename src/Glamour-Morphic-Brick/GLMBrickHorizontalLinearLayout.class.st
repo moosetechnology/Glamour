@@ -58,7 +58,7 @@ GLMBrickHorizontalLinearLayout >> setHShrinking: aBrick [
 { #category : #scripting }
 GLMBrickHorizontalLinearLayout >> setVShrinking: aBrick [
 	"my height is the height of the highest subbrick + vertical padding"
-	aBrick height: [ ((self subbricks detectMax: [ :each | each height ]) ifNil: [ 0 ] ifNotNil: [ :brick | brick height ])  + self layoutProperties verticalPadding ]
+	aBrick height: [ ((aBrick subbricks detectMax: [ :each | each height ]) ifNil: [ 0 ] ifNotNil: [ :brick | brick height ])  + aBrick layoutProperties verticalPadding ]
 ]
 
 { #category : #bounds }

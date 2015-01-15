@@ -50,7 +50,7 @@ GLMBrickVerticalLinearLayout >> layout: aBrick in: newBounds [
 { #category : #scripting }
 GLMBrickVerticalLinearLayout >> setHShrinking: aBrick [
 	"my width is the width of the widest subbrick  + horizontal padding"
-	aBrick width: [ ((self subbricks detectMax: [ :each | each width ]) ifNil: [ 0 ] ifNotNil: [ :brick | brick width ]) + self layoutProperties horizontalPadding ]
+	aBrick width: [ ((aBrick subbricks detectMax: [ :each | each width ]) ifNil: [ 0 ] ifNotNil: [ :brick | brick width ]) + aBrick layoutProperties horizontalPadding ]
 ]
 
 { #category : #scripting }
