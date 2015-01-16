@@ -265,7 +265,7 @@ ConfigurationOfGlamourCore >> version3010: spec [
 			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-TudorGirba.196';
 			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.160';
 			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.169';
-			package: 'Glamour-Rubric-Presentations' with: 'Glamour-Rubric-Presentations-AndreiChis.36';
+			package: 'Glamour-Rubric-Presentations' with: 'Glamour-Rubric-Presentations-AndreiChis.37';
 			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-AndreiChis.101';
 			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-AndreiChis.120';
 			package: 'Glamour-Tests-Resources' with: 'Glamour-Tests-Resources-AndreiChis.3';
