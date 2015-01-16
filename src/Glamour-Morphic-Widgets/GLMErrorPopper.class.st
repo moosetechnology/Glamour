@@ -38,10 +38,3 @@ GLMErrorPopper >> initializeTextMorph [
 		hResizing: #spaceFill;
 		addMorph: textMorph fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1))
 ]
-
-{ #category : #initialization }
-GLMErrorPopper >> withString: string from: aMorph [
-
-	aMorph textArea removeHighlightSegment.
-	super withString: string from: aMorph
-]

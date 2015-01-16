@@ -31,9 +31,9 @@ GLMPopper >> computeOriginFor: aMorph [
 	| desiredTop desiredLeft |
 	"self halt."
 	aMorph textArea scrollSelectionIntoView: nil.
-	desiredTop := (self originMorphFor: aMorph) positionInWorld y - 6.
+	desiredTop := aMorph textArea cursor positionInWorld y - 6.
 						"unclear why 6 is the magic number"
-	desiredLeft := (self originMorphFor: aMorph) right + aMorph positionInWorld x + 6.
+	desiredLeft := aMorph textArea cursor right + aMorph positionInWorld x + 6.
 	^ desiredLeft @ desiredTop
 ]
 
@@ -46,15 +46,6 @@ GLMPopper >> initialize [
 		color: Color transparent
 ]
 
-{ #category : #public }
-GLMPopper >> originMorphFor: aMorph [
-
-	(aMorph textArea hasSelection not and: [ 
-		aMorph textArea hasHighlightSegment ]) ifTrue: [ 
-			^ aMorph textArea getHighlightSegment ].
-	^ aMorph textArea cursor
-]
-
 { #category : #private }
 GLMPopper >> updateWithString: string from: aMorph [
 	textMorph
@@ -62,15 +53,12 @@ GLMPopper >> updateWithString: string from: aMorph [
 		takeKeyboardFocus;
 		on: Character escape do: [ 
 			self delete.
-			aMorph textArea removeHighlightSegment.
 			aMorph takeKeyboardFocus ];
 		on: Character backspace do: [ 
 			self delete.
-			aMorph textArea removeHighlightSegment.
 			aMorph takeKeyboardFocus ];
 		onAnnouncement: MorphLostFocus do: [ :ann | 
 			self delete.
-			aMorph textArea removeHighlightSegment.
 			"If this event is triggered then another morph already has the focus.
 			Do not attempt to give the focus back to the original morph" ]
 ]

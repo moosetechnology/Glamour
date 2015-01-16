@@ -116,7 +116,7 @@ GLMRubricTextFieldArea >> privateReplaceFrom: start to: stop with: aText [
 	(aText string includesAnyOf: {(Character cr). (Character lf)})
 		ifTrue: [ 
 			newText := newText asString copyReplaceAll: String cr with: '' asTokens: false.
-			newText := newText asString copyReplaceAll: String lf with: '' asTokens: false ].
+			newText := (newText asString copyReplaceAll: String lf with: '' asTokens: false) asText ].
 	super privateReplaceFrom: start to: stop with: newText
 ]
 
