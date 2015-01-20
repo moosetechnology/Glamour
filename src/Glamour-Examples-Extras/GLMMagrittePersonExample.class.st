@@ -11,7 +11,7 @@ Class {
 	#category : #'Glamour-Examples-Extras'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'examples-utils' }
 GLMMagrittePersonExample class >> sampleData [
 	"self new magritteAddressBook openOn: self new magritteAddressBookModel "
 	SampleData ifNil: 
@@ -27,7 +27,7 @@ GLMMagrittePersonExample class >> sampleData [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'examples-utils' }
 GLMMagrittePersonExample class >> sampleReset [
 	SampleData := nil.
 
