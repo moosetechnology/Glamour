@@ -8,7 +8,7 @@ Class {
 	#category : #'Glamour-Browsers-Announcements'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMPaneReplaced class >> oldPane: oldPane newPane: newPane fromBrowser: aBrowser [
 	^ self new 
 		oldPane: oldPane;
