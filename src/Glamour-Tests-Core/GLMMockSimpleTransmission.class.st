@@ -7,7 +7,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMMockSimpleTransmission class >> new [
 
 	^super new initialize
