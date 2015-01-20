@@ -8,13 +8,13 @@ Class {
 	#category : #'Glamour-Rubric-Presentations'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #querying }
 GLMHighlighterTextStylerDecorator class >> key [
 
 	^ nil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMHighlighterTextStylerDecorator class >> withParserStyler: aParser [
 	
 	^ self new styler: (GLMHighlighterTextParserStyler new parser: aParser)

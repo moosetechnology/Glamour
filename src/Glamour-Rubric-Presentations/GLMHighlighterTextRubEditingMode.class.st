@@ -7,14 +7,14 @@ Class {
 	#category : #'Glamour-Rubric-Presentations'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMHighlighterTextRubEditingMode class >> withParserStyler: aParser [
 
 	^ self new stylerDecorator: (GLMHighlighterTextStylerDecorator
 			withParserStyler: aParser)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMHighlighterTextRubEditingMode class >> withStylerDecorator: aDecorator [
 
 	^ self new stylerDecorator: aDecorator
