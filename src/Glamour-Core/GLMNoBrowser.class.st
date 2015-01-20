@@ -11,25 +11,25 @@ Class {
 	#category : #'Glamour-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'class initialization' }
 GLMNoBrowser class >> initialize [
 
 	self initializeUniqueInstance
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'class initialization' }
 GLMNoBrowser class >> initializeUniqueInstance [
 
 	uniqueInstance := self basicNew initialize
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMNoBrowser class >> new [
 
 	^self uniqueInstance
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMNoBrowser class >> uniqueInstance [
 
 	^uniqueInstance

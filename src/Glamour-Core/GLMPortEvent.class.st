@@ -18,14 +18,14 @@ Class {
 	#category : #'Glamour-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMPortEvent class >> on: aPort previouslyValued: anObject [ 
 	^ self new 
 		initializeOn: aPort
 		previouslyValued: anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMPortEvent class >> on: aPort previouslyValued: anObject in: aTransmissionContext [ 
 	^self new initializeOn: aPort previouslyValued: anObject in: aTransmissionContext 
 ]

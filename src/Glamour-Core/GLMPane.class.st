@@ -27,7 +27,7 @@ Class {
 	#category : #'Glamour-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMPane class >> in: aBrowser [ 
 	
 	^self new initializeIn: aBrowser
@@ -38,7 +38,7 @@ GLMPane class >> named: aString [
 	^self new initializeNamed: aString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMPane class >> named: aString in: aBrowser [
 
 	^self new initializeNamed: aString in: aBrowser 

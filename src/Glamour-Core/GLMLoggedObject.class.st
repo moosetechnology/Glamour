@@ -10,17 +10,17 @@ Class {
 	#category : #'Glamour-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'class initialization' }
 GLMLoggedObject class >> initialize [ 
 	logger := GLMLogger instance
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMLoggedObject class >> logger [
 	^ logger
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMLoggedObject class >> logger: aLogger [
 	logger := aLogger
 ]

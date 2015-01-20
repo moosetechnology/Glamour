@@ -10,7 +10,7 @@ Class {
 	#category : #'Glamour-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMCompositeArrangement class >> of: aCompositePresentation [
 	^ self new composite: aCompositePresentation; yourself
 ]
