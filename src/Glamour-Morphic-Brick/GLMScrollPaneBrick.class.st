@@ -23,33 +23,33 @@ Class {
 	#category : #'Glamour-Morphic-Brick-UI'
 }
 
-{ #category : #'accessing - defaults' }
+{ #category : #'as yet unclassified' }
 GLMScrollPaneBrick class >> defaultMaxVelocity [
 	^ self defaultScrollVelocity * 4
 ]
 
-{ #category : #'accessing - defaults' }
+{ #category : #'as yet unclassified' }
 GLMScrollPaneBrick class >> defaultScrollAcceleration [
 	^ 2
 ]
 
-{ #category : #'accessing - defaults' }
+{ #category : #'as yet unclassified' }
 GLMScrollPaneBrick class >> defaultScrollTimeReset [
 	^ 350
 ]
 
-{ #category : #'accessing - defaults' }
+{ #category : #'as yet unclassified' }
 GLMScrollPaneBrick class >> defaultScrollTurboTime [
 
 	^ 30
 ]
 
-{ #category : #'accessing - defaults' }
+{ #category : #'as yet unclassified' }
 GLMScrollPaneBrick class >> defaultScrollVelocity [
 	^ 15
 ]
 
-{ #category : #examples }
+{ #category : #'as yet unclassified' }
 GLMScrollPaneBrick class >> example [
 	|foundation scrollPane|
 	
@@ -69,7 +69,7 @@ GLMScrollPaneBrick class >> example [
 	foundation openInWindow
 ]
 
-{ #category : #examples }
+{ #category : #'as yet unclassified' }
 GLMScrollPaneBrick class >> exampleLarge [
 	|foundation scrollPane|
 	

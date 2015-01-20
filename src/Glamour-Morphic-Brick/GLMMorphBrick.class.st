@@ -17,7 +17,7 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Widgets'
 }
 
-{ #category : #'instance creation' }
+{ #category : #'as yet unclassified' }
 GLMMorphBrick class >> on: aMorph [
 
 	^ self new on: aMorph

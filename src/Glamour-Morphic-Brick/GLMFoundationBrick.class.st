@@ -19,7 +19,7 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Widgets'
 }
 
-{ #category : #examples }
+{ #category : #'as yet unclassified' }
 GLMFoundationBrick class >> exampleLarge [
 	|foundation scrollPane|
 	
@@ -39,7 +39,7 @@ GLMFoundationBrick class >> exampleLarge [
 	foundation openInWindow
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'as yet unclassified' }
 GLMFoundationBrick class >> root: aBrick [
 
 	^ self new brickRoot: aBrick
@@ -154,4 +154,10 @@ GLMFoundationBrick >> relativeBounds [
 GLMFoundationBrick >> removeAllBricks [
 
 	self brickRoot removeAllBricks
+]
+
+{ #category : #adding }
+GLMFoundationBrick >> removeBrick: aBrick [
+
+	self brickRoot removeBrick: aBrick
 ]
