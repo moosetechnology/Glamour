@@ -11,24 +11,24 @@ Class {
 	#category : #'Glamour-Helpers'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMLogger class >> instance [
 	^ instance ifNil: [
 		instance := self nullInstance ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMLogger class >> instance: aLogger [
 	instance := aLogger 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMLogger class >> nullInstance [ 
 	^ nullInstance ifNil: [
 		nullInstance := GLMNullLogger new ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMLogger class >> reset [
 	instance := nil
 ]
