@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Renderer'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 GLMGaussianBlurBrickRenderer class >> example [
 
 	|morph|
