@@ -8,7 +8,7 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
-{ #category : #examples }
+{ #category : #'examples-utils' }
 GLMBrickLayout class >> example [
 	"this example must be called on my subclasses"
 	| rootBrick brick1 brick2 brick3|

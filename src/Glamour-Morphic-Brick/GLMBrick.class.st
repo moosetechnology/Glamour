@@ -45,7 +45,39 @@ Class {
 	#category : #'Glamour-Morphic-Brick-UI'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
+GLMBrick class >> exampleWithMorphInsideBrick [
+
+	"self exampleWithMorphInsideBrick"
+
+	|foundation brick morph|
+	
+	foundation := GLMFoundationBrick new.
+	foundation extent: 800@400.
+
+	brick := GLMLabelBrick new.
+	brick text: 'Hello, I''m a Brick inside another Brick!'.
+	brick layoutProperties horizontalPercent: 50.
+	brick color: Color lightBlue lighter.
+
+	morph := Morph new.
+	morph color: Color lightGreen lighter.
+	morph layoutProperties: GLMBrickLayoutProperties new.
+	morph layoutProperties horizontalPercent: 50.
+
+	morph addMorphBack: (LabelMorph new
+		contents: 'Hello, I''m a Morph inside another Morph inside Brick!';
+		hResizing: #spaceFill;
+		vResizing: #spaceFill).
+
+	foundation
+		addBrickBack: brick;
+		addBrickBack: morph;
+		doLayout;
+		openInWindow.
+]
+
+{ #category : #examples }
 GLMBrick class >> exampleZindex [
 
 	"self exampleZindex"
@@ -83,39 +115,7 @@ GLMBrick class >> exampleZindex [
 	foundationBrick color: Color pink.
 ]
 
-{ #category : #'as yet unclassified' }
-GLMBrick class >> morphInsideBrickExample [
-
-	"self morphInsideBrickExample"
-
-	|foundation brick morph|
-	
-	foundation := GLMFoundationBrick new.
-	foundation extent: 800@400.
-
-	brick := GLMLabelBrick new.
-	brick text: 'Hello, I''m a Brick inside another Brick!'.
-	brick layoutProperties horizontalPercent: 50.
-	brick color: Color lightBlue lighter.
-
-	morph := Morph new.
-	morph color: Color lightGreen lighter.
-	morph layoutProperties: GLMBrickLayoutProperties new.
-	morph layoutProperties horizontalPercent: 50.
-
-	morph addMorphBack: (LabelMorph new
-		contents: 'Hello, I''m a Morph inside another Morph inside Brick!';
-		hResizing: #spaceFill;
-		vResizing: #spaceFill).
-
-	foundation
-		addBrickBack: brick;
-		addBrickBack: morph;
-		doLayout;
-		openInWindow.
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #utils }
 GLMBrick class >> resizeImage: anImage scale: aScale [
 
 	((aScale > (1@0)) | (aScale > (0@1))) ifTrue: [

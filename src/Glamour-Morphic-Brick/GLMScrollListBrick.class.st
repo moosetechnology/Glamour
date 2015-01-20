@@ -5,12 +5,14 @@ Class {
 	#name : #GLMScrollListBrick,
 	#superclass : #GLMScrollPaneBrick,
 	#instVars : [
-		'adaptor'
+		'adaptor',
+		'selection',
+		'index'
 	],
 	#category : #'Glamour-Morphic-Brick-UI'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 GLMScrollListBrick class >> example [
 	|adaptor|
 	adaptor := nil.
@@ -29,7 +31,7 @@ GLMScrollListBrick class >> example [
 		openInWindow
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 GLMScrollListBrick class >> exampleCollection [
 
 	GLMFoundationBrick new
@@ -38,7 +40,7 @@ GLMScrollListBrick class >> exampleCollection [
 		openInWindow
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 GLMScrollListBrick class >> exampleInfinity [
 	|adaptor|
 	adaptor := nil.
@@ -224,7 +226,8 @@ GLMScrollListBrick >> setBoundsOf: aMorph before: beforeMorph [
 { #category : #accessing }
 GLMScrollListBrick >> setIndex: anInteger in: aMorph [ 
 
-	aMorph setProperty: #brickScrollListIndex toValue: anInteger
+	aMorph setProperty: #brickScrollListIndex toValue: anInteger.
+	index := anInteger
 ]
 
 { #category : #scrolling }

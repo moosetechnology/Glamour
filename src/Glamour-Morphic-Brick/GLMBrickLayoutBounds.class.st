@@ -9,7 +9,7 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
-{ #category : #construction }
+{ #category : #'instance creation' }
 GLMBrickLayoutBounds class >> on: aRectangle of: aBrick [
 
 	^ self new on: aRectangle of: aBrick
