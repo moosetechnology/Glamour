@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Morphic-Widgets'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'utils - morph creation' }
 GLMMorphic class >> alignmentMorph: aCollectionOfMorphs [
 	"Answer a row-oriented AlignmentMorph holding the given collection"
 	| morph |
@@ -22,7 +22,7 @@ GLMMorphic class >> alignmentMorph: aCollectionOfMorphs [
 	^morph
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'utils - morph creation' }
 GLMMorphic class >> containerMorph [
 	^ PanelMorph new
 		layoutPolicy: ProportionalLayout new;
@@ -32,7 +32,7 @@ GLMMorphic class >> containerMorph [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'utils - morph creation' }
 GLMMorphic class >> emptyMorph [
 	^ self containerMorph
 		fillStyle: (SolidFillStyle color: Color transparent );
@@ -60,7 +60,7 @@ GLMMorphic class >> grayRoundedButtonStyle: button morph: aMorph pressed: aBoole
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GLMMorphic class >> isAlignmentMorph: anObject [
 
 	^anObject isMemberOf: AlignmentMorph
@@ -73,7 +73,7 @@ GLMMorphic class >> isGrayRoundedButton: aSymbol [
 		or:[ aSymbol = #default ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GLMMorphic class >> isImageMorph: anObject [
 
 	^anObject isMemberOf: ImageMorph
@@ -84,7 +84,7 @@ GLMMorphic class >> isWhiteRectangledButton: aSymbol [
 	^aSymbol = #whiteRectangledButton
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'utils - morph creation' }
 GLMMorphic class >> morphElement: anObject [
 
 	anObject isString
@@ -106,7 +106,7 @@ GLMMorphic class >> morphElement: anObject [
 	^self containerMorph
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'button styles' }
 GLMMorphic class >> styleButton: button morph: m pressed: aBoolean style: aSymbol [
 	(self isGrayRoundedButton: aSymbol)
 		ifTrue:[ self grayRoundedButtonStyle: button morph: m pressed: aBoolean ].
@@ -115,7 +115,7 @@ GLMMorphic class >> styleButton: button morph: m pressed: aBoolean style: aSymbo
 		ifTrue:[ self whiteRectangledButtonStyle: button morph: m pressed: aBoolean ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'utils - morph creation' }
 GLMMorphic class >> togglingButtonLabelled: anObject pressed: aBoolean style: aSymbol [
 	| button oldLabel m |
 	button := SimpleButtonMorph new.

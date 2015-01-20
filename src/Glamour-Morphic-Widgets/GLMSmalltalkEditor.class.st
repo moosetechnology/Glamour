@@ -7,7 +7,7 @@ Class {
 	#category : #'Glamour-Morphic-Widgets'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'class initialization' }
 GLMSmalltalkEditor class >> initialize [
 	"Initialize the keyboard shortcut maps and the shared buffers
 	for copying text across views and managing again and undo." 

@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Morphic-Widgets'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'accessing - icons' }
 GLMMorphicIcons class >> form16x16FromContents: aByteArray [ 
 	^ Form
 	extent: 16@16
@@ -13,22 +13,22 @@ GLMMorphicIcons class >> form16x16FromContents: aByteArray [
 	offset: 0@0
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'accessing - icons' }
 GLMMorphicIcons class >> toolbarMenuForm [
 	^self form16x16FromContents: self windowMenuFormContents 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'accessing - icons' }
 GLMMorphicIcons class >> toolbarMenuInactiveForm [
 	^self form16x16FromContents: self windowMenuInactiveFormContents 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'accessing - icons' }
 GLMMorphicIcons class >> windowMenuFormContents [
 	^ #( 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 352321536 3556769792 4278190080 4278190080 4278190080 4278190080 4278190080 4278190080 3556769792 352321536 0 0 0 0 0 0 0 352321536 3556769792 4278190080 4278190080 4278190080 4278190080 3556769792 352321536 0 0 0 0 0 0 0 0 0 352321536 3556769792 4278190080 4278190080 3556769792 352321536 0 0 0 0 0 0 0 0 0 0 0 369098752 3556769792 3556769792 352321536 0 0 0 0 0 0 0 0 0 0 0 0 0 369098752 352321536 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'accessing - icons' }
 GLMMorphicIcons class >> windowMenuInactiveFormContents [
 	^ #( 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 360282489 3565191296 4286611584 4286611584 4286611584 4286611584 4286611584 4286611584 3565191296 360282489 0 0 0 0 0 0 0 360282489 3565191296 4286611584 4286611584 4286611584 4286611584 3565191296 360282489 0 0 0 0 0 0 0 0 0 360282489 3565191296 4286611584 4286611584 3565191296 360282489 0 0 0 0 0 0 0 0 0 0 0 377520256 3565191296 3565191296 360282489 0 0 0 0 0 0 0 0 0 0 0 0 0 377520256 360282489 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0)
 ]

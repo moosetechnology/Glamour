@@ -7,7 +7,7 @@ Class {
 	#category : #'Glamour-Morphic-Widgets'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMMenuInvoked class >> action: anAction on: aMenuMorph [ 
 	^self new initializeAction: anAction on: aMenuMorph
 ]
