@@ -3067,7 +3067,7 @@ ConfigurationOfGlamour >> version308: spec [
 		spec 
 			package: 'Glamour-Examples-Extras' with: 'Glamour-Examples-Extras-TudorGirba.2';
 			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.85';
-			package: 'Glamour-Roassal2-Presentations' with: 'Glamour-Roassal2-Presentations-TudorGirba.34';
+			package: 'Glamour-Roassal2-Presentations' with: 'Glamour-Roassal2-Presentations-TudorGirba.33';
 			package: 'Glamour-Magritte-Presentations' with: 'Glamour-Magritte-Presentations-AndreiChis.7'. 
 		
 		spec 
