@@ -153,7 +153,7 @@ GLMScrollListBrick >> invalidate [
 
 { #category : #'instance creation' }
 GLMScrollListBrick >> newBand [
-	^ super newBand heightBlock: [ :bandBrick |
+	^ super newBand height: [ :bandBrick |
 		bandBrick subbricks isEmpty
 		ifTrue: [ 0 ]
 		ifFalse: [ bandBrick lastSubbrick brickBounds bottom ] ].
@@ -274,7 +274,7 @@ GLMScrollListBrick >> updateVisibleBottom: invisibleBricks [
 GLMScrollListBrick >> updateVisibleTop: invisibleBricks [
 	|before|
 	
-	before := self band subbricks isEmpty
+	before := self band hasSubbricks not
 		ifFalse: [ self band firstSubbrick]
 		ifTrue: [ self band addBrickBack: (self getMorphAt: 1 recycled: (self getAndRemoveInvisibleMorph: invisibleBricks)) ].
 		

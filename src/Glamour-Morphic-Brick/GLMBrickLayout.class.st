@@ -13,7 +13,7 @@ GLMBrickLayout class >> example [
 	"this example must be called on my subclasses"
 	| rootBrick brick1 brick2 brick3|
 	
-	rootBrick := GLMNewBrick new
+	rootBrick := GLMBrick new
 		layoutPolicy: self new;
 		color: Color blue.
 	
@@ -24,7 +24,7 @@ GLMBrickLayout class >> example [
 		paddingBottom: 5.
 	
 	" ---- Creating first brick ---- "
-	brick1 := GLMNewBrick new
+	brick1 := GLMBrick new
 		extent: 50@70;
 		color: Color red.
 		
@@ -37,7 +37,7 @@ GLMBrickLayout class >> example [
 		verticalPercent: 30.
 		
 	" ---- Creating second brick ---- "
-	brick2 := GLMNewBrick new
+	brick2 := GLMBrick new
 		color: Color green;
 		extent: 70@60.
 	
@@ -50,7 +50,7 @@ GLMBrickLayout class >> example [
 		verticalPercent: 50.
 		
 	" ---- Creating third brick ---- "
-	brick3 := GLMNewBrick new
+	brick3 := GLMBrick new
 		color: Color yellow;
 		extent: 100@50.
 		

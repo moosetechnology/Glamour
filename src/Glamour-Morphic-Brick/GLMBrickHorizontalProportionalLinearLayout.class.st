@@ -95,7 +95,7 @@ GLMBrickHorizontalProportionalLinearLayout >> prepareArgumentsFor: aBrick [
 
 { #category : #'as yet unclassified' }
 GLMBrickHorizontalProportionalLinearLayout >> setHShrinking: aBrick [
-	aBrick widthBlock: nil
+	aBrick width: nil
 ]
 
 { #category : #'extent functions' }

@@ -130,7 +130,7 @@ GLMBrick >> addBrickBack: aBrick [
 	
 	brick := aBrick asBrick.
 	link := brick asDoubleLink.
-	aBrick brickDoubleLink: link.
+	brick brickDoubleLink: link.
 	
 	self hasSubbricks ifTrue: [
 		self lastSubbrick brickDoubleLink nextLink: link.	
@@ -263,7 +263,7 @@ GLMBrick >> drawOn: aCanvas [
 	
 	"translating canvas coordinates"
 	 (aCanvas isKindOf: ClippingCanvas) ifTrue: [ ^self "no need to draw anything" ].
-	self onDraw: ( aCanvas copy setOrigin: (aCanvas origin + self globalBounds origin - self bounds origin) clipRect: (aCanvas clipRect translateBy: aCanvas origin))
+	self onDraw: ( aCanvas copy setOrigin: (aCanvas origin + self globalBounds origin - self brickBounds origin) clipRect: (aCanvas clipRect translateBy: aCanvas origin))
 ]
 
 { #category : #'morph-drawing' }
@@ -590,8 +590,8 @@ GLMBrick >> onPrepareLayout [
 { #category : #'brick-geometry' }
 GLMBrick >> outerBounds [
 
-	^ (self bounds origin - ((self marginLeft) @ (self marginTop)))
-		corner: (self bounds corner + ((self marginRight) @ (self marginBottom)))
+	^ (self brickBounds origin - ((self marginLeft) @ (self marginTop)))
+		corner: (self brickBounds corner + ((self marginRight) @ (self marginBottom)))
 ]
 
 { #category : #'brick-structure' }
@@ -705,7 +705,7 @@ GLMBrick >> removeBrick: aBrick [
 		ifNotNil: [ successor previousLink: predecessor ].
 	link clearLinks.
 	
-	aBrick privateBrickDoubleLink: nil.
+	aBrick brickDoubleLink: nil.
 	
 	self subbricks remove: aBrick.
 	aBrick owner: nil.
@@ -769,6 +769,18 @@ GLMBrick >> subbricks [
 GLMBrick >> subbricksCount [
 
 	^ self subbricks size
+]
+
+{ #category : #'morph-common' }
+GLMBrick >> submorphAfter [
+
+	^ self subbrickAfter
+]
+
+{ #category : #'morph-common' }
+GLMBrick >> submorphBefore [
+
+	^ self subbrickBefore
 ]
 
 { #category : #'private-geometry' }

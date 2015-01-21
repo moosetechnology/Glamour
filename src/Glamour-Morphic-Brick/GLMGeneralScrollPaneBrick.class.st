@@ -204,14 +204,8 @@ GLMGeneralScrollPaneBrick >> privateAddBrickBack: aBrick [
 
 { #category : #adding }
 GLMGeneralScrollPaneBrick >> removeAllBricks [
-
-	band subbricks do: [ :each |
-		each isBrick ifTrue: [
-			each brickRoot: nil.
-			each brickOwner: nil ] ].
 	
-	band subbricks removeAll.
-	band removeAllMorphs.
+	band removeAllBricks.
 	self scrollToTop
 ]
 
@@ -255,7 +249,7 @@ GLMGeneralScrollPaneBrick >> scrollDown: anInteger [
 { #category : #accessing }
 GLMGeneralScrollPaneBrick >> scrollPositionBottom [
 
-	^ self scrollPositionTop + self brickInnerBounds height
+	^ self scrollPositionTop + self innerBounds height
 ]
 
 { #category : #accessing }

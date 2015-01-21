@@ -48,7 +48,7 @@ GLMBrickVerticalLinedStackLayout >> layoutProportional: aCollection in: aBrick p
 		
 		eachWidth := ((fullWidth - leftOffset) / (aCollection size - index)) ceiling.
 		
-		layoutBounds := GLMBrickLayoutBounds on: each bounds of: each.
+		layoutBounds := GLMBrickLayoutBounds on: each brickBounds of: each.
 		index = 0
 			ifTrue: [ layoutBounds makeOuterBoundsFitWidth: (((self maxWidthOf: each) max: eachWidth) min: (fullWidth - leftOffset)) ]
 			ifFalse: [				

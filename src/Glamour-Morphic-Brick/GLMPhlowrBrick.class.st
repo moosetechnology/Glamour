@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMPhlowrBrick,
-	#superclass : #GLMOldBrick,
+	#superclass : #GLMBrick,
 	#instVars : [
 		'titleBrick',
 		'entity',

@@ -188,7 +188,7 @@ GLMBrickStructureTrait >> removeBrick: aBrick [
 		ifNotNil: [ successor previousLink: predecessor ].
 	link clearLinks.
 	
-	aBrick privateBrickDoubleLink: nil.
+	aBrick brickDoubleLink: nil.
 	
 	self subbricks remove: aBrick.
 	aBrick owner: nil.

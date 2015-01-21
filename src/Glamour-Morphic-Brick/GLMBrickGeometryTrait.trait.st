@@ -163,8 +163,8 @@ GLMBrickGeometryTrait >> marginTop: anObject [
 { #category : #'brick-geometry' }
 GLMBrickGeometryTrait >> outerBounds [
 
-	^ (self bounds origin - ((self marginLeft) @ (self marginTop)))
-		corner: (self bounds corner + ((self marginRight) @ (self marginBottom)))
+	^ (self brickBounds origin - ((self marginLeft) @ (self marginTop)))
+		corner: (self brickBounds corner + ((self marginRight) @ (self marginBottom)))
 ]
 
 { #category : #'brick-geometry-properties' }

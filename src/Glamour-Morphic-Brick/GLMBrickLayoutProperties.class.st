@@ -82,7 +82,7 @@ Class {
 		'zIndex',
 		'brick'
 	],
-	#category : #'Glamour-Morphic-Brick-Traits'
+	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
 { #category : #private }

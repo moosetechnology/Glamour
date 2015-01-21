@@ -63,5 +63,5 @@ GLMBrickVerticalProportionalLinearLayout >> prepareArgumentsFor: aBrick [
 { #category : #'as yet unclassified' }
 GLMBrickVerticalProportionalLinearLayout >> setVShrinking: aBrick [
 
-	aBrick heightBlock: nil
+	aBrick height: nil
 ]

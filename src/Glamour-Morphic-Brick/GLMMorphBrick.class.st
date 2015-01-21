@@ -24,21 +24,16 @@ GLMMorphBrick class >> on: aMorph [
 ]
 
 { #category : #'as yet unclassified' }
-GLMMorphBrick >> bounds: aRectangle [
-	super bounds: aRectangle.
+GLMMorphBrick >> brickBounds: aRectangle [
+	super brickBounds: aRectangle.
 	
-	self morph privateBounds: self globalBounds
+	self morph bounds: self globalBounds
 ]
 
 { #category : #'as yet unclassified' }
 GLMMorphBrick >> doLayout [
-	
-	self morph privateBounds: self globalBounds
-]
 
-{ #category : #'as yet unclassified' }
-GLMMorphBrick >> initialize [
-	super initialize.
+	
 ]
 
 { #category : #'as yet unclassified' }
@@ -50,10 +45,12 @@ GLMMorphBrick >> morph [
 { #category : #'as yet unclassified' }
 GLMMorphBrick >> on: aMorph [
 
+	self layoutProperties: aMorph layoutProperties.
+
 	morph := aMorph.
 	morph layoutProperties: (GLMBrickLayoutProperties new).
 	morph layoutProperties horizontalPercent: 100.
 	morph layoutProperties verticalPercent: 100.
-	self addBrickBack: morph.
+	self addMorphBack: morph.
 	super brickBounds: (0@0 extent: (morph width@morph height)).
 ]
