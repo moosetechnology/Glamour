@@ -41,7 +41,7 @@ GLMBrickStructureTrait >> addBrickBack: aBrick [
 	
 	brick := aBrick asBrick.
 	link := brick asDoubleLink.
-	aBrick brickDoubleLink: link.
+	brick brickDoubleLink: link.
 	
 	self hasSubbricks ifTrue: [
 		self lastSubbrick brickDoubleLink nextLink: link.	
