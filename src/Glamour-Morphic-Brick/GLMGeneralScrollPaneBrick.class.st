@@ -265,6 +265,13 @@ GLMGeneralScrollPaneBrick >> scrollTo: aBrick [
 ]
 
 { #category : #scrolling }
+GLMGeneralScrollPaneBrick >> scrollToBottom [
+
+
+	self scrollBy: (self band height) direction: #down
+]
+
+{ #category : #scrolling }
 GLMGeneralScrollPaneBrick >> scrollToTop [
 
 	self scrollBy: self scrollPositionTop negated direction: #up
