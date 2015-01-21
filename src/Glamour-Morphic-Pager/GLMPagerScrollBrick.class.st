@@ -23,7 +23,7 @@ GLMPagerScrollBrick >> band: aBrick [
 
 	band := aBrick.
 	band layoutPolicy: GLMPagerBandLayout new.
-	band widthBlock: [ :bandBrick | (self width / (self maxPanes min: self band subbricksCount) + self paneMargin) * self band subbricksCount ].
+	band width: [ :bandBrick | (self width / (self maxPanes min: self band subbricksCount) + self paneMargin) * self band subbricksCount ].
 	
 	self addBrickBack: band.
 ]
@@ -276,7 +276,7 @@ GLMPagerScrollBrick >> popPane: isSmooth [
 GLMPagerScrollBrick >> pushPane: aMorph [	
 	|brick|
 	
-	brick := aMorph asBrick.
+	brick := aMorph.
 	brick layoutProperties: (GLMBrickLayoutProperties new).
 	brick layoutProperties marginLeft: self paneMargin.
 	brick layoutProperties marginRight: self paneMargin.

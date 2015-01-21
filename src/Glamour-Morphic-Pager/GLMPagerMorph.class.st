@@ -10,8 +10,8 @@ Class {
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
 
-{ #category : #examples }
-GLMPagerMorph class >> exampleBasic [
+{ #category : #'as yet unclassified' }
+GLMPagerMorph class >> simpleExample [
 	|pager adapter|
 	adapter := GLMPagerModel new.
 	pager :=	GLMPagerMorph new.

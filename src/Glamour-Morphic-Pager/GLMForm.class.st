@@ -8,7 +8,7 @@ Class {
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
 
-{ #category : #utils }
+{ #category : #'as yet unclassified' }
 GLMForm class >> increaseFormExtentCentered: aForm to: aPoint [
 	| icon rect destination |
 	
@@ -20,7 +20,7 @@ GLMForm class >> increaseFormExtentCentered: aForm to: aPoint [
 	^ icon
 ]
 
-{ #category : #utils }
+{ #category : #'as yet unclassified' }
 GLMForm class >> makeForm32Bit: aForm [
 	aForm ifNil: [ ^ nil ].
 	aForm depth = 32 ifTrue: [ ^ aForm ].
@@ -29,7 +29,7 @@ GLMForm class >> makeForm32Bit: aForm [
 	^ aForm.
 ]
 
-{ #category : #utils }
+{ #category : #'as yet unclassified' }
 GLMForm class >> makeFormTransparent: aForm factor: aFloat [
 	"a float must be in interval [0.0, 1.0]"
 	| a |
@@ -48,14 +48,14 @@ GLMForm class >> makeFormTransparent: aForm factor: aFloat [
 	^ aForm 
 ]
 
-{ #category : #utils }
+{ #category : #'as yet unclassified' }
 GLMForm class >> scaleForm: aForm by: aPoint [
 
 	aForm ifNil: [ ^ nil ].
 	^ aForm magnify: aForm boundingBox by: aPoint smoothing: 2
 ]
 
-{ #category : #utils }
+{ #category : #'as yet unclassified' }
 GLMForm class >> scaleForm: aForm to: aPoint [
 	|scaleX scaleY|
 	
@@ -65,7 +65,7 @@ GLMForm class >> scaleForm: aForm to: aPoint [
 	^ self scaleForm: aForm by: scaleX @ scaleY.
 ]
 
-{ #category : #utils }
+{ #category : #'as yet unclassified' }
 GLMForm class >> scalePatchForm: aForm size: aPoint [
 	"aPoint - width and height of new form
 	
