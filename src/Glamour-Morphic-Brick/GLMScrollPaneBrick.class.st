@@ -92,7 +92,8 @@ GLMScrollPaneBrick class >> exampleLarge [
 { #category : #scrolling }
 GLMScrollPaneBrick >> scrollDown: anInteger [
 	
-	band brickBounds corner y <= self height ifTrue: [ ^ self ].
+	band brickBounds corner y <= self height ifTrue: [
+		band brickBounds: (band brickBounds translateBy: (0@ (self height - band brickBounds corner y))). ^ self ].
 	band brickBounds: (band brickBounds translateBy: (0@ anInteger) negated).
 	band brickBounds corner y < self height ifTrue: [ band brickBounds: (band brickBounds translateBy: (0@ (self height - band brickBounds corner y))) ]
 ]
@@ -126,7 +127,8 @@ GLMScrollPaneBrick >> scrollTo: aBrick [
 GLMScrollPaneBrick >> scrollUp: anInteger [
 
 	"preventing from scrolling if already at the top"
-	band brickBounds origin y >= 0 ifTrue: [ ^ self ].
+	band brickBounds origin y >= 0 ifTrue: [
+		band brickBounds: (band brickBounds translateBy: (0@ band brickBounds origin y negated)). ^ self ].
 	"actuall scrolling"
 	band brickBounds: (band brickBounds translateBy: (0@ anInteger)).
 	"returning scrollpane back if went away"

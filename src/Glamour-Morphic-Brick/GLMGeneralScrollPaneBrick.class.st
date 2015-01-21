@@ -292,6 +292,8 @@ GLMGeneralScrollPaneBrick >> unsubscribeListeners [
 { #category : #scrolling }
 GLMGeneralScrollPaneBrick >> update [
 
+	self scrollDown: 0.
+	self scrollUp: 0.
 	self verticalScrollbar update
 ]
 
