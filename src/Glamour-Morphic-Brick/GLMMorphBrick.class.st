@@ -24,8 +24,8 @@ GLMMorphBrick class >> on: aMorph [
 ]
 
 { #category : #'as yet unclassified' }
-GLMMorphBrick >> brickBounds: aRectangle [
-	super brickBounds: aRectangle.
+GLMMorphBrick >> bounds: aRectangle [
+	super bounds: aRectangle.
 	
 	self morph privateBounds: self globalBounds
 ]

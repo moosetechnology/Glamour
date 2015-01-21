@@ -16,5 +16,5 @@ GLMBrickHorizontalFillLinearLayout class >> example [
 { #category : #layouting }
 GLMBrickHorizontalFillLinearLayout >> extentOf: aBrick in: owner withArguments: aHashTable [
 	
-	^ (self originalWidthOf: aBrick)@(owner brickInnerBounds height - aBrick layoutProperties verticalMargin)
+	^ (self originalWidthOf: aBrick)@(owner innerBounds height - aBrick layoutProperties verticalMargin)
 ]

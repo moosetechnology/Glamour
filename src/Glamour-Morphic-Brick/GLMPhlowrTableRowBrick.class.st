@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMPhlowrTableRowBrick,
-	#superclass : #GLMBrick,
+	#superclass : #GLMOldBrick,
 	#instVars : [
 		'entity',
 		'table'

@@ -59,7 +59,7 @@ GLMScrollbarBrick >> initialize [
 { #category : #'as yet unclassified' }
 GLMScrollbarBrick >> newBar [
 
-	^ GLMBrick new
+	^ GLMOldBrick new
 ]
 
 { #category : #accessing }

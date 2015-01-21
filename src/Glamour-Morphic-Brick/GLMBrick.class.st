@@ -1,46 +1,13 @@
 "
-A GLMBrick is the main Brick class. Can hold another Bricks and contains logic of rendering, positioning bricks and also possibilities to interate with them using mouse or keyboard.
-
-The idea of this project is to boost  performance of complicated glamour widgets where smooth and fast work is neccessary.
-
-Instance Variables
-	data:		<Object>
-	renderer:		<Object>
-	subbricks:		<Object>
-	brickBounds:		<Object>
-	brickOwner:		<Object>
-	brickRoot:		<Object>
-
-data
-	- xxxxx
-
-renderer
-	- xxxxx
-
-subbricks
-	- xxxxx
-
-brickBounds
-	- xxxxx
-
-brickOwner
-	- xxxxx
-
-brickRoot
-	- xxxxx
-
+asdasd
 "
 Class {
 	#name : #GLMBrick,
 	#superclass : #GLMBrickedMorph,
+	#traits : 'GLMBrickPropertiesTrait + GLMBrickGeometryTrait + GLMBrickLayoutTrait + GLMBrickStructureTrait',
+	#classTraits : 'GLMBrickPropertiesTrait classTrait + GLMBrickGeometryTrait classTrait + GLMBrickLayoutTrait classTrait + GLMBrickStructureTrait classTrait',
 	#instVars : [
-		'renderer',
-		'data',
-		'brickBounds',
-		'brickOwner',
-		'brickRoot',
-		'subbricks',
-		'backgroundColor'
+		'brickBounds'
 	],
 	#category : #'Glamour-Morphic-Brick-UI'
 }
@@ -129,139 +96,126 @@ GLMBrick class >> resizeImage: anImage scale: aScale [
 	^ anImage magnify: anImage boundingBox by: aScale smoothing: 2.
 ]
 
-{ #category : #adding }
+{ #category : #'brick-structure-adding/removing' }
 GLMBrick >> addAllBricks: aCollection [
 
 	aCollection do: [ :each | self addBrickBack: each ]
 ]
 
-{ #category : #adding }
-GLMBrick >> addBrick: aBrick before: anotherBrick [
-	|link|
+{ #category : #'brick-structure-adding/removing' }
+GLMBrick >> addBrick: aBrick before: otherBrick [
+	| brick link otherLink otherLinkPredeccessor |
+	brick := aBrick asBrick.
 	
-	link := self privateSubbricks add: aBrick beforeLink: anotherBrick privateBrickDoubleLink.
-	aBrick privateBrickDoubleLink: link.
-	self initializeBrick: aBrick.
-	super addMorph: aBrick inFrontOf: anotherBrick.
+	otherLink := otherBrick brickDoubleLink.
+	otherLink = self firstSubbrick brickDoubleLink
+		ifTrue: [ ^ self addBrickFirst: brick ].
+		
+	link := brick asDoubleLink.
+	otherLinkPredeccessor := otherLink previousLink.
+	otherLink previousLink: link.
+	link nextLink: otherLink.
+	link previousLink: otherLinkPredeccessor.
+	otherLinkPredeccessor nextLink: link.
+	
+	self subbricks add: brick before: otherBrick.
+	brick owner: self.
+	
 	^ aBrick
 ]
 
-{ #category : #adding }
+{ #category : #'brick-structure-adding/removing' }
 GLMBrick >> addBrickBack: aBrick [
-	|link|
+	|link brick|
 	
-	link := self privateSubbricks add: aBrick.
-	aBrick privateBrickDoubleLink: link.
+	brick := aBrick asBrick.
+	link := brick asDoubleLink.
+	aBrick brickDoubleLink: link.
 	
-	self initializeBrick: aBrick.
-	super addMorphBack: aBrick.
+	self hasSubbricks ifTrue: [
+		self lastSubbrick brickDoubleLink nextLink: link.	
+		link previousLink: self lastSubbrick brickDoubleLink.
+	].
+	
+	self subbricks add: brick.
+	brick owner: self.
+	
 	^ aBrick
 ]
 
-{ #category : #converting }
+{ #category : #'brick-structure-adding/removing' }
+GLMBrick >> addBrickFirst: aBrick [
+	| link head tail brick|
+	
+	brick := aBrick asBrick.
+	head := nil.
+	tail := nil.
+	self hasSubbricks ifTrue: [
+		head := self firstSubbrick brickDoubleLink.
+		tail := self lastSubbrick brickDoubleLink ].
+	
+	link := brick asDoubleLink.
+	link nextLink: head.
+	head ifNotNil: [ head previousLink: link ].
+	
+	self subbricks addFirst: brick.
+	brick owner: self.
+	
+	^ aBrick
+]
+
+{ #category : #'brick-structure-converting' }
 GLMBrick >> asBrick [
 	^ self
 ]
 
-{ #category : #converting }
+{ #category : #'brick-structure-converting' }
 GLMBrick >> asBrickedMorph [
 
 	^ GLMFoundationBrick new brickRoot: self
 ]
 
-{ #category : #geometry }
+{ #category : #'brick-geometry' }
 GLMBrick >> bounds [
 
 	^ self globalBounds
 ]
 
-{ #category : #geometry }
-GLMBrick >> bounds: newBounds [
-
-	self brickBounds: (
-		self brickOwner
-			ifNotNil: [ newBounds translateBy: (self brickOwner globalBounds origin negated) ]
-			ifNil: [ newBounds ] )
-]
-
-{ #category : #geometry }
+{ #category : #'brick-geometry' }
 GLMBrick >> brickBounds [
-	^ brickBounds
+
+	^ brickBounds ifNil: [ brickBounds := 0@0 extent: 50@50 ]
 ]
 
-{ #category : #geometry }
+{ #category : #'brick-geometry' }
 GLMBrick >> brickBounds: aRectangle [
 	"if you want to change brick's position or bounds use only this method!"
+	self privateBounds: aRectangle.
 	
-	brickBounds extent == aRectangle extent ifFalse: [ session := nil ].
-	
-	brickBounds := aRectangle.
-	
-	bounds := self bounds.
-	fullBounds := bounds.
+	self
+		updateWidth;
+		updateHeight
 ]
 
-{ #category : #private }
-GLMBrick >> brickGlobalInnerBounds [
+{ #category : #'private-structure' }
+GLMBrick >> brickDoubleLink [
 
-	^ self brickOwner
-		ifNotNil: [ self brickInnerBounds translateBy: brickOwner globalBounds origin ]
-		ifNil: [ super bounds ]
+	^ self valueOfProperty: #brickDoubleLink ifAbsentPut: [ nil ]
 ]
 
-{ #category : #private }
-GLMBrick >> brickGlobalOuterBounds [
+{ #category : #'private-structure' }
+GLMBrick >> brickDoubleLink: aDoubleLink [
 
-	^ self brickOwner
-		ifNotNil: [ self brickOuterBounds translateBy: brickOwner globalBounds origin ]
-		ifNil: [ super bounds ]
-
+	self setProperty: #brickDoubleLink toValue: aDoubleLink
 ]
 
-{ #category : #geometry }
-GLMBrick >> brickInnerBounds [
-
-	^ (self brickBounds origin + ((self layoutProperties paddingLeft) @ (self layoutProperties paddingTop)))
-		corner: (self brickBounds corner - ((self layoutProperties paddingRight) @ (self layoutProperties paddingBottom))).
-]
-
-{ #category : #geometry }
-GLMBrick >> brickOuterBounds [
-
-	^ (self brickBounds origin - ((self layoutProperties marginLeft) @ (self layoutProperties marginTop)))
-		corner: (self brickBounds corner + ((self layoutProperties marginRight) @ (self layoutProperties marginBottom))).
-
-
-]
-
-{ #category : #accessing }
-GLMBrick >> brickOwner [
-	^ brickOwner
-]
-
-{ #category : #private }
-GLMBrick >> brickOwner: aBrick [
-	"never ever use this method"
-	
-	brickOwner := aBrick
-]
-
-{ #category : #accessing }
+{ #category : #'brick-structure' }
 GLMBrick >> brickRoot [
 
-	^ brickRoot
+	^ self owner ifNotNil: [ self owner brickRoot ] ifNil: [ ^ self ]
 ]
 
-{ #category : #private }
-GLMBrick >> brickRoot: aGLMFoundationBrick [
-	"never ever use this method"
-	
-	brickRoot := aGLMFoundationBrick.
-	
-	self subbricks do: [ :each | each isBrick ifTrue: [ each brickRoot: brickRoot ] ]
-]
-
-{ #category : #drawing }
+{ #category : #'morph-drawing' }
 GLMBrick >> changed [
 	"Report that the area occupied by this morph should be redrawn.
 	Fixed to include submorphs outside the outerBounds."
@@ -272,74 +226,54 @@ GLMBrick >> changed [
 		ifNotNil: [self invalidRect: self fullBounds]
 ]
 
-{ #category : #'session management' }
-GLMBrick >> checkSession [
-	session == Smalltalk session
-		ifFalse: [ 
-			surface := nil.
-			self createSurface ]
-]
-
-{ #category : #accessing }
+{ #category : #'brick-properties' }
 GLMBrick >> color [
 
-	^ backgroundColor ifNil: [ backgroundColor := Color transparent ]
+	^ self valueOfProperty: #brickBackgroundColor ifAbsentPut: [ Color transparent ]
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-properties' }
 GLMBrick >> color: aColor [
 
-	backgroundColor := aColor
+	self setProperty: #brickBackgroundColor toValue: aColor
 ]
 
-{ #category : #'session management' }
-GLMBrick >> createSurface [
-"	surface isNil ifFalse: [ ^ self ]."
-	surface := AthensCairoSurface extent: self extent asIntegerPoint.
-	session := Smalltalk session.
-]
-
-{ #category : #accessing }
+{ #category : #'brick-properties' }
 GLMBrick >> data [
 
-	^ data
+	^ self valueOfProperty: #brickDataObject ifAbsentPut: [ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-properties' }
 GLMBrick >> data: anObject [
-	data := anObject.
-	
-	self announcer announce: GLMBrickDataChanged new.
+
+	^ self setProperty: #brickDataObject  toValue:  anObject
 ]
 
-{ #category : #'layout brick' }
+{ #category : #'brick-layout' }
 GLMBrick >> doLayout [
-	"most of the time you don't want to call this method manually"
-	"nice example to check is GLMLabelBrick>>doLayout"
-	
-	self layoutPolicy layout: self in: self bounds.
-	
-	subbricks do: [ :each | each isBrick ifTrue: [ each doLayout ] ]
-	
+
+	self layoutSubbricks.
+	self subbricks do: [ :each | each doLayout ]
 ]
 
-{ #category : #drawing }
+{ #category : #'morph-drawing' }
 GLMBrick >> drawOn: aCanvas [
 	super drawOn: aCanvas.
 	
 	"translating canvas coordinates"
 	 (aCanvas isKindOf: ClippingCanvas) ifTrue: [ ^self "no need to draw anything" ].
-	self onDraw: ( aCanvas copy setOrigin: (aCanvas origin + self globalBounds origin - self brickBounds origin) clipRect: (aCanvas clipRect translateBy: aCanvas origin))
+	self onDraw: ( aCanvas copy setOrigin: (aCanvas origin + self globalBounds origin - self bounds origin) clipRect: (aCanvas clipRect translateBy: aCanvas origin))
 ]
 
-{ #category : #drawing }
+{ #category : #'morph-drawing' }
 GLMBrick >> drawSubmorphsOn: aCanvas [
 	| area zIndexedBricks |
 	
 	self submorphs isEmpty ifTrue: [ ^ self ].
 
 	"make sure my children will not go away of my inner bounds (we take care about paddings)"
-	area := aCanvas clipRect intersect: self brickGlobalInnerBounds ifNone: (0 @ 0 extent: 0 @ 0).
+	area := aCanvas clipRect intersect: self globalInnerBounds ifNone: (0 @ 0 extent: 0 @ 0).
 	"do smart drawing logic here"
 	area width = 0 | (area height = 0) ifTrue: [ 
 			"draw nothing"
@@ -381,227 +315,369 @@ GLMBrick >> drawSubmorphsOn: aCanvas [
 		
 ]
 
-{ #category : #drawing }
+{ #category : #'brick-geometry' }
 GLMBrick >> extent [
 
+	self
+		updateWidth;
+		updateHeight.
+		
 	^ self brickBounds extent
 ]
 
-{ #category : #geometry }
+{ #category : #'brick-geometry' }
 GLMBrick >> extent: aPoint [
-	"to change brick's size use only this method!"
-	
+	"actually works only if width or height are not custom"
 	self brickBounds: (self brickBounds origin extent: aPoint)
 ]
 
-{ #category : #'submorphs-accessing' }
+{ #category : #'brick-structure' }
 GLMBrick >> firstSubbrick [
 
 	^ self subbricks first
 ]
 
-{ #category : #'layout morph' }
+{ #category : #'morph-common' }
 GLMBrick >> fullBounds [
 
 	^ self globalBounds
 ]
 
-{ #category : #drawing }
+{ #category : #'morph-drawing' }
 GLMBrick >> fullDrawOn: aCanvas [
 	"fixes bug in canvas, when it tries to draw a morph even if clip rect has size 0"
 	aCanvas clipRect width = 0 | (aCanvas clipRect height = 0) ifTrue: [ ^ self ].
 	super fullDrawOn: aCanvas.
 ]
 
-{ #category : #geometry }
+{ #category : #'brick-geometry' }
 GLMBrick >> globalBounds [
-	"converts brickBounds to morhic bounds on fly"
-	"if you want to implement something sophisticated that combines bricks and morphic this is right method to use"
-	^ self brickOwner ifNotNil: [ self brickBounds translateBy: self brickOwner privateGlobalBoundsTranslateFactor ] ifNil: [ 0@0 extent: 20@20 ].
+	"converts local bounds to global bounds on fly"
+	
+	^ self owner ifNotNil: [ self brickBounds translateBy: self owner globalBoundsTranslateFactor ] ifNil: [ self brickBounds ].
 ]
 
-{ #category : #private }
+{ #category : #'private-geometry' }
 GLMBrick >> globalBoundsTranslateFactor [
 
-	^ self brickOwner ifNotNil: [ brickOwner privateGlobalBoundsTranslateFactor + self brickBounds origin ] ifNil: [ 0@0 ]
+	^ self owner ifNotNil: [ self owner globalBoundsTranslateFactor + self brickBounds origin ] ifNil: [ 0@0 ]
 ]
 
-{ #category : #testing }
+{ #category : #'brick-geometry' }
+GLMBrick >> globalInnerBounds [
+	"converts local inner bounds to global inner bounds on fly"
+	
+	^ self owner ifNotNil: [ self innerBounds translateBy: self owner globalBoundsTranslateFactor ] ifNil: [ self innerBounds ].
+]
+
+{ #category : #'brick-geometry' }
+GLMBrick >> globalOuterBounds [
+	"converts local outer bounds to global inner bounds on fly"
+	
+	^ self owner ifNotNil: [ self outerBounds translateBy: self owner globalBoundsTranslateFactor ] ifNil: [ self outerBounds ].
+]
+
+{ #category : #'brick-structure-testing' }
 GLMBrick >> hasSubbrick: aBrick [
 
 	^ aBrick owner = self
 ]
 
-{ #category : #geometry }
+{ #category : #'brick-structure-testing' }
+GLMBrick >> hasSubbricks [
+
+	^ self subbricks isEmpty not
+]
+
+{ #category : #'brick-geometry' }
 GLMBrick >> height [
 
-	^ self heightBlock
-		ifNotNil: [ self heightBlock cull: self ]
-		ifNil: [ self privateHeight ]
+	self updateHeight.
+	^ self brickBounds height
 ]
 
-{ #category : #geometry }
-GLMBrick >> height: aNumberOrBlockOrSymbol [
-
-	(aNumberOrBlockOrSymbol isBlock | aNumberOrBlockOrSymbol isSymbol)
-		ifTrue: [ self heightBlock: aNumberOrBlockOrSymbol ]
-		ifFalse: [ super height: aNumberOrBlockOrSymbol ]
+{ #category : #'brick-geometry' }
+GLMBrick >> height: anObject [
 	
-	
-]
-
-{ #category : #accessing }
-GLMBrick >> heightBlock [
-
-	^ self valueOfProperty: #brickHeightBlock ifAbsentPut: [ nil ]
-]
-
-{ #category : #accessing }
-GLMBrick >> heightBlock: aBlock [
-	"you can use a block to 'fake' a height or replace it's calculation logic without extending a brick"
-	self setProperty: #brickHeightBlock toValue: aBlock
+	self setProperty: #brickGeometryHeightLogic toValue: anObject.
+	self updateHeight
 ]
 
 { #category : #initialization }
 GLMBrick >> initialize [
 	super initialize.
+	submorphs := OrderedCollection new.
 	super color: Color transparent.
-	
-	subbricks := GLMBrickDoubleLinkedList new.
 	
 	self layoutProperties: GLMBrickLayoutProperties new.
 	self layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new.
 	self renderer: GLMBrickRenderer new.
-	self brickRoot: self.
-	
-	brickBounds := 0@0 extent: 50@50.
 	
 	self beTransparent
 ]
 
-{ #category : #initialization }
-GLMBrick >> initializeBrick: aBrick [
-	
-	aBrick isBrick ifTrue: [
-		aBrick brickRoot: self brickRoot.
-		aBrick brickOwner: self ]
+{ #category : #'brick-geometry' }
+GLMBrick >> innerBounds [
+
+	^ (self brickBounds origin + (self paddingLeft @ self paddingTop))
+		corner: (self brickBounds corner - ((self paddingRight) @ (self paddingBottom))).
 ]
 
-{ #category : #testing }
+{ #category : #'brick-structure-testing' }
 GLMBrick >> isBrick [
+
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : #'brick-structure-testing' }
 GLMBrick >> isFirstInOwner [
 
-	^ self privateBrickDoubleLink hasPredecessor not
+	^ self brickDoubleLink hasPredecessor not
 ]
 
-{ #category : #testing }
+{ #category : #'brick-testing' }
 GLMBrick >> isFitsInParent [
 
-	^ self brickOwner
-		"if our owner is a trick"
-		ifNotNil: [ self brickOwner globalBounds containsRect: self globalBounds ]
+	^ self owner
+		"if our owner is a brick"
+		ifNotNil: [ self owner globalBounds containsRect: self globalBounds ]
 		"if our owner is a morph"
 		ifNil: [ self owner ifNotNil: [ self owner bounds containsRect: self globalBounds ] ifNil: [ ^ true ] ]
 ]
 
-{ #category : #testing }
-GLMBrick >> isLastInOwner [
+{ #category : #'private-geometry' }
+GLMBrick >> isHeightCustom [
 
-	^ self privateBrickDoubleLink hasSuccessor not
+	^ (self valueOfProperty: #brickGeometryHeightLogic ifAbsentPut: [ nil ]) isNotNil
 ]
 
-{ #category : #'submorphs-accessing' }
+{ #category : #'brick-structure-testing' }
+GLMBrick >> isLastInOwner [
+
+	^ self brickDoubleLink hasSuccessor not
+]
+
+{ #category : #'private-geometry' }
+GLMBrick >> isWidthCustom [
+
+	^ (self valueOfProperty: #brickGeometryWidthLogic ifAbsentPut: [ nil ]) isNotNil
+]
+
+{ #category : #'brick-structure' }
 GLMBrick >> lastSubbrick [
 
 	^ self subbricks last
 ]
 
-{ #category : #'layout-properties' }
+{ #category : #'brick-layout' }
 GLMBrick >> layout [
-	"alias for layoutProperties"
+	"Alias for layoutProperies"
 	^ self layoutProperties
 ]
 
-{ #category : #'layout-properties' }
-GLMBrick >> layoutProperties: newProperties [
-	super layoutProperties: newProperties.
+{ #category : #'brick-layout' }
+GLMBrick >> layout: aLayout [
+	"Alias for layoutPolicy:"
+	self layoutPolicy: aLayout
+]
+
+{ #category : #'brick-layout' }
+GLMBrick >> layoutPolicy [
+
+	^ super layoutPolicy
+]
+
+{ #category : #'brick-layout' }
+GLMBrick >> layoutPolicy: aLayout [
+	
+	super layoutPolicy: aLayout
+]
+
+{ #category : #'brick-layout' }
+GLMBrick >> layoutProperties [
+	
+	^ super layoutProperties
+]
+
+{ #category : #'brick-layout' }
+GLMBrick >> layoutProperties: aLayoutProperties [ 
+
+	super layoutProperties: aLayoutProperties.
 	self layoutProperties brick: self
 ]
 
-{ #category : #'layout brick' }
-GLMBrick >> margin: aCssMarginFormat [
-	"for format description see GLMBrickLayoutProperties>>margin:"
-	self layoutProperties margin: aCssMarginFormat
+{ #category : #'brick-layout' }
+GLMBrick >> layoutSubbricks [
+
+	self layoutPolicy layout: self in: self innerBounds
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> margin: aCollection [
+
+	self layout margin: aCollection
+]
+
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> marginBottom [
+
+	^ self layout marginBottom
+]
+
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> marginBottom: anObject [
+
+	self layout marginBottom: anObject
+]
+
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> marginLeft [
+
+	^ self layout marginLeft
+]
+
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> marginLeft: anObject [
+
+	self layout marginLeft: anObject
+]
+
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> marginRight [
+
+	^ self layout marginRight
+]
+
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> marginRight: anObject [
+
+	self layout marginRight: anObject
+]
+
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> marginTop [
+
+	^ self layout marginTop
+]
+
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> marginTop: anObject [
+
+	self layout marginTop: anObject
+]
+
+{ #category : #'brick-structure-converting' }
 GLMBrick >> morph [
 	^ self
 ]
 
-{ #category : #drawing }
+{ #category : #'brick-drawing' }
 GLMBrick >> onDraw: aCanvas [
 
 	self renderer render: self on: aCanvas. 
 ]
 
-{ #category : #'layout brick' }
+{ #category : #'brick-layout-events' }
 GLMBrick >> onLayoutEvent: aLayoutEvent [
 	"in case layout want's to trigger any specific event"
 ]
 
-{ #category : #'layout brick' }
+{ #category : #'brick-layout-events' }
 GLMBrick >> onPrepareLayout [
 	"is called before I'm started layouting"
 ]
 
-{ #category : #'layout brick' }
-GLMBrick >> padding: aCssPaddingFormat [
-	"for format description see GLMBrickLayoutProperties>>padding:"
-	self layoutProperties padding: aCssPaddingFormat
+{ #category : #'brick-geometry' }
+GLMBrick >> outerBounds [
+
+	^ (self bounds origin - ((self marginLeft) @ (self marginTop)))
+		corner: (self bounds corner + ((self marginRight) @ (self marginBottom)))
 ]
 
-{ #category : #private }
-GLMBrick >> privateGlobalBoundsTranslateFactor [
+{ #category : #'brick-structure' }
+GLMBrick >> owner [
 
-	^ self brickOwner ifNotNil: [ brickOwner privateGlobalBoundsTranslateFactor + self brickBounds origin ] ifNil: [ 0@0 ]
+	^ owner
 ]
 
-{ #category : #private }
-GLMBrick >> privateHeight [
-
-	^ self brickBounds height
+{ #category : #'private-structure' }
+GLMBrick >> owner: aBrick [
+	
+	owner := aBrick
 ]
 
-{ #category : #private }
-GLMBrick >> privateSubbricks [
-	^ subbricks
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> padding: aCollection [
+
+	self layout padding: aCollection
 ]
 
-{ #category : #private }
-GLMBrick >> privateWidth [
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> paddingBottom [
 
-	^ self brickBounds width
+	^ self layout paddingBottom
 ]
 
-{ #category : #adding }
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> paddingBottom: anObject [
+
+	self layout paddingBottom: anObject
+]
+
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> paddingLeft [
+
+	^ self layout paddingLeft
+]
+
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> paddingLeft: anObject [
+
+	self layout paddingLeft: anObject
+]
+
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> paddingRight [
+
+	^ self layout paddingRight
+]
+
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> paddingRight: anObject [
+
+	self layout paddingRight: anObject
+]
+
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> paddingTop [
+
+	^ self layout paddingTop
+]
+
+{ #category : #'brick-geometry-properties' }
+GLMBrick >> paddingTop: anObject [
+
+	self layout paddingTop: anObject
+]
+
+{ #category : #'private-geometry' }
+GLMBrick >> privateBounds: aRectangle [
+	
+	brickBounds := aRectangle.
+	bounds := self globalBounds.
+	fullBounds := bounds.
+]
+
+{ #category : #'brick-structure-adding/removing' }
 GLMBrick >> removeAllBricks [
 
-	self privateSubbricks do: [ :each |
-		each privateBrickDoubleLink: nil.
-		each isBrick ifTrue: [
-			each brickRoot: nil.
-			each brickOwner: nil ] ].
-	
-	self privateSubbricks removeAll.
-	self removeAllMorphs
+	self subbricks do: [:each |
+		each brickDoubleLink: nil.
+		each owner: nil ].
+	self subbricks removeAll
 ]
 
-{ #category : #'submorphs-add/remove' }
+{ #category : #'morph-common' }
 GLMBrick >> removeAllMorphs [
 	| oldMorphs myWorld |
 	"we don't invalidate world"
@@ -613,90 +689,136 @@ GLMBrick >> removeAllMorphs [
 
 ]
 
-{ #category : #adding }
+{ #category : #'brick-structure-adding/removing' }
 GLMBrick >> removeBrick: aBrick [
+	| predecessor successor link head tail|
 	
-	aBrick isBrick ifTrue: [
-		aBrick brickRoot: nil.
-		aBrick brickOwner: nil.
-	].
+	link := aBrick brickDoubleLink.
+	head := self firstSubbrick brickDoubleLink.
+	tail := self lastSubbrick brickDoubleLink.
 	
-	self removeMorph: aBrick.
-	self privateSubbricks removeLink: aBrick privateBrickDoubleLink.
+	predecessor := link previousLink.
+	successor := link nextLink.
+	predecessor
+		ifNotNil: [ predecessor nextLink: successor ].
+	successor
+		ifNotNil: [ successor previousLink: predecessor ].
+	link clearLinks.
+	
 	aBrick privateBrickDoubleLink: nil.
+	
+	self subbricks remove: aBrick.
+	aBrick owner: nil.
+	
 	^ aBrick
 ]
 
-{ #category : #accessing }
+{ #category : #'private-extension' }
+GLMBrick >> removeProperty: aSymbol [
+	
+	super removeProperty: aSymbol
+]
+
+{ #category : #'brick-properties' }
 GLMBrick >> renderer [
 
-	^ renderer
+	^ self valueOfProperty: #brickRenderer ifAbsentPut: [ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-properties' }
 GLMBrick >> renderer: aRenderer [
 
-	renderer := aRenderer
+	self setProperty: #brickRenderer toValue: aRenderer
 ]
 
-{ #category : #accessing }
-GLMBrick >> subbricks [
-
-	^ subbricks
+{ #category : #'private-extension' }
+GLMBrick >> setProperty: aSymbol toValue: anObject [
+	
+	super setProperty: aSymbol toValue: anObject
 ]
 
-{ #category : #accessing }
-GLMBrick >> subbricksCount [
+{ #category : #'brick-structure' }
+GLMBrick >> subbrickAfter [
 
-	^ self submorphCount
-]
-
-{ #category : #'submorphs-accessing' }
-GLMBrick >> submorphAfter [
-
-	"Return the submorph after (behind) me, or nil"
+	"Return the subbbrick after (behind) me, or nil"
 	| link |
-	link := self privateBrickDoubleLink.
+	link := self brickDoubleLink.
 	link ifNil: [ ^ nil ].
 	link nextLink ifNil: [ ^ nil ].
 	^ link nextLink value
 ]
 
-{ #category : #'submorphs-accessing' }
-GLMBrick >> submorphBefore [
+{ #category : #'brick-structure' }
+GLMBrick >> subbrickBefore [
 
-	"Return the submorph before me, or nil"
+	"Return the subbrick before me, or nil"
 	| link |
-	link := self privateBrickDoubleLink.
+	link := self brickDoubleLink.
 	link ifNil: [ ^ nil ].
 	link previousLink ifNil: [ ^ nil ].
 	^ link previousLink value
 ]
 
-{ #category : #geometry }
+{ #category : #'brick-structure' }
+GLMBrick >> subbricks [
+
+	^ self submorphs
+]
+
+{ #category : #'brick-structure' }
+GLMBrick >> subbricksCount [
+
+	^ self subbricks size
+]
+
+{ #category : #'private-geometry' }
+GLMBrick >> updateHeight [
+
+	"no need to care about height, when it's logic is not customized"
+	self isHeightCustom ifFalse: [ ^ self ].
+	[ self privateBounds: (self brickBounds withHeight: ((self valueOfProperty: #brickGeometryHeightLogic) brickValue: self)) ]
+		on: Exception
+		do: [ "just skip and do nothing" ]
+]
+
+{ #category : #'private-geometry' }
+GLMBrick >> updateWidth [
+
+	"no need to care about width, when it's logic is not customized"
+	self isWidthCustom ifFalse: [ ^ self ].
+	[ self privateBounds: (self brickBounds withWidth: ((self valueOfProperty: #brickGeometryWidthLogic) brickValue: self)) ]
+		on: Exception
+		do: [ "just skip and do nothing" ]
+]
+
+{ #category : #'private-extension' }
+GLMBrick >> valueOfProperty: aSymbol [
+	
+	^ super valueOfProperty: aSymbol
+]
+
+{ #category : #'private-extension' }
+GLMBrick >> valueOfProperty: aSymbol ifAbsent: aBlock [
+	
+	^ super valueOfProperty: aSymbol ifAbsent: aBlock
+]
+
+{ #category : #'private-extension' }
+GLMBrick >> valueOfProperty: aSymbol ifAbsentPut: aBlock [ 
+	
+	^ super valueOfProperty: aSymbol ifAbsentPut: aBlock
+]
+
+{ #category : #'brick-geometry' }
 GLMBrick >> width [
 
-	^ self widthBlock
-		ifNotNil: [ self widthBlock cull: self ]
-		ifNil: [ self privateWidth ]
+	self updateWidth.
+	^ self brickBounds width
 ]
 
-{ #category : #geometry }
-GLMBrick >> width: aNumberOrBlockOrSymbol [
+{ #category : #'brick-geometry' }
+GLMBrick >> width: anObject [
 
-	(aNumberOrBlockOrSymbol isBlock | aNumberOrBlockOrSymbol isSymbol)
-		ifTrue: [ self widthBlock: aNumberOrBlockOrSymbol ]
-		ifFalse: [ super width: aNumberOrBlockOrSymbol ]
-]
-
-{ #category : #accessing }
-GLMBrick >> widthBlock [
-
-	^ self valueOfProperty: #brickWidthBlock ifAbsentPut: [ nil ]
-]
-
-{ #category : #accessing }
-GLMBrick >> widthBlock: aBlock [
-	"you can use a block to 'fake' a width or replace it's calculation logic without extending a brick"
-	self setProperty: #brickWidthBlock toValue: aBlock
+	self setProperty: #brickGeometryWidthLogic toValue: anObject.
+	self updateWidth
 ]

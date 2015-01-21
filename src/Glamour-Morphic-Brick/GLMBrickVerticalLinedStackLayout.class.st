@@ -13,13 +13,13 @@ GLMBrickVerticalLinedStackLayout class >> example [
 { #category : #testing }
 GLMBrickVerticalLinedStackLayout >> isFullyVisible: aBrick [
 	
-	^ self allowedBounds containsRect: aBrick brickGlobalOuterBounds
+	^ self allowedBounds containsRect: aBrick globalOuterBounds
 ]
 
 { #category : #testing }
 GLMBrickVerticalLinedStackLayout >> isFullyVisible: aBrick in: aRectangle [
 	
-	^ aRectangle containsRect: aBrick brickGlobalOuterBounds
+	^ aRectangle containsRect: aBrick globalOuterBounds
 ]
 
 { #category : #testing }
@@ -31,7 +31,7 @@ GLMBrickVerticalLinedStackLayout >> isPartiallyVisibleAbove: aBrick [
 { #category : #testing }
 GLMBrickVerticalLinedStackLayout >> isVisible: aBrick in: aRectangle [
 	
-	^ aRectangle intersects: aBrick brickGlobalOuterBounds
+	^ aRectangle intersects: aBrick globalOuterBounds
 ]
 
 { #category : #layouting }
@@ -39,16 +39,16 @@ GLMBrickVerticalLinedStackLayout >> layoutProportional: aCollection in: aBrick p
 	| fullWidth eachWidth index |
 	aCollection isEmpty ifTrue: [ ^ self ].
 	
-	fullWidth := aBrick brickInnerBounds width.
+	fullWidth := aBrick innerBounds width.
 	index := 0.
-	aCollection inject: aBrick layoutProperties paddingLeft into: [ :leftOffset :each |
+	aCollection inject: aBrick paddingLeft into: [ :leftOffset :each |
 		|layoutBounds|
 		
 		self sendEvent: (GLMBrickLayoutStacked new index: (index + 1); position: aSymbol; yourself) to: each.
 		
 		eachWidth := ((fullWidth - leftOffset) / (aCollection size - index)) ceiling.
 		
-		layoutBounds := GLMBrickLayoutBounds on: each brickBounds of: each.
+		layoutBounds := GLMBrickLayoutBounds on: each bounds of: each.
 		index = 0
 			ifTrue: [ layoutBounds makeOuterBoundsFitWidth: (((self maxWidthOf: each) max: eachWidth) min: (fullWidth - leftOffset)) ]
 			ifFalse: [				
@@ -86,7 +86,7 @@ GLMBrickVerticalLinedStackLayout >> layoutStacked: aBrick in: newBounds [
 				self translate: brick by: delta.
 				self increaseZindex: brick.
 				stackedTopBricks isEmpty ifTrue: [
-					stackedTopHeight := stackedTopHeight + brick brickGlobalOuterBounds height.
+					stackedTopHeight := stackedTopHeight + brick globalOuterBounds height.
 					self cutAllowedBoundsTop: brick ].
 				stackedTopBricks add: brick.
 			] ifFalse: [ forward := false. stackedBricks addFirst: brick ]
@@ -103,7 +103,7 @@ GLMBrickVerticalLinedStackLayout >> layoutStacked: aBrick in: newBounds [
 			self translate: brick by: delta negated.
 			self increaseZindex: brick.
 			stackedBottomBricks isEmpty ifTrue: [
-				stackedBottomHeight := stackedBottomHeight + brick brickGlobalOuterBounds height.
+				stackedBottomHeight := stackedBottomHeight + brick globalOuterBounds height.
 				self cutAllowedBoundsBottom: brick ].
 			stackedBottomBricks add: brick.
 		] ifTrue: [

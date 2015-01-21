@@ -7,6 +7,18 @@ Morph >> asBrick [
 ]
 
 { #category : #'*Glamour-Morphic-Brick' }
+Morph >> brickDoubleLink [
+
+	^ self valueOfProperty: #brickDoubleLink ifAbsentPut: [ nil ]
+]
+
+{ #category : #'*Glamour-Morphic-Brick' }
+Morph >> brickDoubleLink: aDoubleLink [
+
+	self setProperty: #brickDoubleLink toValue: aDoubleLink
+]
+
+{ #category : #'*Glamour-Morphic-Brick' }
 Morph >> exportAsPNGSilently [
 	| fName time |
 	time := (DateAndTime now asString copyReplaceAll: ':' with: '-') copyReplaceAll: '.' with: '-'.
@@ -18,16 +30,4 @@ Morph >> exportAsPNGSilently [
 Morph >> isBrick [
 
 	^ false
-]
-
-{ #category : #'*Glamour-Morphic-Brick' }
-Morph >> privateBrickDoubleLink [
-
-	^ self valueOfProperty: #brickDoubleLink ifAbsentPut: [ nil ]
-]
-
-{ #category : #'*Glamour-Morphic-Brick' }
-Morph >> privateBrickDoubleLink: aDoubleLink [
-
-	self setProperty: #brickDoubleLink toValue: aDoubleLink
 ]

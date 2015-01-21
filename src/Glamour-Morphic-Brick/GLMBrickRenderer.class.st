@@ -19,13 +19,13 @@ GLMBrickRenderer >> render: aBrick on: aCanvas [
 { #category : #rendering }
 GLMBrickRenderer >> renderBackgroundColorOf: aBrick on: aCanvas [
 
-	aCanvas fillRectangle: aBrick brickBounds color: aBrick color
+	aCanvas fillRectangle: aBrick bounds color: aBrick color
 ]
 
 { #category : #rendering }
 GLMBrickRenderer >> renderBorderOf: aBrick on: aCanvas [
 	|rect|
 	
-	rect := (aBrick brickBounds origin - (aBrick layoutProperties paddingLeft @ aBrick layoutProperties paddingTop)) corner: (aBrick brickBounds corner + (aBrick layoutProperties paddingRight @ aBrick layoutProperties paddingBottom)).
+	rect := (aBrick bounds origin - (aBrick paddingLeft @ aBrick paddingTop)) corner: (aBrick bounds corner + (aBrick paddingRight @ aBrick paddingBottom)).
 	aCanvas frameRectangle: rect width: aBrick borderWidth color: aBrick borderColor
 ]

@@ -67,15 +67,11 @@ GLMFoundationBrick >> brickRoot [
 GLMFoundationBrick >> brickRoot: aBrick [
 
 	self brickRoot ifNotNil: [
-		self brickRoot brickOwner: nil.
-		self brickRoot brickRoot: nil.
 		self removeMorph: self brickRoot.
 		brickRoot := nil.
 	].
 	
 	brickRoot := aBrick.
-	brickRoot brickOwner: self.
-	brickRoot brickRoot: self.
 	self addMorphBack: brickRoot.
 	
 	
@@ -99,7 +95,7 @@ GLMFoundationBrick >> extent: aPoint [
 	right := self extent x - self brickRoot layoutProperties marginRight.
 	bottom := self extent y - self brickRoot layoutProperties marginBottom.
 	
-	self brickRoot brickBounds: (left@top corner: (right@bottom)).
+	self brickRoot bounds: (left@top corner: (right@bottom)).
 	
 	self brickRoot doLayout.
 ]
@@ -114,6 +110,12 @@ GLMFoundationBrick >> fullDrawOn: aCanvas [
 GLMFoundationBrick >> globalBounds [
 
 	^ self bounds
+]
+
+{ #category : #geometry }
+GLMFoundationBrick >> globalBoundsTranslateFactor [
+
+	^ self globalBounds origin
 ]
 
 { #category : #initialization }
@@ -136,18 +138,6 @@ GLMFoundationBrick >> isFocused [
 GLMFoundationBrick >> privateExtent: aPoint [
 
 	super extent: aPoint.
-]
-
-{ #category : #geometry }
-GLMFoundationBrick >> privateGlobalBoundsTranslateFactor [
-
-	^ self globalBounds origin
-]
-
-{ #category : #geometry }
-GLMFoundationBrick >> relativeBounds [
-
-	^ 0@0 extent: self extent
 ]
 
 { #category : #adding }

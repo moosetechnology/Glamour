@@ -60,11 +60,11 @@ GLMBrickHorizontalProportionalLinearLayout >> extentOf: aBrick in: owner withArg
 	
 	minWidth := self minWidthOf: aBrick.
 	maxWidth := self maxWidthOf: aBrick.
-	distributableWidth := aHashTable at: #distributableWidth ifAbsent: [ owner brickInnerBounds width ].
+	distributableWidth := aHashTable at: #distributableWidth ifAbsent: [ owner innerBounds width ].
 	distributablePercents := aHashTable at: #distributablePercents ifAbsent: [ 100 ].
 	
 	allowedWidth := self widthOf: aBrick allowed: distributableWidth percents: distributablePercents.
-	requestedWidth := self widthOf: aBrick allowed: owner brickInnerBounds width percents: 100.
+	requestedWidth := self widthOf: aBrick allowed: owner innerBounds width percents: 100.
 	
 	width := (requestedWidth < minWidth ifTrue: [ minWidth ] ifFalse: [ allowedWidth min: maxWidth ]) - aBrick layoutProperties horizontalMargin.
 	
@@ -75,7 +75,7 @@ GLMBrickHorizontalProportionalLinearLayout >> extentOf: aBrick in: owner withArg
 GLMBrickHorizontalProportionalLinearLayout >> prepareArgumentsFor: aBrick [
 	|allowedWidth maxPercent ownerWidth|
 	
-	ownerWidth := aBrick brickInnerBounds width.
+	ownerWidth := aBrick innerBounds width.
 	allowedWidth := ownerWidth.
 	maxPercent := 100.
 	

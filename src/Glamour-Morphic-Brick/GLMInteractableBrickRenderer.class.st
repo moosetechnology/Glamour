@@ -23,7 +23,7 @@ GLMInteractableBrickRenderer >> renderColorOf: aBrick on: aCanvas [
 	|color|
 	color := aBrick currentColor.
 	color ifNotNil: [
-		aCanvas fillRectangle: aBrick brickBounds color: color ]
+		aCanvas fillRectangle: aBrick bounds color: color ]
 ]
 
 { #category : #rendering }
@@ -34,6 +34,6 @@ GLMInteractableBrickRenderer >> renderImageOf: aBrick on: aCanvas [
 	
 	image ifNotNil: [
 		aCanvas
-			translucentImage: (GLMBrick resizeImage: image scale: (aBrick extent / image extent))
-			at: aBrick brickBounds origin ]
+			translucentImage: (GLMOldBrick resizeImage: image scale: (aBrick extent / image extent))
+			at: aBrick bounds origin ]
 ]

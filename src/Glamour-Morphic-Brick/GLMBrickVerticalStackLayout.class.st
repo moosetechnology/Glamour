@@ -75,13 +75,13 @@ GLMBrickVerticalStackLayout >> decreaseZindex: aBrick [
 { #category : #'as yet unclassified' }
 GLMBrickVerticalStackLayout >> deltaBottom: aBrick [
 
-	^ aBrick brickGlobalOuterBounds corner y -  self allowedBounds corner y
+	^ aBrick globalOuterBounds corner y -  self allowedBounds corner y
 ]
 
 { #category : #'as yet unclassified' }
 GLMBrickVerticalStackLayout >> deltaTop: aBrick [
 
-	^ self allowedBounds origin y - aBrick brickGlobalOuterBounds origin y
+	^ self allowedBounds origin y - aBrick globalOuterBounds origin y
 ]
 
 { #category : #'as yet unclassified' }
@@ -102,25 +102,25 @@ GLMBrickVerticalStackLayout >> increaseZindex: aBrick [
 { #category : #testing }
 GLMBrickVerticalStackLayout >> isAbove: aBrick [
 
-	^ aBrick brickGlobalOuterBounds origin <= self allowedBounds origin
+	^ aBrick globalOuterBounds origin <= self allowedBounds origin
 ]
 
 { #category : #testing }
 GLMBrickVerticalStackLayout >> isAbove: aBrick in: aRectangle [
 
-	^ aBrick brickGlobalOuterBounds origin <= aRectangle origin
+	^ aBrick globalOuterBounds origin <= aRectangle origin
 ]
 
 { #category : #testing }
 GLMBrickVerticalStackLayout >> isVisible: aBrick [
 	
-	^ self allowedBounds containsRect: aBrick brickGlobalOuterBounds
+	^ self allowedBounds containsRect: aBrick globalOuterBounds
 ]
 
 { #category : #testing }
 GLMBrickVerticalStackLayout >> isVisible: aBrick in: aRectangle [
 	
-	^ aRectangle containsRect: aBrick brickGlobalOuterBounds
+	^ aRectangle containsRect: aBrick globalOuterBounds
 ]
 
 { #category : #layouting }
@@ -178,11 +178,11 @@ GLMBrickVerticalStackLayout >> layoutStacked: aBrick in: newBounds [
 { #category : #'as yet unclassified' }
 GLMBrickVerticalStackLayout >> shrinkBottom: aRectangle with: aBrick [
 
-	^ aRectangle bottom: (aRectangle bottom - aBrick brickGlobalOuterBounds height)
+	^ aRectangle bottom: (aRectangle bottom - aBrick globalOuterBounds height)
 ]
 
 { #category : #'as yet unclassified' }
 GLMBrickVerticalStackLayout >> shrinkTop: aRectangle with: aBrick [
 
-	^ aRectangle top: (aRectangle top + aBrick brickGlobalOuterBounds height)
+	^ aRectangle top: (aRectangle top + aBrick globalOuterBounds height)
 ]

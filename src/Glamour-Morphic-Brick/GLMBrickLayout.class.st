@@ -13,7 +13,7 @@ GLMBrickLayout class >> example [
 	"this example must be called on my subclasses"
 	| rootBrick brick1 brick2 brick3|
 	
-	rootBrick := GLMBrick new
+	rootBrick := GLMNewBrick new
 		layoutPolicy: self new;
 		color: Color blue.
 	
@@ -24,7 +24,7 @@ GLMBrickLayout class >> example [
 		paddingBottom: 5.
 	
 	" ---- Creating first brick ---- "
-	brick1 := GLMBrick new
+	brick1 := GLMNewBrick new
 		extent: 50@70;
 		color: Color red.
 		
@@ -37,7 +37,7 @@ GLMBrickLayout class >> example [
 		verticalPercent: 30.
 		
 	" ---- Creating second brick ---- "
-	brick2 := GLMBrick new
+	brick2 := GLMNewBrick new
 		color: Color green;
 		extent: 70@60.
 	
@@ -50,7 +50,7 @@ GLMBrickLayout class >> example [
 		verticalPercent: 50.
 		
 	" ---- Creating third brick ---- "
-	brick3 := GLMBrick new
+	brick3 := GLMNewBrick new
 		color: Color yellow;
 		extent: 100@50.
 		
@@ -76,7 +76,7 @@ GLMBrickLayout class >> example [
 { #category : #bounds }
 GLMBrickLayout >> boundsOf: aBrick in: owner withArguments: aHashTable [
 	
-	^ (owner layoutProperties paddingLeft@owner layoutProperties paddingTop) extent: (self extentOf: aBrick in: owner withArguments: aHashTable)
+	^ (owner paddingLeft@owner paddingTop) extent: (self extentOf: aBrick in: owner withArguments: aHashTable)
 ]
 
 { #category : #layouting }
@@ -126,10 +126,10 @@ GLMBrickLayout >> layoutFloatingRight: aBrick in: newBounds withArguments: argum
 
 	| left top right bottom |
 	
-	left := aBrick owner width - aBrick width - aBrick layoutProperties marginRight.
-	top := aBrick layoutProperties marginTop.
-	right := aBrick owner width - aBrick layoutProperties marginRight.
-	bottom := aBrick owner height - aBrick layoutProperties marginBottom.
+	left := aBrick owner width - aBrick width - aBrick marginRight.
+	top := aBrick  marginTop.
+	right := aBrick owner width - aBrick marginRight.
+	bottom := aBrick owner height - aBrick marginBottom.
 	
 	self setNewBounds: (GLMBrickLayoutBounds on: ((left@top) corner: right@bottom) of: aBrick) to: aBrick in: aBrick owner.
 	
@@ -201,13 +201,13 @@ GLMBrickLayout >> prepareArgumentsFor: aBrick [
 { #category : #'set up' }
 GLMBrickLayout >> prepareLayout: aBrick [
 
-	aBrick isBrick ifTrue: [ aBrick onPrepareLayout ]
+	aBrick onPrepareLayout
 ]
 
 { #category : #events }
 GLMBrickLayout >> sendEvent: aLayoutEvent to: aBrick [
 
-	aBrick isBrick ifTrue: [ aBrick onLayoutEvent: aLayoutEvent ]
+	aBrick onLayoutEvent: aLayoutEvent
 ]
 
 { #category : #scripting }
@@ -219,9 +219,7 @@ GLMBrickLayout >> setHShrinking: aBrick [
 { #category : #bounds }
 GLMBrickLayout >> setNewBounds: aLayoutBounds to: aMorph in: aBrick [
 
-	aMorph isBrick
-				ifTrue: [ aMorph brickBounds: aLayoutBounds bounds compressed ]
-				ifFalse: [ aMorph bounds: (aLayoutBounds bounds translateBy: aBrick globalBounds origin) ].
+	aMorph brickBounds: aLayoutBounds bounds compressed
 ]
 
 { #category : #scripting }
