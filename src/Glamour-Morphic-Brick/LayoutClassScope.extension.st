@@ -4,6 +4,6 @@ Extension { #name : #LayoutClassScope }
 LayoutClassScope >> slotsDictionary [
 	| result |
 	result := Dictionary new.
-	self do: [ :slot |  result at: slot name put: slot].
+	self allSlotsDo: [ :slot |  result at: slot name put: slot].
 	^ result
 ]

@@ -29,5 +29,5 @@ GLMPhlowTrait >> slot: aSlot changedWith: aValue [
 { #category : #'phlow-scripting' }
 GLMPhlowTrait >> transmit [
 
-	^ GLMPhlowTransmission new
+	^ GLMPhlowTransmission phlow: self
 ]

@@ -13,10 +13,17 @@ Class {
 		'destination',
 		'transformation',
 		'action',
-		'connections'
+		'connections',
+		'phlow'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }
+
+{ #category : #'instance creation' }
+GLMPhlowTransmission class >> phlow: anObject [
+
+	^ self new phlow: anObject
+]
 
 { #category : #accessing }
 GLMPhlowTransmission >> action [
@@ -73,12 +80,24 @@ GLMPhlowTransmission >> from: anObject port: aSlotSymbol [
 GLMPhlowTransmission >> from: anObject slot: aSlotSymbol [
 	"anObject must be an instance of class having GLMPhlowTrait for example GLMBrick"
 	"aSlotSymbol must be a name of existing GLMPhlowSlot in anObject"
-	|connection|
+	|connection from|
+	
+	from := anObject phlowValue: self phlow.
 	connection := GLMPhlowConnection
-		origin: (GLMPhlowOrigin essence: anObject slot: aSlotSymbol)
+		origin: (GLMPhlowOrigin essence: from slot: aSlotSymbol)
 		destination: self destination.
-	anObject addConnection: connection.
+	from addConnection: connection.
 	^ self connections add: connection
+]
+
+{ #category : #accessing }
+GLMPhlowTransmission >> phlow [
+	^ phlow
+]
+
+{ #category : #accessing }
+GLMPhlowTransmission >> phlow: anObject [
+	phlow := anObject
 ]
 
 { #category : #scripting }
@@ -90,14 +109,17 @@ GLMPhlowTransmission >> to: anObject [
 
 { #category : #scripting }
 GLMPhlowTransmission >> to: anObject port: aPortObject [
-	
-	^ self destination: (GLMPhlowDestination essence: anObject port: aPortObject)
+	|to|
+	to := anObject phlowValue: self phlow.
+	^ self destination: (GLMPhlowDestination essence: to port: aPortObject)
 ]
 
 { #category : #scripting }
 GLMPhlowTransmission >> to: anObject slot: aSlotSymbol [
 	"anObject must be an instance of class having GLMPhlowTrait for example GLMBrick"
 	"aSlotSymbol must be a name of existing Slot in anObject"
+	|to|
+	to := anObject phlowValue: self phlow.
 	^ self destination: (GLMPhlowDestination essence: anObject slot: aSlotSymbol)
 ]
 

@@ -7,9 +7,9 @@ Symbol >> brickValue: aBrick [
 ]
 
 { #category : #'*Glamour-Morphic-Brick' }
-Symbol >> phlowValue: aBrick [
+Symbol >> phlowValue: anObject [
 
-	^ self cull: aBrick
+	^ self cull: anObject
 ]
 
 { #category : #'*Glamour-Morphic-Brick' }

@@ -31,7 +31,7 @@ GLMPhlowDestination class >> essence: anObject port: aPortObject [
 { #category : #'instance creation' }
 GLMPhlowDestination class >> essence: anObject slot: aSlotSymbol [
 
-	^ self new essence: anObject; port: ((anObject class slotNamed: aSlotSymbol)); yourself
+	^ self new essence: anObject; port: ((anObject class slotsDictionary at: aSlotSymbol)); yourself
 ]
 
 { #category : #accessing }

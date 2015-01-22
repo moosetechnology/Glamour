@@ -89,34 +89,36 @@ GLMCompositeBrick class >> exampleTable [
 { #category : #examples }
 GLMCompositeBrick class >> exampleTransmission [
 	<example: 'Table transmission'>
-	|composite table window|
+	|first second|
 	
-	composite := self new.
-	table := composite table
-		title: #asString;
-		display: [ :anObject | (anObject gtInspectorVariableValuePairs asSortedCollection asOrderedCollection yourself) addFirst: 'self' -> anObject; yourself ];
-		column: 'Variable'
-			evaluated: [:assoc |	GTObjectPrinter new asNonTruncatedTextFrom: assoc key ]
-			styled: [ :aBrick | aBrick textPosition: #rightCenter; margin: #(0 15 0 0); textColor: Color lightGray ];
-		column: 'Variable'
-			evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ]
-			styled: [ :aBrick | aBrick margin: #(0 0 0 15) ];
-		entity: Morph new.
+	first := GLMLabelBrick new
+		textPosition: #center;
+		color: Color lightBlue.
 		
-	window := (GLMBrick new asBrickedMorph)
-		color: Color blue;
-		extent: 100@100;
+	second := GLMLabelBrick new
+		textPosition: #center;
+		color: Color lightGreen.
+	
+	(first transmit)
+		from: first slot: #brickBounds;
+		to: #label port: #text:;
+		transformed: [ :value | 'resize me! ', value asString ].
+		
+	(first transmit)
+		from: #label slot: #text;
+		to: second port: #text:;
+		transformed: [ :value | 'Do not ', value asString ];
+		andPerform: [ :label | label changed ].
+		
+	second asBrickedMorph
+		extent: 300@100;
 		openInWindow.
 		
-	(composite transmit)
-		from: table slot: #brickBounds;
-		to: window slot: #bounds;
-		andPerform: [ :wind | wind changed ].
-	
-	composite asBrickedMorph
-		color: Color white;
-		extent: 600@400;
-		openInWindow
+	first asBrickedMorph
+		extent: 300@200;
+		openInWindow.
+		
+		
 ]
 
 { #category : #phlowr }

@@ -25,7 +25,7 @@ Class {
 { #category : #'instance creation' }
 GLMPhlowOrigin class >> essence: anObject slot: aSlotSymbol [
 
-	^ self new essence: anObject; slot: ((anObject class slotNamed: aSlotSymbol)); yourself
+	^ self new essence: anObject; slot: ((anObject class slotsDictionary at: aSlotSymbol)); yourself
 ]
 
 { #category : #accessing }

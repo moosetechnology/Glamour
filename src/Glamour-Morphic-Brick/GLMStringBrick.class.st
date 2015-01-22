@@ -36,14 +36,14 @@ Class {
 	#name : #GLMStringBrick,
 	#superclass : #GLMInteractableBrick,
 	#instVars : [
-		'font',
-		'familyName',
-		'fontSize',
-		'textSize',
-		'text',
-		'textColor',
-		'textPosition',
-		'highlightedString'
+		'#font',
+		'#familyName',
+		'#fontSize',
+		'#textSize',
+		'#text => GLMPhlowSlot',
+		'#textColor',
+		'#textPosition',
+		'#highlightedString'
 	],
 	#category : #'Glamour-Morphic-Brick-UI'
 }
@@ -222,7 +222,7 @@ GLMStringBrick >> onDraw: aCanvas [
 { #category : #private }
 GLMStringBrick >> privateSetText: aString [
 
-	text := aString.
+	text := aString asString.
 	textSize := nil.
 ]
 
