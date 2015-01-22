@@ -1,11 +1,11 @@
 "
-A GLMPhlowPortIdentifier is asdad.
+A GLMPhlowOriginIdentifier is asdads
 
 Instance Variables
-	destination:		<Object>
+	essence:		<Object>
 	slot:		<Object>
 
-destination
+essence
 	- xxxxx
 
 slot
@@ -13,7 +13,7 @@ slot
 
 "
 Class {
-	#name : #GLMPhlowPortIdentifier,
+	#name : #GLMPhlowOrigin,
 	#superclass : #Object,
 	#instVars : [
 		'essence',
@@ -23,32 +23,28 @@ Class {
 }
 
 { #category : #'instance creation' }
-GLMPhlowPortIdentifier class >> essence: anObject slot: aSlotSymbol [
+GLMPhlowOrigin class >> essence: anObject slot: aSlotSymbol [
 
 	^ self new essence: anObject; slot: ((anObject class slotNamed: aSlotSymbol)); yourself
 ]
 
 { #category : #accessing }
-GLMPhlowPortIdentifier >> essence [
-
+GLMPhlowOrigin >> essence [
 	^ essence
 ]
 
 { #category : #accessing }
-GLMPhlowPortIdentifier >> essence: anObject [
-	"anObject must be an instance of class having GLMPhlowTrait"
-	
+GLMPhlowOrigin >> essence: anObject [
 	essence := anObject
 ]
 
 { #category : #accessing }
-GLMPhlowPortIdentifier >> slot [
+GLMPhlowOrigin >> slot [
 	^ slot
 ]
 
 { #category : #accessing }
-GLMPhlowPortIdentifier >> slot: aSlot [
-	"aSlot must be an instance of GLMPhlowSlot"
-	
-	slot := aSlot
+GLMPhlowOrigin >> slot: anObject [
+	"must be a GLMPhlowSlot"
+	slot := anObject
 ]

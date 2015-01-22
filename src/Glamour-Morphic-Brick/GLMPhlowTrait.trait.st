@@ -21,7 +21,9 @@ GLMPhlowTrait >> connections [
 { #category : #'private-phlow' }
 GLMPhlowTrait >> slot: aSlot changedWith: aValue [
 
-	self connections do: [ :each | each origin slot = aSlot ifTrue: [ each transmit: aValue ] ]
+	self connections
+		select: [ :each | each origin slot = aSlot ]
+		thenDo: [ :each | each transmit ]
 ]
 
 { #category : #'phlow-scripting' }

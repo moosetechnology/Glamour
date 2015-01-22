@@ -10,10 +10,10 @@ Class {
 	#name : #GLMPhlowTransmission,
 	#superclass : #Object,
 	#instVars : [
-		'origins',
 		'destination',
 		'transformation',
-		'action'
+		'action',
+		'connections'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }
@@ -27,13 +27,20 @@ GLMPhlowTransmission >> action [
 { #category : #accessing }
 GLMPhlowTransmission >> action: anObject [
 
-	action := anObject
+	action := anObject.
+	self updateConnections
 ]
 
 { #category : #scripting }
 GLMPhlowTransmission >> andPerform: anObject [
 
 	self action: anObject
+]
+
+{ #category : #accessing }
+GLMPhlowTransmission >> connections [
+
+	^ connections ifNil: [ connections := OrderedCollection new ]
 ]
 
 { #category : #accessing }
@@ -45,7 +52,8 @@ GLMPhlowTransmission >> destination [
 { #category : #accessing }
 GLMPhlowTransmission >> destination: aPort [ 
 	 
-	destination := aPort
+	destination := aPort.
+	self updateConnections
 ]
 
 { #category : #scripting }
@@ -58,20 +66,19 @@ GLMPhlowTransmission >> from: anObject [
 { #category : #'scripting-depreciated' }
 GLMPhlowTransmission >> from: anObject port: aSlotSymbol [
 
-	^ self from: anObject port: aSlotSymbol
+	^ self from: anObject slot: aSlotSymbol
 ]
 
 { #category : #scripting }
 GLMPhlowTransmission >> from: anObject slot: aSlotSymbol [
 	"anObject must be an instance of class having GLMPhlowTrait for example GLMBrick"
 	"aSlotSymbol must be a name of existing GLMPhlowSlot in anObject"
-	^ self origins add: (GLMPhlowPortIdentifier essence: anObject slot: aSlotSymbol)
-]
-
-{ #category : #accessing }
-GLMPhlowTransmission >> origins [
-
-	^ origins ifNil: [ origins := OrderedCollection new ]
+	|connection|
+	connection := GLMPhlowConnection
+		origin: (GLMPhlowOrigin essence: anObject slot: aSlotSymbol)
+		destination: self destination.
+	anObject addConnection: connection.
+	^ self connections add: connection
 ]
 
 { #category : #scripting }
@@ -81,17 +88,17 @@ GLMPhlowTransmission >> to: anObject [
 	^ self to: anObject slot: #selection
 ]
 
-{ #category : #'scripting-depreciated' }
-GLMPhlowTransmission >> to: anObject port: aPortSymbol [
+{ #category : #scripting }
+GLMPhlowTransmission >> to: anObject port: aPortObject [
 	
-	^ self to: anObject slot: aPortSymbol
+	^ self destination: (GLMPhlowDestination essence: anObject port: aPortObject)
 ]
 
 { #category : #scripting }
 GLMPhlowTransmission >> to: anObject slot: aSlotSymbol [
 	"anObject must be an instance of class having GLMPhlowTrait for example GLMBrick"
 	"aSlotSymbol must be a name of existing Slot in anObject"
-	^ self destination: (GLMPhlowPortIdentifier essence: anObject slot: aSlotSymbol)
+	^ self destination: (GLMPhlowDestination essence: anObject slot: aSlotSymbol)
 ]
 
 { #category : #accessing }
@@ -103,7 +110,8 @@ GLMPhlowTransmission >> transformation [
 { #category : #accessing }
 GLMPhlowTransmission >> transformation: anObject [ 
 	 
-	transformation := anObject
+	transformation := anObject.
+	self updateConnections
 ]
 
 { #category : #scripting }
@@ -112,13 +120,12 @@ GLMPhlowTransmission >> transformed: anObject [
 	self transformation: anObject
 ]
 
-{ #category : #transmitting }
-GLMPhlowTransmission >> transmit: aValue [
+{ #category : #private }
+GLMPhlowTransmission >> updateConnections [
 
-	self flag: '(self transformation cull: aValue) is for fast testing. Will be changed to phlowValue:'.
-	self flag: 'This method will be changed. Just to test API'.
-	self destination ifNotNil: [ 
-		self destination slot write: (self transformation cull: aValue) to: self destination essence ].
-	self action cull: (self transformation cull: aValue)
-	
+	self connections do: [ :each |
+		each
+			destination: self destination;
+			transformation: self transformation;
+			action: self action ]
 ]

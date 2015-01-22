@@ -11,3 +11,15 @@ Object >> brickValue: aBrick [
 
 	^ self
 ]
+
+{ #category : #'*Glamour-Morphic-Brick' }
+Object >> phlowValue: anObject [
+
+	^ self
+]
+
+{ #category : #'*Glamour-Morphic-Brick' }
+Object >> phlowValue: anObject value: otherObject [
+
+	^ self
+]

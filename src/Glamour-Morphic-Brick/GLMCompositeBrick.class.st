@@ -108,9 +108,9 @@ GLMCompositeBrick class >> exampleTransmission [
 		extent: 100@100;
 		openInWindow.
 		
-	(table transmit)
+	(composite transmit)
 		from: table slot: #brickBounds;
-		andPerform: [ :a | window extent: a ];
+		to: window port: #extent:;
 		transformed: [ :a | a extent ].
 	
 	composite asBrickedMorph
