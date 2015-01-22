@@ -1,3 +1,6 @@
+"
+asdasd
+"
 Class {
 	#name : #GLMPhlowrTableColumn,
 	#superclass : #Object,

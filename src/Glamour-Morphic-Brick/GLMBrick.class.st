@@ -1,5 +1,9 @@
 "
-asdasd
+GLMBrickedMorph subclass: #GLMBrick
+	uses: GLMBrickPropertiesTrait + GLMBrickGeometryTrait + GLMBrickLayoutTrait + GLMBrickStructureTrait
+	slots: { #brickBounds => PhlowSlot. #bla }
+	classVariables: ''
+	category: 'Glamour-Morphic-Brick-UI'
 "
 Class {
 	#name : #GLMBrick,
@@ -7,7 +11,8 @@ Class {
 	#traits : 'GLMBrickPropertiesTrait + GLMBrickGeometryTrait + GLMBrickLayoutTrait + GLMBrickStructureTrait',
 	#classTraits : 'GLMBrickPropertiesTrait classTrait + GLMBrickGeometryTrait classTrait + GLMBrickLayoutTrait classTrait + GLMBrickStructureTrait classTrait',
 	#instVars : [
-		'brickBounds'
+		'brickBounds',
+		'bla'
 	],
 	#category : #'Glamour-Morphic-Brick-UI'
 }

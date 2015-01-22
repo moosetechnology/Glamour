@@ -1,3 +1,6 @@
+"
+asdasd
+"
 Class {
 	#name : #GLMPhlowrTableBrick,
 	#superclass : #GLMPhlowrListBrick,
