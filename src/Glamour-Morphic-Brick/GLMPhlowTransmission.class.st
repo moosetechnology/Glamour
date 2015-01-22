@@ -119,6 +119,6 @@ GLMPhlowTransmission >> transmit: aValue [
 	self flag: 'This method will be changed. Just to test API'.
 	self destination ifNotNil: [ 
 		self destination slot write: (self transformation cull: aValue) to: self destination essence ].
-	self action cull: aValue
+	self action cull: (self transformation cull: aValue)
 	
 ]

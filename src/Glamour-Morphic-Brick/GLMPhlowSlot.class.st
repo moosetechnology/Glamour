@@ -23,15 +23,8 @@ GLMPhlowSlot >> emitStore: aMethodBuilder [
 	aMethodBuilder
 		pushLiteral: self;
 		pushReceiver;
-		send: #writeToSlot:of:
-]
-
-{ #category : #'code generation' }
-GLMPhlowSlot >> emitValue: aMethodBuilder [
-	aMethodBuilder
-		pushLiteral: self;
-		pushReceiver;
-		send: #read:
+		send: #writeToSlot:of:  
+		
 ]
 
 { #category : #testing }
@@ -43,14 +36,6 @@ GLMPhlowSlot >> isSpecial [
 { #category : #testing }
 GLMPhlowSlot >> isVirtual [
 	^ false
-]
-
-{ #category : #queries }
-GLMPhlowSlot >> usingMethods [
-	"All methods that read or write the slot"
-	^self definingClass 
-		ifNil: [ #() ]
-		ifNotNil: [:class | class allMethodsAccessingSlot: self].
 ]
 
 { #category : #'meta-object-protocol' }

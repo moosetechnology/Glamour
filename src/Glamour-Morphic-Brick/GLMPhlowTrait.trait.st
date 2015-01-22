@@ -15,9 +15,8 @@ GLMPhlowTrait >> addTransmission: aTransmission [
 { #category : #'private-phlow' }
 GLMPhlowTrait >> slot: aSlot changedWith: aValue [
 
-	aValue logCr.
 	self flag: 'should be removed and changed'.
-	self transmissions do: [ :each | each origins do: [ :origin | origin slot ifTrue: [ each transmit: aValue ] ] ]
+	self transmissions do: [ :each | each origins do: [ :origin | origin slot = aSlot ifTrue: [ each transmit: aValue ] ] ]
 ]
 
 { #category : #'phlow-transmissions' }

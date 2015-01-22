@@ -111,7 +111,7 @@ GLMCompositeBrick class >> exampleTransmission [
 	(table transmit)
 		from: table slot: #brickBounds;
 		andPerform: [ :a | window extent: a ];
-		transformed: [ :a | a logCr. a extent ].
+		transformed: [ :a | a extent ].
 	
 	composite asBrickedMorph
 		color: Color white;
