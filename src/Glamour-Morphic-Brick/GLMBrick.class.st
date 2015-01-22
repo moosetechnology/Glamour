@@ -11,7 +11,7 @@ Class {
 	#traits : 'GLMBrickPropertiesTrait + GLMBrickGeometryTrait + GLMBrickLayoutTrait + GLMBrickStructureTrait + GLMPhlowTrait',
 	#classTraits : 'GLMBrickPropertiesTrait classTrait + GLMBrickGeometryTrait classTrait + GLMBrickLayoutTrait classTrait + GLMBrickStructureTrait classTrait + GLMPhlowTrait classTrait',
 	#instVars : [
-		'#brickBounds => GLMAPhlowSlot'
+		'#brickBounds => GLMPhlowSlot'
 	],
 	#category : #'Glamour-Morphic-Brick-UI'
 }

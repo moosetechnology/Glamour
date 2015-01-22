@@ -7,34 +7,33 @@ df
 s
 "
 Class {
-	#name : #GLMAPhlowSlot,
+	#name : #GLMPhlowSlot,
 	#superclass : #Slot,
 	#category : #'Glamour-Morphic-Brick-Phlowr'
 }
 
 { #category : #accessing }
-GLMAPhlowSlot >> index [
+GLMPhlowSlot >> index [
 	^ index
 ]
 
 { #category : #accessing }
-GLMAPhlowSlot >> index: anIndex [
+GLMPhlowSlot >> index: anIndex [
 	index := anIndex
 ]
 
 { #category : #testing }
-GLMAPhlowSlot >> isVirtual [
-
-	^ true
+GLMPhlowSlot >> isVirtual [
+	^ false
 ]
 
 { #category : #'meta-object-protocol' }
-GLMAPhlowSlot >> read: anObject [
+GLMPhlowSlot >> read: anObject [
 	^ anObject instVarAt: index
 ]
 
 { #category : #'meta-object-protocol' }
-GLMAPhlowSlot >> write: aValue to: anObject [
+GLMPhlowSlot >> write: aValue to: anObject [
 	|result|
 	result := anObject instVarAt: index put: aValue.
 	anObject slot: self changedWith: aValue.
