@@ -22,6 +22,12 @@ GLMAPhlowSlot >> index: anIndex [
 	index := anIndex
 ]
 
+{ #category : #testing }
+GLMAPhlowSlot >> isVirtual [
+
+	^ true
+]
+
 { #category : #'meta-object-protocol' }
 GLMAPhlowSlot >> read: anObject [
 	^ anObject instVarAt: index
