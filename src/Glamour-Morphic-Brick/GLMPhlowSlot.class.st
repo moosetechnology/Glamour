@@ -12,17 +12,22 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Phlowr'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMPhlowSlot >> index [
 	^ index
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMPhlowSlot >> index: anIndex [
 	index := anIndex
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'meta-object-protocol' }
+GLMPhlowSlot >> read: anObject [
+	^ anObject instVarAt: index
+]
+
+{ #category : #'meta-object-protocol' }
 GLMPhlowSlot >> write: aValue to: anObject [
 	|result|
 	result := anObject instVarAt: index put: aValue.
