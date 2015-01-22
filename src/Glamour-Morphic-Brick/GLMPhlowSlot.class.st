@@ -8,28 +8,25 @@ s
 "
 Class {
 	#name : #GLMPhlowSlot,
-	#superclass : #Slot,
+	#superclass : #InstanceVariableSlot,
 	#category : #'Glamour-Morphic-Brick-Phlowr'
 }
 
-{ #category : #accessing }
-GLMPhlowSlot >> index [
-	^ index
+{ #category : #printing }
+GLMPhlowSlot >> definitionString [
+	"for Slots, the printString is the defintion"
+	^self printString
 ]
 
-{ #category : #accessing }
-GLMPhlowSlot >> index: anIndex [
-	index := anIndex
+{ #category : #testing }
+GLMPhlowSlot >> isSpecial [
+	"I am more than just a backward compatible ivar slot"
+	^true
 ]
 
 { #category : #testing }
 GLMPhlowSlot >> isVirtual [
 	^ false
-]
-
-{ #category : #'meta-object-protocol' }
-GLMPhlowSlot >> read: anObject [
-	^ anObject instVarAt: index
 ]
 
 { #category : #'meta-object-protocol' }

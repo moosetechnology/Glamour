@@ -8,6 +8,7 @@ Trait {
 
 { #category : #'private-phlow' }
 GLMPhlowTrait >> slot: aSlot changedWith: aValue [
+
 	
 ]
 

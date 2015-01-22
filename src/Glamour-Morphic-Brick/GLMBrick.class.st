@@ -1,8 +1,8 @@
 "
 GLMBrickedMorph subclass: #GLMBrick
 	uses: GLMBrickPropertiesTrait + GLMBrickGeometryTrait + GLMBrickLayoutTrait + GLMBrickStructureTrait
-	slots: { #brickBounds => PhlowSlot }
-	classVariables: ''
+	slots: { #brickBounds => GLMPhlowSlot }
+	classVariables: {  }
 	category: 'Glamour-Morphic-Brick-UI'
 "
 Class {
