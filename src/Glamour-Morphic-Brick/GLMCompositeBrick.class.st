@@ -1,5 +1,9 @@
 "
 asdasd
+a
+sd
+asd
+
 "
 Class {
 	#name : #GLMCompositeBrick,

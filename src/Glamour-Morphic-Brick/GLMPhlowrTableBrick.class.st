@@ -1,5 +1,9 @@
 "
-asdasd
+asdasds
+df
+s
+df
+s
 "
 Class {
 	#name : #GLMPhlowrTableBrick,

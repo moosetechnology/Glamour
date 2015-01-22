@@ -1,5 +1,10 @@
 "
 asdasd
+as
+
+sdf
+sfd
+
 "
 Class {
 	#name : #GLMPhlowrPharoMethodBrick,

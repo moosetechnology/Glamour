@@ -1,18 +1,17 @@
 "
 GLMBrickedMorph subclass: #GLMBrick
 	uses: GLMBrickPropertiesTrait + GLMBrickGeometryTrait + GLMBrickLayoutTrait + GLMBrickStructureTrait
-	slots: { #brickBounds => PhlowSlot. #bla }
+	slots: { #brickBounds => PhlowSlot }
 	classVariables: ''
 	category: 'Glamour-Morphic-Brick-UI'
 "
 Class {
 	#name : #GLMBrick,
 	#superclass : #GLMBrickedMorph,
-	#traits : 'GLMBrickPropertiesTrait + GLMBrickGeometryTrait + GLMBrickLayoutTrait + GLMBrickStructureTrait',
-	#classTraits : 'GLMBrickPropertiesTrait classTrait + GLMBrickGeometryTrait classTrait + GLMBrickLayoutTrait classTrait + GLMBrickStructureTrait classTrait',
+	#traits : 'GLMBrickPropertiesTrait + GLMBrickGeometryTrait + GLMBrickLayoutTrait + GLMBrickStructureTrait + GLMPhlowTrait',
+	#classTraits : 'GLMBrickPropertiesTrait classTrait + GLMBrickGeometryTrait classTrait + GLMBrickLayoutTrait classTrait + GLMBrickStructureTrait classTrait + GLMPhlowTrait classTrait',
 	#instVars : [
-		'brickBounds',
-		'bla'
+		'#brickBounds => GLMPhlowSlot'
 	],
 	#category : #'Glamour-Morphic-Brick-UI'
 }

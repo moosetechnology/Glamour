@@ -1,12 +1,16 @@
 "
 asdads
+as
+d
+asd
+a
+sd
 "
 Class {
 	#name : #GLMPhlowTransmission,
 	#superclass : #Object,
 	#instVars : [
-		'receiver',
-		'destinationPort',
+		'origins',
 		'destination'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlowr'
@@ -19,14 +23,21 @@ GLMPhlowTransmission >> destination [
 ]
 
 { #category : #accessing }
-GLMPhlowTransmission >> destinationPort [
-
-	^ destinationPort
+GLMPhlowTransmission >> destination: aPort [ 
+	 
+	destination := aPort
 ]
 
 { #category : #scripting }
 GLMPhlowTransmission >> to: anObject port: aPortSymbol [
+	
+	^ self to: anObject slot: aPortSymbol
+]
 
-	destination := WeakValueAssociation key: #destination value: anObject.
-	destinationPort := aPortSymbol
+{ #category : #scripting }
+GLMPhlowTransmission >> to: anObject slot: aSlotSymbol [
+	"anObject must be an instance of class having GLMPhlowTrait"
+	"aSlotSymbol must be a name of existing GLMPhlowSlot in anObject"
+	
+	^ self destination: (GLMPhlowPortIdentifier destination: anObject slot: aSlotSymbol)
 ]

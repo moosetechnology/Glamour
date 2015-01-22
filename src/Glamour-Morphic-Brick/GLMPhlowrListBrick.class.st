@@ -1,5 +1,5 @@
 "
-asdasd
+asdasds
 "
 Class {
 	#name : #GLMPhlowrListBrick,

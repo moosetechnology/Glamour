@@ -1,5 +1,7 @@
 "
 asdasd
+
+asdasd
 "
 Class {
 	#name : #GLMPhlowrTableColumn,

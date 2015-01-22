@@ -6,6 +6,11 @@ Trait {
 	#category : #'Glamour-Morphic-Brick-Traits'
 }
 
+{ #category : #'private-phlow' }
+GLMPhlowTrait >> slot: aSlot changedWith: aValue [
+	
+]
+
 { #category : #phlow }
 GLMPhlowTrait >> transmit [
 
