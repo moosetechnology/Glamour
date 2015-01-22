@@ -16,28 +16,29 @@ Class {
 	#name : #GLMPhlowPortIdentifier,
 	#superclass : #Object,
 	#instVars : [
-		'destination',
+		'essence',
 		'slot'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlowr'
 }
 
 { #category : #'instance creation' }
-GLMPhlowPortIdentifier class >> destination: anObject slot: aSlotSymbol [
+GLMPhlowPortIdentifier class >> essence: anObject slot: aSlotSymbol [
 
-	^ self new destination: anObject; slot: ((anObject class slotNamed: aSlotSymbol)); yourself
+	^ self new essence: anObject; slot: ((anObject class slotNamed: aSlotSymbol)); yourself
 ]
 
 { #category : #accessing }
-GLMPhlowPortIdentifier >> destination [
-	^ destination
+GLMPhlowPortIdentifier >> essence [
+
+	^ essence
 ]
 
 { #category : #accessing }
-GLMPhlowPortIdentifier >> destination: anObject [
+GLMPhlowPortIdentifier >> essence: anObject [
 	"anObject must be an instance of class having GLMPhlowTrait"
 	
-	destination := anObject
+	essence := anObject
 ]
 
 { #category : #accessing }
