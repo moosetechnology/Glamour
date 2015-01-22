@@ -19,7 +19,7 @@ Class {
 	#classTraits : 'GLMBrickPropertiesTrait classTrait + GLMBrickGeometryTrait classTrait + GLMBrickLayoutTrait classTrait + GLMBrickStructureTrait classTrait + GLMPhlowTrait classTrait',
 	#instVars : [
 		'#brickBounds => GLMPhlowSlot',
-		'#transmissions => GLMPhlowSlot'
+		'#connections => GLMPhlowSlot'
 	],
 	#category : #'Glamour-Morphic-Brick-UI'
 }
@@ -129,6 +129,12 @@ GLMBrick >> changed [
 	^ self fullBounds 
 		ifNil: [self invalidRect: self privateFullBounds]
 		ifNotNil: [self invalidRect: self fullBounds]
+]
+
+{ #category : #'phlow-transmissions' }
+GLMBrick >> connections [
+
+	^ connections ifNil: [ connections := OrderedCollection new ]
 ]
 
 { #category : #'morph-drawing' }
@@ -318,10 +324,10 @@ GLMBrick >> submorphBefore [
 	^ self subbrickBefore
 ]
 
-{ #category : #'phlow-transmissions' }
-GLMBrick >> transmissions [
+{ #category : #'phlow-scripting' }
+GLMBrick >> transmit [
 
-	^ transmissions ifNil: [ transmissions := OrderedCollection new ]
+	^ GLMPhlowTransmission new
 ]
 
 { #category : #'private-extension' }

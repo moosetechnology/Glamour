@@ -7,26 +7,25 @@ Trait {
 }
 
 { #category : #'phlow-transmissions' }
-GLMPhlowTrait >> addTransmission: aTransmission [
+GLMPhlowTrait >> addConnection: aConnection [
 
-	^ self transmissions add: aTransmission
+	^ self connections add: aConnection
+]
+
+{ #category : #'phlow-transmissions' }
+GLMPhlowTrait >> connections [
+
+	^ self explicitRequirement
 ]
 
 { #category : #'private-phlow' }
 GLMPhlowTrait >> slot: aSlot changedWith: aValue [
 
-	self flag: 'should be removed and changed'.
-	self transmissions do: [ :each | each origins do: [ :origin | origin slot = aSlot ifTrue: [ each transmit: aValue ] ] ]
-]
-
-{ #category : #'phlow-transmissions' }
-GLMPhlowTrait >> transmissions [
-
-	^ self explicitRequirement
+	self connections do: [ :each | each origin slot = aSlot ifTrue: [ each transmit: aValue ] ]
 ]
 
 { #category : #'phlow-scripting' }
 GLMPhlowTrait >> transmit [
 
-	^ self addTransmission: GLMPhlowTransmission new
+	^ GLMPhlowTransmission new
 ]

@@ -267,8 +267,8 @@ GLMGeneralScrollPaneBrick >> scrollTo: aBrick [
 { #category : #scrolling }
 GLMGeneralScrollPaneBrick >> scrollToBottom [
 
-
-	self scrollBy: (self band height) direction: #down
+	self band hasSubbricks ifFalse: [ ^ self ].
+	self scrollTo: self band lastSubbrick
 ]
 
 { #category : #scrolling }
