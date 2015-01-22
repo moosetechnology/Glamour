@@ -76,6 +76,6 @@ GLMPhlowConnection >> transmit [
 	|value|
 	value := self transformation phlowValue: (self origin slot read: self origin essence).
 	self destination phlowValue: value.
-	self action phlowValue: value
+	self action phlowValue: self destination essence value: value
 	
 ]

@@ -110,8 +110,8 @@ GLMCompositeBrick class >> exampleTransmission [
 		
 	(composite transmit)
 		from: table slot: #brickBounds;
-		to: window port: #extent:;
-		transformed: [ :a | a extent ].
+		to: window slot: #bounds;
+		andPerform: [ :wind | wind changed ].
 	
 	composite asBrickedMorph
 		color: Color white;
