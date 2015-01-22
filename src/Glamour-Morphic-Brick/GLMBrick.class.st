@@ -1,9 +1,16 @@
 "
-GLMBrickedMorph subclass: #GLMBrick
-	uses: GLMBrickPropertiesTrait + GLMBrickGeometryTrait + GLMBrickLayoutTrait + GLMBrickStructureTrait
-	slots: { #brickBounds => GLMPhlowSlot }
-	classVariables: {  }
-	category: 'Glamour-Morphic-Brick-UI'
+A GLMBrick is xxxxxxxasdadxx.
+
+Instance Variables
+	brickBounds:		<Object>
+	transmissions:		<Object>
+
+brickBounds
+	- xxxxx
+
+transmissions
+	- xxxxx
+
 "
 Class {
 	#name : #GLMBrick,
@@ -11,7 +18,8 @@ Class {
 	#traits : 'GLMBrickPropertiesTrait + GLMBrickGeometryTrait + GLMBrickLayoutTrait + GLMBrickStructureTrait + GLMPhlowTrait',
 	#classTraits : 'GLMBrickPropertiesTrait classTrait + GLMBrickGeometryTrait classTrait + GLMBrickLayoutTrait classTrait + GLMBrickStructureTrait classTrait + GLMPhlowTrait classTrait',
 	#instVars : [
-		'#brickBounds => GLMPhlowSlot'
+		'#brickBounds => GLMPhlowSlot',
+		'#transmissions => GLMPhlowSlot'
 	],
 	#category : #'Glamour-Morphic-Brick-UI'
 }
@@ -308,6 +316,12 @@ GLMBrick >> submorphAfter [
 GLMBrick >> submorphBefore [
 
 	^ self subbrickBefore
+]
+
+{ #category : #'phlow-transmissions' }
+GLMBrick >> transmissions [
+
+	^ transmissions ifNil: [ transmissions := OrderedCollection new ]
 ]
 
 { #category : #'private-extension' }

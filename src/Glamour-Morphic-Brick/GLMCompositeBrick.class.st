@@ -8,7 +8,7 @@ asd
 Class {
 	#name : #GLMCompositeBrick,
 	#superclass : #GLMBrick,
-	#category : #'Glamour-Morphic-Brick-Phlowr'
+	#category : #'Glamour-Morphic-Brick-Phlow'
 }
 
 { #category : #examples }
@@ -79,6 +79,39 @@ GLMCompositeBrick class >> exampleTable [
 			evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ]
 			styled: [ :aBrick | aBrick margin: #(0 0 0 15) ];
 		entity: Morph new.
+	
+	composite asBrickedMorph
+		color: Color white;
+		extent: 600@400;
+		openInWindow
+]
+
+{ #category : #examples }
+GLMCompositeBrick class >> exampleTransmission [
+	<example: 'Table transmission'>
+	|composite table window|
+	
+	composite := self new.
+	table := composite table
+		title: #asString;
+		display: [ :anObject | (anObject gtInspectorVariableValuePairs asSortedCollection asOrderedCollection yourself) addFirst: 'self' -> anObject; yourself ];
+		column: 'Variable'
+			evaluated: [:assoc |	GTObjectPrinter new asNonTruncatedTextFrom: assoc key ]
+			styled: [ :aBrick | aBrick textPosition: #rightCenter; margin: #(0 15 0 0); textColor: Color lightGray ];
+		column: 'Variable'
+			evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ]
+			styled: [ :aBrick | aBrick margin: #(0 0 0 15) ];
+		entity: Morph new.
+		
+	window := (GLMBrick new asBrickedMorph)
+		color: Color blue;
+		extent: 100@100;
+		openInWindow.
+		
+	(table transmit)
+		from: table slot: #brickBounds;
+		andPerform: [ :a | window extent: a ];
+		transformed: [ :a | a logCr. a extent ].
 	
 	composite asBrickedMorph
 		color: Color white;

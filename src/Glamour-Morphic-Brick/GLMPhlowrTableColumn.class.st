@@ -11,7 +11,7 @@ Class {
 		'computation',
 		'style'
 	],
-	#category : #'Glamour-Morphic-Brick-Phlowr'
+	#category : #'Glamour-Morphic-Brick-Phlow'
 }
 
 { #category : #accessing }

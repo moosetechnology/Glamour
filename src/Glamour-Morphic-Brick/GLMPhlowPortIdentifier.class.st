@@ -19,7 +19,7 @@ Class {
 		'essence',
 		'slot'
 	],
-	#category : #'Glamour-Morphic-Brick-Phlowr'
+	#category : #'Glamour-Morphic-Brick-Phlow'
 }
 
 { #category : #'instance creation' }

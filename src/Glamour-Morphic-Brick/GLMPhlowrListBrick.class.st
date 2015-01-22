@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'scrollList'
 	],
-	#category : #'Glamour-Morphic-Brick-Phlowr'
+	#category : #'Glamour-Morphic-Brick-Phlow'
 }
 
 { #category : #examples }

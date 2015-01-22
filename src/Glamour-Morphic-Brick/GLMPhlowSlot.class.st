@@ -9,13 +9,29 @@ s
 Class {
 	#name : #GLMPhlowSlot,
 	#superclass : #InstanceVariableSlot,
-	#category : #'Glamour-Morphic-Brick-Phlowr'
+	#category : #'Glamour-Morphic-Brick-Phlow'
 }
 
 { #category : #printing }
 GLMPhlowSlot >> definitionString [
 	"for Slots, the printString is the defintion"
 	^self printString
+]
+
+{ #category : #'code generation' }
+GLMPhlowSlot >> emitStore: aMethodBuilder [
+	aMethodBuilder
+		pushLiteral: self;
+		pushReceiver;
+		send: #writeToSlot:of:
+]
+
+{ #category : #'code generation' }
+GLMPhlowSlot >> emitValue: aMethodBuilder [
+	aMethodBuilder
+		pushLiteral: self;
+		pushReceiver;
+		send: #read:
 ]
 
 { #category : #testing }
@@ -27,6 +43,14 @@ GLMPhlowSlot >> isSpecial [
 { #category : #testing }
 GLMPhlowSlot >> isVirtual [
 	^ false
+]
+
+{ #category : #queries }
+GLMPhlowSlot >> usingMethods [
+	"All methods that read or write the slot"
+	^self definingClass 
+		ifNil: [ #() ]
+		ifNotNil: [:class | class allMethodsAccessingSlot: self].
 ]
 
 { #category : #'meta-object-protocol' }

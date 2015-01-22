@@ -6,14 +6,28 @@ Trait {
 	#category : #'Glamour-Morphic-Brick-Traits'
 }
 
+{ #category : #'phlow-transmissions' }
+GLMPhlowTrait >> addTransmission: aTransmission [
+
+	^ self transmissions add: aTransmission
+]
+
 { #category : #'private-phlow' }
 GLMPhlowTrait >> slot: aSlot changedWith: aValue [
 
-	
+	aValue logCr.
+	self flag: 'should be removed and changed'.
+	self transmissions do: [ :each | each origins do: [ :origin | origin slot ifTrue: [ each transmit: aValue ] ] ]
 ]
 
-{ #category : #phlow }
+{ #category : #'phlow-transmissions' }
+GLMPhlowTrait >> transmissions [
+
+	^ self explicitRequirement
+]
+
+{ #category : #'phlow-scripting' }
 GLMPhlowTrait >> transmit [
 
-	^ self addTransmission: (GLMTransmission new browser: self; yourself)
+	^ self addTransmission: GLMPhlowTransmission new
 ]
