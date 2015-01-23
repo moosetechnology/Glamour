@@ -17,3 +17,9 @@ Symbol >> phlowValue: anObject value: otherObject [
 
 	^ anObject perform: self withEnoughArguments: { otherObject }
 ]
+
+{ #category : #'*Glamour-Morphic-Brick' }
+Symbol >> phlowValue: anObject withEnoughArguments: aCollection [
+
+	^ anObject perform: self withEnoughArguments: aCollection
+]

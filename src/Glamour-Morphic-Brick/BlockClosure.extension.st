@@ -7,13 +7,19 @@ BlockClosure >> brickValue: aBrick [
 ]
 
 { #category : #'*Glamour-Morphic-Brick' }
-BlockClosure >> phlowValue: aBrick [
+BlockClosure >> phlowValue: anObject [
 
-	^ self cull: aBrick
+	^ self cull: anObject
 ]
 
 { #category : #'*Glamour-Morphic-Brick' }
 BlockClosure >> phlowValue: anObject value: otherObject [
 
 	^ self cull: anObject cull: otherObject
+]
+
+{ #category : #'*Glamour-Morphic-Brick' }
+BlockClosure >> phlowValue: anObject withEnoughArguments: aCollection [
+
+	^ self valueWithEnoughArguments:  aCollection
 ]

@@ -19,7 +19,7 @@ Class {
 	#classTraits : 'GLMBrickPropertiesTrait classTrait + GLMBrickGeometryTrait classTrait + GLMBrickLayoutTrait classTrait + GLMBrickStructureTrait classTrait + GLMPhlowTrait classTrait',
 	#instVars : [
 		'#brickBounds => GLMPhlowSlot',
-		'#transmissions => GLMPhlowSlot'
+		'#ports => GLMPhlowSlot'
 	],
 	#category : #'Glamour-Morphic-Brick-UI'
 }
@@ -270,6 +270,12 @@ GLMBrick >> owner: aBrick [
 	owner := aBrick
 ]
 
+{ #category : #'phlow-transmissions' }
+GLMBrick >> ports [
+
+	^ ports  ifNil: [ ports := Dictionary new ]
+]
+
 { #category : #'private-geometry' }
 GLMBrick >> privateBounds: aRectangle [
 	
@@ -318,12 +324,6 @@ GLMBrick >> submorphAfter [
 GLMBrick >> submorphBefore [
 
 	^ self subbrickBefore
-]
-
-{ #category : #'phlow-transmissions' }
-GLMBrick >> transmissions [
-
-	^ transmissions ifNil: [ transmissions := OrderedCollection new ]
 ]
 
 { #category : #'private-extension' }

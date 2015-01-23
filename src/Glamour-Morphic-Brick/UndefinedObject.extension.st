@@ -11,3 +11,9 @@ UndefinedObject >> phlowValue: anObject value: otherObject [
 
 	^ anObject
 ]
+
+{ #category : #'*Glamour-Morphic-Brick' }
+UndefinedObject >> phlowValue: anObject withEnoughArguments: aCollection [
+
+	^ anObject
+]

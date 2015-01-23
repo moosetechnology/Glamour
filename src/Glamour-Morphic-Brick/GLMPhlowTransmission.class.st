@@ -2,7 +2,7 @@ Class {
 	#name : #GLMPhlowTransmission,
 	#superclass : #Object,
 	#instVars : [
-		'origin',
+		'origins',
 		'destination',
 		'transformation',
 		'action',
@@ -11,12 +11,6 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }
 
-{ #category : #'instance creation' }
-GLMPhlowTransmission class >> origin: anOrigin destination: aDestination [
-
-	^ self new origin: anOrigin; destination: aDestination; yourself
-]
-
 { #category : #accessing }
 GLMPhlowTransmission >> action [
 	^ action
@@ -24,7 +18,19 @@ GLMPhlowTransmission >> action [
 
 { #category : #accessing }
 GLMPhlowTransmission >> action: anObject [
+
 	action := anObject
+]
+
+{ #category : #adding }
+GLMPhlowTransmission >> addOrigin: anObject [
+	"anObject must be a GLMPhlowOrigin"
+	
+	(self origins includes: anObject) ifTrue: [ ^ self ].
+	"registering new origin"
+	self origins add: anObject.
+	"adding myself to the outgoing transmissions of origin"
+	anObject phlowObject addTransmission: self from: anObject slot name
 ]
 
 { #category : #accessing }
@@ -48,19 +54,21 @@ GLMPhlowTransmission >> destination: anObject [
 ]
 
 { #category : #private }
-GLMPhlowTransmission >> meetsCondition [
+GLMPhlowTransmission >> gatherPortValues [
+	"returns a Collection containing values of all assosiated origins"
+	^ self origins collect: [ :each | each slot read: each phlowObject ]
+]
+
+{ #category : #private }
+GLMPhlowTransmission >> meetsCondition: aCollection [
 	
-	^ ((self condition phlowValue: self origin phlowObject) = false) not
+	^ ((self condition phlowValue: self destination phlowObject withEnoughArguments: aCollection) = false) not
 ]
 
 { #category : #accessing }
-GLMPhlowTransmission >> origin [
-	^ origin
-]
+GLMPhlowTransmission >> origins [
 
-{ #category : #accessing }
-GLMPhlowTransmission >> origin: anObject [
-	origin := anObject
+	^ origins ifNil: [ origins := OrderedCollection new ]
 ]
 
 { #category : #accessing }
@@ -75,11 +83,14 @@ GLMPhlowTransmission >> transformation: anObject [
 
 { #category : #transmission }
 GLMPhlowTransmission >> transmit [
-	|value|
+	|portValues value|
+	
+	portValues := self gatherPortValues.
+	
 	"we transmit only if meets condition"
-	self meetsCondition ifFalse: [ ^ self ].
+	(self meetsCondition: portValues) ifFalse: [ ^ self ].
 	"obtaining slot value and transforming it"
-	value := self transformation phlowValue: (self origin slot read: self origin phlowObject).
+	value := self transformation phlowValue: self destination phlowObject withEnoughArguments: portValues.
 	"transmiting transformed value to destination port"
 	self destination phlowValue: value.
 	"performing specified action"

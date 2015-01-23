@@ -8,6 +8,6 @@ Class {
 GLMPhlowSlot >> write: aValue to: anObject [
 	|result|
 	result := anObject instVarAt: index put: aValue.
-	anObject slot: self changedWith: aValue.
+	anObject onSlotChanged: self.
 	^ result
 ]

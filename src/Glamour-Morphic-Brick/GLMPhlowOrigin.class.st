@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMPhlowOrigin,
-	#superclass : #GLMPhlowPort,
+	#superclass : #GLMPhlowTarget,
 	#instVars : [
 		'slot'
 	],

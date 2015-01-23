@@ -2,17 +2,26 @@ Class {
 	#name : #GLMPhlowPort,
 	#superclass : #Object,
 	#instVars : [
-		'phlowObject'
+		'transmissions'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }
 
-{ #category : #accessing }
-GLMPhlowPort >> phlowObject [
-	^ phlowObject
+{ #category : #adding }
+GLMPhlowPort >> addTransmission: aTransmission [
+
+	(self transmissions includes: aTransmission) ifTrue: [ ^ self ].
+	self transmissions add: aTransmission
 ]
 
 { #category : #accessing }
-GLMPhlowPort >> phlowObject: anObject [
-	phlowObject := anObject
+GLMPhlowPort >> transmissions [
+
+	^ transmissions ifNil: [ transmissions := OrderedCollection new ]
+]
+
+{ #category : #transmitting }
+GLMPhlowPort >> transmit [
+
+	self transmissions do: #transmit
 ]

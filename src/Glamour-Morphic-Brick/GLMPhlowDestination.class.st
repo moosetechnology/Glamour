@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMPhlowDestination,
-	#superclass : #GLMPhlowPort,
+	#superclass : #GLMPhlowTarget,
 	#instVars : [
 		'port'
 	],

@@ -2,12 +2,8 @@ Class {
 	#name : #GLMPhlowTransmissionBuilder,
 	#superclass : #Object,
 	#instVars : [
-		'action',
-		'condition',
-		'destination',
 		'phlow',
-		'transformation',
-		'transmissions'
+		'transmission'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }
@@ -16,44 +12,6 @@ Class {
 GLMPhlowTransmissionBuilder class >> phlow: anObject [
 
 	^ self new phlow: anObject
-]
-
-{ #category : #accessing }
-GLMPhlowTransmissionBuilder >> action [
-	
-	^ action
-]
-
-{ #category : #accessing }
-GLMPhlowTransmissionBuilder >> action: anObject [
-
-	action := anObject.
-	self updateConnections
-]
-
-{ #category : #accessing }
-GLMPhlowTransmissionBuilder >> condition [
-	^ condition
-]
-
-{ #category : #accessing }
-GLMPhlowTransmissionBuilder >> condition: anObject [
-
-	condition := anObject.
-	self updateConnections
-]
-
-{ #category : #accessing }
-GLMPhlowTransmissionBuilder >> destination [
-
-	^ destination
-]
-
-{ #category : #accessing }
-GLMPhlowTransmissionBuilder >> destination: aPort [ 
-	 
-	destination := aPort.
-	self updateConnections
 ]
 
 { #category : #scripting }
@@ -72,14 +30,10 @@ GLMPhlowTransmissionBuilder >> from: anObject port: aSlotSymbol [
 GLMPhlowTransmissionBuilder >> from: anObject slot: aSlotSymbol [
 	"anObject must be an instance of class having GLMPhlowTrait for example GLMBrick"
 	"aSlotSymbol must be a name of existing GLMPhlowSlot in anObject"
-	|currentTransmission from|
-	
+	|from|
 	from := anObject phlowValue: self phlow.
-	currentTransmission := GLMPhlowTransmission
-		origin: (GLMPhlowOrigin target: from slot: aSlotSymbol)
-		destination: self destination.
-	from addTransmission: currentTransmission.
-	^ self transmissions add: currentTransmission
+	self transmission addOrigin: (GLMPhlowOrigin target: from slot: aSlotSymbol).
+	^ self
 ]
 
 { #category : #accessing }
@@ -102,7 +56,8 @@ GLMPhlowTransmissionBuilder >> to: anObject [
 GLMPhlowTransmissionBuilder >> to: anObject port: aPortObject [
 	|to|
 	to := anObject phlowValue: self phlow.
-	^ self destination: (GLMPhlowDestination target: to port: aPortObject)
+	self transmission destination: (GLMPhlowDestination target: to port: aPortObject).
+	^ self
 ]
 
 { #category : #scripting }
@@ -111,9 +66,10 @@ GLMPhlowTransmissionBuilder >> to: anObject slot: aSlotSymbol [
 	"aSlotSymbol must be a name of existing Slot in anObject"
 	|to|
 	to := anObject phlowValue: self phlow.
-	^ self destination: (GLMPhlowDestination 
+	self transmission destination: (GLMPhlowDestination 
 		target: anObject 
-		port: (anObject class slotsDictionary at: aSlotSymbol))
+		port: (anObject class slotsDictionary at: aSlotSymbol)).
+	^ self
 ]
 
 { #category : #scripting }
@@ -122,49 +78,26 @@ GLMPhlowTransmissionBuilder >> toPort: anObject [
 	^ self to: self phlow port: anObject
 ]
 
-{ #category : #accessing }
-GLMPhlowTransmissionBuilder >> transformation [
-
-	^ transformation
-]
-
-{ #category : #accessing }
-GLMPhlowTransmissionBuilder >> transformation: anObject [ 
-	 
-	transformation := anObject.
-	self updateConnections
-]
-
 { #category : #scripting }
 GLMPhlowTransmissionBuilder >> transformed: anObject [
 
-	self transformation: anObject
+	self transmission transformation: anObject
 ]
 
 { #category : #accessing }
-GLMPhlowTransmissionBuilder >> transmissions [
-	^  transmissions ifNil: [ transmissions := OrderedCollection new ]
-]
+GLMPhlowTransmissionBuilder >> transmission [
 
-{ #category : #private }
-GLMPhlowTransmissionBuilder >> updateConnections [
-
-	self transmissions do: [ :each |
-		each
-			destination: self destination;
-			transformation: self transformation;
-			action: self action;
-			condition: self condition ]
+	^  transmission ifNil: [ transmission := GLMPhlowTransmission new ]
 ]
 
 { #category : #scripting }
 GLMPhlowTransmissionBuilder >> when: anObject [
 
-	self condition: anObject
+	self transmission condition: anObject
 ]
 
 { #category : #scripting }
 GLMPhlowTransmissionBuilder >> with: anObject [
 
-	self action: anObject
+	self transmission action: anObject
 ]

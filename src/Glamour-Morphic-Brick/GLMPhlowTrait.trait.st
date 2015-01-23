@@ -7,21 +7,25 @@ Trait {
 }
 
 { #category : #'phlow-transmissions' }
-GLMPhlowTrait >> addTransmission: aTransmission [
+GLMPhlowTrait >> addTransmission: aTransmission from: aSlotSymbol [
  
-	^ self transmissions add: aTransmission
+	^ (self portOf: aSlotSymbol) addTransmission: aTransmission
 ]
 
 { #category : #'private-phlow' }
-GLMPhlowTrait >> slot: aSlot changedWith: aValue [
+GLMPhlowTrait >> onSlotChanged: aSlot [
 
-	self transmissions
-		select: [ :each | each origin slot = aSlot ]
-		thenDo: [ :each | each transmit ]
+	(self portOf: aSlot name) transmit
 ]
 
 { #category : #'phlow-transmissions' }
-GLMPhlowTrait >> transmissions [
+GLMPhlowTrait >> portOf: aSlotSymbol [
+
+	^ self ports at: aSlotSymbol ifAbsentPut: [ GLMPhlowPort new ]
+]
+
+{ #category : #'phlow-transmissions' }
+GLMPhlowTrait >> ports [
 
 	^ self explicitRequirement
 ]

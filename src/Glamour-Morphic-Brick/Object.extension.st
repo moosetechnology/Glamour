@@ -23,3 +23,9 @@ Object >> phlowValue: anObject value: otherObject [
 
 	^ self
 ]
+
+{ #category : #'*Glamour-Morphic-Brick' }
+Object >> phlowValue: anObject withEnoughArguments: aCollection [
+
+	^ self
+]
