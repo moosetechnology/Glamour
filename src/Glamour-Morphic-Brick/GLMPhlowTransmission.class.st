@@ -1,42 +1,30 @@
-"
-asdads
-as
-d
-asd
-a
-sd
-"
 Class {
 	#name : #GLMPhlowTransmission,
 	#superclass : #Object,
 	#instVars : [
+		'origin',
 		'destination',
 		'transformation',
 		'action',
-		'connections',
-		'phlow',
 		'condition'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }
 
 { #category : #'instance creation' }
-GLMPhlowTransmission class >> phlow: anObject [
+GLMPhlowTransmission class >> origin: anOrigin destination: aDestination [
 
-	^ self new phlow: anObject
+	^ self new origin: anOrigin; destination: aDestination; yourself
 ]
 
 { #category : #accessing }
 GLMPhlowTransmission >> action [
-	
 	^ action
 ]
 
 { #category : #accessing }
 GLMPhlowTransmission >> action: anObject [
-
-	action := anObject.
-	self updateConnections
+	action := anObject
 ]
 
 { #category : #accessing }
@@ -46,132 +34,55 @@ GLMPhlowTransmission >> condition [
 
 { #category : #accessing }
 GLMPhlowTransmission >> condition: anObject [
-
-	condition := anObject.
-	self updateConnections
-]
-
-{ #category : #accessing }
-GLMPhlowTransmission >> connections [
-
-	^ connections ifNil: [ connections := OrderedCollection new ]
+	condition := anObject
 ]
 
 { #category : #accessing }
 GLMPhlowTransmission >> destination [
-
 	^ destination
 ]
 
 { #category : #accessing }
-GLMPhlowTransmission >> destination: aPort [ 
-	 
-	destination := aPort.
-	self updateConnections
+GLMPhlowTransmission >> destination: anObject [
+	destination := anObject
 ]
 
-{ #category : #scripting }
-GLMPhlowTransmission >> from: anObject [
-
-	^ self from: self phlow slot: anObject
-]
-
-{ #category : #'scripting-depreciated' }
-GLMPhlowTransmission >> from: anObject port: aSlotSymbol [
-
-	^ self from: anObject slot: aSlotSymbol
-]
-
-{ #category : #scripting }
-GLMPhlowTransmission >> from: anObject slot: aSlotSymbol [
-	"anObject must be an instance of class having GLMPhlowTrait for example GLMBrick"
-	"aSlotSymbol must be a name of existing GLMPhlowSlot in anObject"
-	|connection from|
+{ #category : #private }
+GLMPhlowTransmission >> meetsCondition [
 	
-	from := anObject phlowValue: self phlow.
-	connection := GLMPhlowConnection
-		origin: (GLMPhlowOrigin essence: from slot: aSlotSymbol)
-		destination: self destination.
-	from addConnection: connection.
-	^ self connections add: connection
+	^ ((self condition phlowValue: self origin phlowObject) = false) not
 ]
 
 { #category : #accessing }
-GLMPhlowTransmission >> phlow [
-	^ phlow
+GLMPhlowTransmission >> origin [
+	^ origin
 ]
 
 { #category : #accessing }
-GLMPhlowTransmission >> phlow: anObject [
-	phlow := anObject
-]
-
-{ #category : #scripting }
-GLMPhlowTransmission >> to: anObject [
-
-	^ self to: self phlow slot: anObject
-]
-
-{ #category : #scripting }
-GLMPhlowTransmission >> to: anObject port: aPortObject [
-	|to|
-	to := anObject phlowValue: self phlow.
-	^ self destination: (GLMPhlowDestination essence: to port: aPortObject)
-]
-
-{ #category : #scripting }
-GLMPhlowTransmission >> to: anObject slot: aSlotSymbol [
-	"anObject must be an instance of class having GLMPhlowTrait for example GLMBrick"
-	"aSlotSymbol must be a name of existing Slot in anObject"
-	|to|
-	to := anObject phlowValue: self phlow.
-	^ self destination: (GLMPhlowDestination essence: anObject slot: aSlotSymbol)
-]
-
-{ #category : #scripting }
-GLMPhlowTransmission >> toPort: anObject [
-
-	^ self to: self phlow port: anObject
+GLMPhlowTransmission >> origin: anObject [
+	origin := anObject
 ]
 
 { #category : #accessing }
 GLMPhlowTransmission >> transformation [
-
 	^ transformation
 ]
 
 { #category : #accessing }
-GLMPhlowTransmission >> transformation: anObject [ 
-	 
-	transformation := anObject.
-	self updateConnections
+GLMPhlowTransmission >> transformation: anObject [
+	transformation := anObject
 ]
 
-{ #category : #scripting }
-GLMPhlowTransmission >> transformed: anObject [
-
-	self transformation: anObject
-]
-
-{ #category : #private }
-GLMPhlowTransmission >> updateConnections [
-
-	self connections do: [ :each |
-		each
-			destination: self destination;
-			transformation: self transformation;
-			action: self action;
-			condition: self condition ]
-]
-
-{ #category : #scripting }
-GLMPhlowTransmission >> when: anObject [
-
-	self condition: anObject
-]
-
-{ #category : #scripting }
-GLMPhlowTransmission >> with: anObject [
-
-	self action: anObject
+{ #category : #transmission }
+GLMPhlowTransmission >> transmit [
+	|value|
+	"we transmit only if meets condition"
+	self meetsCondition ifFalse: [ ^ self ].
+	"obtaining slot value and transforming it"
+	value := self transformation phlowValue: (self origin slot read: self origin phlowObject).
+	"transmiting transformed value to destination port"
+	self destination phlowValue: value.
+	"performing specified action"
+	self action phlowValue: self destination phlowObject value: value
+	
 ]

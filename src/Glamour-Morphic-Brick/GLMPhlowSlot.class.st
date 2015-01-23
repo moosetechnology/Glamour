@@ -1,11 +1,3 @@
-"
-asdsdfs
-
-asdsf
-s
-df
-s
-"
 Class {
 	#name : #GLMPhlowSlot,
 	#superclass : #InstanceVariableSlot,

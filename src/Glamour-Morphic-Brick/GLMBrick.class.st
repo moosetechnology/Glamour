@@ -326,6 +326,12 @@ GLMBrick >> submorphBefore [
 	^ self subbrickBefore
 ]
 
+{ #category : #'phlow-scripting' }
+GLMBrick >> transmit [
+
+	^ GLMPhlowTransmissionBuilder phlow: self
+]
+
 { #category : #'private-extension' }
 GLMBrick >> valueOfProperty: aSymbol [
 	

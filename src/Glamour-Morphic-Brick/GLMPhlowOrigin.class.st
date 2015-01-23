@@ -1,41 +1,16 @@
-"
-A GLMPhlowOriginIdentifier is asdads
-
-Instance Variables
-	essence:		<Object>
-	slot:		<Object>
-
-essence
-	- xxxxx
-
-slot
-	- xxxxx
-
-"
 Class {
 	#name : #GLMPhlowOrigin,
-	#superclass : #Object,
+	#superclass : #GLMPhlowPort,
 	#instVars : [
-		'essence',
 		'slot'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }
 
 { #category : #'instance creation' }
-GLMPhlowOrigin class >> essence: anObject slot: aSlotSymbol [
+GLMPhlowOrigin class >> target: anObject slot: aSlotSymbol [
 
-	^ self new essence: anObject; slot: ((anObject class slotsDictionary at: aSlotSymbol)); yourself
-]
-
-{ #category : #accessing }
-GLMPhlowOrigin >> essence [
-	^ essence
-]
-
-{ #category : #accessing }
-GLMPhlowOrigin >> essence: anObject [
-	essence := anObject
+	^ self new phlowObject: anObject; slot: ((anObject class slotsDictionary at: aSlotSymbol)); yourself
 ]
 
 { #category : #accessing }
