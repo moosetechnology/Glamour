@@ -7,9 +7,9 @@ Class {
 	#name : #GLMPhlowrTableColumn,
 	#superclass : #Object,
 	#instVars : [
-		'title',
-		'computation',
-		'style'
+		'#computation => GLMPhlowSlot',
+		'#title => GLMPhlowSlot',
+		'#style => GLMPhlowSlot'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }

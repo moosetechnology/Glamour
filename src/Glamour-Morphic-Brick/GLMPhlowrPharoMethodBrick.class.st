@@ -10,7 +10,7 @@ Class {
 	#name : #GLMPhlowrPharoMethodBrick,
 	#superclass : #GLMPhlowrBrick,
 	#instVars : [
-		'textBrick'
+		'#textBrick => GLMPhlowSlot'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }

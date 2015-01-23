@@ -9,8 +9,8 @@ Class {
 	#name : #GLMPhlowrTableBrick,
 	#superclass : #GLMPhlowrListBrick,
 	#instVars : [
-		'columns',
-		'transformedEntity'
+		'#transformedEntity => GLMPhlowSlot',
+		'#columns => GLMPhlowSlot'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }

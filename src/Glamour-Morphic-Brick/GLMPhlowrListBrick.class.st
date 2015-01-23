@@ -5,7 +5,7 @@ Class {
 	#name : #GLMPhlowrListBrick,
 	#superclass : #GLMPhlowrBrick,
 	#instVars : [
-		'scrollList'
+		'#scrollList => GLMPhlowSlot'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }

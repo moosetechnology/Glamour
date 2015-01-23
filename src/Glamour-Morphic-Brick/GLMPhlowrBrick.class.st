@@ -9,9 +9,8 @@ Class {
 	#name : #GLMPhlowrBrick,
 	#superclass : #GLMBrick,
 	#instVars : [
-		'titleBrick',
-		'entity',
-		'parameters'
+		'#entity => GLMPhlowSlot',
+		'#titleBrick => GLMPhlowSlot'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }

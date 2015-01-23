@@ -9,8 +9,8 @@ Class {
 	#name : #GLMPhlowrTableRowBrick,
 	#superclass : #GLMBrick,
 	#instVars : [
-		'entity',
-		'table'
+		'#entity => GLMPhlowSlot',
+		'#table => GLMPhlowSlot'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }
