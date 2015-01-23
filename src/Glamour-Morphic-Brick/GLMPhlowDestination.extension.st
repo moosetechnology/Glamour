@@ -1,8 +1,8 @@
 Extension { #name : #GLMPhlowDestination }
 
 { #category : #'*Glamour-Morphic-Brick' }
-GLMPhlowDestination >> phlowValue: anObject [
+GLMPhlowDestination >> phlowValue: anObject value: anotherObject [
 
-	self port phlowValue: self phlowObject value: anObject
+	self port phlowValue: (self phlowObject phlowValue: anotherObject) value: anObject
 	
 ]

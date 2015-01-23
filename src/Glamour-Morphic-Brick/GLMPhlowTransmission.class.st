@@ -6,7 +6,8 @@ Class {
 		'destination',
 		'transformation',
 		'action',
-		'condition'
+		'condition',
+		'phlow'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }
@@ -72,6 +73,16 @@ GLMPhlowTransmission >> origins [
 ]
 
 { #category : #accessing }
+GLMPhlowTransmission >> phlow [
+	^ phlow
+]
+
+{ #category : #accessing }
+GLMPhlowTransmission >> phlow: anObject [
+	phlow := anObject
+]
+
+{ #category : #accessing }
 GLMPhlowTransmission >> transformation [
 	^ transformation
 ]
@@ -92,7 +103,7 @@ GLMPhlowTransmission >> transmit [
 	"obtaining slot value and transforming it"
 	value := self transformation phlowValue: self destination phlowObject withEnoughArguments: portValues.
 	"transmiting transformed value to destination port"
-	self destination phlowValue: value.
+	self destination phlowValue: value value: self phlow.
 	"performing specified action"
 	self action phlowValue: self destination phlowObject value: value
 	

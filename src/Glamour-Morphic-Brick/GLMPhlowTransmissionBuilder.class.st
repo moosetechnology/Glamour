@@ -54,9 +54,8 @@ GLMPhlowTransmissionBuilder >> to: anObject [
 
 { #category : #scripting }
 GLMPhlowTransmissionBuilder >> to: anObject port: aPortObject [
-	|to|
-	to := anObject phlowValue: self phlow.
-	self transmission destination: (GLMPhlowDestination target: to port: aPortObject).
+
+	self transmission destination: (GLMPhlowDestination target: anObject port: aPortObject).
 	^ self
 ]
 
@@ -64,8 +63,6 @@ GLMPhlowTransmissionBuilder >> to: anObject port: aPortObject [
 GLMPhlowTransmissionBuilder >> to: anObject slot: aSlotSymbol [
 	"anObject must be an instance of class having GLMPhlowTrait for example GLMBrick"
 	"aSlotSymbol must be a name of existing Slot in anObject"
-	|to|
-	to := anObject phlowValue: self phlow.
 	self transmission destination: (GLMPhlowDestination 
 		target: anObject 
 		port: (anObject class slotsDictionary at: aSlotSymbol)).
@@ -87,7 +84,7 @@ GLMPhlowTransmissionBuilder >> transformed: anObject [
 { #category : #accessing }
 GLMPhlowTransmissionBuilder >> transmission [
 
-	^  transmission ifNil: [ transmission := GLMPhlowTransmission new ]
+	^  transmission ifNil: [ transmission := GLMPhlowTransmission new phlow: self phlow ]
 ]
 
 { #category : #scripting }

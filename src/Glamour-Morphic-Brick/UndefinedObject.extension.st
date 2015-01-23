@@ -15,5 +15,5 @@ UndefinedObject >> phlowValue: anObject value: otherObject [
 { #category : #'*Glamour-Morphic-Brick' }
 UndefinedObject >> phlowValue: anObject withEnoughArguments: aCollection [
 
-	^ anObject
+	^ aCollection first
 ]
