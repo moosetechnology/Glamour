@@ -29,5 +29,5 @@ GLMPhlowTrait >> transmissions [
 { #category : #'phlow-scripting' }
 GLMPhlowTrait >> transmit [
 
-	^ GLMPhlowTransmission phlow: self
+	^ GLMPhlowTransmissionBuilder phlow: self
 ]
