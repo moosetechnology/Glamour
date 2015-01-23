@@ -24,6 +24,11 @@ GLMCompositeBrick class >> exampleExternalLabelChangeOnResize [
 		transformed: [ :value | 'resize me! ', value asString ].
 		
 	(first transmit)
+		from: #brickBounds; to: second port: #extent:;
+		transformed: [ :value | value extent ];
+		with: [ :secondBrick | secondBrick owner owner extent: secondBrick extent ].
+		
+	(first transmit)
 		from: #label slot: #text;
 		to: second port: #text:;
 		transformed: [ :value | 'Do not ', value asString ];
@@ -32,19 +37,19 @@ GLMCompositeBrick class >> exampleExternalLabelChangeOnResize [
 				color: Color random muchLighter;
 				changed ].
 		
-	(second 
+	((second 
 		textPosition: #center;
 		color: Color lightBlue)
 			asBrickedMorph
 			extent: 300@100;
-			openInWindow.
+			openInWindow) position: 200@200.
 			
-	(first 
+	((first 
 		textPosition: #center;
 		color: Color lightGreen)
 			asBrickedMorph
 			extent: 300@200;
-			openInWindow
+			openInWindow)position: 500@500
 ]
 
 { #category : #'examples-transmissions' }
