@@ -11,6 +11,61 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }
 
+{ #category : #'examples-transmissions' }
+GLMCompositeBrick class >> exampleExternalLabelChangeOnResize [
+	<example: 'Table transmission'>
+	|first second|
+	first := GLMLabelBrick new.
+	second := GLMLabelBrick new.
+	
+	(first transmit)
+		from: #brickBounds; toPort: #text:;
+		when: [ :value | value extent >= (300@150) ];
+		transformed: [ :value | 'resize me! ', value asString ].
+		
+	(first transmit)
+		from: #label slot: #text;
+		to: second port: #text:;
+		transformed: [ :value | 'Do not ', value asString ];
+		with: [ :label |
+			label
+				color: Color random muchLighter;
+				changed ].
+		
+	(second 
+		textPosition: #center;
+		color: Color lightBlue)
+			asBrickedMorph
+			extent: 300@100;
+			openInWindow.
+			
+	(first 
+		textPosition: #center;
+		color: Color lightGreen)
+			asBrickedMorph
+			extent: 300@200;
+			openInWindow
+]
+
+{ #category : #'examples-transmissions' }
+GLMCompositeBrick class >> exampleInternalLabelChangeOnResize [
+	<example: 'Table transmission'>
+	|first|
+	first := GLMLabelBrick new.
+	
+	(first transmit)
+		from: #brickBounds; toPort: #text:;
+		when: [ :value | value extent >= (300@150) ];
+		transformed: [ :value | 'resize me! ', value asString ].
+			
+	(first 
+		textPosition: #center;
+		color: Color lightGreen)
+			asBrickedMorph
+			extent: 300@200;
+			openInWindow
+]
+
 { #category : #examples }
 GLMCompositeBrick class >> exampleList [
 	<example: 'Phlowr simple list'>
@@ -84,42 +139,6 @@ GLMCompositeBrick class >> exampleTable [
 		color: Color white;
 		extent: 600@400;
 		openInWindow
-]
-
-{ #category : #examples }
-GLMCompositeBrick class >> exampleTransmission [
-	<example: 'Table transmission'>
-	|first second|
-	first := GLMLabelBrick new.
-	second := GLMLabelBrick new.
-	
-	(first transmit)
-		from: #brickBounds; toPort: #text:;
-		when: [ :value | value extent > (250@150) ];
-		transformed: [ :value | 'resize me! ', value asString ].
-		
-	(first transmit)
-		from: #label slot: #text;
-		to: second port: #text:;
-		transformed: [ :value | 'Do not ', value asString ];
-		with: [ :label |
-			label
-				color: Color random muchLighter;
-				changed ].
-		
-	(second 
-		textPosition: #center;
-		color: Color lightBlue)
-			asBrickedMorph
-			extent: 300@100;
-			openInWindow.
-			
-	(first 
-		textPosition: #center;
-		color: Color lightGreen)
-			asBrickedMorph
-			extent: 300@200;
-			openInWindow
 ]
 
 { #category : #phlowr }

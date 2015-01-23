@@ -2,12 +2,12 @@ Class {
 	#name : #GLMPhlowTransmissionBuilder,
 	#superclass : #Object,
 	#instVars : [
-		'destination',
-		'transformation',
 		'action',
-		'connections',
+		'condition',
+		'destination',
 		'phlow',
-		'condition'
+		'transformation',
+		'transmissions'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }
@@ -44,12 +44,6 @@ GLMPhlowTransmissionBuilder >> condition: anObject [
 ]
 
 { #category : #accessing }
-GLMPhlowTransmissionBuilder >> connections [
-
-	^ connections ifNil: [ connections := OrderedCollection new ]
-]
-
-{ #category : #accessing }
 GLMPhlowTransmissionBuilder >> destination [
 
 	^ destination
@@ -68,7 +62,7 @@ GLMPhlowTransmissionBuilder >> from: anObject [
 	^ self from: self phlow slot: anObject
 ]
 
-{ #category : #'scripting-depreciated' }
+{ #category : #'scripting-deprecated' }
 GLMPhlowTransmissionBuilder >> from: anObject port: aSlotSymbol [
 
 	^ self from: anObject slot: aSlotSymbol
@@ -78,14 +72,14 @@ GLMPhlowTransmissionBuilder >> from: anObject port: aSlotSymbol [
 GLMPhlowTransmissionBuilder >> from: anObject slot: aSlotSymbol [
 	"anObject must be an instance of class having GLMPhlowTrait for example GLMBrick"
 	"aSlotSymbol must be a name of existing GLMPhlowSlot in anObject"
-	|connection from|
+	|currentTransmission from|
 	
 	from := anObject phlowValue: self phlow.
-	connection := GLMPhlowTransmission
+	currentTransmission := GLMPhlowTransmission
 		origin: (GLMPhlowOrigin target: from slot: aSlotSymbol)
 		destination: self destination.
-	from addConnection: connection.
-	^ self connections add: connection
+	from addTransmission: currentTransmission.
+	^ self transmissions add: currentTransmission
 ]
 
 { #category : #accessing }
@@ -147,10 +141,15 @@ GLMPhlowTransmissionBuilder >> transformed: anObject [
 	self transformation: anObject
 ]
 
+{ #category : #accessing }
+GLMPhlowTransmissionBuilder >> transmissions [
+	^  transmissions ifNil: [ transmissions := OrderedCollection new ]
+]
+
 { #category : #private }
 GLMPhlowTransmissionBuilder >> updateConnections [
 
-	self connections do: [ :each |
+	self transmissions do: [ :each |
 		each
 			destination: self destination;
 			transformation: self transformation;
