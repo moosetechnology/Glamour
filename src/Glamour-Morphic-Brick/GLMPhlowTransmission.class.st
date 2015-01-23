@@ -72,9 +72,8 @@ GLMPhlowTransmission >> destination: aPort [
 
 { #category : #scripting }
 GLMPhlowTransmission >> from: anObject [
-	"anObject must be an instance of class having GLMPhlowTrait for example GLMBrick"
-	"anObject must have an instance variable named #selection to allow default transmissions"
-	^ self from: anObject slot: #selection
+
+	^ self from: self phlow slot: anObject
 ]
 
 { #category : #'scripting-depreciated' }
@@ -109,9 +108,8 @@ GLMPhlowTransmission >> phlow: anObject [
 
 { #category : #scripting }
 GLMPhlowTransmission >> to: anObject [
-	"anObject must be an instance of class having GLMPhlowTrait for example GLMBrick"
-	"anObject must have an instance variable named #selection to allow default transmissions"
-	^ self to: anObject slot: #selection
+
+	^ self to: self phlow slot: anObject
 ]
 
 { #category : #scripting }
@@ -128,6 +126,12 @@ GLMPhlowTransmission >> to: anObject slot: aSlotSymbol [
 	|to|
 	to := anObject phlowValue: self phlow.
 	^ self destination: (GLMPhlowDestination essence: anObject slot: aSlotSymbol)
+]
+
+{ #category : #scripting }
+GLMPhlowTransmission >> toPort: anObject [
+
+	^ self to: self phlow port: anObject
 ]
 
 { #category : #accessing }

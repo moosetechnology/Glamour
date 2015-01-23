@@ -6,13 +6,13 @@ Trait {
 	#category : #'Glamour-Morphic-Brick-Traits'
 }
 
-{ #category : #'phlow-transmissions' }
+{ #category : #'phlow-connections' }
 GLMPhlowTrait >> addConnection: aConnection [
 
 	^ self connections add: aConnection
 ]
 
-{ #category : #'phlow-transmissions' }
+{ #category : #'phlow-connections' }
 GLMPhlowTrait >> connections [
 
 	^ self explicitRequirement

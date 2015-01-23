@@ -94,8 +94,7 @@ GLMCompositeBrick class >> exampleTransmission [
 	second := GLMLabelBrick new.
 	
 	(first transmit)
-		from: #yourself slot: #brickBounds;
-		to: #label port: #text:;
+		from: #brickBounds; toPort: #text:;
 		when: [ :value | value extent > (250@150) ];
 		transformed: [ :value | 'resize me! ', value asString ].
 		
