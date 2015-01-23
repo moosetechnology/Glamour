@@ -164,6 +164,7 @@ GLMBrick >> drawSubmorphsOn: aCanvas [
 	self subbricks
 		do: [ :each | 
 			| intersection canvas globalBounds |
+			each ifNotNil: [ self flag: 'fix nil case'.
 			globalBounds := each isBrick
 				ifTrue: [ each globalBounds ]
 				ifFalse: [ each fullBounds ].
@@ -178,20 +179,21 @@ GLMBrick >> drawSubmorphsOn: aCanvas [
 					canvas := aCanvas copyClipRect: intersection.
 					each fullDrawOn: canvas ]
 					"if z-index is not 1 we add it to collection, in order to sort and draw as second attempt"
-				ifFalse: [ zIndexedBricks add: each ] ] ].
+				ifFalse: [ zIndexedBricks add: each ] ] ] ].
 		
 		"z-index drawing section"
 		zIndexedBricks sort: [ :first :second | first layoutProperties zIndex < second layoutProperties zIndex ].
 		
 		zIndexedBricks do: [ :each |
 			| intersection canvas globalBounds |
+			each ifNotNil: [ self flag: 'fix nil case'.
 			globalBounds := each isBrick
 				ifTrue: [ each globalBounds ]
 				ifFalse: [ each fullBounds ].
 				
 			intersection := area intersect: globalBounds ifNone: (0 @ 0 extent: 0 @ 0).
 			canvas := aCanvas copyClipRect: intersection.
-			each fullDrawOn: canvas ]
+			each fullDrawOn: canvas ] ]
 		
 ]
 
