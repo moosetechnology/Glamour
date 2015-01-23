@@ -22,23 +22,23 @@ GLMPhlowrPharoMethodBrick class >> example [
 ]
 
 { #category : #phlowr }
-GLMPhlowrPharoMethodBrick >> display: aBlockOrSymbol [
+GLMPhlowrPharoMethodBrick >> display: anObject [
 
-	self setParameter: #display toValue: aBlockOrSymbol
+	self setProperty: #phlowDisplay toValue: anObject
 ]
 
 { #category : #accessing }
 GLMPhlowrPharoMethodBrick >> displayLogic [
 
-	^ self valueOfParameter: #display ifAbsent: #yourself
+	^ self valueOfProperty: #phlowDisplay ifAbsent: [ #yourself ]
 ]
 
 { #category : #phlowr }
 GLMPhlowrPharoMethodBrick >> entity: anObject [
 	super entity: anObject.
 	
-	self textBrick setTextWith: (self displayLogic cull: self entity).
-	self textBrick classOrMetaClass: (self smalltalkClassLogic cull: self entity)
+	self textBrick setTextWith: (self displayLogic phlowValue: self entity).
+	self textBrick classOrMetaClass: (self smalltalkClassLogic phlowValue: self entity)
 	
 ]
 
@@ -56,15 +56,15 @@ GLMPhlowrPharoMethodBrick >> newTextBrick [
 ]
 
 { #category : #phlowr }
-GLMPhlowrPharoMethodBrick >> smalltalkClass: aBlockOrSymbol [
+GLMPhlowrPharoMethodBrick >> smalltalkClass: anObject [
 	
-	self setParameter: #smalltalkClass toValue: aBlockOrSymbol
+	self setProperty: #phlowSmalltalkClass toValue: anObject
 ]
 
 { #category : #accessing }
 GLMPhlowrPharoMethodBrick >> smalltalkClassLogic [
 
-	^ self valueOfParameter: #smalltalkClass ifAbsent: #yourself
+	^ self valueOfProperty: #phlowSmalltalkClass ifAbsent: [ #yourself ]
 ]
 
 { #category : #accessing }

@@ -28,18 +28,18 @@ GLMPhlowrTableBrick >> addColumn: aColumn [
 ]
 
 { #category : #phlowr }
-GLMPhlowrTableBrick >> column: aStringOrBlockOrSymbol evaluated: aBlockOrSymbol [
+GLMPhlowrTableBrick >> column: anObject evaluated: otherObject [
 
-	self column: aStringOrBlockOrSymbol evaluated: aBlockOrSymbol styled: nil
+	self column: anObject evaluated: otherObject styled: nil
 ]
 
 { #category : #phlowr }
-GLMPhlowrTableBrick >> column: aStringOrBlockOrSymbol evaluated: aBlockOrSymbol styled: aBlockOrSymbolForStyle [
+GLMPhlowrTableBrick >> column: anObject evaluated: otherObject styled: anotherObject [
 
 	self addColumn: (GLMPhlowrTableColumn new 
-		title: aStringOrBlockOrSymbol;
-		computation: aBlockOrSymbol;
-		style: aBlockOrSymbolForStyle)
+		title: anObject;
+		computation: otherObject;
+		style: anotherObject)
 ]
 
 { #category : #accessing }
@@ -49,23 +49,23 @@ GLMPhlowrTableBrick >> columns [
 ]
 
 { #category : #phlowr }
-GLMPhlowrTableBrick >> display: aBlockOrSymbol [
+GLMPhlowrTableBrick >> display: anObject [
 	
-	self setParameter: #display toValue: aBlockOrSymbol
+	self setProperty: #phlowDisplay toValue: anObject
 	
 ]
 
 { #category : #accessing }
 GLMPhlowrTableBrick >> displayLogic [
 
-	^ self valueOfParameter: #display ifAbsent: #yourself
+	^ self valueOfProperty: #phlowDisplay ifAbsent: [ #yourself ]
 ]
 
 { #category : #phlowr }
 GLMPhlowrTableBrick >> entity: anObject [
 	super entity: anObject.
 	
-	self transformedEntity: (self displayLogic cull: anObject).
+	self transformedEntity: (self displayLogic phlowValue: anObject).
 	self listBrick adaptor on: self transformedEntity
 ]
 

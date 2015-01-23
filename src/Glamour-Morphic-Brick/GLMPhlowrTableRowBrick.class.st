@@ -18,8 +18,8 @@ Class {
 { #category : #adding }
 GLMPhlowrTableRowBrick >> addColumn: aColumn [
 	|brick|
-	brick := (aColumn computation cull: self entity) asBrick.
-	aColumn style ifNotNil: [ brick := aColumn style cull: brick ].
+	brick := (aColumn computation phlowValue: self entity) asBrick.
+	brick := aColumn style phlowValue: brick.
 	^ self addBrickBack: brick
 ]
 
@@ -48,7 +48,7 @@ GLMPhlowrTableRowBrick >> initialize [
 	super initialize.
 	
 	"My height is the height of the tallest subbrick"
-	self height: [ (self subbricks detectMax: [ :each | each height ]) ifNil: [ 0 ] ifNotNil: [ :brick | brick height ] ]
+	self layout vShrinkWrap
 ]
 
 { #category : #initialization }

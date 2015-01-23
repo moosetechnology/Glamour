@@ -32,14 +32,8 @@ GLMPhlowrBrick >> entity [
 GLMPhlowrBrick >> entity: anObject [
 
 	entity := anObject.
-	self setTitle: (self titleLogic cull: self entity)
+	self setTitle: (self titleLogic phlowValue: self entity)
 	
-]
-
-{ #category : #'accessing-parameters' }
-GLMPhlowrBrick >> hasParameter: aKey [
-
-	^ self parameters includesKey: aKey
 ]
 
 { #category : #initialization }
@@ -59,24 +53,6 @@ GLMPhlowrBrick >> newTitleBrick [
 	^ GLMLabelBrick new
 ]
 
-{ #category : #'accessing-parameters' }
-GLMPhlowrBrick >> parameters [
-
-	^ parameters ifNil: [ parameters := Dictionary new ]
-]
-
-{ #category : #'accessing-parameters' }
-GLMPhlowrBrick >> removeParameter: aSymbol [
-
-	self parameter removeKey: aSymbol ifAbsent: []
-]
-
-{ #category : #'accessing-parameters' }
-GLMPhlowrBrick >> setParameter: aSymbol toValue: abObject [
-
-	self parameters at: aSymbol put: abObject
-]
-
 { #category : #accessing }
 GLMPhlowrBrick >> setTitle: aString [
 
@@ -89,11 +65,9 @@ GLMPhlowrBrick >> setTitle: aString [
 ]
 
 { #category : #phlowr }
-GLMPhlowrBrick >> title: aStringOrSymbolOrBlock [
+GLMPhlowrBrick >> title: anObject [
 	
-	self setParameter: #title toValue: ((aStringOrSymbolOrBlock isSymbol | aStringOrSymbolOrBlock isBlock)
-		ifTrue: [ aStringOrSymbolOrBlock ]
-		ifFalse: [ [ aStringOrSymbolOrBlock asString ] ])
+	self setProperty: #phlowTitle toValue: anObject
 ]
 
 { #category : #accessing }
@@ -113,18 +87,5 @@ GLMPhlowrBrick >> titleBrick: aBrick [
 { #category : #accessing }
 GLMPhlowrBrick >> titleLogic [
 
-	^ self valueOfParameter: #title ifAbsent: [ '' ]
-]
-
-{ #category : #'accessing-parameters' }
-GLMPhlowrBrick >> valueOfParameter: aSymbol [
-	^ self
-		valueOfParameter: aSymbol
-		ifAbsent: []
-]
-
-{ #category : #'accessing-parameters' }
-GLMPhlowrBrick >> valueOfParameter: aSymbol ifAbsent: aBlock [ 
-
-	^ self parameters at: aSymbol ifAbsent: [^ aBlock value]
+	^ self valueOfProperty: #phlowTitle ifAbsent: [ '' ]
 ]

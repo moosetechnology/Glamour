@@ -23,10 +23,10 @@ GLMPhlowrListBrick class >> example2 [
 ]
 
 { #category : #phlowr }
-GLMPhlowrListBrick >> display: aBlockOrSymbol [
+GLMPhlowrListBrick >> display: anObject [
 	
 	self listBrick adaptor
-		morphAtLogic: [ :index :morph | self styledLogic cull: (self formatLogic cull: (aBlockOrSymbol cull: (self entity at: index))) asBrick ]
+		morphAtLogic: [ :index :morph | self styledLogic phlowValue: (self formatLogic phlowValue: (anObject phlowValue: (self entity at: index))) asBrick ]
 ]
 
 { #category : #phlowr }
@@ -37,15 +37,15 @@ GLMPhlowrListBrick >> entity: anObject [
 ]
 
 { #category : #phlowr }
-GLMPhlowrListBrick >> format: aBlockOrSymbol [
+GLMPhlowrListBrick >> format: anObject [
 
-	self setParameter: #format toValue: aBlockOrSymbol
+	self setProperty: #phlowFormat toValue: anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMPhlowrListBrick >> formatLogic [
 
-	^ self valueOfParameter: #format ifAbsent: #yourself
+	^ self valueOfProperty: #phlowFormat ifAbsent: [ #yourself ]
 ]
 
 { #category : #initialization }
@@ -78,13 +78,13 @@ GLMPhlowrListBrick >> newScrollList [
 ]
 
 { #category : #phlowr }
-GLMPhlowrListBrick >> styled: aBlockOrSymbol [
+GLMPhlowrListBrick >> styled: anObject [
 	
-	self setParameter: #styled toValue: aBlockOrSymbol
+	self setProperty: #phlowStyled toValue: anObject
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMPhlowrListBrick >> styledLogic [
 	
-	^ self valueOfParameter: #styled ifAbsent: #yourself
+	^ self valueOfProperty: #phlowStyled ifAbsent: [ #yourself ]
 ]
