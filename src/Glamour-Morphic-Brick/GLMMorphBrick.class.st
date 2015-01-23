@@ -50,7 +50,11 @@ GLMMorphBrick >> morph [
 
 { #category : #'as yet unclassified' }
 GLMMorphBrick >> on: aMorph [
-
+	
+	aMorph layoutProperties ifNil: [ 
+		aMorph layoutProperties: GLMBrickLayoutProperties new.
+		aMorph layoutProperties horizontalPercent: 100.
+		aMorph layoutProperties verticalPercent: 100 ].
 	self layoutProperties: aMorph layoutProperties.
 
 	morph := aMorph.
