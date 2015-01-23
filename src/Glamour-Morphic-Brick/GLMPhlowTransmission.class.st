@@ -14,7 +14,8 @@ Class {
 		'transformation',
 		'action',
 		'connections',
-		'phlow'
+		'phlow',
+		'condition'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }
@@ -38,10 +39,16 @@ GLMPhlowTransmission >> action: anObject [
 	self updateConnections
 ]
 
-{ #category : #scripting }
-GLMPhlowTransmission >> andPerform: anObject [
+{ #category : #accessing }
+GLMPhlowTransmission >> condition [
+	^ condition
+]
 
-	self action: anObject
+{ #category : #accessing }
+GLMPhlowTransmission >> condition: anObject [
+
+	condition := anObject.
+	self updateConnections
 ]
 
 { #category : #accessing }
@@ -149,5 +156,18 @@ GLMPhlowTransmission >> updateConnections [
 		each
 			destination: self destination;
 			transformation: self transformation;
-			action: self action ]
+			action: self action;
+			condition: self condition ]
+]
+
+{ #category : #scripting }
+GLMPhlowTransmission >> when: anObject [
+
+	self condition: anObject
+]
+
+{ #category : #scripting }
+GLMPhlowTransmission >> with: anObject [
+
+	self action: anObject
 ]

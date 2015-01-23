@@ -19,7 +19,8 @@ Class {
 		'origin',
 		'destination',
 		'transformation',
-		'action'
+		'action',
+		'condition'
 	],
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }
@@ -41,6 +42,16 @@ GLMPhlowConnection >> action: anObject [
 ]
 
 { #category : #accessing }
+GLMPhlowConnection >> condition [
+	^ condition
+]
+
+{ #category : #accessing }
+GLMPhlowConnection >> condition: anObject [
+	condition := anObject
+]
+
+{ #category : #accessing }
 GLMPhlowConnection >> destination [
 	^ destination
 ]
@@ -48,6 +59,12 @@ GLMPhlowConnection >> destination [
 { #category : #accessing }
 GLMPhlowConnection >> destination: anObject [
 	destination := anObject
+]
+
+{ #category : #private }
+GLMPhlowConnection >> meetsCondition [
+	
+	^ ((self condition phlowValue: self origin essence) = false) not
 ]
 
 { #category : #accessing }
@@ -72,10 +89,14 @@ GLMPhlowConnection >> transformation: anObject [
 
 { #category : #transmission }
 GLMPhlowConnection >> transmit [
-
 	|value|
+	"we transmit only if meets condition"
+	self meetsCondition ifFalse: [ ^ self ].
+	"obtaining slot value and transforming it"
 	value := self transformation phlowValue: (self origin slot read: self origin essence).
+	"transmiting transformed value to destination port"
 	self destination phlowValue: value.
+	"performing specified action"
 	self action phlowValue: self destination essence value: value
 	
 ]

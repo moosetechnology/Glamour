@@ -90,35 +90,37 @@ GLMCompositeBrick class >> exampleTable [
 GLMCompositeBrick class >> exampleTransmission [
 	<example: 'Table transmission'>
 	|first second|
-	
-	first := GLMLabelBrick new
-		textPosition: #center;
-		color: Color lightBlue.
-		
-	second := GLMLabelBrick new
-		textPosition: #center;
-		color: Color lightGreen.
+	first := GLMLabelBrick new.
+	second := GLMLabelBrick new.
 	
 	(first transmit)
-		from: first slot: #brickBounds;
+		from: #yourself slot: #brickBounds;
 		to: #label port: #text:;
+		when: [ :value | value extent > (250@150) ];
 		transformed: [ :value | 'resize me! ', value asString ].
 		
 	(first transmit)
 		from: #label slot: #text;
 		to: second port: #text:;
 		transformed: [ :value | 'Do not ', value asString ];
-		andPerform: [ :label | label changed ].
+		with: [ :label |
+			label
+				color: Color random muchLighter;
+				changed ].
 		
-	second asBrickedMorph
-		extent: 300@100;
-		openInWindow.
-		
-	first asBrickedMorph
-		extent: 300@200;
-		openInWindow.
-		
-		
+	(second 
+		textPosition: #center;
+		color: Color lightBlue)
+			asBrickedMorph
+			extent: 300@100;
+			openInWindow.
+			
+	(first 
+		textPosition: #center;
+		color: Color lightGreen)
+			asBrickedMorph
+			extent: 300@200;
+			openInWindow
 ]
 
 { #category : #phlowr }
