@@ -60,17 +60,9 @@ GLMCompositeBrick class >> exampleExternalLabelChangeOnResizeMultiple [
 	second := GLMLabelBrick new.
 	third := GLMLabelBrick new.
 	
-	(first transmit)
+	(first transmit + second transmit + third transmit)
 		from: #brickBounds; toPort: #text:;
-		transformed: [ :value | 'resize me! ', value asString ].
-		
-	(second transmit)
-		from: #brickBounds; toPort: #text:;
-		transformed: [ :value | 'resize me! ', value asString ].
-		
-	(third transmit)
-		from: #brickBounds; toPort: #text:;
-		transformed: [ :value | 'My bounds := ', value asString ].
+		transformed: [ :value | 'My bounds: ', value asString ].
 	
 	(third transmit)
 		from: first slot: #brickBounds;
