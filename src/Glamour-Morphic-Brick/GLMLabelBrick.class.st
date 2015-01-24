@@ -83,9 +83,17 @@ GLMLabelBrick >> dotsBrick [
 ]
 
 { #category : #accessing }
-GLMLabelBrick >> fontSize: anInteger [
+GLMLabelBrick >> familyName: aString [
 
-	self label fontSize: anInteger
+	self label familyName: aString.
+	self dotsBrick familyName: aString
+]
+
+{ #category : #accessing }
+GLMLabelBrick >> fontSize: aNumber [
+
+	self label fontSize: aNumber.
+	self dotsBrick fontSize: aNumber
 ]
 
 { #category : #initialization }

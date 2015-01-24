@@ -64,8 +64,8 @@ GLMBrickRenderer >> render: aBrick on: aCanvas [
 	
 	self
 		renderBackgroundColorOf: aBrick on: aCanvas;
-		renderBorderOf: aBrick on: aCanvas;
-		renderShadowOf: aBrick on: aCanvas
+		renderShadowOf: aBrick on: aCanvas;
+		renderBorderOf: aBrick on: aCanvas
 ]
 
 { #category : #rendering }
@@ -84,6 +84,9 @@ GLMBrickRenderer >> renderBorderOf: aBrick on: aCanvas [
 
 { #category : #rendering }
 GLMBrickRenderer >> renderShadowOf: aBrick on: aCanvas [
+
+	"no need to even try drawing if shadow width is zero"
+	aBrick shadowWidth = 0 ifTrue: [ ^ self ].
 	
 	self
 		topLeftCornerShadowOf: aBrick on: aCanvas;
