@@ -57,6 +57,30 @@ GLMBrickPropertiesTrait >> setProperty: aSymbol toValue: anObject [
 	^ self explicitRequirement
 ]
 
+{ #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> shadowColor [
+
+	^ self valueOfProperty: #brickShadowColor ifAbsentPut: [ Color transparent ]
+]
+
+{ #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> shadowColor: aColor [
+
+	self setProperty: #brickShadowColor toValue: aColor
+]
+
+{ #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> shadowWidth [
+
+	^ self valueOfProperty: #brickShadowWidth ifAbsentPut: [ 0 ]
+]
+
+{ #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> shadowWidth: anInteger [
+
+	self setProperty: #brickShadowWidth toValue: anInteger
+]
+
 { #category : #'private-extension' }
 GLMBrickPropertiesTrait >> valueOfProperty: aSymbol [
 	

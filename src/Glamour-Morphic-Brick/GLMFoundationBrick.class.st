@@ -95,7 +95,7 @@ GLMFoundationBrick >> extent: aPoint [
 	right := self extent x - self brickRoot layoutProperties marginRight.
 	bottom := self extent y - self brickRoot layoutProperties marginBottom.
 	
-	self brickRoot bounds: (left@top corner: (right@bottom)).
+	self brickRoot brickBounds: (left@top corner: (right@bottom)).
 	
 	self brickRoot doLayout.
 ]
