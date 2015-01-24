@@ -23,19 +23,25 @@ GLMApproximateScrollbarBrick >> approximateBandHeight [
 
 { #category : #'as yet unclassified' }
 GLMApproximateScrollbarBrick >> calculateScrollbarHeight [
-	|bandHeight|
+	|bandHeight firstIndex lastIndex |
 	bandHeight := self approximateBandHeight.
 	bandHeight = 0 ifTrue: [ ^ 0 ].
 	
-	^ (self scrollPane height / bandHeight * self height) ceiling.
+	firstIndex := self scrollPane getIndex: (self scrollPane band firstSubbrick).
+	lastIndex := self scrollPane getIndex: (self scrollPane band lastSubbrick).
+	
+	^ ((lastIndex - firstIndex ) / self scrollPane adaptor count * self height) ceiling.
 	
 ]
 
 { #category : #'as yet unclassified' }
 GLMApproximateScrollbarBrick >> calculateScrollbarTopOffset [
-	|bandHeight|
+	|bandHeight firstIndex lastIndex|
 	bandHeight := self approximateBandHeight.
 	bandHeight = 0 ifTrue: [ ^ 0 ].
 	
-	^ (self height / bandHeight * self scrollPane band brickBounds top abs) floor.
+	firstIndex := self scrollPane getIndex: (self scrollPane band firstSubbrick).
+	lastIndex := self scrollPane getIndex: (self scrollPane band lastSubbrick).
+	
+	^ ((firstIndex-1) / self scrollPane adaptor count * self height) floor.
 ]
