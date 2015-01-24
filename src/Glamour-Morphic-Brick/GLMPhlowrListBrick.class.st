@@ -74,7 +74,7 @@ GLMPhlowrListBrick >> listBrick: aBrick [
 { #category : #'instance creation' }
 GLMPhlowrListBrick >> newScrollList [
 
-	^ GLMFallbackScrollListBrick new
+	^ GLMScrollListBrick new
 ]
 
 { #category : #phlowr }

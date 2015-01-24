@@ -1,5 +1,5 @@
 "
-asdasd
+Use me in case something went wrong on production
 "
 Class {
 	#name : #GLMFallbackScrollListBrick,
