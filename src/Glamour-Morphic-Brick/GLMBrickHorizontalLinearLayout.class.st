@@ -31,7 +31,7 @@ GLMBrickHorizontalLinearLayout >> layout: aBrick in: newBounds [
 	arguments := self prepareArgumentsFor: aBrick.
 	
 	aBrick subbricks
-		inject: 0
+		inject: (self layoutInjection: aBrick withArguments: arguments)
 		into: [ :leftOffset :each |
 			self prepareLayout: each.
 			(self supportsFloating: each layoutProperties floating) ifFalse: [

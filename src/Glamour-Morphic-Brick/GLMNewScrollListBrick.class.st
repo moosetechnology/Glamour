@@ -1,17 +1,23 @@
 "
-A GLMScrollListBrick is a list to support of very large amount of items
+asdasdasd
+asd
+as
+d
+as
+d
 "
 Class {
-	#name : #GLMScrollListBrick,
+	#name : #GLMNewScrollListBrick,
 	#superclass : #GLMScrollPaneBrick,
 	#instVars : [
-		'adaptor'
+		'adaptor',
+		'visibleIndex'
 	],
 	#category : #'Glamour-Morphic-Brick-UI'
 }
 
 { #category : #examples }
-GLMScrollListBrick class >> example [
+GLMNewScrollListBrick class >> example [
 	|adaptor|
 	adaptor := nil.
 	adaptor := GLMBrickListAdaptor new
@@ -30,7 +36,7 @@ GLMScrollListBrick class >> example [
 ]
 
 { #category : #examples }
-GLMScrollListBrick class >> exampleCollection [
+GLMNewScrollListBrick class >> exampleCollection [
 
 	GLMFoundationBrick new
 		brickRoot: (self new adaptor: (GLMBrickListAdaptor new on: Smalltalk allClasses));
@@ -39,7 +45,28 @@ GLMScrollListBrick class >> exampleCollection [
 ]
 
 { #category : #examples }
-GLMScrollListBrick class >> exampleInfinity [
+GLMNewScrollListBrick class >> exampleDifferentHeights [
+	|adaptor|
+	adaptor := nil.
+	adaptor := GLMBrickListAdaptor new
+		sizeLogic: [ 50 ];
+		morphAtLogic: [ :index :morph |
+			(morph ifNil: [ GLMLabelBrick new ])
+				color: Color random muchLighter;
+				text: index asString, ' of ', adaptor count asString;
+				textPosition: #center;
+				enable;
+				height: [ :b | (((index % 10)*10 + 30) +  (10000 * (2 / b width))) asInteger ];
+				yourself ].
+
+	GLMFoundationBrick new
+		brickRoot: (self new adaptor: adaptor);
+		extent: 800@400;
+		openInWindow
+]
+
+{ #category : #examples }
+GLMNewScrollListBrick class >> exampleInfinity [
 	|adaptor|
 	adaptor := nil.
 	adaptor := GLMBrickListAdaptor new
@@ -58,19 +85,19 @@ GLMScrollListBrick class >> exampleInfinity [
 ]
 
 { #category : #accessing }
-GLMScrollListBrick >> adaptor [
+GLMNewScrollListBrick >> adaptor [
 
 	^ adaptor
 ]
 
 { #category : #accessing }
-GLMScrollListBrick >> adaptor: anAdaptor [
+GLMNewScrollListBrick >> adaptor: anAdaptor [
 
 	adaptor := anAdaptor
 ]
 
 { #category : #adding }
-GLMScrollListBrick >> addItemMorph: aMorph after: anotherMorph [
+GLMNewScrollListBrick >> addItemMorph: aMorph after: anotherMorph [
 
 	self band addBrickBack: aMorph.
 	self setBoundsOf: aMorph after: anotherMorph.
@@ -79,31 +106,41 @@ GLMScrollListBrick >> addItemMorph: aMorph after: anotherMorph [
 ]
 
 { #category : #adding }
-GLMScrollListBrick >> addItemMorph: aMorph before: anotherMorph [
+GLMNewScrollListBrick >> addItemMorph: aMorph before: anotherMorph [
 
 	self setBoundsOf: aMorph before: anotherMorph.
 	self band addBrick: aMorph before: anotherMorph.
 	(self isPartiallyVisible: aMorph) ifFalse: [ self band removeBrick: aMorph. ^ nil ].
+	
+	aMorph brickBounds top < 0
+		ifTrue: [ self moveAllSubbricksBy: aMorph brickBounds top negated ]
+		ifFalse: [ (self getIndex: aMorph) = 1 ifTrue: [
+				self moveAllSubbricksBy: aMorph brickBounds top negated ] ].
+	
 	^ aMorph
 ]
 
-{ #category : #accessing }
-GLMScrollListBrick >> calculateMaxVelocity [
+{ #category : #scrolling }
+GLMNewScrollListBrick >> calculateMaxVelocity [
 
 	"max velocity must depend from the height of the band"
 	^ (self height * 0.9) asInteger
 ]
 
 { #category : #layouting }
-GLMScrollListBrick >> doLayout [
+GLMNewScrollListBrick >> doLayout [
+	
+	self band hasSubbricks ifFalse: [ self updateVisible ].
 	
 	self layoutPolicy layout: self in: self brickBounds.
+	self flag: 'Fix bug in Layouts'.
+	self band doLayout.
+	self band doLayout.
 	self update.
-	self verticalScrollbar update.
 ]
 
 { #category : #accessing }
-GLMScrollListBrick >> gatherInvisibleItems [
+GLMNewScrollListBrick >> gatherInvisibleItems [
 
 	self band submorphs isEmpty ifTrue: [ ^ OrderedCollection new ].
 			
@@ -111,20 +148,20 @@ GLMScrollListBrick >> gatherInvisibleItems [
 ]
 
 { #category : #'lazy scrolling' }
-GLMScrollListBrick >> getAndRemoveInvisibleMorph: aCollection [
+GLMNewScrollListBrick >> getAndRemoveInvisibleMorph: aCollection [
 	|brick|
 	brick := self retrieveLast: aCollection.
 	^ brick ifNotNil: [ self band removeBrick: brick. brick morph ]
 ]
 
 { #category : #accessing }
-GLMScrollListBrick >> getIndex: aMorph [ 
+GLMNewScrollListBrick >> getIndex: aBrick [ 
 
-	^ aMorph valueOfProperty: #brickScrollListIndex ifAbsent: [ nil ]
+	^ aBrick valueOfProperty: #brickScrollListIndex ifAbsent: [ ]
 ]
 
 { #category : #'lazy scrolling' }
-GLMScrollListBrick >> getMorphAt: anInteger recycled: aMorph [
+GLMNewScrollListBrick >> getMorphAt: anInteger recycled: aMorph [
 	|newMorph|
 	
 	newMorph := (self adaptor morphAt: anInteger convert: aMorph) asBrick.
@@ -133,24 +170,27 @@ GLMScrollListBrick >> getMorphAt: anInteger recycled: aMorph [
 ]
 
 { #category : #initialization }
-GLMScrollListBrick >> initialize [
+GLMNewScrollListBrick >> initialize [
 	super initialize.
 	
-	self band layoutPolicy: GLMBrickVerticalFillLayout new
+	self band layoutPolicy: GLMBrickVerticalScrollListLayout new
 ]
 
 { #category : #scrolling }
-GLMScrollListBrick >> invalidate [
+GLMNewScrollListBrick >> invalidate [
 
-	self band removeAllBricks.
-	self band brickBounds: (self band brickBounds translateBy: (0@ self scrollPositionTop negated)).
-	self update.
-	self verticalScrollbar update.
-	self changed
+	self scrollTo: self visibleIndex
+]
+
+{ #category : #layouting }
+GLMNewScrollListBrick >> moveAllSubbricksBy: anInteger [
+
+	self band subbricks do: [ :each | each brickBounds: (each brickBounds translateBy: 0@anInteger) ].
+	self band brickBounds: (self band brickBounds translateBy: 0@anInteger negated).
 ]
 
 { #category : #'instance creation' }
-GLMScrollListBrick >> newBand [
+GLMNewScrollListBrick >> newBand [
 	^ super newBand height: [ :bandBrick |
 		bandBrick subbricks isEmpty
 		ifTrue: [ 0 ]
@@ -158,17 +198,23 @@ GLMScrollListBrick >> newBand [
 ]
 
 { #category : #'instance creation' }
-GLMScrollListBrick >> newVerticalScrollbar [
+GLMNewScrollListBrick >> newVerticalScrollbar [
 
 	^ GLMApproximateScrollbarBrick new
 ]
 
 { #category : #scrolling }
-GLMScrollListBrick >> preventOverscrolling [
+GLMNewScrollListBrick >> preventOverscrolling [
 
 	self band subbricks isEmpty ifTrue: [ ^ self ].
 
 	((self getIndex: self band firstSubbrick) = 1) ifTrue: [
+		(self isVisible: self band firstSubbrick) ifTrue: [
+			(self band firstSubbrick brickBounds top > 0) ifTrue: [
+				self moveAllSubbricksBy: self band firstSubbrick brickBounds top negated.
+				self band brickBounds: (self band brickBounds translateBy: (0@ self band brickBounds top negated)).
+				^ self update ] ].
+		
 		(self band brickBounds origin y > self band firstSubbrick brickBounds top) ifTrue: [
 			self band brickBounds: (self band brickBounds translateBy: (0@ self band brickBounds origin y) negated). ^ self update ] ].
 	
@@ -178,7 +224,7 @@ GLMScrollListBrick >> preventOverscrolling [
 ]
 
 { #category : #accessing }
-GLMScrollListBrick >> retrieveLast: aCollection [
+GLMNewScrollListBrick >> retrieveLast: aCollection [
 
 	^ aCollection isEmpty
 		ifTrue: [ nil ]
@@ -186,7 +232,7 @@ GLMScrollListBrick >> retrieveLast: aCollection [
 ]
 
 { #category : #scrolling }
-GLMScrollListBrick >> scrollDown: anInteger [
+GLMNewScrollListBrick >> scrollDown: anInteger [
 	|delta|
 	delta := anInteger.
 	((self getIndex: self band lastSubbrick) = self adaptor count) ifTrue: [
@@ -194,67 +240,97 @@ GLMScrollListBrick >> scrollDown: anInteger [
 		(((self getIndex: self band firstSubbrick) = 1) and: [ self isVisible: self band firstSubbrick ])
 			ifTrue: [ (self isVisible: self band lastSubbrick) ifTrue: [ ^ self ] ].
 		
-		delta := self band brickBounds corner y - self height. ].
+		delta := delta := delta min: (self band brickBounds corner y - self height) ].
 
-	band brickBounds: (band brickBounds translateBy: (0@ delta) negated)
+	band brickBounds: (band brickBounds translateBy: (0@ delta) negated).
 ]
 
 { #category : #scrolling }
-GLMScrollListBrick >> scrollUp: anInteger [
+GLMNewScrollListBrick >> scrollTo: anInteger [
+	|brick index|
+	index := (anInteger max: 0) min: self adaptor count.
+	self band removeAllBricks.
+	self band brickBounds: (self band brickBounds translateBy: (0@ self band brickBounds top negated)).
+	visibleIndex := nil.
+	brick := self getMorphAt: index  recycled: nil.
+	brick brickBounds: (brick brickBounds withWidth: self band width).
+	brick doLayout.
+	
+	brick brickBounds: ((0@(0 max: ((self height - brick height) / 2))) extent: brick extent).
+	self band addBrickBack: brick.
+	self update.
+	scrollPosition := self band brickBounds top.
+	self changed
+	
+	
+	
+	
+]
+
+{ #category : #scrolling }
+GLMNewScrollListBrick >> scrollUp: anInteger [
 	|delta|
 	delta := anInteger.
 	((self getIndex: self band firstSubbrick) = 1) ifTrue: [
-		delta := self band firstSubbrick brickBounds top - self band brickBounds origin y ].
+		delta := delta min: (self band firstSubbrick brickBounds top - self band brickBounds origin y) ].
 	
 	self band brickBounds: (self band brickBounds translateBy: (0@ delta))
 ]
 
 { #category : #layouting }
-GLMScrollListBrick >> setBoundsOf: aMorph after: afterMorph [
+GLMNewScrollListBrick >> setBoundsOf: aMorph after: afterMorph [
 	
-	aMorph brickBounds: (afterMorph brickBounds translateBy: (0@aMorph height))
+	aMorph brickBounds: (aMorph brickBounds withWidth: self band width).
+	aMorph doLayout.
+	aMorph brickBounds: (afterMorph brickBounds bottomLeft extent: aMorph extent)
 ]
 
 { #category : #layouting }
-GLMScrollListBrick >> setBoundsOf: aMorph before: beforeMorph [
-
-	aMorph brickBounds: (beforeMorph brickBounds translateBy: (0@aMorph height)negated)
+GLMNewScrollListBrick >> setBoundsOf: aMorph before: beforeMorph [
+	|origin corner|
+	
+	aMorph brickBounds: (aMorph brickBounds withWidth: self band width).
+	aMorph doLayout.
+	
+	corner := beforeMorph brickBounds topRight.
+	origin  := beforeMorph brickBounds topLeft - (0@aMorph height).
+	
+	aMorph brickBounds: (origin corner: corner)
 ]
 
 { #category : #accessing }
-GLMScrollListBrick >> setIndex: anInteger in: aMorph [ 
+GLMNewScrollListBrick >> setIndex: anInteger in: aBrick [ 
 
-	aMorph setProperty: #brickScrollListIndex toValue: anInteger
+	aBrick setProperty: #brickScrollListIndex toValue: anInteger
 ]
 
 { #category : #scrolling }
-GLMScrollListBrick >> update [
-	super update.
+GLMNewScrollListBrick >> update [
+
 	self updateVisible.
-	self band width: self width.
+	self band updateHeight.
 	self preventOverscrolling.
-	self band doLayout
+	self verticalScrollbar update.
 ]
 
 { #category : #'lazy scrolling' }
-GLMScrollListBrick >> updateVisible [
+GLMNewScrollListBrick >> updateVisible [
 	|invisible|
 	
 	self adaptor ifNil: [ ^ self ].
+	self adaptor count = 0 ifTrue: [ ^ self ].
 	
 	invisible := self gatherInvisibleItems.
 	self updateVisibleTop: invisible.
 	self updateVisibleBottom: invisible.
 	
-	invisible do: [ :each | self band removeBrick: each ]
+	invisible do: [ :each | self band removeBrick: each ].
 	
-	
-	
-
+	visibleIndex := self getIndex: self band firstSubbrick 
 ]
 
 { #category : #'lazy scrolling' }
-GLMScrollListBrick >> updateVisibleBottom: invisibleBricks [
+GLMNewScrollListBrick >> updateVisibleBottom: invisibleBricks [
 	|after|
 	
 	after := self band lastSubbrick.
@@ -268,12 +344,12 @@ GLMScrollListBrick >> updateVisibleBottom: invisibleBricks [
 ]
 
 { #category : #'lazy scrolling' }
-GLMScrollListBrick >> updateVisibleTop: invisibleBricks [
+GLMNewScrollListBrick >> updateVisibleTop: invisibleBricks [
 	|before|
 	
 	before := self band hasSubbricks not
 		ifFalse: [ self band firstSubbrick]
-		ifTrue: [ self band addBrickBack: (self getMorphAt: 1 recycled: (self getAndRemoveInvisibleMorph: invisibleBricks)) ].
+		ifTrue: [ self band addBrickBack: (self getMorphAt: self visibleIndex recycled: (self getAndRemoveInvisibleMorph: invisibleBricks)) ].
 		
 	[ before isNotNil and: [ (self isPartiallyVisible: before) and: [ (self getIndex: before) > 1 ] ] ] whileTrue: [
 		before := self
@@ -283,4 +359,10 @@ GLMScrollListBrick >> updateVisibleTop: invisibleBricks [
 					recycled: (self getAndRemoveInvisibleMorph: invisibleBricks))
 			before: before  ]
 	
+]
+
+{ #category : #accessing }
+GLMNewScrollListBrick >> visibleIndex [
+
+	^ visibleIndex ifNil: [ visibleIndex := 1 ]
 ]

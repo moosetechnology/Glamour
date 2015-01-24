@@ -23,6 +23,7 @@ GLMBrickStructureTrait >> addBrick: aBrick before: otherBrick [
 		ifTrue: [ ^ self addBrickFirst: brick ].
 		
 	link := brick asDoubleLink.
+	brick brickDoubleLink: link.
 	otherLinkPredeccessor := otherLink previousLink.
 	otherLink previousLink: link.
 	link nextLink: otherLink.
@@ -66,6 +67,7 @@ GLMBrickStructureTrait >> addBrickFirst: aBrick [
 		tail := self lastSubbrick brickDoubleLink ].
 	
 	link := brick asDoubleLink.
+	brick brickDoubleLink: link.
 	link nextLink: head.
 	head ifNotNil: [ head previousLink: link ].
 	

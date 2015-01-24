@@ -30,7 +30,7 @@ GLMBrickVerticalLinearLayout >> layout: aBrick in: newBounds [
 	arguments := self prepareArgumentsFor: aBrick.
 	
 	aBrick subbricks
-		inject: 0
+		inject: (self layoutInjection: aBrick withArguments: arguments)
 		into: [ :topOffset :each |
 			self prepareLayout: each.
 			

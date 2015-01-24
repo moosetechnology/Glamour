@@ -31,6 +31,12 @@ GLMStackedScrollPaneBrick >> initialize [
 ]
 
 { #category : #scrolling }
+GLMStackedScrollPaneBrick >> invalidate [
+
+	
+]
+
+{ #category : #scrolling }
 GLMStackedScrollPaneBrick >> update [
 	super update.
 	

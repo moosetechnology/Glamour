@@ -136,6 +136,12 @@ GLMBrickLayout >> layoutFloatingRight: aBrick in: newBounds withArguments: argum
 	^ 0
 ]
 
+{ #category : #layouting }
+GLMBrickLayout >> layoutInjection: aBrick withArguments: aDictionary [
+
+	^ 0
+]
+
 { #category : #'extent functions' }
 GLMBrickLayout >> maxHeightOf: aBrick [
 	|blockValue|
