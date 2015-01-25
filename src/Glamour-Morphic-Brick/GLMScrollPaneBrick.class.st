@@ -171,7 +171,7 @@ GLMScrollPaneBrick >> initialize [
 	
 	lastScrollTimeStamp := 0.
 	currentVelocity := self class defaultScrollVelocity.
-	scrollPosition := 0.
+	self privateScrollPosition: 0.
 	
 	band := self newBand.
 	
@@ -296,6 +296,13 @@ GLMScrollPaneBrick >> privateAddBrickBack: aBrick [
 	super addBrickBack: aBrick
 ]
 
+{ #category : #private }
+GLMScrollPaneBrick >> privateScrollPosition: anInteger [
+
+	scrollPosition := anInteger.
+	self announcer announce: GLMBrickScrollPositionChanged new
+]
+
 { #category : #adding }
 GLMScrollPaneBrick >> removeAllBricks [
 	
@@ -317,7 +324,6 @@ GLMScrollPaneBrick >> scrollBy: anInteger direction: aSymbol [
 	aSymbol = #down ifTrue: [ self scrollDown: anInteger ].
 	
 	self update.
-	scrollPosition := band brickBounds top.
 	self changed
 ]
 
@@ -368,7 +374,6 @@ GLMScrollPaneBrick >> scrollTo: aBrick [
 	self isTopOverscrolled ifTrue: [ self moveBandTop ].
 	
 	self update.
-	scrollPosition := band brickBounds top.
 	self changed.
 	
 	
@@ -405,7 +410,8 @@ GLMScrollPaneBrick >> update [
 
 	self scrollDown: 0.
 	self scrollUp: 0.
-	self verticalScrollbar update
+	self verticalScrollbar update.
+	self privateScrollPosition: self band brickBounds top.
 ]
 
 { #category : #accessing }

@@ -269,7 +269,6 @@ GLMScrollListBrick >> scrollTo: anInteger [
 		self band addBrickBack: brick ].
 	
 	self update.
-	scrollPosition := self band brickBounds top.
 	self changed
 	
 	
