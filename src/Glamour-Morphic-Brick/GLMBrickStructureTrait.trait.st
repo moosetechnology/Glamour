@@ -15,7 +15,7 @@ GLMBrickStructureTrait >> addAllBricks: aCollection [
 
 { #category : #'brick-structure-adding/removing' }
 GLMBrickStructureTrait >> addBrick: aBrick before: otherBrick [
-	| brick link otherLink otherLinkPredeccessor |
+	| brick link otherLink otherLinkPredeccessor|
 	brick := aBrick asBrick.
 	
 	otherLink := otherBrick brickDoubleLink.
@@ -31,6 +31,7 @@ GLMBrickStructureTrait >> addBrick: aBrick before: otherBrick [
 	otherLinkPredeccessor nextLink: link.
 	
 	self subbricks add: brick before: otherBrick.
+	
 	brick owner: self.
 	
 	^ aBrick
@@ -49,7 +50,7 @@ GLMBrickStructureTrait >> addBrickBack: aBrick [
 		link previousLink: self lastSubbrick brickDoubleLink.
 	].
 	
-	self subbricks add: brick.
+	self privateSubbricks: (self subbricks copyWith: brick).
 	brick owner: self.
 	
 	^ aBrick
@@ -71,7 +72,7 @@ GLMBrickStructureTrait >> addBrickFirst: aBrick [
 	link nextLink: head.
 	head ifNotNil: [ head previousLink: link ].
 	
-	self subbricks addFirst: brick.
+	self privateSubbricks: (self subbricks copyWithFirst: brick).
 	brick owner: self.
 	
 	^ aBrick
@@ -165,6 +166,12 @@ GLMBrickStructureTrait >> owner: aBrick [
 	^ self explicitRequirement
 ]
 
+{ #category : #'private-structure' }
+GLMBrickStructureTrait >> privateSubbricks: aCollection [
+
+	^ self explicitRequirement
+]
+
 { #category : #'brick-structure-adding/removing' }
 GLMBrickStructureTrait >> removeAllBricks [
 
@@ -176,7 +183,7 @@ GLMBrickStructureTrait >> removeAllBricks [
 
 { #category : #'brick-structure-adding/removing' }
 GLMBrickStructureTrait >> removeBrick: aBrick [
-	| predecessor successor link head tail|
+	| predecessor successor link head tail index|
 	
 	link := aBrick brickDoubleLink.
 	head := self firstSubbrick brickDoubleLink.
@@ -192,7 +199,8 @@ GLMBrickStructureTrait >> removeBrick: aBrick [
 	
 	aBrick brickDoubleLink: nil.
 	
-	self subbricks remove: aBrick.
+	index := self subbricks find: aBrick.
+	self privateSubbricks: (self subbricks copyWithoutIndex: index).
 	aBrick owner: nil.
 	
 	^ aBrick

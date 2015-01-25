@@ -284,6 +284,12 @@ GLMBrick >> privateBounds: aRectangle [
 	fullBounds := bounds.
 ]
 
+{ #category : #'private-structure' }
+GLMBrick >> privateSubbricks: aCollection [
+
+	submorphs := aCollection
+]
+
 { #category : #'morph-common' }
 GLMBrick >> removeAllMorphs [
 	| oldMorphs myWorld |
