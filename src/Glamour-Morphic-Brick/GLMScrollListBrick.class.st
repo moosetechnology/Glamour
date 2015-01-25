@@ -182,6 +182,18 @@ GLMScrollListBrick >> invalidate [
 	self scrollTo: self visibleIndex
 ]
 
+{ #category : #testing }
+GLMScrollListBrick >> isFirstAdded [
+
+	^ (self getIndex: self band firstSubbrick) = 1
+]
+
+{ #category : #testing }
+GLMScrollListBrick >> isLastAdded [
+
+	^ (self getIndex: self band lastSubbrick) = self adaptor count
+]
+
 { #category : #layouting }
 GLMScrollListBrick >> moveAllSubbricksBy: anInteger [
 
@@ -235,14 +247,11 @@ GLMScrollListBrick >> retrieveLast: aCollection [
 GLMScrollListBrick >> scrollDown: anInteger [
 	|delta|
 	delta := anInteger.
-	((self getIndex: self band lastSubbrick) = self adaptor count) ifTrue: [
-		
-		(((self getIndex: self band firstSubbrick) = 1) and: [ self isVisible: self band firstSubbrick ])
-			ifTrue: [ (self isVisible: self band lastSubbrick) ifTrue: [ ^ self ] ].
-		
-		delta := delta := delta min: (self band brickBounds corner y - self height) ].
-
-	band brickBounds: (band brickBounds translateBy: (0@ delta) negated).
+	self isLastAdded ifTrue: [
+		(self isFirstAdded & self isFirstVisible & self isLastVisible) ifTrue: [ ^ self ].
+		delta := delta min: (self band brickBounds corner y - self height) ].
+	
+	self band translateBy: 0@delta negated
 ]
 
 { #category : #scrolling }

@@ -239,6 +239,12 @@ GLMBrickGeometryTrait >> setProperty: aSymbol toValue: anObject [
 	^ self explicitRequirement
 ]
 
+{ #category : #'brick-geometry-transformations' }
+GLMBrickGeometryTrait >> translateBy: aPoint [
+
+	self brickBounds: (self brickBounds translateBy: aPoint)
+]
+
 { #category : #'private-geometry' }
 GLMBrickGeometryTrait >> updateHeight [
 

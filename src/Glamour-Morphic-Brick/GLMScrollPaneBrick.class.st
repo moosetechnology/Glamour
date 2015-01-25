@@ -186,12 +186,24 @@ GLMScrollPaneBrick >> initializeListeners [
 ]
 
 { #category : #testing }
+GLMScrollPaneBrick >> isFirstVisible [
+
+	^ self isVisible: self band firstSubbrick
+]
+
+{ #category : #testing }
 GLMScrollPaneBrick >> isKeyboardScrollEvent: anEvent [
 
 	(anEvent controlKeyPressed | anEvent commandKeyPressed) ifFalse: [^ false ].
 	anEvent keyValue = 30 ifTrue: [ ^ true ].
 	anEvent keyValue = 31 ifTrue: [ ^ true ].
 	^ false
+]
+
+{ #category : #testing }
+GLMScrollPaneBrick >> isLastVisible [
+
+	^ self isVisible: self band lastSubbrick
 ]
 
 { #category : #testing }
