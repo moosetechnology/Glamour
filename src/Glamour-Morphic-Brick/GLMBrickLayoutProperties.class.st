@@ -108,6 +108,12 @@ GLMBrickLayoutProperties >> floating: aSymbol [
 ]
 
 { #category : #scripting }
+GLMBrickLayoutProperties >> hPercent: anInteger [
+
+	self horizontalPercent: anInteger
+]
+
+{ #category : #scripting }
 GLMBrickLayoutProperties >> hShrinkWrap [
 
 	self brick layoutPolicy setHShrinking: self brick
@@ -409,6 +415,12 @@ GLMBrickLayoutProperties >> staticWidth: aNumberOrBlockOrSymbol [
 	(aNumberOrBlockOrSymbol isBlock | aNumberOrBlockOrSymbol isSymbol)
 		ifTrue: [ self minWidthBlock: aNumberOrBlockOrSymbol ]
 		ifFalse: [ self minWidth: aNumberOrBlockOrSymbol ]
+]
+
+{ #category : #scripting }
+GLMBrickLayoutProperties >> vPercent: anInteger [
+
+	self verticalPercent: anInteger
 ]
 
 { #category : #scripting }
