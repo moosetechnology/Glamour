@@ -245,6 +245,18 @@ GLMBrickGeometryTrait >> translateBy: aPoint [
 	self brickBounds: (self brickBounds translateBy: aPoint)
 ]
 
+{ #category : #'brick-geometry-transformations' }
+GLMBrickGeometryTrait >> translateX: anInteger [
+
+	self translateBy: anInteger@0
+]
+
+{ #category : #'brick-geometry-transformations' }
+GLMBrickGeometryTrait >> translateY: anInteger [
+
+	self translateBy: 0@anInteger
+]
+
 { #category : #'private-geometry' }
 GLMBrickGeometryTrait >> updateHeight [
 
@@ -295,4 +307,16 @@ GLMBrickGeometryTrait >> width: anObject [
 
 	self setProperty: #brickGeometryWidthLogic toValue: anObject.
 	self updateWidth
+]
+
+{ #category : #'brick-geometry-transformations' }
+GLMBrickGeometryTrait >> withHeight: anInteger [
+
+	self brickBounds: (self brickBounds withHeight: anInteger)
+]
+
+{ #category : #'brick-geometry-transformations' }
+GLMBrickGeometryTrait >> withWidth: anInteger [
+
+	self brickBounds: (self brickBounds withWidth: anInteger)
 ]

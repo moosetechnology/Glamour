@@ -84,12 +84,12 @@ GLMScrollPaneBrick class >> exampleLarge [
 
 { #category : #adding }
 GLMScrollPaneBrick >> addBrick: aBrick before: anotherBrick [
-	band addBrick: aBrick before: anotherBrick
+	self band addBrick: aBrick before: anotherBrick
 ]
 
 { #category : #adding }
 GLMScrollPaneBrick >> addBrickBack: aBrick [
-	band addBrickBack: aBrick
+	self band addBrickBack: aBrick
 ]
 
 { #category : #accessing }
@@ -188,7 +188,14 @@ GLMScrollPaneBrick >> initializeListeners [
 { #category : #testing }
 GLMScrollPaneBrick >> isFirstVisible [
 
+	self band hasSubbricks ifFalse: [ ^ true ].
 	^ self isVisible: self band firstSubbrick
+]
+
+{ #category : #testing }
+GLMScrollPaneBrick >> isFullyVisible [
+
+	^ self isFirstVisible & self isLastVisible
 ]
 
 { #category : #testing }
@@ -203,6 +210,7 @@ GLMScrollPaneBrick >> isKeyboardScrollEvent: anEvent [
 { #category : #testing }
 GLMScrollPaneBrick >> isLastVisible [
 
+	self band hasSubbricks ifFalse: [ ^ true ].
 	^ self isVisible: self band lastSubbrick
 ]
 
@@ -261,18 +269,20 @@ GLMScrollPaneBrick >> privateAddBrickBack: aBrick [
 { #category : #adding }
 GLMScrollPaneBrick >> removeAllBricks [
 	
-	band removeAllBricks.
+	self band removeAllBricks.
 	self scrollToTop
 ]
 
 { #category : #adding }
 GLMScrollPaneBrick >> removeBrick: aBrick [
-	band removeBrick: aBrick
+	self band removeBrick: aBrick
 ]
 
 { #category : #scrolling }
 GLMScrollPaneBrick >> scrollBy: anInteger direction: aSymbol [
 
+	self isFullyVisible ifTrue: [ ^ self ].
+	
 	aSymbol = #up ifTrue: [ self scrollUp: anInteger ].
 	aSymbol = #down ifTrue: [ self scrollDown: anInteger ].
 	
