@@ -64,5 +64,5 @@ GLMBrickHorizontalLinearLayout >> setVShrinking: aBrick [
 { #category : #bounds }
 GLMBrickHorizontalLinearLayout >> translate: aBrick by: anInteger [
 
-	aBrick brickBounds: (aBrick brickBounds translateBy: anInteger@0)
+	aBrick translateX: anInteger
 ]

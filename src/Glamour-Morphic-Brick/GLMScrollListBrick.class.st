@@ -120,12 +120,6 @@ GLMScrollListBrick >> addItemMorph: aMorph before: anotherMorph [
 	^ aMorph
 ]
 
-{ #category : #accessing }
-GLMScrollListBrick >> bandTopOffset [
-
-	^ self band brickBounds top
-]
-
 { #category : #scrolling }
 GLMScrollListBrick >> calculateMaxVelocity [
 	"max velocity must depend from the height of the band"
@@ -186,12 +180,6 @@ GLMScrollListBrick >> invalidate [
 ]
 
 { #category : #testing }
-GLMScrollListBrick >> isBottomOverscrolled [
-
-	^ self band brickBounds bottom < self height
-]
-
-{ #category : #testing }
 GLMScrollListBrick >> isFirstAdded [
 
 	^ (self getIndex: self band firstSubbrick) = 1
@@ -209,29 +197,11 @@ GLMScrollListBrick >> isLastAdded [
 	^ (self getIndex: self band lastSubbrick) = self adaptor count
 ]
 
-{ #category : #testing }
-GLMScrollListBrick >> isTopOverscrolled [
-
-	^ self bandTopOffset > 0
-]
-
 { #category : #layouting }
 GLMScrollListBrick >> moveAllSubbricksBy: anInteger [
 
 	self band subbricks do: [ :each | each translateY: anInteger ].
 	self band translateY: anInteger negated
-]
-
-{ #category : #layouting }
-GLMScrollListBrick >> moveBandBottom [
-
-	self band translateY: (self height - self band brickBounds bottom)
-]
-
-{ #category : #layouting }
-GLMScrollListBrick >> moveBandTop [
-
-	self band translateY: self bandTopOffset negated
 ]
 
 { #category : #'instance creation' }

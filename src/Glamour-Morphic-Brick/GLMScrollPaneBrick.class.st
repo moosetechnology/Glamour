@@ -104,14 +104,20 @@ GLMScrollPaneBrick >> band [
 	^ band
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+GLMScrollPaneBrick >> bandTopOffset [
+
+	^ self band brickBounds top
+]
+
+{ #category : #scrolling }
 GLMScrollPaneBrick >> calculateMaxVelocity [
 
 	"max velocity must depend from the height of the band"
 	^ (self band height / 15) max: self class defaultMaxVelocity
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #scrolling }
 GLMScrollPaneBrick >> calculateVelocity: event [
 	|delta|
 	delta := event timeStamp - lastScrollTimeStamp.
@@ -186,6 +192,12 @@ GLMScrollPaneBrick >> initializeListeners [
 ]
 
 { #category : #testing }
+GLMScrollPaneBrick >> isBottomOverscrolled [
+
+	^ self band brickBounds bottom < self height
+]
+
+{ #category : #testing }
 GLMScrollPaneBrick >> isFirstVisible [
 
 	self band hasSubbricks ifFalse: [ ^ true ].
@@ -226,6 +238,12 @@ GLMScrollPaneBrick >> isPartiallyVisible: aBrick [
 ]
 
 { #category : #testing }
+GLMScrollPaneBrick >> isTopOverscrolled [
+
+	^ self bandTopOffset > 0
+]
+
+{ #category : #testing }
 GLMScrollPaneBrick >> isVisible: aBrick [
 	|myBounds testingBounds|
 	"need to normalize bounds to take only y coordinate into account"
@@ -240,6 +258,18 @@ GLMScrollPaneBrick >> isVisible: aBrick [
 GLMScrollPaneBrick >> mouseWheel: event [
 
 	self scrollBy: (self calculateVelocity: event) direction: event direction.
+]
+
+{ #category : #layouting }
+GLMScrollPaneBrick >> moveBandBottom [
+
+	self band translateY: (self height - self band brickBounds bottom)
+]
+
+{ #category : #layouting }
+GLMScrollPaneBrick >> moveBandTop [
+
+	self band translateY: self bandTopOffset negated
 ]
 
 { #category : #'instance creation' }
@@ -308,10 +338,8 @@ GLMScrollPaneBrick >> scrollByKeyboard: anEvent [
 { #category : #scrolling }
 GLMScrollPaneBrick >> scrollDown: anInteger [
 	
-	band brickBounds corner y <= self height ifTrue: [
-		band brickBounds: (band brickBounds translateBy: (0@ (self height - band brickBounds corner y))). ^ self ].
-	band brickBounds: (band brickBounds translateBy: (0@ anInteger) negated).
-	band brickBounds corner y < self height ifTrue: [ band brickBounds: (band brickBounds translateBy: (0@ (self height - band brickBounds corner y))) ]
+	self band translateY: anInteger negated.
+	self isBottomOverscrolled ifTrue: [ self moveBandBottom ]
 ]
 
 { #category : #accessing }
@@ -335,12 +363,9 @@ GLMScrollPaneBrick >> scrollTo: aBrick [
 	delta := ((self allowedBounds top - band globalBounds top) - (aBrick globalBounds top - band globalBounds top)).
 	delta < 0 ifTrue: [ delta := delta + self allowedBounds height - aBrick height ].
 		
-	band brickBounds: (band brickBounds translateBy: (0@ delta)).
-	band brickBounds corner y < self height
-		ifTrue: [ band brickBounds: (band brickBounds translateBy: (0@ (self height - band brickBounds corner y))) ].
-		
-	(band brickBounds origin y > 0)
-		ifTrue: [ band brickBounds: (band brickBounds translateBy: (0@ band brickBounds origin y) negated) ].
+	self band translateY: delta.
+	self isBottomOverscrolled ifTrue: [ self moveBandBottom ].
+	self isTopOverscrolled ifTrue: [ self moveBandTop ].
 	
 	self update.
 	scrollPosition := band brickBounds top.
@@ -365,13 +390,8 @@ GLMScrollPaneBrick >> scrollToTop [
 { #category : #scrolling }
 GLMScrollPaneBrick >> scrollUp: anInteger [
 
-	"preventing from scrolling if already at the top"
-	band brickBounds origin y >= 0 ifTrue: [
-		band brickBounds: (band brickBounds translateBy: (0@ band brickBounds origin y negated)). ^ self ].
-	"actuall scrolling"
-	band brickBounds: (band brickBounds translateBy: (0@ anInteger)).
-	"returning scrollpane back if went away"
-	band brickBounds origin y > 0 ifTrue: [ band brickBounds: (band brickBounds translateBy: (0@ band brickBounds origin y) negated) ]
+	self band translateY: anInteger.
+	self isTopOverscrolled ifTrue: [ self moveBandTop ]
 ]
 
 { #category : #initialize }
