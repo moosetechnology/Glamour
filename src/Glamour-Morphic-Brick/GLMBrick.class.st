@@ -204,17 +204,21 @@ GLMBrick >> fullDrawOn: aCanvas [
 	super fullDrawOn: aCanvas.
 ]
 
+{ #category : #'private-extension' }
+GLMBrick >> hasProperty: aSymbol [ 
+	
+	^ super hasProperty: aSymbol
+]
+
 { #category : #initialization }
 GLMBrick >> initialize [
 	super initialize.
+	color := Color transparent.
 	submorphs := OrderedCollection new.
-	super color: Color transparent.
 	
 	self layoutProperties: GLMBrickLayoutProperties new.
 	self layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new.
 	self renderer: GLMBrickRenderer new.
-	
-	self beTransparent
 ]
 
 { #category : #'brick-testing' }
@@ -258,16 +262,16 @@ GLMBrick >> onDraw: aCanvas [
 	self renderer render: self on: aCanvas. 
 ]
 
+{ #category : #'brick-properties-events' }
+GLMBrick >> onThemerChanged [
+
+	self changed
+]
+
 { #category : #'brick-structure' }
 GLMBrick >> owner [
 
 	^ owner
-]
-
-{ #category : #'private-structure' }
-GLMBrick >> owner: aBrick [
-	
-	owner := aBrick
 ]
 
 { #category : #'phlow-transmissions' }
@@ -282,6 +286,12 @@ GLMBrick >> privateBounds: aRectangle [
 	brickBounds := aRectangle.
 	bounds := self globalBounds.
 	fullBounds := bounds.
+]
+
+{ #category : #'private-structure' }
+GLMBrick >> privateOwner: aBrick [
+
+	owner := aBrick
 ]
 
 { #category : #'private-structure' }

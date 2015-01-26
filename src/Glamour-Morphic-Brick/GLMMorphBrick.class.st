@@ -68,3 +68,12 @@ GLMMorphBrick >> on: aMorph [
 	self addMorphBack: morph.
 	super brickBounds: (0@0 extent: (morph width@morph height)).
 ]
+
+{ #category : #'as yet unclassified' }
+GLMMorphBrick >> onThemerChanged [
+	
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphBrick >> themerChanged [
+]

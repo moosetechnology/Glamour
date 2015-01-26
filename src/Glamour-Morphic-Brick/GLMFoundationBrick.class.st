@@ -140,6 +140,12 @@ GLMFoundationBrick >> privateExtent: aPoint [
 	super extent: aPoint.
 ]
 
+{ #category : #private }
+GLMFoundationBrick >> privateThemer [
+
+	^ self valueOfProperty: #brickThemer ifAbsentPut: [ nil ]
+]
+
 { #category : #adding }
 GLMFoundationBrick >> removeAllBricks [
 
@@ -150,4 +156,23 @@ GLMFoundationBrick >> removeAllBricks [
 GLMFoundationBrick >> removeBrick: aBrick [
 
 	self brickRoot removeBrick: aBrick
+]
+
+{ #category : #accessing }
+GLMFoundationBrick >> themer [
+
+	^ self privateThemer
+		ifNotNil: [ self privateThemer ]
+		ifNil: [ self owner isNotNil
+			ifTrue: [ self owner isBrick ifTrue: [ self owner themer ] ifFalse: [
+					(self  nearestOwnerThat: [ :each | (each isKindOf: GLMFoundationBrick) | (each isKindOf: GLMBrick) ])
+						ifNotNil: [ :brick | brick themer ] ifNil: [ self theme brickThemer ] ] ]
+			ifFalse: [ self theme brickThemer ] ]
+]
+
+{ #category : #accessing }
+GLMFoundationBrick >> themer: aThemer [
+
+	self setProperty: #brickThemer toValue: aThemer.
+	self brickRoot themerChanged
 ]

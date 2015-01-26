@@ -131,18 +131,6 @@ GLMScrollPaneBrick >> calculateVelocity: event [
 	^ currentVelocity ceiling
 ]
 
-{ #category : #accessing }
-GLMScrollPaneBrick >> defaultScrollbarPosition [
-
-	^ #right
-]
-
-{ #category : #accessing }
-GLMScrollPaneBrick >> defaultScrollbarWidth [
-
-	^ 5
-]
-
 { #category : #layouting }
 GLMScrollPaneBrick >> doLayout [
 	super doLayout.
@@ -424,8 +412,6 @@ GLMScrollPaneBrick >> verticalScrollbar [
 GLMScrollPaneBrick >> verticalScrollbar: aBrick [
 
 	verticalScrollbar := aBrick.
-	verticalScrollbar width: self defaultScrollbarWidth.
-	verticalScrollbar layoutProperties floating: self defaultScrollbarPosition.
 	verticalScrollbar scrollPane: self.
 	super addBrickBack: verticalScrollbar
 ]

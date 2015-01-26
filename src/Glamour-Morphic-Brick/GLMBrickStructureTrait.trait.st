@@ -114,6 +114,12 @@ GLMBrickStructureTrait >> firstSubbrick [
 ]
 
 { #category : #'brick-structure-testing' }
+GLMBrickStructureTrait >> hasOwner [
+
+	^ self owner isNotNil
+]
+
+{ #category : #'brick-structure-testing' }
 GLMBrickStructureTrait >> hasSubbrick: aBrick [
 
 	^ aBrick owner = self
@@ -162,6 +168,13 @@ GLMBrickStructureTrait >> owner [
 
 { #category : #'private-structure' }
 GLMBrickStructureTrait >> owner: aBrick [
+
+	self privateOwner: aBrick.
+	aBrick ifNotNil: [ self themerChanged ]
+]
+
+{ #category : #'private-structure' }
+GLMBrickStructureTrait >> privateOwner: aBrick [
 
 	^ self explicitRequirement
 ]

@@ -7,6 +7,12 @@ Trait {
 }
 
 { #category : #'private-extension' }
+GLMBrickExtensionTrait >> hasProperty: aSymbol [
+
+	^ self explicitRequirement
+]
+
+{ #category : #'private-extension' }
 GLMBrickExtensionTrait >> removeProperty: aSymbol [
 	
 	^ self explicitRequirement

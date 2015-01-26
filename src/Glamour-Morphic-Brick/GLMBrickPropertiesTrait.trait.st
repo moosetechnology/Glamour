@@ -12,7 +12,7 @@ Trait {
 { #category : #'brick-properties' }
 GLMBrickPropertiesTrait >> color [
 
-	^ self valueOfProperty: #brickBackgroundColor ifAbsentPut: [ Color transparent ]
+	^ self valueOfProperty: #brickBackgroundColor ifAbsent: [ self themer backgroundColor ]
 ]
 
 { #category : #'brick-properties' }
@@ -31,6 +31,23 @@ GLMBrickPropertiesTrait >> data [
 GLMBrickPropertiesTrait >> data: anObject [
 
 	^ self setProperty: #brickDataObject  toValue:  anObject
+]
+
+{ #category : #'brick-properties-testing' }
+GLMBrickPropertiesTrait >> isColorSet [
+
+	^ self hasProperty: #brickBackgroundColor
+]
+
+{ #category : #'brick-properties-events' }
+GLMBrickPropertiesTrait >> onThemerChanged [
+
+]
+
+{ #category : #'private-properties' }
+GLMBrickPropertiesTrait >> privateThemer [
+
+	^ self valueOfProperty: #brickThemer ifAbsentPut: [ nil ]
 ]
 
 { #category : #'private-extension' }
@@ -79,6 +96,30 @@ GLMBrickPropertiesTrait >> shadowWidth [
 GLMBrickPropertiesTrait >> shadowWidth: anInteger [
 
 	self setProperty: #brickShadowWidth toValue: anInteger
+]
+
+{ #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> themer [
+
+	^ self privateThemer
+		ifNotNil: [ self privateThemer ]
+		ifNil: [ self hasOwner
+			ifTrue: [ self owner themer ]
+			ifFalse: [ self theme brickThemer ] ]
+]
+
+{ #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> themer: aThemer [
+
+	self setProperty: #brickThemer toValue: aThemer.
+	self themerChanged
+]
+
+{ #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> themerChanged [
+
+	self onThemerChanged.
+	self subbricks do: #themerChanged
 ]
 
 { #category : #'private-extension' }
