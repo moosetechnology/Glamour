@@ -24,7 +24,7 @@ Class {
 		'normalLabel',
 		'selectedLabel'
 	],
-	#category : #'Glamour-Morphic-Brick-UI'
+	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
 
 { #category : #accessing }

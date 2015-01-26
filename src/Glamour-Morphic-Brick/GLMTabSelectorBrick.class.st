@@ -40,7 +40,7 @@ Class {
 		'controls',
 		'wrapScrolling'
 	],
-	#category : #'Glamour-Morphic-Brick-Widgets'
+	#category : #'Glamour-Morphic-Brick-Morphic'
 }
 
 { #category : #adding }

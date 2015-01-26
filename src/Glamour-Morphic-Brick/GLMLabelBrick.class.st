@@ -26,7 +26,7 @@ Class {
 		'dotsBrick',
 		'stringBrick'
 	],
-	#category : #'Glamour-Morphic-Brick-UI'
+	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
 
 { #category : #geometry }

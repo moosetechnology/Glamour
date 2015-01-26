@@ -16,7 +16,7 @@ Class {
 	#instVars : [
 		'brickRoot'
 	],
-	#category : #'Glamour-Morphic-Brick-Widgets'
+	#category : #'Glamour-Morphic-Brick-Morphic'
 }
 
 { #category : #examples }

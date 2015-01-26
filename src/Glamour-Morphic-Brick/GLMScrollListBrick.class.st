@@ -13,7 +13,7 @@ Class {
 		'adaptor',
 		'visibleIndex'
 	],
-	#category : #'Glamour-Morphic-Brick-UI'
+	#category : #'Glamour-Morphic-Brick-Widgets-Scrollpane'
 }
 
 { #category : #examples }
@@ -337,7 +337,7 @@ GLMScrollListBrick >> update [
 	self updateVisible.
 	self band updateHeight.
 	self preventOverscrolling.
-	self verticalScrollbar update.
+	self verticalScrollbar updatePosition.
 ]
 
 { #category : #'lazy scrolling' }

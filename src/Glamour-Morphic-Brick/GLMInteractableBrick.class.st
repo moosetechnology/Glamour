@@ -74,7 +74,7 @@ Class {
 		'isChecked',
 		'isEnabled'
 	],
-	#category : #'Glamour-Morphic-Brick-UI'
+	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
 
 { #category : #states }

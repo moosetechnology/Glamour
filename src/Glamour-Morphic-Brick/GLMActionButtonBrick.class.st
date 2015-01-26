@@ -14,7 +14,7 @@ Class {
 	#instVars : [
 		'action'
 	],
-	#category : #'Glamour-Morphic-Brick-UI'
+	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
 
 { #category : #accessing }

@@ -19,29 +19,29 @@ Class {
 		'scrollPane',
 		'bar'
 	],
-	#category : #'Glamour-Morphic-Brick-UI'
+	#category : #'Glamour-Morphic-Brick-Widgets-Scrollpane'
 }
 
-{ #category : #private }
+{ #category : #'scrollbar-brick-accessing' }
 GLMScrollbarBrick >> bar [
 
 	^ bar
 ]
 
-{ #category : #private }
+{ #category : #'scrollbar-brick-accessing' }
 GLMScrollbarBrick >> bar: aBrick [
 
 	bar := aBrick.
 	self addBrickBack: aBrick
 ]
 
-{ #category : #private }
+{ #category : #'scrollbar-calculations' }
 GLMScrollbarBrick >> calculateScrollbarHeight [
 
 	^ (((self scrollPane height) / (self scrollPane band height)) * self height) ceiling.
 ]
 
-{ #category : #private }
+{ #category : #'scrollbar-calculations' }
 GLMScrollbarBrick >> calculateScrollbarTopOffset [
 
 	^ (((self height) / (self scrollPane band height)) * (self scrollPane band brickBounds top abs)) floor.
@@ -55,7 +55,7 @@ GLMScrollbarBrick >> initialize [
 	self bar: self newBar.
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'scrollbar-brick-creation' }
 GLMScrollbarBrick >> newBar [
 
 	^ GLMBrick new
@@ -81,15 +81,31 @@ GLMScrollbarBrick >> scrollBarColor: aColor [
 	self updateStyle
 ]
 
-{ #category : #private }
+{ #category : #'scrollbar-brick-accessing' }
 GLMScrollbarBrick >> scrollPane [
+
 	^ scrollPane
 ]
 
-{ #category : #private }
+{ #category : #'scrollbar-brick-accessing' }
 GLMScrollbarBrick >> scrollPane: anObject [
+
 	scrollPane := anObject.
-	self update.
+	self updatePosition.
+]
+
+{ #category : #'brick-properties' }
+GLMScrollbarBrick >> scrollbarCornerRadius [
+
+	^ self valueOfProperty: #brickScrollbarCornerRadius ifAbsent: [ self themer scrollbarCornerRadius ]
+	
+]
+
+{ #category : #'brick-properties' }
+GLMScrollbarBrick >> scrollbarCornerRadius: anInteger [
+
+	self setProperty: #brickScrollbarCornerRadius toValue: anInteger.
+	self updateStyle
 ]
 
 { #category : #'brick-properties' }
@@ -131,8 +147,8 @@ GLMScrollbarBrick >> scrollbarWidth: anInteger [
 	self updateStyle
 ]
 
-{ #category : #updating }
-GLMScrollbarBrick >> update [
+{ #category : #'scrollbar-updating' }
+GLMScrollbarBrick >> updatePosition [
 	|height top width|
 	
 	self scrollPane band height = 0 ifTrue: [
@@ -152,7 +168,7 @@ GLMScrollbarBrick >> update [
 	self changed
 ]
 
-{ #category : #updating }
+{ #category : #'scrollbar-updating' }
 GLMScrollbarBrick >> updateStyle [
 
 	self bar color: self scrollBarColor.

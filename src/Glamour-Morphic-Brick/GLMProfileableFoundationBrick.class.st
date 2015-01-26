@@ -1,7 +1,7 @@
 Class {
 	#name : #GLMProfileableFoundationBrick,
 	#superclass : #GLMFoundationBrick,
-	#category : #'Glamour-Morphic-Brick-Widgets'
+	#category : #'Glamour-Morphic-Brick-Morphic'
 }
 
 { #category : #'as yet unclassified' }

@@ -14,7 +14,7 @@ Class {
 	#instVars : [
 		'morph'
 	],
-	#category : #'Glamour-Morphic-Brick-Widgets'
+	#category : #'Glamour-Morphic-Brick-Morphic'
 }
 
 { #category : #'instance creation' }
