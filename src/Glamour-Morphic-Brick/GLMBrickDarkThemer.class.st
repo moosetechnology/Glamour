@@ -18,7 +18,7 @@ GLMBrickDarkThemer >> scrollbarColor [
 	^ Color black alpha: 0.5
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-scrollpane' }
 GLMBrickDarkThemer >> scrollpaneBackgroundColor [
 
 	^ Color darkGray
