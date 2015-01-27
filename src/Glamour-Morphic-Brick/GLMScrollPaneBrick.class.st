@@ -356,6 +356,7 @@ GLMScrollPaneBrick >> scrollPositionTop [
 GLMScrollPaneBrick >> scrollTo: aBrick [
 	|delta|
 	"if already visible no need to scroll"
+
 	(self isVisible: aBrick) ifTrue: [ ^ self ].
 	
 	delta := ((self allowedBounds top - band globalBounds top) - (aBrick globalBounds top - band globalBounds top)).
