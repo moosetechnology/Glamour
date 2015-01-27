@@ -305,12 +305,35 @@ GLMPresentationTest >> testPresentationInitializationBlockIsCalled [
 ]
 
 { #category : #tests }
+GLMPresentationTest >> testRawSelectionAvailableWhenNoSelectionActive [
+"testSelectionNotAvailableWhenNoSelectionActive
+testSelectionAvailableWhenNoSelectionDisabled"
+	| presentation |
+	presentation := GLMPresentation new.
+	presentation acceptsSelection: false.
+
+	presentation selection: 1.
+	self assert: presentation selection equals: nil.
+	self assert: presentation rawSelection equals: 1
+]
+
+{ #category : #tests }
 GLMPresentationTest >> testSelectionActions [
 	| listing |
 	listing := GLMPresentation new.
 	listing selectionActions isEmpty.
 	listing addSelectionAction: GLMAction new.
 	self assert: listing selectionActions size equals: 1.
+]
+
+{ #category : #tests }
+GLMPresentationTest >> testSelectionAvailableWhenNoSelectionDisabled [
+	| presentation |
+	presentation := GLMPresentation new.
+
+	presentation selection: 1.
+	self assert: presentation selection equals: 1.
+	self assert: presentation rawSelection equals: 1
 ]
 
 { #category : #tests }
