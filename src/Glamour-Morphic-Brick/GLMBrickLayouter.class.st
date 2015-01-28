@@ -2,7 +2,7 @@
 A GLMBrickLayouter is Brick's brand new layout system.
 It builds a graph where each Brick corresponds two nodes: WidthNode and HeightNode.  Each node can have 4 states:
 
-1 - depends on parent 
+1 - depends on parent
 2 - depends on children
 3 - depends on itself
 4 - depends on opposite node.

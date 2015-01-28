@@ -132,6 +132,24 @@ GLMCompositeBrick class >> exampleList [
 ]
 
 { #category : #examples }
+GLMCompositeBrick class >> exampleListClassMethods [
+	<example: 'Phlowr list displaying a list '>
+	|composite|
+	
+	composite := self new.
+	composite list
+		title: 'Methods of Object';
+		display: #yourself;
+		format: [ :compiledMethod | compiledMethod gtDisplayString ];
+		styled: [ :brick | brick height: 30 ];
+		entity: Object methods.
+	
+	composite asBrickedMorph
+		extent: 600@400;
+		openInWindow
+]
+
+{ #category : #examples }
 GLMCompositeBrick class >> exampleListWithCustomItem [
 	<example: 'Phlowr list with custom items'>
 	|composite|
@@ -189,11 +207,11 @@ GLMCompositeBrick class >> exampleTable [
 		openInWindow
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #phlowr }
 GLMCompositeBrick >> custom: aBrick [
 
 	self hasSubbricks ifFalse: [ self addBrickBack: aBrick ].
-	^ self lastSubbrick 
+	^ self lastSubbrick
 ]
 
 { #category : #phlowr }

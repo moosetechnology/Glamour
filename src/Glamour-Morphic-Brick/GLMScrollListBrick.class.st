@@ -248,7 +248,7 @@ GLMScrollListBrick >> scrollDown: anInteger [
 	
 	self band translateY: (
 		self isLastAdded
-			ifTrue: [ anInteger min: (self band brickBounds bottom - self height) ]
+			ifTrue: [ 'bla' logCr. anInteger min: (self band brickBounds bottom - self height) ]
 			ifFalse: [ anInteger ]) negated
 ]
 
@@ -348,6 +348,8 @@ GLMScrollListBrick >> updateVisible [
 	self adaptor count = 0 ifTrue: [ ^ self ].
 	
 	invisible := self gatherInvisibleItems.
+	invisible = self band subbricks & invisible isEmpty not ifTrue: [ ^ self ].
+	
 	self updateVisibleTop: invisible.
 	self updateVisibleBottom: invisible.
 	
