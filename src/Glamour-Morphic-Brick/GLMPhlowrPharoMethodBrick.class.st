@@ -84,6 +84,9 @@ GLMPhlowrPharoMethodBrick >> textBrick: aBrick [
 		wrapped: true;
 		beForSmalltalkCode.
 		
+	self textBrick textArea borderWidth: 0.
+	self textBrick borderWidth: 0.
+		
 	self textBrick layoutProperties
 		vSpaceFill;
 		hSpaceFill.
