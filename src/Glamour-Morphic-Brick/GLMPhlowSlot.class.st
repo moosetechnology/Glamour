@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMPhlowSlot,
-	#superclass : #IndexedSlot,
+	#superclass : #AbstractInstanceVariableSlot,
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }
 

@@ -189,22 +189,29 @@ GLMCompositeBrick class >> exampleTable [
 		openInWindow
 ]
 
+{ #category : #'as yet unclassified' }
+GLMCompositeBrick >> custom: aBrick [
+
+	self hasSubbricks ifFalse: [ self addBrickBack: aBrick ].
+	^ self lastSubbrick 
+]
+
 { #category : #phlowr }
 GLMCompositeBrick >> list [
 
-	^ self addBrickBack: GLMPhlowrListBrick new
+	^ self custom: GLMPhlowrListBrick new
 ]
 
 { #category : #phlowr }
 GLMCompositeBrick >> pharoMethod [
 
-	^ self addBrickBack: GLMPhlowrPharoMethodBrick new
+	^ self custom: GLMPhlowrPharoMethodBrick new
 ]
 
 { #category : #phlowr }
 GLMCompositeBrick >> table [
 
-	^ self addBrickBack: GLMPhlowrTableBrick new
+	^ self custom: GLMPhlowrTableBrick new
 ]
 
 { #category : #phlowr }
