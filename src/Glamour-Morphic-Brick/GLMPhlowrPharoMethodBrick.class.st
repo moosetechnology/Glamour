@@ -37,8 +37,8 @@ GLMPhlowrPharoMethodBrick >> displayLogic [
 GLMPhlowrPharoMethodBrick >> entity: anObject [
 	super entity: anObject.
 	
-	self textBrick setTextWith: (self displayLogic phlowValue: self entity).
-	self textBrick classOrMetaClass: (self smalltalkClassLogic phlowValue: self entity)
+	self textBrick classOrMetaClass: (self smalltalkClassLogic phlowValue: self entity).
+	self textBrick setTextWith: (self displayLogic phlowValue: self entity)
 	
 ]
 
