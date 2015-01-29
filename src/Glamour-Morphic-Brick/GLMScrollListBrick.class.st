@@ -248,7 +248,7 @@ GLMScrollListBrick >> scrollDown: anInteger [
 	
 	self band translateY: (
 		self isLastAdded
-			ifTrue: [ 'bla' logCr. anInteger min: (self band brickBounds bottom - self height) ]
+			ifTrue: [ anInteger min: (self band brickBounds bottom - self height) ]
 			ifFalse: [ anInteger ]) negated
 ]
 
