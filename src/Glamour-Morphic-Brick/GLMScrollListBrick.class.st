@@ -253,6 +253,24 @@ GLMScrollListBrick >> scrollDown: anInteger [
 ]
 
 { #category : #scrolling }
+GLMScrollListBrick >> scrollPageDown [
+	
+	self
+		scrollDown: self calculateMaxVelocity;
+		update;
+		changed
+]
+
+{ #category : #scrolling }
+GLMScrollListBrick >> scrollPageUp [
+	
+	self
+		scrollUp: self calculateMaxVelocity;
+		update;
+		changed
+]
+
+{ #category : #scrolling }
 GLMScrollListBrick >> scrollTo: anInteger [
 	|brick index|
 	self band removeAllBricks.

@@ -165,7 +165,7 @@ GLMScrollPaneBrick >> initialize [
 	self verticalScrollbar: self newVerticalScrollbar.
 	
 	"initializes listener for mouse wheel scroll on windows vm"
-	self initializeListeners.
+	self initializeListeners
 ]
 
 { #category : #initialization }
@@ -321,10 +321,10 @@ GLMScrollPaneBrick >> scrollBy: anInteger direction: aSymbol [
 
 { #category : #'scrollpane-scrolling' }
 GLMScrollPaneBrick >> scrollByKeyboard: anEvent [
-	|velocity direction|
+	|direction|
 	
 	(self isKeyboardScrollEvent: anEvent) ifFalse: [^ self ].
-	velocity := self calculateVelocity: anEvent.
+	self velocity: (self calculateVelocity: anEvent).
 	
 	"keycode 30 is Event direction = #up"
 	anEvent keyValue = 30 ifTrue: [ direction := #up ].
@@ -338,6 +338,24 @@ GLMScrollPaneBrick >> scrollDown: anInteger [
 	
 	self band translateY: anInteger negated.
 	self isBottomOverscrolled ifTrue: [ self moveBandBottom ]
+]
+
+{ #category : #'scrollpane-scrolling' }
+GLMScrollPaneBrick >> scrollPageDown [
+
+	self
+		scrollDown: self height;
+		update;
+		changed
+]
+
+{ #category : #'scrollpane-scrolling' }
+GLMScrollPaneBrick >> scrollPageUp [
+
+	self
+		scrollUp: self height;
+		update;
+		changed
 ]
 
 { #category : #'scrollpane-accessing' }
