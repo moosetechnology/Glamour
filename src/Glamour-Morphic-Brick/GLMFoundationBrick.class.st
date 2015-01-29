@@ -134,6 +134,13 @@ GLMFoundationBrick >> isFocused [
 	^ false
 ]
 
+{ #category : #'as yet unclassified' }
+GLMFoundationBrick >> outOfWorld: aWorld [
+	super outOfWorld: aWorld.
+	
+	self brickRoot onRemovedFrom: self
+]
+
 { #category : #private }
 GLMFoundationBrick >> privateExtent: aPoint [
 

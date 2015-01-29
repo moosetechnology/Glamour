@@ -70,6 +70,12 @@ GLMMorphBrick >> on: aMorph [
 ]
 
 { #category : #'as yet unclassified' }
+GLMMorphBrick >> onRemovedFrom: aBrick [
+	
+	self removeMorph: self morph
+]
+
+{ #category : #'as yet unclassified' }
 GLMMorphBrick >> onThemerChanged [
 	
 ]

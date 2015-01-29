@@ -161,8 +161,9 @@ GLMBrickStructureTrait >> morph [
 ]
 
 { #category : #'brick-structure-events' }
-GLMBrickStructureTrait >> onRemoved [
-	"is called when brick is removed from its parent"
+GLMBrickStructureTrait >> onRemovedFrom: aBrick [
+	"is called when brick is removed from aBrick"
+	self subbricks do: [ :each | each onRemovedFrom: aBrick ]
 ]
 
 { #category : #'brick-structure' }
@@ -173,11 +174,12 @@ GLMBrickStructureTrait >> owner [
 
 { #category : #'private-structure' }
 GLMBrickStructureTrait >> owner: aBrick [
-
+	|oldOwner|
+	oldOwner := self owner.
 	self privateOwner: aBrick.
 	aBrick
 		ifNotNil: [ self themerChanged ]
-		ifNil: [ self onRemoved ]
+		ifNil: [ self onRemovedFrom: oldOwner ]
 ]
 
 { #category : #'private-structure' }
