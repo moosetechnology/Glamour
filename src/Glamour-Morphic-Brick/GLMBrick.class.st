@@ -117,7 +117,8 @@ GLMBrick >> bounds [
 { #category : #'brick-geometry' }
 GLMBrick >> brickBounds [
 
-	^ brickBounds ifNil: [ brickBounds := 0@0 extent: 50@50 ]
+	brickBounds ifNil: [ brickBounds := GLMBrickBounds new ].
+	^ brickBounds bounds
 ]
 
 { #category : #'morph-drawing' }
@@ -283,7 +284,8 @@ GLMBrick >> ports [
 { #category : #'private-geometry' }
 GLMBrick >> privateBounds: aRectangle [
 	
-	brickBounds := aRectangle.
+	brickBounds ifNil: [ brickBounds := GLMBrickBounds new ].
+	brickBounds bounds: aRectangle.
 	bounds := self globalBounds.
 	fullBounds := bounds.
 ]

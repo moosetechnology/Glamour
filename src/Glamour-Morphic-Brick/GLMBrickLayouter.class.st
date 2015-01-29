@@ -73,15 +73,6 @@ GLMBrickLayouter class >> example [
 	^ self new buildGraphOn: rooBrick
 ]
 
-{ #category : #building }
-GLMBrickLayouter >> buildGraphOn: aBrick [
-
-	self rootHeightNode: (GLMBrickLayouterHeightNode new brick: aBrick).
-	self rootWidthNode: (GLMBrickLayouterWidthNode new brick: aBrick).
-	self rootHeightNode opposite: self rootWidthNode.
-	self rootHeightNode build.
-]
-
 { #category : #accessing }
 GLMBrickLayouter >> rootHeightNode [
 	^ rootHeightNode
