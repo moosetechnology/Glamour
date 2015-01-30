@@ -114,13 +114,6 @@ GLMBrick >> bounds [
 	^ self globalBounds
 ]
 
-{ #category : #'brick-geometry' }
-GLMBrick >> brickBounds [
-
-	brickBounds ifNil: [ brickBounds := GLMBrickBounds new ].
-	^ brickBounds bounds
-]
-
 { #category : #'morph-drawing' }
 GLMBrick >> changed [
 	"Report that the area occupied by this morph should be redrawn.
@@ -283,9 +276,8 @@ GLMBrick >> ports [
 
 { #category : #'private-geometry' }
 GLMBrick >> privateBounds: aRectangle [
-	
-	brickBounds ifNil: [ brickBounds := GLMBrickBounds new ].
-	brickBounds bounds: aRectangle.
+
+	self wrappedBounds bounds: aRectangle.
 	bounds := self globalBounds.
 	fullBounds := bounds.
 ]
@@ -360,4 +352,10 @@ GLMBrick >> valueOfProperty: aSymbol ifAbsent: aBlock [
 GLMBrick >> valueOfProperty: aSymbol ifAbsentPut: aBlock [ 
 	
 	^ super valueOfProperty: aSymbol ifAbsentPut: aBlock
+]
+
+{ #category : #'brick-geometry' }
+GLMBrick >> wrappedBounds [
+
+	^ brickBounds ifNil: [ brickBounds := GLMBrickBounds new ]
 ]

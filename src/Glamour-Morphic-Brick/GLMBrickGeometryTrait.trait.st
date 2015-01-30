@@ -11,7 +11,7 @@ Trait {
 { #category : #'brick-geometry' }
 GLMBrickGeometryTrait >> brickBounds [
 
-	^ self explicitRequirement
+	^ self wrappedBounds bounds
 ]
 
 { #category : #'brick-geometry' }
@@ -319,4 +319,10 @@ GLMBrickGeometryTrait >> withHeight: anInteger [
 GLMBrickGeometryTrait >> withWidth: anInteger [
 
 	self brickBounds: (self brickBounds withWidth: anInteger)
+]
+
+{ #category : #'private-geometry' }
+GLMBrickGeometryTrait >> wrappedBounds [
+
+	^ self explicitRequirement
 ]

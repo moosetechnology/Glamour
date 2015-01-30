@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'bounds',
-		'state'
+		'widthState',
+		'heightState'
 	],
 	#category : #'Glamour-Morphic-Brick-Utils'
 }
@@ -17,42 +18,79 @@ GLMBrickBounds >> bounds [
 { #category : #accessing }
 GLMBrickBounds >> bounds: aRectangle [
 
-	bounds := aRectangle.
-	self markDirty
-]
-
-{ #category : #testing }
-GLMBrickBounds >> isClean [
-
-	^ self state = #clean
-]
-
-{ #category : #testing }
-GLMBrickBounds >> isDirty [
-
-	^ self state = #dirty
-]
-
-{ #category : #marking }
-GLMBrickBounds >> markClean [
-
-	self state: #clean
-]
-
-{ #category : #marking }
-GLMBrickBounds >> markDirty [
-
-	self state: #dirty
+	self bounds width = aRectangle width ifFalse: [ self markWidthDirty ].
+	self bounds height = aRectangle height ifFalse: [ self markHeightDirty ].
+	bounds := aRectangle
 ]
 
 { #category : #accessing }
-GLMBrickBounds >> state [
+GLMBrickBounds >> heightState [
 
-	^ state ifNil: [ state := #dirty ]
+	^ heightState ifNil: [ heightState := #dirty ]
 ]
 
 { #category : #accessing }
-GLMBrickBounds >> state: aSymbol [
+GLMBrickBounds >> heightState: aSymbol [
 
-	state := aSymbol
+	heightState := aSymbol
+]
+
+{ #category : #testing }
+GLMBrickBounds >> isHeightClean [
+
+	^ self heightState = #clean
+]
+
+{ #category : #testing }
+GLMBrickBounds >> isHeightDirty [
+
+	^ self heightState = #dirty
+]
+
+{ #category : #testing }
+GLMBrickBounds >> isWidthClean [
+
+	^ self widthState = #clean
+]
+
+{ #category : #testing }
+GLMBrickBounds >> isWidthDirty [
+
+	^ self widthState = #dirty
+]
+
+{ #category : #marking }
+GLMBrickBounds >> markHeightClean [
+
+	self heightState: #clean
+]
+
+{ #category : #marking }
+GLMBrickBounds >> markHeightDirty [
+
+	self heightState: #dirty
+]
+
+{ #category : #marking }
+GLMBrickBounds >> markWidthClean [
+
+	self widthState: #clean
+]
+
+{ #category : #marking }
+GLMBrickBounds >> markWidthDirty [
+
+	self widthState: #dirty
+]
+
+{ #category : #accessing }
+GLMBrickBounds >> widthState [
+
+	^ widthState ifNil: [ widthState := #dirty ]
+]
+
+{ #category : #accessing }
+GLMBrickBounds >> widthState: aSymbol [
+
+	widthState := aSymbol
 ]
