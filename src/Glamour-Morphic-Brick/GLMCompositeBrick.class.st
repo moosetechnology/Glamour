@@ -1,9 +1,9 @@
 "
-asdasd
-a
-sd
-asd
-
+I'm a composite brick that provides an api of creating different kind of scriptabe presentations like: 
+ - list
+ - pharoMethod
+ - table
+ - tree
 "
 Class {
 	#name : #GLMCompositeBrick,
@@ -207,7 +207,7 @@ GLMCompositeBrick class >> exampleTable [
 		openInWindow
 ]
 
-{ #category : #phlowr }
+{ #category : #phlow }
 GLMCompositeBrick >> custom: aBrick [
 	self flag: 'for now we only allow one subbrick in the composite.
 	We have to revisit this implementation after the composite will allow for multiple subbricks'.
@@ -215,24 +215,24 @@ GLMCompositeBrick >> custom: aBrick [
 	^ aBrick
 ]
 
-{ #category : #phlowr }
+{ #category : #phlow }
 GLMCompositeBrick >> list [
 
-	^ self custom: GLMPhlowrListBrick new
+	^ self custom: GLMPhlowListBrick new
 ]
 
-{ #category : #phlowr }
+{ #category : #phlow }
 GLMCompositeBrick >> pharoMethod [
 
-	^ self custom: GLMPhlowrPharoMethodBrick new
+	^ self custom: GLMPhlowPharoMethodBrick new
 ]
 
-{ #category : #phlowr }
+{ #category : #phlow }
 GLMCompositeBrick >> table [
 
-	^ self custom: GLMPhlowrTableBrick new
+	^ self custom: GLMPhlowTableBrick new
 ]
 
-{ #category : #phlowr }
+{ #category : #phlow }
 GLMCompositeBrick >> tree [
 ]

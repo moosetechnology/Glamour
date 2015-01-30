@@ -1,14 +1,6 @@
-"
-asdasd
-as
-
-sdf
-sfd
-
-"
 Class {
-	#name : #GLMPhlowrPharoMethodBrick,
-	#superclass : #GLMPhlowrBrick,
+	#name : #GLMPhlowPharoMethodBrick,
+	#superclass : #GLMPhlowBrick,
 	#instVars : [
 		'#textBrick => GLMPhlowSlot'
 	],
@@ -16,25 +8,25 @@ Class {
 }
 
 { #category : #examples }
-GLMPhlowrPharoMethodBrick class >> example [
+GLMPhlowPharoMethodBrick class >> example [
 	
 	^ GLMCompositeBrick examplePharoMethod
 ]
 
-{ #category : #phlowr }
-GLMPhlowrPharoMethodBrick >> display: anObject [
+{ #category : #phlow }
+GLMPhlowPharoMethodBrick >> display: anObject [
 
 	self setProperty: #phlowDisplay toValue: anObject
 ]
 
 { #category : #accessing }
-GLMPhlowrPharoMethodBrick >> displayLogic [
+GLMPhlowPharoMethodBrick >> displayLogic [
 
 	^ self valueOfProperty: #phlowDisplay ifAbsent: [ #yourself ]
 ]
 
-{ #category : #phlowr }
-GLMPhlowrPharoMethodBrick >> entity: anObject [
+{ #category : #phlow }
+GLMPhlowPharoMethodBrick >> entity: anObject [
 	super entity: anObject.
 	
 	self textBrick classOrMetaClass: (self smalltalkClassLogic phlowValue: self entity).
@@ -43,32 +35,32 @@ GLMPhlowrPharoMethodBrick >> entity: anObject [
 ]
 
 { #category : #initialization }
-GLMPhlowrPharoMethodBrick >> initialize [
+GLMPhlowPharoMethodBrick >> initialize [
 	super initialize.
 	
 	self textBrick: self newTextBrick.
 ]
 
 { #category : #'instance creation' }
-GLMPhlowrPharoMethodBrick >> newTextBrick [
+GLMPhlowPharoMethodBrick >> newTextBrick [
 
 	^ RubScrolledTextMorph new
 ]
 
-{ #category : #phlowr }
-GLMPhlowrPharoMethodBrick >> smalltalkClass: anObject [
+{ #category : #phlow }
+GLMPhlowPharoMethodBrick >> smalltalkClass: anObject [
 	
 	self setProperty: #phlowSmalltalkClass toValue: anObject
 ]
 
 { #category : #accessing }
-GLMPhlowrPharoMethodBrick >> smalltalkClassLogic [
+GLMPhlowPharoMethodBrick >> smalltalkClassLogic [
 
 	^ self valueOfProperty: #phlowSmalltalkClass ifAbsent: [ #yourself ]
 ]
 
 { #category : #accessing }
-GLMPhlowrPharoMethodBrick >> textBrick [
+GLMPhlowPharoMethodBrick >> textBrick [
 
 	^ textBrick
 	
@@ -76,7 +68,7 @@ GLMPhlowrPharoMethodBrick >> textBrick [
 ]
 
 { #category : #accessing }
-GLMPhlowrPharoMethodBrick >> textBrick: aBrick [
+GLMPhlowPharoMethodBrick >> textBrick: aBrick [
 
 	textBrick := aBrick.
 	self textBrick

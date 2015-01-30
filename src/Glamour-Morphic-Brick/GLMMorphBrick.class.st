@@ -2,7 +2,7 @@
 A GLMMorphBrick is used as container for morphs to embed them inside bricks
 
 Instance Variables
-	morph:		<Object>
+	morph:		<Morph>
 
 morph
 	- xxxxx

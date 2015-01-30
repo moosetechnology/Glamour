@@ -1,10 +1,5 @@
-"
-asdasd
-
-asdasd
-"
 Class {
-	#name : #GLMPhlowrTableColumn,
+	#name : #GLMPhlowTableColumn,
 	#superclass : #Object,
 	#instVars : [
 		'computation',
@@ -15,31 +10,31 @@ Class {
 }
 
 { #category : #accessing }
-GLMPhlowrTableColumn >> computation [
+GLMPhlowTableColumn >> computation [
 	^ computation
 ]
 
 { #category : #accessing }
-GLMPhlowrTableColumn >> computation: anObject [
+GLMPhlowTableColumn >> computation: anObject [
 	computation := anObject
 ]
 
 { #category : #accessing }
-GLMPhlowrTableColumn >> style [
+GLMPhlowTableColumn >> style [
 	^ style
 ]
 
 { #category : #accessing }
-GLMPhlowrTableColumn >> style: anObject [
+GLMPhlowTableColumn >> style: anObject [
 	style := anObject
 ]
 
 { #category : #accessing }
-GLMPhlowrTableColumn >> title [
+GLMPhlowTableColumn >> title [
 	^ title
 ]
 
 { #category : #accessing }
-GLMPhlowrTableColumn >> title: anObject [
+GLMPhlowTableColumn >> title: anObject [
 	title := anObject
 ]

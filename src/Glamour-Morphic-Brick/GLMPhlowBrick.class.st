@@ -1,12 +1,5 @@
-"
-asdasd
-sd
-fs
-df
-
-"
 Class {
-	#name : #GLMPhlowrBrick,
+	#name : #GLMPhlowBrick,
 	#superclass : #GLMBrick,
 	#instVars : [
 		'#entity => GLMPhlowSlot',
@@ -15,20 +8,20 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }
 
-{ #category : #phlowr }
-GLMPhlowrBrick >> display: aBlockOrSymbol [
+{ #category : #phlow }
+GLMPhlowBrick >> display: aBlockOrSymbol [
 
 	self subclassResponsibility
 ]
 
-{ #category : #phlowr }
-GLMPhlowrBrick >> entity [
+{ #category : #phlow }
+GLMPhlowBrick >> entity [
 
 	^ entity
 ]
 
-{ #category : #phlowr }
-GLMPhlowrBrick >> entity: anObject [
+{ #category : #phlow }
+GLMPhlowBrick >> entity: anObject [
 
 	entity := anObject.
 	self setTitle: (self titleLogic phlowValue: self entity)
@@ -36,7 +29,7 @@ GLMPhlowrBrick >> entity: anObject [
 ]
 
 { #category : #initialization }
-GLMPhlowrBrick >> initialize [
+GLMPhlowBrick >> initialize [
 	super initialize.
 		
 	self
@@ -47,13 +40,13 @@ GLMPhlowrBrick >> initialize [
 ]
 
 { #category : #'instance creation' }
-GLMPhlowrBrick >> newTitleBrick [
+GLMPhlowBrick >> newTitleBrick [
 
 	^ GLMLabelBrick new
 ]
 
 { #category : #accessing }
-GLMPhlowrBrick >> setTitle: aString [
+GLMPhlowBrick >> setTitle: aString [
 
 	self titleBrick text: aString.
 	
@@ -63,19 +56,19 @@ GLMPhlowrBrick >> setTitle: aString [
 			ifTrue: [ 0 ])
 ]
 
-{ #category : #phlowr }
-GLMPhlowrBrick >> title: anObject [
+{ #category : #phlow }
+GLMPhlowBrick >> title: anObject [
 	
 	self setProperty: #phlowTitle toValue: anObject
 ]
 
 { #category : #accessing }
-GLMPhlowrBrick >> titleBrick [
+GLMPhlowBrick >> titleBrick [
 	^ titleBrick
 ]
 
 { #category : #accessing }
-GLMPhlowrBrick >> titleBrick: aBrick [
+GLMPhlowBrick >> titleBrick: aBrick [
 
 	titleBrick := aBrick.
 	titleBrick textPosition: #center.
@@ -84,7 +77,7 @@ GLMPhlowrBrick >> titleBrick: aBrick [
 ]
 
 { #category : #accessing }
-GLMPhlowrBrick >> titleLogic [
+GLMPhlowBrick >> titleLogic [
 
 	^ self valueOfProperty: #phlowTitle ifAbsent: [ '' ]
 ]

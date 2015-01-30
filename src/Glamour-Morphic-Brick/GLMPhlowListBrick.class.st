@@ -1,9 +1,6 @@
-"
-asdasds
-"
 Class {
-	#name : #GLMPhlowrListBrick,
-	#superclass : #GLMPhlowrBrick,
+	#name : #GLMPhlowListBrick,
+	#superclass : #GLMPhlowBrick,
 	#instVars : [
 		'#scrollList => GLMPhlowSlot'
 	],
@@ -11,58 +8,58 @@ Class {
 }
 
 { #category : #examples }
-GLMPhlowrListBrick class >> example [
+GLMPhlowListBrick class >> example [
 	
 	^ GLMCompositeBrick exampleList
 ]
 
 { #category : #examples }
-GLMPhlowrListBrick class >> example2 [
+GLMPhlowListBrick class >> example2 [
 	
 	^ GLMCompositeBrick exampleListWithCustomItem
 ]
 
-{ #category : #phlowr }
-GLMPhlowrListBrick >> display: anObject [
+{ #category : #phlow }
+GLMPhlowListBrick >> display: anObject [
 	
 	self listBrick adaptor
 		morphAtLogic: [ :index :morph | self styledLogic phlowValue: (self formatLogic phlowValue: (anObject phlowValue: (self entity at: index))) asBrick ]
 ]
 
-{ #category : #phlowr }
-GLMPhlowrListBrick >> entity: anObject [
+{ #category : #phlow }
+GLMPhlowListBrick >> entity: anObject [
 	super entity: anObject.
 	
 	self listBrick adaptor on: anObject
 ]
 
-{ #category : #phlowr }
-GLMPhlowrListBrick >> format: anObject [
+{ #category : #phlow }
+GLMPhlowListBrick >> format: anObject [
 
 	self setProperty: #phlowFormat toValue: anObject
 ]
 
 { #category : #accessing }
-GLMPhlowrListBrick >> formatLogic [
+GLMPhlowListBrick >> formatLogic [
 
 	^ self valueOfProperty: #phlowFormat ifAbsent: [ #yourself ]
 ]
 
 { #category : #initialization }
-GLMPhlowrListBrick >> initialize [
+GLMPhlowListBrick >> initialize [
 	super initialize.
 		
 	self listBrick: self newScrollList
 ]
 
 { #category : #accessing }
-GLMPhlowrListBrick >> listBrick [
+GLMPhlowListBrick >> listBrick [
 
 	^ scrollList
 ]
 
 { #category : #accessing }
-GLMPhlowrListBrick >> listBrick: aBrick [
+GLMPhlowListBrick >> listBrick: aBrick [
 
 	scrollList := aBrick.
 	
@@ -72,19 +69,19 @@ GLMPhlowrListBrick >> listBrick: aBrick [
 ]
 
 { #category : #'instance creation' }
-GLMPhlowrListBrick >> newScrollList [
+GLMPhlowListBrick >> newScrollList [
 
 	^ GLMScrollListBrick new
 ]
 
-{ #category : #phlowr }
-GLMPhlowrListBrick >> styled: anObject [
+{ #category : #phlow }
+GLMPhlowListBrick >> styled: anObject [
 	
 	self setProperty: #phlowStyled toValue: anObject
 ]
 
 { #category : #accessing }
-GLMPhlowrListBrick >> styledLogic [
+GLMPhlowListBrick >> styledLogic [
 	
 	^ self valueOfProperty: #phlowStyled ifAbsent: [ #yourself ]
 ]

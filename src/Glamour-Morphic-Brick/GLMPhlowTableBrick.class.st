@@ -1,13 +1,6 @@
-"
-asdasds
-df
-s
-df
-s
-"
 Class {
-	#name : #GLMPhlowrTableBrick,
-	#superclass : #GLMPhlowrListBrick,
+	#name : #GLMPhlowTableBrick,
+	#superclass : #GLMPhlowListBrick,
 	#instVars : [
 		'#transformedEntity => GLMPhlowSlot',
 		'#columns => GLMPhlowSlot'
@@ -16,53 +9,53 @@ Class {
 }
 
 { #category : #examples }
-GLMPhlowrTableBrick class >> example [
+GLMPhlowTableBrick class >> example [
 	
 	^ GLMCompositeBrick exampleTable
 ]
 
 { #category : #accessing }
-GLMPhlowrTableBrick >> addColumn: aColumn [
+GLMPhlowTableBrick >> addColumn: aColumn [
 
 	self columns add: aColumn
 ]
 
-{ #category : #phlowr }
-GLMPhlowrTableBrick >> column: anObject evaluated: otherObject [
+{ #category : #phlow }
+GLMPhlowTableBrick >> column: anObject evaluated: otherObject [
 
 	self column: anObject evaluated: otherObject styled: nil
 ]
 
-{ #category : #phlowr }
-GLMPhlowrTableBrick >> column: anObject evaluated: otherObject styled: anotherObject [
+{ #category : #phlow }
+GLMPhlowTableBrick >> column: anObject evaluated: otherObject styled: anotherObject [
 
-	self addColumn: (GLMPhlowrTableColumn new 
+	self addColumn: (GLMPhlowTableColumn new 
 		title: anObject;
 		computation: otherObject;
 		style: anotherObject)
 ]
 
 { #category : #accessing }
-GLMPhlowrTableBrick >> columns [
+GLMPhlowTableBrick >> columns [
 
 	^ columns ifNil: [ columns := OrderedCollection new ]
 ]
 
-{ #category : #phlowr }
-GLMPhlowrTableBrick >> display: anObject [
+{ #category : #phlow }
+GLMPhlowTableBrick >> display: anObject [
 	
 	self setProperty: #phlowDisplay toValue: anObject
 	
 ]
 
 { #category : #accessing }
-GLMPhlowrTableBrick >> displayLogic [
+GLMPhlowTableBrick >> displayLogic [
 
 	^ self valueOfProperty: #phlowDisplay ifAbsent: [ #yourself ]
 ]
 
-{ #category : #phlowr }
-GLMPhlowrTableBrick >> entity: anObject [
+{ #category : #phlow }
+GLMPhlowTableBrick >> entity: anObject [
 	super entity: anObject.
 	
 	self transformedEntity: (self displayLogic phlowValue: anObject).
@@ -70,21 +63,21 @@ GLMPhlowrTableBrick >> entity: anObject [
 ]
 
 { #category : #initialization }
-GLMPhlowrTableBrick >> initialize [
+GLMPhlowTableBrick >> initialize [
 	super initialize.
 
 	self listBrick adaptor
-		morphAtLogic: [ :index | GLMPhlowrTableRowBrick new in: self; entity: (self transformedEntity at: index) ]
+		morphAtLogic: [ :index | GLMPhlowTableRowBrick new in: self; entity: (self transformedEntity at: index) ]
 ]
 
 { #category : #accessing }
-GLMPhlowrTableBrick >> transformedEntity [
+GLMPhlowTableBrick >> transformedEntity [
 
 	^ transformedEntity
 ]
 
 { #category : #accessing }
-GLMPhlowrTableBrick >> transformedEntity: anObject [
+GLMPhlowTableBrick >> transformedEntity: anObject [
 
 	transformedEntity := anObject
 ]
