@@ -96,11 +96,6 @@ GLMStringBrick >> calculateTextPosition [
 	^ self brickBounds origin
 ]
 
-{ #category : #initialization }
-GLMStringBrick >> defaultColor [
-	^ Color black
-]
-
 { #category : #defaults }
 GLMStringBrick >> defaultFamilyName [
 
@@ -183,7 +178,6 @@ GLMStringBrick >> initialize [
 	
 	fontSize := self defaultSize.
 	familyName := self defaultFamilyName.
-	textColor := self defaultColor.
 	text := ''.
 	
 	textPosition := #leftCenter.
@@ -219,6 +213,13 @@ GLMStringBrick >> onDraw: aCanvas [
 		color: self textColor
 ]
 
+{ #category : #'brick-properties-events' }
+GLMStringBrick >> onThemerChanged [
+	super onThemerChanged.
+	
+	
+]
+
 { #category : #private }
 GLMStringBrick >> privateSetText: aString [
 
@@ -244,14 +245,16 @@ GLMStringBrick >> text: aString [
 	self privateSetText: aString
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-properties' }
 GLMStringBrick >> textColor [
-	^ textColor
+
+	^ self valueOfProperty: #brickTextColor ifAbsent: [ self themer textColor ]
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-properties' }
 GLMStringBrick >> textColor: aColor [
-	textColor := aColor.
+
+	self setProperty: #brickTextColor toValue: aColor.
 	self updateFont.
 ]
 

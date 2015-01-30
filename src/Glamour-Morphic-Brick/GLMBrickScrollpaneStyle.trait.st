@@ -39,5 +39,5 @@ GLMBrickScrollpaneStyle >> scrollbarWidth [
 { #category : #'brick-scrollpane' }
 GLMBrickScrollpaneStyle >> scrollpaneBackgroundColor [
 
-	^ Color white
+	^ self contentBackgroundColor
 ]

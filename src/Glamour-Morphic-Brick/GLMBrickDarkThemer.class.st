@@ -4,14 +4,20 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Theme'
 }
 
+{ #category : #brick }
+GLMBrickDarkThemer >> contentBackgroundColor [
+
+	^ Color darkGray darker
+]
+
 { #category : #'brick-scrollbar' }
 GLMBrickDarkThemer >> scrollbarColor [
 
 	^ Color black alpha: 0.5
 ]
 
-{ #category : #'brick-scrollpane' }
-GLMBrickDarkThemer >> scrollpaneBackgroundColor [
+{ #category : #brick }
+GLMBrickDarkThemer >> textColor [
 
-	^ Color darkGray
+	^ Color white slightlyDarker
 ]

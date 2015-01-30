@@ -44,7 +44,7 @@ GLMPhlowPharoMethodBrick >> initialize [
 { #category : #'instance creation' }
 GLMPhlowPharoMethodBrick >> newTextBrick [
 
-	^ RubScrolledTextMorph new
+	^ GLMRubScrolledTextBrick new
 ]
 
 { #category : #phlow }
@@ -72,12 +72,8 @@ GLMPhlowPharoMethodBrick >> textBrick: aBrick [
 
 	textBrick := aBrick.
 	self textBrick
-		layoutProperties: GLMBrickLayoutProperties new;
 		wrapped: true;
 		beForSmalltalkCode.
-		
-	self textBrick textArea borderWidth: 0.
-	self textBrick borderWidth: 0.
 		
 	self textBrick layoutProperties
 		vSpaceFill;

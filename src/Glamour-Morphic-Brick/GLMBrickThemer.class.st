@@ -1,8 +1,8 @@
 Class {
 	#name : #GLMBrickThemer,
 	#superclass : #Object,
-	#traits : 'GLMBrickScrollpaneStyle',
-	#classTraits : 'GLMBrickScrollpaneStyle classTrait',
+	#traits : 'GLMBrickScrollpaneStyle + GLMBrickRubricStyle',
+	#classTraits : 'GLMBrickScrollpaneStyle classTrait + GLMBrickRubricStyle classTrait',
 	#classInstVars : [
 		'default'
 	],
@@ -27,4 +27,16 @@ GLMBrickThemer class >> reset [
 GLMBrickThemer >> backgroundColor [
 
 	^ Color transparent
+]
+
+{ #category : #brick }
+GLMBrickThemer >> contentBackgroundColor [
+
+	^ Color white
+]
+
+{ #category : #brick }
+GLMBrickThemer >> textColor [
+
+	^ Color black
 ]
