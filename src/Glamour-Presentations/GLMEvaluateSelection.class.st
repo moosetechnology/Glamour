@@ -5,7 +5,8 @@ Class {
 	#name : #GLMEvaluateSelection,
 	#superclass : #Announcement,
 	#instVars : [
-		'action'
+		'action',
+		'isSyncronous'
 	],
 	#category : #'Glamour-Presentations-Announcements'
 }
@@ -18,4 +19,20 @@ GLMEvaluateSelection >> action [
 { #category : #accessing }
 GLMEvaluateSelection >> action: anObject [
 	action := anObject
+]
+
+{ #category : #accessing }
+GLMEvaluateSelection >> initialize [
+	super initialize.
+	isSyncronous := false
+]
+
+{ #category : #accessing }
+GLMEvaluateSelection >> isSyncronous [
+	^ isSyncronous
+]
+
+{ #category : #accessing }
+GLMEvaluateSelection >> makeSyncronous [
+	isSyncronous := true
 ]
