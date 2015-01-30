@@ -77,6 +77,12 @@ GLMFoundationBrick >> brickRoot: aBrick [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+GLMFoundationBrick >> brickThemerChanged [
+
+	self brickRoot themerChanged
+]
+
 { #category : #layouting }
 GLMFoundationBrick >> doLayout [
 
@@ -134,7 +140,7 @@ GLMFoundationBrick >> isFocused [
 	^ false
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialize }
 GLMFoundationBrick >> outOfWorld: aWorld [
 	super outOfWorld: aWorld.
 	
@@ -171,9 +177,7 @@ GLMFoundationBrick >> themer [
 	^ self privateThemer
 		ifNotNil: [ self privateThemer ]
 		ifNil: [ self owner isNotNil
-			ifTrue: [ self owner isBrick ifTrue: [ self owner themer ] ifFalse: [
-					(self  nearestOwnerThat: [ :each | (each isKindOf: GLMFoundationBrick) | (each isKindOf: GLMBrick) ])
-						ifNotNil: [ :brick | brick themer ] ifNil: [ self theme brickThemer ] ] ]
+			ifTrue: [ self owner isBrick ifTrue: [ self owner themer ] ifFalse: [ super brickThemer ] ]
 			ifFalse: [ self theme brickThemer ] ]
 ]
 

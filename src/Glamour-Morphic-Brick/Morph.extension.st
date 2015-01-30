@@ -19,6 +19,19 @@ Morph >> brickDoubleLink: aDoubleLink [
 ]
 
 { #category : #'*Glamour-Morphic-Brick' }
+Morph >> brickThemer [
+	^ (self nearestOwnerThat: [ :each | (each isKindOf: GLMFoundationBrick) | (each isKindOf: GLMBrick) ])
+		ifNotNil: [ :brick | brick themer ]
+		ifNil: [ self theme brickThemer ]
+]
+
+{ #category : #'*Glamour-Morphic-Brick' }
+Morph >> brickThemerChanged [
+
+	self submorphs do: #brickThemerChanged
+]
+
+{ #category : #'*Glamour-Morphic-Brick' }
 Morph >> exportAsPNGSilently [
 	| fName time |
 	time := (DateAndTime now asString copyReplaceAll: ':' with: '-') copyReplaceAll: '.' with: '-'.

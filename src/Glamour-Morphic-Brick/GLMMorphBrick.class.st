@@ -100,5 +100,6 @@ GLMMorphBrick >> onThemerChanged [
 { #category : #'as yet unclassified' }
 GLMMorphBrick >> themerChanged [
 
-	self onThemerChanged
+	self onThemerChanged.
+	self morph brickThemerChanged
 ]
