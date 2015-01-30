@@ -1,6 +1,5 @@
 "
-sss
-
+I declare api and logic to layout Bricks
 "
 Trait {
 	#name : #GLMBrickLayoutTrait,

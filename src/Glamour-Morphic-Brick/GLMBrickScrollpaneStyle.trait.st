@@ -1,10 +1,5 @@
 "
-asd
-a
-sd
-as
-d
-asd
+I'm a style module related to a scrollpane and its component. 
 "
 Trait {
 	#name : #GLMBrickScrollpaneStyle,

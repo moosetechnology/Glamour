@@ -1,6 +1,5 @@
 "
-asd
-
+I declare api and logic to work with structure of a Brick as adding, removing, testing for existance and some more
 "
 Trait {
 	#name : #GLMBrickStructureTrait,

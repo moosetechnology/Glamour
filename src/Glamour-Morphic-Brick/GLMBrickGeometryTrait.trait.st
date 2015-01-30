@@ -1,5 +1,5 @@
 "
-sss
+I declare api and logic to work with geometry of a Brick
 "
 Trait {
 	#name : #GLMBrickGeometryTrait,

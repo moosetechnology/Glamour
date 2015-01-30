@@ -1,11 +1,3 @@
-"
-asdasdasd
-asd
-as
-d
-as
-d
-"
 Class {
 	#name : #GLMScrollListBrick,
 	#superclass : #GLMScrollPaneBrick,

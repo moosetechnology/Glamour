@@ -1,6 +1,3 @@
-"
-asdads
-"
 Class {
 	#name : #GLMBrickThemer,
 	#superclass : #Object,

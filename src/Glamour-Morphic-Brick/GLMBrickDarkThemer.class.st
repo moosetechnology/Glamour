@@ -1,11 +1,3 @@
-"
-adasd
-a
-sd
-a
-d
-ad
-"
 Class {
 	#name : #GLMBrickDarkThemer,
 	#superclass : #GLMBrickThemer,

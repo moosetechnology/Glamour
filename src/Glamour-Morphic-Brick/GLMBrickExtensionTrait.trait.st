@@ -1,5 +1,5 @@
 "
-asdad
+I declare an api to store and read extention properties. It should be inplemented in any Brick UI to make it work.
 "
 Trait {
 	#name : #GLMBrickExtensionTrait,
