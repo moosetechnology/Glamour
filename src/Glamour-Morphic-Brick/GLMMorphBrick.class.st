@@ -24,6 +24,21 @@ GLMMorphBrick class >> on: aMorph [
 ]
 
 { #category : #'as yet unclassified' }
+GLMMorphBrick >> addBrickBack: aBrick [
+	|link|
+	link := aBrick asDoubleLink.
+	aBrick brickDoubleLink: link.
+	
+	self hasSubbricks ifTrue: [
+		self lastSubbrick brickDoubleLink nextLink: link.	
+		link previousLink: self lastSubbrick brickDoubleLink.
+	].
+	
+	self privateSubbricks: (self subbricks copyWith: aBrick).
+	aBrick privateOwner: self.
+]
+
+{ #category : #'as yet unclassified' }
 GLMMorphBrick >> brickBounds: aRectangle [
 	|origin corner newBounds|
 	super brickBounds: aRectangle.
@@ -67,7 +82,7 @@ GLMMorphBrick >> on: aMorph [
 	morph layoutProperties
 		hSpaceFill;
 		vSpaceFill.
-	self addMorphBack: morph.
+	self addBrickBack: morph.
 	super brickBounds: (0@0 extent: (morph width@morph height)).
 ]
 
