@@ -260,3 +260,9 @@ GLMBrickStructureTrait >> subbricksCount [
 
 	^ self subbricks size
 ]
+
+{ #category : #'brick-structure' }
+GLMBrickStructureTrait >> subbricksReverseDo: aBlock [
+
+	self subbricks reverseDo: aBlock
+]
