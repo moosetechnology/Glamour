@@ -77,6 +77,22 @@ GLMBrickStructureTrait >> addBrickFirst: aBrick [
 	^ aBrick
 ]
 
+{ #category : #'brick-structure' }
+GLMBrickStructureTrait >> allSubbricks [
+	| all |
+	all := OrderedCollection new.
+	self allSubbricksDo: [:each | all add: each ].
+	^ all
+]
+
+{ #category : #'brick-structure' }
+GLMBrickStructureTrait >> allSubbricksDo: aBlock [
+
+	self subbricks do: [:each | 
+		aBlock value: each.
+		each isBrick ifTrue: [ each allSubbricksDo: aBlock ] ]
+]
+
 { #category : #'brick-structure-converting' }
 GLMBrickStructureTrait >> asBrick [
 	^ self
@@ -265,4 +281,11 @@ GLMBrickStructureTrait >> subbricksCount [
 GLMBrickStructureTrait >> subbricksReverseDo: aBlock [
 
 	self subbricks reverseDo: aBlock
+]
+
+{ #category : #'brick-structure' }
+GLMBrickStructureTrait >> withAllSubbricks [
+
+	^ self allSubbricks add: self;
+		 yourself
 ]

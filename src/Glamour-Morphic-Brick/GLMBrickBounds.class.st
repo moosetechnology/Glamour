@@ -26,7 +26,7 @@ GLMBrickBounds >> bounds: aRectangle [
 { #category : #accessing }
 GLMBrickBounds >> heightState [
 
-	^ heightState ifNil: [ heightState := #dirty ]
+	^ heightState ifNil: [ heightState := #clean ]
 ]
 
 { #category : #accessing }
@@ -86,7 +86,7 @@ GLMBrickBounds >> markWidthDirty [
 { #category : #accessing }
 GLMBrickBounds >> widthState [
 
-	^ widthState ifNil: [ widthState := #dirty ]
+	^ widthState ifNil: [ widthState := #clean ]
 ]
 
 { #category : #accessing }
