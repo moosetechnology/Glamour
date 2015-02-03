@@ -38,13 +38,6 @@ GLMPagerScrollBrick >> convertScrollValue: aFloat [
 	^ (self width - ((self width / self pagerModel actualNumberOfVisiblePages + self paneMargin) * self band subbricksCount)) * aFloat
 ]
 
-{ #category : #accessing }
-GLMPagerScrollBrick >> doLayout [
-	
-	currentScrollDelta := self convertScrollValue: (self pagerModel convertIndexToValue: self pagerModel firstVisiblePageIndex).
-	super doLayout
-]
-
 { #category : #'event-handling' }
 GLMPagerScrollBrick >> focusChanged: anEvent [
 	| pageIndex newFocus |
@@ -86,6 +79,7 @@ GLMPagerScrollBrick >> glmAnimateValue: aValue duration: anInteger callback: aBl
 				].
 				self scrollValue: finish.
 				Processor yield.
+				self updatePaneBounds.
 				aBlock ifNotNil: [ aBlock value ].
 			] fork
 		]
@@ -128,6 +122,15 @@ GLMPagerScrollBrick >> newBand [
 	^ GLMBrick new
 ]
 
+{ #category : #'as yet unclassified' }
+GLMPagerScrollBrick >> onLayouted [
+	super onLayouted.
+	
+	'self onLayouted' logCr.
+	self band translateX: self band brickBounds left negated.
+	self band translateX: (self convertScrollValue: (self pagerModel convertIndexToValue: self pagerModel firstVisiblePageIndex)).
+]
+
 { #category : #'event-handling' }
 GLMPagerScrollBrick >> onPagePoped: popedAnnouncement [
 	self popPane: popedAnnouncement smooth.
@@ -155,9 +158,9 @@ GLMPagerScrollBrick >> onPagePushed: pushedAnnouncement [
 GLMPagerScrollBrick >> onPagesNumberChanged [
 
 	self maxPanes: pagerModel numberOfVisiblePages.
-	self doLayout.
-	self changed.
+	self doLayoutForce.
 	self scrollToPane: pagerModel firstVisiblePageIndex smooth: false.
+	self changed.
 	
 ]
 
@@ -300,7 +303,7 @@ GLMPagerScrollBrick >> scrollTo: aValue smooth: isSmooth [
 GLMPagerScrollBrick >> scrollTo: aValue smooth: isSmooth callback: aBlock [
 	
  	isSmooth ifTrue: [ self glmAnimateValue: aValue duration: 300 callback: aBlock ]
-				ifFalse: [ self scrollValue: (self convertScrollValue: aValue). aBlock value ].
+				ifFalse: [ self scrollValue: (self convertScrollValue: aValue). self updatePaneBounds. aBlock value ].
 ]
 
 { #category : #scrolling }
@@ -326,12 +329,20 @@ GLMPagerScrollBrick >> scrollValue: value [
 	
 	currentScrollDelta := value.
 	
-	self updatePanes
+	self band translateX: self band brickBounds left negated.
+	self band translateX: self scrollValue.
+	self changed
+]
+
+{ #category : #scrolling }
+GLMPagerScrollBrick >> updatePaneBounds [
+
+	self band subbricks do: #onLayouted
 ]
 
 { #category : #scrolling }
 GLMPagerScrollBrick >> updatePanes [
-
+	
 	self doLayoutForce.
 	self changed
 ]
