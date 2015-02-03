@@ -22,8 +22,12 @@ GLMPagerScrollBrick >> band [
 GLMPagerScrollBrick >> band: aBrick [
 
 	band := aBrick.
-	band layoutPolicy: GLMPagerBandLayout new.
-	band width: [ :bandBrick | (self width / (self maxPanes min: self band subbricksCount) + self paneMargin) * self band subbricksCount ].
+	band
+		hShrinkWrap;
+		vSpaceFill.
+	"band actually depends from myself,
+	because each pane is proportional to my size"
+	band layout widthDependency: self.
 	
 	self addBrickBack: band.
 ]
@@ -94,8 +98,6 @@ GLMPagerScrollBrick >> initialize [
 	focus := Dictionary new.
 	currentScrollDelta := 0.
 	maxPanes := 2.
-	
-	self layoutPolicy: (GLMPagerLayout new).
 	
 	self band: self newBand.
 	
@@ -275,11 +277,14 @@ GLMPagerScrollBrick >> popPane: isSmooth [
 { #category : #api }
 GLMPagerScrollBrick >> pushPane: aMorph [	
 	|brick|
-	
-	brick := aMorph.
-	brick layoutProperties: (GLMBrickLayoutProperties new).
-	brick layoutProperties marginLeft: self paneMargin.
-	brick layoutProperties marginRight: self paneMargin.
+	brick := aMorph asBrick.
+	brick
+		layoutProperties: GLMBrickLayoutProperties new;
+		"width of tab is proportional to number of visible panes and my width"
+		width: [ self width / (self maxPanes min: self band subbricksCount) ];
+		vSpaceFill;
+		marginLeft: self paneMargin;
+		marginRight: self paneMargin.
 	
 	self band addBrickBack: brick.
 	self updatePanes
@@ -327,8 +332,6 @@ GLMPagerScrollBrick >> scrollValue: value [
 { #category : #scrolling }
 GLMPagerScrollBrick >> updatePanes [
 
-	self layoutPolicy layout: self in: nil.
-	self band layoutPolicy layout: self band in: nil.
-	
+	self doLayoutForce.
 	self changed
 ]
