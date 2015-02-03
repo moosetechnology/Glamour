@@ -71,15 +71,18 @@ LazyTabGroupMorph >> buildLabelFrom: aStringOrMorph withAction: anActionMorphOrN
 		ifFalse: [
 			|container labelMorph|
 			container := GLMBrick new.
-			labelMorph := GLMLabelBrick new.
-			labelMorph text: aStringOrMorph.
-			labelMorph layoutProperties horizontalPercent: 100.
-			container addBrickBack: labelMorph.
-			container layoutProperties horizontalPercent: 100.
-			labelMorph layoutProperties marginLeft: 5.
+			labelMorph := GLMLabelBrick new
+				text: aStringOrMorph;
+			 	hSpaceFill;
+			 	vSpaceFill;
+				marginLeft: 5.
+			container
+				addBrickBack: labelMorph;
+				hSpaceFill;
+				vSpaceFill.
 			
 			container layoutProperties maxWidthBlock: [ :aTrick |
-				labelMorph label textSize x + (2 *  labelMorph layoutProperties marginLeft) + (anActionMorphOrNil ifNotNil: [ anActionMorphOrNil normalImage width * 1.5 ] ifNil: [ 0 ])].
+				labelMorph label textSize x + (2 *  labelMorph marginLeft) + (anActionMorphOrNil ifNotNil: [ anActionMorphOrNil normalImage width * 1.5 ] ifNil: [ 0 ])].
 			container ].
 		
 	label := anActionMorphOrNil
@@ -125,21 +128,6 @@ LazyTabGroupMorph >> initialize [
 		addMorph: self tabSelectorMorph;
 		addMorph: self contentMorph.
 	self tabSelectorMorph addDependent: self"
-]
-
-{ #category : #'as yet unclassified' }
-LazyTabGroupMorph >> layoutChanged [
-	super layoutChanged.
-	
-	self headerMorph ifNotNil: [
-		|newWidth|
-		newWidth := self width.
-		tabSelectorWidth = newWidth ifFalse: [
-			tabSelectorWidth := newWidth.
-			"the difference between TabSelectorMorph and the summ of widths of all tabs is 40. I don't know why"
-			"self fitLabelsIn: tabSelectorWidth - self toolbarMorph width - 40."
-		].
-	].
 ]
 
 { #category : #private }
