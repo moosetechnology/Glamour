@@ -20,7 +20,7 @@ GLMHorizontalScrollPaneBrick >> calculateMaxVelocity [
 GLMHorizontalScrollPaneBrick >> initialize [
 	super initialize.
 	
-	self layoutPolicy: (GLMBrickHorizontalFillLayout new)
+	self layoutPolicy: GLMHorizontalLinearLayout new
 ]
 
 { #category : #'instance creation' }
