@@ -52,13 +52,15 @@ GLMMorphBrick >> brickBounds: aRectangle [
 ]
 
 { #category : #'as yet unclassified' }
-GLMMorphBrick >> doLayout [
-]
-
-{ #category : #'as yet unclassified' }
 GLMMorphBrick >> drawSubmorphsOn: aCanvas [
 	
 	self morph fullDrawOn: (aCanvas copy setOrigin: (aCanvas origin + self bounds origin - self morph bounds origin) clipRect: (aCanvas clipRect translateBy: aCanvas origin))
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphBrick >> invalidateLayout [
+
+	
 ]
 
 { #category : #'as yet unclassified' }
@@ -84,6 +86,19 @@ GLMMorphBrick >> on: aMorph [
 		vSpaceFill.
 	self addBrickBack: morph.
 	super brickBounds: (0@0 extent: (morph width@morph height)).
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphBrick >> onLayouted [
+	|origin corner newBounds|
+	super onLayouted.
+	
+	origin := self paddingLeft @ self paddingTop.
+	corner := self paddingRight @ self paddingBottom.
+	newBounds := self globalBounds.
+	newBounds := ((newBounds origin + origin) corner: (newBounds corner - corner)).
+	
+	self morph bounds: newBounds
 ]
 
 { #category : #'as yet unclassified' }
