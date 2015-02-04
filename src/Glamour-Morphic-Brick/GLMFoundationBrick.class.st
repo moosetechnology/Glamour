@@ -57,25 +57,6 @@ GLMFoundationBrick >> addBrickBack: aBrick [
 	self brickRoot addBrickBack: aBrick.
 ]
 
-{ #category : #'as yet unclassified' }
-GLMFoundationBrick >> bounds: newBounds [
-	| left top right bottom |
-	super bounds: newBounds.
-	
-	left := self brickRoot marginLeft.
-	top := self brickRoot marginTop.
-	
-	right := self extent x - self brickRoot marginRight.
-	bottom := self extent y - self brickRoot marginBottom.
-	
-	self brickRoot width: right - left.
-	self brickRoot height: bottom - top.
-	self brickRoot wrappedBounds bounds: (left@top corner: (right@bottom)).
-	
-	self brickRoot doLayoutForce.
-	self brickRoot onLayouted
-]
-
 { #category : #accessing }
 GLMFoundationBrick >> brickRoot [
 
@@ -114,18 +95,15 @@ GLMFoundationBrick >> extent: aPoint [
 	
 	super extent: aPoint.
 	
-	left := self brickRoot marginLeft.
-	top := self brickRoot marginTop.
+	left := self brickRoot layoutProperties marginLeft.
+	top := self brickRoot layoutProperties marginTop.
 	
-	right := self extent x - self brickRoot marginRight.
-	bottom := self extent y - self brickRoot marginBottom.
+	right := self extent x - self brickRoot layoutProperties marginRight.
+	bottom := self extent y - self brickRoot layoutProperties marginBottom.
 	
-	self brickRoot width: right - left.
-	self brickRoot height: bottom - top.
-	self brickRoot wrappedBounds bounds: (left@top corner: (right@bottom)).
+	self brickRoot brickBounds: (left@top corner: (right@bottom)).
 	
 	self brickRoot doLayout.
-	self brickRoot onLayouted
 ]
 
 { #category : #drawing }
@@ -153,7 +131,7 @@ GLMFoundationBrick >> initialize [
 	self beTransparent.
 	
 	self brickRoot: GLMBrick new.
-	self brickRoot layoutPolicy: GLMHorizontalLinearLayout new.
+	self brickRoot layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new.
 ]
 
 { #category : #testing }
