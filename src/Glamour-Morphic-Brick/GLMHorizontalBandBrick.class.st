@@ -20,7 +20,7 @@ GLMHorizontalBandBrick >> doLayout [
 GLMHorizontalBandBrick >> initialize [
 	super initialize.
 	
-	self layoutPolicy: GLMHorizontalLinearLayout new.
+	self layoutPolicy: GLMBrickHorizontalFillLinearLayout new.
 ]
 
 { #category : #'layout brick' }

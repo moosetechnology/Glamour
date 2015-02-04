@@ -11,25 +11,17 @@ Trait {
 { #category : #'brick-geometry' }
 GLMBrickGeometryTrait >> brickBounds [
 
-	^ self wrappedBounds brickBounds
+	^ self wrappedBounds bounds
 ]
 
 { #category : #'brick-geometry' }
 GLMBrickGeometryTrait >> brickBounds: aRectangle [
 	"if you want to change brick's position or bounds use only this method!"
-	self privateBounds: aRectangle
-]
-
-{ #category : #'private-geometry' }
-GLMBrickGeometryTrait >> customHeight [
-
-	^ (self valueOfProperty: #brickGeometryHeightLogic) brickValue: self
-]
-
-{ #category : #'private-geometry' }
-GLMBrickGeometryTrait >> customWidth [
-
-	^ (self valueOfProperty: #brickGeometryWidthLogic) brickValue: self
+	self privateBounds: aRectangle.
+	
+	self
+		updateWidth;
+		updateHeight
 ]
 
 { #category : #'brick-geometry' }
@@ -45,17 +37,7 @@ GLMBrickGeometryTrait >> extent [
 { #category : #'brick-geometry' }
 GLMBrickGeometryTrait >> extent: aPoint [
 	"actually works only if width or height are not custom"
-	"updates layout"
-	self changed.
-	
-	self width: aPoint x.
-	self height: aPoint y.
-	self wrappedBounds bounds: (self brickBounds origin extent: aPoint).
-	
-	self flag: 'do I need to layout morphs inside?'.
-	self doLayout.
-	
-	self changed
+	self brickBounds: (self brickBounds origin extent: aPoint)
 ]
 
 { #category : #'brick-geometry' }
@@ -85,18 +67,6 @@ GLMBrickGeometryTrait >> globalOuterBounds [
 	^ self owner ifNotNil: [ self outerBounds translateBy: self owner globalBoundsTranslateFactor ] ifNil: [ self outerBounds ].
 ]
 
-{ #category : #'brick-geometry-properties' }
-GLMBrickGeometryTrait >> hMargin [
-
-	^ self marginLeft + self marginRight
-]
-
-{ #category : #'brick-geometry-properties' }
-GLMBrickGeometryTrait >> hPadding [
-
-	^ self paddingLeft + self paddingRight
-]
-
 { #category : #'brick-geometry' }
 GLMBrickGeometryTrait >> height [
 
@@ -113,8 +83,9 @@ GLMBrickGeometryTrait >> height: anObject [
 
 { #category : #'brick-geometry' }
 GLMBrickGeometryTrait >> innerBounds [
-	"can be used in layouts"
-	^ self wrappedBounds innerBounds
+
+	^ (self brickBounds origin + (self paddingLeft @ self paddingTop))
+		corner: (self brickBounds corner - ((self paddingRight) @ (self paddingBottom))).
 ]
 
 { #category : #'private-geometry' }
@@ -138,115 +109,116 @@ GLMBrickGeometryTrait >> layout [
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> margin: aCollection [
 
-	self wrappedBounds margin: aCollection
+	self layout margin: aCollection
 ]
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> marginBottom [
 
-	^ self wrappedBounds marginBottom
+	^ self layout marginBottom
 ]
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> marginBottom: anObject [
 
-	self wrappedBounds marginBottom: anObject
+	self layout marginBottom: anObject
 ]
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> marginLeft [
 
-	^ self wrappedBounds marginLeft
+	^ self layout marginLeft
 ]
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> marginLeft: anObject [
 
-	self wrappedBounds marginLeft: anObject
+	self layout marginLeft: anObject
 ]
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> marginRight [
 
-	^ self wrappedBounds marginRight
+	^ self layout marginRight
 ]
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> marginRight: anObject [
 
-	self wrappedBounds marginRight: anObject
+	self layout marginRight: anObject
 ]
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> marginTop [
 
-	^ self wrappedBounds marginTop
+	^ self layout marginTop
 ]
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> marginTop: anObject [
 
-	self wrappedBounds marginTop: anObject
+	self layout marginTop: anObject
 ]
 
 { #category : #'brick-geometry' }
 GLMBrickGeometryTrait >> outerBounds [
-	"can be used in layouts"
-	^ self wrappedBounds outerBounds
+
+	^ (self brickBounds origin - ((self marginLeft) @ (self marginTop)))
+		corner: (self brickBounds corner + ((self marginRight) @ (self marginBottom)))
 ]
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> padding: aCollection [
 
-	self wrappedBounds padding: aCollection
+	self layout padding: aCollection
 ]
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> paddingBottom [
 
-	^ self wrappedBounds paddingBottom
+	^ self layout paddingBottom
 ]
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> paddingBottom: anObject [
 
-	self wrappedBounds paddingBottom: anObject
+	self layout paddingBottom: anObject
 ]
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> paddingLeft [
 
-	^ self wrappedBounds paddingLeft
+	^ self layout paddingLeft
 ]
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> paddingLeft: anObject [
 
-	self wrappedBounds paddingLeft: anObject
+	self layout paddingLeft: anObject
 ]
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> paddingRight [
 
-	^ self wrappedBounds paddingRight
+	^ self layout paddingRight
 ]
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> paddingRight: anObject [
 
-	self wrappedBounds paddingRight: anObject
+	self layout paddingRight: anObject
 ]
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> paddingTop [
 
-	^ self wrappedBounds paddingTop
+	^ self layout paddingTop
 ]
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> paddingTop: anObject [
 
-	self wrappedBounds paddingTop: anObject
+	self layout paddingTop: anObject
 ]
 
 { #category : #'private-geometry' }
@@ -270,7 +242,7 @@ GLMBrickGeometryTrait >> setProperty: aSymbol toValue: anObject [
 { #category : #'brick-geometry-transformations' }
 GLMBrickGeometryTrait >> translateBy: aPoint [
 
-	self wrappedBounds brickBounds: (self brickBounds translateBy: aPoint)
+	self brickBounds: (self brickBounds translateBy: aPoint)
 ]
 
 { #category : #'brick-geometry-transformations' }
@@ -303,18 +275,6 @@ GLMBrickGeometryTrait >> updateWidth [
 	[ self privateBounds: (self brickBounds withWidth: ((self valueOfProperty: #brickGeometryWidthLogic) brickValue: self)) ]
 		on: Exception
 		do: [ "just skip and do nothing" ]
-]
-
-{ #category : #'brick-geometry-properties' }
-GLMBrickGeometryTrait >> vMargin [
-
-	^ self marginTop + self marginBottom
-]
-
-{ #category : #'brick-geometry-properties' }
-GLMBrickGeometryTrait >> vPadding [
-
-	^ self paddingTop + self paddingBottom
 ]
 
 { #category : #'private-extension' }
@@ -361,7 +321,7 @@ GLMBrickGeometryTrait >> withWidth: anInteger [
 	self brickBounds: (self brickBounds withWidth: anInteger)
 ]
 
-{ #category : #'brick-geometry' }
+{ #category : #'private-geometry' }
 GLMBrickGeometryTrait >> wrappedBounds [
 
 	^ self explicitRequirement
