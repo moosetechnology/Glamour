@@ -9,7 +9,7 @@ Class {
 		'focus',
 		'currentScrollDelta'
 	],
-	#category : #'Glamour-Morphic-Pager-Morphic'
+	#category : #'Glamour-Morphic-Pager-Brick'
 }
 
 { #category : #accessing }
@@ -122,11 +122,10 @@ GLMPagerScrollBrick >> newBand [
 	^ GLMBrick new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-layout-events' }
 GLMPagerScrollBrick >> onLayouted [
 	super onLayouted.
 	
-	'self onLayouted' logCr.
 	self band translateX: self band brickBounds left negated.
 	self band translateX: (self convertScrollValue: (self pagerModel convertIndexToValue: self pagerModel firstVisiblePageIndex)).
 ]
