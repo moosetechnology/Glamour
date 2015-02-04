@@ -66,6 +66,24 @@ GLMBrickLayouterTests >> assertWidthDirty: aBrick [
 ]
 
 { #category : #'instance-creation' }
+GLMBrickLayouterTests >> newBrickFullHeightAndWidthDependsOnParent: anInteger [
+
+	^ GLMBrick new
+		vSpaceFill;
+		hSpaceFill: anInteger;
+		yourself
+]
+
+{ #category : #'instance-creation' }
+GLMBrickLayouterTests >> newBrickWithFullDependsOnChildren [
+
+	^ GLMBrick new 
+		hShrinkWrap;
+		vShrinkWrap;
+		yourself
+]
+
+{ #category : #'instance-creation' }
 GLMBrickLayouterTests >> newBrickWithFullFill [
 
 	^ GLMBrick new 
@@ -91,6 +109,12 @@ GLMBrickLayouterTests >> setUp [
 ]
 
 { #category : #defaults }
+GLMBrickLayouterTests >> staticExtent [
+
+	^ self staticWidth  @ self staticHeight
+]
+
+{ #category : #defaults }
 GLMBrickLayouterTests >> staticHeight [
 
 	^ 100
@@ -103,13 +127,25 @@ GLMBrickLayouterTests >> staticWidth [
 ]
 
 { #category : #'tests-simple' }
-GLMBrickLayouterTests >> testFreshBrickIsDirty [
-
-	self assertBrickDirty: self newBrickWithStaticExtent
+GLMBrickLayouterTests >> test100DependsOnChildrenBricksInsideOneStatic [
+	|root current|
+	
+	root := self newBrickWithFullDependsOnChildren.
+	current := root.
+	1 to: 99 do: [ :index |
+		current := current addBrickBack: self newBrickWithFullDependsOnChildren ].
+	current := current addBrickBack: self newBrickWithStaticExtent.
+	
+	self assertAllSubbricksAreDirty: root.
+	root doLayout.
+	self assertAllSubbricksAreClean: root.
+	
+	self assert: root extent equals: current extent
+	
 ]
 
 { #category : #'tests-simple' }
-GLMBrickLayouterTests >> testLayout100FillBricksInsideEachOtherIndideStatic [
+GLMBrickLayouterTests >> test100FillBricksInsideEachOtherIndideStatic [
 	|root current|
 	
 	root := self newBrickWithStaticExtent.
@@ -126,26 +162,166 @@ GLMBrickLayouterTests >> testLayout100FillBricksInsideEachOtherIndideStatic [
 ]
 
 { #category : #'tests-simple' }
-GLMBrickLayouterTests >> testLayoutFillBrickInsideStatic [
+GLMBrickLayouterTests >> test100StaticBricksInsideEachOtherIndideStatic [
+	|root current|
+	
+	root := self newBrickWithStaticExtent.
+	current := root.
+	1 to: 100 do: [ :index |
+		current := current addBrickBack: self newBrickWithStaticExtent ].
+	
+	self assertAllSubbricksAreDirty: root.
+	root doLayout.
+	self assertAllSubbricksAreClean: root.
+	
+	self assert: current extent equals: root extent
+	
+]
+
+{ #category : #'tests-simple' }
+GLMBrickLayouterTests >> testBrickDependsOnChildrenOneStatic [
+	|root brick|
+	
+	root := self newBrickWithFullDependsOnChildren.
+	brick := self newBrickWithStaticExtent.
+	
+	root addBrickBack: brick.
+	
+	self assert: root isWidthDependsOnChildren.
+	self assert: root isHeightDependsOnChildren.
+	
+	self assertAllSubbricksAreDirty: root.
+	root doLayout.
+	self assertAllSubbricksAreClean: root.
+	
+	self assert: root extent equals: brick extent
+]
+
+{ #category : #'tests-simple' }
+GLMBrickLayouterTests >> testEmptyBrickDependsOnChildren [
+	|brick|
+	
+	brick := self newBrickWithFullDependsOnChildren.
+	
+	self assert: brick isWidthDependsOnChildren.
+	self assert: brick isHeightDependsOnChildren.
+	
+	self assertAllSubbricksAreDirty: brick.
+	brick doLayout.
+	self assertAllSubbricksAreClean: brick.
+	
+	self assert: brick extent equals: 0@0
+]
+
+{ #category : #'tests-simple' }
+GLMBrickLayouterTests >> testFillBrickInsideStatic [
 	|root brick|
 	
 	root := self newBrickWithStaticExtent.
 	brick := self newBrickWithFullFill.
+	brick isWidthDependsOnParent.
+	brick isHeightDependsOnParent.
+	
 	root addBrickBack: brick.
 	
 	self assertAllSubbricksAreDirty: root.
 	root doLayout.
 	self assertAllSubbricksAreClean: root.
 	
+	self assert: brick extent equals: root extent
+	
 ]
 
 { #category : #'tests-simple' }
-GLMBrickLayouterTests >> testLayoutOneStaticBrick [
+GLMBrickLayouterTests >> testFreshBrickIsDirty [
+
+	self assertBrickDirty: self newBrickWithStaticExtent
+]
+
+{ #category : #'tests-horizontal-second-level-complexity' }
+GLMBrickLayouterTests >> testOneDependsOnParentOneDependsOnChildrenInsideStatic [
+	|root brick1 brick2 brick3 staticWidth staticHeight|
+	
+	staticWidth := 20.
+	staticHeight := 50.
+	
+	root := self newBrickWithStaticExtent.
+	brick1 := self newBrickFullHeightAndWidthDependsOnParent: 100.
+	brick2 := self newBrickWithFullDependsOnChildren.
+	brick3 := GLMBrick new width: staticWidth; height: staticHeight; yourself.
+	
+	root
+		addBrickBack: brick1;
+		addBrickBack: brick2.
+	brick2 addBrickBack: brick3.
+		
+	self assertAllSubbricksAreDirty: root.
+	root doLayout.
+	self assertAllSubbricksAreClean: root.
+	
+	self assert: root extent equals: self staticExtent.
+	self assert: brick1 brickBounds equals: (0@0 extent: (self staticWidth - staticWidth) @ self staticHeight).
+	self assert: brick2 brickBounds equals: ((self staticWidth - staticWidth)@0 extent: (staticWidth) @ staticHeight).
+	self assert: brick3 brickBounds equals: (0@0 extent: (staticWidth) @ staticHeight).
+	
+]
+
+{ #category : #'tests-horizontal-first-level-complexity' }
+GLMBrickLayouterTests >> testOneDependsOnParentOneStaticInsideStatic [
+	|root brick1 brick2 staticWidth|
+	
+	staticWidth := 20.
+	
+	root := self newBrickWithStaticExtent.
+	brick1 := self newBrickFullHeightAndWidthDependsOnParent: 100.
+	brick2 := GLMBrick new width: staticWidth; vSpaceFill; yourself.
+	
+	root
+		addBrickBack: brick1;
+		addBrickBack: brick2.
+		
+	self assertAllSubbricksAreDirty: root.
+	root doLayout.
+	self assertAllSubbricksAreClean: root.
+	
+	self assert: root extent equals: self staticExtent.
+	self assert: brick1 brickBounds equals: (0@0 extent: (self staticWidth - staticWidth) @ self staticHeight).
+	self assert: brick2 brickBounds equals: ((self staticWidth - staticWidth)@0 extent: (staticWidth) @ self staticHeight).
+	
+]
+
+{ #category : #'tests-simple' }
+GLMBrickLayouterTests >> testOneStaticBrick [
 	|brick|
 	
 	brick := self newBrickWithStaticExtent.
 	brick doLayout.
+	
+	self assert: brick isWidthDependsOnMyself.
+	self assert: brick isHeightDependsOnMyself.
 	self assertBrickClean: brick.
-	self assert: brick extent equals: self staticWidth @ self staticHeight
+	self assert: brick extent equals: self staticExtent
+	
+]
+
+{ #category : #'tests-horizontal-first-level-complexity' }
+GLMBrickLayouterTests >> testTwoDependsOnParentInsideStatic [
+	|root brick1 brick2|
+	
+	root := self newBrickWithStaticExtent.
+	brick1 := self newBrickFullHeightAndWidthDependsOnParent: 50.
+	brick2 := self newBrickFullHeightAndWidthDependsOnParent: 50.
+	
+	root
+		addBrickBack: brick1;
+		addBrickBack: brick2.
+		
+	self assertAllSubbricksAreDirty: root.
+	root doLayout.
+	self assertAllSubbricksAreClean: root.
+	
+	self assert: root extent equals: self staticExtent.
+	self assert: brick1 brickBounds equals: (0@0 extent: (self staticWidth / 2) @ self staticHeight).
+	self assert: brick2 brickBounds equals: ((self staticWidth / 2)@0 extent: (self staticWidth / 2) @ self staticHeight).
 	
 ]
