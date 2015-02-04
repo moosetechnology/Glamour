@@ -17,17 +17,17 @@ GLMPagerBrick class >> exampleBasic [
 	adapter := GLMPagerModel new.
 	pager :=	GLMPagerBrick new.
 	pager pagerModel: adapter.
-	pager pushPane: (GLMBrick new color: Color red).
-	pager pushPane: (GLMBrick new color: Color green).
+	pager pushPane: (GLMLabelBrick new color: Color lightRed; text: 'Hello'; textPosition: #center).
+	"pager pushPane: (GLMBrick new color: Color green).
 	pager pushPane: (GLMBrick new color: Color yellow).
-	"pager pushPane: (GLMBrick new color: Color blue).
+	pager pushPane: (GLMBrick new color: Color blue).
 	pager pushPane: (GLMBrick new color: Color pink)."
 	
 	pager height: 600.
 	pager width: 1024.
 	pager asBrickedMorph openInWindow.
 	
-	"pager inspect."
+	pager inspect.
 ]
 
 { #category : #initialization }
@@ -78,13 +78,13 @@ GLMPagerBrick >> newScrollBrick [
 { #category : #'pager-event-handling' }
 GLMPagerBrick >> onPagePoped [
 
-"	self showOrHideScrollBar"
+	self showOrHideScrollBar
 ]
 
 { #category : #'pager-event-handling' }
 GLMPagerBrick >> onPagePushed [
 
-	"self showOrHideScrollBar"
+	self showOrHideScrollBar
 ]
 
 { #category : #initialization }
@@ -108,7 +108,6 @@ GLMPagerBrick >> pagerBar: aBrick [
 	self pagerBar
 		vShrinkWrap;
 		hShrinkWrap.
-		
 	self pagerBar layout hAlign: #center.
 	
 	self pagerBar pagerModel: pagerModel.
@@ -195,13 +194,9 @@ GLMPagerBrick >> scrollerSizeShortcutAction: first second: second [
 GLMPagerBrick >> showOrHideScrollBar [
 	
 	((self pagerModel size > 1) & (self showScrollBarWhenNeeded))
-		ifTrue: [ self addBrickBack: self pagerBar ]
-		ifFalse: [ self removeBrick: self pagerBar ].
-	
-	"after adding new bricks or removing them,
-	layout should be force updated"
-	self doLayoutForce.
-	self changed
+		ifTrue: [ (self hasSubbrick: self pagerBar)
+			ifFalse: [ self addBrickBack: self pagerBar. self update ] ]
+		ifFalse: [ self removeBrick: self pagerBar. self update ].
 ]
 
 { #category : #'pager-accessing' }
@@ -215,4 +210,11 @@ GLMPagerBrick >> showScrollBarWhenNeeded [
 GLMPagerBrick >> showScrollBarWhenNeeded: aBoolean [
 
 	showScrollBarWhenNeeded := aBoolean
+]
+
+{ #category : #'pager-actions' }
+GLMPagerBrick >> update [
+
+	self doLayoutForce.
+	self changed
 ]

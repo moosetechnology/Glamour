@@ -10,17 +10,17 @@ Class {
 
 { #category : #callbacks }
 GLMMorphicPagerRenderer >> actOnPaneAdded: ann [
-	container pushPane: (self renderObject: ann pane).
+	container brickRoot pushPane: (self renderObject: ann pane).
 ]
 
 { #category : #callbacks }
 GLMMorphicPagerRenderer >> actOnPaneRemoved: ann [
-	container popPane
+	container brickRoot popPane
 ]
 
 { #category : #callbacks }
 GLMMorphicPagerRenderer >> actOnPaneReplaced: ann [
-	container popAndReplacePane: (self renderObject: ann newPane)
+	container brickRoot popAndReplacePane: (self renderObject: ann newPane)
 ]
 
 { #category : #accessing }
@@ -41,17 +41,13 @@ GLMMorphicPagerRenderer >> render: aBrowser [
 		pagerModel scrollButtonIconRenderBlock: [ :index | aBrowser scrollButtonIconRenderBlock cull: ((aBrowser panes at: index) port: #entity) value ]
 	].
 	
-	container := GLMPagerMorph new
-		name: 'scroller';
-		vResizing: #spaceFill;
-		hResizing: #spaceFill;
+	container := (GLMPagerBrick new
 		pagerModel: pagerModel;
-		beTransparent;
-		yourself.
+		yourself) asBrickedMorph.
 
 	"container maxPanes: aBrowser fixedSizePanes."
 	self registerAnnouncementsFor: aBrowser.  
 	aBrowser panes
-		do: [ :each | container pushPane: (self renderObject: each) ].
+		do: [ :each | container brickRoot pushPane: (self renderObject: each) ].
 	^ container
 ]

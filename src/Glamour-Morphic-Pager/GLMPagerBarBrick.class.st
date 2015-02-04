@@ -21,7 +21,19 @@ GLMPagerBarBrick >> buttonsBrick: aBrick [
 	buttonsBrick := aBrick.
 	
 	self buttonsBrick pagerModel: pagerModel.
+	
+	self buttonsBrick
+		hShrinkWrap;
+		vShrinkWrap.
+	
 	self addBrickBack: self buttonsBrick
+]
+
+{ #category : #initialization }
+GLMPagerBarBrick >> initialize [
+	super initialize.
+	
+	self color: Color lightRed
 ]
 
 { #category : #'bar-instance creation' }
@@ -33,13 +45,13 @@ GLMPagerBarBrick >> newButtonsBrick [
 { #category : #'bar-instance creation' }
 GLMPagerBarBrick >> newSliderBrick [
 
-	^ GLMBrick new
+	^ GLMPagerScrollSlidingBrick new
 ]
 
 { #category : #'bar-event-handling' }
 GLMPagerBarBrick >> onPagePoped [
 
-	buttonsBrickBrick onPagePoped.
+	buttonsBrick onPagePoped.
 	self recomputeScrollBar.
 ]
 
@@ -61,13 +73,11 @@ GLMPagerBarBrick >> pagerModel: aModel [
 	
 	pagerModel := aModel.
 	
-	"self pagerModel announcer weak subscribe: GLMPagePushed send: #onPagePushed: to: self.
-	self pagerModel announcer weak subscribe: GLMPagePoped send: #onPagePoped to: self."
+	self pagerModel announcer weak subscribe: GLMPagePushed send: #onPagePushed: to: self.
+	self pagerModel announcer weak subscribe: GLMPagePoped send: #onPagePoped to: self.
 	
-	self addBrickBack: (GLMBrick new color: Color blue; height: 16; width: 160).
-	
-	"self buttonsBrick: self newButtonsBrick.
-	self sliderBrick: self newSliderBrick."
+	self buttonsBrick: self newButtonsBrick.
+	"self sliderBrick: self newSliderBrick."
 ]
 
 { #category : #initialization }
@@ -89,7 +99,7 @@ GLMPagerBarBrick >> sliderBrick: aBrick [
 
 	sliderBrick := aBrick.
 	
-	"self sliderBrick pagerModel: self pagerModel."
+	self sliderBrick pagerModel: self pagerModel.
 	self sliderBrick height: self pagerModel circleButtonSize.
 	self addBrickBack: self sliderBrick
 ]

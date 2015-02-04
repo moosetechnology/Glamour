@@ -23,7 +23,7 @@ GLMPagerScrollBrick >> band: aBrick [
 
 	band := aBrick.
 	band
-		hShrinkWrap;
+		width: [ self band subbricksCount * self width / ((self maxPanes min: self band subbricksCount) max: 1) ];
 		vSpaceFill.
 	"band actually depends from myself,
 	because each pane is proportional to my size"
@@ -283,10 +283,12 @@ GLMPagerScrollBrick >> pushPane: aMorph [
 	brick
 		layoutProperties: GLMBrickLayoutProperties new;
 		"width of tab is proportional to number of visible panes and my width"
-		width: [ self width / (self maxPanes min: self band subbricksCount) ];
+		width: [ self band width / (self band subbricksCount) ];
 		vSpaceFill;
 		marginLeft: self paneMargin;
 		marginRight: self paneMargin.
+		
+	brick layout widthDependency: self band.
 	
 	self band addBrickBack: brick.
 	self updatePanes

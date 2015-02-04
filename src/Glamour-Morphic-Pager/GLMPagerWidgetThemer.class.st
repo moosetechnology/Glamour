@@ -10,9 +10,9 @@ GLMPagerWidgetThemer >> defaultScrollButtonStyleFor: aButton [
 	aButton checkedIcon: GLMUIThemeExtraIcons glamorousGrayCircleEmpty.
 	aButton checkedFocusedIcon: GLMUIThemeExtraIcons glamorousGrayCircle.
 	
-	aButton image state normal: GLMUIThemeExtraIcons glamorousGrayCircleEmpty.
-	aButton image state selected: GLMUIThemeExtraIcons glamorousGrayCircle.
-	aButton image state checked: aButton checkedIcon.
+	aButton normalImage: GLMUIThemeExtraIcons glamorousGrayCircleEmpty.
+	aButton selectedImage: GLMUIThemeExtraIcons glamorousGrayCircle.
+	aButton checkedImage: aButton checkedIcon.
 ]
 
 { #category : #'as yet unclassified' }
