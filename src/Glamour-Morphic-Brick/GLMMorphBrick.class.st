@@ -103,8 +103,7 @@ GLMMorphBrick >> onLayouted [
 
 { #category : #'as yet unclassified' }
 GLMMorphBrick >> onRemovedFrom: aBrick [
-	
-	self removeMorph: self morph
+	"empty"
 ]
 
 { #category : #'as yet unclassified' }

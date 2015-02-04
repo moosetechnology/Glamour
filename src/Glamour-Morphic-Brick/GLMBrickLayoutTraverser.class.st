@@ -198,7 +198,8 @@ GLMBrickLayoutTraverser >> markDirtyAround: aBrick inContext: aContextBrick [
 		self markOppositeDirty: aBrick.
 		self opposite markDirtyAround: aBrick inContext: nil ].
 	
-	aBrick subbricks do: [ :each | self markDirtyCustomDependency: each inContext: aContextBrick ].
+	self markDirtyCustomDependency: aBrick inContext: aContextBrick.
+	aBrick subbricks do: [ :each | self markDirtyCustomDependency: each inContext: aBrick ]
 	
 
 ]
@@ -209,7 +210,10 @@ GLMBrickLayoutTraverser >> markDirtyCustomDependency: aBrick inContext: aContext
 	
 	(self hasCustomDependencies: aBrick) ifTrue: [
 				self markDirty: aBrick.
-				aBrick subbricks do: [ :each | each isBrick ifTrue: [ self markDirty: each ] ].
+				aBrick subbricks do: [ :each | each isBrick ifTrue: [
+						self markDirty: each.
+						self markDirtyAround: each inContext: aBrick ] ].
+				
 				(self customDependencies: aBrick) do: [ :each | |brick|
 					brick := each brickValue: aBrick.
 					(brick = aContextBrick) not & (brick = aBrick) not & brick isBrick ifTrue: [
