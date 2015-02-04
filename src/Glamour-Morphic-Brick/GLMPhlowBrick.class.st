@@ -33,7 +33,7 @@ GLMPhlowBrick >> initialize [
 	super initialize.
 		
 	self
-		layoutPolicy: GLMBrickVerticalFillProportionalLinearLayout new;
+		layoutPolicy: GLMVerticalLinearLayout new;
 		titleBrick: self newTitleBrick.
 		
 	self layoutProperties	hSpaceFill; vSpaceFill.

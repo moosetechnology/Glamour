@@ -103,30 +103,32 @@ GLMTabLabelBrick >> label [
 ]
 
 { #category : #accessing }
-GLMTabLabelBrick >> label: aTrickMorph [
+GLMTabLabelBrick >> label: aBrick [
 	"Change the label contents"
 	
-	aTrickMorph layoutProperties horizontalPercent: 100.
-	self layoutProperties maxWidthBlock: aTrickMorph layoutProperties maxWidthBlock.
+	aBrick hSpaceFill.
+	self layoutProperties maxWidthBlock: aBrick layoutProperties maxWidthBlock.
 
 	self
-		normalLabel: aTrickMorph;
-		selectedLabel: aTrickMorph;
+		normalLabel: aBrick;
+		selectedLabel: aBrick;
 		selected: self isSelected
 ]
 
 { #category : #'as yet unclassified' }
-GLMTabLabelBrick >> label: aTrickMorph selected: selectedTrickMorph [
+GLMTabLabelBrick >> label: aBrick selected: aSelectedBrick [
 	"Change the label contents"
 
-	aTrickMorph layoutProperties horizontalPercent: 100.
-	selectedTrickMorph layoutProperties horizontalPercent: 100.
+	aBrick hSpaceFill.
+	aBrick vSpaceFill.
+	aSelectedBrick hSpaceFill.
+	aSelectedBrick vSpaceFill.
 	
-	self layoutProperties maxWidthBlock: aTrickMorph layoutProperties maxWidthBlock.
+	self layoutProperties maxWidthBlock: aBrick layoutProperties maxWidthBlock.
 	
 	self
-		normalLabel: aTrickMorph;
-		selectedLabel: selectedTrickMorph;
+		normalLabel: aBrick;
+		selectedLabel: aSelectedBrick;
 		selected: self isSelected
 ]
 
