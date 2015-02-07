@@ -86,7 +86,7 @@ GLMFoundationBrick >> brickThemerChanged [
 { #category : #layouting }
 GLMFoundationBrick >> doLayout [
 
-	self brickRoot doLayoutForce.
+	self brickRoot doLayout.
 ]
 
 { #category : #geometry }
@@ -95,18 +95,15 @@ GLMFoundationBrick >> extent: aPoint [
 	
 	super extent: aPoint.
 	
-	left := self brickRoot marginLeft.
-	top := self brickRoot marginTop.
+	left := self brickRoot layoutProperties marginLeft.
+	top := self brickRoot layoutProperties marginTop.
 	
-	right := self extent x - self brickRoot marginRight.
-	bottom := self extent y - self brickRoot marginBottom.
+	right := self extent x - self brickRoot layoutProperties marginRight.
+	bottom := self extent y - self brickRoot layoutProperties marginBottom.
 	
-	self brickRoot width: right - left.
-	self brickRoot height: bottom - top.
-	self brickRoot wrappedBounds bounds: (left@top corner: (right@bottom)).
+	self brickRoot brickBounds: (left@top corner: (right@bottom)).
 	
-	self brickRoot doLayoutForce.
-	self brickRoot onLayouted
+	self brickRoot doLayout.
 ]
 
 { #category : #drawing }
@@ -134,7 +131,7 @@ GLMFoundationBrick >> initialize [
 	self beTransparent.
 	
 	self brickRoot: GLMBrick new.
-	self brickRoot layoutPolicy: GLMHorizontalLinearLayout new.
+	self brickRoot layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new.
 ]
 
 { #category : #testing }

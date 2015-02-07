@@ -21,21 +21,16 @@ GLMPhlowListBrick class >> example2 [
 
 { #category : #phlow }
 GLMPhlowListBrick >> display: anObject [
-
-	self setProperty: #phlowDisplay toValue: anObject
-]
-
-{ #category : #'as yet unclassified' }
-GLMPhlowListBrick >> displayLogic [
-
-	^ self valueOfProperty: #phlowDisplay ifAbsent: [ #yourself ]
+	
+	self listBrick adaptor
+		morphAtLogic: [ :index :morph | self styledLogic phlowValue: (self formatLogic phlowValue: (anObject phlowValue: (self entity at: index))) asBrick ]
 ]
 
 { #category : #phlow }
 GLMPhlowListBrick >> entity: anObject [
-
 	super entity: anObject.
-	self setAdaptor
+	
+	self listBrick adaptor on: anObject
 ]
 
 { #category : #phlow }
@@ -67,10 +62,9 @@ GLMPhlowListBrick >> listBrick [
 GLMPhlowListBrick >> listBrick: aBrick [
 
 	scrollList := aBrick.
-	self listBrick
-		vSpaceFill;
-		hSpaceFill.
-		
+	
+	self listBrick adaptor: GLMBrickListAdaptor new.
+	self listBrick layoutProperties vSpaceFill.
 	self addBrickBack: self listBrick
 ]
 
@@ -78,16 +72,6 @@ GLMPhlowListBrick >> listBrick: aBrick [
 GLMPhlowListBrick >> newScrollList [
 
 	^ GLMScrollListBrick new
-]
-
-{ #category : #'as yet unclassified' }
-GLMPhlowListBrick >> setAdaptor [
-	| adaptor |
-	adaptor := (GLMBrickListAdaptor on: self entity)
-		morphAtLogic: [ :index :morph |
-			self styledLogic
-				phlowValue: (self formatLogic phlowValue: (self displayLogic phlowValue: (self entity at: index))) asBrick ].
-	self listBrick adaptor: adaptor
 ]
 
 { #category : #phlow }
