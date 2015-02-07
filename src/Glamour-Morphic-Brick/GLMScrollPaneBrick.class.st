@@ -161,12 +161,6 @@ GLMScrollPaneBrick >> calculateVelocity: event [
 	^ self velocity ceiling
 ]
 
-{ #category : #'brick-layout' }
-GLMScrollPaneBrick >> doLayout [
-	super doLayout.
-	self update.
-]
-
 { #category : #'scrollpane-events-mouse' }
 GLMScrollPaneBrick >> handleListenEvent: anEvent [
 	"checking if it's keyboard event (mouse wheel is keyboard event on windows o_O (wtf?)"
@@ -202,6 +196,13 @@ GLMScrollPaneBrick >> initializeListeners [
 
 	"using the most general event subscribtion for all events spawned by the hand"
 	self activeHand addEventListener: self.
+]
+
+{ #category : #'brick-layout' }
+GLMScrollPaneBrick >> invalidateLayout [
+	super invalidateLayout.
+	
+	self update.
 ]
 
 { #category : #'scrollpane-testing' }

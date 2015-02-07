@@ -104,7 +104,7 @@ GLMVerticalLinearLayout >> align: aBrick in: parentBrick anchorPoint: aPoint [
 
 { #category : #height }
 GLMVerticalLinearLayout >> heightChildrenDependency: aBrick [
-	"returns the width of aBrick when it depends on children"
+	"returns the height of aBrick when it depends on children"
 	^ aBrick paddingTop + aBrick paddingBottom + (aBrick subbricks detectSum: [ :each | each outerBounds height ])
 ]
 

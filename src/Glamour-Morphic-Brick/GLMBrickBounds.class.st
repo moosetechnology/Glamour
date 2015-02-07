@@ -40,7 +40,7 @@ GLMBrickBounds >> bounds: aRectangle [
 
 	self bounds width = aRectangle width ifFalse: [ self markWidthDirty ].
 	self bounds height = aRectangle height ifFalse: [ self markHeightDirty ].
-	bounds := aRectangle
+	self brickBounds: aRectangle
 ]
 
 { #category : #private }
@@ -162,7 +162,9 @@ GLMBrickBounds >> margin: margins [
 			self marginBottom: (margins at: 3) ].
 		margins size > 3 ifTrue: [
 			self marginLeft: (margins at: 4) ] ]
-	ifFalse: [ ^ self margin: {margins} ]
+	ifFalse: [ ^ self margin: {margins} ].
+	
+	self updateCache
 ]
 
 { #category : #'accessing - margin/padding' }
@@ -174,7 +176,8 @@ GLMBrickBounds >> marginBottom [
 { #category : #'accessing - margin/padding' }
 GLMBrickBounds >> marginBottom: anInteger [
 
-	self margin at: Bottom put: anInteger
+	self margin at: Bottom put: anInteger.
+	self updateCache
 ]
 
 { #category : #'accessing - margin/padding' }
@@ -186,7 +189,8 @@ GLMBrickBounds >> marginLeft [
 { #category : #'accessing - margin/padding' }
 GLMBrickBounds >> marginLeft: anInteger [
 
-	self margin at: Left put: anInteger
+	self margin at: Left put: anInteger.
+	self updateCache
 ]
 
 { #category : #'accessing - margin/padding' }
@@ -198,7 +202,8 @@ GLMBrickBounds >> marginRight [
 { #category : #'accessing - margin/padding' }
 GLMBrickBounds >> marginRight: anInteger [
 
-	self margin at: Right put: anInteger
+	self margin at: Right put: anInteger.
+	self updateCache
 ]
 
 { #category : #'accessing - margin/padding' }
@@ -210,7 +215,8 @@ GLMBrickBounds >> marginTop [
 { #category : #'accessing - margin/padding' }
 GLMBrickBounds >> marginTop: anInteger [
 
-	self margin at: Top put: anInteger
+	self margin at: Top put: anInteger.
+	self updateCache
 ]
 
 { #category : #marking }
@@ -251,7 +257,7 @@ GLMBrickBounds >> outerHeight: anInteger [
 
 { #category : #geometry }
 GLMBrickBounds >> outerOrigin: aPoint [
-
+	
 	self brickBounds: (aPoint + (self marginLeft @ self marginTop) extent: self extent )
 ]
 
@@ -311,7 +317,8 @@ GLMBrickBounds >> padding: paddings [
 			self paddingBottom: (paddings at: Bottom) ].
 		paddings size > Bottom ifTrue: [
 			self paddingLeft: (paddings at: Left) ] ]
-	ifFalse: [ ^ self padding: { paddings } ]
+	ifFalse: [ ^ self padding: { paddings } ].
+	self updateCache
 ]
 
 { #category : #'accessing - margin/padding' }
@@ -323,7 +330,8 @@ GLMBrickBounds >> paddingBottom [
 { #category : #'accessing - margin/padding' }
 GLMBrickBounds >> paddingBottom: anInteger [
 
-	self padding at: Bottom put: anInteger
+	self padding at: Bottom put: anInteger.
+	self updateCache
 ]
 
 { #category : #'accessing - margin/padding' }
@@ -335,7 +343,8 @@ GLMBrickBounds >> paddingLeft [
 { #category : #'accessing - margin/padding' }
 GLMBrickBounds >> paddingLeft: anInteger [
 
-	self padding at: Left put: anInteger
+	self padding at: Left put: anInteger.
+	self updateCache
 ]
 
 { #category : #'accessing - margin/padding' }
@@ -347,7 +356,8 @@ GLMBrickBounds >> paddingRight [
 { #category : #'accessing - margin/padding' }
 GLMBrickBounds >> paddingRight: anInteger [
 
-	self padding at: Right put: anInteger
+	self padding at: Right put: anInteger.
+	self updateCache
 ]
 
 { #category : #'accessing - margin/padding' }
@@ -359,7 +369,8 @@ GLMBrickBounds >> paddingTop [
 { #category : #'accessing - margin/padding' }
 GLMBrickBounds >> paddingTop: anInteger [
 
-	self padding at: Top put: anInteger
+	self padding at: Top put: anInteger.
+	self updateCache
 ]
 
 { #category : #private }

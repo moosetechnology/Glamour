@@ -57,25 +57,6 @@ GLMFoundationBrick >> addBrickBack: aBrick [
 	self brickRoot addBrickBack: aBrick.
 ]
 
-{ #category : #'as yet unclassified' }
-GLMFoundationBrick >> bounds: newBounds [
-	| left top right bottom |
-	super bounds: newBounds.
-	
-	left := self brickRoot marginLeft.
-	top := self brickRoot marginTop.
-	
-	right := self extent x - self brickRoot marginRight.
-	bottom := self extent y - self brickRoot marginBottom.
-	
-	self brickRoot width: right - left.
-	self brickRoot height: bottom - top.
-	self brickRoot wrappedBounds bounds: (left@top corner: (right@bottom)).
-	
-	self brickRoot doLayoutForce.
-	self brickRoot onLayouted
-]
-
 { #category : #accessing }
 GLMFoundationBrick >> brickRoot [
 
@@ -105,7 +86,7 @@ GLMFoundationBrick >> brickThemerChanged [
 { #category : #layouting }
 GLMFoundationBrick >> doLayout [
 
-	self brickRoot doLayout.
+	self brickRoot doLayoutForce.
 ]
 
 { #category : #geometry }
@@ -124,7 +105,7 @@ GLMFoundationBrick >> extent: aPoint [
 	self brickRoot height: bottom - top.
 	self brickRoot wrappedBounds bounds: (left@top corner: (right@bottom)).
 	
-	self brickRoot doLayout.
+	self brickRoot doLayoutForce.
 	self brickRoot onLayouted
 ]
 

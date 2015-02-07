@@ -88,7 +88,12 @@ GLMScrollListBrick >> adaptor [
 { #category : #accessing }
 GLMScrollListBrick >> adaptor: anAdaptor [
 
-	adaptor := anAdaptor
+	adaptor := anAdaptor.
+	self band hasSubbricks ifFalse: [ self updateVisible ].
+	
+	"self layoutPolicy layout: self in: self brickBounds.
+	self flag: 'Fix bug in Layouts'."
+	self update.
 ]
 
 { #category : #adding }
@@ -121,16 +126,6 @@ GLMScrollListBrick >> calculateMaxVelocity [
 	^ (self height * 0.9) asInteger
 ]
 
-{ #category : #layouting }
-GLMScrollListBrick >> doLayout [
-	super doLayout.
-	self band hasSubbricks ifFalse: [ self updateVisible ].
-	
-	self layoutPolicy layout: self in: self brickBounds.
-	self flag: 'Fix bug in Layouts'.
-	self update.
-]
-
 { #category : #accessing }
 GLMScrollListBrick >> gatherInvisibleItems [
 			
@@ -155,6 +150,7 @@ GLMScrollListBrick >> getMorphAt: anInteger recycled: aMorph [
 	|newMorph|
 	
 	newMorph := (self adaptor morphAt: anInteger convert: aMorph) asBrick.
+	newMorph hSpaceFill.
 	self setIndex: anInteger in: newMorph.
 	^ newMorph
 ]
@@ -313,7 +309,6 @@ GLMScrollListBrick >> setBoundsOf: aMorph after: afterMorph [
 	
 	aMorph
 		withWidth: self band width;
-		doLayout;
 		brickBounds: (afterMorph brickBounds bottomLeft extent: aMorph extent)
 ]
 
@@ -322,7 +317,6 @@ GLMScrollListBrick >> setBoundsOf: aMorph before: beforeMorph [
 	|origin corner|
 	
 	aMorph withWidth: self band width.
-	aMorph doLayout.
 	
 	corner := beforeMorph brickBounds topRight.
 	origin  := beforeMorph brickBounds topLeft - (0@aMorph height).

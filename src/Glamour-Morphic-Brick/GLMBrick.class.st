@@ -275,7 +275,7 @@ GLMBrick >> ports [
 { #category : #'private-geometry' }
 GLMBrick >> privateBounds: aRectangle [
 
-	self wrappedBounds bounds: aRectangle.
+	self wrappedBounds brickBounds: aRectangle.
 	bounds := self globalBounds.
 	fullBounds := bounds.
 ]
