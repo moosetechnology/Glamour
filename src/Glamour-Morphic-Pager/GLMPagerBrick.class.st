@@ -40,7 +40,7 @@ GLMPagerBrick >> initialColorInSystemWindow: aSystemWindow [
 GLMPagerBrick >> initialize [
 	super initialize.
 	
-	self layout: GLMVerticalLinearLayout uniqueInstance
+	self useVerticalLinearLayout
 ]
 
 { #category : #initialization }

@@ -33,7 +33,8 @@ GLMPagerBarBrick >> buttonsBrick: aBrick [
 GLMPagerBarBrick >> initialize [
 	super initialize.
 	
-	self color: Color lightRed
+	self
+		useVerticalLinearLayout
 ]
 
 { #category : #'bar-instance creation' }
@@ -76,17 +77,17 @@ GLMPagerBarBrick >> pagerModel: aModel [
 	self pagerModel announcer weak subscribe: GLMPagePushed send: #onPagePushed: to: self.
 	self pagerModel announcer weak subscribe: GLMPagePoped send: #onPagePoped to: self.
 	
+	self sliderBrick: self newSliderBrick.
 	self buttonsBrick: self newButtonsBrick.
-	"self sliderBrick: self newSliderBrick."
 ]
 
 { #category : #initialization }
 GLMPagerBarBrick >> recomputeScrollBar [
 	
-	sliderBrick ifNotNil: [
+	self sliderBrick ifNotNil: [
+		self sliderBrick doLayoutForce.
 		"sliderBrick width: sliderBrick computeWidth."
-		"sliderBrick setWidthAfterResizing."
-	]
+		"sliderBrick setWidthAfterResizing." ]
 ]
 
 { #category : #'bar-accessing' }
@@ -99,7 +100,13 @@ GLMPagerBarBrick >> sliderBrick: aBrick [
 
 	sliderBrick := aBrick.
 	
-	self sliderBrick pagerModel: self pagerModel.
-	self sliderBrick height: self pagerModel circleButtonSize.
+	self sliderBrick
+		pagerModel: self pagerModel;
+		height: self pagerModel circleButtonSize;
+		width: [ self pagerModel circleButtonSize * self pagerModel actualNumberOfVisiblePages ].
+		
+	self sliderBrick layout
+		floating: #left.
+		
 	self addBrickBack: self sliderBrick
 ]

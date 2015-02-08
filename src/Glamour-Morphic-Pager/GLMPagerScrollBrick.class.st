@@ -34,7 +34,7 @@ GLMPagerScrollBrick >> band: aBrick [
 
 { #category : #scrolling }
 GLMPagerScrollBrick >> convertScrollValue: aFloat [
-		
+	self pagerModel actualNumberOfVisiblePages = 0 ifTrue: [ ^ 0 ].
 	^ (self width - ((self width / self pagerModel actualNumberOfVisiblePages + self paneMargin) * self band subbricksCount)) * aFloat
 ]
 
@@ -47,11 +47,8 @@ GLMPagerScrollBrick >> focusChanged: anEvent [
 	currentFocus = newFocus ifFalse: [
 		currentFocus := newFocus.
 		pageIndex := self pageOf: newFocus.
-	
 		(pageIndex > 0) ifTrue: [
-			pagerModel focusedMorphChanged: newFocus at: pageIndex.
-		]
-	]
+			pagerModel focusedMorphChanged: newFocus at: pageIndex ] ]
 ]
 
 { #category : #scrolling }
@@ -92,9 +89,7 @@ GLMPagerScrollBrick >> initialize [
 	focus := Dictionary new.
 	currentScrollDelta := 0.
 	maxPanes := 2.
-	
 	self band: self newBand.
-	
 	Morph announcer weak 
 		when: MorphGotFocus send: #focusChanged: to: self.
 ]
@@ -264,7 +259,7 @@ GLMPagerScrollBrick >> panes [
 GLMPagerScrollBrick >> popPane [
 	
 	self band removeBrick: (self band lastSubbrick).
-	self updatePanes.
+	self changed.
 ]
 
 { #category : #api }
@@ -273,7 +268,7 @@ GLMPagerScrollBrick >> popPane: isSmooth [
 	(isSmooth not or: [self lastPane isNil]) ifTrue: [ ^ self popPane ].
 	
 	self band removeBrick: (self band lastSubbrick).
-	self scrollTo: (pagerModel convertIndexToValue: pagerModel firstVisiblePageIndex with: self band subbricksCount) smooth: true callback: [ self updatePanes ]
+	self scrollTo: (pagerModel convertIndexToValue: pagerModel firstVisiblePageIndex with: self band subbricksCount) smooth: true callback: [ self changed ]
 ]
 
 { #category : #api }
@@ -291,7 +286,7 @@ GLMPagerScrollBrick >> pushPane: aMorph [
 	brick layout widthDependency: self band.
 	
 	self band addBrickBack: brick.
-	self updatePanes
+	self changed
 ]
 
 { #category : #scrolling }
@@ -344,6 +339,6 @@ GLMPagerScrollBrick >> updatePaneBounds [
 { #category : #scrolling }
 GLMPagerScrollBrick >> updatePanes [
 	
-	self doLayoutForce.
+	"self doLayoutForce."
 	self changed
 ]
