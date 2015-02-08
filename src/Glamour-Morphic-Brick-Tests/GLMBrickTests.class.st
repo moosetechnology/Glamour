@@ -2,8 +2,7 @@ Class {
 	#name : #GLMBrickTests,
 	#superclass : #TestCase,
 	#instVars : [
-		'layouter',
-		'margin'
+		'layouter'
 	],
 	#category : #'Glamour-Morphic-Brick-Tests'
 }
@@ -365,6 +364,31 @@ GLMBrickTests >> testLeftFloatingMySelfDependencyWithMargin [
 ]
 
 { #category : #'tests-geometry' }
+GLMBrickTests >> testLeftMarginChangeMyselfDependency [
+	|root margin newMargin brick|
+	margin := 10.
+	newMargin := 20.
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickWithSmallStaticExtent.
+	brick marginLeft: margin.
+	root addBrickBack: brick.
+
+	self assertAllSubbricksAreClean: root.
+	self assert: root extent equals: self staticExtent.
+	self assert: brick extent equals: self staticSmallExtent.
+	self assert: brick brickBounds equals: (margin@0 extent: self staticSmallExtent).
+	
+	brick marginLeft: newMargin.
+	brick doLayoutForce.
+	
+	self assertAllSubbricksAreClean: root.
+	self assert: root extent equals: self staticExtent.
+	self assert: brick extent equals: self staticSmallExtent.
+	self assert: brick brickBounds equals: (newMargin@0 extent: self staticSmallExtent).
+]
+
+{ #category : #'tests-geometry' }
 GLMBrickTests >> testLeftMarginMyselfDependency [
 	|root margin brick|
 	margin := 10.
@@ -481,7 +505,7 @@ GLMBrickTests >> testRightFloatingMySelfDependency [
 
 { #category : #'tests-floating' }
 GLMBrickTests >> testRightFloatingMySelfDependencyWithMargin [
-	|root floating brick|
+	|root margin floating brick|
 	margin := 10.
 	floating := #right.
 	
