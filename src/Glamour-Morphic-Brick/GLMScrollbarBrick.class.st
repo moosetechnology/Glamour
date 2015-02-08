@@ -51,8 +51,10 @@ GLMScrollbarBrick >> calculateScrollbarTopOffset [
 GLMScrollbarBrick >> initialize [
 	super initialize.
 	
-	self layoutPolicy: GLMVerticalLinearLayout new.
-	self bar: self newBar.
+	self
+		useVerticalLinearLayout;
+		color: Color red;
+		bar: self newBar.
 ]
 
 { #category : #'scrollbar-brick-creation' }

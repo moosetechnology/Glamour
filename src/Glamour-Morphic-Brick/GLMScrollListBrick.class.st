@@ -159,7 +159,7 @@ GLMScrollListBrick >> getMorphAt: anInteger recycled: aMorph [
 GLMScrollListBrick >> initialize [
 	super initialize.
 	
-	self band layoutPolicy: GLMVerticalLinearLayout new
+	self band useVerticalLinearLayout
 ]
 
 { #category : #scrolling }

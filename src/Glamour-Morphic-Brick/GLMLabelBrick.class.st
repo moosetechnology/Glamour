@@ -35,7 +35,7 @@ GLMLabelBrick class >> example [
 	| rootBrick brick1 brick2 brick3 |
 	
 	rootBrick := GLMInteractableBrick new
-		layout: GLMVerticalLinearLayout new;
+		useVerticalLinearLayout;
 		height: 400;
 		width: 400;
 		enable;

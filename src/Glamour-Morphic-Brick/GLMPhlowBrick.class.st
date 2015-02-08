@@ -33,7 +33,7 @@ GLMPhlowBrick >> initialize [
 	super initialize.
 		
 	self
-		layout: GLMVerticalLinearLayout new;
+		useVerticalLinearLayout;
 		titleBrick: self newTitleBrick;
 		hSpaceFill;
 		vSpaceFill

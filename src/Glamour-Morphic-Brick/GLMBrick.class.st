@@ -209,9 +209,10 @@ GLMBrick >> initialize [
 	color := Color transparent.
 	submorphs := OrderedCollection new.
 	
-	self layoutProperties: GLMBrickLayoutProperties new.
-	self layoutPolicy: GLMHorizontalLinearLayout uniqueInstance.
-	self renderer: GLMBrickRenderer new.
+	self
+		layoutProperties: GLMBrickLayoutProperties new;
+		useHorizontalLinearLayout;
+		renderer: GLMBrickRenderer new
 ]
 
 { #category : #'brick-testing' }

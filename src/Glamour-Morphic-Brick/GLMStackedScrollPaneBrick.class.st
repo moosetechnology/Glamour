@@ -33,7 +33,7 @@ GLMStackedScrollPaneBrick >> allowedBounds: aRectangle [
 GLMStackedScrollPaneBrick >> initialize [
 	super initialize.
 	
-	self band layoutPolicy: GLMVerticalLinearLayout new
+	self band useVerticalLinearLayout
 ]
 
 { #category : #scrolling }

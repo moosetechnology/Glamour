@@ -111,13 +111,14 @@ GLMHorizontalLinearLayout >> heightParentDependency: aBrick [
 
 { #category : #layout }
 GLMHorizontalLinearLayout >> layout: aBrick in: newBounds [
-	
-	aBrick subbricks inject: aBrick paddingLeft @ aBrick paddingTop into:[ :origin :each |
-		each wrappedBounds outerOrigin: origin.
-		"applying aligning: #none, #left, #center, #right"
-		self align: each in: aBrick anchorPoint: origin.
-		each onLayouted.
-		origin + (each wrappedBounds outerBounds width@0) ].
+
+	self
+		layout: aBrick
+		in: newBounds
+		inject: aBrick paddingLeft @ aBrick paddingTop
+		into: [ :origin :each |
+			each wrappedBounds outerOrigin: origin.
+			each wrappedBounds outerBounds width@0 ]
 ]
 
 { #category : #width }

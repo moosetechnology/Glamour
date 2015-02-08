@@ -121,13 +121,14 @@ GLMVerticalLinearLayout >> heightParentDependency: aBrick [
 
 { #category : #layout }
 GLMVerticalLinearLayout >> layout: aBrick in: newBounds [
-	
-	aBrick subbricks inject: aBrick paddingLeft @ aBrick paddingTop into:[ :origin :each |
-		each wrappedBounds outerOrigin: origin.
-		"applying aligning: #none, #left, #center, #right"
-		self align: each in: aBrick anchorPoint: origin.
-		each onLayouted.
-		origin + (0@each wrappedBounds outerBounds height) ]
+
+	self
+		layout: aBrick
+		in: newBounds
+		inject: aBrick paddingLeft @ aBrick paddingTop
+		into: [ :origin :each |
+			each wrappedBounds outerOrigin: origin.
+			0@each wrappedBounds outerBounds height ]
 ]
 
 { #category : #width }

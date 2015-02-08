@@ -10,6 +10,12 @@ GLMLinearLayout >> align: aBrick in: parentBrick anchorPoint: aPoint [
 	^ self subclassResponsibility
 ]
 
+{ #category : #floating }
+GLMLinearLayout >> floatingMethodFor: aSymbol [
+
+	^ ('layoutFloating', (aSymbol capitalized), ':in:') asSymbol
+]
+
 { #category : #height }
 GLMLinearLayout >> heightChildrenDependency: aBrick [
 
@@ -29,10 +35,58 @@ GLMLinearLayout >> heightParentDependency: aBrick [
 	^ self subclassResponsibility
 ]
 
+{ #category : #floating }
+GLMLinearLayout >> isFloating: aBrick [
+	
+	aBrick layoutProperties floating = #none ifTrue: [ ^ false ].
+	
+	^ self respondsTo: (self floatingMethodFor: aBrick layoutProperties floating)
+]
+
 { #category : #layout }
 GLMLinearLayout >> layout: aBrick in: newBounds [
 
 	^ self subclassResponsibility
+]
+
+{ #category : #layout }
+GLMLinearLayout >> layout: aBrick in: aRectangle inject: anInteger into: aBlock [
+
+	aBrick subbricks inject: anInteger into:[ :origin :each | |result|
+		result := origin + ((self isFloating: aBrick)
+			ifFalse: [ aBlock cull: origin cull: each ]
+			ifTrue: [ self layoutFloating: each in: aRectangle ]).
+		"applying aligning: #none, #left, #center, #right"
+		self align: each in: aBrick anchorPoint: origin.
+		each onLayouted.
+		result ].
+]
+
+{ #category : #floating }
+GLMLinearLayout >> layoutFloating: aBrick in: newBounds [
+	"must return an integer that will be added to the offset, if necessary"
+	
+	|float symbol|
+	float := aBrick layoutProperties floating.
+	symbol := self floatingMethodFor: float.
+	
+	^ (self respondsTo: symbol)
+		ifTrue: [ self perform: symbol with: aBrick with: newBounds ]
+		ifFalse: [ 0 ]
+]
+
+{ #category : #floating }
+GLMLinearLayout >> layoutFloatingRight: aBrick in: newBounds [
+	| left top right bottom |
+	
+	left := aBrick owner width - aBrick width - aBrick marginRight.
+	top := aBrick  marginTop.
+	right := aBrick owner width - aBrick marginRight.
+	bottom := aBrick owner height - aBrick marginBottom.
+	
+	aBrick brickBounds: (left@top corner: right@bottom).
+	
+	^ 0
 ]
 
 { #category : #height }

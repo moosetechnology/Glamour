@@ -16,13 +16,6 @@ GLMHorizontalBandBrick >> doLayout [
 	self subbricks do: [ :each | each isBrick ifTrue: [ each doLayout ] ]
 ]
 
-{ #category : #initialization }
-GLMHorizontalBandBrick >> initialize [
-	super initialize.
-	
-	self layoutPolicy: GLMHorizontalLinearLayout new.
-]
-
 { #category : #'layout brick' }
 GLMHorizontalBandBrick >> layoutChildren [
 

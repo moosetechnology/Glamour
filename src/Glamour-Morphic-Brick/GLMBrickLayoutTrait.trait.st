@@ -201,6 +201,18 @@ GLMBrickLayoutTrait >> subbricks [
 ]
 
 { #category : #'brick-layout-properties' }
+GLMBrickLayoutTrait >> useHorizontalLinearLayout [
+
+	self layout: GLMHorizontalLinearLayout uniqueInstance
+]
+
+{ #category : #'brick-layout-properties' }
+GLMBrickLayoutTrait >> useVerticalLinearLayout [
+
+	self layout: GLMVerticalLinearLayout uniqueInstance
+]
+
+{ #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> vResizing [
 
 	^ self layout vResizing

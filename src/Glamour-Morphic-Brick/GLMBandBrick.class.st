@@ -37,6 +37,6 @@ GLMBandBrick >> initialize [
 	super initialize.
 	
 	self
-		layout: GLMVerticalLinearLayout new;
+		useVerticalLinearLayout;
 		vShrinkWrap
 ]

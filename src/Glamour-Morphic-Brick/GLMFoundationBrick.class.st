@@ -131,10 +131,9 @@ GLMFoundationBrick >> globalBoundsTranslateFactor [
 GLMFoundationBrick >> initialize [
 	super initialize.
 	
-	self beTransparent.
-	
-	self brickRoot: GLMBrick new.
-	self brickRoot layoutPolicy: GLMHorizontalLinearLayout new.
+	self
+		beTransparent;
+		brickRoot: GLMBrick new
 ]
 
 { #category : #testing }
