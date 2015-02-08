@@ -175,6 +175,7 @@ GLMBrickBounds >> marginBottom [
 { #category : #'accessing - margin/padding' }
 GLMBrickBounds >> marginBottom: anInteger [
 
+	self translateY: self marginBottom - anInteger.
 	self margin at: Bottom put: anInteger.
 	self updateCache
 ]
@@ -188,6 +189,7 @@ GLMBrickBounds >> marginLeft [
 { #category : #'accessing - margin/padding' }
 GLMBrickBounds >> marginLeft: anInteger [
 
+	self translateX: anInteger - self marginLeft.
 	self margin at: Left put: anInteger.
 	self updateCache
 ]
@@ -201,6 +203,7 @@ GLMBrickBounds >> marginRight [
 { #category : #'accessing - margin/padding' }
 GLMBrickBounds >> marginRight: anInteger [
 
+	self translateX: self marginRight - anInteger.
 	self margin at: Right put: anInteger.
 	self updateCache
 ]
@@ -214,6 +217,7 @@ GLMBrickBounds >> marginTop [
 { #category : #'accessing - margin/padding' }
 GLMBrickBounds >> marginTop: anInteger [
 
+	self translateY: anInteger - self marginTop.
 	self margin at: Top put: anInteger.
 	self updateCache
 ]
@@ -372,12 +376,30 @@ GLMBrickBounds >> paddingTop: anInteger [
 	self updateCache
 ]
 
+{ #category : #transformations }
+GLMBrickBounds >> translateBy: aPoint [
+
+	self brickBounds: (self brickBounds translateBy: aPoint)
+]
+
+{ #category : #transformations }
+GLMBrickBounds >> translateX: anInteger [
+
+	self translateBy: anInteger@0
+]
+
+{ #category : #transformations }
+GLMBrickBounds >> translateY: anInteger [
+
+	self translateBy: 0@anInteger
+]
+
 { #category : #private }
 GLMBrickBounds >> updateCache [
 	|left top right bottom |
 	
 	left := self brickBounds origin x.
-	top := self brickBounds  origin y.
+	top := self brickBounds origin y.
 	right := self brickBounds corner x.
 	bottom := self brickBounds corner y.
 	

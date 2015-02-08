@@ -110,9 +110,9 @@ GLMLinearLayout >> updateHeight: aBrick [
 	"this method should be called only when height of aBrick is dirty"
 	aBrick wrappedBounds isHeightClean ifTrue: [ Exception signal: 'Clean height can''t be updated!' ].
 	"when my height depends on children I set it to be able to fit the highest subbrick"
-	aBrick isHeightDependsOnChildren ifTrue: [ aBrick wrappedBounds outerHeight: (self heightChildrenDependency: aBrick) ].
+	aBrick isHeightDependsOnChildren ifTrue: [ aBrick wrappedBounds height: (self heightChildrenDependency: aBrick) ].
 	"when my height depends only from myself I can directly set it"
-	aBrick isHeightDependsOnMyself ifTrue: [ aBrick wrappedBounds outerHeight: (self heightMyselfDependency: aBrick) ].
+	aBrick isHeightDependsOnMyself ifTrue: [ aBrick wrappedBounds height: (self heightMyselfDependency: aBrick) ].
 	"when my height depends only from my parent"
 	aBrick isHeightDependsOnParent ifTrue: [ aBrick wrappedBounds outerHeight: (self heightParentDependency: aBrick) ].
 	
@@ -126,9 +126,9 @@ GLMLinearLayout >> updateWidth: aBrick [
 	"this method should be called only when width of aBrick is dirty"
 	aBrick wrappedBounds isWidthClean ifTrue: [ Exception signal: 'Clean width can''t be updated!' ].
 	"when my width depends on children I set it to be able to fit all subbricks"
-	aBrick isWidthDependsOnChildren ifTrue: [ aBrick wrappedBounds outerWidth: (self widthChildrenDependency: aBrick) ].
+	aBrick isWidthDependsOnChildren ifTrue: [ aBrick wrappedBounds width: (self widthChildrenDependency: aBrick) ].
 	"when my width depends only from myself I can directly set it"
-	aBrick isWidthDependsOnMyself ifTrue: [ aBrick wrappedBounds outerWidth: (self widthMyselfDependency: aBrick) ].
+	aBrick isWidthDependsOnMyself ifTrue: [ aBrick wrappedBounds width: (self widthMyselfDependency: aBrick) ].
 	"when my width depends only from my parent"
 	aBrick isWidthDependsOnParent ifTrue: [ aBrick wrappedBounds outerWidth: (self widthParentDependency: aBrick) ].
 	

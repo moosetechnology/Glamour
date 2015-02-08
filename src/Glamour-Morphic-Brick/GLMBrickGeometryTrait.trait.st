@@ -272,19 +272,19 @@ GLMBrickGeometryTrait >> setProperty: aSymbol toValue: anObject [
 { #category : #'brick-geometry-transformations' }
 GLMBrickGeometryTrait >> translateBy: aPoint [
 
-	self wrappedBounds brickBounds: (self brickBounds translateBy: aPoint)
+	self wrappedBounds translateBy: aPoint
 ]
 
 { #category : #'brick-geometry-transformations' }
 GLMBrickGeometryTrait >> translateX: anInteger [
 
-	self translateBy: anInteger@0
+	self wrappedBounds translateX: anInteger
 ]
 
 { #category : #'brick-geometry-transformations' }
 GLMBrickGeometryTrait >> translateY: anInteger [
 
-	self translateBy: 0@anInteger
+	self wrappedBounds translateY: anInteger
 ]
 
 { #category : #'private-geometry' }
@@ -351,13 +351,13 @@ GLMBrickGeometryTrait >> width: anObject [
 { #category : #'brick-geometry-transformations' }
 GLMBrickGeometryTrait >> withHeight: anInteger [
 
-	self brickBounds: (self brickBounds withHeight: anInteger)
+	self wrappedBounds withHeight: anInteger
 ]
 
 { #category : #'brick-geometry-transformations' }
 GLMBrickGeometryTrait >> withWidth: anInteger [
 
-	self brickBounds: (self brickBounds withWidth: anInteger)
+	self wrappedBounds withWidth: anInteger
 ]
 
 { #category : #'brick-geometry' }
