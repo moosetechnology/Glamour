@@ -90,6 +90,6 @@ GLMBrickHeightTraverser >> opposite [
 GLMBrickHeightTraverser >> updateDimension: aBrick [
 	"my height is already calculated, maybe because my children triggered calculation"
 	aBrick wrappedBounds isHeightClean ifTrue: [ ^ self ].
-	(aBrick owner ifNil: [ aBrick ] ifNotNil: [ aBrick owner isBrick ifTrue: [ aBrick owner ] ifFalse: [ aBrick ] ])
-		layoutPolicy updateHeight: aBrick
+	
+	(self dimensionPolicy: aBrick) updateHeight: aBrick
 ]

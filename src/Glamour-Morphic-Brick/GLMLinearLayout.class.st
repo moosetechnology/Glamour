@@ -53,7 +53,7 @@ GLMLinearLayout >> layout: aBrick in: newBounds [
 GLMLinearLayout >> layout: aBrick in: aRectangle inject: anInteger into: aBlock [
 
 	aBrick subbricks inject: anInteger into:[ :origin :each | |result|
-		result := origin + ((self isFloating: aBrick)
+		result := origin + ((self isFloating: each)
 			ifFalse: [ aBlock cull: origin cull: each ]
 			ifTrue: [ self layoutFloating: each in: aRectangle ]).
 		"applying aligning: #none, #left, #center, #right"

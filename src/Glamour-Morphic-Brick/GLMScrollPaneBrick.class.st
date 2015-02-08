@@ -182,7 +182,8 @@ GLMScrollPaneBrick >> initialize [
 	
 	lastScrollTimeStamp := 0.
 
-	self band: self newBand.	
+	self useVerticalLinearLayout.
+	self band: self newBand.
 	self verticalScrollbar: self newVerticalScrollbar.	
 	"initializes listener for mouse wheel scroll on windows vm"
 	self initializeListeners

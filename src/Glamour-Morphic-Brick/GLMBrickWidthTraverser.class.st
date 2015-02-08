@@ -95,6 +95,5 @@ GLMBrickWidthTraverser >> updateDimension: aBrick [
 
 	"my height is already calculated, maybe because it children triggered calculation"
 	aBrick wrappedBounds isWidthClean ifTrue: [ ^ self ].
-	(aBrick owner ifNil: [ aBrick ] ifNotNil: [ aBrick owner isBrick ifTrue: [ aBrick owner ] ifFalse: [ aBrick ] ])
-		layoutPolicy updateWidth: aBrick
+	(self dimensionPolicy: aBrick)  updateWidth: aBrick
 ]

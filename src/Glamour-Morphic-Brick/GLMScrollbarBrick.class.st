@@ -53,7 +53,6 @@ GLMScrollbarBrick >> initialize [
 	
 	self
 		useVerticalLinearLayout;
-		color: Color red;
 		bar: self newBar.
 ]
 
