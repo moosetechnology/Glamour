@@ -2,7 +2,8 @@ Class {
 	#name : #GLMBrickTests,
 	#superclass : #TestCase,
 	#instVars : [
-		'layouter'
+		'layouter',
+		'margin'
 	],
 	#category : #'Glamour-Morphic-Brick-Tests'
 }
@@ -329,6 +330,40 @@ GLMBrickTests >> testFreshBrickIsDirty [
 	self assertBrickDirty: GLMBrick new
 ]
 
+{ #category : #'tests-floating' }
+GLMBrickTests >> testLeftFloatingMySelfDependency [
+	|root floating brick|
+	floating := #left.
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickWithSmallStaticExtent.
+	brick layout floating: floating.
+	root addBrickBack: brick.
+
+	self assertAllSubbricksAreClean: root.
+	self assert: root extent equals: self staticExtent.
+	self assert: brick extent equals: self staticSmallExtent.
+	self assert: brick brickBounds equals: (0@0 extent: self staticSmallExtent)
+]
+
+{ #category : #'tests-floating' }
+GLMBrickTests >> testLeftFloatingMySelfDependencyWithMargin [
+	|root floating margin brick|
+	margin := 10.
+	floating := #left.
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickWithSmallStaticExtent.
+	brick marginLeft: margin.
+	brick layout floating: floating.
+	root addBrickBack: brick.
+
+	self assertAllSubbricksAreClean: root.
+	self assert: root extent equals: self staticExtent.
+	self assert: brick extent equals: self staticSmallExtent.
+	self assert: brick brickBounds equals: (margin@0 extent: self staticSmallExtent)
+]
+
 { #category : #'tests-geometry' }
 GLMBrickTests >> testLeftMarginMyselfDependency [
 	|root margin brick|
@@ -426,6 +461,40 @@ GLMBrickTests >> testOneStaticBrick [
 	self assertBrickClean: brick.
 	self assert: brick extent equals: self staticExtent
 	
+]
+
+{ #category : #'tests-floating' }
+GLMBrickTests >> testRightFloatingMySelfDependency [
+	|root floating brick|
+	floating := #right.
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickWithSmallStaticExtent.
+	brick layout floating: floating.
+	root addBrickBack: brick.
+
+	self assertAllSubbricksAreClean: root.
+	self assert: root extent equals: self staticExtent.
+	self assert: brick extent equals: self staticSmallExtent.
+	self assert: brick brickBounds equals: ((self staticWidth - self staticSmallWidth)@0 extent: self staticSmallExtent)
+]
+
+{ #category : #'tests-floating' }
+GLMBrickTests >> testRightFloatingMySelfDependencyWithMargin [
+	|root floating brick|
+	margin := 10.
+	floating := #right.
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickWithSmallStaticExtent.
+	brick layout floating: floating.
+	brick marginRight: margin.
+	root addBrickBack: brick.
+
+	self assertAllSubbricksAreClean: root.
+	self assert: root extent equals: self staticExtent.
+	self assert: brick extent equals: self staticSmallExtent.
+	self assert: brick brickBounds equals: ((self staticWidth - margin - self staticSmallWidth)@0 extent: self staticSmallExtent)
 ]
 
 { #category : #'tests-geometry' }
