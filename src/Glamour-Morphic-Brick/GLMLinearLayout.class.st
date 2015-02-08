@@ -76,6 +76,18 @@ GLMLinearLayout >> layoutFloating: aBrick in: newBounds [
 ]
 
 { #category : #floating }
+GLMLinearLayout >> layoutFloatingLeft: aBrick in: newBounds [
+	| left top |
+	
+	left := aBrick marginLeft.
+	top := aBrick marginTop.
+	
+	aBrick brickBounds: (left@top extent: aBrick extent).
+	
+	^ 0
+]
+
+{ #category : #floating }
 GLMLinearLayout >> layoutFloatingRight: aBrick in: newBounds [
 	| left top right bottom |
 	
@@ -87,6 +99,12 @@ GLMLinearLayout >> layoutFloatingRight: aBrick in: newBounds [
 	aBrick brickBounds: (left@top corner: right@bottom).
 	
 	^ 0
+]
+
+{ #category : #enumerating }
+GLMLinearLayout >> nonFloatSubbricks: aBrick [
+
+	^ aBrick subbricks select: [ :each | each layout floating = #none ]
 ]
 
 { #category : #height }

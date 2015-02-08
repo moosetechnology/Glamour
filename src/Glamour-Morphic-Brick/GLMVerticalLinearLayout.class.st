@@ -105,7 +105,7 @@ GLMVerticalLinearLayout >> align: aBrick in: parentBrick anchorPoint: aPoint [
 { #category : #height }
 GLMVerticalLinearLayout >> heightChildrenDependency: aBrick [
 	"returns the height of aBrick when it depends on children"
-	^ aBrick paddingTop + aBrick paddingBottom + (aBrick subbricks detectSum: [ :each | each outerBounds height ])
+	^ aBrick paddingTop + aBrick paddingBottom + ((self nonFloatSubbricks: aBrick) detectSum: [ :each | each outerBounds height ])
 ]
 
 { #category : #width }
@@ -135,7 +135,7 @@ GLMVerticalLinearLayout >> layout: aBrick in: newBounds [
 GLMVerticalLinearLayout >> widthChildrenDependency: aBrick [
 	"returns the height of aBrick when it depends on children"
 	"in case of horizontal linear layout it is the height of the highest subbrick + corresponding paddings"
-	^ aBrick paddingLeft + aBrick paddingRight + ((aBrick subbricks detectMax: [ :each | each outerBounds width ])
+	^ aBrick paddingLeft + aBrick paddingRight + (((self nonFloatSubbricks: aBrick) detectMax: [ :each | each outerBounds width ])
 		ifNil: [ 0 ]
 		ifNotNil: [ :m | m outerBounds width ])
 ]

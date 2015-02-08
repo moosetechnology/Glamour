@@ -97,7 +97,7 @@ GLMHorizontalLinearLayout >> align: aBrick in: parentBrick anchorPoint: aPoint [
 GLMHorizontalLinearLayout >> heightChildrenDependency: aBrick [
 	"returns the height of aBrick when it depends on children"
 	"in case of horizontal linear layout it is the height of the highest subbrick + corresponding paddings"
-	^ aBrick paddingTop + aBrick paddingBottom + ((aBrick subbricks detectMax: [ :each | each outerBounds height ])
+	^ aBrick paddingTop + aBrick paddingBottom + (((self nonFloatSubbricks: aBrick) detectMax: [ :each | each outerBounds height ])
 		ifNil: [ 0 ]
 		ifNotNil: [ :m | m outerBounds height ])
 ]
@@ -124,7 +124,7 @@ GLMHorizontalLinearLayout >> layout: aBrick in: newBounds [
 { #category : #width }
 GLMHorizontalLinearLayout >> widthChildrenDependency: aBrick [
 	"returns the width of aBrick when it depends on children"
-	^ aBrick paddingLeft + aBrick paddingRight + (aBrick subbricks detectSum: [ :each | each outerBounds width ])
+	^ aBrick paddingLeft + aBrick paddingRight + ((self nonFloatSubbricks: aBrick) detectSum: [ :each | each outerBounds width ])
 ]
 
 { #category : #width }
