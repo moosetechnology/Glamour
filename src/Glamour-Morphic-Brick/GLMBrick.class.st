@@ -15,7 +15,7 @@ transmissions
 Class {
 	#name : #GLMBrick,
 	#superclass : #GLMBrickedMorph,
-	#traits : 'GLMBrickPropertiesTrait + GLMBrickGeometryTrait + GLMBrickLayoutTrait + GLMBrickStructureTrait + GLMPhlowTrait',
+	#traits : 'GLMBrickPropertiesTrait + GLMBrickLayoutTrait + GLMBrickStructureTrait + GLMPhlowTrait + (GLMBrickGeometryTrait - {#privateBounds:})',
 	#classTraits : 'GLMBrickPropertiesTrait classTrait + GLMBrickGeometryTrait classTrait + GLMBrickLayoutTrait classTrait + GLMBrickStructureTrait classTrait + GLMPhlowTrait classTrait',
 	#instVars : [
 		'#brickBounds => GLMPhlowSlot',
@@ -64,7 +64,6 @@ GLMBrick class >> exampleZindex [
 	|foundationBrick rootBrick brick1 brick2 brick3|
 	
 	rootBrick := GLMBrick new.
-	rootBrick layoutPolicy: GLMBrickNoLayout new.
 
 	rootBrick color: Color blue.
 	
@@ -211,7 +210,7 @@ GLMBrick >> initialize [
 	submorphs := OrderedCollection new.
 	
 	self layoutProperties: GLMBrickLayoutProperties new.
-	self layoutPolicy: GLMBrickHorizontalFillProportionalLinearLayout new.
+	self layoutPolicy: GLMHorizontalLinearLayout uniqueInstance.
 	self renderer: GLMBrickRenderer new.
 ]
 
@@ -246,8 +245,7 @@ GLMBrick >> layoutProperties [
 { #category : #'brick-layout' }
 GLMBrick >> layoutProperties: aLayoutProperties [ 
 
-	super layoutProperties: aLayoutProperties.
-	self layoutProperties brick: self
+	super layoutProperties: aLayoutProperties
 ]
 
 { #category : #'brick-drawing' }
@@ -274,14 +272,6 @@ GLMBrick >> ports [
 	^ ports  ifNil: [ ports := Dictionary new ]
 ]
 
-{ #category : #'private-geometry' }
-GLMBrick >> privateBounds: aRectangle [
-
-	self wrappedBounds bounds: aRectangle.
-	bounds := self globalBounds.
-	fullBounds := bounds.
-]
-
 { #category : #'private-structure' }
 GLMBrick >> privateOwner: aBrick [
 
@@ -304,6 +294,34 @@ GLMBrick >> removeAllMorphs [
 	submorphs := EmptyArray.
 	oldMorphs do: [ :m | self removedMorph: m ].
 
+]
+
+{ #category : #'brick-structure-adding/removing' }
+GLMBrick >> removeBrick: aBrick [
+	| predecessor successor link head tail index|
+	aBrick ifNil: [ ^ aBrick ].
+	(self hasSubbrick: aBrick) ifFalse: [ ^ aBrick ].
+	
+	link := aBrick brickDoubleLink.
+	
+	head := self firstSubbrick brickDoubleLink.
+	tail := self lastSubbrick brickDoubleLink.
+	
+	predecessor := link previousLink.
+	successor := link nextLink.
+	predecessor
+		ifNotNil: [ predecessor nextLink: successor ].
+	successor
+		ifNotNil: [ successor previousLink: predecessor ].
+	link clearLinks.
+	
+	aBrick brickDoubleLink: nil.
+	
+	index := self subbricks find: aBrick.
+	self privateSubbricks: (self subbricks copyWithoutIndex: index).
+	aBrick owner: nil.
+	
+	^ aBrick
 ]
 
 { #category : #'private-extension' }

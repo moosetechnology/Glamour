@@ -52,13 +52,15 @@ GLMMorphBrick >> brickBounds: aRectangle [
 ]
 
 { #category : #'as yet unclassified' }
-GLMMorphBrick >> doLayout [
-]
-
-{ #category : #'as yet unclassified' }
 GLMMorphBrick >> drawSubmorphsOn: aCanvas [
 	
 	self morph fullDrawOn: (aCanvas copy setOrigin: (aCanvas origin + self bounds origin - self morph bounds origin) clipRect: (aCanvas clipRect translateBy: aCanvas origin))
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphBrick >> invalidateLayout [
+
+	
 ]
 
 { #category : #'as yet unclassified' }
@@ -87,11 +89,21 @@ GLMMorphBrick >> on: aMorph [
 ]
 
 { #category : #'as yet unclassified' }
-GLMMorphBrick >> onRemovedFrom: aBrick [
+GLMMorphBrick >> onLayouted [
+	|origin corner newBounds|
+	super onLayouted.
 	
-	"we should just override it and left empty,
-	to prevent recursion calls of this method
-	to be propagated to morph"
+	origin := self paddingLeft @ self paddingTop.
+	corner := self paddingRight @ self paddingBottom.
+	newBounds := self globalBounds.
+	newBounds := ((newBounds origin + origin) corner: (newBounds corner - corner)).
+	
+	self morph bounds: newBounds
+]
+
+{ #category : #'as yet unclassified' }
+GLMMorphBrick >> onRemovedFrom: aBrick [
+	"empty"
 ]
 
 { #category : #'as yet unclassified' }
