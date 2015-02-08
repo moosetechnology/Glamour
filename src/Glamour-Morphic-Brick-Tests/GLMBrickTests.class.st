@@ -1,5 +1,5 @@
 Class {
-	#name : #GLMBrickLayouterTests,
+	#name : #GLMBrickTests,
 	#superclass : #TestCase,
 	#instVars : [
 		'layouter'
@@ -8,33 +8,33 @@ Class {
 }
 
 { #category : #asserting }
-GLMBrickLayouterTests >> assertAllSubbricksAreClean: aBrick [
+GLMBrickTests >> assertAllSubbricksAreClean: aBrick [
 
 	aBrick withAllSubbricks do: [ :each | self assertBrickClean: each ]
 ]
 
 { #category : #asserting }
-GLMBrickLayouterTests >> assertAllSubbricksAreDirty: aBrick [
+GLMBrickTests >> assertAllSubbricksAreDirty: aBrick [
 
 	aBrick withAllSubbricks do: [ :each | self assertBrickDirty: each ]
 ]
 
 { #category : #asserting }
-GLMBrickLayouterTests >> assertBrickClean: aBrick [
+GLMBrickTests >> assertBrickClean: aBrick [
 
 	self assertWidthClean: aBrick.
 	self assertHeightClean: aBrick
 ]
 
 { #category : #asserting }
-GLMBrickLayouterTests >> assertBrickDirty: aBrick [
+GLMBrickTests >> assertBrickDirty: aBrick [
 
 	self assertWidthDirty: aBrick.
 	self assertHeightDirty: aBrick
 ]
 
 { #category : #asserting }
-GLMBrickLayouterTests >> assertHeightClean: aBrick [
+GLMBrickTests >> assertHeightClean: aBrick [
 
 	self assert: aBrick wrappedBounds heightState equals: #clean.
 	self assert: aBrick wrappedBounds isHeightDirty not.
@@ -42,7 +42,7 @@ GLMBrickLayouterTests >> assertHeightClean: aBrick [
 ]
 
 { #category : #asserting }
-GLMBrickLayouterTests >> assertHeightDirty: aBrick [
+GLMBrickTests >> assertHeightDirty: aBrick [
 
 	self assert: aBrick wrappedBounds heightState equals: #dirty.
 	self assert: aBrick wrappedBounds isHeightDirty.
@@ -50,7 +50,7 @@ GLMBrickLayouterTests >> assertHeightDirty: aBrick [
 ]
 
 { #category : #asserting }
-GLMBrickLayouterTests >> assertWidthClean: aBrick [
+GLMBrickTests >> assertWidthClean: aBrick [
 
 	self assert: aBrick wrappedBounds widthState equals: #clean.
 	self assert: aBrick wrappedBounds isWidthDirty not.
@@ -58,7 +58,7 @@ GLMBrickLayouterTests >> assertWidthClean: aBrick [
 ]
 
 { #category : #asserting }
-GLMBrickLayouterTests >> assertWidthDirty: aBrick [
+GLMBrickTests >> assertWidthDirty: aBrick [
 
 	self assert: aBrick wrappedBounds widthState equals: #dirty.
 	self assert: aBrick wrappedBounds isWidthDirty.
@@ -66,7 +66,7 @@ GLMBrickLayouterTests >> assertWidthDirty: aBrick [
 ]
 
 { #category : #'instance-creation' }
-GLMBrickLayouterTests >> newBrickFullHeightAndWidthDependsOnParent: anInteger [
+GLMBrickTests >> newBrickFullHeightAndWidthDependsOnParent: anInteger [
 
 	^ GLMBrick new
 		vSpaceFill;
@@ -75,7 +75,7 @@ GLMBrickLayouterTests >> newBrickFullHeightAndWidthDependsOnParent: anInteger [
 ]
 
 { #category : #'instance-creation' }
-GLMBrickLayouterTests >> newBrickWithFullDependsOnChildren [
+GLMBrickTests >> newBrickWithFullDependsOnChildren [
 
 	^ GLMBrick new 
 		hShrinkWrap;
@@ -84,7 +84,7 @@ GLMBrickLayouterTests >> newBrickWithFullDependsOnChildren [
 ]
 
 { #category : #'instance-creation' }
-GLMBrickLayouterTests >> newBrickWithFullFill [
+GLMBrickTests >> newBrickWithFullFill [
 
 	^ GLMBrick new 
 		hSpaceFill;
@@ -93,7 +93,16 @@ GLMBrickLayouterTests >> newBrickWithFullFill [
 ]
 
 { #category : #'instance-creation' }
-GLMBrickLayouterTests >> newBrickWithStaticExtent [
+GLMBrickTests >> newBrickWithSmallStaticExtent [
+
+	^ GLMBrick new 
+		height: self staticSmallHeight;
+		width: self staticSmallWidth;
+		yourself
+]
+
+{ #category : #'instance-creation' }
+GLMBrickTests >> newBrickWithStaticExtent [
 
 	^ GLMBrick new 
 		height: self staticHeight;
@@ -102,32 +111,50 @@ GLMBrickLayouterTests >> newBrickWithStaticExtent [
 ]
 
 { #category : #running }
-GLMBrickLayouterTests >> setUp [
+GLMBrickTests >> setUp [
 	super setUp.
 	
 	layouter := GLMBrickLayouter new
 ]
 
 { #category : #defaults }
-GLMBrickLayouterTests >> staticExtent [
+GLMBrickTests >> staticExtent [
 
 	^ self staticWidth  @ self staticHeight
 ]
 
 { #category : #defaults }
-GLMBrickLayouterTests >> staticHeight [
+GLMBrickTests >> staticHeight [
 
 	^ 100
 ]
 
 { #category : #defaults }
-GLMBrickLayouterTests >> staticWidth [
+GLMBrickTests >> staticSmallExtent [
+
+	^ self staticSmallWidth  @ self staticSmallHeight
+]
+
+{ #category : #defaults }
+GLMBrickTests >> staticSmallHeight [
+
+	^ 50
+]
+
+{ #category : #defaults }
+GLMBrickTests >> staticSmallWidth [
+
+	^ 50
+]
+
+{ #category : #defaults }
+GLMBrickTests >> staticWidth [
 
 	^ 100
 ]
 
-{ #category : #tests }
-GLMBrickLayouterTests >> test100DependsOnChildrenBricksInsideOneStatic [
+{ #category : #'tests-layouter' }
+GLMBrickTests >> test100DependsOnChildrenBricksInsideOneStatic [
 	|root current|
 	
 	root := self newBrickWithFullDependsOnChildren.
@@ -142,8 +169,8 @@ GLMBrickLayouterTests >> test100DependsOnChildrenBricksInsideOneStatic [
 	
 ]
 
-{ #category : #tests }
-GLMBrickLayouterTests >> test100FillBricksInsideEachOtherIndideStatic [
+{ #category : #'tests-layouter' }
+GLMBrickTests >> test100FillBricksInsideEachOtherIndideStatic [
 	|root current|
 	
 	root := self newBrickWithStaticExtent.
@@ -157,8 +184,8 @@ GLMBrickLayouterTests >> test100FillBricksInsideEachOtherIndideStatic [
 	
 ]
 
-{ #category : #tests }
-GLMBrickLayouterTests >> test100StaticBricksInsideEachOtherIndideStatic [
+{ #category : #'tests-layouter' }
+GLMBrickTests >> test100StaticBricksInsideEachOtherIndideStatic [
 	|root current|
 	
 	root := self newBrickWithStaticExtent.
@@ -172,8 +199,40 @@ GLMBrickLayouterTests >> test100StaticBricksInsideEachOtherIndideStatic [
 	
 ]
 
-{ #category : #tests }
-GLMBrickLayouterTests >> testBrickDependsOnChildrenOneStatic [
+{ #category : #'tests-geometry' }
+GLMBrickTests >> testBottomMarginMyselfDependency [
+	|root margin brick|
+	margin := 10.
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickWithSmallStaticExtent.
+	brick marginBottom: margin.
+	root addBrickBack: brick.
+
+	self assertAllSubbricksAreClean: root.
+	self assert: root extent equals: self staticExtent.
+	self assert: brick extent equals: self staticSmallExtent.
+	self assert: brick brickBounds equals: (0@0 extent: self staticSmallExtent)
+]
+
+{ #category : #'tests-geometry' }
+GLMBrickTests >> testBottomMarginParentDependency [
+	|root margin brick|
+	margin := 10.
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickFullHeightAndWidthDependsOnParent: 100.
+	brick marginBottom: margin.
+	root addBrickBack: brick.
+
+	self assertAllSubbricksAreClean: root.
+	self assert: root extent equals: self staticExtent.
+	self assert: brick extent equals: (self staticExtent - (0@margin)).
+	self assert: brick brickBounds equals: (0@0 corner: self staticExtent - (0@margin))
+]
+
+{ #category : #'tests-layouter' }
+GLMBrickTests >> testBrickDependsOnChildrenOneStatic [
 	|root brick|
 	
 	root := self newBrickWithFullDependsOnChildren.
@@ -189,8 +248,8 @@ GLMBrickLayouterTests >> testBrickDependsOnChildrenOneStatic [
 	self assert: root extent equals: brick extent
 ]
 
-{ #category : #tests }
-GLMBrickLayouterTests >> testChangeChildrenInParent [
+{ #category : #'tests-layouter' }
+GLMBrickTests >> testChangeChildrenInParent [
 	|parent brick|
 	parent := self newBrickWithFullDependsOnChildren.
 	brick := self newBrickWithStaticExtent.
@@ -209,8 +268,8 @@ GLMBrickLayouterTests >> testChangeChildrenInParent [
 
 ]
 
-{ #category : #tests }
-GLMBrickLayouterTests >> testChangeChildrenInParentAndSubchildren [
+{ #category : #'tests-layouter' }
+GLMBrickTests >> testChangeChildrenInParentAndSubchildren [
 	|parent brick child|
 	parent := self newBrickWithFullDependsOnChildren.
 	brick := self newBrickWithStaticExtent.
@@ -233,8 +292,8 @@ GLMBrickLayouterTests >> testChangeChildrenInParentAndSubchildren [
 
 ]
 
-{ #category : #tests }
-GLMBrickLayouterTests >> testEmptyBrickDependsOnChildren [
+{ #category : #'tests-layouter' }
+GLMBrickTests >> testEmptyBrickDependsOnChildren [
 	|brick|
 	
 	brick := self newBrickWithFullDependsOnChildren.
@@ -249,8 +308,8 @@ GLMBrickLayouterTests >> testEmptyBrickDependsOnChildren [
 	self assert: brick extent equals: 0@0
 ]
 
-{ #category : #tests }
-GLMBrickLayouterTests >> testFillBrickInsideStatic [
+{ #category : #'tests-layouter' }
+GLMBrickTests >> testFillBrickInsideStatic [
 	|root brick|
 	
 	root := self newBrickWithStaticExtent.
@@ -264,14 +323,46 @@ GLMBrickLayouterTests >> testFillBrickInsideStatic [
 	
 ]
 
-{ #category : #tests }
-GLMBrickLayouterTests >> testFreshBrickIsDirty [
+{ #category : #'tests-layouter' }
+GLMBrickTests >> testFreshBrickIsDirty [
 
 	self assertBrickDirty: GLMBrick new
 ]
 
-{ #category : #tests }
-GLMBrickLayouterTests >> testOneDependsOnParentOneDependsOnChildrenInsideStatic [
+{ #category : #'tests-geometry' }
+GLMBrickTests >> testLeftMarginMyselfDependency [
+	|root margin brick|
+	margin := 10.
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickWithSmallStaticExtent.
+	brick marginLeft: margin.
+	root addBrickBack: brick.
+
+	self assertAllSubbricksAreClean: root.
+	self assert: root extent equals: self staticExtent.
+	self assert: brick extent equals: self staticSmallExtent.
+	self assert: brick brickBounds equals: (margin@0 extent: self staticSmallExtent)
+]
+
+{ #category : #'tests-geometry' }
+GLMBrickTests >> testLeftMarginParentDependency [
+	|root margin brick|
+	margin := 10.
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickFullHeightAndWidthDependsOnParent: 100.
+	brick marginLeft: margin.
+	root addBrickBack: brick.
+
+	self assertAllSubbricksAreClean: root.
+	self assert: root extent equals: self staticExtent.
+	self assert: brick extent equals: (self staticExtent - (margin@0)).
+	self assert: brick brickBounds equals: (margin@0 corner: self staticExtent)
+]
+
+{ #category : #'tests-layouter' }
+GLMBrickTests >> testOneDependsOnParentOneDependsOnChildrenInsideStatic [
 	|root brick1 brick2 brick3 staticWidth staticHeight|
 	
 	staticWidth := 20.
@@ -302,8 +393,8 @@ GLMBrickLayouterTests >> testOneDependsOnParentOneDependsOnChildrenInsideStatic 
 	
 ]
 
-{ #category : #tests }
-GLMBrickLayouterTests >> testOneDependsOnParentOneStaticInsideStatic [
+{ #category : #'tests-layouter' }
+GLMBrickTests >> testOneDependsOnParentOneStaticInsideStatic [
 	|root brick1 brick2 staticWidth|
 	
 	staticWidth := 20.
@@ -324,8 +415,8 @@ GLMBrickLayouterTests >> testOneDependsOnParentOneStaticInsideStatic [
 	
 ]
 
-{ #category : #tests }
-GLMBrickLayouterTests >> testOneStaticBrick [
+{ #category : #'tests-layouter' }
+GLMBrickTests >> testOneStaticBrick [
 	|brick|
 	
 	brick := self newBrickWithStaticExtent.
@@ -337,8 +428,40 @@ GLMBrickLayouterTests >> testOneStaticBrick [
 	
 ]
 
-{ #category : #tests }
-GLMBrickLayouterTests >> testShrinkWrapInStaticWithNeighbours [
+{ #category : #'tests-geometry' }
+GLMBrickTests >> testRightMarginMyselfDependency [
+	|root margin brick|
+	margin := 10.
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickWithSmallStaticExtent.
+	brick marginRight: margin.
+	root addBrickBack: brick.
+
+	self assertAllSubbricksAreClean: root.
+	self assert: root extent equals: self staticExtent.
+	self assert: brick extent equals: self staticSmallExtent.
+	self assert: brick brickBounds equals: (0@0 extent: self staticSmallExtent)
+]
+
+{ #category : #'tests-geometry' }
+GLMBrickTests >> testRightMarginParentDependency [
+	|root margin brick|
+	margin := 10.
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickFullHeightAndWidthDependsOnParent: 100.
+	brick marginRight: margin.
+	root addBrickBack: brick.
+
+	self assertAllSubbricksAreClean: root.
+	self assert: root extent equals: self staticExtent.
+	self assert: brick extent equals: (self staticExtent - (margin@0)).
+	self assert: brick brickBounds equals: (0@0 corner: self staticExtent - (margin@0))
+]
+
+{ #category : #'tests-layouter' }
+GLMBrickTests >> testShrinkWrapInStaticWithNeighbours [
 	|root band child1 child2 neighbour childWidth width|
 	width := 20.
 	childWidth := self staticWidth - width.
@@ -361,8 +484,40 @@ GLMBrickLayouterTests >> testShrinkWrapInStaticWithNeighbours [
 	self assert: band brickBounds equals: (0@0 extent: childWidth@(self staticHeight+self staticHeight)).
 ]
 
-{ #category : #tests }
-GLMBrickLayouterTests >> testTwoDependsOnParentInsideStatic [
+{ #category : #'tests-geometry' }
+GLMBrickTests >> testTopMarginMyselfDependency [
+	|root margin brick|
+	margin := 10.
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickWithSmallStaticExtent.
+	brick marginTop: margin.
+	root addBrickBack: brick.
+
+	self assertAllSubbricksAreClean: root.
+	self assert: root extent equals: self staticExtent.
+	self assert: brick extent equals: self staticSmallExtent.
+	self assert: brick brickBounds equals: (0@margin extent: self staticSmallExtent)
+]
+
+{ #category : #'tests-geometry' }
+GLMBrickTests >> testTopMarginParentDependency [
+	|root margin brick|
+	margin := 10.
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickFullHeightAndWidthDependsOnParent: 100.
+	brick marginTop: margin.
+	root addBrickBack: brick.
+
+	self assertAllSubbricksAreClean: root.
+	self assert: root extent equals: self staticExtent.
+	self assert: brick extent equals: (self staticExtent - (0@margin)).
+	self assert: brick brickBounds equals: (0@margin corner: self staticExtent)
+]
+
+{ #category : #'tests-layouter' }
+GLMBrickTests >> testTwoDependsOnParentInsideStatic [
 	|root brick1 brick2|
 	
 	root := self newBrickWithStaticExtent.
