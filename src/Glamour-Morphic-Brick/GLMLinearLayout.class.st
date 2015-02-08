@@ -89,14 +89,12 @@ GLMLinearLayout >> layoutFloatingLeft: aBrick in: newBounds [
 
 { #category : #floating }
 GLMLinearLayout >> layoutFloatingRight: aBrick in: newBounds [
-	| left top right bottom |
+	| left top |
 	
 	left := aBrick owner width - aBrick width - aBrick marginRight.
-	top := aBrick  marginTop.
-	right := aBrick owner width - aBrick marginRight.
-	bottom := aBrick owner height - aBrick marginBottom.
+	top := aBrick marginTop.
 	
-	aBrick brickBounds: (left@top corner: right@bottom).
+	aBrick brickBounds: (left@top extent: aBrick extent).
 	
 	^ 0
 ]
