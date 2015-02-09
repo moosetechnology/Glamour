@@ -245,8 +245,11 @@ GLMBrickStructureTrait >> privateRemoveAllBricks [
 { #category : #'private-structure' }
 GLMBrickStructureTrait >> privateRemoveBrick: aBrick [
 	| predecessor successor link head tail index|
+	aBrick ifNil: [ ^ aBrick ].
+	(self hasSubbrick: aBrick) ifFalse: [ ^ aBrick ].
 	
 	link := aBrick brickDoubleLink.
+	
 	head := self firstSubbrick brickDoubleLink.
 	tail := self lastSubbrick brickDoubleLink.
 	
