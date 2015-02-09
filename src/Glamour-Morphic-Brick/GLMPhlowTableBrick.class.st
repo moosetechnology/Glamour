@@ -56,18 +56,20 @@ GLMPhlowTableBrick >> displayLogic [
 
 { #category : #phlow }
 GLMPhlowTableBrick >> entity: anObject [
-	super entity: anObject.
-	
+
 	self transformedEntity: (self displayLogic phlowValue: anObject).
-	self listBrick adaptor on: self transformedEntity
+	super entity: anObject.
 ]
 
-{ #category : #initialization }
-GLMPhlowTableBrick >> initialize [
-	super initialize.
-
-	self listBrick adaptor
-		morphAtLogic: [ :index | GLMPhlowTableRowBrick new in: self; entity: (self transformedEntity at: index) ]
+{ #category : #'as yet unclassified' }
+GLMPhlowTableBrick >> setAdaptor [
+	| adaptor |
+	adaptor := (GLMBrickListAdaptor on: self transformedEntity)
+		morphAtLogic: [ :index | 
+			GLMPhlowTableRowBrick new
+				in: self;
+				entity: (self transformedEntity at: index) ].
+	self listBrick adaptor: adaptor
 ]
 
 { #category : #accessing }

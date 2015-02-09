@@ -1,13 +1,50 @@
 Class {
 	#name : #GLMPhlowPharoMethodBrick,
-	#superclass : #GLMPhlowTextBrick,
+	#superclass : #GLMPhlowBrick,
+	#instVars : [
+		'#textBrick => GLMPhlowSlot'
+	],
 	#category : #'Glamour-Morphic-Brick-Phlow'
 }
 
+{ #category : #examples }
+GLMPhlowPharoMethodBrick class >> example [
+	
+	^ GLMCompositeBrick examplePharoMethod
+]
+
 { #category : #phlow }
-GLMPhlowPharoMethodBrick >> installEntity [
+GLMPhlowPharoMethodBrick >> display: anObject [
+
+	self setProperty: #phlowDisplay toValue: anObject
+]
+
+{ #category : #accessing }
+GLMPhlowPharoMethodBrick >> displayLogic [
+
+	^ self valueOfProperty: #phlowDisplay ifAbsent: [ #yourself ]
+]
+
+{ #category : #phlow }
+GLMPhlowPharoMethodBrick >> entity: anObject [
+	super entity: anObject.
+	
 	self textBrick classOrMetaClass: (self smalltalkClassLogic phlowValue: self entity).
 	self textBrick setTextWith: (self displayLogic phlowValue: self entity)
+	
+]
+
+{ #category : #initialization }
+GLMPhlowPharoMethodBrick >> initialize [
+	super initialize.
+	
+	self textBrick: self newTextBrick.
+]
+
+{ #category : #'instance creation' }
+GLMPhlowPharoMethodBrick >> newTextBrick [
+
+	^ GLMRubScrolledTextBrick new
 ]
 
 { #category : #phlow }
@@ -23,8 +60,25 @@ GLMPhlowPharoMethodBrick >> smalltalkClassLogic [
 ]
 
 { #category : #accessing }
+GLMPhlowPharoMethodBrick >> textBrick [
+
+	^ textBrick
+	
+
+]
+
+{ #category : #accessing }
 GLMPhlowPharoMethodBrick >> textBrick: aBrick [
 
-	super textBrick: aBrick.
-	self textBrick beForSmalltalkCode.
+	textBrick := aBrick.
+	self textBrick
+		wrapped: true;
+		beForSmalltalkCode.
+		
+	self textBrick layoutProperties
+		vSpaceFill;
+		hSpaceFill.
+	self addBrickBack: self textBrick
+	
+
 ]

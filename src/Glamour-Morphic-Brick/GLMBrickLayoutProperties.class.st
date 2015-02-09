@@ -64,47 +64,48 @@ Class {
 	#name : #GLMBrickLayoutProperties,
 	#superclass : #TableLayoutProperties,
 	#instVars : [
-		'marginTop',
-		'marginRight',
-		'marginBottom',
-		'marginLeft',
-		'paddingTop',
-		'paddingRight',
-		'paddingBottom',
-		'paddingLeft',
-		'horizontalPercent',
-		'verticalPercent',
-		'maxWidthBlock',
-		'maxHeightBlock',
-		'minHeightBlock',
-		'minWidthBlock',
 		'floating',
+		'hAlign',
+		'heightDependencies',
+		'horizontalPercent',
+		'maxHeight',
+		'maxWidth',
+		'minHeight',
+		'vAlign',
+		'verticalPercent',
+		'widthDependencies',
 		'zIndex',
-		'brick'
+		'minWidth'
 	],
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
-
-{ #category : #private }
-GLMBrickLayoutProperties >> brick [
-
-	^ brick
-]
-
-{ #category : #private }
-GLMBrickLayoutProperties >> brick: aBrick [
-	
-	brick := aBrick
-]
 
 { #category : #accessing }
 GLMBrickLayoutProperties >> floating [
 	^ floating
 ]
 
-{ #category : #accessing }
+{ #category : #scripting }
 GLMBrickLayoutProperties >> floating: aSymbol [
 	floating := aSymbol
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> hAlign [
+
+	^ hAlign
+]
+
+{ #category : #scripting }
+GLMBrickLayoutProperties >> hAlign: aSymbol [
+
+	hAlign := aSymbol
+]
+
+{ #category : #scripting }
+GLMBrickLayoutProperties >> hPercent [
+
+	^ horizontalPercent
 ]
 
 { #category : #scripting }
@@ -115,31 +116,58 @@ GLMBrickLayoutProperties >> hPercent: anInteger [
 
 { #category : #scripting }
 GLMBrickLayoutProperties >> hShrinkWrap [
-
-	self brick layoutPolicy setHShrinking: self brick
+	"my width will change to fit children"
+	self hResizing: #shrinkWrap
 ]
 
 { #category : #scripting }
 GLMBrickLayoutProperties >> hSpaceFill [
-
-	self horizontalPercent: 100
+	"my width will change to fill 100% of my parent"
+	self hPercent: 100.
+	self hResizing: #spaceFill
 ]
 
-{ #category : #accessing }
-GLMBrickLayoutProperties >> horizontalMargin [
-
-	^ self marginLeft + self marginRight
+{ #category : #scripting }
+GLMBrickLayoutProperties >> hSpaceFill: anInteger [
+	"my width will change to fill anInteger percents of my parent"
+	self hPercent: anInteger.
+	self hResizing: #spaceFill
 ]
 
-{ #category : #accessing }
-GLMBrickLayoutProperties >> horizontalPadding [
+{ #category : #testing }
+GLMBrickLayoutProperties >> hasMaxHeight [
 
-	^ self paddingLeft + self paddingRight
+	^ (self maxHeight isNumber ifTrue: [ self maxHeight isInfinite ] ifFalse: [ false ]) not
 ]
 
-{ #category : #accessing }
-GLMBrickLayoutProperties >> horizontalPercent [
-	^ horizontalPercent
+{ #category : #testing }
+GLMBrickLayoutProperties >> hasMaxWidth [
+
+	^ (self maxWidth isNumber ifTrue: [ self maxWidth isInfinite ] ifFalse: [ false ]) not
+]
+
+{ #category : #testing }
+GLMBrickLayoutProperties >> hasMinHeight [
+
+	^ (self minHeight isNumber ifTrue: [ self minHeight <= 0 ] ifFalse: [ false ]) not
+]
+
+{ #category : #testing }
+GLMBrickLayoutProperties >> hasMinWidth [
+
+	^ (self minWidth isNumber ifTrue: [ self minWidth <= 0 ] ifFalse: [ false ]) not
+]
+
+{ #category : #private }
+GLMBrickLayoutProperties >> heightDependencies [
+
+	^ heightDependencies ifNil: [ heightDependencies := OrderedCollection new ]
+]
+
+{ #category : #layout }
+GLMBrickLayoutProperties >> heightDependency: anObject [
+
+	self heightDependencies add: anObject
 ]
 
 { #category : #accessing }
@@ -151,270 +179,99 @@ GLMBrickLayoutProperties >> horizontalPercent: anObject [
 GLMBrickLayoutProperties >> initialize [
 	super initialize.
 	
-	marginBottom := 0.
-	marginLeft := 0.
-	marginRight := 0.
-	marginTop := 0.
-	paddingBottom := 0.
-	paddingLeft := 0.
-	paddingRight := 0.
-	paddingTop := 0.
-	horizontalPercent := 25.
-	verticalPercent := 25.
+	horizontalPercent := 0.
+	verticalPercent := 0.
 	zIndex := 1. "the lowest one"
-	maxWidthBlock := [ :aTrick | -1 ]. "negative value means undefined"
-	maxHeightBlock := [ :aTrick | -1 ]. "negative value means undefined"
-	minWidthBlock := [ :aTrick | -1 ]. "negative value means undefined"
-	minHeightBlock := [ :aTrick | -1 ]. "negative value means undefined"
-	floating := #none
+	maxWidth := Float infinity.
+	maxHeight := Float infinity.
+	minWidth := 0.
+	minHeight := 0.
+	floating := #none.
+	vAlign := #none.
+	hAlign := #none
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> maxHeight [
+
+	^ maxHeight ifNil: [ maxHeight := Float infinity ]
 ]
 
 { #category : #scripting }
-GLMBrickLayoutProperties >> margin: margins [
-	"The margins property can have from one to four values:
-	
-	margin: #(25 50 75 100)
-		top margin is 25px
-		right margin is 50px
-		bottom margin is 75px
-		left margin is 100px
-		
-	margin: #(25 50 75)
-		top margin is 25px
-		right and left margins are 50px
-		bottom margin is 75px
-		
-	margin: #(25 50)
-		top and bottom margins are 25px
-		right and left margins are 50px
-		
-	margin: #(25)
-		all four margins are 25px
-		
-	margin: 25
-		all four margins are 25px"
-	
-	margins ifNil: [ ^ self margin: #(0) ].
-	
-	margins isCollection ifTrue: [
-		margins isEmpty ifTrue: [ ^ self margin: #(0) ].
-		self
-			marginTop: (margins at: 1);
-			marginRight: (margins at: 1);
-			marginBottom: (margins at: 1);
-			marginLeft: (margins at: 1).
-		margins size > 1 ifTrue: [
-			self
-				marginRight: (margins at: 2);
-				marginLeft: (margins at: 2) ].
-		margins size > 2 ifTrue: [
-			self marginBottom: (margins at: 3) ].
-		margins size > 3 ifTrue: [
-			self marginLeft: (margins at: 4) ] ]
-	ifFalse: [ ^ self margin: {margins} ]
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> marginBottom [
-	^ marginBottom
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> marginBottom: anObject [
-	marginBottom := anObject
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> marginLeft [
-	^ marginLeft
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> marginLeft: anObject [
-	marginLeft := anObject
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> marginRight [
-	^ marginRight
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> marginRight: anObject [
-	marginRight := anObject
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> marginTop [
-	^ marginTop
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> marginTop: anObject [
-	marginTop := anObject
-]
-
-{ #category : #accessing }
 GLMBrickLayoutProperties >> maxHeight: anObject [
-	maxHeightBlock := [ anObject ]
+
+	maxHeight := anObject
 ]
 
 { #category : #accessing }
-GLMBrickLayoutProperties >> maxHeightBlock [
-	^ maxHeightBlock
+GLMBrickLayoutProperties >> maxWidth [
+
+	^ maxWidth ifNil: [ maxWidth := Float infinity ]
 ]
 
-{ #category : #accessing }
-GLMBrickLayoutProperties >> maxHeightBlock: anObject [
-	maxHeightBlock := anObject
-]
-
-{ #category : #accessing }
+{ #category : #scripting }
 GLMBrickLayoutProperties >> maxWidth: anObject [
-	maxWidthBlock := [ anObject ]
+
+	maxWidth := anObject
 ]
 
 { #category : #accessing }
 GLMBrickLayoutProperties >> maxWidthBlock [
-	^ maxWidthBlock
+	self flag: 'remove me'.
+	^ maxWidth
 ]
 
 { #category : #accessing }
 GLMBrickLayoutProperties >> maxWidthBlock: anObject [
-	maxWidthBlock := anObject
+	self flag: 'remove me'.
+	"maxWidthBlock := anObject"
 ]
 
 { #category : #accessing }
+GLMBrickLayoutProperties >> minHeight [
+
+	^ minHeight ifNil: [ minHeight := 0 ]
+]
+
+{ #category : #scripting }
 GLMBrickLayoutProperties >> minHeight: anObject [
-	minHeightBlock := [ anObject ]
+	
+	minHeight := anObject
 ]
 
 { #category : #accessing }
-GLMBrickLayoutProperties >> minHeightBlock [
-	^ minHeightBlock
+GLMBrickLayoutProperties >> minWidth [
+
+	^ minWidth ifNil: [ minWidth := 0 ]
 ]
 
-{ #category : #accessing }
-GLMBrickLayoutProperties >> minHeightBlock: anObject [
-	minHeightBlock := anObject
-]
-
-{ #category : #accessing }
+{ #category : #scripting }
 GLMBrickLayoutProperties >> minWidth: anObject [
-	minWidthBlock := [ anObject ]
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> minWidthBlock [
-	^ minWidthBlock
+	minWidth := anObject
 ]
 
 { #category : #accessing }
 GLMBrickLayoutProperties >> minWidthBlock: anObject [
-	minWidthBlock := anObject
+	self flag: 'remove me'.
+	"minWidthBlock := anObject"
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> vAlign [
+
+	^ vAlign
 ]
 
 { #category : #scripting }
-GLMBrickLayoutProperties >> padding: paddings [
-	"The paddings property can have from one to four values:
-	
-	padding: #(25 50 75 100)
-		top padding is 25px
-		right padding is 50px
-		bottom padding is 75px
-		left padding is 100px
-		
-	padding: #(25 50 75)
-		top padding is 25px
-		right and left paddings are 50px
-		bottom padding is 75px
-		
-	padding: #(25 50)
-		top and bottom paddings are 25px
-		right and left paddings are 50px
-		
-	padding: #(25)
-		all four paddings are 25px
-		
-	padding: 25
-		all four paddings are 25px"
-	
-	paddings ifNil: [ ^ self padding: #(0) ].
-	
-	paddings isCollection ifTrue: [
-		paddings isEmpty ifTrue: [ ^ self padding: #(0) ].
-		self
-			paddingTop: (paddings at: 1);
-			paddingRight: (paddings at: 1);
-			paddingBottom: (paddings at: 1);
-			paddingLeft: (paddings at: 1).
-		paddings size > 1 ifTrue: [
-			self
-				paddingRight: (paddings at: 2);
-				paddingLeft: (paddings at: 2) ].
-		paddings size > 2 ifTrue: [
-			self paddingBottom: (paddings at: 3) ].
-		paddings size > 3 ifTrue: [
-			self paddingLeft: (paddings at: 4) ] ]
-	ifFalse: [ ^ self padding: {paddings} ]
-]
+GLMBrickLayoutProperties >> vAlign: aSymbol [
 
-{ #category : #accessing }
-GLMBrickLayoutProperties >> paddingBottom [
-	^ paddingBottom
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> paddingBottom: anObject [
-	paddingBottom := anObject
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> paddingLeft [
-	^ paddingLeft
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> paddingLeft: anObject [
-	paddingLeft := anObject
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> paddingRight [
-	^ paddingRight
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> paddingRight: anObject [
-	paddingRight := anObject
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> paddingTop [
-	^ paddingTop
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> paddingTop: anObject [
-	paddingTop := anObject
+	vAlign := aSymbol
 ]
 
 { #category : #scripting }
-GLMBrickLayoutProperties >> staticHeight: aNumberOrBlockOrSymbol [
+GLMBrickLayoutProperties >> vPercent [
 
-	self verticalPercent: 0.
-	(aNumberOrBlockOrSymbol isBlock | aNumberOrBlockOrSymbol isSymbol)
-		ifTrue: [ self minHeightBlock: aNumberOrBlockOrSymbol ]
-		ifFalse: [ self minHeight: aNumberOrBlockOrSymbol ]
-]
-
-{ #category : #scripting }
-GLMBrickLayoutProperties >> staticWidth: aNumberOrBlockOrSymbol [
-
-	self horizontalPercent: 0.
-	(aNumberOrBlockOrSymbol isBlock | aNumberOrBlockOrSymbol isSymbol)
-		ifTrue: [ self minWidthBlock: aNumberOrBlockOrSymbol ]
-		ifFalse: [ self minWidth: aNumberOrBlockOrSymbol ]
+	^ verticalPercent
 ]
 
 { #category : #scripting }
@@ -426,30 +283,21 @@ GLMBrickLayoutProperties >> vPercent: anInteger [
 { #category : #scripting }
 GLMBrickLayoutProperties >> vShrinkWrap [
 
-	self brick layoutPolicy setVShrinking: self brick
+	self vResizing: #shrinkWrap
 ]
 
 { #category : #scripting }
 GLMBrickLayoutProperties >> vSpaceFill [
-
-	self verticalPercent: 100
+	"my height will change to fill 100% of my parent"
+	self vPercent: 100.
+	self vResizing: #spaceFill
 ]
 
-{ #category : #accessing }
-GLMBrickLayoutProperties >> verticalMargin [
-
-	^ self marginTop + self marginBottom
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> verticalPadding [
-
-	^ self paddingTop + self paddingBottom
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> verticalPercent [
-	^ verticalPercent
+{ #category : #scripting }
+GLMBrickLayoutProperties >> vSpaceFill: anInteger [
+	"my height will change to fill anInteger percents of my parent"
+	self vPercent: anInteger.
+	self vResizing: #spaceFill
 ]
 
 { #category : #accessing }
@@ -457,12 +305,24 @@ GLMBrickLayoutProperties >> verticalPercent: anObject [
 	verticalPercent := anObject
 ]
 
+{ #category : #private }
+GLMBrickLayoutProperties >> widthDependencies [
+
+	^ widthDependencies ifNil: [ widthDependencies := OrderedCollection new ]	
+]
+
+{ #category : #layout }
+GLMBrickLayoutProperties >> widthDependency: anObject [
+
+	self widthDependencies add: anObject
+]
+
 { #category : #accessing }
 GLMBrickLayoutProperties >> zIndex [
 	^ zIndex
 ]
 
-{ #category : #accessing }
+{ #category : #scripting }
 GLMBrickLayoutProperties >> zIndex: anObject [
 	zIndex := anObject
 ]

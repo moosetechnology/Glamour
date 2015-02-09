@@ -16,13 +16,6 @@ GLMHorizontalScrollPaneBrick >> calculateMaxVelocity [
 	^ (self band width / 15) max: self class defaultMaxVelocity
 ]
 
-{ #category : #initialization }
-GLMHorizontalScrollPaneBrick >> initialize [
-	super initialize.
-	
-	self layoutPolicy: (GLMBrickHorizontalFillLayout new)
-]
-
 { #category : #'instance creation' }
 GLMHorizontalScrollPaneBrick >> newBand [
 	^ GLMHorizontalBandBrick new

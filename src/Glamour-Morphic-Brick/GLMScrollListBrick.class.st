@@ -14,11 +14,12 @@ GLMScrollListBrick class >> example [
 	adaptor := nil.
 	adaptor := GLMBrickListAdaptor new
 		sizeLogic: [ 2000 ];
-		morphAtLogic: [ :index :morph | 
+		morphAtLogic: [ :index :morph |
 			(morph ifNil: [ GLMLabelBrick new ])
 				color: Color random muchLighter;
 				text: index asString, ' of ', adaptor count asString;
 				textPosition: #center;
+				hSpaceFill;
 				yourself ].
 
 	GLMFoundationBrick new
@@ -49,6 +50,7 @@ GLMScrollListBrick class >> exampleDifferentHeights [
 				textPosition: #center;
 				enable;
 				height: [ :b | (((index % 10)*10 + 30) +  (10000 * (2 / b width))) asInteger ];
+				hSpaceFill;
 				yourself ].
 
 	GLMFoundationBrick new
@@ -68,6 +70,7 @@ GLMScrollListBrick class >> exampleInfinity [
 				color: Color random muchLighter;
 				text: index asString, ' of ', adaptor count asString;
 				textPosition: #center;
+				hSpaceFill;
 				yourself ].
 
 	GLMFoundationBrick new
@@ -85,7 +88,12 @@ GLMScrollListBrick >> adaptor [
 { #category : #accessing }
 GLMScrollListBrick >> adaptor: anAdaptor [
 
-	adaptor := anAdaptor
+	adaptor := anAdaptor.
+	self band hasSubbricks ifFalse: [ self updateVisible ].
+	
+	"self layoutPolicy layout: self in: self brickBounds.
+	self flag: 'Fix bug in Layouts'."
+	self update.
 ]
 
 { #category : #adding }
@@ -100,8 +108,8 @@ GLMScrollListBrick >> addItemMorph: aMorph after: anotherMorph [
 { #category : #adding }
 GLMScrollListBrick >> addItemMorph: aMorph before: anotherMorph [
 
-	self setBoundsOf: aMorph before: anotherMorph.
 	self addBrick: aMorph before: anotherMorph.
+	self setBoundsOf: aMorph before: anotherMorph.
 	(self isPartiallyVisible: aMorph) ifFalse: [ self removeBrick: aMorph. ^ nil ].
 	
 	aMorph brickBounds top < 0
@@ -116,18 +124,6 @@ GLMScrollListBrick >> addItemMorph: aMorph before: anotherMorph [
 GLMScrollListBrick >> calculateMaxVelocity [
 	"max velocity must depend from the height of the band"
 	^ (self height * 0.9) asInteger
-]
-
-{ #category : #layouting }
-GLMScrollListBrick >> doLayout [
-	
-	self band hasSubbricks ifFalse: [ self updateVisible ].
-	
-	self layoutPolicy layout: self in: self brickBounds.
-	self flag: 'Fix bug in Layouts'.
-	self band doLayout.
-	self band doLayout.
-	self update.
 ]
 
 { #category : #accessing }
@@ -154,6 +150,7 @@ GLMScrollListBrick >> getMorphAt: anInteger recycled: aMorph [
 	|newMorph|
 	
 	newMorph := (self adaptor morphAt: anInteger convert: aMorph) asBrick.
+	newMorph hSpaceFill.
 	self setIndex: anInteger in: newMorph.
 	^ newMorph
 ]
@@ -162,7 +159,7 @@ GLMScrollListBrick >> getMorphAt: anInteger recycled: aMorph [
 GLMScrollListBrick >> initialize [
 	super initialize.
 	
-	self band layoutPolicy: GLMBrickVerticalScrollListLayout new
+	self band useVerticalLinearLayout
 ]
 
 { #category : #scrolling }
@@ -312,7 +309,6 @@ GLMScrollListBrick >> setBoundsOf: aMorph after: afterMorph [
 	
 	aMorph
 		withWidth: self band width;
-		doLayout;
 		brickBounds: (afterMorph brickBounds bottomLeft extent: aMorph extent)
 ]
 
@@ -321,7 +317,6 @@ GLMScrollListBrick >> setBoundsOf: aMorph before: beforeMorph [
 	|origin corner|
 	
 	aMorph withWidth: self band width.
-	aMorph doLayout.
 	
 	corner := beforeMorph brickBounds topRight.
 	origin  := beforeMorph brickBounds topLeft - (0@aMorph height).

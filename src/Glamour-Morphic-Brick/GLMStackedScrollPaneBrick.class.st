@@ -11,6 +11,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Widgets-Scrollpane'
 }
 
+{ #category : #examples }
+GLMStackedScrollPaneBrick class >> example [
+
+	super example
+]
+
 { #category : #accessing }
 GLMStackedScrollPaneBrick >> allowedBounds [
 
@@ -27,7 +33,7 @@ GLMStackedScrollPaneBrick >> allowedBounds: aRectangle [
 GLMStackedScrollPaneBrick >> initialize [
 	super initialize.
 	
-	self band layoutPolicy: GLMBrickVerticalStackLayout new
+	self band useVerticalLinearLayout
 ]
 
 { #category : #scrolling }
@@ -41,5 +47,5 @@ GLMStackedScrollPaneBrick >> update [
 	super update.
 	
 	"we need to update band's layout to support stacking"
-	self allowedBounds: self band layoutChildren.
+	"self allowedBounds: self band layoutChildren."
 ]
