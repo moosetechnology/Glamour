@@ -270,11 +270,7 @@ GLMPagerScrollSlidingBrick >> setWidthAfterResizing [
 	left := pagerModel circleButtonSize * (pagerModel firstVisiblePageIndex - 1).
 	right := left + self computeWidth.
 	
-	self moveLeft: left.
-	self width: (right - left).
-	self owner changed.
-	
-	pagerModel notifyScrollerBoundsChanged: left@right
+	self setPosition: left@right
 ]
 
 { #category : #'slider-scrolling' }

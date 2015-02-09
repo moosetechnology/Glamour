@@ -245,8 +245,9 @@ GLMPagerScrollBrick >> paneAt: anIndex [
 
 { #category : #accessing }
 GLMPagerScrollBrick >> paneMargin [
-
-	^ 1
+	"please leave it 0, becasue otherwise it doesn't work"
+	self flag: 'fix support of margin'.
+	^ 0
 ]
 
 { #category : #accessing }
@@ -278,7 +279,7 @@ GLMPagerScrollBrick >> pushPane: aMorph [
 	brick
 		layoutProperties: GLMBrickLayoutProperties new;
 		"width of tab is proportional to number of visible panes and my width"
-		width: [ self band width / (self band subbricksCount) ];
+		width: [ self band width / self band subbricksCount ];
 		vSpaceFill;
 		marginLeft: self paneMargin;
 		marginRight: self paneMargin.
@@ -325,6 +326,7 @@ GLMPagerScrollBrick >> scrollValue: value [
 	
 	currentScrollDelta := value.
 	
+	self changed.
 	self band translateX: self band brickBounds left negated.
 	self band translateX: self scrollValue.
 	self changed

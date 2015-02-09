@@ -84,14 +84,12 @@ GLMPagerBarBrick >> pagerModel: aModel [
 { #category : #initialization }
 GLMPagerBarBrick >> recomputeScrollBar [
 	
-	self sliderBrick ifNotNil: [
-		self sliderBrick doLayoutForce.
-		"sliderBrick width: sliderBrick computeWidth."
-		"sliderBrick setWidthAfterResizing." ]
+	self sliderBrick ifNotNil: #setWidthAfterResizing
 ]
 
 { #category : #'bar-accessing' }
 GLMPagerBarBrick >> sliderBrick [
+
 	^ sliderBrick
 ]
 

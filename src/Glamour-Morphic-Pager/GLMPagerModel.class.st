@@ -204,6 +204,7 @@ GLMPagerModel >> invariant [
 
 { #category : #initialization }
 GLMPagerModel >> isDebug [
+
 	^ true
 ]
 
