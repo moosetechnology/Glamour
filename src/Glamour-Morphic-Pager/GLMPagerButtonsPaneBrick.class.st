@@ -15,9 +15,9 @@ GLMPagerButtonsPaneBrick >> addButton: aBrick [
 	
 	aBrick enable.
 	aBrick index: self buttons size.
-	aBrick announcer weak subscribe: GLMPagerButtonClicked send: #scrollButtonClicked: to: self.
-	aBrick announcer weak subscribe: GLMPagerButtonSelected send: #scrollButtonSelected: to: self.
-	aBrick announcer weak subscribe: GLMPagerButtonDeselected send: #scrollButtonDeselected to: self.
+	aBrick announcer weak subscribe: GLMPagerButtonClicked send: #onButtonClicked: to: self.
+	aBrick announcer weak subscribe: GLMPagerButtonSelected send: #onButtonSelected: to: self.
+	aBrick announcer weak subscribe: GLMPagerButtonDeselected send: #onButtonDeselected to: self.
 	
 	GLMPagerWidgetThemer new defaultScrollButtonStyleFor: aBrick.
 	
@@ -25,7 +25,6 @@ GLMPagerButtonsPaneBrick >> addButton: aBrick [
 	aBrick width: self pagerModel circleButtonSize.
 	
 	self addBrickBack: aBrick.
-	self doLayoutForce.
 	self changed.
 	
 	(self buttons size = 1) ifTrue: [ self updateButtonsFocus ].
@@ -35,10 +34,9 @@ GLMPagerButtonsPaneBrick >> addButton: aBrick [
 
 { #category : #'buttons-calculations' }
 GLMPagerButtonsPaneBrick >> buttonCenterByIndex: aNumber [
-	|left width|
+	| width |
 	width := self pagerModel circleButtonSize.
-	left := self bounds left.
-	^ left + ( ( aNumber - 1 ) * ( width ) ) + ( width / 2 ).
+	^ ( ( aNumber - 1 ) * ( width ) ) + ( width / 2 ).
 ]
 
 { #category : #'buttons-accessing' }
@@ -53,7 +51,7 @@ GLMPagerButtonsPaneBrick >> buttons: anObject [
 	buttons := anObject
 ]
 
-{ #category : #testing }
+{ #category : #'buttons-testing' }
 GLMPagerButtonsPaneBrick >> isScrollMustBeChecked: anIndex withLeft: leftBound andRight: rightBound [
 	| buttonCenter |
 	
@@ -61,10 +59,10 @@ GLMPagerButtonsPaneBrick >> isScrollMustBeChecked: anIndex withLeft: leftBound a
 	^ (leftBound <= buttonCenter ) & (rightBound > buttonCenter)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'buttons-updating' }
 GLMPagerButtonsPaneBrick >> markButtonsInside: aBounds [
-	""
 	|index boundsLeft boundsRight firstFound lastFound |	
+	self flag: 'refactor me'.
 	
 	firstFound := false.
 	lastFound := false.
@@ -109,10 +107,31 @@ GLMPagerButtonsPaneBrick >> newButton [
 ]
 
 { #category : #'buttons-event-handling' }
+GLMPagerButtonsPaneBrick >> onButtonClicked: ann [
+
+	self pagerModel switchPaneTo: ann buttonModel index
+]
+
+{ #category : #'buttons-event-handling' }
+GLMPagerButtonsPaneBrick >> onButtonDeselected [
+
+	GLMPagerPanePreviewMorph uniqueInstance hideFromWorld
+]
+
+{ #category : #'buttons-event-handling' }
+GLMPagerButtonsPaneBrick >> onButtonSelected: ann [
+
+	"notify adapter that we need to update pane preview"
+	GLMPagerPanePreviewMorph uniqueInstance showAt: (self buttons at: ann buttonModel index) globalBounds topCenter.
+	self pagerModel updatePreview: ann buttonModel index
+]
+
+{ #category : #'buttons-event-handling' }
 GLMPagerButtonsPaneBrick >> onFocusedPageChanged [
 
-	self updateButtonsFocus.
-	self updateButtons.
+	self
+		updateButtonsFocus;
+		updateButtons
 
 ]
 
@@ -125,8 +144,6 @@ GLMPagerButtonsPaneBrick >> onPagePoped [
 	
 	self removeBrick: button.
 	self updateButtons.
-	
-	self doLayoutForce.
 	self changed
 ]
 
@@ -167,47 +184,21 @@ GLMPagerButtonsPaneBrick >> pagerModel: aModel [
 	self updateButtons
 ]
 
-{ #category : #'as yet unclassified' }
-GLMPagerButtonsPaneBrick >> scrollButtonClicked: clickedAnnouncement [
-
-	"notify adapter that we need to switch page"
-	pagerModel switchPaneTo: clickedAnnouncement buttonModel index
-]
-
-{ #category : #'as yet unclassified' }
-GLMPagerButtonsPaneBrick >> scrollButtonDeselected [
-
-	GLMPagerPanePreviewMorph uniqueInstance hideFromWorld.
-]
-
-{ #category : #'as yet unclassified' }
-GLMPagerButtonsPaneBrick >> scrollButtonSelected: selectedAnnouncement [
-
-	"notify adapter that we need to update pane preview"
-	
-	GLMPagerPanePreviewMorph uniqueInstance showAt: (self buttons at: selectedAnnouncement buttonModel index) bounds topCenter.
-	pagerModel updatePreview: selectedAnnouncement buttonModel index.
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #'buttons-updating' }
 GLMPagerButtonsPaneBrick >> updateButtons [
 	"first we uncheck all buttons"
-	self buttons do: [ :each |
-		"uncheck only if not focused"
-		each isFocused ifFalse: [ each uncheck ] ].
-	
+	self buttons select: #isFocused thenDo: #uncheck.
 	"then check only necessary"
 	self pagerModel size > 0 ifTrue: [
 		self buttons from: self pagerModel firstVisiblePageIndex to: self pagerModel lastVisiblePageIndex do: #check ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'buttons-updating' }
 GLMPagerButtonsPaneBrick >> updateButtonsFocus [
-
 	"unfocus all"
 	self buttons do: #setNotFocused.
-	
 	"because it's possible when nothing has focus"
-	self pagerModel focusedPageIndex ifNotNil: [ (self buttons at: self pagerModel focusedPageIndex) setFocused ].
+	self pagerModel focusedPageIndex
+		ifNotNil: [ (self buttons at: self pagerModel focusedPageIndex) setFocused ]
 	
 ]

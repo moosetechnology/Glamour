@@ -73,6 +73,7 @@ GLMPagerPanePreviewMorph >> showAt: aPoint [
 
 { #category : #actions }
 GLMPagerPanePreviewMorph >> updateFor: aMorph [
+
 	thumbnail := aMorph taskThumbnailOfSize: self maxExtent.
 	self image: thumbnail form.
 	

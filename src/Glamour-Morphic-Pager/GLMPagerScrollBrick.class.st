@@ -159,7 +159,7 @@ GLMPagerScrollBrick >> onPagesNumberChanged [
 ]
 
 { #category : #'event-handling' }
-GLMPagerScrollBrick >> onScrollPositionChanged: announcement [
+GLMPagerScrollBrick >> onPositionChanged: announcement [
 
 	self scrollToPane: pagerModel firstVisiblePageIndex smooth: announcement smooth callback: announcement callback
 ]
@@ -226,7 +226,7 @@ GLMPagerScrollBrick >> pagerModel: aModel [
 		when: GLMPagerSynchronizeScrollAnnouncement send: #onSynchronizeScroll: to: self.
 		
 	pagerModel announcer weak 
-		when: GLMPagerScrollPositionChanged send: #onScrollPositionChanged: to: self.
+		when: GLMPagerScrollPositionChanged send: #onPositionChanged: to: self.
 		
 	pagerModel announcer weak 
 		when: GLMNumberOfVisiblePagesChanged send: #onPagesNumberChanged to: self.

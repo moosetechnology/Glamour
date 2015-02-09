@@ -31,8 +31,8 @@ GLMPagerScrollButtonBrick >> checkedIcon: aForm [
 ]
 
 { #category : #'as yet unclassified' }
-GLMPagerScrollButtonBrick >> click [
-	super click.
+GLMPagerScrollButtonBrick >> click: anEvent [
+	super click: anEvent.
 	
 	self announcer announce: (GLMPagerButtonClicked new buttonModel: self)
 	

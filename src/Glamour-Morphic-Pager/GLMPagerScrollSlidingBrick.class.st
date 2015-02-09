@@ -15,88 +15,45 @@ Class {
 
 { #category : #'as yet unclassified' }
 GLMPagerScrollSlidingBrick >> computeScrollValue: aNumber [
-	|newValue minLeft maxLeft value interval|
+	|newValue delta|
 	
-	newValue := aNumber.
-	minLeft := 0.
-	maxLeft := self owner width - self width.
-	
-	newValue < minLeft ifTrue: [ newValue := minLeft ].
-	newValue > maxLeft ifTrue: [ newValue := maxLeft ].
-	
-	interval := self owner width.
+	delta := self owner width - self width.
+	newValue := (aNumber max: 0) min: delta.
 		
-	value := (interval = self width)
+	^ ((delta = 0)
 		ifTrue: [ 0 ]
-		ifFalse: [ (newValue - minLeft) / (interval - self width) ].
-	
-	^ value.
+		ifFalse: [ newValue / delta ])
 ]
 
 { #category : #'as yet unclassified' }
 GLMPagerScrollSlidingBrick >> computeWidth [
-	|width numberOfVisiblePages|
 
-	width := pagerModel isNotNil
-		ifTrue: [
-			numberOfVisiblePages := pagerModel numberOfVisiblePages.
-			numberOfVisiblePages > pagerModel size
-				ifTrue: [ numberOfVisiblePages := pagerModel size ].
-			(pagerModel circleButtonSize) * numberOfVisiblePages + ((numberOfVisiblePages - 1) * pagerModel dependencyButtonSize).
-		]
-		ifFalse: [ 0 ].
-		
-	^ width.
+	^ self pagerModel
+		ifNil: [ 0 ]
+		ifNotNil: [ :m | m circleButtonSize * m actualNumberOfVisiblePages ]
 ]
 
-{ #category : #'as yet unclassified' }
-GLMPagerScrollSlidingBrick >> delete [
-	super delete.
-	pagerModel announcer unsubscribe: self.
-]
-
-{ #category : #'as yet unclassified' }
-GLMPagerScrollSlidingBrick >> dragResizingLeft: evt [
-	| leftDelta left right maxLeft|
+{ #category : #'slider-draging' }
+GLMPagerScrollSlidingBrick >> dragResizingLeft: anEvent [
+	| left right |
 	
-	leftDelta:= (self bounds right - startResizingWidth - evt position x - startDragX).
+	right := self brickBounds right.
+	left := anEvent position x - self owner globalBounds left - startDragX.
+	left := (left max: 0) min: (right - self pagerModel circleButtonSize).
 	
-	right := self layoutFrame rightOffset.
-	left := right - startResizingWidth - leftDelta.
-	maxLeft := right - pagerModel circleButtonSize.
-	
-	left := (left max: 0) min: maxLeft.
-	
-	self layoutFrame: (
-		LayoutFrame 
-			fractions: (0 @ 0 corner: 0 @ 0)
-			offsets: (left @ 0 corner: right @ self height)
-	).
-	
-	pagerModel notifyScrollerBoundsChanged: (owner left + left)@(owner left + right).
+	self setPosition: left@right
 	
 ]
 
-{ #category : #'as yet unclassified' }
-GLMPagerScrollSlidingBrick >> dragResizingRight: evt [
-	| rightDelta left right minRight maxRight|
+{ #category : #'slider-draging' }
+GLMPagerScrollSlidingBrick >> dragResizingRight: anEvent [
+	| left right |
+
+	left := self brickBounds left.
+	right := anEvent position x - self owner globalBounds left - (startDragX - self computeWidth).
+	right := (right max: (left + self pagerModel circleButtonSize)) min: self owner width.
 	
-	rightDelta:= (evt position x - self left - startDragX).
-	
-	left := self layoutFrame leftOffset.
-	right := left + startResizingWidth + rightDelta.
-	minRight := left + pagerModel circleButtonSize.
-	maxRight := owner width.
-	
-	right := (right max: minRight) min: maxRight.
-	
-	self layoutFrame: (
-		LayoutFrame 
-			fractions: (0 @ 0 corner: 0 @ 0)
-			offsets: (left @ 0 corner: right @ self height)
-	).
-	
-	pagerModel notifyScrollerBoundsChanged: (owner left + left)@(owner left + right).
+	self setPosition: left@right
 	
 ]
 
@@ -115,7 +72,7 @@ GLMPagerScrollSlidingBrick >> dragSliding: evt [
 GLMPagerScrollSlidingBrick >> handleMouseOver: anEvent [
 	super handleMouseOver: anEvent.
 		
-	isResizing | (self isMouseEventInsideLeftResizingZone: anEvent) | (self isMouseEventInsideRightResizingZone: anEvent)
+	isResizing | (self isLeftResizingZone: anEvent) | (self isRightResizingZone: anEvent)
 		ifTrue: [ self setCursorToResizing: anEvent ]
 		ifFalse: [ self setCursorToNormal: anEvent ].
 ]
@@ -134,29 +91,22 @@ GLMPagerScrollSlidingBrick >> initialize [
 	isLeftResizing := false.
 	isResizing := false.
 		
-	self normalColor: (Color veryLightGray alpha: 0.4).
-	self flag: 'Do we need a :hover effect?'.
-	self selectedColor: (Color veryLightGray alpha: 0.55).
-	self enable.
+	self
+		normalColor: (Color veryLightGray alpha: 0.4);
+		selectedColor: (Color veryLightGray alpha: 0.55);
+		enable
 ]
 
-{ #category : #'event-mouse' }
-GLMPagerScrollSlidingBrick >> isMouseEventInsideLeftResizingZone: evt [
-	|resizingRectangle bottom right globalBounds|
-	globalBounds := self globalBounds.
+{ #category : #'slider-testing' }
+GLMPagerScrollSlidingBrick >> isLeftResizingZone: evt [
 	
-	bottom := globalBounds bottom.
-	right := globalBounds left + resizingZoneWidth.
-	
-	resizingRectangle := globalBounds origin corner: right@bottom.
-	
-	^ resizingRectangle containsPoint: evt position.
+	^ (self globalBounds withWidth: resizingZoneWidth) containsPoint: evt position
 	
 	
 ]
 
-{ #category : #'event-mouse' }
-GLMPagerScrollSlidingBrick >> isMouseEventInsideRightResizingZone: evt [
+{ #category : #'slider-testing' }
+GLMPagerScrollSlidingBrick >> isRightResizingZone: evt [
 	|resizingRectangle top left globalBounds|
 	globalBounds := self globalBounds.
 	
@@ -176,11 +126,11 @@ GLMPagerScrollSlidingBrick >> mouseDown: evt [
 	startDragX := (evt position x - self globalBounds left).
 	startResizingWidth := self width.
 	
-	isRightResizing := self isMouseEventInsideRightResizingZone: evt.
+	isRightResizing := self isRightResizingZone: evt.
 	
 	"only one type of resizing is possible"
 	isRightResizing
-		ifFalse: [ isLeftResizing := self isMouseEventInsideLeftResizingZone: evt ]
+		ifFalse: [ isLeftResizing := self isLeftResizingZone: evt ]
 		ifTrue: [ isLeftResizing := false ].
 
 	isResizing := (isLeftResizing or: isRightResizing).
@@ -210,10 +160,9 @@ GLMPagerScrollSlidingBrick >> mouseMove: evt [
 GLMPagerScrollSlidingBrick >> mouseUp: evt [
 	super mouseUp: evt.
 	
-	pagerModel recomputeState: (isResizing not).
+	pagerModel recomputeState: isResizing not.
 	
 	isResizing ifTrue: [ self setWidthAfterResizing ].
-	
 	isResizing := false.
 		
 	(self globalBounds containsPoint: evt position)
@@ -231,33 +180,39 @@ GLMPagerScrollSlidingBrick >> moveLeft: left [ "Integer - pixels"
 	self doLayoutForce.
 	self owner changed.
 	
-	"pagerModel notifyScrollerBoundsChanged: (owner left + left )@(owner left + right)."
+	pagerModel notifyScrollerBoundsChanged: left@right
+]
+
+{ #category : #'announcement handling' }
+GLMPagerScrollSlidingBrick >> onPositionChanged: announcement [
+	
+	self scrollToPane: pagerModel firstVisiblePageIndex smooth: announcement smooth
 ]
 
 { #category : #'announcement handling' }
 GLMPagerScrollSlidingBrick >> onResized [
 
-	self setWidthAfterResizing.
+	self setWidthAfterResizing
 ]
 
-{ #category : #'as yet unclassified' }
-GLMPagerScrollSlidingBrick >> onScrollPositionChanged: announcement [
-	
-	self scrollToPane: pagerModel firstVisiblePageIndex smooth: announcement smooth
+{ #category : #'slider-accessing' }
+GLMPagerScrollSlidingBrick >> pagerModel [
+
+	^ pagerModel
 ]
 
-{ #category : #accessing }
+{ #category : #'slider-accessing' }
 GLMPagerScrollSlidingBrick >> pagerModel: anAdapter [
 	
 	pagerModel := anAdapter.
 			
 	pagerModel announcer weak 
-		when: GLMNumberOfVisiblePagesChanged send: #onResized to: self.
+		subscribe: GLMNumberOfVisiblePagesChanged send: #onResized to: self.
 		
 	pagerModel announcer weak 
-		when: GLMPagerScrollPositionChanged send: #onScrollPositionChanged: to: self.
+		subscribe: GLMPagerScrollPositionChanged send: #onPositionChanged: to: self.
 		
-	self width: self computeWidth.
+	self width: self computeWidth
 ]
 
 { #category : #'slider-cursor' }
@@ -268,39 +223,15 @@ GLMPagerScrollSlidingBrick >> resizeCursor [
 
 { #category : #'slider-scrolling' }
 GLMPagerScrollSlidingBrick >> scrollTo: aFloat [ "Float - percentage/100"
-
 	"scrolls to a specified float number which must be in interval [0.0, 1.0]"
-
 	self moveLeft: (owner width - self width) * aFloat.
 ]
 
 { #category : #'slider-scrolling' }
-GLMPagerScrollSlidingBrick >> scrollTo: aValue duration: anInteger [
-
-	anInteger <= 0
-		"if duration is zero, move to the left immediately"
-		ifTrue: [ self scrollTo: aValue ]
-		ifFalse: [
-			| startTime start currentValue |
-			currentValue := self computeScrollValue: self bounds left.
-			startTime := Time millisecondClockValue.
-			start := currentValue.
-			[	| delta |
-				[ (delta := Time millisecondClockValue - startTime) < anInteger ] whileTrue: [
-					self scrollTo: ((aValue - start) * (delta / anInteger) + start).
-					Processor yield
-				].
-				self scrollTo: aValue.
-			] fork
-		]
-]
-
-{ #category : #'slider-scrolling' }
 GLMPagerScrollSlidingBrick >> scrollTo: aValue smooth: aBoolean [
-
-	aBoolean
-		ifTrue: [ self scrollTo: aValue "duration: 200" ]
-		ifFalse: [ self scrollTo: aValue ]
+	"better to ignore smooth parameter,
+	because animation is not neccessary"
+	self scrollTo: aValue
 ]
 
 { #category : #'slider-scrolling' }
@@ -321,16 +252,29 @@ GLMPagerScrollSlidingBrick >> setCursorToResizing: evt [
 	evt hand showTemporaryCursor: self resizeCursor
 ]
 
+{ #category : #'slider-draging' }
+GLMPagerScrollSlidingBrick >> setPosition: aPoint [
+	"aPoint x - is my bounds left
+	aPoint y - is my bounds right"
+	self marginLeft: aPoint x.
+	self width: aPoint y - aPoint x.
+	self owner changed.
+	
+	self pagerModel notifyScrollerBoundsChanged: aPoint
+]
+
 { #category : #'as yet unclassified' }
 GLMPagerScrollSlidingBrick >> setWidthAfterResizing [
 	| left right |
 	
-	left := ( pagerModel circleButtonSize + pagerModel dependencyButtonSize ) * (pagerModel firstVisiblePageIndex - 1).
+	left := pagerModel circleButtonSize * (pagerModel firstVisiblePageIndex - 1).
 	right := left + self computeWidth.
 	
+	self moveLeft: left.
 	self width: (right - left).
+	self owner changed.
 	
-	pagerModel notifyScrollerBoundsChanged: (owner left + left )@(owner left + right).
+	pagerModel notifyScrollerBoundsChanged: left@right
 ]
 
 { #category : #'slider-scrolling' }
