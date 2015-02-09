@@ -8,32 +8,73 @@ Trait {
 
 { #category : #'brick-structure-adding/removing' }
 GLMBrickStructureTrait >> addAllBricks: aCollection [
-	self privateAddAllBricks: aCollection.
-	self doLayoutForce
+
+	aCollection do: [ :each | self addBrickBack: each ]
 ]
 
 { #category : #'brick-structure-adding/removing' }
 GLMBrickStructureTrait >> addBrick: aBrick before: otherBrick [
-	|result|
-	result := self privateAddBrick: aBrick before: otherBrick.
-	self doLayoutForce.
-	^ result
+	| brick link otherLink otherLinkPredeccessor|
+	brick := aBrick asBrick.
+	
+	otherLink := otherBrick brickDoubleLink.
+	otherLink = self firstSubbrick brickDoubleLink
+		ifTrue: [ ^ self addBrickFirst: brick ].
+		
+	link := brick asDoubleLink.
+	brick brickDoubleLink: link.
+	otherLinkPredeccessor := otherLink previousLink.
+	otherLink previousLink: link.
+	link nextLink: otherLink.
+	link previousLink: otherLinkPredeccessor.
+	otherLinkPredeccessor nextLink: link.
+	
+	self subbricks add: brick before: otherBrick.
+	
+	brick owner: self.
+	
+	^ aBrick
 ]
 
 { #category : #'brick-structure-adding/removing' }
 GLMBrickStructureTrait >> addBrickBack: aBrick [
-	|result|
-	result := self privateAddBrickBack: aBrick.
-	self doLayoutForce.
-	^ result
+	|link brick|
+	
+	brick := aBrick asBrick.
+	link := brick asDoubleLink.
+	brick brickDoubleLink: link.
+	
+	self hasSubbricks ifTrue: [
+		self lastSubbrick brickDoubleLink nextLink: link.	
+		link previousLink: self lastSubbrick brickDoubleLink.
+	].
+	
+	self privateSubbricks: (self subbricks copyWith: brick).
+	brick owner: self.
+	
+	^ aBrick
 ]
 
 { #category : #'brick-structure-adding/removing' }
 GLMBrickStructureTrait >> addBrickFirst: aBrick [
-	|result|
-	result := self privateAddBrickFirst: aBrick.
-	self doLayoutForce.
-	^ result
+	| link head tail brick|
+	
+	brick := aBrick asBrick.
+	head := nil.
+	tail := nil.
+	self hasSubbricks ifTrue: [
+		head := self firstSubbrick brickDoubleLink.
+		tail := self lastSubbrick brickDoubleLink ].
+	
+	link := brick asDoubleLink.
+	brick brickDoubleLink: link.
+	link nextLink: head.
+	head ifNotNil: [ head previousLink: link ].
+	
+	self privateSubbricks: (self subbricks copyWithFirst: brick).
+	brick owner: self.
+	
+	^ aBrick
 ]
 
 { #category : #'brick-structure' }
@@ -157,99 +198,31 @@ GLMBrickStructureTrait >> owner: aBrick [
 ]
 
 { #category : #'private-structure' }
-GLMBrickStructureTrait >> privateAddAllBricks: aCollection [
-
-	aCollection do: [ :each | self privateAddBrickBack: each ]
-]
-
-{ #category : #'private-structure' }
-GLMBrickStructureTrait >> privateAddBrick: aBrick before: otherBrick [
-	| brick link otherLink otherLinkPredeccessor|
-	brick := aBrick asBrick.
-	
-	otherLink := otherBrick brickDoubleLink.
-	otherLink = self firstSubbrick brickDoubleLink
-		ifTrue: [ ^ self privateAddBrickFirst: brick ].
-		
-	link := brick asDoubleLink.
-	brick brickDoubleLink: link.
-	otherLinkPredeccessor := otherLink previousLink.
-	otherLink previousLink: link.
-	link nextLink: otherLink.
-	link previousLink: otherLinkPredeccessor.
-	otherLinkPredeccessor nextLink: link.
-	
-	self subbricks add: brick before: otherBrick.
-	
-	brick owner: self.
-	
-	^ aBrick
-]
-
-{ #category : #'private-structure' }
-GLMBrickStructureTrait >> privateAddBrickBack: aBrick [
-	|link brick|
-	
-	brick := aBrick asBrick.
-	link := brick asDoubleLink.
-	brick brickDoubleLink: link.
-	
-	self hasSubbricks ifTrue: [
-		self lastSubbrick brickDoubleLink nextLink: link.	
-		link previousLink: self lastSubbrick brickDoubleLink.
-	].
-	
-	self privateSubbricks: (self subbricks copyWith: brick).
-	brick owner: self.
-	
-	^ aBrick
-]
-
-{ #category : #'private-structure' }
-GLMBrickStructureTrait >> privateAddBrickFirst: aBrick [
-	| link head tail brick|
-	
-	brick := aBrick asBrick.
-	head := nil.
-	tail := nil.
-	self hasSubbricks ifTrue: [
-		head := self firstSubbrick brickDoubleLink.
-		tail := self lastSubbrick brickDoubleLink ].
-	
-	link := brick asDoubleLink.
-	brick brickDoubleLink: link.
-	link nextLink: head.
-	head ifNotNil: [ head previousLink: link ].
-	
-	self privateSubbricks: (self subbricks copyWithFirst: brick).
-	brick owner: self.
-	
-	^ aBrick
-]
-
-{ #category : #'private-structure' }
 GLMBrickStructureTrait >> privateOwner: aBrick [
 
 	^ self explicitRequirement
 ]
 
 { #category : #'private-structure' }
-GLMBrickStructureTrait >> privateRemoveAllBricks [
-	
+GLMBrickStructureTrait >> privateSubbricks: aCollection [
+
+	^ self explicitRequirement
+]
+
+{ #category : #'brick-structure-adding/removing' }
+GLMBrickStructureTrait >> removeAllBricks [
+
 	self subbricks do: [:each |
 		each brickDoubleLink: nil.
 		each owner: nil ].
 	self subbricks removeAll
 ]
 
-{ #category : #'private-structure' }
-GLMBrickStructureTrait >> privateRemoveBrick: aBrick [
+{ #category : #'brick-structure-adding/removing' }
+GLMBrickStructureTrait >> removeBrick: aBrick [
 	| predecessor successor link head tail index|
-	aBrick ifNil: [ ^ aBrick ].
-	(self hasSubbrick: aBrick) ifFalse: [ ^ aBrick ].
 	
 	link := aBrick brickDoubleLink.
-	
 	head := self firstSubbrick brickDoubleLink.
 	tail := self lastSubbrick brickDoubleLink.
 	
@@ -268,27 +241,6 @@ GLMBrickStructureTrait >> privateRemoveBrick: aBrick [
 	aBrick owner: nil.
 	
 	^ aBrick
-]
-
-{ #category : #'private-structure' }
-GLMBrickStructureTrait >> privateSubbricks: aCollection [
-
-	^ self explicitRequirement
-]
-
-{ #category : #'brick-structure-adding/removing' }
-GLMBrickStructureTrait >> removeAllBricks [
-
-	self privateRemoveAllBricks.
-	self doLayoutForce
-]
-
-{ #category : #'brick-structure-adding/removing' }
-GLMBrickStructureTrait >> removeBrick: aBrick [
-	|result|
-	result := self privateRemoveBrick: aBrick.
-	self doLayoutForce.
-	^ result
 ]
 
 { #category : #'brick-structure' }

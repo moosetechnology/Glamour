@@ -35,12 +35,13 @@ GLMLabelBrick class >> example [
 	| rootBrick brick1 brick2 brick3 |
 	
 	rootBrick := GLMInteractableBrick new
-		useVerticalLinearLayout;
-		height: 400;
-		width: 400;
-		enable;
+		layoutPolicy: GLMBrickVerticalFillLinearLayout new;
+		extent: 400@400;
+		disable;
 		selectedColor: Color blue darker;
-		color: Color blue;
+		color: Color blue.
+	
+	rootBrick layoutProperties
 		paddingLeft: 10;
 		paddingTop: 15;
 		paddingRight: 20;
@@ -48,6 +49,7 @@ GLMLabelBrick class >> example [
 	
 	" ---- Creating first brick ---- "
 	brick1 := GLMStringBrick new
+		extent: 200@70;
 		text: 'Welcome to Brick!';
 		textColor: Color white;
 		textPosition: #center;
@@ -55,9 +57,15 @@ GLMLabelBrick class >> example [
 		selectedColor: Color darkGray;
 		normalColor: Color red;
 		pressedColor: Color gray;
-		enable;
-		hSpaceFill: 30;
-		height: 30.		
+		enable.
+		
+	brick1 layoutProperties
+		marginLeft: 10;	
+		marginTop: 15;
+		marginRight: 20;	
+		marginBottom: 5;
+		horizontalPercent: 30;
+		verticalPercent: 30.
 		
 	" ---- Creating second brick ---- "
 	brick2 := GLMInteractableBrick new
@@ -66,20 +74,30 @@ GLMLabelBrick class >> example [
 		normalColor: Color green;
 		pressedColor: Color lightGray;
 		enable;
-		margin: #(15 20 5 10);
-		hSpaceFill: 50;
-		vSpaceFill: 50.
-		
+		extent: 70@60.
+	
+	brick2 layoutProperties
+		marginLeft: 10;
+		marginTop: 15;	
+		marginRight: 20;
+		marginBottom: 5;
+		horizontalPercent: 50;
+		verticalPercent: 50.
 		
 	" ---- Creating third brick ---- "
 	brick3 := GLMStringBrick new
+		extent: 300@200;
 		text: 'Welcome to Brick!';
 		textColor: Color black;
-		color: Color yellow;
-		margin: #(15 20 5 10);
-		hSpaceFill: 20;
-		vSpaceFill: 20.
+		color: Color yellow.
 		
+	brick3 layoutProperties
+		marginLeft: 10;
+		marginTop: 15;
+		marginRight: 20;	
+		marginBottom: 5;
+		horizontalPercent: 20;
+		verticalPercent: 20.
 		
 	" ---- Add them to the root brick ---- "
 	rootBrick
@@ -87,13 +105,13 @@ GLMLabelBrick class >> example [
 		addBrickBack: brick2;
 		addBrickBack: brick3.
 	
-	rootBrick asBrickedMorph openInWindow
+	rootBrick asBrickedMorph extent: 400@400; openInWorld
 ]
 
 { #category : #geometry }
 GLMLabelBrick >> approximateWidth [
 
-		^ self label approximateWidth + self hMargin + self hPadding
+		^ self label approximateWidth + self layoutProperties horizontalMargin + self layoutProperties horizontalPadding
 ]
 
 { #category : #accessing }
@@ -116,11 +134,11 @@ GLMLabelBrick >> defaultInsetBeforeDots [
 GLMLabelBrick >> doLayout [
 	"contolls logic of text schrinking"
 	|isFit|
-	self flag: 'fix me'.
+	
 	super doLayout.
 	
 	"checking if label text fits in me"
-	"isFit := self label isFitsInParent.
+	isFit := self label isFitsInParent.
 	
 	(isFit & (self isDotsAdded not)) ifTrue: [ ^ self ].
 	(isFit not & self isDotsAdded) ifTrue: [ ^ self ].
@@ -133,7 +151,7 @@ GLMLabelBrick >> doLayout [
 		self addBrickBack: self dotsBrick.
 		isDotsAdded := true.
 		super doLayout.
-	]"
+	]
 	
 ]
 
@@ -161,18 +179,17 @@ GLMLabelBrick >> fontSize: aNumber [
 GLMLabelBrick >> initialize [
 	super initialize.
 	
-	stringBrick := self privateAddBrickBack: (
-		self newStringBrick
-			hSpaceFill;
-			vSpaceFill;
-			marginRight: self defaultInsetBeforeDots).
+	stringBrick := self newStringBrick.
+	stringBrick layoutProperties horizontalPercent: 100.
+	stringBrick layoutProperties marginRight: self defaultInsetBeforeDots.
+	self addBrickBack: stringBrick.
 	
 	"creating dots morph, that will be displayed when text is being clipped"
-	dotsBrick := self newStringBrick.
+	dotsBrick := GLMStringBrick new.
+	dotsBrick layoutProperties horizontalPercent: 0.
 	dotsBrick text: self defaultDotsText.
+	dotsBrick layoutProperties minWidth: (dotsBrick textSize x).
 	dotsBrick fontSize: 9.
-	dotsBrick width: [ :b | b approximateWidth ].
-	dotsBrick vSpaceFill.
 	
 	isDotsAdded := false.
 	

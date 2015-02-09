@@ -75,8 +75,7 @@ GLMScrollPaneBrick class >> example [
 	1 to: 20 do: [ :index |
 		scrollPane addBrickBack: (GLMBrick new
 			color: Color random;
-			hSpaceFill;
-			height: 50).
+			extent: 50@50).
 	].
 	
 	foundation extent: 200@200.
@@ -93,11 +92,10 @@ GLMScrollPaneBrick class >> exampleLarge [
 	foundation := GLMFoundationBrick new.
 	foundation brickRoot: scrollPane.
 	
-	1 to: 1000 do: [ :index |
+	1 to: 10000 do: [ :index |
 		scrollPane addBrickBack: (GLMBrick new
 			color: Color random;
-			hSpaceFill;
-			height: 50).
+			extent: 200@50).
 	].
 	
 	foundation extent: 400@300.
@@ -127,14 +125,6 @@ GLMScrollPaneBrick >> band [
 	^ band
 ]
 
-{ #category : #'scrollpane-brick-accessing' }
-GLMScrollPaneBrick >> band: aBrick [
-
-	band := aBrick.
-	self band hSpaceFill.
-	super addBrickBack: self band.
-]
-
 { #category : #'scrollpane-accessing' }
 GLMScrollPaneBrick >> bandTopOffset [
 
@@ -161,6 +151,12 @@ GLMScrollPaneBrick >> calculateVelocity: event [
 	^ self velocity ceiling
 ]
 
+{ #category : #'brick-layout' }
+GLMScrollPaneBrick >> doLayout [
+	super doLayout.
+	self update.
+]
+
 { #category : #'scrollpane-events-mouse' }
 GLMScrollPaneBrick >> handleListenEvent: anEvent [
 	"checking if it's keyboard event (mouse wheel is keyboard event on windows o_O (wtf?)"
@@ -181,10 +177,14 @@ GLMScrollPaneBrick >> initialize [
 	super initialize.
 	
 	lastScrollTimeStamp := 0.
-
-	self useVerticalLinearLayout.
-	self band: self newBand.
-	self verticalScrollbar: self newVerticalScrollbar.	
+	
+	band := self newBand.
+	
+	self layoutPolicy: GLMBrickVerticalFillLayout new.
+	super addBrickBack: band.
+	
+	self verticalScrollbar: self newVerticalScrollbar.
+	
 	"initializes listener for mouse wheel scroll on windows vm"
 	self initializeListeners
 ]
@@ -194,13 +194,6 @@ GLMScrollPaneBrick >> initializeListeners [
 
 	"using the most general event subscribtion for all events spawned by the hand"
 	self activeHand addEventListener: self.
-]
-
-{ #category : #'brick-layout' }
-GLMScrollPaneBrick >> invalidateLayout [
-	super invalidateLayout.
-	
-	"self update."
 ]
 
 { #category : #'scrollpane-testing' }
@@ -308,6 +301,12 @@ GLMScrollPaneBrick >> outOfWorld: aWorld [
 	super outOfWorld: aWorld.
 	
 	self unsubscribeListeners
+]
+
+{ #category : #'private-structure' }
+GLMScrollPaneBrick >> privateAddBrickBack: aBrick [
+
+	super addBrickBack: aBrick
 ]
 
 { #category : #'private-scrolling' }
@@ -489,6 +488,5 @@ GLMScrollPaneBrick >> verticalScrollbar: aBrick [
 
 	verticalScrollbar := aBrick.
 	verticalScrollbar scrollPane: self.
-	verticalScrollbar vSpaceFill.
 	super addBrickBack: verticalScrollbar
 ]

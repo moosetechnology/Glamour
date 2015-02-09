@@ -33,10 +33,10 @@ GLMPhlowBrick >> initialize [
 	super initialize.
 		
 	self
-		useVerticalLinearLayout;
-		titleBrick: self newTitleBrick;
-		hSpaceFill;
-		vSpaceFill
+		layoutPolicy: GLMBrickVerticalFillProportionalLinearLayout new;
+		titleBrick: self newTitleBrick.
+		
+	self layoutProperties	hSpaceFill; vSpaceFill.
 ]
 
 { #category : #'instance creation' }
@@ -50,7 +50,7 @@ GLMPhlowBrick >> setTitle: aString [
 
 	self titleBrick text: aString.
 	
-	titleBrick height: (
+	titleBrick layoutProperties staticHeight: (
 		(aString isEmpty | aString isNil)
 			ifFalse: [ 30 ]
 			ifTrue: [ 0 ])
@@ -70,10 +70,9 @@ GLMPhlowBrick >> titleBrick [
 { #category : #accessing }
 GLMPhlowBrick >> titleBrick: aBrick [
 
-	titleBrick := aBrick
-		textPosition: #center;
-		height: 0;
-		hSpaceFill.
+	titleBrick := aBrick.
+	titleBrick textPosition: #center.
+	titleBrick layoutProperties staticHeight: 0.
 	self addBrickBack: titleBrick
 ]
 

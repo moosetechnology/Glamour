@@ -9,34 +9,30 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
 
-{ #category : #examples }
-GLMBandBrick class >> example [
-	<example: 'Example of GLMBandBrick with many subbricks'>
-	|band count|
-	count := 100.
-	band := self new
-		width: 400;
-		height: 600.
+{ #category : #'layout brick' }
+GLMBandBrick >> doLayout [
 	
-	1 to: count do: [ :index | 
-		
-		band addBrickBack: (
-		GLMLabelBrick new
-			text: (index asString, ' of ', count asString);
-			textPosition: #center;
-			color: Color random muchLighter;
-			height: 40;
-			hSpaceFill ) ].
-		
-	band asBrickedMorph openInWindow
-	
+	self layoutChildren.
+
+	self subbricks do: [ :each | each isBrick ifTrue: [ each doLayout ] ]
 ]
 
 { #category : #initialization }
 GLMBandBrick >> initialize [
 	super initialize.
 	
-	self
-		useVerticalLinearLayout;
-		vShrinkWrap
+	self layoutPolicy: GLMBrickVerticalFillLinearLayout new.
+	self layoutProperties vShrinkWrap
+]
+
+{ #category : #'layout brick' }
+GLMBandBrick >> layoutChildren [
+	|mBounds mOwner|
+	"most of the time you don't want to call this method manually"
+	"nice example to check is GLMLabelBrick>>doLayout"
+	
+	mOwner := self owner ifNil: [ self ] ifNotNil: [ self owner ].
+	mBounds := mOwner isBrick ifTrue: [ mOwner globalInnerBounds ] ifFalse: [ mOwner globalBounds ].
+	
+	^ self layoutPolicy layout: self in: mBounds.
 ]

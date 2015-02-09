@@ -136,8 +136,7 @@ GLMTabSelectorBrick >> newLabelMorph: aStringOrMorph [
 		label: aStringOrMorph;
 		font: self font;
 		on: #mouseDown send: #tabClicked:with: to: self;
-		tabSelector: self;
-		vSpaceFill
+		tabSelector: self
 ]
 
 { #category : #'instance creation' }
@@ -151,8 +150,7 @@ GLMTabSelectorBrick >> newLabelMorph: aStringOrMorph selected: selectedStringOrM
 		label: aStringOrMorph selected: selectedStringOrMorph;
 		font: self font;
 		on: #mouseDown send: #tabClicked:with: to: self;
-		tabSelector: self;
-		vSpaceFill
+		tabSelector: self
 ]
 
 { #category : #'as yet unclassified' }
@@ -256,10 +254,10 @@ GLMTabSelectorBrick >> updateTabs [
 	selectedTab := self selectedTab.
 	self tabs do: [:t |
 		t selected: (t == selectedTab).
-		t hSpaceFill: 100 / self tabs size ].
+		t layoutProperties horizontalPercent: 100 / self tabs size ].
 	self
 		addAllBricks: self tabs;
 		adoptPaneColor.
 	
-	self brickRoot doLayoutForce.
+	self doLayout.
 ]
