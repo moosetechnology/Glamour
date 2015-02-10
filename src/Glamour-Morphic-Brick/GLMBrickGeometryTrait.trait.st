@@ -375,13 +375,13 @@ GLMBrickGeometryTrait >> width: anObject [
 { #category : #'brick-geometry-transformations' }
 GLMBrickGeometryTrait >> withHeight: anInteger [
 
-	self wrappedBounds withHeight: anInteger
+	self wrappedBounds height: anInteger
 ]
 
 { #category : #'brick-geometry-transformations' }
 GLMBrickGeometryTrait >> withWidth: anInteger [
 
-	self wrappedBounds withWidth: anInteger
+	self wrappedBounds width: anInteger
 ]
 
 { #category : #'brick-geometry' }
