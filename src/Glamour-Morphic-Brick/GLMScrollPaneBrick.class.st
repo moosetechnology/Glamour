@@ -112,7 +112,9 @@ GLMScrollPaneBrick >> addBrick: aBrick before: anotherBrick [
 
 { #category : #'brick-structure-adding/removing' }
 GLMScrollPaneBrick >> addBrickBack: aBrick [
-	self band addBrickBack: aBrick
+	self band addBrickBack: aBrick.
+	
+	self verticalScrollbar ifNotNil: [ :b | b updatePosition ]
 ]
 
 { #category : #'scrollpane-accessing' }
@@ -200,7 +202,8 @@ GLMScrollPaneBrick >> initializeListeners [
 GLMScrollPaneBrick >> invalidateLayout [
 	super invalidateLayout.
 	
-	"self update."
+	self band translateY: self scrollPositionTop.
+	self verticalScrollbar ifNotNil: [ :b | b updatePosition ]
 ]
 
 { #category : #'scrollpane-testing' }
@@ -489,6 +492,7 @@ GLMScrollPaneBrick >> verticalScrollbar: aBrick [
 
 	verticalScrollbar := aBrick.
 	verticalScrollbar scrollPane: self.
-	verticalScrollbar vSpaceFill.
+	verticalScrollbar height: [ self height ].
+	verticalScrollbar layout heightDependency: self.
 	super addBrickBack: verticalScrollbar
 ]

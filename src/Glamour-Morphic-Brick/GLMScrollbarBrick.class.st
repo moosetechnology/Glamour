@@ -151,7 +151,7 @@ GLMScrollbarBrick >> scrollbarWidth: anInteger [
 { #category : #'scrollbar-updating' }
 GLMScrollbarBrick >> updatePosition [
 	|height top width|
-	
+	self scrollPane ifNil: [ ^ self ].
 	self scrollPane band height = 0 ifTrue: [
 		bar brickBounds: ((0@0) extent: 0@0).
 		^ self changed.

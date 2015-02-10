@@ -19,27 +19,20 @@ GLMFallbackScrollListBrick >> adaptor [
 { #category : #accessing }
 GLMFallbackScrollListBrick >> adaptor: anAdaptor [
 
-	adaptor := anAdaptor
+	adaptor := anAdaptor.
+	self initializeItems
 ]
 
-{ #category : #'as yet unclassified' }
-GLMFallbackScrollListBrick >> doLayout [
-	super doLayout.
-	self band hasSubbricks not ifTrue: [ self initializeItems ]
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GLMFallbackScrollListBrick >> initializeItems [
 
 	1 to: self adaptor count do: [ :index |
 		self band addBrickBack: (self adaptor morphAt: index convert: nil) ].
 	
-	self band hasSubbricks ifFalse: [ ^ self ].
-	self doLayout.
-	self changed.
+	self band hasSubbricks ifFalse: [ ^ self ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #scrolling }
 GLMFallbackScrollListBrick >> invalidate [
 
 	self band removeAllBricks.

@@ -77,7 +77,7 @@ GLMPhlowListBrick >> listBrick: aBrick [
 { #category : #'instance creation' }
 GLMPhlowListBrick >> newScrollList [
 
-	^ GLMScrollListBrick new
+	^ GLMFallbackScrollListBrick"GLMScrollListBrick" new
 ]
 
 { #category : #'as yet unclassified' }
