@@ -82,7 +82,8 @@ Class {
 
 { #category : #accessing }
 GLMBrickLayoutProperties >> floating [
-	^ floating
+
+	^ floating ifNil: [ floating := #none ]
 ]
 
 { #category : #scripting }
@@ -93,7 +94,7 @@ GLMBrickLayoutProperties >> floating: aSymbol [
 { #category : #accessing }
 GLMBrickLayoutProperties >> hAlign [
 
-	^ hAlign
+	^ hAlign ifNil: [ hAlign := #none ]
 ]
 
 { #category : #scripting }
@@ -105,7 +106,7 @@ GLMBrickLayoutProperties >> hAlign: aSymbol [
 { #category : #scripting }
 GLMBrickLayoutProperties >> hPercent [
 
-	^ horizontalPercent
+	^ horizontalPercent ifNil: [ horizontalPercent := 0 ]
 ]
 
 { #category : #scripting }
@@ -134,25 +135,25 @@ GLMBrickLayoutProperties >> hSpaceFill: anInteger [
 	self hResizing: #spaceFill
 ]
 
-{ #category : #testing }
+{ #category : #private }
 GLMBrickLayoutProperties >> hasMaxHeight [
 
 	^ (self maxHeight isNumber ifTrue: [ self maxHeight isInfinite ] ifFalse: [ false ]) not
 ]
 
-{ #category : #testing }
+{ #category : #private }
 GLMBrickLayoutProperties >> hasMaxWidth [
 
 	^ (self maxWidth isNumber ifTrue: [ self maxWidth isInfinite ] ifFalse: [ false ]) not
 ]
 
-{ #category : #testing }
+{ #category : #private }
 GLMBrickLayoutProperties >> hasMinHeight [
 
 	^ (self minHeight isNumber ifTrue: [ self minHeight <= 0 ] ifFalse: [ false ]) not
 ]
 
-{ #category : #testing }
+{ #category : #private }
 GLMBrickLayoutProperties >> hasMinWidth [
 
 	^ (self minWidth isNumber ifTrue: [ self minWidth <= 0 ] ifFalse: [ false ]) not
@@ -164,26 +165,10 @@ GLMBrickLayoutProperties >> heightDependencies [
 	^ heightDependencies ifNil: [ heightDependencies := OrderedCollection new ]
 ]
 
-{ #category : #layout }
+{ #category : #'scripting-advanced' }
 GLMBrickLayoutProperties >> heightDependency: anObject [
 
 	self heightDependencies add: anObject
-]
-
-{ #category : #initialization }
-GLMBrickLayoutProperties >> initialize [
-	super initialize.
-	
-	horizontalPercent := 0.
-	verticalPercent := 0.
-	zIndex := 1. "the lowest one"
-	maxWidth := Float infinity.
-	maxHeight := Float infinity.
-	minWidth := 0.
-	minHeight := 0.
-	floating := #none.
-	vAlign := #none.
-	hAlign := #none
 ]
 
 { #category : #accessing }
@@ -236,7 +221,7 @@ GLMBrickLayoutProperties >> minWidth: anObject [
 { #category : #accessing }
 GLMBrickLayoutProperties >> vAlign [
 
-	^ vAlign
+	^ vAlign ifNil: [ vAlign := #none ]
 ]
 
 { #category : #scripting }
@@ -248,7 +233,7 @@ GLMBrickLayoutProperties >> vAlign: aSymbol [
 { #category : #scripting }
 GLMBrickLayoutProperties >> vPercent [
 
-	^ verticalPercent
+	^ verticalPercent ifNil: [ verticalPercent := 0 ]
 ]
 
 { #category : #scripting }
@@ -283,7 +268,7 @@ GLMBrickLayoutProperties >> widthDependencies [
 	^ widthDependencies ifNil: [ widthDependencies := OrderedCollection new ]	
 ]
 
-{ #category : #layout }
+{ #category : #'scripting-advanced' }
 GLMBrickLayoutProperties >> widthDependency: anObject [
 
 	self widthDependencies add: anObject
@@ -291,7 +276,8 @@ GLMBrickLayoutProperties >> widthDependency: anObject [
 
 { #category : #accessing }
 GLMBrickLayoutProperties >> zIndex [
-	^ zIndex
+
+	^ zIndex ifNil: [ zIndex := 1 ]
 ]
 
 { #category : #scripting }
