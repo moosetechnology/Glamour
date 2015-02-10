@@ -12,7 +12,7 @@ Class {
 { #category : #accessing }
 GLMPagerMorphTest >> buttonsMorphs [
 
-	^ pagerMorph submorphs second submorphs second submorphs
+	^ pagerMorph subbricks second subbricks second subbricks
 ]
 
 { #category : #private }
@@ -24,20 +24,20 @@ GLMPagerMorphTest >> createSimplePaneMorph [
 { #category : #private }
 GLMPagerMorphTest >> openInWindow [
 
-	window := pagerMorph openInWindow 
+	window := pagerMorph asBrickedMorph openInWindow 
 ]
 
 { #category : #accessing }
 GLMPagerMorphTest >> panesMorphs [
 
-	^ pagerMorph submorphs first submorphs first panes
+	^ pagerMorph subbricks first subbricks first subbricks
 ]
 
 { #category : #running }
 GLMPagerMorphTest >> setUp [
 
 	pagerModel := GLMPagerModel new.
-	pagerMorph := GLMPagerMorph new
+	pagerMorph := GLMPagerBrick new
 		pagerModel: pagerModel
 		yourself.
 ]
