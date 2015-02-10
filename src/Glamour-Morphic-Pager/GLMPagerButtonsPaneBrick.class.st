@@ -19,7 +19,7 @@ GLMPagerButtonsPaneBrick >> addButton: aBrick [
 	aBrick announcer weak subscribe: GLMPagerButtonSelected send: #onButtonSelected: to: self.
 	aBrick announcer weak subscribe: GLMPagerButtonDeselected send: #onButtonDeselected to: self.
 	
-	GLMPagerWidgetThemer new defaultScrollButtonStyleFor: aBrick.
+	self theme pagerWidgetThemer defaultScrollButtonStyleFor: aBrick.
 	
 	aBrick height: self pagerModel circleButtonSize.
 	aBrick width: self pagerModel circleButtonSize.
