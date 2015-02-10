@@ -111,7 +111,7 @@ GLMBrickLayoutProperties >> hPercent [
 { #category : #scripting }
 GLMBrickLayoutProperties >> hPercent: anInteger [
 
-	self horizontalPercent: anInteger
+	horizontalPercent := anInteger
 ]
 
 { #category : #scripting }
@@ -170,11 +170,6 @@ GLMBrickLayoutProperties >> heightDependency: anObject [
 	self heightDependencies add: anObject
 ]
 
-{ #category : #accessing }
-GLMBrickLayoutProperties >> horizontalPercent: anObject [
-	horizontalPercent := anObject
-]
-
 { #category : #initialization }
 GLMBrickLayoutProperties >> initialize [
 	super initialize.
@@ -216,18 +211,6 @@ GLMBrickLayoutProperties >> maxWidth: anObject [
 ]
 
 { #category : #accessing }
-GLMBrickLayoutProperties >> maxWidthBlock [
-	self flag: 'remove me'.
-	^ maxWidth
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> maxWidthBlock: anObject [
-	self flag: 'remove me'.
-	"maxWidthBlock := anObject"
-]
-
-{ #category : #accessing }
 GLMBrickLayoutProperties >> minHeight [
 
 	^ minHeight ifNil: [ minHeight := 0 ]
@@ -251,12 +234,6 @@ GLMBrickLayoutProperties >> minWidth: anObject [
 ]
 
 { #category : #accessing }
-GLMBrickLayoutProperties >> minWidthBlock: anObject [
-	self flag: 'remove me'.
-	"minWidthBlock := anObject"
-]
-
-{ #category : #accessing }
 GLMBrickLayoutProperties >> vAlign [
 
 	^ vAlign
@@ -277,7 +254,7 @@ GLMBrickLayoutProperties >> vPercent [
 { #category : #scripting }
 GLMBrickLayoutProperties >> vPercent: anInteger [
 
-	self verticalPercent: anInteger
+	verticalPercent := anInteger
 ]
 
 { #category : #scripting }
@@ -298,11 +275,6 @@ GLMBrickLayoutProperties >> vSpaceFill: anInteger [
 	"my height will change to fill anInteger percents of my parent"
 	self vPercent: anInteger.
 	self vResizing: #spaceFill
-]
-
-{ #category : #accessing }
-GLMBrickLayoutProperties >> verticalPercent: anObject [
-	verticalPercent := anObject
 ]
 
 { #category : #private }

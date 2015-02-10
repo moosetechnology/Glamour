@@ -107,7 +107,7 @@ GLMTabLabelBrick >> label: aBrick [
 	"Change the label contents"
 	
 	aBrick hSpaceFill.
-	self layoutProperties maxWidthBlock: aBrick layoutProperties maxWidthBlock.
+	self maxWidth: aBrick layout maxWidth.
 
 	self
 		normalLabel: aBrick;
@@ -124,7 +124,7 @@ GLMTabLabelBrick >> label: aBrick selected: aSelectedBrick [
 	aSelectedBrick hSpaceFill.
 	aSelectedBrick vSpaceFill.
 	
-	self layoutProperties maxWidthBlock: aBrick layoutProperties maxWidthBlock.
+	self maxWidth: aBrick layout maxWidth.
 	
 	self
 		normalLabel: aBrick;
@@ -153,8 +153,8 @@ GLMTabLabelBrick >> normalLabel: anObject [
 
 { #category : #actions }
 GLMTabLabelBrick >> select [
-	self layoutProperties minWidthBlock: [ (self label layoutProperties maxWidthBlock value: self label) min: self brickRoot width ].
-	self brickRoot doLayout.
+	self minWidth: [ (self label layout maxWidth brickValue: self label) min: self brickRoot width ].
+	self brickRoot doLayoutForce.
 	self brickRoot changed.
 ]
 
