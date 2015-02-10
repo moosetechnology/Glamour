@@ -420,6 +420,133 @@ GLMBrickTests >> testLeftMarginParentDependency [
 	self assert: brick brickBounds equals: (margin@0 corner: self staticExtent)
 ]
 
+{ #category : #'tests-geometry' }
+GLMBrickTests >> testMaxHeightOneStatic [
+	|brick|
+	
+	brick := self newBrickWithStaticExtent.
+	brick maxHeight: self staticSmallHeight.
+	brick doLayoutForce.
+	self assertAllSubbricksAreClean: brick.
+	
+	self assert: brick brickBounds equals: (0@0 extent: self staticWidth @ self staticSmallHeight)
+]
+
+{ #category : #'tests-geometry' }
+GLMBrickTests >> testMaxHeightTwoParentDependencies [
+	|root brick1 brick2|
+	
+	root := self newBrickWithStaticExtent.
+	root useVerticalLinearLayout.
+	brick1 := self newBrickWithFullFill.
+	brick1 maxHeight: self staticSmallHeight.
+	brick2 := self newBrickWithFullFill.
+	
+	root addAllBricks:  { brick1 . brick2 }.
+	self assertAllSubbricksAreClean: root.
+	
+	self assert: root extent equals: self staticExtent.
+	self assert: brick1 extent equals: (self staticWidth @ self staticSmallHeight).
+	self assert: brick2 extent equals: (self staticWidth @ (self staticHeight - self staticSmallHeight))
+]
+
+{ #category : #'tests-geometry' }
+GLMBrickTests >> testMaxWidthOneStatic [
+	|brick|
+	
+	brick := self newBrickWithStaticExtent.
+	brick maxWidth: self staticSmallWidth.
+	brick doLayoutForce.
+	self assertAllSubbricksAreClean: brick.
+	
+	self assert: brick brickBounds equals: (0@0 extent: self staticSmallWidth @ self staticHeight)
+]
+
+{ #category : #'tests-geometry' }
+GLMBrickTests >> testMinAndMaxHeightTwoParentDependencies [
+	|root brick1 brick2 minHeight maxHeight|
+	minHeight := 60.
+	maxHeight := 20.
+	
+	root := self newBrickWithStaticExtent.
+	root useVerticalLinearLayout.
+	brick1 := self newBrickWithFullFill.
+	brick1 vSpaceFill: 50. "50% = 50px"
+	brick1 minHeight: minHeight. "min is 60px > 50%"
+	brick2 := self newBrickWithFullFill.
+	brick2 maxHeight: maxHeight. "max is 20 < 100%"
+	
+	root addAllBricks:  { brick1 . brick2 }.
+	self assertAllSubbricksAreClean: root.
+	self assert: root extent equals: self staticExtent.
+	self assert: brick1 extent equals: (self staticWidth @ minHeight).
+	self assert: brick2 extent equals: (self staticWidth @ maxHeight)
+]
+
+{ #category : #'tests-geometry' }
+GLMBrickTests >> testMinAndMaxHeightTwoParentDependenciesReverse [
+	|root brick1 brick2 minHeight maxHeight|
+	minHeight := 20.
+	maxHeight := 60.
+	
+	root := self newBrickWithStaticExtent.
+	root useVerticalLinearLayout.
+	brick1 := self newBrickWithFullFill.
+	brick1 vSpaceFill: 0. "0% = 0px"
+	brick1 minHeight: minHeight. "min is 20px > 0%"
+	brick2 := self newBrickWithFullFill.
+	brick2 maxHeight: maxHeight. "max is 60 < 100%"
+	
+	root addAllBricks:  { brick1 . brick2 }.
+	self assertAllSubbricksAreClean: root.
+	self assert: root extent equals: self staticExtent.
+	self assert: brick1 extent equals: (self staticWidth @ minHeight).
+	self assert: brick2 extent equals: (self staticWidth @ maxHeight)
+]
+
+{ #category : #'tests-geometry' }
+GLMBrickTests >> testMinHeightOneStatic [
+	|brick|
+	
+	brick := self newBrickWithSmallStaticExtent.
+	brick minHeight: self staticHeight.
+	brick doLayoutForce.
+	self assertAllSubbricksAreClean: brick.
+	
+	self assert: brick brickBounds equals: (0@0 extent: self staticSmallWidth @ self staticHeight)
+]
+
+{ #category : #'tests-geometry' }
+GLMBrickTests >> testMinHeightTwoParentDependencies [
+	|root brick1 brick2 height|
+	height := 80.
+	
+	root := self newBrickWithStaticExtent.
+	root useVerticalLinearLayout.
+	brick1 := self newBrickWithFullFill.
+	brick1 vSpaceFill: 50. "50% = 50px"
+	brick1 minHeight: height. "min is 80px > 50%"
+	brick2 := self newBrickWithFullFill.
+	
+	root addAllBricks:  { brick1 . brick2 }.
+	self assertAllSubbricksAreClean: root.
+	self assert: root extent equals: self staticExtent.
+	self assert: brick1 extent equals: (self staticWidth @ height).
+	self assert: brick2 extent equals: (self staticWidth @ (self staticHeight - height))
+]
+
+{ #category : #'tests-geometry' }
+GLMBrickTests >> testMinWidthOneStatic [
+	|brick|
+	
+	brick := self newBrickWithSmallStaticExtent.
+	brick minWidth: self staticWidth.
+	brick doLayoutForce.
+	self assertAllSubbricksAreClean: brick.
+	
+	self assert: brick brickBounds equals: (0@0 extent: self staticWidth @ self staticSmallHeight)
+]
+
 { #category : #'tests-layouter' }
 GLMBrickTests >> testOneDependsOnParentOneDependsOnChildrenInsideStatic [
 	|root brick1 brick2 brick3 staticWidth staticHeight|
