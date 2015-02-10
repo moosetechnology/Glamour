@@ -103,7 +103,10 @@ GLMMorphBrick >> onLayouted [
 
 { #category : #'as yet unclassified' }
 GLMMorphBrick >> onRemovedFrom: aBrick [
-	"empty"
+	
+	"we should just override it and left empty,
+	to prevent recursion calls of this method
+	to be propagated to morph"
 ]
 
 { #category : #'as yet unclassified' }

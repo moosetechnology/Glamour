@@ -234,5 +234,11 @@ GLMCompositeBrick >> table [
 ]
 
 { #category : #phlow }
+GLMCompositeBrick >> text [
+
+	^ self custom: GLMPhlowTextBrick new
+]
+
+{ #category : #phlow }
 GLMCompositeBrick >> tree [
 ]
