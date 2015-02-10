@@ -129,10 +129,10 @@ ConfigurationOfGlamourCore >> baseline30: spec [
 			package: 'Glamour-Rubric-Presentations' with: [spec requires: #('Rubric' 'Glamour-Presentations')];
 			package: 'Glamour-Browsers' with: [spec requires: #('Glamour-Core')];
 			package: 'Glamour-Examples' with: [spec requires: #('Glamour-Core')];
-			package: 'Glamour-Morphic-Pager';
 			package: 'Glamour-Morphic-Brick';
 			package: 'Glamour-Morphic-Widgets' with: [spec requires: #('Rubric' 'Glamour-Morphic-Brick')];
 			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core')];
+			package: 'Glamour-Morphic-Pager' with: [spec requires: #('Glamour-Morphic-Renderer')];
 			package: 'Glamour-Morphic-Theme' with: [spec requires: 'Rubric'];
 			package: 'Glamour-Tests-Core';
 			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer')];
