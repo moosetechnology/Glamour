@@ -1,6 +1,6 @@
 Extension { #name : #GLMCompositePresentation }
 
-{ #category : #'*Glamour-Morphic-Pager-Glamour' }
+{ #category : #'*Glamour-Morphic-Pager' }
 GLMCompositePresentation >> pager [
 	^ self custom: GLMPager new
 ]
