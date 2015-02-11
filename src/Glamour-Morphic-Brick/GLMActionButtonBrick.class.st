@@ -46,6 +46,12 @@ GLMActionButtonBrick >> click: evt [
 ]
 
 { #category : #accessing }
+GLMActionButtonBrick >> icon [
+
+	^ self normalImage
+]
+
+{ #category : #accessing }
 GLMActionButtonBrick >> icon: anImage [
 
 	self normalImage: anImage.

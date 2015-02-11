@@ -9,6 +9,31 @@ Trait {
 }
 
 { #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> border [
+
+	^ self valueOfProperty: #brickBorder ifAbsentPut: [ GLMBrickBorder new ]
+	
+]
+
+{ #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> border: aBorder [
+
+	self setProperty: #brickBorder toValue: aBorder
+]
+
+{ #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> borderColor: anObject [
+
+	self border color: anObject
+]
+
+{ #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> borderWidth: anObject [
+
+	self border width: anObject
+]
+
+{ #category : #'brick-properties' }
 GLMBrickPropertiesTrait >> color [
 
 	^ self valueOfProperty: #brickBackgroundColor ifAbsent: [ self themer backgroundColor ]
