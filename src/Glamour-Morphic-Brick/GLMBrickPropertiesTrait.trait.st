@@ -28,6 +28,13 @@ GLMBrickPropertiesTrait >> borderColor: anObject [
 ]
 
 { #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> borderDo: aBlock [
+
+	aBlock cull: self border.
+	^ self
+]
+
+{ #category : #'brick-properties' }
 GLMBrickPropertiesTrait >> borderWidth: anObject [
 
 	self border width: anObject

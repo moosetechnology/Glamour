@@ -91,9 +91,15 @@ GLMLabelBrick class >> example [
 ]
 
 { #category : #geometry }
-GLMLabelBrick >> approximateWidth [
+GLMLabelBrick >> approximateHeight [
+	
+	^ self label approximateHeight + self vMargin + self vPadding
+]
 
-		^ self label approximateWidth + self hMargin + self hPadding
+{ #category : #geometry }
+GLMLabelBrick >> approximateWidth [
+	
+	^ self label approximateWidth + self hMargin + self hPadding
 ]
 
 { #category : #accessing }

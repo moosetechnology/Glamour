@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMPopupBrick,
-	#superclass : #GLMBrick,
+	#superclass : #GLMInteractableBrick,
 	#instVars : [
 		'anchorBrick',
 		'triggerBrick',
@@ -13,32 +13,81 @@ Class {
 GLMPopupBrick class >> example [
 	<example>
 	
-	self new asBrickedMorph openInWindow
+	(self new openFor: nil) asBrickedMorph openInWindow
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
+GLMPopupBrick class >> exampleWidthAnchor [
+	|root|
+	
+	root := GLMBrick new.
+	root addBrickBack:
+		(GLMActionButtonBrick new
+			color: Color white;
+			icon: GLMUIThemeExtraIcons glamorousBrowse;
+			addUpAction: [ :b | self new openFor: b ];
+			width: [ :b | b icon width * 2 ];
+			height: [ :b | b icon height * 2 ]).
+			
+	root asBrickedMorph openInWindow
+]
+
+{ #category : #accessing }
 GLMPopupBrick >> anchorBrick [
 
 	^ anchorBrick
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMPopupBrick >> anchorBrick: aBrick [
 
 	anchorBrick := aBrick
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+GLMPopupBrick >> contentBrick [
+
+	^ contentBrick
+
+	
+]
+
+{ #category : #accessing }
 GLMPopupBrick >> contentBrick: aBrick [
 
 	contentBrick := aBrick.
-	contentBrick color: (Color r: 190 g: 236 b: 250 range: 255).
-	contentBrick borderColor: (Color r: 48 g:194 b:240 range: 255).
-	contentBrick borderWidth: 1.
-	contentBrick layout zIndex: 2.
+	self contentBrick
+		color: self defaultBackgroundColor; 
+		borderColor: self defaultBorderColor;
+		textColor: self defaultTextColor;
+	 	borderWidth: self defaultBorderWidth.
 	self addBrickBack: contentBrick
 
 	
+]
+
+{ #category : #initialization }
+GLMPopupBrick >> defaultBackgroundColor [
+
+	^ Color r: 190 g: 236 b: 250 range: 255
+]
+
+{ #category : #initialization }
+GLMPopupBrick >> defaultBorderColor [
+
+	^ Color r: 48 g:194 b:240 range: 255
+]
+
+{ #category : #initialization }
+GLMPopupBrick >> defaultBorderWidth [
+
+	^ 1
+]
+
+{ #category : #initialization }
+GLMPopupBrick >> defaultTextColor [
+
+	^ Color r: 16 g: 172 b: 221 range: 255
 ]
 
 { #category : #initialization }
@@ -48,48 +97,67 @@ GLMPopupBrick >> initialize [
 	self useVerticalLinearLayout.
 	self vShrinkWrap.
 	self hShrinkWrap.
-	
-	self contentBrick: self newContentBrick.
-	self triggerBrick: self newTriggerBrick.
+	self enable
 	
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMPopupBrick >> newContentBrick [
 
-	^ GLMLabelBrick new text: 'Press CMD+Right'; width: [ :b | b approximateWidth ]
+	^ GLMLabelBrick new
+		text: 'Press CMD+Right';
+		padding: #(10 10);
+		width: [ :b | b approximateWidth ];
+		height: [ :b | b approximateHeight ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMPopupBrick >> newTriggerBrick [
 
-	^ GLMActionButtonBrick new icon: GLMUIThemeExtraIcons glamorousExample; width: [ :b | b icon width ]
+	^ GLMActionButtonBrick new
+		icon: (self anchorBrick
+			ifNil: [ GLMUIThemeExtraIcons glamorousExample ]
+			ifNotNil: [ self anchorBrick brickTransparentImageForm ]);
+		width: [ :b | b icon width ];
+		height: [ :b | b icon width ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #opening }
 GLMPopupBrick >> openAbove: aRectangle [
 	"aRectangle must be in global coordinates"
 	self asBrickedMorph
-		bounds: ((aRectangle origin - (0@self height)) extent: self extent);
+		bounds: ((aRectangle origin - (0@self contentBrick height) + (0@self defaultBorderWidth)) extent: self extent);
 		openInWorld
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #opening }
 GLMPopupBrick >> openFor: aBrick [
 
 	self anchorBrick: aBrick.
-	self openAbove: aBrick globalBounds
+	self contentBrick: self newContentBrick.
+	self triggerBrick: self newTriggerBrick.
+	
+	aBrick ifNotNil: [ self openAbove: aBrick boundsInWorld ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+GLMPopupBrick >> triggerBrick [
+
+	^ triggerBrick
+]
+
+{ #category : #accessing }
 GLMPopupBrick >> triggerBrick: aBrick [
 
 	triggerBrick := aBrick.
-	triggerBrick color: (Color r: 190 g: 236 b: 250 range: 255).
-	triggerBrick borderColor: (Color r: 48 g:194 b:240 range: 255).
-	triggerBrick borderWidth: 1.
-	triggerBrick marginTop: -2.
-	self addBrickBack: aBrick.
+	self triggerBrick
+		color: self defaultBackgroundColor;
+		borderColor: self defaultBorderColor;
+		borderWidth: self defaultBorderWidth;
+		borderDo: [ :b | b widthTop: 0 ];
+		marginTop: self defaultBorderWidth negated.
+		
+	self addBrickBack: self triggerBrick.
 ]

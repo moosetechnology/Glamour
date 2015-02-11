@@ -39,7 +39,7 @@ GLMActionButtonBrick >> click: evt [
 	
 	action ifNil: [ ^ false ].
 	action isBlock
-		ifTrue: [ action value ]
+		ifTrue: [ action cull: self ]
 		ifFalse: [ action performOn: self data ].
 	
 	^ true

@@ -89,6 +89,12 @@ GLMStringBrick class >> example [
 ]
 
 { #category : #geometry }
+GLMStringBrick >> approximateHeight [
+
+	^ self font height + self vMargin + self vPadding
+]
+
+{ #category : #geometry }
 GLMStringBrick >> approximateWidth [
 
 	^ self textSize x + self hMargin + self hPadding

@@ -32,6 +32,16 @@ Morph >> brickThemerChanged [
 ]
 
 { #category : #'*Glamour-Morphic-Brick' }
+Morph >> brickTransparentImageForm [
+	|background form|
+	background := self color.
+	self color: Color transparent.
+	form := self imageForm.
+	self color: background.
+	^ form
+]
+
+{ #category : #'*Glamour-Morphic-Brick' }
 Morph >> exportAsPNGSilently [
 	| fName time |
 	time := (DateAndTime now asString copyReplaceAll: ':' with: '-') copyReplaceAll: '.' with: '-'.
