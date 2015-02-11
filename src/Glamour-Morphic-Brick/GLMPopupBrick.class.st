@@ -21,13 +21,13 @@ GLMPopupBrick class >> exampleWidthAnchor [
 	|root|
 	
 	root := GLMBrick new.
-	root addBrickBack:
+	1 to: 4 do: [ :i | root addBrickBack:
 		(GLMActionButtonBrick new
 			color: Color white;
 			icon: GLMUIThemeExtraIcons glamorousBrowse;
-			addUpAction: [ :b | self new openFor: b ];
+			addHoverAction: [ :b | self new openFor: b ];
 			width: [ :b | b icon width * 2 ];
-			height: [ :b | b icon height * 2 ]).
+			height: [ :b | b icon height * 2 ]) ].
 			
 	root asBrickedMorph openInWindow
 ]
@@ -90,16 +90,36 @@ GLMPopupBrick >> defaultTextColor [
 	^ Color r: 16 g: 172 b: 221 range: 255
 ]
 
+{ #category : #'events-processing' }
+GLMPopupBrick >> handleListenEvent: anEvent [
+	
+	(self triggerBrick boundsInWorld containsPoint: anEvent position) |
+		(self contentBrick boundsInWorld containsPoint: anEvent position) ifFalse: [
+			(self owner isKindOf: GLMFoundationBrick)
+				ifTrue: [ self owner delete ]
+				ifFalse: [ self delete ] ]
+]
+
 { #category : #initialization }
 GLMPopupBrick >> initialize [
 	super initialize.
 	
-	self useVerticalLinearLayout.
-	self vShrinkWrap.
-	self hShrinkWrap.
-	self enable
+	self
+		initializeListeners;
+		useVerticalLinearLayout;
+		vShrinkWrap;
+		hShrinkWrap;
+		enable.
 	
 	
+	
+]
+
+{ #category : #initialization }
+GLMPopupBrick >> initializeListeners [
+
+	"using the most general event subscribtion for all events spawned by the hand"
+	self activeHand addEventListener: self.
 ]
 
 { #category : #'instance creation' }
@@ -142,6 +162,13 @@ GLMPopupBrick >> openFor: aBrick [
 	aBrick ifNotNil: [ self openAbove: aBrick boundsInWorld ]
 ]
 
+{ #category : #initialization }
+GLMPopupBrick >> outOfWorld: aWorld [
+	super outOfWorld: aWorld.
+	
+	self unsubscribeListeners
+]
+
 { #category : #accessing }
 GLMPopupBrick >> triggerBrick [
 
@@ -160,4 +187,10 @@ GLMPopupBrick >> triggerBrick: aBrick [
 		marginTop: self defaultBorderWidth negated.
 		
 	self addBrickBack: self triggerBrick.
+]
+
+{ #category : #initialization }
+GLMPopupBrick >> unsubscribeListeners [
+
+	self activeHand removeEventListener: self
 ]

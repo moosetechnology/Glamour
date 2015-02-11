@@ -12,7 +12,8 @@ Class {
 	#name : #GLMActionButtonBrick,
 	#superclass : #GLMInteractableBrick,
 	#instVars : [
-		'action'
+		'action',
+		'hoverAction'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
@@ -24,6 +25,12 @@ GLMActionButtonBrick >> action: anAction [
 	
 	self normalImage: action icon.
 	self pressedColor: Color veryVeryLightGray
+]
+
+{ #category : #adding }
+GLMActionButtonBrick >> addHoverAction: anObject [
+
+	hoverAction := anObject
 ]
 
 { #category : #adding }
@@ -62,4 +69,11 @@ GLMActionButtonBrick >> initialize [
 	super initialize.
 	
 	self enable.
+]
+
+{ #category : #actions }
+GLMActionButtonBrick >> select [
+	super select.
+	
+	hoverAction ifNotNil: [ :a | a cull: self ]
 ]
