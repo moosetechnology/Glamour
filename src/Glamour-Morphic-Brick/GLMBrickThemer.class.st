@@ -42,14 +42,56 @@ GLMBrickThemer >> modules [
 	^ modules ifNil: [ modules := Dictionary new ]
 ]
 
+{ #category : #'*Glamour-Morphic-Brick' }
+GLMBrickThemer >> popupErrorThemer [
+
+	^ self
+		registerModule: GLMBrickPopupErrorThemer new
+		to: self
+		named: #popupThemer
+]
+
+{ #category : #'*Glamour-Morphic-Brick' }
+GLMBrickThemer >> popupHelpThemer [
+
+	^ self
+		registerModule: GLMBrickPopupHelpThemer new
+		to: self
+		named: #popupThemer
+]
+
+{ #category : #'*Glamour-Morphic-Brick' }
+GLMBrickThemer >> popupSuccessThemer [
+
+	^ self
+		registerModule: GLMBrickPopupSuccessThemer new
+		to: self
+		named: #popupThemer
+]
+
+{ #category : #'*Glamour-Morphic-Brick' }
+GLMBrickThemer >> popupThemer [
+
+	^ self
+		registerModule: GLMBrickPopupThemer new
+		to: self
+]
+
 { #category : #'brick-modules' }
 GLMBrickThemer >> registerModule: aModule to: aThemer [
-	|key|
-	key := thisContext sender selector.
+
+	^ self
+		registerModule: aModule
+		to: aThemer
+		named: thisContext sender selector
+]
+
+{ #category : #'brick-modules' }
+GLMBrickThemer >> registerModule: aModule to: aThemer named: aString [
 	"Registers aModule to aThemer. It stores modules in a dictionaty where a key is a selector of my caller method. It allows to customize bricks that are not added to the application (in this case they don't have access to custom themer normaly, because owner is nil) using the same api as added one."
 	^ self modules
-		at: key
-		ifAbsent: [ aThemer addModule: aModule named: key ]
+		at: aString
+		ifAbsent: [ aThemer addModule: aModule named: aString ]
 ]
 
 { #category : #brick }

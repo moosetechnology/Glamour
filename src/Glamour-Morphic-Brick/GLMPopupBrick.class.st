@@ -10,26 +10,70 @@ Class {
 }
 
 { #category : #examples }
-GLMPopupBrick class >> example [
-	<example>
-	
-	(self new openFor: nil) asBrickedMorph openInWindow
+GLMPopupBrick class >> createButton: hoverAction [
+
+	^ (GLMActionButtonBrick new
+			color: Color white;
+			icon: GLMUIThemeExtraIcons glamorousBrowse;
+			addHoverAction: hoverAction;
+			width: [ :b | b icon width * 2 ];
+			height: [ :b | b icon height * 2 ])
 ]
 
 { #category : #examples }
-GLMPopupBrick class >> exampleWidthAnchor [
+GLMPopupBrick class >> exampleAll [
+	<example: 'all types'>
+
+	(GLMBrick new
+		addBrickBack: (self createButton: [ :b | self new openFor: b ]);
+		addBrickBack: (self createButton: [ :b | self new beHelp; openFor: b ]);
+		addBrickBack: (self createButton: [ :b | self new beError; openFor: b ]);
+		addBrickBack: (self createButton: [ :b | self new beSuccess; openFor: b ]);
+		marginTop: 35)
+			asBrickedMorph
+			extent: 300@120;
+			openInWindow
+]
+
+{ #category : #examples }
+GLMPopupBrick class >> exampleError [
+	<example: 'Popup brick example with anchor'>
+
+	self openExample: [ :b | self new beError; openFor: b ]
+]
+
+{ #category : #examples }
+GLMPopupBrick class >> exampleHelp [
+	<example: 'Popup brick example with anchor'>
+
+	self openExample: [ :b | self new beHelp; openFor: b ]
+]
+
+{ #category : #examples }
+GLMPopupBrick class >> exampleNormal [
+	<example: 'Popup brick example with anchor'>
+
+	self openExample: [ :b | self new openFor: b ]
+]
+
+{ #category : #examples }
+GLMPopupBrick class >> exampleSuccess [
+	<example: 'Popup brick example with anchor'>
+
+	self openExample: [ :b | self new beSuccess; openFor: b ]
+]
+
+{ #category : #examples }
+GLMPopupBrick class >> openExample: hoverAction [
 	|root|
 	
-	root := GLMBrick new.
-	1 to: 4 do: [ :i | root addBrickBack:
-		(GLMActionButtonBrick new
-			color: Color white;
-			icon: GLMUIThemeExtraIcons glamorousBrowse;
-			addHoverAction: [ :b | self new openFor: b ];
-			width: [ :b | b icon width * 2 ];
-			height: [ :b | b icon height * 2 ]) ].
+	root := GLMBrick new marginTop: 35.
+	1 to: 4 do: [ :i | root addBrickBack: (self createButton: hoverAction) ].
 			
-	root asBrickedMorph openInWindow
+	root
+		asBrickedMorph
+			extent: 300@100;
+			openInWindow
 ]
 
 { #category : #accessing }
@@ -42,6 +86,24 @@ GLMPopupBrick >> anchorBrick [
 GLMPopupBrick >> anchorBrick: aBrick [
 
 	anchorBrick := aBrick
+]
+
+{ #category : #initialization }
+GLMPopupBrick >> beError [
+
+	self themer: self themer popupErrorThemer themer
+]
+
+{ #category : #initialization }
+GLMPopupBrick >> beHelp [
+
+	self themer: self themer popupHelpThemer themer
+]
+
+{ #category : #initialization }
+GLMPopupBrick >> beSuccess [
+
+	self themer: self themer popupSuccessThemer themer
 ]
 
 { #category : #accessing }
@@ -57,37 +119,13 @@ GLMPopupBrick >> contentBrick: aBrick [
 
 	contentBrick := aBrick.
 	self contentBrick
-		color: self defaultBackgroundColor; 
-		borderColor: self defaultBorderColor;
-		textColor: self defaultTextColor;
-	 	borderWidth: self defaultBorderWidth.
+		color: self themer popupThemer backgroundColor; 
+		borderColor: self themer popupThemer borderColor;
+		textColor: self themer popupThemer textColor;
+	 	borderWidth: self themer popupThemer borderWidth.
 	self addBrickBack: contentBrick
 
 	
-]
-
-{ #category : #initialization }
-GLMPopupBrick >> defaultBackgroundColor [
-
-	^ Color r: 190 g: 236 b: 250 range: 255
-]
-
-{ #category : #initialization }
-GLMPopupBrick >> defaultBorderColor [
-
-	^ Color r: 48 g:194 b:240 range: 255
-]
-
-{ #category : #initialization }
-GLMPopupBrick >> defaultBorderWidth [
-
-	^ 1
-]
-
-{ #category : #initialization }
-GLMPopupBrick >> defaultTextColor [
-
-	^ Color r: 16 g: 172 b: 221 range: 255
 ]
 
 { #category : #'events-processing' }
@@ -147,7 +185,7 @@ GLMPopupBrick >> newTriggerBrick [
 GLMPopupBrick >> openAbove: aRectangle [
 	"aRectangle must be in global coordinates"
 	self asBrickedMorph
-		bounds: ((aRectangle origin - (0@self contentBrick height) + (0@self defaultBorderWidth)) extent: self extent);
+		bounds: ((aRectangle origin - (0@self contentBrick height) + (0@self themer popupThemer borderWidth)) extent: self extent);
 		openInWorld
 	
 ]
@@ -180,11 +218,11 @@ GLMPopupBrick >> triggerBrick: aBrick [
 
 	triggerBrick := aBrick.
 	self triggerBrick
-		color: self defaultBackgroundColor;
-		borderColor: self defaultBorderColor;
-		borderWidth: self defaultBorderWidth;
+		color: self themer popupThemer backgroundColor;
+		borderColor: self themer popupThemer borderColor;
+		borderWidth: self themer popupThemer borderWidth;
 		borderDo: [ :b | b widthTop: 0 ];
-		marginTop: self defaultBorderWidth negated.
+		marginTop: self themer popupThemer borderWidth negated.
 		
 	self addBrickBack: self triggerBrick.
 ]
