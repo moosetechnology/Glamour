@@ -170,3 +170,9 @@ GLMBrickPropertiesTrait >> valueOfProperty: aSymbol ifAbsentPut: aBlock [
 	
 	^ self explicitRequirement
 ]
+
+{ #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> with: aBlock [
+
+	aBlock cull: self
+]

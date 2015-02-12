@@ -181,7 +181,7 @@ GLMBrickLayoutTraverser >> layoutOwnerOf: aBrick [
 GLMBrickLayoutTraverser >> layoutParentDependency: aBrick [
 
 	aBrick owner ifNil: [ ^ self markClean: aBrick. "Exception signal: 'Dimension depends on parent, but owner is nil'" ].
-	(self isDependsOnChildren: aBrick owner) ifTrue: [ Exception signal: 'Circle dependency detected!' ].
+	(self isDependsOnChildren: aBrick owner) ifTrue: [ Error signal: 'Circle dependency detected!' ].
 	
 	"because I depend on my parent, it should be layouted first"
 	self layoutOwnerOf: aBrick.

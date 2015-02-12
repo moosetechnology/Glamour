@@ -31,8 +31,8 @@ GLMPopupBrick class >> exampleAll [
 		addBrickBack: (self createButton: [ :b | self new beSuccess; openFor: b ]);
 		marginTop: 35)
 			asBrickedMorph
-			extent: 300@120;
-			openInWindow
+				extent: 300@120;
+				openInWindow
 ]
 
 { #category : #examples }
