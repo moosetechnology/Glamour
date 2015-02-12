@@ -208,7 +208,11 @@ GLMStringBrick >> highlightedText [
 GLMStringBrick >> highlightingLogic [
 	"[ :aCanvas :aRectangle ]"
 	
-	^ self valueOfProperty: #brickHighlightingLogic ifAbsentPut: [ nil ] 
+	^ self valueOfProperty: #brickHighlightingLogic ifAbsentPut: [
+		[ :aCanvas :aRectangle | |rectangle|
+			"because font calculates text width wrong"
+			rectangle := aRectangle translateBy: (-3@0).
+			aCanvas line: rectangle bottomLeft to: rectangle bottomRight width: 1 color: self textColor ] ] 
 ]
 
 { #category : #accessing }

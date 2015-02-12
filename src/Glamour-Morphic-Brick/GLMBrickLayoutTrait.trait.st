@@ -187,6 +187,7 @@ GLMBrickLayoutTrait >> onLayoutEvent: aLayoutEvent [
 { #category : #'brick-layout-events' }
 GLMBrickLayoutTrait >> onLayouted [
 	"called when brick is layouted"
+	self changed
 ]
 
 { #category : #'brick-layout-events' }

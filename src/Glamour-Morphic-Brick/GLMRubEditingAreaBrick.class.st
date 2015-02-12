@@ -1,5 +1,5 @@
 Class {
-	#name : #GLMRubTextFieldBrick,
+	#name : #GLMRubEditingAreaBrick,
 	#superclass : #GLMRubScrolledTextBrick,
 	#instVars : [
 		'isLayouting'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-GLMRubTextFieldBrick class >> exampleBand [
+GLMRubEditingAreaBrick class >> exampleBand [
 	<example: 'Two rubric text areas in band'>
 	
 	(GLMBandBrick new
@@ -20,7 +20,7 @@ GLMRubTextFieldBrick class >> exampleBand [
 ]
 
 { #category : #'as yet unclassified' }
-GLMRubTextFieldBrick class >> exampleScrollPane [
+GLMRubEditingAreaBrick class >> exampleScrollPane [
 	<example: 'Two rubric text areas in scroll pane'>
 	
 	(GLMScrollPaneBrick new
@@ -32,7 +32,7 @@ GLMRubTextFieldBrick class >> exampleScrollPane [
 ]
 
 { #category : #'as yet unclassified' }
-GLMRubTextFieldBrick >> initialize [
+GLMRubEditingAreaBrick >> initialize [
 	super initialize.
 	
 	self hSpaceFill.
@@ -40,7 +40,7 @@ GLMRubTextFieldBrick >> initialize [
 ]
 
 { #category : #'as yet unclassified' }
-GLMRubTextFieldBrick >> layoutChanged [
+GLMRubEditingAreaBrick >> layoutChanged [
 	super layoutChanged.
 	
 	self morph ifNil: [ ^ self ].
@@ -52,13 +52,13 @@ GLMRubTextFieldBrick >> layoutChanged [
 ]
 
 { #category : #'instance creation' }
-GLMRubTextFieldBrick >> newRubricMorph [
+GLMRubEditingAreaBrick >> newRubricMorph [
 
 	^ RubEditingArea new beWrapped
 ]
 
 { #category : #'as yet unclassified' }
-GLMRubTextFieldBrick >> on: aMorph [
+GLMRubEditingAreaBrick >> on: aMorph [
 	
 	aMorph layoutProperties ifNil: [ 
 		aMorph layoutProperties: GLMBrickLayoutProperties new ].

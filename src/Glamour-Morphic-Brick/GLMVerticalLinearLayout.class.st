@@ -99,7 +99,8 @@ GLMVerticalLinearLayout >> align: aBrick in: parentBrick anchorPoint: aPoint [
 	align = #left ifTrue: [ ^ self ].
 	align = #center ifTrue: [
 		^ aBrick translateX: ((parentBrick innerBounds width - aBrick outerBounds width) / 2) asInteger ].
-	align = #right ifTrue: [ ^ self ].
+	align = #right ifTrue: [
+		^ aBrick translateX: ((parentBrick innerBounds width - aBrick outerBounds width)) asInteger ].
 ]
 
 { #category : #height }
