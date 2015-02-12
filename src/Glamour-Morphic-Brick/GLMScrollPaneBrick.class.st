@@ -106,6 +106,12 @@ GLMScrollPaneBrick class >> exampleLarge [
 ]
 
 { #category : #'brick-structure-adding/removing' }
+GLMScrollPaneBrick >> addAllBricks: aCollection [
+	self band addAllBricks: aCollection.
+	self verticalScrollbar ifNotNil: [ :b | b updatePosition ]
+]
+
+{ #category : #'brick-structure-adding/removing' }
 GLMScrollPaneBrick >> addBrick: aBrick before: anotherBrick [
 	self band addBrick: aBrick before: anotherBrick
 ]
