@@ -23,8 +23,7 @@ GLMTreeBrick >> collapsableFor: anObject [
 	collapsable
 		vShrinkWrap;
 		hSpaceFill.
-		
-	"self halt."
+	
 	collapsable headerBrick: (self headerFor: anObject in: collapsable).
 	(self hasChildren: anObject)
 		ifTrue: [

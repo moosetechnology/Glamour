@@ -108,6 +108,7 @@ GLMScrollPaneBrick class >> exampleLarge [
 { #category : #'brick-structure-adding/removing' }
 GLMScrollPaneBrick >> addAllBricks: aCollection [
 	self band addAllBricks: aCollection.
+	
 	self verticalScrollbar ifNotNil: [ :b | b updatePosition ]
 ]
 
@@ -139,6 +140,7 @@ GLMScrollPaneBrick >> band [
 GLMScrollPaneBrick >> band: aBrick [
 
 	band := aBrick.
+	self band scrollpane: self.
 	self band hSpaceFill.
 	super addBrickBack: self band.
 ]
@@ -202,14 +204,6 @@ GLMScrollPaneBrick >> initializeListeners [
 
 	"using the most general event subscribtion for all events spawned by the hand"
 	self activeHand addEventListener: self.
-]
-
-{ #category : #'brick-layout' }
-GLMScrollPaneBrick >> invalidateLayout [
-	super invalidateLayout.
-	
-	self band translateY: self scrollPositionTop.
-	self verticalScrollbar ifNotNil: [ :b | b updatePosition ]
 ]
 
 { #category : #'scrollpane-testing' }
@@ -296,13 +290,21 @@ GLMScrollPaneBrick >> moveBandTop [
 { #category : #'scrollpane-brick-creation' }
 GLMScrollPaneBrick >> newBand [
 
-	^ GLMBandBrick new
+	^ GLMScrollPaneBandBrick new
 ]
 
 { #category : #'scrollpane-brick-creation' }
 GLMScrollPaneBrick >> newVerticalScrollbar [
 
 	^ GLMScrollbarBrick new
+]
+
+{ #category : #'brick-layout-events' }
+GLMScrollPaneBrick >> onChildrenLayouted [
+	super onChildrenLayouted.
+	
+	self band translateY: self scrollPositionTop.
+	self verticalScrollbar ifNotNil: [ :b | b updatePosition ]
 ]
 
 { #category : #'brick-properties-events' }
@@ -467,6 +469,12 @@ GLMScrollPaneBrick >> update [
 	self scrollUp: 0.
 	self verticalScrollbar updatePosition.
 	self privateScrollPosition: self band brickBounds top.
+]
+
+{ #category : #'scrollpane-updating' }
+GLMScrollPaneBrick >> updateScrollbar [
+
+	self verticalScrollbar ifNotNil: [ :b | b updatePosition ]
 ]
 
 { #category : #'scrollpane-updating' }

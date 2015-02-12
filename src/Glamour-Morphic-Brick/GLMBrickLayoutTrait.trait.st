@@ -180,19 +180,20 @@ GLMBrickLayoutTrait >> layoutSubbricks [
 ]
 
 { #category : #'brick-layout-events' }
+GLMBrickLayoutTrait >> onChildrenLayouted [
+	"called when all my children finished layouting"
+	self changed
+]
+
+{ #category : #'brick-layout-events' }
 GLMBrickLayoutTrait >> onLayoutEvent: aLayoutEvent [
 	"in case layout want's to trigger any specific event"
 ]
 
 { #category : #'brick-layout-events' }
 GLMBrickLayoutTrait >> onLayouted [
-	"called when brick is layouted"
-	self changed
-]
-
-{ #category : #'brick-layout-events' }
-GLMBrickLayoutTrait >> onPrepareLayout [
-	"is called before I'm started layouting"
+	"called when I'm layouted in my parent"
+	
 ]
 
 { #category : #'brick-structure' }

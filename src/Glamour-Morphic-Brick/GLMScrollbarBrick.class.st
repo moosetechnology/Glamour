@@ -62,6 +62,13 @@ GLMScrollbarBrick >> newBar [
 	^ GLMBrick new
 ]
 
+{ #category : #'as yet unclassified' }
+GLMScrollbarBrick >> onLayouted [
+	super onLayouted.
+	
+	self updatePosition
+]
+
 { #category : #'brick-properties-events' }
 GLMScrollbarBrick >> onThemerChanged [
 	super onThemerChanged.

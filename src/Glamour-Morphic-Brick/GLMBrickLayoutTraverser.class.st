@@ -96,7 +96,7 @@ GLMBrickLayoutTraverser >> layoutAround: aBrick inContext: aContextBrick [
 	"want to layout non-Brick object? nice try, bro."
 	aBrick isBrick ifFalse: [ ^ self ].
 	"if my dimension is clean why do you want to layout me?"
-	(self isClean: aBrick) ifTrue: [ ^ self ].
+	(self isClean: aBrick) ifTrue: [ ^ self layoutSubbricks: aBrick ].
 	self flag: 'find better place'.
 	aBrick changed.
 	"custom dependencies are very dangerous, as it's complicated
@@ -197,7 +197,8 @@ GLMBrickLayoutTraverser >> layoutParentDependency: aBrick [
 GLMBrickLayoutTraverser >> layoutSubbricks: aBrick [
 
 	aBrick isBrick ifFalse: [ ^ self ].
-	aBrick invalidateLayout
+	aBrick invalidateLayout.
+	aBrick onChildrenLayouted
 ]
 
 { #category : #private }
