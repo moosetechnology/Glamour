@@ -4,7 +4,11 @@ Class {
 	#instVars : [
 		'anchorBrick',
 		'triggerBrick',
-		'contentBrick'
+		'contentBrick',
+		'titleBrick',
+		'hintBrick',
+		'titleText',
+		'hintText'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-UI'
 }
@@ -106,6 +110,14 @@ GLMPopupBrick >> beSuccess [
 	self themer: self themer popupSuccessThemer themer
 ]
 
+{ #category : #opening }
+GLMPopupBrick >> close [
+
+	(self owner isKindOf: GLMFoundationBrick)
+		ifTrue: [ self owner delete ]
+		ifFalse: [ self delete ]
+]
+
 { #category : #accessing }
 GLMPopupBrick >> contentBrick [
 
@@ -119,9 +131,12 @@ GLMPopupBrick >> contentBrick: aBrick [
 
 	contentBrick := aBrick.
 	self contentBrick
+		vShrinkWrap;
+		hShrinkWrap;
+		paddingTop: 5;
+		paddingBottom: 5;
 		color: self themer popupThemer backgroundColor; 
 		borderColor: self themer popupThemer borderColor;
-		textColor: self themer popupThemer textColor;
 	 	borderWidth: self themer popupThemer borderWidth.
 	self addBrickBack: contentBrick
 
@@ -131,11 +146,37 @@ GLMPopupBrick >> contentBrick: aBrick [
 { #category : #'events-processing' }
 GLMPopupBrick >> handleListenEvent: anEvent [
 	
-	(self triggerBrick boundsInWorld containsPoint: anEvent position) |
-		(self contentBrick boundsInWorld containsPoint: anEvent position) ifFalse: [
-			(self owner isKindOf: GLMFoundationBrick)
-				ifTrue: [ self owner delete ]
-				ifFalse: [ self delete ] ]
+	(self triggerBrick boundsInWorld containsPoint: anEvent position) "|
+		(self contentBrick boundsInWorld containsPoint: anEvent position)" ifFalse: [
+			self close ]
+]
+
+{ #category : #accessing }
+GLMPopupBrick >> hintBrick [
+	^ hintBrick
+]
+
+{ #category : #accessing }
+GLMPopupBrick >> hintBrick: anObject [
+	hintBrick := anObject.
+	
+	
+	self hintBrick
+		textColor: self themer popupThemer textColor.
+		
+	self contentBrick addBrickBack: self hintBrick
+]
+
+{ #category : #accessing }
+GLMPopupBrick >> hintText [
+	^ hintText ifNil: [ hintText := 'Need help?' ]
+]
+
+{ #category : #accessing }
+GLMPopupBrick >> hintText: anObject [
+	hintText := anObject.
+	
+	self hintBrick ifNotNil: [ self hintBrick text: self hintText ]
 ]
 
 { #category : #initialization }
@@ -163,9 +204,25 @@ GLMPopupBrick >> initializeListeners [
 { #category : #'instance creation' }
 GLMPopupBrick >> newContentBrick [
 
+	^ GLMBandBrick new
+]
+
+{ #category : #'instance creation' }
+GLMPopupBrick >> newHintBrick [
+
 	^ GLMLabelBrick new
-		text: 'Press CMD+Right';
-		padding: #(10 10);
+		text: self hintText;
+		padding: #(0 10);
+		width: [ :b | b approximateWidth ];
+		height: [ :b | b approximateHeight ]
+]
+
+{ #category : #'instance creation' }
+GLMPopupBrick >> newTitleBrick [
+
+	^ GLMLabelBrick new
+		text: self titleText;
+		padding: #(0 10);
 		width: [ :b | b approximateWidth ];
 		height: [ :b | b approximateHeight ]
 ]
@@ -178,7 +235,7 @@ GLMPopupBrick >> newTriggerBrick [
 			ifNil: [ GLMUIThemeExtraIcons glamorousExample ]
 			ifNotNil: [ self anchorBrick brickTransparentImageForm ]);
 		width: [ :b | b icon width ];
-		height: [ :b | b icon width ]
+		height: [ :b | b icon height ]
 ]
 
 { #category : #opening }
@@ -195,6 +252,8 @@ GLMPopupBrick >> openFor: aBrick [
 
 	self anchorBrick: aBrick.
 	self contentBrick: self newContentBrick.
+	self titleBrick: self newTitleBrick.
+	self hintBrick: self newHintBrick.
 	self triggerBrick: self newTriggerBrick.
 	
 	aBrick ifNotNil: [ self openAbove: aBrick boundsInWorld ]
@@ -205,6 +264,33 @@ GLMPopupBrick >> outOfWorld: aWorld [
 	super outOfWorld: aWorld.
 	
 	self unsubscribeListeners
+]
+
+{ #category : #accessing }
+GLMPopupBrick >> titleBrick [
+	^ titleBrick
+]
+
+{ #category : #accessing }
+GLMPopupBrick >> titleBrick: anObject [
+	titleBrick := anObject.
+	
+	self titleBrick
+		textColor: self themer popupThemer textColor.
+		
+	self contentBrick addBrickFirst: self titleBrick
+]
+
+{ #category : #accessing }
+GLMPopupBrick >> titleText [
+	^ titleText ifNil: [ titleText := 'Hi,' ]
+]
+
+{ #category : #accessing }
+GLMPopupBrick >> titleText: anObject [
+	titleText := anObject.
+	
+	self titleBrick ifNotNil: [ self titleBrick text: self titleText ]
 ]
 
 { #category : #accessing }
@@ -222,7 +308,8 @@ GLMPopupBrick >> triggerBrick: aBrick [
 		borderColor: self themer popupThemer borderColor;
 		borderWidth: self themer popupThemer borderWidth;
 		borderDo: [ :b | b widthTop: 0 ];
-		marginTop: self themer popupThemer borderWidth negated.
+		marginTop: self themer popupThemer borderWidth negated;
+		addUpAction: [ :b :evt | self close. self anchorBrick click: evt ].
 		
 	self addBrickBack: self triggerBrick.
 ]

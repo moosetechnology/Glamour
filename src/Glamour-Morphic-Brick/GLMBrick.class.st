@@ -285,6 +285,12 @@ GLMBrick >> bounds [
 	^ self globalBounds
 ]
 
+{ #category : #'morph-common' }
+GLMBrick >> boundsInWorld [
+
+	^ self globalBounds
+]
+
 { #category : #'morph-drawing' }
 GLMBrick >> changed [
 	"Report that the area occupied by this morph should be redrawn.

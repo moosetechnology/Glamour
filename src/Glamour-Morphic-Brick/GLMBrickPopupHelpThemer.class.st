@@ -7,7 +7,7 @@ Class {
 { #category : #'brick-popup' }
 GLMBrickPopupHelpThemer >> backgroundColor [
 
-	^ Color r: 190 g: 236 b: 250 range: 255
+	^ Color r: 220 g: 246 b: 255 range: 255
 ]
 
 { #category : #'brick-popup' }

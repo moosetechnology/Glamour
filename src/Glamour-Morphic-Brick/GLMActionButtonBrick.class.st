@@ -13,11 +13,7 @@ Class {
 	#superclass : #GLMInteractableBrick,
 	#instVars : [
 		'action',
-		'hoverAction',
-		'hintTitle',
-		'hintText',
-		'hintDelay',
-		'hintModifier'
+		'hoverAction'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
@@ -50,7 +46,7 @@ GLMActionButtonBrick >> click: evt [
 	
 	action ifNil: [ ^ false ].
 	action isBlock
-		ifTrue: [ action cull: self ]
+		ifTrue: [ action cull: self cull: evt ]
 		ifFalse: [ action performOn: self data ].
 	
 	^ true
@@ -76,8 +72,8 @@ GLMActionButtonBrick >> initialize [
 ]
 
 { #category : #actions }
-GLMActionButtonBrick >> select [
-	super select.
+GLMActionButtonBrick >> select: anEvent [
+	super select: anEvent.
 	
-	hoverAction ifNotNil: [ :a | a cull: self ]
+	hoverAction ifNotNil: [ :a | a cull: self cull: anEvent ]
 ]

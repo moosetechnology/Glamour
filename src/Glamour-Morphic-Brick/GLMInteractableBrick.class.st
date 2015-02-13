@@ -294,7 +294,7 @@ GLMInteractableBrick >> mouseDown: evt [
 { #category : #'mouse events' }
 GLMInteractableBrick >> mouseEnter: evt [
 	super mouseEnter: evt.
-	^ self select
+	^ self select: evt
 ]
 
 { #category : #'mouse events' }
@@ -369,8 +369,13 @@ GLMInteractableBrick >> pressedImage: anObject [
 GLMInteractableBrick >> select [
 	self isSelected ifFalse: [ 
 		isSelected := true.
-		self changed.
-	]
+		self changed ]
+]
+
+{ #category : #actions }
+GLMInteractableBrick >> select: anEvent [
+
+	self select
 ]
 
 { #category : #accessing }
