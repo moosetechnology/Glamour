@@ -85,6 +85,13 @@ GLMBrickPropertiesTrait >> isColorSet [
 	^ self hasProperty: #brickBackgroundColor
 ]
 
+{ #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> markBorderColor: aColor width: anInteger [
+
+	self setProperty: #brickMarkBorderColor toValue: aColor.
+	self setProperty: #brickMarkBorderWidth toValue: anInteger
+]
+
 { #category : #'brick-properties-events' }
 GLMBrickPropertiesTrait >> onThemerChanged [
 
