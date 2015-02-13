@@ -48,7 +48,7 @@ GLMBrickPropertiesTrait >> color [
 
 { #category : #'brick-properties' }
 GLMBrickPropertiesTrait >> color: aColor [
-	<brickBuilderProperty: #'Look&Feel' name: 'Color' as: #brickBuilderEvaluate getter: #color model: GLMUIBuilderTextFieldProperty>
+	<brickBuilderProperty: #'Look&Feel' name: 'Color' as: #brickBuilderEvaluate getter: #color model: #GLMUIBuilderTextFieldProperty>
 
 	self setProperty: #brickBackgroundColor toValue: aColor
 ]
@@ -114,7 +114,7 @@ GLMBrickPropertiesTrait >> shadowColor [
 
 { #category : #'brick-properties' }
 GLMBrickPropertiesTrait >> shadowColor: aColor [
-	<brickBuilderProperty: #'Look&Feel' name: 'Shadow Color' as: #brickBuilderEvaluate getter: #shadowColor model: GLMUIBuilderTextFieldProperty>
+	<brickBuilderProperty: #'Look&Feel' name: 'Shadow Color' as: #brickBuilderEvaluate getter: #shadowColor model: #GLMUIBuilderTextFieldProperty>
 
 	self setProperty: #brickShadowColor toValue: aColor
 ]
@@ -127,7 +127,7 @@ GLMBrickPropertiesTrait >> shadowWidth [
 
 { #category : #'brick-properties' }
 GLMBrickPropertiesTrait >> shadowWidth: anInteger [
-	<brickBuilderProperty: #'Look&Feel' name: 'Shadow Width' as: #asInteger getter: #shadowWidth model: GLMUIBuilderTextFieldProperty>
+	<brickBuilderProperty: #'Look&Feel' name: 'Shadow Width' as: #asInteger getter: #shadowWidth model: #GLMUIBuilderTextFieldProperty>
 
 	self setProperty: #brickShadowWidth toValue: anInteger
 ]

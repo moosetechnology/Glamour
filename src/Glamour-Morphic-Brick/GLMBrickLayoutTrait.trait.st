@@ -62,7 +62,7 @@ GLMBrickLayoutTrait >> hSpaceFill [
 
 { #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> hSpaceFill: anInteger [
-	<brickBuilderProperty: #Layout name: 'Horizontal percent' as: #asInteger getter: #hPercent model: GLMUIBuilderTextFieldProperty>
+	<brickBuilderProperty: #Layout name: 'Horizontal percent' as: #asInteger getter: #hPercent model: #GLMUIBuilderTextFieldProperty>
 
 	self layout hSpaceFill: anInteger.
 	self privateWidth: nil
@@ -288,7 +288,7 @@ GLMBrickLayoutTrait >> vSpaceFill [
 
 { #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> vSpaceFill: anInteger [
-	<brickBuilderProperty: #Layout name: 'Vertical percent' as: #asInteger getter: #vPercent model: GLMUIBuilderTextFieldProperty>
+	<brickBuilderProperty: #Layout name: 'Vertical percent' as: #asInteger getter: #vPercent model: #GLMUIBuilderTextFieldProperty>
 
 	self layout vSpaceFill: anInteger.
 	self privateHeight: nil

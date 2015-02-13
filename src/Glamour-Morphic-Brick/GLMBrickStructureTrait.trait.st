@@ -48,8 +48,7 @@ GLMBrickStructureTrait >> allSubbricks [
 GLMBrickStructureTrait >> allSubbricksDo: aBlock [
 
 	self subbricks do: [:each | 
-		aBlock value: each.
-		each isBrick ifTrue: [ each allSubbricksDo: aBlock ] ]
+		each isBrick ifTrue: [ aBlock value: each. each allSubbricksDo: aBlock ] ]
 ]
 
 { #category : #'brick-structure-converting' }

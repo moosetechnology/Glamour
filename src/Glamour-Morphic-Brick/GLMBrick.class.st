@@ -403,6 +403,12 @@ GLMBrick >> isFitsInParent [
 		ifNil: [ self owner ifNotNil: [ self owner bounds containsRect: self globalBounds ] ifNil: [ ^ true ] ]
 ]
 
+{ #category : #'morph-common' }
+GLMBrick >> isMorphBrick [
+
+	^ false
+]
+
 { #category : #'brick-layout' }
 GLMBrick >> layoutPolicy [
 
@@ -520,6 +526,12 @@ GLMBrick >> taskThumbnailOfSize: thumbExtent [
 		smoothing: 2.
 	^ImageMorph new
 		form: f
+]
+
+{ #category : #'morph-common' }
+GLMBrick >> updateMorphBounds [
+
+	self withAllSubbricks select: #isMorphBrick thenDo: #onLayouted
 ]
 
 { #category : #'private-extension' }

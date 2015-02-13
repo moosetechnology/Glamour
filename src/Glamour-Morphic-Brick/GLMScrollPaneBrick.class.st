@@ -467,6 +467,7 @@ GLMScrollPaneBrick >> update [
 	self scrollUp: 0.
 	self verticalScrollbar updatePosition.
 	self privateScrollPosition: self band brickBounds top.
+	self updateMorphBounds
 ]
 
 { #category : #'scrollpane-updating' }

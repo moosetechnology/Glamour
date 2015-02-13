@@ -64,6 +64,12 @@ GLMMorphBrick >> invalidateLayout [
 ]
 
 { #category : #'as yet unclassified' }
+GLMMorphBrick >> isMorphBrick [
+
+	^ true
+]
+
+{ #category : #'as yet unclassified' }
 GLMMorphBrick >> morph [
 
 	^ morph

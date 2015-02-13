@@ -108,7 +108,7 @@ GLMBrickGeometryTrait >> height [
 
 { #category : #'brick-geometry' }
 GLMBrickGeometryTrait >> height: anObject [
-	<brickBuilderProperty: #Geometry name: 'Height' as: #asInteger getter: #height model: GLMUIBuilderTextFieldProperty>
+	<brickBuilderProperty: #Geometry name: 'Height' as: #asInteger getter: #height model: #GLMUIBuilderTextFieldProperty>
 
 	self privateHeight: anObject.
 	self vResizing: #rigid.
@@ -148,7 +148,7 @@ GLMBrickGeometryTrait >> margin [
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> margin: aCollection [
-	<brickBuilderProperty: #Geometry name: 'Margin' as: #brickBuilderEvaluate getter: #margin model: GLMUIBuilderTextFieldProperty>
+	<brickBuilderProperty: #Geometry name: 'Margin' as: #brickBuilderEvaluate getter: #margin model: #GLMUIBuilderTextFieldProperty>
 
 	self wrappedBounds margin: aCollection
 ]
@@ -161,7 +161,7 @@ GLMBrickGeometryTrait >> marginBottom [
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> marginBottom: anObject [
-	<brickBuilderProperty: #Geometry name: 'Margin Bottom' as: #asInteger getter: #marginBottom model: GLMUIBuilderTextFieldProperty>
+	<brickBuilderProperty: #Geometry name: 'Margin Bottom' as: #asInteger getter: #marginBottom model: #GLMUIBuilderTextFieldProperty>
 	
 	self wrappedBounds marginBottom: anObject
 ]
@@ -174,7 +174,7 @@ GLMBrickGeometryTrait >> marginLeft [
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> marginLeft: anObject [
-	<brickBuilderProperty: #Geometry name: 'Margin Left' as: #asInteger getter: #marginLeft model: GLMUIBuilderTextFieldProperty>
+	<brickBuilderProperty: #Geometry name: 'Margin Left' as: #asInteger getter: #marginLeft model: #GLMUIBuilderTextFieldProperty>
 
 	self wrappedBounds marginLeft: anObject
 ]
@@ -187,7 +187,7 @@ GLMBrickGeometryTrait >> marginRight [
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> marginRight: anObject [
-	<brickBuilderProperty: #Geometry name: 'Margin Right' as: #asInteger getter: #marginRight model: GLMUIBuilderTextFieldProperty>
+	<brickBuilderProperty: #Geometry name: 'Margin Right' as: #asInteger getter: #marginRight model: #GLMUIBuilderTextFieldProperty>
 
 	self wrappedBounds marginRight: anObject
 ]
@@ -200,7 +200,7 @@ GLMBrickGeometryTrait >> marginTop [
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> marginTop: anObject [
-	<brickBuilderProperty: #Geometry name: 'Margin Top' as: #asInteger getter: #marginTop model: GLMUIBuilderTextFieldProperty>
+	<brickBuilderProperty: #Geometry name: 'Margin Top' as: #asInteger getter: #marginTop model: #GLMUIBuilderTextFieldProperty>
 
 	self wrappedBounds marginTop: anObject
 ]
@@ -243,7 +243,7 @@ GLMBrickGeometryTrait >> padding [
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> padding: aCollection [
-	<brickBuilderProperty: #Geometry name: 'Padding' as: #brickBuilderEvaluate getter: #padding model: GLMUIBuilderTextFieldProperty>
+	<brickBuilderProperty: #Geometry name: 'Padding' as: #brickBuilderEvaluate getter: #padding model: #GLMUIBuilderTextFieldProperty>
 
 	self wrappedBounds padding: aCollection
 ]
@@ -256,7 +256,7 @@ GLMBrickGeometryTrait >> paddingBottom [
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> paddingBottom: anObject [
-	<brickBuilderProperty: #Geometry name: 'Padding Bottom' as: #asInteger getter: #paddingBottom model: GLMUIBuilderTextFieldProperty>
+	<brickBuilderProperty: #Geometry name: 'Padding Bottom' as: #asInteger getter: #paddingBottom model: #GLMUIBuilderTextFieldProperty>
 
 	self wrappedBounds paddingBottom: anObject
 ]
@@ -269,7 +269,7 @@ GLMBrickGeometryTrait >> paddingLeft [
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> paddingLeft: anObject [
-	<brickBuilderProperty: #Geometry name: 'Padding Left' as: #asInteger getter: #paddingLeft model: GLMUIBuilderTextFieldProperty>
+	<brickBuilderProperty: #Geometry name: 'Padding Left' as: #asInteger getter: #paddingLeft model: #GLMUIBuilderTextFieldProperty>
 
 	self wrappedBounds paddingLeft: anObject
 ]
@@ -282,7 +282,7 @@ GLMBrickGeometryTrait >> paddingRight [
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> paddingRight: anObject [
-	<brickBuilderProperty: #Geometry name: 'Padding Right' as: #asInteger getter: #paddingRight model: GLMUIBuilderTextFieldProperty>
+	<brickBuilderProperty: #Geometry name: 'Padding Right' as: #asInteger getter: #paddingRight model: #GLMUIBuilderTextFieldProperty>
 
 	self wrappedBounds paddingRight: anObject
 ]
@@ -295,7 +295,7 @@ GLMBrickGeometryTrait >> paddingTop [
 
 { #category : #'brick-geometry-properties' }
 GLMBrickGeometryTrait >> paddingTop: anObject [
-	<brickBuilderProperty: #Geometry name: 'Padding Top' as: #asInteger getter: #paddingTop model: GLMUIBuilderTextFieldProperty>
+	<brickBuilderProperty: #Geometry name: 'Padding Top' as: #asInteger getter: #paddingTop model: #GLMUIBuilderTextFieldProperty>
 
 	self wrappedBounds paddingTop: anObject
 ]
@@ -404,7 +404,7 @@ GLMBrickGeometryTrait >> width [
 
 { #category : #'brick-geometry' }
 GLMBrickGeometryTrait >> width: anObject [
-	<brickBuilderProperty: #Geometry name: 'Width' as: #asInteger getter: #width model: GLMUIBuilderTextFieldProperty>
+	<brickBuilderProperty: #Geometry name: 'Width' as: #asInteger getter: #width model: #GLMUIBuilderTextFieldProperty>
 
 	self privateWidth: anObject.
 	self hResizing: #rigid.
