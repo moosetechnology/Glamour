@@ -99,6 +99,11 @@ GLMHorizontalLinearLayout >> align: aBrick in: parentBrick anchorPoint: aPoint i
 	align = #right ifTrue: [ ^ self ].
 ]
 
+{ #category : #converting }
+GLMHorizontalLinearLayout >> asString [
+	^ 'horizontal'
+]
+
 { #category : #height }
 GLMHorizontalLinearLayout >> heightChildrenDependency: aBrick [
 	"returns the height of aBrick when it depends on children"

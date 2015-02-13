@@ -22,7 +22,14 @@ GLMBrickPropertiesTrait >> border: aBorder [
 ]
 
 { #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> borderColor [
+	
+	^ self border color
+]
+
+{ #category : #'brick-properties' }
 GLMBrickPropertiesTrait >> borderColor: anObject [
+	<brickBuilderProperty: #'Look&Feel' name: 'Border color' as: #brickBuilderEvaluate getter: #borderColor model: #GLMUIBuilderTextFieldProperty>
 
 	self border color: anObject
 ]
@@ -35,7 +42,14 @@ GLMBrickPropertiesTrait >> borderDo: aBlock [
 ]
 
 { #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> borderWidth [
+
+	^ self border width
+]
+
+{ #category : #'brick-properties' }
 GLMBrickPropertiesTrait >> borderWidth: anObject [
+	<brickBuilderProperty: #'Look&Feel' name: 'Border width' as: #brickBuilderEvaluate getter: #borderWidth model: #GLMUIBuilderTextFieldProperty>
 
 	self border width: anObject
 ]

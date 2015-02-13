@@ -157,7 +157,21 @@ GLMLabelBrick >> familyName: aString [
 ]
 
 { #category : #accessing }
+GLMLabelBrick >> font: aLogicalFont [
+
+	self label font: aLogicalFont.
+	self dotsBrick font: aLogicalFont.
+]
+
+{ #category : #accessing }
+GLMLabelBrick >> fontSize [
+
+	^ self label fontSize
+]
+
+{ #category : #accessing }
 GLMLabelBrick >> fontSize: aNumber [
+	<brickBuilderProperty: #Text name: 'Font size' as: #asInteger getter: #fontSize model: #GLMUIBuilderTextFieldProperty>
 
 	self label fontSize: aNumber.
 	self dotsBrick fontSize: aNumber
@@ -206,19 +220,34 @@ GLMLabelBrick >> text [
 
 { #category : #accessing }
 GLMLabelBrick >> text: aString [
-
+	<brickBuilderProperty: #Text name: 'Text' as: #asString getter: #text model: #GLMUIBuilderTextFieldProperty>
+	
 	self label text: aString
 ]
 
 { #category : #accessing }
+GLMLabelBrick >> textColor [
+
+	^ self label textColor
+]
+
+{ #category : #accessing }
 GLMLabelBrick >> textColor: aColor [
+	<brickBuilderProperty: #Text name: 'Text color' as: #brickBuilderEvaluate getter: #textColor model: #GLMUIBuilderTextFieldProperty>
 
 	self label textColor: aColor.
 	self dotsBrick textColor: aColor
 ]
 
 { #category : #accessing }
+GLMLabelBrick >> textPosition [
+
+	^ self label textPosition
+]
+
+{ #category : #accessing }
 GLMLabelBrick >> textPosition: aSymbol [
+	<brickBuilderProperty: #Text name: 'Text position' as: #asSymbol getter: #textPosition model: #GLMUIBuilderTextFieldProperty>
 
 	self label textPosition: aSymbol.
 	self dotsBrick textPosition: aSymbol.

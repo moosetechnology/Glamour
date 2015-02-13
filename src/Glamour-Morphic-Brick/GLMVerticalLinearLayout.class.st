@@ -109,6 +109,11 @@ GLMVerticalLinearLayout >> align: aBrick in: parentBrick anchorPoint: aPoint inC
 		^ aBrick translateX: ((parentBrick innerBounds width - aBrick outerBounds width)) asInteger ].
 ]
 
+{ #category : #converting }
+GLMVerticalLinearLayout >> asString [
+	^ 'vertical'
+]
+
 { #category : #height }
 GLMVerticalLinearLayout >> heightChildrenDependency: aBrick [
 	"returns the height of aBrick when it depends on children"
