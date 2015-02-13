@@ -11,7 +11,8 @@ Class {
 GLMScrollPaneBandBrick >> onChildrenLayouted [
 	super onChildrenLayouted.
 	
-	self scrollpane ifNotNil: [ :s | s updateScrollbar ]
+	self scrollpane ifNotNil: [ :s | s updateScrollbar ].
+	self updateMorphBounds
 ]
 
 { #category : #accessing }

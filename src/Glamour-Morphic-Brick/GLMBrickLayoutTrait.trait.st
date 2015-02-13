@@ -23,6 +23,19 @@ GLMBrickLayoutTrait >> doLayoutForce [
 ]
 
 { #category : #'brick-layout-properties' }
+GLMBrickLayoutTrait >> hAlign [
+
+	^ self layout hAlign
+]
+
+{ #category : #'brick-layout-properties' }
+GLMBrickLayoutTrait >> hAlign: aSymbol [
+	<brickBuilderProperty: #Layout name: 'Horizontal align' as: #asSymbol getter: #hAlign model: #GLMUIBuilderTextFieldProperty>
+
+	self layout hAlign: aSymbol
+]
+
+{ #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> hPercent [
 
 	^ self layout hPercent
@@ -42,6 +55,7 @@ GLMBrickLayoutTrait >> hResizing [
 
 { #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> hResizing: aSymbol [
+	<brickBuilderProperty: #Layout name: 'Horizontal resizing' as: #asSymbol getter: #hResizing model: #GLMUIBuilderTextFieldProperty>
 
 	self layout hResizing: aSymbol
 ]
@@ -249,6 +263,19 @@ GLMBrickLayoutTrait >> useVerticalLinearLayout [
 ]
 
 { #category : #'brick-layout-properties' }
+GLMBrickLayoutTrait >> vAlign [
+
+	^ self layout vAlign
+]
+
+{ #category : #'brick-layout-properties' }
+GLMBrickLayoutTrait >> vAlign: aSymbol [
+	<brickBuilderProperty: #Layout name: 'Vertical align' as: #asSymbol getter: #vAlign model: #GLMUIBuilderTextFieldProperty>
+
+	self layout vAlign: aSymbol
+]
+
+{ #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> vPercent [
 
 	^ self layout vPercent
@@ -268,6 +295,7 @@ GLMBrickLayoutTrait >> vResizing [
 
 { #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> vResizing: aSymbol [
+	<brickBuilderProperty: #Layout name: 'Vertical resizing' as: #asSymbol getter: #vResizing model: #GLMUIBuilderTextFieldProperty>
 
 	self layout vResizing: aSymbol
 ]

@@ -91,8 +91,14 @@ GLMVerticalLinearLayout class >> uniqueInstance [
 ]
 
 { #category : #layout }
-GLMVerticalLinearLayout >> align: aBrick in: parentBrick anchorPoint: aPoint [
+GLMVerticalLinearLayout >> align: aBrick in: parentBrick anchorPoint: aPoint inContext: aContext [
 	|align|
+	
+	self = aContext ifTrue: [ ^ self ].
+	parentBrick subbricks size = 1 ifTrue: [ |context|
+		context := aContext ifNil: [ self ].
+		GLMHorizontalLinearLayout uniqueInstance align: aBrick in: parentBrick anchorPoint: aPoint inContext: context ].
+	
 	align := aBrick layout hAlign.
 	
 	align = #none ifTrue: [ ^ self ].

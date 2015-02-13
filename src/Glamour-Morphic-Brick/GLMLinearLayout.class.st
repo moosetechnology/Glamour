@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #layout }
-GLMLinearLayout >> align: aBrick in: parentBrick anchorPoint: aPoint [
+GLMLinearLayout >> align: aBrick in: parentBrick anchorPoint: aPoint inContext: aContext [
 
 	^ self subclassResponsibility
 ]
@@ -69,7 +69,7 @@ GLMLinearLayout >> layout: aBrick in: aRectangle inject: anInteger into: aBlock 
 			ifFalse: [ aBlock cull: origin cull: each ]
 			ifTrue: [ self layoutFloating: each in: aRectangle ]).
 		"applying aligning: #none, #left, #center, #right"
-		self align: each in: aBrick anchorPoint: origin.
+		self align: each in: aBrick anchorPoint: origin inContext: nil.
 		each onLayouted.
 		result ].
 ]
