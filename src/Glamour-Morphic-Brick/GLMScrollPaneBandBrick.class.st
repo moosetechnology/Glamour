@@ -20,7 +20,10 @@ GLMScrollPaneBandBrick >> onChildrenLayouted [
 	
 	self scrollpane ifNotNil: [ :s | s updateScrollbar ].
 	
-	self updateMorphBounds
+	self asyncTask
+		perform: [ self updateMorphBounds ]
+		delay: 400
+		priority: Processor lowestPriority
 ]
 
 { #category : #accessing }

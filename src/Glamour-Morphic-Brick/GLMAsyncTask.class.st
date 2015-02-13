@@ -75,6 +75,17 @@ GLMAsyncTask >> perform: aBlock delay: anInteger [
 		delay: anInteger
 ]
 
+{ #category : #'as yet unclassified' }
+GLMAsyncTask >> perform: aBlock delay: anInteger priority: aPriority [
+
+	self
+		execute: []
+		withArguments: {}
+		callback: aBlock
+		priority: aPriority
+		delay: anInteger
+]
+
 { #category : #async }
 GLMAsyncTask >> terminate [
 
