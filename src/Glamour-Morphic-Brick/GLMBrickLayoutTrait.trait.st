@@ -23,6 +23,18 @@ GLMBrickLayoutTrait >> doLayoutForce [
 ]
 
 { #category : #'brick-layout-properties' }
+GLMBrickLayoutTrait >> hPercent [
+
+	^ self layout hPercent
+]
+
+{ #category : #'brick-layout-properties' }
+GLMBrickLayoutTrait >> hPercent: anInteger [
+
+	self layout hPercent: anInteger
+]
+
+{ #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> hResizing [
 
 	^ self layout hResizing
@@ -37,19 +49,23 @@ GLMBrickLayoutTrait >> hResizing: aSymbol [
 { #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> hShrinkWrap [
 
-	self layout hShrinkWrap
+	self layout hShrinkWrap.
+	self privateWidth: nil
 ]
 
 { #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> hSpaceFill [
 
-	self layout hSpaceFill
+	self layout hSpaceFill.
+	self privateWidth: nil
 ]
 
 { #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> hSpaceFill: anInteger [
+	<brickBuilderProperty: #Layout name: 'Horizontal percent' as: #asInteger getter: #hPercent model: GLMUIBuilderTextFieldProperty>
 
-	self layout hSpaceFill: anInteger
+	self layout hSpaceFill: anInteger.
+	self privateWidth: nil
 ]
 
 { #category : #'brick-geometry' }
@@ -62,6 +78,15 @@ GLMBrickLayoutTrait >> innerBounds [
 GLMBrickLayoutTrait >> invalidateLayout [
 
 	self layoutPolicy layout: self in: self wrappedBounds innerBounds
+]
+
+{ #category : #'brick-layout' }
+GLMBrickLayoutTrait >> invalidateWith: aBlock [
+
+	self changed.
+	aBlock cull: self.
+	self doLayoutForce.
+	self changed.
 ]
 
 { #category : #'brick-structure-testing' }
@@ -196,6 +221,15 @@ GLMBrickLayoutTrait >> onLayouted [
 	
 ]
 
+{ #category : #'brick-layout-properties' }
+GLMBrickLayoutTrait >> resetLayout [
+
+	self vResizing: #rigid.
+	self hResizing: #rigid.
+	self height: nil.
+	self width: nil
+]
+
 { #category : #'brick-structure' }
 GLMBrickLayoutTrait >> subbricks [
 
@@ -215,6 +249,18 @@ GLMBrickLayoutTrait >> useVerticalLinearLayout [
 ]
 
 { #category : #'brick-layout-properties' }
+GLMBrickLayoutTrait >> vPercent [
+
+	^ self layout vPercent
+]
+
+{ #category : #'brick-layout-properties' }
+GLMBrickLayoutTrait >> vPercent: anInteger [
+
+	self layout vPercent: anInteger
+]
+
+{ #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> vResizing [
 
 	^ self layout vResizing
@@ -229,17 +275,21 @@ GLMBrickLayoutTrait >> vResizing: aSymbol [
 { #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> vShrinkWrap [
 
-	self layout vShrinkWrap
+	self layout vShrinkWrap.
+	self privateHeight: nil
 ]
 
 { #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> vSpaceFill [
 
-	self layout vSpaceFill
+	self layout vSpaceFill.
+	self privateHeight: nil
 ]
 
 { #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> vSpaceFill: anInteger [
+	<brickBuilderProperty: #Layout name: 'Vertical percent' as: #asInteger getter: #vPercent model: GLMUIBuilderTextFieldProperty>
 
-	self layout vSpaceFill: anInteger
+	self layout vSpaceFill: anInteger.
+	self privateHeight: nil
 ]

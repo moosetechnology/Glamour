@@ -89,7 +89,7 @@ GLMHorizontalLinearLayout >> align: aBrick in: parentBrick anchorPoint: aPoint [
 	align = #none ifTrue: [ ^ self ].
 	align = #left ifTrue: [ ^ self ].
 	align = #center ifTrue: [
-		^ aBrick translateX: ((parentBrick innerBounds width - aBrick outerBounds width) / 2) asInteger ].
+		^ aBrick translateY: ((parentBrick innerBounds height - aBrick outerBounds height) / 2) asInteger ].
 	align = #right ifTrue: [ ^ self ].
 ]
 
