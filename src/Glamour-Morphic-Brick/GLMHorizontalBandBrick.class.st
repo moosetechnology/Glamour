@@ -8,33 +8,11 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
 
-{ #category : #'layout brick' }
-GLMHorizontalBandBrick >> doLayout [
+{ #category : #'as yet unclassified' }
+GLMHorizontalBandBrick >> initialize [
+	super initialize.
 	
-	self layoutChildren.
-
-	self subbricks do: [ :each | each isBrick ifTrue: [ each doLayout ] ]
-]
-
-{ #category : #'layout brick' }
-GLMHorizontalBandBrick >> layoutChildren [
-
-	|mBounds mOwner|
-	"most of the time you don't want to call this method manually"
-	"nice example to check is GLMLabelBrick>>doLayout"
-	
-	mOwner := self owner ifNil: [ self ] ifNotNil: [ self owner ].
-	mBounds := mOwner isBrick ifTrue: [ mOwner globalInnerBounds ] ifFalse: [ mOwner globalBounds ].
-	
-	^ self layoutPolicy layout: self in: mBounds.
-]
-
-{ #category : #geometry }
-GLMHorizontalBandBrick >> width [
-	|width|
-	self widthBlock ifNotNil: [ ^ self widthBlock cull: self ].
-		
-	width := self hPadding.
-	self subbricks do: [ :each | width := width + each width + each hMargin ].
-	^ width
+	self
+		useHorizontalLinearLayout;
+		hShrinkWrap
 ]

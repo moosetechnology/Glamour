@@ -32,7 +32,7 @@ GLMTreeBrick >> collapsableFor: anObject [
 				vShrinkWrap;
 				hSpaceFill;
 				marginLeft: 19 ].
-	
+	collapsable expand.
 	^ collapsable
 ]
 
@@ -42,7 +42,7 @@ GLMTreeBrick >> hasChildren: anObject [
 	anObject ifNil: [ ^ false ].
 	anObject isVariableBinding ifFalse: [ ^ false ].
 	anObject value ifNil: [ ^ false ].
-	anObject value isCollection ifTrue: [ anObject value isEmpty not ].
+	anObject value isCollection ifTrue: [ ^ anObject value isEmpty not ].
 	^ true
 ]
 
@@ -86,6 +86,7 @@ GLMTreeBrick >> newToggleButtonFor: aCollapsable [
 GLMTreeBrick >> on: anObject [
 	"{ 'first'-> { 'sub 1' -> '11' . 'sub 2' -> '12' } }"
 	
+	self removeAllBricks.
 	(anObject isCollection & anObject isString not)
 		ifFalse: [ self addBrickBack: (self collapsableFor: anObject) ]
 		ifTrue: [ anObject do: [ :each | self addBrickBack: (self collapsableFor: each) ] ].

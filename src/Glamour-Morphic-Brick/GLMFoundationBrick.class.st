@@ -105,7 +105,7 @@ GLMFoundationBrick >> extent: aPoint [
 	self brickRoot height: bottom - top.
 	self brickRoot wrappedBounds bounds: (left@top corner: (right@bottom)).
 	
-	self brickRoot doLayoutForce.
+	self brickRoot doLayout.
 	self brickRoot onLayouted
 ]
 

@@ -13,7 +13,11 @@ Class {
 	#superclass : #GLMInteractableBrick,
 	#instVars : [
 		'action',
-		'hoverAction'
+		'hoverAction',
+		'hintTitle',
+		'hintText',
+		'hintDelay',
+		'hintModifier'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }

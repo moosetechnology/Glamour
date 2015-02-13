@@ -236,6 +236,7 @@ GLMBrickStructureTrait >> privateOwner: aBrick [
 { #category : #'private-structure' }
 GLMBrickStructureTrait >> privateRemoveAllBricks [
 	
+	self hasSubbricks ifFalse: [ ^ self ].
 	self subbricks do: [:each |
 		each brickDoubleLink: nil.
 		each owner: nil ].
