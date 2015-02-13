@@ -79,9 +79,7 @@ GLMHintableActionButtonBrick >> initialize [
 	
 	self addHoverAction: [ :b :evt |
 		self class asyncTaskUniqueInstance
-			execute: [  ]
-			withArguments: {  }
-			callback: [ self isInWorld ifTrue: [ GLMPopupBrick new titleText: self hintTitle; hintText: self hintText; beHelp; openFor: self ] ]
+			perform: [ self isInWorld ifTrue: [ GLMPopupBrick new titleText: self hintTitle; hintText: self hintText; beHelp; openFor: self ] ]
 			delay: ((self isModifierPressed: evt) ifTrue: [ 0 ] ifFalse: [ self hintDelay ]) ].
 ]
 

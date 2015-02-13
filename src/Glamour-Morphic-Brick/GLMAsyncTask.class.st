@@ -65,6 +65,16 @@ GLMAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBlo
 	^ self
 ]
 
+{ #category : #'as yet unclassified' }
+GLMAsyncTask >> perform: aBlock delay: anInteger [
+
+	self
+		execute: []
+		withArguments: {}
+		callback: aBlock
+		delay: anInteger
+]
+
 { #category : #async }
 GLMAsyncTask >> terminate [
 
