@@ -335,7 +335,7 @@ GLMPagerScrollBrick >> scrollValue: value [
 { #category : #scrolling }
 GLMPagerScrollBrick >> updatePaneBounds [
 
-	self band subbricks do: #onLayouted
+	self band updateMorphBounds
 ]
 
 { #category : #scrolling }
