@@ -343,9 +343,21 @@ GLMBrickGeometryTrait >> translateX: anInteger [
 ]
 
 { #category : #'brick-geometry-transformations' }
+GLMBrickGeometryTrait >> translateXTo: anInteger [
+
+	self translateX: (self brickBounds left negated + anInteger)
+]
+
+{ #category : #'brick-geometry-transformations' }
 GLMBrickGeometryTrait >> translateY: anInteger [
 
 	self wrappedBounds translateY: anInteger
+]
+
+{ #category : #'brick-geometry-transformations' }
+GLMBrickGeometryTrait >> translateYTo: anInteger [
+
+	self translateY: (self brickBounds top negated + anInteger)
 ]
 
 { #category : #'private-geometry' }

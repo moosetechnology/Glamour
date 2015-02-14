@@ -3,13 +3,16 @@ I declare api and logic to layout Bricks
 "
 Trait {
 	#name : #GLMBrickLayoutTrait,
+	#traits : 'GLMBrickExtensionTrait',
+	#classTraits : 'GLMBrickExtensionTrait classTrait',
 	#category : #'Glamour-Morphic-Brick-Traits'
 }
 
 { #category : #'brick-layout' }
 GLMBrickLayoutTrait >> doLayout [
 
-	GLMBrickLayouter uniqueInstance layoutIn: self
+	self isLayotingAllowed ifTrue: [
+		GLMBrickLayouter uniqueInstance layoutIn: self ]
 ]
 
 { #category : #'brick-layout' }
@@ -20,6 +23,15 @@ GLMBrickLayoutTrait >> doLayoutForce [
 		markWidthDirty.
 	
 	self doLayout
+]
+
+{ #category : #'brick-layout' }
+GLMBrickLayoutTrait >> doNotLayoutDuring: aBlock [
+	|wasAllowed|
+	wasAllowed := self isLayotingAllowed.
+	self isLayotingAllowed: false.
+	[ aBlock cull: self ]
+		ensure: [ wasAllowed ifTrue: [ self isLayotingAllowed: true ] ]
 ]
 
 { #category : #'brick-layout-properties' }
@@ -82,6 +94,12 @@ GLMBrickLayoutTrait >> hSpaceFill: anInteger [
 	self privateWidth: nil
 ]
 
+{ #category : #'private-extension' }
+GLMBrickLayoutTrait >> hasProperty: aSymbol [
+
+	^ self explicitRequirement
+]
+
 { #category : #'brick-geometry' }
 GLMBrickLayoutTrait >> innerBounds [
 
@@ -97,10 +115,8 @@ GLMBrickLayoutTrait >> invalidateLayout [
 { #category : #'brick-layout' }
 GLMBrickLayoutTrait >> invalidateWith: aBlock [
 
-	self changed.
 	aBlock cull: self.
 	self doLayoutForce.
-	self changed.
 ]
 
 { #category : #'brick-structure-testing' }
@@ -134,6 +150,18 @@ GLMBrickLayoutTrait >> isHeightDependsOnWidth [
 	It means that layouter must first calculate my width and as soon as it is done my height"
 	
 	^ self vResizing = #opposite
+]
+
+{ #category : #'private-layout' }
+GLMBrickLayoutTrait >> isLayotingAllowed [
+
+	^ self valueOfProperty: #brickLayoutingAllowed ifAbsent: [ true ]
+]
+
+{ #category : #'private-layout' }
+GLMBrickLayoutTrait >> isLayotingAllowed: aBoolean [
+
+	self setProperty: #brickLayoutingAllowed toValue: aBoolean
 ]
 
 { #category : #'brick-structure-testing' }
@@ -186,7 +214,7 @@ GLMBrickLayoutTrait >> layout: aLayout [
 { #category : #'brick-layout' }
 GLMBrickLayoutTrait >> layoutAfter: aBlock [
 
-	aBlock cull: self.
+	self doNotLayoutDuring: aBlock.
 	self doLayout
 ]
 
@@ -237,6 +265,12 @@ GLMBrickLayoutTrait >> onLayouted [
 	
 ]
 
+{ #category : #'private-extension' }
+GLMBrickLayoutTrait >> removeProperty: aSymbol [
+	
+	^ self explicitRequirement
+]
+
 { #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> resetLayout [
 
@@ -244,6 +278,12 @@ GLMBrickLayoutTrait >> resetLayout [
 	self hResizing: #rigid.
 	self height: nil.
 	self width: nil
+]
+
+{ #category : #'private-extension' }
+GLMBrickLayoutTrait >> setProperty: aSymbol toValue: anObject [
+	
+	^ self explicitRequirement
 ]
 
 { #category : #'brick-structure' }
@@ -322,4 +362,22 @@ GLMBrickLayoutTrait >> vSpaceFill: anInteger [
 
 	self layout vSpaceFill: anInteger.
 	self privateHeight: nil
+]
+
+{ #category : #'private-extension' }
+GLMBrickLayoutTrait >> valueOfProperty: aSymbol [
+	
+	^ self explicitRequirement
+]
+
+{ #category : #'private-extension' }
+GLMBrickLayoutTrait >> valueOfProperty: aSymbol ifAbsent: aBlock [
+	
+	^ self explicitRequirement
+]
+
+{ #category : #'private-extension' }
+GLMBrickLayoutTrait >> valueOfProperty: aSymbol ifAbsentPut: aBlock [ 
+	
+	^ self explicitRequirement
 ]

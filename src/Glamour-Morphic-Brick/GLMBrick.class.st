@@ -303,6 +303,14 @@ GLMBrick >> changed [
 ]
 
 { #category : #'morph-drawing' }
+GLMBrick >> changedWith: aBlock [
+
+	self changed.
+	aBlock cull: self.
+	self changed.
+]
+
+{ #category : #'morph-drawing' }
 GLMBrick >> drawOn: aCanvas [
 	super drawOn: aCanvas.
 	
