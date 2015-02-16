@@ -66,6 +66,13 @@ GLMBrickTests >> assertWidthDirty: aBrick [
 ]
 
 { #category : #'instance-creation' }
+GLMBrickTests >> markFullyClean: aBrick [ 
+
+	aBrick withAllSubbricks do: [ :each | each wrappedBounds markWidthClean; markHeightClean ].
+	^ aBrick
+]
+
+{ #category : #'instance-creation' }
 GLMBrickTests >> newBrickFullHeightAndWidthDependsOnParent: anInteger [
 
 	^ GLMBrick new
@@ -418,6 +425,394 @@ GLMBrickTests >> testLeftMarginParentDependency [
 	self assert: root extent equals: self staticExtent.
 	self assert: brick extent equals: (self staticExtent - (margin@0)).
 	self assert: brick brickBounds equals: (margin@0 corner: self staticExtent)
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneChildrenHeight [
+	|brick|
+	
+	brick := self newBrickWithFullDependsOnChildren.
+	self markFullyClean: brick.
+	
+	brick wrappedBounds markHeightDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthClean.
+	self assert: brick wrappedBounds isHeightDirty.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneChildrenInChildrenHeight [
+	|root brick|
+	
+	root := self newBrickWithFullDependsOnChildren.
+	brick := self newBrickWithFullDependsOnChildren.
+	root addBrickBack: brick.
+	self markFullyClean: root.
+	
+	brick wrappedBounds markHeightDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthClean.
+	self assert: brick wrappedBounds isHeightDirty.
+	
+	self assert: root wrappedBounds isWidthClean.
+	self assert: root wrappedBounds isHeightDirty.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneChildrenInChildrenWidth [
+	|root brick|
+	
+	root := self newBrickWithFullDependsOnChildren.
+	brick := self newBrickWithFullDependsOnChildren.
+	root addBrickBack: brick.
+	self markFullyClean: root.
+	
+	brick wrappedBounds markWidthDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthDirty.
+	self assert: brick wrappedBounds isHeightClean.
+	
+	self assert: root wrappedBounds isWidthDirty.
+	self assert: root wrappedBounds isHeightClean.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneChildrenInParentHeight [
+	|root brick|
+	
+	root := self newBrickWithFullFill.
+	brick := self newBrickWithFullDependsOnChildren.
+	root addBrickBack: brick.
+	self markFullyClean: root.
+	
+	brick wrappedBounds markHeightDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthClean.
+	self assert: brick wrappedBounds isHeightDirty.
+	
+	self assert: root wrappedBounds isWidthClean.
+	self assert: root wrappedBounds isHeightClean.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneChildrenInParentWidth [
+	|root brick|
+	
+	root := self newBrickWithFullFill.
+	brick := self newBrickWithFullDependsOnChildren.
+	root addBrickBack: brick.
+	self markFullyClean: root.
+	
+	brick wrappedBounds markWidthDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthDirty.
+	self assert: brick wrappedBounds isHeightClean.
+	
+	self assert: root wrappedBounds isWidthClean.
+	self assert: root wrappedBounds isHeightClean.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneChildrenInStaticHeight [
+	|root brick|
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickWithFullDependsOnChildren.
+	root addBrickBack: brick.
+	self markFullyClean: root.
+	
+	brick wrappedBounds markHeightDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthClean.
+	self assert: brick wrappedBounds isHeightDirty.
+	
+	self assert: root wrappedBounds isWidthClean.
+	self assert: root wrappedBounds isHeightClean.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneChildrenInStaticWidth [
+	|root brick|
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickWithFullDependsOnChildren.
+	root addBrickBack: brick.
+	self markFullyClean: root.
+	
+	brick wrappedBounds markWidthDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthDirty.
+	self assert: brick wrappedBounds isHeightClean.
+	
+	self assert: root wrappedBounds isWidthClean.
+	self assert: root wrappedBounds isHeightClean.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneChildrenWidth [
+	|brick|
+	
+	brick := self newBrickWithFullDependsOnChildren.
+	self markFullyClean: brick.
+	
+	brick wrappedBounds markWidthDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthDirty.
+	self assert: brick wrappedBounds isHeightClean.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneParentHeight [
+	|brick|
+	
+	brick := self newBrickWithFullFill.
+	self markFullyClean: brick.
+	
+	brick wrappedBounds markHeightDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthClean.
+	self assert: brick wrappedBounds isHeightDirty.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneParentInParentHeight [
+	|root brick|
+	
+	root := self newBrickWithFullFill.
+	brick := self newBrickWithFullFill.
+	root addBrickBack: brick.
+	self markFullyClean: root.
+	
+	brick wrappedBounds markHeightDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthClean.
+	self assert: brick wrappedBounds isHeightDirty.
+	
+	self assert: root wrappedBounds isWidthClean.
+	self assert: root wrappedBounds isHeightClean.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneParentInParentWidth [
+	|root brick|
+	
+	root := self newBrickWithFullFill.
+	brick := self newBrickWithFullFill.
+	root addBrickBack: brick.
+	self markFullyClean: root.
+	
+	brick wrappedBounds markWidthDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthDirty.
+	self assert: brick wrappedBounds isHeightClean.
+	
+	self assert: root wrappedBounds isWidthClean.
+	self assert: root wrappedBounds isHeightClean.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneParentInStaticHeight [
+	|root brick|
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickWithFullFill.
+	root addBrickBack: brick.
+	self markFullyClean: root.
+	
+	brick wrappedBounds markHeightDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthClean.
+	self assert: brick wrappedBounds isHeightDirty.
+	
+	self assert: root wrappedBounds isWidthClean.
+	self assert: root wrappedBounds isHeightClean.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneParentInStaticWidth [
+	|root brick|
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickWithFullFill.
+	root addBrickBack: brick.
+	self markFullyClean: root.
+	
+	brick wrappedBounds markWidthDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthDirty.
+	self assert: brick wrappedBounds isHeightClean.
+	
+	self assert: root wrappedBounds isWidthClean.
+	self assert: root wrappedBounds isHeightClean.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneParentWidth [
+	|brick|
+	
+	brick := self newBrickWithFullFill.
+	self markFullyClean: brick.
+	
+	brick wrappedBounds markWidthDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthDirty.
+	self assert: brick wrappedBounds isHeightClean.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneStaticHeight [
+	|brick|
+	
+	brick := self newBrickWithStaticExtent.
+	self markFullyClean: brick.
+	
+	brick wrappedBounds markHeightDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthClean.
+	self assert: brick wrappedBounds isHeightDirty.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneStaticInChildrenHeight [
+	|root brick|
+	
+	root := self newBrickWithFullDependsOnChildren.
+	brick := self newBrickWithStaticExtent.
+	root addBrickBack: brick.
+	self markFullyClean: root.
+	
+	brick wrappedBounds markHeightDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthClean.
+	self assert: brick wrappedBounds isHeightDirty.
+	
+	self assert: root wrappedBounds isWidthClean.
+	self assert: root wrappedBounds isHeightDirty.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneStaticInChildrenWidth [
+	|root brick|
+	
+	root := self newBrickWithFullDependsOnChildren.
+	brick := self newBrickWithStaticExtent.
+	root addBrickBack: brick.
+	self markFullyClean: root.
+	
+	brick wrappedBounds markWidthDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthDirty.
+	self assert: brick wrappedBounds isHeightClean.
+	
+	self assert: root wrappedBounds isWidthDirty.
+	self assert: root wrappedBounds isHeightClean.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneStaticInParentHeight [
+	|root brick|
+	
+	root := self newBrickWithFullFill.
+	brick := self newBrickWithStaticExtent.
+	root addBrickBack: brick.
+	self markFullyClean: root.
+	
+	brick wrappedBounds markHeightDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthClean.
+	self assert: brick wrappedBounds isHeightDirty.
+	
+	self assert: root wrappedBounds isWidthClean.
+	self assert: root wrappedBounds isHeightClean.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneStaticInParentWidth [
+	|root brick|
+	
+	root := self newBrickWithFullFill.
+	brick := self newBrickWithStaticExtent.
+	root addBrickBack: brick.
+	self markFullyClean: root.
+	
+	brick wrappedBounds markWidthDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthDirty.
+	self assert: brick wrappedBounds isHeightClean.
+	
+	self assert: root wrappedBounds isWidthClean.
+	self assert: root wrappedBounds isHeightClean.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneStaticInStaticHeight [
+	|root brick|
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickWithStaticExtent.
+	root addBrickBack: brick.
+	self markFullyClean: root.
+	
+	brick wrappedBounds markHeightDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthClean.
+	self assert: brick wrappedBounds isHeightDirty.
+	
+	self assert: root wrappedBounds isWidthClean.
+	self assert: root wrappedBounds isHeightClean.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneStaticInStaticWidth [
+	|root brick|
+	
+	root := self newBrickWithStaticExtent.
+	brick := self newBrickWithStaticExtent.
+	root addBrickBack: brick.
+	self markFullyClean: root.
+	
+	brick wrappedBounds markWidthDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthDirty.
+	self assert: brick wrappedBounds isHeightClean.
+	
+	self assert: root wrappedBounds isWidthClean.
+	self assert: root wrappedBounds isHeightClean.
+]
+
+{ #category : #'tests-marker' }
+GLMBrickTests >> testMarkerOneStaticWidth [
+	|brick|
+	
+	brick := self newBrickWithStaticExtent.
+	self markFullyClean: brick.
+	
+	brick wrappedBounds markWidthDirty.
+	GLMBrickLayouter uniqueInstance markDependent: brick.
+	
+	self assert: brick wrappedBounds isWidthDirty.
+	self assert: brick wrappedBounds isHeightClean.
 ]
 
 { #category : #'tests-geometry' }
