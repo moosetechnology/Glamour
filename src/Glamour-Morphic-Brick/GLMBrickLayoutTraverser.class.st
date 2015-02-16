@@ -197,6 +197,8 @@ GLMBrickLayoutTraverser >> layoutParentDependency: aBrick [
 GLMBrickLayoutTraverser >> layoutSubbricks: aBrick [
 
 	aBrick isBrick ifFalse: [ ^ self ].
+	((self isClean: aBrick) & (self isOppositeClean: aBrick))
+		ifFalse: [ ^ self ].
 	aBrick invalidateLayout.
 	aBrick onChildrenLayouted
 ]
