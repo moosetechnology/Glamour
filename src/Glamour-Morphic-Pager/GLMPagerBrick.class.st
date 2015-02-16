@@ -195,8 +195,8 @@ GLMPagerBrick >> showOrHideScrollBar [
 	
 	((self pagerModel size > 1) & (self showScrollBarWhenNeeded))
 		ifTrue: [ (self hasSubbrick: self pagerBar)
-			ifFalse: [ self addBrickBack: self pagerBar. self update ] ]
-		ifFalse: [ self removeBrick: self pagerBar. self update ].
+			ifFalse: [ self addBrickBack: self pagerBar ] ]
+		ifFalse: [ self removeBrick: self pagerBar ].
 ]
 
 { #category : #'pager-accessing' }
@@ -210,11 +210,4 @@ GLMPagerBrick >> showScrollBarWhenNeeded [
 GLMPagerBrick >> showScrollBarWhenNeeded: aBoolean [
 
 	showScrollBarWhenNeeded := aBoolean
-]
-
-{ #category : #'pager-actions' }
-GLMPagerBrick >> update [
-
-	self doLayoutForce.
-	self changed
 ]

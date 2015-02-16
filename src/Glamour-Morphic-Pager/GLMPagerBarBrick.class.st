@@ -60,7 +60,7 @@ GLMPagerBarBrick >> onPagePoped [
 GLMPagerBarBrick >> onPagePushed: addedAnnouncement [
 
 	self buttonsBrick onPagePushed: addedAnnouncement.
-	self recomputeScrollBar.
+	self recomputeScrollBar
 ]
 
 { #category : #'bar-accessing' }

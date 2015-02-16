@@ -23,6 +23,8 @@ GLMPagerScrollBrick >> band: aBrick [
 
 	band := aBrick.
 	band
+		useHorizontalLinearLayout;
+		layoutMorphs: true;
 		width: [ self band subbricksCount * self width / ((self maxPanes min: self band subbricksCount) max: 1) ];
 		vSpaceFill.
 	"band actually depends from myself,
@@ -114,15 +116,14 @@ GLMPagerScrollBrick >> maxPanes: anInteger [
 { #category : #'instance creation' }
 GLMPagerScrollBrick >> newBand [
 
-	^ GLMBrick new
+	^ GLMScrollPaneBandBrick new
 ]
 
 { #category : #'brick-layout-events' }
-GLMPagerScrollBrick >> onLayouted [
-	super onLayouted.
+GLMPagerScrollBrick >> onChildrenLayouted [
+	super onChildrenLayouted.
 	
-	self band translateX: self band brickBounds left negated.
-	self band translateX: (self convertScrollValue: (self pagerModel convertIndexToValue: self pagerModel firstVisiblePageIndex)).
+	self band translateXTo: (self convertScrollValue: (self pagerModel convertIndexToValue: self pagerModel firstVisiblePageIndex))
 ]
 
 { #category : #'event-handling' }
@@ -140,7 +141,7 @@ GLMPagerScrollBrick >> onPagePreviewUpdate: updateAnnouncement [
 GLMPagerScrollBrick >> onPagePushed: pushedAnnouncement [
 
 	"added new page to the end of pane"
-	self pushPane: pushedAnnouncement morph.
+	self pushPane: pushedAnnouncement morph
 	
 	
 	
@@ -160,6 +161,7 @@ GLMPagerScrollBrick >> onPagesNumberChanged [
 
 { #category : #'event-handling' }
 GLMPagerScrollBrick >> onPositionChanged: announcement [
+
 
 	self scrollToPane: pagerModel firstVisiblePageIndex smooth: announcement smooth callback: announcement callback
 ]
@@ -259,8 +261,8 @@ GLMPagerScrollBrick >> panes [
 { #category : #api }
 GLMPagerScrollBrick >> popPane [
 	
-	self band removeBrick: (self band lastSubbrick).
-	self changed.
+	self band doNotLayoutDuring: [ :b | b removeBrick: b lastSubbrick ].
+	self doLayoutForce
 ]
 
 { #category : #api }
@@ -268,8 +270,11 @@ GLMPagerScrollBrick >> popPane: isSmooth [
 
 	(isSmooth not or: [self lastPane isNil]) ifTrue: [ ^ self popPane ].
 	
-	self band removeBrick: (self band lastSubbrick).
-	self scrollTo: (pagerModel convertIndexToValue: pagerModel firstVisiblePageIndex with: self band subbricksCount) smooth: true callback: [ self changed ]
+	self band doNotLayoutDuring: [ :b | b removeBrick: b lastSubbrick ].
+	self
+		scrollTo: (pagerModel convertIndexToValue: pagerModel firstVisiblePageIndex with: self band subbricksCount)
+		smooth: true
+		callback: [ self doLayoutForce ]
 ]
 
 { #category : #api }
@@ -286,14 +291,14 @@ GLMPagerScrollBrick >> pushPane: aMorph [
 		
 	brick layout widthDependency: self band.
 	
-	self band addBrickBack: brick.
-	self changed
+	self band doNotLayoutDuring: [ :b | b addBrickBack: brick ].
+	self doLayoutForce
 ]
 
 { #category : #scrolling }
 GLMPagerScrollBrick >> scrollTo: aValue smooth: isSmooth [
 
- 	self scrollTo: aValue smooth: isSmooth callback: nil 
+ 	self scrollTo: aValue smooth: isSmooth callback: nil
 ]
 
 { #category : #scrolling }
@@ -326,21 +331,14 @@ GLMPagerScrollBrick >> scrollValue: value [
 	
 	currentScrollDelta := value.
 	
-	self changed.
-	self band translateX: self band brickBounds left negated.
-	self band translateX: self scrollValue.
-	self changed
+	self band changed.
+	1 to: 100000 do: [ :i | i + 1 ].
+	self band doNotLayoutDuring: [ :b | b translateXTo: self scrollValue ].
+	self band changed
 ]
 
 { #category : #scrolling }
 GLMPagerScrollBrick >> updatePaneBounds [
 
 	self band updateMorphBounds
-]
-
-{ #category : #scrolling }
-GLMPagerScrollBrick >> updatePanes [
-	
-	"self doLayoutForce."
-	self changed
 ]

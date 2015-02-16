@@ -8,7 +8,8 @@ Class {
 		'resizingZoneWidth',
 		'isRightResizing',
 		'isLeftResizing',
-		'pagerModel'
+		'pagerModel',
+		'leftPosition'
 	],
 	#category : #'Glamour-Morphic-Pager-Brick'
 }
@@ -120,6 +121,18 @@ GLMPagerScrollSlidingBrick >> isRightResizingZone: evt [
 	
 ]
 
+{ #category : #'slider-accessing' }
+GLMPagerScrollSlidingBrick >> leftPosition [
+
+	^ leftPosition ifNil: [ leftPosition := 0 ]
+]
+
+{ #category : #'slider-accessing' }
+GLMPagerScrollSlidingBrick >> leftPosition: anInteger [
+
+	leftPosition := anInteger
+]
+
 { #category : #'event-mouse' }
 GLMPagerScrollSlidingBrick >> mouseDown: evt [
 
@@ -172,15 +185,29 @@ GLMPagerScrollSlidingBrick >> mouseUp: evt [
 
 { #category : #'slider-scrolling' }
 GLMPagerScrollSlidingBrick >> moveLeft: left [ "Integer - pixels"
-
 	"moves scrollbar inside parent to the specified left distance in pixels and notifies all listeners about that"
+	"Highly optimised to not update layout during moving"
 	| right |
 	right := left + self width.
-	self marginLeft: left.
-	self doLayoutForce.
-	self owner changed.
+	self changedWith: [ :b |
+		b translateXTo: left.
+		b leftPosition: left ].
 	
 	pagerModel notifyScrollerBoundsChanged: left@right
+]
+
+{ #category : #'brick-layout-events' }
+GLMPagerScrollSlidingBrick >> onChildrenLayouted [
+	super onChildrenLayouted.
+	"'slider onChildrenLayouted' logCr."
+	self translateXTo: self leftPosition
+]
+
+{ #category : #'brick-layout-events' }
+GLMPagerScrollSlidingBrick >> onLayouted [
+	super onLayouted.
+	"'slider onLayouted' logCr."
+	self translateXTo: self leftPosition
 ]
 
 { #category : #'announcement handling' }
@@ -256,9 +283,13 @@ GLMPagerScrollSlidingBrick >> setCursorToResizing: evt [
 GLMPagerScrollSlidingBrick >> setPosition: aPoint [
 	"aPoint x - is my bounds left
 	aPoint y - is my bounds right"
-	self marginLeft: aPoint x.
-	self width: aPoint y - aPoint x.
-	self owner changed.
+	"highly optimised to not update layout and do everything very clean"
+	self changedWith: [ :b | b
+			translateXTo: aPoint x;
+			leftPosition: aPoint x;
+			doNotLayoutDuring: [
+				b width: aPoint y - aPoint x.
+				b wrappedBounds markWidthClean ] ].
 	
 	self pagerModel notifyScrollerBoundsChanged: aPoint
 ]

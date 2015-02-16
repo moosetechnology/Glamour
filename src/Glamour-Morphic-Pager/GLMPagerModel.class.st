@@ -13,7 +13,8 @@ Class {
 		'virtualFirstVisiblePageIndex',
 		'virtualLastVisiblePageIndex',
 		'scrollButtonIconRenderBlock',
-		'isDependenciesShown'
+		'isDependenciesShown',
+		'scrollToRightTask'
 	],
 	#category : #'Glamour-Morphic-Pager-Model'
 }
@@ -275,7 +276,7 @@ GLMPagerModel >> notifyPagePushed: aMorph scrollTo: isScroll smooth: isSmooth [
 	
 	self announcer announce: (GLMPagePushed new morph: aMorph).
 	
-	isScroll ifTrue: [self scrollToRight: isSmooth ]
+	isScroll ifTrue: [ self scrollToRightTask execute: { isSmooth } ]
 ]
 
 { #category : #notifying }
@@ -407,7 +408,7 @@ GLMPagerModel >> pushPane: aMorph smooth: aBoolean [
 		].
 	
 	self notifyPagePushed: aMorph scrollTo: true smooth: aBoolean.
-	self size = 1 ifTrue: [ self notifySelectedPageChanged ].
+	"self size = 1 ifTrue: [ self notifySelectedPageChanged ]."
 	
 	self invariant.
 ]
@@ -492,6 +493,17 @@ GLMPagerModel >> scrollToRight: isSmooth [
 	"notifies all listeners that it is time to scroll most right"
 
 	self scrollTo: 1.0 smooth: isSmooth
+]
+
+{ #category : #scrolling }
+GLMPagerModel >> scrollToRightTask [
+
+	^ scrollToRightTask ifNil: [
+		scrollToRightTask := GLMAsyncTask new.
+		scrollToRightTask
+			doInBackground: [ :isSmooth | isSmooth ];
+			onCompleted: [ :isSmooth | self scrollToRight: isSmooth ];
+			delay: 100 ]
 ]
 
 { #category : #panes }

@@ -25,7 +25,6 @@ GLMPagerButtonsPaneBrick >> addButton: aBrick [
 	aBrick width: self pagerModel circleButtonSize.
 	
 	self addBrickBack: aBrick.
-	self changed.
 	
 	(self buttons size = 1) ifTrue: [ self updateButtonsFocus ].
 		
