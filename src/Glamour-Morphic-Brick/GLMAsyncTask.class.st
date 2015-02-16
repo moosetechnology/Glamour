@@ -9,10 +9,32 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'process',
-		'callback'
+		'callback',
+		'delay',
+		'task',
+		'priority',
+		'arguments'
 	],
 	#category : #'Glamour-Morphic-Brick-Async'
 }
+
+{ #category : #accessing }
+GLMAsyncTask >> arguments [
+
+	^ arguments ifNil: [ arguments := {  } ]
+]
+
+{ #category : #scripting }
+GLMAsyncTask >> arguments: aCollection [
+
+	arguments := aCollection
+]
+
+{ #category : #accessing }
+GLMAsyncTask >> callback [
+
+	^ callback ifNil: [ callback := [  ] ]
+]
 
 { #category : #async }
 GLMAsyncTask >> complete: anObject callback: aBlock [
@@ -23,27 +45,76 @@ GLMAsyncTask >> complete: anObject callback: aBlock [
 	callback = aBlock ifFalse: [ ^ self terminate ].
 	
 	callback ifNotNil: [ callback cull: anObject ].
-	process := nil.
+	process := nil
+]
+
+{ #category : #accessing }
+GLMAsyncTask >> delay [
+
+	^ delay ifNil: [ delay := 0 ]
+]
+
+{ #category : #scripting }
+GLMAsyncTask >> delay: anInteger [
+
+	delay := anInteger
+]
+
+{ #category : #scripting }
+GLMAsyncTask >> doInBackground: aBlock [
+
+	task := aBlock
+]
+
+{ #category : #scripting }
+GLMAsyncTask >> execute [
+
+	^ self execute: self arguments
+]
+
+{ #category : #scripting }
+GLMAsyncTask >> execute: anArguments [
+
+	^ self
+		execute: self task
+		withArguments: anArguments
+		callback: self callback
+		priority: self priority
+		delay: self delay
 ]
 
 { #category : #async }
 GLMAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBlock [
 	"execution happens with UI process priority so that communication with UI can be done in real time"
 	
-	^ self execute: aBlock withArguments: aCollection callback: callbackBlock priority: Processor userSchedulingPriority
+	^ self
+		execute: aBlock
+		withArguments: aCollection
+		callback: callbackBlock
+		priority: Processor userSchedulingPriority
 ]
 
 { #category : #async }
 GLMAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBlock delay: anIntegerMilliseconds [
 	"execution happens with UI process priority so that communication with UI can be done in real time"
 	
-	^ self execute: aBlock withArguments: aCollection callback: callbackBlock priority: Processor userSchedulingPriority delay: anIntegerMilliseconds
+	^ self
+		execute: aBlock
+		withArguments: aCollection
+		callback: callbackBlock
+		priority: Processor userSchedulingPriority
+		delay: anIntegerMilliseconds
 ]
 
 { #category : #async }
 GLMAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBlock priority: aPriority [
 		
-	^ self execute: aBlock withArguments: aCollection callback: callbackBlock priority: aPriority delay: 0
+	^ self
+		execute: aBlock
+		withArguments: aCollection
+		callback: callbackBlock
+		priority: aPriority
+		delay: 0
 ]
 
 { #category : #async }
@@ -65,7 +136,13 @@ GLMAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBlo
 	^ self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #scripting }
+GLMAsyncTask >> onCompleted: aBlock [
+
+	callback := aBlock
+]
+
+{ #category : #async }
 GLMAsyncTask >> perform: aBlock delay: anInteger [
 
 	self
@@ -75,7 +152,7 @@ GLMAsyncTask >> perform: aBlock delay: anInteger [
 		delay: anInteger
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #async }
 GLMAsyncTask >> perform: aBlock delay: anInteger priority: aPriority [
 
 	self
@@ -86,9 +163,26 @@ GLMAsyncTask >> perform: aBlock delay: anInteger priority: aPriority [
 		delay: anInteger
 ]
 
+{ #category : #accessing }
+GLMAsyncTask >> priority [
+
+	^ priority ifNil: [ priority := Processor userSchedulingPriority ]
+]
+
+{ #category : #scripting }
+GLMAsyncTask >> priority: anInteger [
+
+	priority := anInteger
+]
+
+{ #category : #accessing }
+GLMAsyncTask >> task [
+
+	^ task ifNil: [ task := [  ] ]
+]
+
 { #category : #async }
 GLMAsyncTask >> terminate [
 
-	process ifNotNil: [ process terminate. process := nil ].
-	callback := nil.
+	process ifNotNil: [ process terminate. process := nil ]
 ]

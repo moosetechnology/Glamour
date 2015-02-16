@@ -7,73 +7,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
-{ #category : #examples }
-GLMHorizontalLinearLayout class >> example [
-	<example>
-	| brick brick1 brick2 |
-	brick := GLMBrick new
-		color: Color blue;
-		layout: self new;
-		hShrinkWrap;
-		height: 200.
-		
-	brick1 := GLMBrick new
-		color: Color red;
-		layout: self new;
-		width: 100;
-		vSpaceFill.
-		
-	brick2 := GLMBrick new
-		color: Color green;
-		layout: self new;
-		width: 150;
-		height: 50.
-		
-	brick
-		addBrickBack: brick1;
-		addBrickBack: brick2.
-		
-	brick asBrickedMorph
-		color: Color white;
-		openInWindow
-]
-
-{ #category : #examples }
-GLMHorizontalLinearLayout class >> example2 [
-	<example>
-	| brick brick1 brick2 brick3|
-	brick := GLMBrick new
-		color: Color blue;
-		layout: self new;
-		width: 400;
-		height: 300.
-		
-	brick1 := GLMBrick new
-		color: Color red;
-		layout: self new;
-		hSpaceFill: 75;
-		vSpaceFill: 25.
-	
-	brick2 := GLMBrick new
-		color: Color green;
-		layout: self new;
-		hSpaceFill: 25;
-		vSpaceFill: 75.
-	
-	brick3 := GLMBrick new
-		color: Color yellow;
-		layout: self new;
-		width: 50;
-		height: 50.
-	
-	brick
-		addBrickBack: brick1;
-		addBrickBack: brick2;
-		addBrickBack: brick3.
-		
-	brick asBrickedMorph
-		color: Color white;
-		openInWindow
+{ #category : #accessing }
+GLMHorizontalLinearLayout class >> reset [
+	"
+	self reset
+	"
+	uniqueInstance := nil
 ]
 
 { #category : #accessing }
