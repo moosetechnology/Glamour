@@ -15,7 +15,8 @@ Class {
 		'scrollButtonIconRenderBlock',
 		'isDependenciesShown',
 		'scrollToRightTask',
-		'isNotificationsAllowed'
+		'isNotificationsAllowed',
+		'scrollingDelay'
 	],
 	#category : #'Glamour-Morphic-Pager-Model'
 }
@@ -101,7 +102,7 @@ GLMPagerModel >> diminishToRight [
 { #category : #'as yet unclassified' }
 GLMPagerModel >> doNotNotifyDuring: aBlock [
 	|allowed|
-	allowed := isNotificationsAllowed.
+	allowed := self isNotificationsAllowed.
 	isNotificationsAllowed := false.
 	aBlock cull: self.
 	allowed ifTrue: [ isNotificationsAllowed := true ]
@@ -305,7 +306,10 @@ GLMPagerModel >> notifyPagePushed: aMorph scrollTo: isScroll smooth: isSmooth [
 	
 	self notifyAll: (GLMPagePushed new morph: aMorph).
 	
-	isScroll ifTrue: [ self scrollToRightTask execute: { isSmooth } ]
+	isScroll ifTrue: [
+		self scrollingDelay > 0
+			ifTrue: [ self scrollToRightTask execute: { isSmooth } ]
+			ifFalse: [ self scrollToRight: isSmooth ] ]
 ]
 
 { #category : #notifying }
@@ -535,7 +539,19 @@ GLMPagerModel >> scrollToRightTask [
 		scrollToRightTask
 			doInBackground: [ :isSmooth | isSmooth ];
 			onCompleted: [ :isSmooth | self scrollToRight: isSmooth ];
-			delay: 100 ]
+			delay: self scrollingDelay ]
+]
+
+{ #category : #scrolling }
+GLMPagerModel >> scrollingDelay [
+
+	^ scrollingDelay ifNil: [ scrollingDelay := 100 ]
+]
+
+{ #category : #accessing }
+GLMPagerModel >> scrollingDelay: anInteger [
+
+	scrollingDelay := anInteger
 ]
 
 { #category : #panes }

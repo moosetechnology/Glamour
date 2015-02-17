@@ -172,8 +172,7 @@ GLMPagerScrollBrick >> onPagesNumberChanged [
 
 	self maxPanes: pagerModel numberOfVisiblePages.
 	self doLayoutForce.
-	self scrollToPane: pagerModel firstVisiblePageIndex smooth: false.
-	self changed.
+	self scrollToPane: pagerModel firstVisiblePageIndex smooth: false
 	
 ]
 
