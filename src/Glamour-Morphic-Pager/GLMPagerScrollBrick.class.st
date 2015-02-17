@@ -7,10 +7,17 @@ Class {
 		'pagerModel',
 		'maxPanes',
 		'focus',
-		'currentScrollDelta'
+		'currentScrollDelta',
+		'animation'
 	],
 	#category : #'Glamour-Morphic-Pager-Brick'
 }
+
+{ #category : #accessing }
+GLMPagerScrollBrick >> animation [
+
+	^ animation
+]
 
 { #category : #accessing }
 GLMPagerScrollBrick >> band [
@@ -61,27 +68,16 @@ GLMPagerScrollBrick >> glmAnimateValue: aValue duration: anInteger [
 
 { #category : #scrolling }
 GLMPagerScrollBrick >> glmAnimateValue: aValue duration: anInteger callback: aBlock [
-
-	anInteger <= 0
-		"if duration is zero, move to the left immediately"
-		ifTrue: [ self leftTo: aValue ]
-		ifFalse: [
-			| startTime start finish currentValue |
-			currentValue := self scrollValue.
-			startTime := Time millisecondClockValue.
-			start := currentValue.
-			finish := self convertScrollValue: aValue.
-			[ | delta |
-				[ (delta := Time millisecondClockValue - startTime) < anInteger ] whileTrue: [
-					self scrollValue: (finish - start) * (delta / anInteger) + start.
-					Processor yield.
-				].
-				self scrollValue: finish.
-				Processor yield.
-				self updatePaneBounds.
-				aBlock ifNotNil: [ aBlock value ].
-			] fork
-		]
+	
+	self animation ifNotNil: #terminate.
+	animation := GLMAnimation new
+		duration: 300;
+		from: self scrollValue;
+		to: (self convertScrollValue: aValue);
+		step: [ :b :from :to :delta | (to - from) * delta + from ];
+		onCompleted: [ :b | b updatePaneBounds. aBlock brickValue: b ];
+		animation: [ :b :v | b scrollValue: v ];
+		animate: self
 ]
 
 { #category : #initialization }
@@ -331,10 +327,8 @@ GLMPagerScrollBrick >> scrollValue: value [
 	
 	currentScrollDelta := value.
 	
-	self band changed.
-	1 to: 100000 do: [ :i | i + 1 ].
 	self band doNotLayoutDuring: [ :b | b translateXTo: self scrollValue ].
-	self band changed
+	self changed
 ]
 
 { #category : #scrolling }
