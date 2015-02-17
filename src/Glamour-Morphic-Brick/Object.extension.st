@@ -13,6 +13,12 @@ Object >> brickValue: aBrick [
 ]
 
 { #category : #'*Glamour-Morphic-Brick' }
+Object >> brickValue: anObject withEnoughArguments: aCollection [
+
+	^ self
+]
+
+{ #category : #'*Glamour-Morphic-Brick' }
 Object >> phlowValue: anObject [
 
 	^ self

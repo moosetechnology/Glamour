@@ -1,6 +1,12 @@
 Extension { #name : #UndefinedObject }
 
 { #category : #'*Glamour-Morphic-Brick' }
+UndefinedObject >> brickValue: anObject withEnoughArguments: aCollection [
+
+	^ anObject
+]
+
+{ #category : #'*Glamour-Morphic-Brick' }
 UndefinedObject >> phlowValue: anObject [
 
 	^ anObject

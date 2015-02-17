@@ -143,6 +143,12 @@ GLMAsyncTask >> onCompleted: aBlock [
 ]
 
 { #category : #async }
+GLMAsyncTask >> pause [
+
+	process ifNotNil: [ process suspend ]
+]
+
+{ #category : #async }
 GLMAsyncTask >> perform: aBlock delay: anInteger [
 
 	self
@@ -173,6 +179,12 @@ GLMAsyncTask >> priority [
 GLMAsyncTask >> priority: anInteger [
 
 	priority := anInteger
+]
+
+{ #category : #async }
+GLMAsyncTask >> resume [
+
+	process ifNotNil: [ process resume ]
 ]
 
 { #category : #accessing }
