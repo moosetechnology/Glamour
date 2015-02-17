@@ -51,10 +51,12 @@ GLMAnimation >> animationStep [
 	|delta stepValue currentTime stop|
 	self needsStep: false.
 	currentTime := Time millisecondClockValue.
-	stop := currentTime > self finishTime.
+	stop := currentTime >= self finishTime.
 	delta := self duration = 0
 		ifTrue: [ 1 ]
 		ifFalse: [ ((currentTime - startTime) min: self duration) / self duration ].
+		
+	delta = 1 ifTrue: [ stop := true ].
 	
 	stepValue := stepLogic
 		brickValue: self animatedObject
