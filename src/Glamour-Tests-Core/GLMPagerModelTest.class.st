@@ -16,7 +16,7 @@ GLMPagerModelTest >> createSimplePaneMorph [
 { #category : #running }
 GLMPagerModelTest >> setUp [
 
-	pagerModel := GLMPagerModel new.
+	pagerModel := GLMPagerModel new scrollingDelay: 0.
 	pagerModel defaultNumberOfVisiblePages: 2.
 ]
 
