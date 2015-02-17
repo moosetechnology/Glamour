@@ -75,7 +75,8 @@ Class {
 		'verticalPercent',
 		'widthDependencies',
 		'zIndex',
-		'minWidth'
+		'minWidth',
+		'isDirty'
 	],
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
@@ -169,6 +170,30 @@ GLMBrickLayoutProperties >> heightDependencies [
 GLMBrickLayoutProperties >> heightDependency: anObject [
 
 	self heightDependencies add: anObject
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> isClean [
+
+	^ self isDirty not
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> isDirty [
+
+	^ isDirty ifNil: [ isDirty := true ]
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> markClean [
+
+	isDirty := false
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> markDirty [
+
+	isDirty := true
 ]
 
 { #category : #accessing }

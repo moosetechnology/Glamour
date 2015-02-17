@@ -80,6 +80,22 @@ GLMBrickLayoutTraverser >> isDependsOnParent: aBrick [
 ]
 
 { #category : #private }
+GLMBrickLayoutTraverser >> isLayoutClean: aBrick [
+
+	^ aBrick
+		ifNotNil: [ :b | b layout isClean ]
+		ifNil: [ true ]
+]
+
+{ #category : #private }
+GLMBrickLayoutTraverser >> isLayoutDirty: aBrick [
+
+	^ aBrick
+		ifNotNil: [ :b | b layout isDirty ]
+		ifNil: [ true ]
+]
+
+{ #category : #private }
 GLMBrickLayoutTraverser >> isOppositeClean: aBrick [
 
 	^ self subclassResponsibility
@@ -96,7 +112,7 @@ GLMBrickLayoutTraverser >> layoutAround: aBrick inContext: aContextBrick [
 	"want to layout non-Brick object? nice try, bro."
 	aBrick isBrick ifFalse: [ ^ self ].
 	"if my dimension is clean why do you want to layout me?"
-	(self isClean: aBrick) ifTrue: [ ^ self layoutSubbricks: aBrick ].
+	(self isClean: aBrick) ifTrue: [ ^ self ].
 	self flag: 'find better place'.
 	aBrick changed.
 	"custom dependencies are very dangerous, as it's complicated
@@ -125,10 +141,7 @@ GLMBrickLayoutTraverser >> layoutAround: aBrick inContext: aContextBrick [
 	
 	"and finally we position them"
 	self layoutSubbricks: aBrick.
-	
-	self flag: 'refactor it'.
-	(aBrick layout vAlign = #none) not | (aBrick layout hAlign = #none) not ifTrue: [
-		aBrick owner ifNotNil: [ self layoutSubbricks: aBrick owner ] ].
+	self layoutSubbricks: aBrick owner.
 
 ]
 
@@ -195,11 +208,16 @@ GLMBrickLayoutTraverser >> layoutParentDependency: aBrick [
 
 { #category : #private }
 GLMBrickLayoutTraverser >> layoutSubbricks: aBrick [
-
+	aBrick ifNil: [ ^ self ].
 	aBrick isBrick ifFalse: [ ^ self ].
 	((self isClean: aBrick) & (self isOppositeClean: aBrick))
 		ifFalse: [ ^ self ].
+	(self isLayoutClean: aBrick) ifTrue: [ ^ self ].
+	(aBrick subbricks allSatisfy: [ :each | each isBrick ifTrue: [ (self isClean: each) & (self isOppositeClean: each) ] ifFalse: [ false ] ])
+		ifFalse: [ ^ self ].
+	
 	aBrick invalidateLayout.
+	self markLayoutClean: aBrick.
 	aBrick onChildrenLayouted
 ]
 
@@ -277,6 +295,18 @@ GLMBrickLayoutTraverser >> markDirtyCustomDependency: aBrick inContext: aContext
 							(self isClean: brick) ifTrue: [
 								self markDirty: brick.
 								self markDirtyAround: brick inContext: aBrick ] ] ] ] ]
+]
+
+{ #category : #private }
+GLMBrickLayoutTraverser >> markLayoutClean: aBrick [
+
+	aBrick ifNotNil: [ :b | b layout markClean ]
+]
+
+{ #category : #private }
+GLMBrickLayoutTraverser >> markLayoutDirty: aBrick [
+
+	aBrick ifNotNil: [ :b | b isBrick ifTrue: [ b layout markDirty ] ]
 ]
 
 { #category : #private }

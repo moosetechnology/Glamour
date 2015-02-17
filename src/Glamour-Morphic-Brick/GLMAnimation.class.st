@@ -55,13 +55,12 @@ GLMAnimation >> animationStep [
 	delta := self duration = 0
 		ifTrue: [ 1 ]
 		ifFalse: [ ((currentTime - startTime) min: self duration) / self duration ].
-		
 	delta = 1 ifTrue: [ stop := true ].
-	
 	stepValue := stepLogic
 		brickValue: self animatedObject
 		withEnoughArguments: { self fromValue . self toValue . delta }.
-		
+	(delta = 1) | (stepValue = self toValue) ifTrue: [ stop := true ].
+	
 	UIManager default defer: [
 		self asyncTask isTerminated ifFalse: [
 			animationLogic brickValue: self animatedObject withEnoughArguments: { stepValue }.

@@ -86,6 +86,7 @@ GLMBrickWidthTraverser >> markClean: aBrick [
 { #category : #private }
 GLMBrickWidthTraverser >> markDirty: aBrick [
 
+	self markLayoutDirty: aBrick owner.
 	aBrick wrappedBounds markWidthDirty
 	
 ]

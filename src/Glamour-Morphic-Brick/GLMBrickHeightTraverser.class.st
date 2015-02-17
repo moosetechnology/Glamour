@@ -83,6 +83,7 @@ GLMBrickHeightTraverser >> markClean: aBrick [
 { #category : #private }
 GLMBrickHeightTraverser >> markDirty: aBrick [
 
+	self markLayoutDirty: aBrick owner.
 	aBrick wrappedBounds markHeightDirty
 ]
 
