@@ -13,7 +13,8 @@ Class {
 	#superclass : #GLMInteractableBrick,
 	#instVars : [
 		'action',
-		'hoverAction'
+		'hoverAction',
+		'unhoverAction'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
@@ -34,6 +35,12 @@ GLMActionButtonBrick >> addHoverAction: anObject [
 ]
 
 { #category : #adding }
+GLMActionButtonBrick >> addUnhoverAction: anObject [
+
+	unhoverAction := anObject
+]
+
+{ #category : #adding }
 GLMActionButtonBrick >> addUpAction: anActionOrBlock [
 
 	anActionOrBlock isBlock
@@ -50,6 +57,13 @@ GLMActionButtonBrick >> click: evt [
 		ifFalse: [ action performOn: self data ].
 	
 	^ true
+]
+
+{ #category : #actions }
+GLMActionButtonBrick >> deselect: anEvent [
+	super deselect: anEvent.
+	
+	unhoverAction ifNotNil: [ :a | a cull: self cull: anEvent ]
 ]
 
 { #category : #accessing }

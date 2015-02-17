@@ -8,7 +8,8 @@ Class {
 		'hintModifier'
 	],
 	#classInstVars : [
-		'asyncTask'
+		'asyncTask',
+		'hintBrick'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
@@ -19,40 +20,65 @@ GLMHintableActionButtonBrick class >> asyncTaskUniqueInstance [
 	^ asyncTask ifNil: [ asyncTask := GLMAsyncTask new ]
 ]
 
+{ #category : #actions }
+GLMHintableActionButtonBrick class >> closeHint [
+
+	self hintBrickUniqueInstance ifNotNil: #close
+]
+
 { #category : #'as yet unclassified' }
+GLMHintableActionButtonBrick class >> hintBrickUniqueInstance [
+
+	^ hintBrick
+]
+
+{ #category : #actions }
+GLMHintableActionButtonBrick class >> openHint: aHintString title: aTitleString type: aTypeSymbol for: aBrick [
+	|brick|
+	
+	self closeHint.
+	brick :=  GLMPopupBrick new
+		hintText: aHintString;
+		titleText: aTitleString;
+		perform: aTypeSymbol withEnoughArguments: {  };
+		openFor: aBrick.
+		
+	hintBrick := brick
+		
+	
+]
+
+{ #category : #initialization }
 GLMHintableActionButtonBrick >> beError [
 
-	self addHoverAction: [ :b :evt |
-		self class asyncTaskUniqueInstance
-			perform: [ self isInWorld ifTrue: [ GLMPopupBrick new titleText: self hintTitle; hintText: self hintText; beError; openFor: self ] ]
-			delay: ((self isModifierPressed: evt) ifTrue: [ 0 ] ifFalse: [ self hintDelay ]) ].
+	self beMode: #beError
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GLMHintableActionButtonBrick >> beHelp [
 
-	self addHoverAction: [ :b :evt |
-		self class asyncTaskUniqueInstance
-			perform: [ self isInWorld ifTrue: [ GLMPopupBrick new titleText: self hintTitle; hintText: self hintText; beHelp; openFor: self ] ]
-			delay: ((self isModifierPressed: evt) ifTrue: [ 0 ] ifFalse: [ self hintDelay ]) ].
+	self beMode: #beHelp
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
+GLMHintableActionButtonBrick >> beMode: aMode [
+
+	self addHoverAction: [ :aBrick :evt |
+			self class asyncTaskUniqueInstance
+				perform: [ self isInWorld ifTrue: [ self class openHint: self hintText title: self hintTitle type: aMode for: self ] ]
+				delay: ((self isModifierPressed: evt) ifTrue: [ 0 ] ifFalse: [ self hintDelay ]) ]
+]
+
+{ #category : #initialization }
 GLMHintableActionButtonBrick >> beNormal [
 
-	self addHoverAction: [ :b :evt |
-		self class asyncTaskUniqueInstance
-			perform: [ self isInWorld ifTrue: [ GLMPopupBrick new titleText: self hintTitle; hintText: self hintText; openFor: self ] ]
-			delay: ((self isModifierPressed: evt) ifTrue: [ 0 ] ifFalse: [ self hintDelay ]) ].
+	self beMode: #beNormal
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GLMHintableActionButtonBrick >> beSuccess [
 
-	self addHoverAction: [ :b :evt |
-		self class asyncTaskUniqueInstance
-			perform: [ self isInWorld ifTrue: [ GLMPopupBrick new titleText: self hintTitle; hintText: self hintText; beSuccess; openFor: self ] ]
-			delay: ((self isModifierPressed: evt) ifTrue: [ 0 ] ifFalse: [ self hintDelay ]) ].
+	self beMode: #beSuccess
 ]
 
 { #category : #actions }
@@ -113,10 +139,14 @@ GLMHintableActionButtonBrick >> hintTitle: anObject [
 GLMHintableActionButtonBrick >> initialize [
 	super initialize.
 	
-	self beHelp
+	self beHelp.
+	self addUnhoverAction: [ :aBrick :anEvent |
+		self class asyncTaskUniqueInstance terminate.
+		(aBrick globalBounds containsPoint: anEvent position)
+			ifFalse: [ self class closeHint ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 GLMHintableActionButtonBrick >> isModifierPressed: anEvent [
 
 	self hintModifier ifNil: [ ^ false ].

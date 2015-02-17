@@ -215,8 +215,13 @@ GLMInteractableBrick >> depress [
 GLMInteractableBrick >> deselect [
 	self isSelected ifTrue: [
 		isSelected := false.
-		self changed.
-	]
+		self changed ]
+]
+
+{ #category : #actions }
+GLMInteractableBrick >> deselect: anEvent [
+
+	self deselect
 ]
 
 { #category : #actions }
@@ -300,7 +305,7 @@ GLMInteractableBrick >> mouseEnter: evt [
 { #category : #'mouse events' }
 GLMInteractableBrick >> mouseLeave: evt [
 	super mouseLeave: evt.
-	^ self deselect
+	^ self deselect: evt
 ]
 
 { #category : #'mouse events' }
@@ -310,9 +315,8 @@ GLMInteractableBrick >> mouseUp: evt [
 		self depress.
 		^ self click: evt
 	] ifFalse: [
-		self deselect.
-		^ self depress.
-	]
+		self deselect: evt.
+		^ self depress ]
 ]
 
 { #category : #accessing }
