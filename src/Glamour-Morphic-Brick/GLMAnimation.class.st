@@ -30,7 +30,7 @@ GLMAnimation >> animate: anObject [
 		doInBackground: [ [ self shouldStop ] whileFalse: [
 				self needsStep ifTrue: [ self animationStep ] ] ];
 		onCompleted: [ callback brickValue: self animatedObject ];
-		priority: Processor lowestPriority;
+		priority: Processor userSchedulingPriority;
 		execute
 ]
 
@@ -61,10 +61,13 @@ GLMAnimation >> animationStep [
 		withEnoughArguments: { self fromValue . self toValue . delta }.
 		
 	UIManager default defer: [
-		animationLogic brickValue: self animatedObject withEnoughArguments: { stepValue }.
-		stop
-			ifFalse: [ self needsStep: true ]
-			ifTrue: [ self shouldStop: true ] ]
+		self asyncTask isTerminated ifFalse: [
+			animationLogic brickValue: self animatedObject withEnoughArguments: { stepValue }.
+			stop
+				ifFalse: [ self needsStep: true. self asyncTask resume ]
+				ifTrue: [ self shouldStop: true. self asyncTask resume ] ] ].
+		
+	self asyncTask pause
 	
 	
 ]

@@ -136,6 +136,13 @@ GLMAsyncTask >> execute: aBlock withArguments: aCollection callback: callbackBlo
 	^ self
 ]
 
+{ #category : #accessing }
+GLMAsyncTask >> isTerminated [
+
+	process ifNil: [ ^ true ].
+	^ process isTerminated
+]
+
 { #category : #scripting }
 GLMAsyncTask >> onCompleted: aBlock [
 
