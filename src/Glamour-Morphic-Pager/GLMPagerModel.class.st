@@ -14,7 +14,8 @@ Class {
 		'virtualLastVisiblePageIndex',
 		'scrollButtonIconRenderBlock',
 		'isDependenciesShown',
-		'scrollToRightTask'
+		'scrollToRightTask',
+		'isNotificationsAllowed'
 	],
 	#category : #'Glamour-Morphic-Pager-Model'
 }
@@ -95,6 +96,15 @@ GLMPagerModel >> diminishToRight [
 	self actualNumberOfVisiblePages = 1 ifTrue: [ ^ self ].
 	self virtualFirstVisiblePageIndex: (self firstVisiblePageIndex + 1).
 	self recomputeState.
+]
+
+{ #category : #'as yet unclassified' }
+GLMPagerModel >> doNotNotifyDuring: aBlock [
+	|allowed|
+	allowed := isNotificationsAllowed.
+	isNotificationsAllowed := false.
+	aBlock cull: self.
+	allowed ifTrue: [ isNotificationsAllowed := true ]
 ]
 
 { #category : #panes }
@@ -228,6 +238,12 @@ GLMPagerModel >> isFocusedMorphVisibleAt: paneIndex [
 	^ morph isInWorld.
 ]
 
+{ #category : #accessing }
+GLMPagerModel >> isNotificationsAllowed [
+
+	^ isNotificationsAllowed ifNil: [ isNotificationsAllowed := true ]
+]
+
 { #category : #panes }
 GLMPagerModel >> isPaneVisible: aNumber [
 
@@ -254,27 +270,40 @@ GLMPagerModel >> normalizePaneIndex: anIndex [
 ]
 
 { #category : #notifying }
+GLMPagerModel >> notifyAll: anAnnouncement [
+	
+	self isNotificationsAllowed ifTrue: [
+		self announcer announce: anAnnouncement ]
+]
+
+{ #category : #notifying }
 GLMPagerModel >> notifyFocusedPageChanged [
 
-	self announcer announce: GLMFocusedPageChanged new.
+	self notifyAll: GLMFocusedPageChanged new.
 ]
 
 { #category : #notifying }
 GLMPagerModel >> notifyNumberOfVisiblePagesChanged [
 
-	self announcer announce: GLMNumberOfVisiblePagesChanged new.
+	self notifyAll: GLMNumberOfVisiblePagesChanged new.
 ]
 
 { #category : #notifying }
 GLMPagerModel >> notifyPagePoped: isSmooth [
 
-	self announcer announce: (GLMPagePoped new smooth: isSmooth).
+	self notifyAll: (GLMPagePoped new smooth: isSmooth).
+]
+
+{ #category : #notifying }
+GLMPagerModel >> notifyPagePoppedAndReplaced: aBrick [
+
+	self notifyAll: (GLMPagePopedAndReplaced new brick: aBrick)
 ]
 
 { #category : #notifying }
 GLMPagerModel >> notifyPagePushed: aMorph scrollTo: isScroll smooth: isSmooth [
 	
-	self announcer announce: (GLMPagePushed new morph: aMorph).
+	self notifyAll: (GLMPagePushed new morph: aMorph).
 	
 	isScroll ifTrue: [ self scrollToRightTask execute: { isSmooth } ]
 ]
@@ -288,25 +317,25 @@ GLMPagerModel >> notifyScrollPositionChanged: isSmooth [
 { #category : #notifying }
 GLMPagerModel >> notifyScrollPositionChanged: isSmooth callback: aBlock [
 
-	self announcer announce: (GLMPagerScrollPositionChanged new smooth: isSmooth; callback: aBlock; yourself).
+	self notifyAll: (GLMPagerScrollPositionChanged new smooth: isSmooth; callback: aBlock; yourself).
 ]
 
 { #category : #notifying }
 GLMPagerModel >> notifyScrollerBoundsChanged: aBounds [
 
-	self announcer announce: (GLMPagerBoundsChanged new bounds: aBounds).
+	self notifyAll: (GLMPagerBoundsChanged new bounds: aBounds).
 ]
 
 { #category : #notifying }
 GLMPagerModel >> notifySelectedPageChanged [
 
-	self announcer announce: GLMSelectedPageChanged new.
+	self notifyAll:  GLMSelectedPageChanged new.
 ]
 
 { #category : #notifying }
 GLMPagerModel >> notifySynchronizeScrollTo: aValue [ 
 	
-	self announcer announce: (GLMPagerSynchronizeScrollAnnouncement new value: aValue).
+	self notifyAll: (GLMPagerSynchronizeScrollAnnouncement new value: aValue).
 ]
 
 { #category : #accessing }
@@ -317,8 +346,11 @@ GLMPagerModel >> numberOfVisiblePages [
 { #category : #panes }
 GLMPagerModel >> popAndReplacePane: aMorph [
 	
-	self popPane.
-	self pushPane: aMorph smooth: false.
+	self doNotNotifyDuring: [ :m |
+		m popPane;
+			pushPane: aMorph smooth: false ].
+		
+	self notifyPagePoppedAndReplaced: aMorph
 ]
 
 { #category : #panes }
@@ -408,7 +440,7 @@ GLMPagerModel >> pushPane: aMorph smooth: aBoolean [
 		].
 	
 	self notifyPagePushed: aMorph scrollTo: true smooth: aBoolean.
-	"self size = 1 ifTrue: [ self notifySelectedPageChanged ]."
+	self size = 1 ifTrue: [ self notifySelectedPageChanged ].
 	
 	self invariant.
 ]

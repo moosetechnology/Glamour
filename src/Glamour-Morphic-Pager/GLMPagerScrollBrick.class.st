@@ -41,6 +41,22 @@ GLMPagerScrollBrick >> band: aBrick [
 	self addBrickBack: band.
 ]
 
+{ #category : #api }
+GLMPagerScrollBrick >> configurePane: aBrick [
+	|brick|
+	brick := aBrick asBrick.
+	brick
+		layoutProperties: GLMBrickLayoutProperties new;
+		"width of tab is proportional to number of visible panes and my width"
+		width: [ self band width / self band subbricksCount ];
+		vSpaceFill;
+		marginLeft: self paneMargin;
+		marginRight: self paneMargin.
+		
+	brick layout widthDependency: self band.
+	^ brick
+]
+
 { #category : #scrolling }
 GLMPagerScrollBrick >> convertScrollValue: aFloat [
 	self pagerModel actualNumberOfVisiblePages = 0 ifTrue: [ ^ 0 ].
@@ -125,6 +141,12 @@ GLMPagerScrollBrick >> onChildrenLayouted [
 { #category : #'event-handling' }
 GLMPagerScrollBrick >> onPagePoped: popedAnnouncement [
 	self popPane: popedAnnouncement smooth.
+]
+
+{ #category : #'event-handling' }
+GLMPagerScrollBrick >> onPagePopedAndReplaced: ann [
+
+	self popAndReplace: ann brick
 ]
 
 { #category : #'event-handling' }
@@ -219,6 +241,9 @@ GLMPagerScrollBrick >> pagerModel: aModel [
 	
 	pagerModel announcer weak
 		when: GLMPagePoped send: #onPagePoped: to: self.
+	
+	pagerModel announcer weak
+		when: GLMPagePopedAndReplaced send: #onPagePopedAndReplaced: to: self.
 						
 	pagerModel announcer weak
 		when: GLMPagerSynchronizeScrollAnnouncement send: #onSynchronizeScroll: to: self.
@@ -255,6 +280,22 @@ GLMPagerScrollBrick >> panes [
 ]
 
 { #category : #api }
+GLMPagerScrollBrick >> popAndReplace: aBrick [
+	|brick|
+
+	brick := self configurePane: aBrick.
+	brick wrappedBounds: self band lastSubbrick wrappedBounds.
+	brick updateMorphBounds.
+	
+	self band doNotLayoutDuring: [ :b | b
+		removeBrick: b lastSubbrick;
+		addBrickBack: brick ].
+	self changed
+	
+	
+]
+
+{ #category : #api }
 GLMPagerScrollBrick >> popPane [
 	
 	self band doNotLayoutDuring: [ :b | b removeBrick: b lastSubbrick ].
@@ -274,21 +315,9 @@ GLMPagerScrollBrick >> popPane: isSmooth [
 ]
 
 { #category : #api }
-GLMPagerScrollBrick >> pushPane: aMorph [	
-	|brick|
-	brick := aMorph asBrick.
-	brick
-		layoutProperties: GLMBrickLayoutProperties new;
-		"width of tab is proportional to number of visible panes and my width"
-		width: [ self band width / self band subbricksCount ];
-		vSpaceFill;
-		marginLeft: self paneMargin;
-		marginRight: self paneMargin.
-		
-	brick layout widthDependency: self band.
-	
-	self band doNotLayoutDuring: [ :b | b addBrickBack: brick ].
-	self doLayoutForce
+GLMPagerScrollBrick >> pushPane: aMorph [
+
+	self band addBrickBack: (self configurePane: aMorph)
 ]
 
 { #category : #scrolling }
