@@ -565,3 +565,9 @@ GLMBrick >> wrappedBounds [
 
 	^ brickBounds ifNil: [ brickBounds := GLMBrickBounds new ]
 ]
+
+{ #category : #'brick-geometry' }
+GLMBrick >> wrappedBounds: aBounds [
+
+	brickBounds := aBounds
+]
