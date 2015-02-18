@@ -142,6 +142,12 @@ GLMAnimation >> fromValue [
 	^ fromValue ifNil: [ fromValue := fromLogic brickValue: self animatedObject ]
 ]
 
+{ #category : #scripting }
+GLMAnimation >> linear [
+
+	self step: [ :b :from :to :delta | (to - from) * delta + from ]
+]
+
 { #category : #accessing }
 GLMAnimation >> needsStep [
 

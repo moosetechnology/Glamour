@@ -26,10 +26,7 @@ GLMSystemWindowBrick class >> exampleContent [
 		useVerticalLinearLayout;
 		vSpaceFill;
 		hSpaceFill;
-		paddingLeft: 10;
-		paddingTop: 15;
-		paddingRight: 20;
-		paddingBottom: 5.
+		padding: #(15 20 5 20).
 	
 	" ---- Creating first brick ---- "
 	brick1 := GLMStringBrick new
@@ -158,10 +155,10 @@ GLMSystemWindowBrick >> hideFade [
 	
 	self fadeInAnimation ifNotNil: #terminate.
 	fadeInAnimation := GLMAnimation new
+		linear;
 		duration: 150;
 		from: self fadeBrick color alpha;
 		to: 0;
-		step: [ :b :from :to :delta | (to - from) * delta + from ];
 		onCompleted: [
 			(self brickRoot hasSubbrick: self fadeBrick)
 				ifTrue: [ self brickRoot removeBrick: self fadeBrick ] ];
@@ -174,10 +171,10 @@ GLMSystemWindowBrick >> hideOffcanvas [
 
 	self offcanvasAnimation ifNotNil: #terminate.
 	offcanvasAnimation := GLMAnimation new
+		linear;
 		duration: 150;
 		from: self offcanvasBrick marginRight;
 		to: self defaultOffcanvasWidth negated;
-		step: [ :b :from :to :delta | (to - from) * delta + from ];
 		onCompleted: [ self hideFade ];
 		animation: [ :b :v | b changedWith: [ b marginRight: v asInteger ] ];
 		animate: self offcanvasBrick
@@ -273,10 +270,10 @@ GLMSystemWindowBrick >> showFade [
 		
 	self fadeInAnimation ifNotNil: #terminate.
 	fadeInAnimation := GLMAnimation new
+		linear;
 		duration: 150;
 		from: self fadeBrick color alpha;
 		to: 0.5;
-		step: [ :b :from :to :delta | (to - from) * delta + from ];
 		onCompleted: [ ];
 		animation: [ :b :v | b changedWith: [ b color: (b color alpha: v) ] ];
 		animate: self fadeBrick
@@ -287,10 +284,10 @@ GLMSystemWindowBrick >> showOffcanvas [
 
 	self offcanvasAnimation ifNotNil: #terminate.
 	offcanvasAnimation := GLMAnimation new
+		linear;
 		duration: 150;
 		from: self offcanvasBrick marginRight;
 		to: self brickRoot paddingRight;
-		step: [ :b :from :to :delta | (to - from) * delta + from ];
 		onCompleted: [ self showFade ];
 		animation: [ :b :v | b changedWith: [ b marginRight: v asInteger ] ];
 		animate: self offcanvasBrick
