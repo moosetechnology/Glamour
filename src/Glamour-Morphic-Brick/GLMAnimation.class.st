@@ -19,7 +19,9 @@ Class {
 		'doStep',
 		'shouldStop',
 		'callback',
-		'steppedLogic'
+		'steppedLogic',
+		'isCompleted',
+		'ensureLogic'
 	],
 	#category : #'Glamour-Morphic-Brick-Async'
 }
@@ -56,7 +58,10 @@ GLMAnimation >> animate: anObject [
 	self asyncTask
 		doInBackground: [ [ self shouldStop ] whileFalse: [
 				self needsStep ifTrue: [ self animationStep ] ] ];
-		onCompleted: [ callback brickValue: self animatedObject ];
+		onCompleted: [ 
+			isCompleted := true.
+			[ callback brickValue: self animatedObject ]
+				ensure: [ ensureLogic brickValue: self animatedObject ] ];
 		priority: Processor userSchedulingPriority;
 		execute
 ]
@@ -124,6 +129,12 @@ GLMAnimation >> duration: anInteger [
 	duration := anInteger
 ]
 
+{ #category : #scripting }
+GLMAnimation >> ensure: aBlock [
+
+	ensureLogic := aBlock
+]
+
 { #category : #accessing }
 GLMAnimation >> finishTime [
 
@@ -140,6 +151,12 @@ GLMAnimation >> from: anObject [
 GLMAnimation >> fromValue [
 
 	^ fromValue ifNil: [ fromValue := fromLogic brickValue: self animatedObject ]
+]
+
+{ #category : #accessing }
+GLMAnimation >> isCompleted [
+
+	^ isCompleted ifNil: [ isCompleted := false ]
 ]
 
 { #category : #scripting }
@@ -198,8 +215,11 @@ GLMAnimation >> step: anObject [
 
 { #category : #actions }
 GLMAnimation >> terminate [
-
-	self asyncTask terminate
+	|wasTerminated|
+	wasTerminated := self asyncTask isTerminated.
+	self asyncTask terminate.
+	(wasTerminated not & self isCompleted not & self animatedObject isNotNil) ifTrue: [
+		ensureLogic brickValue: self animatedObject ]
 ]
 
 { #category : #scripting }
