@@ -87,10 +87,10 @@ GLMPagerScrollBrick >> glmAnimateValue: aValue duration: anInteger callback: aBl
 	
 	self animation ifNotNil: #terminate.
 	animation := GLMAnimation new
+		linear;
 		duration: 300;
 		from: self scrollValue;
 		to: (self convertScrollValue: aValue);
-		step: [ :b :from :to :delta | (to - from) * delta + from ];
 		onCompleted: [ :b | b updatePaneBounds. aBlock brickValue: b ];
 		animation: [ :b :v | b scrollValue: v ];
 		animate: self
