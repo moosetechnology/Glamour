@@ -108,7 +108,7 @@ GLMWindowHeaderBrick >> mouseDown: evt [
 	super mouseDown: evt.
 	
 	startDragging := evt position.
-	startDraggingOrigin := self window globalBounds origin
+	startDraggingOrigin := self window topLeft
 	
 ]
 
@@ -120,7 +120,7 @@ GLMWindowHeaderBrick >> mouseMove: evt [
 	startDragging ifNil: [ ^ self ].
 	
 	delta := startDragging - evt position.
-	self window bounds: ((startDraggingOrigin - delta) extent: self window extent)
+	self window topLeft: (startDraggingOrigin - delta)
 ]
 
 { #category : #'mouse events' }

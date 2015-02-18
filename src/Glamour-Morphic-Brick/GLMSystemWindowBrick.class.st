@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'headerBrick',
 		'offcanvasBrick',
-		'offcanvasAnimation'
+		'offcanvasAnimation',
+		'fadeInAnimation',
+		'fadeBrick'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-Windows'
 }
@@ -78,7 +80,7 @@ GLMSystemWindowBrick >> brickRoot: aBrick [
 
 	aBrick
 		useVerticalLinearLayout;
-		color: Color white;
+		color: (Color white alpha: 0.9);
 		borderColor: Color veryLightGray;
 		borderWidth: self defaultPadding;
 		padding: self defaultPadding;
@@ -106,6 +108,32 @@ GLMSystemWindowBrick >> defaultPadding [
 ]
 
 { #category : #accessing }
+GLMSystemWindowBrick >> fadeBrick [
+
+	^ fadeBrick
+]
+
+{ #category : #accessing }
+GLMSystemWindowBrick >> fadeBrick: aBrick [
+
+	fadeBrick := aBrick.
+	self fadeBrick
+		vSpaceFill;
+		hSpaceFill;
+		with: [ :b | b layout zIndex: 2 ];
+		with: [ :b | b layout floating: #left ];
+		marginTop: self defaultHeaderHeight;
+		marginBottom: self defaultHeaderHeight negated;
+		color: (Color black alpha: 0.2)
+]
+
+{ #category : #accessing }
+GLMSystemWindowBrick >> fadeInAnimation [
+
+	^ fadeInAnimation
+]
+
+{ #category : #accessing }
 GLMSystemWindowBrick >> headerBrick [
 	^ headerBrick
 ]
@@ -124,15 +152,33 @@ GLMSystemWindowBrick >> headerBrick: anObject [
 ]
 
 { #category : #actions }
+GLMSystemWindowBrick >> hideFade [
+	(self brickRoot hasSubbrick: self fadeBrick)
+		ifFalse: [ ^ self ].
+	
+	self fadeInAnimation ifNotNil: #terminate.
+	fadeInAnimation := GLMAnimation new
+		duration: 150;
+		from: self fadeBrick color alpha;
+		to: 0;
+		step: [ :b :from :to :delta | (to - from) * delta + from ];
+		onCompleted: [
+			(self brickRoot hasSubbrick: self fadeBrick)
+				ifTrue: [ self brickRoot removeBrick: self fadeBrick ] ];
+		animation: [ :b :v | b changedWith: [ b color: (b color alpha: v) ] ];
+		animate: self fadeBrick
+]
+
+{ #category : #actions }
 GLMSystemWindowBrick >> hideOffcanvas [
 
 	self offcanvasAnimation ifNotNil: #terminate.
 	offcanvasAnimation := GLMAnimation new
-		duration: 200;
+		duration: 150;
 		from: self offcanvasBrick marginRight;
 		to: self defaultOffcanvasWidth negated;
 		step: [ :b :from :to :delta | (to - from) * delta + from ];
-		onCompleted: [  ];
+		onCompleted: [ self hideFade ];
 		animation: [ :b :v | b changedWith: [ b marginRight: v asInteger ] ];
 		animate: self offcanvasBrick
 ]
@@ -144,8 +190,7 @@ GLMSystemWindowBrick >> initialize [
 	self brickRoot: self newBrickRoot.
 	self headerBrick: self newHeaderBrick.
 	self offcanvasBrick: self newOffcanvasBrick.
-	
-	
+	self fadeBrick: self newFadeBrick
 ]
 
 { #category : #testing }
@@ -158,6 +203,12 @@ GLMSystemWindowBrick >> isOffcanvasVisible [
 GLMSystemWindowBrick >> newBrickRoot [
 
 	^ GLMWindowRootBrick new
+]
+
+{ #category : #'instance creation' }
+GLMSystemWindowBrick >> newFadeBrick [
+
+	^ GLMBrick new
 ]
 
 { #category : #'instance creation' }
@@ -215,15 +266,32 @@ GLMSystemWindowBrick >> offcanvasBrick: anObject [
 ]
 
 { #category : #actions }
+GLMSystemWindowBrick >> showFade [
+
+	(self brickRoot hasSubbrick: self fadeBrick)
+		ifFalse: [ self brickRoot addBrick: self fadeBrick after: self offcanvasBrick ].
+		
+	self fadeInAnimation ifNotNil: #terminate.
+	fadeInAnimation := GLMAnimation new
+		duration: 150;
+		from: self fadeBrick color alpha;
+		to: 0.5;
+		step: [ :b :from :to :delta | (to - from) * delta + from ];
+		onCompleted: [ ];
+		animation: [ :b :v | b changedWith: [ b color: (b color alpha: v) ] ];
+		animate: self fadeBrick
+]
+
+{ #category : #actions }
 GLMSystemWindowBrick >> showOffcanvas [
 
 	self offcanvasAnimation ifNotNil: #terminate.
 	offcanvasAnimation := GLMAnimation new
-		duration: 200;
+		duration: 150;
 		from: self offcanvasBrick marginRight;
 		to: self brickRoot paddingRight;
 		step: [ :b :from :to :delta | (to - from) * delta + from ];
-		onCompleted: [  ];
+		onCompleted: [ self showFade ];
 		animation: [ :b :v | b changedWith: [ b marginRight: v asInteger ] ];
 		animate: self offcanvasBrick
 ]

@@ -71,7 +71,7 @@ GLMBrickRenderer >> render: aBrick on: aCanvas [
 { #category : #rendering }
 GLMBrickRenderer >> renderBackgroundColorOf: aBrick on: aCanvas [
 
-	aCanvas fillRectangle: (aBrick brickBounds expandBy: aBrick shadowWidth negated) color: aBrick color.
+	aCanvas fillRectangle: (aBrick brickBounds expandBy: aBrick shadowWidth negated) color: aBrick color
 ]
 
 { #category : #rendering }

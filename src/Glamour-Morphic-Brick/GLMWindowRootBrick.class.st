@@ -9,4 +9,5 @@ GLMWindowRootBrick >> initialize [
 	super initialize.
 	
 	self enable
+	
 ]

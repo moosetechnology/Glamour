@@ -13,6 +13,14 @@ GLMBrickStructureTrait >> addAllBricks: aCollection [
 ]
 
 { #category : #'brick-structure-adding/removing' }
+GLMBrickStructureTrait >> addBrick: aBrick after: otherBrick [
+	|result|
+	result := self privateAddBrick: aBrick after: otherBrick.
+	self doLayoutForce.
+	^ result
+]
+
+{ #category : #'brick-structure-adding/removing' }
 GLMBrickStructureTrait >> addBrick: aBrick before: otherBrick [
 	|result|
 	result := self privateAddBrick: aBrick before: otherBrick.
@@ -143,7 +151,7 @@ GLMBrickStructureTrait >> onRemovedFrom: aBrick [
 GLMBrickStructureTrait >> openInBrickWindow [
 
 	GLMSystemWindowBrick new
-		color: Color white;
+		color: Color transparent;
 		addBrickBack: self;
 		extent: 400@400;
 		openInWorld
@@ -172,13 +180,38 @@ GLMBrickStructureTrait >> privateAddAllBricks: aCollection [
 ]
 
 { #category : #'private-structure' }
+GLMBrickStructureTrait >> privateAddBrick: aBrick after: otherBrick [
+	| brick link otherLink otherLinkSuccessor index|
+	brick := aBrick asBrick.
+	
+	otherLink := otherBrick brickDoubleLink.
+	otherLink = self lastSubbrick brickDoubleLink
+		ifTrue: [ ^ self privateAddBrickBack: aBrick ].
+		
+	link := brick asDoubleLink.
+	brick brickDoubleLink: link.
+	otherLinkSuccessor := otherLink nextLink.
+	otherLink nextLink: link.
+	link previousLink: otherLink.
+	link nextLink: otherLinkSuccessor.
+	otherLinkSuccessor previousLink: link.
+	
+	index := (self subbricks indexOf: otherBrick) + 1.
+	self privateSubbricks: (self subbricks copyReplaceFrom: index to: index - 1 with: (Array with: brick)).
+	
+	brick owner: self.
+	
+	^ aBrick
+]
+
+{ #category : #'private-structure' }
 GLMBrickStructureTrait >> privateAddBrick: aBrick before: otherBrick [
-	| brick link otherLink otherLinkPredeccessor|
+	| brick link otherLink otherLinkPredeccessor index|
 	brick := aBrick asBrick.
 	
 	otherLink := otherBrick brickDoubleLink.
 	otherLink = self firstSubbrick brickDoubleLink
-		ifTrue: [ ^ self privateAddBrickFirst: brick ].
+		ifTrue: [ ^ self privateAddBrickFirst: aBrick ].
 		
 	link := brick asDoubleLink.
 	brick brickDoubleLink: link.
@@ -188,7 +221,8 @@ GLMBrickStructureTrait >> privateAddBrick: aBrick before: otherBrick [
 	link previousLink: otherLinkPredeccessor.
 	otherLinkPredeccessor nextLink: link.
 	
-	self subbricks add: brick before: otherBrick.
+	index := ((self subbricks indexOf: otherBrick) max: 1).
+	self privateSubbricks: (self subbricks copyReplaceFrom: index to: index - 1 with: (Array with: brick)).
 	
 	brick owner: self.
 	
