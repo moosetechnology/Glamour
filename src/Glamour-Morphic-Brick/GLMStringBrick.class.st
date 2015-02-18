@@ -101,6 +101,20 @@ GLMStringBrick >> approximateWidth [
 ]
 
 { #category : #accessing }
+GLMStringBrick >> beBold [
+
+	self font forceBold
+]
+
+{ #category : #accessing }
+GLMStringBrick >> beRegular [
+
+	self font
+		forceNotBold;
+		forceNotItalic
+]
+
+{ #category : #accessing }
 GLMStringBrick >> calculateHighlightingBounds [
 	|textBounds highlightBounds last|
 	
@@ -142,6 +156,19 @@ GLMStringBrick >> calculateTextPosition [
 	^ self brickBounds origin
 ]
 
+{ #category : #private }
+GLMStringBrick >> customFont [
+
+	font := LogicalFont new
+				familyName: self familyName; 
+				fallbackFamilyNames: nil;
+				pointSize: self fontSize; 
+				weightValue: 400;
+				stretchValue: 5;
+				slantValue: 0;
+				yourself
+]
+
 { #category : #defaults }
 GLMStringBrick >> defaultFamilyName [
 
@@ -150,6 +177,7 @@ GLMStringBrick >> defaultFamilyName [
 
 { #category : #defaults }
 GLMStringBrick >> defaultSize [
+
 	^ self theme labelFont pointSize
 ]
 
@@ -338,5 +366,5 @@ GLMStringBrick >> textSize [
 
 { #category : #private }
 GLMStringBrick >> updateFont [
-	font := LogicalFont familyName: self familyName pointSize: self fontSize.
+	font := LogicalFont familyName: self familyName pointSize: self fontSize
 ]
