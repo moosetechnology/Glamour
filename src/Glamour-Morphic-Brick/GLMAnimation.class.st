@@ -215,10 +215,9 @@ GLMAnimation >> step: anObject [
 
 { #category : #actions }
 GLMAnimation >> terminate [
-	|wasTerminated|
-	wasTerminated := self asyncTask isTerminated.
+
 	self asyncTask terminate.
-	(wasTerminated not & self isCompleted not & self animatedObject isNotNil) ifTrue: [
+	(self isCompleted not & self animatedObject isNotNil) ifTrue: [
 		ensureLogic brickValue: self animatedObject ]
 ]
 
