@@ -309,7 +309,7 @@ GLMPagerScrollBrick >> popPane: isSmooth [
 	self band doNotLayoutDuring: [ :b | b removeBrick: b lastSubbrick ].
 	self
 		scrollTo: (pagerModel convertIndexToValue: pagerModel firstVisiblePageIndex with: self band subbricksCount)
-		smooth: true
+		smooth: isSmooth
 		callback: [ self doLayoutForce ]
 ]
 
