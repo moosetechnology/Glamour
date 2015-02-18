@@ -89,6 +89,12 @@ GLMFoundationBrick >> doLayout [
 	self brickRoot doLayoutForce.
 ]
 
+{ #category : #'as yet unclassified' }
+GLMFoundationBrick >> doesNotUnderstand: aMessage [
+
+	^ self brickRoot perform: aMessage selector withArguments: aMessage arguments
+]
+
 { #category : #geometry }
 GLMFoundationBrick >> extent: aPoint [
 	|left top right bottom|

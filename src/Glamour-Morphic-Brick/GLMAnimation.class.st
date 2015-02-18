@@ -1,3 +1,6 @@
+"
+A GLMAnimation class is a basic animation class that works in background thread and performs brick transformation in UI thread
+"
 Class {
 	#name : #GLMAnimation,
 	#superclass : #Object,
@@ -15,10 +18,34 @@ Class {
 		'stepLogic',
 		'doStep',
 		'shouldStop',
-		'callback'
+		'callback',
+		'steppedLogic'
 	],
 	#category : #'Glamour-Morphic-Brick-Async'
 }
+
+{ #category : #sources }
+GLMAnimation class >> exampleSimple [
+	|brick|
+
+	brick := GLMLabelBrick new
+		color: Color lightBlue;
+		textPosition: #center.
+
+	GLMAnimation new
+		duration: 5000;
+		from: 50@50;
+		to: 400@400;
+		step: [ :b :from :to :delta | (to - from) * delta + from ];
+		animation: [ :b :v | b extent: v ];
+		onStepped: [ :b :delta | b text: ((delta * 100) asInteger asString, '%') ];
+		onCompleted: [ :b | b invalidateWith: [ b color: Color lightGreen; text: 'Done! 100%' ] ];
+		animate: brick.
+	
+	brick asBrickedMorph
+		extent: 400@400;
+		openInWindow
+]
 
 { #category : #scripting }
 GLMAnimation >> animate: anObject [
@@ -63,6 +90,7 @@ GLMAnimation >> animationStep [
 	
 	UIManager default defer: [
 		self asyncTask isTerminated ifFalse: [
+			steppedLogic brickValue: self animatedObject withEnoughArguments: { delta }.
 			animationLogic brickValue: self animatedObject withEnoughArguments: { stepValue }.
 			stop
 				ifFalse: [ self needsStep: true. self asyncTask resume ]
@@ -130,6 +158,12 @@ GLMAnimation >> needsStep: aBoolean [
 GLMAnimation >> onCompleted: aBlock [
 
 	callback := aBlock
+]
+
+{ #category : #scripting }
+GLMAnimation >> onStepped: aBlock [
+
+	steppedLogic := aBlock
 ]
 
 { #category : #accessing }

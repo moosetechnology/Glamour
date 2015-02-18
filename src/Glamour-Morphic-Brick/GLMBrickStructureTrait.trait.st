@@ -139,6 +139,16 @@ GLMBrickStructureTrait >> onRemovedFrom: aBrick [
 	self subbricks do: [ :each | each onRemovedFrom: aBrick ]
 ]
 
+{ #category : #'brick-structure-opening' }
+GLMBrickStructureTrait >> openInBrickWindow [
+
+	GLMSystemWindowBrick new
+		color: Color white;
+		addBrickBack: self;
+		extent: 400@400;
+		openInWorld
+]
+
 { #category : #'brick-structure' }
 GLMBrickStructureTrait >> owner [
 
@@ -286,6 +296,7 @@ GLMBrickStructureTrait >> removeAllBricks [
 { #category : #'brick-structure-adding/removing' }
 GLMBrickStructureTrait >> removeBrick: aBrick [
 	|result|
+	aBrick ifNil: [ ^ aBrick ].
 	result := self privateRemoveBrick: aBrick.
 	self doLayoutForce.
 	^ result

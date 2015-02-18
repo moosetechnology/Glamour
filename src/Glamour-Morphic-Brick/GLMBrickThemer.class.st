@@ -1,8 +1,8 @@
 Class {
 	#name : #GLMBrickThemer,
 	#superclass : #Object,
-	#traits : 'GLMBrickScrollpaneStyle + GLMBrickRubricStyle',
-	#classTraits : 'GLMBrickScrollpaneStyle classTrait + GLMBrickRubricStyle classTrait',
+	#traits : 'GLMBrickScrollpaneStyle + GLMBrickRubricStyle + GLMBrickWindowStyle',
+	#classTraits : 'GLMBrickScrollpaneStyle classTrait + GLMBrickRubricStyle classTrait + GLMBrickWindowStyle classTrait',
 	#instVars : [
 		'modules'
 	],
