@@ -216,7 +216,8 @@ ConfigurationOfGlamourCore >> baseline31: spec [
 						'Glamour-Tests-Core'
 						'Glamour-Tests-Morphic'
 						'Glamour-Tests-Rubric'
-						'Glamour-Tests-Resources'). 
+						'Glamour-Tests-Resources'
+						'Glamour-Morphic-Brick-Tests'). 
 						
 		spec group: 'default' with: #(
 						'Core'
