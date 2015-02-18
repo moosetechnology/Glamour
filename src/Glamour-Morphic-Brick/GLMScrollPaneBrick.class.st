@@ -270,8 +270,10 @@ GLMScrollPaneBrick >> isVisible: aBrick [
 
 { #category : #'scrollpane-events-mouse' }
 GLMScrollPaneBrick >> mouseWheel: event [
-
-	self scrollBy: (self calculateVelocity: event) direction: event direction.
+	
+	self
+		scrollBy: (self calculateVelocity: event)
+		direction: (event isUp ifTrue: [ #up ] ifFalse: [ #down ])
 ]
 
 { #category : #'scrollpane-transformations' }
