@@ -77,7 +77,7 @@ GLMSystemWindowBrick >> brickRoot: aBrick [
 
 	aBrick
 		useVerticalLinearLayout;
-		color: (Color white alpha: 0.9);
+		color: (Color white alpha: 1);
 		borderColor: Color veryLightGray;
 		borderWidth: self defaultPadding;
 		padding: self defaultPadding;
@@ -119,6 +119,7 @@ GLMSystemWindowBrick >> fadeBrick: aBrick [
 		hSpaceFill;
 		with: [ :b | b layout zIndex: 2 ];
 		with: [ :b | b layout floating: #left ];
+		addUpAction: [ self hideOffcanvas ];
 		marginTop: self defaultHeaderHeight;
 		marginBottom: self defaultHeaderHeight negated;
 		color: (Color black alpha: 0.2)
@@ -205,7 +206,7 @@ GLMSystemWindowBrick >> newBrickRoot [
 { #category : #'instance creation' }
 GLMSystemWindowBrick >> newFadeBrick [
 
-	^ GLMBrick new
+	^ GLMActionButtonBrick new
 ]
 
 { #category : #'instance creation' }

@@ -154,7 +154,7 @@ GLMBrickStructureTrait >> openInBrickWindow [
 		color: Color transparent;
 		addBrickBack: self;
 		extent: 400@400;
-		openInWorld
+		openCenteredInWorld
 ]
 
 { #category : #'brick-structure' }
