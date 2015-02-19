@@ -15,8 +15,9 @@ GLMLiveStringBrick >> initialize [
 
 { #category : #'stepping and presenter' }
 GLMLiveStringBrick >> step [
-	self text: (self textLogic value) asString.
-	self changed
+
+	self text: self textLogic value asString.
+	self brickRoot doLayoutForce
 ]
 
 { #category : #accessing }
