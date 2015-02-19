@@ -25,9 +25,8 @@ GLMVerticalLinearLayout >> align: aBrick in: parentBrick anchorPoint: aPoint inC
 	|align|
 	
 	self = aContext ifTrue: [ ^ self ].
-	parentBrick subbricks size = 1 ifTrue: [ |context|
-		context := aContext ifNil: [ self ].
-		GLMHorizontalLinearLayout uniqueInstance align: aBrick in: parentBrick anchorPoint: aPoint inContext: context ].
+	(parentBrick subbricks size = 1) & (aContext isNil) ifTrue: [
+		GLMHorizontalLinearLayout uniqueInstance align: aBrick in: parentBrick anchorPoint: aPoint inContext: self ].
 	
 	align := aBrick layout hAlign.
 	
