@@ -76,6 +76,60 @@ ThemeIcons >> glamorousClose [
 ]
 
 { #category : #'*Glamour-Morphic-Theme' }
+ThemeIcons >> glamorousDiveAllRightIcon [
+	"Private - Generated method"
+	^icons 
+			at: #glamorousDiveAllRightIcon
+			ifAbsentPut:[ Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: self glamorousDiveAllRightIconContents readStream) ].
+]
+
+{ #category : #'*Glamour-Morphic-Theme' }
+ThemeIcons >> glamorousDiveAllRightIconContents [
+	"Private - Method generated"
+	^ 'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAAlwSFlz
+AAALEwAACxMBAJqcGAAAAdVpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEg
+eG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAg
+PHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1z
+eW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAg
+ICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAg
+ICAgICA8dGlmZjpDb21wcmVzc2lvbj41PC90aWZmOkNvbXByZXNzaW9uPgogICAgICAgICA8
+dGlmZjpQaG90b21ldHJpY0ludGVycHJldGF0aW9uPjI8L3RpZmY6UGhvdG9tZXRyaWNJbnRl
+cnByZXRhdGlvbj4KICAgICAgICAgPHRpZmY6T3JpZW50YXRpb24+MTwvdGlmZjpPcmllbnRh
+dGlvbj4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgIDwvcmRmOlJERj4KPC94OnhtcG1l
+dGE+CrDjMt0AAADQSURBVDgRY2AYBQRDYPLkyV+BOByXQiZcEjDx////cwHZM6dOndq9atUq
+Zpg4jCZoAEgh0BD+f//+pbx8+XLfnDlzhGCaQTQjMgfo1H9AxShijIyMQCGIGJD9Daj+IzMz
+s0dWVtYlkF4UF8AUIhuKLAZkg7wj9ufPn/0wNSgGgGyDScBoZDGoC16xsLA4wuVhDFz0pEmT
+YIZ+ABpwmZOTMyAlJeUdTD0LjIGPBmr8yMTENAfo73Ig+x+yWhQvIEvA2FBnp2dnZ5eia4ap
+GeI0AGHLRub8J5JuAAAAAElFTkSuQmCC'
+]
+
+{ #category : #'*Glamour-Morphic-Theme' }
+ThemeIcons >> glamorousDiveRightIcon [
+	"Private - Generated method"
+	^icons 
+			at: #glamorousDiveRightIcon
+			ifAbsentPut:[ Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: self glamorousDiveRightIconContents readStream) ].
+]
+
+{ #category : #'*Glamour-Morphic-Theme' }
+ThemeIcons >> glamorousDiveRightIconContents [
+	"Private - Method generated"
+	^ 'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAAlwSFlz
+AAALEwAACxMBAJqcGAAAAdVpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEg
+eG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAg
+PHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1z
+eW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAg
+ICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAg
+ICAgICA8dGlmZjpDb21wcmVzc2lvbj41PC90aWZmOkNvbXByZXNzaW9uPgogICAgICAgICA8
+dGlmZjpQaG90b21ldHJpY0ludGVycHJldGF0aW9uPjI8L3RpZmY6UGhvdG9tZXRyaWNJbnRl
+cnByZXRhdGlvbj4KICAgICAgICAgPHRpZmY6T3JpZW50YXRpb24+MTwvdGlmZjpPcmllbnRh
+dGlvbj4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgIDwvcmRmOlJERj4KPC94OnhtcG1l
+dGE+CrDjMt0AAAB3SURBVDgRY2AYBcxEBMFXoJq7QHyVCLVYlfwHin4A4m4gJsZCDENABoDw
+eyA+CMRCQIwT/APKwDTAaGQxkHeeAbEeLhNgmvDRf4Ca3+IyANk2mCHIYgRdgM1gmEGgMDgE
+xHjDAJcBsFhgwqaAkBjI2eGEFA1heQC76y9PDq6TVQAAAABJRU5ErkJggg=='
+]
+
+{ #category : #'*Glamour-Morphic-Theme' }
 ThemeIcons >> glamorousDown [
 ^ self icons
 		at: #glamorousDown ifAbsentPut: [(Form
