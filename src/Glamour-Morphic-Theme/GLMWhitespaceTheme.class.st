@@ -77,6 +77,21 @@ GLMWhitespaceTheme class >> importIcons: icons fromFolder: aString inClass: aCla
 	aClass initialize
 ]
 
+{ #category : #installing }
+GLMWhitespaceTheme class >> installFullTheme [
+	"Installs full theme: 
+		this theme
+		default forts
+		desktop background
+		completion list colors"
+		
+	self beCurrent.
+	self setPreferredShoutColors.
+	self setPreferredWorldBackground.
+	NECPreferences backgroundColor: UITheme current windowColor. 
+	Paragraph insertionPointColor: UITheme current caretColor.
+]
+
 { #category : #testing }
 GLMWhitespaceTheme class >> isAbstract [
 	"Answer whether the receiver is considered to be abstract."
@@ -241,7 +256,7 @@ GLMWhitespaceTheme class >> setPreferredShoutColors [
 { #category : #settings }
 GLMWhitespaceTheme class >> setPreferredWorldBackground [
 	"self setPreferredWorldBackground"
-	World color: Color white
+	PolymorphSystemSettings desktopColor: (Color r: 250 g: 250 b: 250 range: 256)
 ]
 
 { #category : #accessing }
