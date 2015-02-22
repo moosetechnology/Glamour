@@ -42,7 +42,7 @@ GLMPhlowBrick >> initialize [
 { #category : #'instance creation' }
 GLMPhlowBrick >> newTitleBrick [
 
-	^ GLMLabelBrick new
+	^ GLMLabelBrick new textColor: Color gray
 ]
 
 { #category : #accessing }
