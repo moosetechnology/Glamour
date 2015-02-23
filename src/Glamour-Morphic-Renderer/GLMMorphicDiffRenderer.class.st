@@ -12,7 +12,6 @@ GLMMorphicDiffRenderer >> render: aPresentation [
 "			layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 			vResizing: #spaceFill;
 			hResizing: #spaceFill;
-			color: Color white;
 			yourself.
 "	self installActionsOnUI: textModel fromPresentation: aTextPresentation.
 	aTextPresentation selectedTextBlock: [ textMorph textMorph editor selection ].
