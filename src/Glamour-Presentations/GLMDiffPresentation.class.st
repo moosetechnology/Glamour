@@ -6,8 +6,28 @@ The convention is that the transformed entity should provide a collection with t
 Class {
 	#name : #GLMDiffPresentation,
 	#superclass : #GLMFormatedPresentation,
+	#instVars : [
+		'contextClass'
+	],
 	#category : #'Glamour-Presentations'
 }
+
+{ #category : #accessing }
+GLMDiffPresentation >> contextClass [
+	^ contextClass
+]
+
+{ #category : #accessing }
+GLMDiffPresentation >> contextClass: aClassOrBlock [
+	"the class of method which source is being diffed"
+
+	contextClass := aClassOrBlock
+]
+
+{ #category : #'accessing values' }
+GLMDiffPresentation >> contextClassValue [
+	^ self contextClass glamourValue: self entity
+]
 
 { #category : #rendering }
 GLMDiffPresentation >> renderGlamorouslyOn: aRenderer [ 
