@@ -131,6 +131,12 @@ GLMLinearLayout >> normalizeWidth: anInteger of: aBrick [
 		min: (aBrick layout maxWidth brickValue: aBrick)
 ]
 
+{ #category : #notifying }
+GLMLinearLayout >> sendEvent: aLayoutEvent to: aBrick [
+
+	aBrick onLayoutEvent: aLayoutEvent
+]
+
 { #category : #height }
 GLMLinearLayout >> updateHeight: aBrick [
 	"this method should be called only when height of aBrick is dirty"
