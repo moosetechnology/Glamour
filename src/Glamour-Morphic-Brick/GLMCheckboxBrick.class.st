@@ -1,3 +1,16 @@
+"
+A GLMCheckboxBrick is very simple checkbox with label support. If label text is set it becomes clickable too.
+Instance Variables
+	checkBrick:		<GLMInteractableBrick>
+	labelBrick:		<GLMLabelBrick>
+
+checkBrick
+	- checkbox itself
+
+labelBrick
+	- label position to the right from checkbox
+
+"
 Class {
 	#name : #GLMCheckboxBrick,
 	#superclass : #GLMInteractableBrick,
@@ -5,13 +18,13 @@ Class {
 		'labelBrick',
 		'checkBrick'
 	],
-	#category : #'Glamour-Morphic-Brick-Widgets-Core'
+	#category : #'Glamour-Morphic-Brick-Widgets-Basic'
 }
 
 { #category : #examples }
 GLMCheckboxBrick class >> example [
-	<example: 'Simple checkbox'>
-	^ GLMCheckboxBrick new
+	<example: 'Checkbox without label'>
+	^ self new
 		color: Color white;
 		vShrinkWrap;
 		hShrinkWrap
@@ -21,18 +34,16 @@ GLMCheckboxBrick class >> example [
 GLMCheckboxBrick class >> exampleInWindow [
 
 	(GLMBrick new
-		addBrickBack: (self exampleWithLabel);
+		addBrickBack: self exampleWithLabel;
 		yourself)
-			asBrickedMorph
-			extent: 300@50;
-			openInWindow
+			openInBrickWindow
 ]
 
 { #category : #examples }
 GLMCheckboxBrick class >> exampleWithLabel [
 	<example: 'Checkbox with label'>
-	^ GLMCheckboxBrick new
-		text: 'Send only anonymous usage data';
+	^ self new
+		text: 'I''m label, click me';
 		color: Color white;
 		vShrinkWrap;
 		hShrinkWrap
@@ -59,8 +70,8 @@ GLMCheckboxBrick >> checkBrick: anObject [
 		borderWidth: 2;
 		vAlign: #center;
 		checkedImage: GLMUIThemeExtraIcons glamorousAccept;
-		width: 20;
-		height: 20.
+		width: 18;
+		height: 18.
 		
 	self addBrickFirst: self box
 ]
@@ -101,6 +112,8 @@ GLMCheckboxBrick >> initialize [
 		checkBrick: self newCheckboxBrick;
 		labelBrick: self newLabelBrick;
 		useHorizontalLinearLayout;
+		vShrinkWrap;
+		hShrinkWrap;
 		enable
 ]
 

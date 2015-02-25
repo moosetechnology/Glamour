@@ -35,6 +35,18 @@ GLMBrickLayoutTrait >> doNotLayoutDuring: aBlock [
 ]
 
 { #category : #'brick-layout-properties' }
+GLMBrickLayoutTrait >> floating [
+
+	^ self layout floating
+]
+
+{ #category : #'brick-layout-properties' }
+GLMBrickLayoutTrait >> floating: aSymbol [
+
+	self layout floating: aSymbol
+]
+
+{ #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> hAlign [
 
 	^ self layout hAlign
@@ -380,4 +392,16 @@ GLMBrickLayoutTrait >> valueOfProperty: aSymbol ifAbsent: aBlock [
 GLMBrickLayoutTrait >> valueOfProperty: aSymbol ifAbsentPut: aBlock [ 
 	
 	^ self explicitRequirement
+]
+
+{ #category : #'brick-layout-properties' }
+GLMBrickLayoutTrait >> zIndex [
+
+	^ self layout zIndex
+]
+
+{ #category : #'brick-layout-properties' }
+GLMBrickLayoutTrait >> zIndex: anInteger [
+
+	self layout zIndex: anInteger
 ]

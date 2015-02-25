@@ -31,15 +31,16 @@ GLMRubEditingAreaBrick class >> exampleScrollPane [
 				openInWindow
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GLMRubEditingAreaBrick >> initialize [
 	super initialize.
 	
-	self hSpaceFill.
+	self
+		hSpaceFill.
 	isLayouting := false
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #layout }
 GLMRubEditingAreaBrick >> layoutChanged [
 	super layoutChanged.
 	
@@ -57,7 +58,7 @@ GLMRubEditingAreaBrick >> newRubricMorph [
 	^ RubEditingArea new beWrapped
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMRubEditingAreaBrick >> on: aMorph [
 	
 	aMorph layoutProperties ifNil: [ 
@@ -65,5 +66,6 @@ GLMRubEditingAreaBrick >> on: aMorph [
 
 	morph := aMorph.
 	
-	self addBrickBack: morph
+	self addBrickBack: morph.
+	self height: self morph height.
 ]

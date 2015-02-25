@@ -229,7 +229,8 @@ GLMStringBrick >> hShrinkWrap [
 { #category : #public }
 GLMStringBrick >> highlight: aString [
 
-	highlightedString := aString
+	highlightedString := aString.
+	self changed
 ]
 
 { #category : #accessing }
@@ -245,7 +246,7 @@ GLMStringBrick >> highlightingLogic [
 	^ self valueOfProperty: #brickHighlightingLogic ifAbsentPut: [
 		[ :aCanvas :aRectangle | |rectangle|
 			"because font calculates text width wrong"
-			rectangle := aRectangle translateBy: (-3@0).
+			rectangle := aRectangle translateBy: ((3@1) negated + self brickBounds origin).
 			aCanvas line: rectangle bottomLeft to: rectangle bottomRight width: 1 color: self textColor ] ] 
 ]
 
@@ -285,10 +286,11 @@ GLMStringBrick >> onDraw: aCanvas [
 
 	super onDraw: aCanvas.
 	
-	self calculateHighlightingBounds do: [ :each |
-		self highlightingLogic
-			ifNil: [ aCanvas line: each bottomLeft to: each bottomRight width: 1 color: self textColor ]
-			ifNotNil: [ self highlightingLogic cull: aCanvas cull: each ] ].
+	self highlightedText isEmpty ifFalse: [
+		self calculateHighlightingBounds do: [ :each |
+			self highlightingLogic
+				ifNil: [ aCanvas line: each bottomLeft to: each bottomRight width: 1 color: self textColor ]
+				ifNotNil: [ self highlightingLogic cull: aCanvas cull: each ] ] ].
 	
 	aCanvas
 		drawString: self text

@@ -26,7 +26,7 @@ Class {
 		'dotsBrick',
 		'stringBrick'
 	],
-	#category : #'Glamour-Morphic-Brick-Widgets-Core'
+	#category : #'Glamour-Morphic-Brick-Widgets-Basic'
 }
 
 { #category : #examples }
@@ -90,86 +90,61 @@ GLMLabelBrick class >> example [
 	rootBrick asBrickedMorph openInWindow
 ]
 
-{ #category : #geometry }
+{ #category : #'brick-geometry' }
 GLMLabelBrick >> approximateHeight [
 	
 	^ self label approximateHeight + self vMargin + self vPadding
 ]
 
-{ #category : #geometry }
+{ #category : #'brick-geometry' }
 GLMLabelBrick >> approximateWidth [
 	
 	^ self label approximateWidth + self hMargin + self hPadding
 ]
 
-{ #category : #accessing }
+{ #category : #'label-brick-accessing' }
 GLMLabelBrick >> contents: aStringOrText [
 
 	self text: aStringOrText asString
 ]
 
-{ #category : #'default values' }
+{ #category : #'label-brick-default' }
 GLMLabelBrick >> defaultDotsText [
 	^ '...'
 ]
 
-{ #category : #'default values' }
+{ #category : #'label-brick-default' }
 GLMLabelBrick >> defaultInsetBeforeDots [
 	^ 1
 ]
 
-{ #category : #layouting }
-GLMLabelBrick >> doLayout [
-	"contolls logic of text schrinking"
-	|isFit|
-	self flag: 'fix me'.
-	super doLayout.
-	
-	"checking if label text fits in me"
-	"isFit := self label isFitsInParent.
-	
-	(isFit & (self isDotsAdded not)) ifTrue: [ ^ self ].
-	(isFit not & self isDotsAdded) ifTrue: [ ^ self ].
-	
-	(isFit & self isDotsAdded) ifTrue: [
-		self removeBrick: self dotsBrick.
-		isDotsAdded := false.
-		super doLayout.
-	] ifFalse: [ 
-		self addBrickBack: self dotsBrick.
-		isDotsAdded := true.
-		super doLayout.
-	]"
-	
-]
-
-{ #category : #accessing }
+{ #category : #'label-brick-accessing' }
 GLMLabelBrick >> dotsBrick [
 
 	^ dotsBrick
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-properties' }
 GLMLabelBrick >> familyName: aString [
 
 	self label familyName: aString.
 	self dotsBrick familyName: aString
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-properties' }
 GLMLabelBrick >> font: aLogicalFont [
 
 	self label font: aLogicalFont.
 	self dotsBrick font: aLogicalFont.
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-properties' }
 GLMLabelBrick >> fontSize [
 
 	^ self label fontSize
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-properties' }
 GLMLabelBrick >> fontSize: aNumber [
 	<brickBuilderProperty: #Text name: 'Font size' as: #asInteger getter: #fontSize model: #GLMUIBuilderTextFieldProperty>
 
@@ -182,6 +157,14 @@ GLMLabelBrick >> hShrinkWrap [
 	super hShrinkWrap.
 	
 	self label hShrinkWrap.
+	self dotsBrick hShrinkWrap.
+]
+
+{ #category : #'brick-layout-properties' }
+GLMLabelBrick >> hSpaceFill [
+	super hSpaceFill.
+	
+	self label hSpaceFill.
 	self dotsBrick hShrinkWrap.
 ]
 
@@ -206,40 +189,40 @@ GLMLabelBrick >> initialize [
 	
 ]
 
-{ #category : #accessing }
+{ #category : #'label-brick-accessing' }
 GLMLabelBrick >> isDotsAdded [
 	^ isDotsAdded
 ]
 
-{ #category : #accessing }
+{ #category : #'label-brick-accessing' }
 GLMLabelBrick >> label [
 	^ stringBrick
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'label-brick-creation' }
 GLMLabelBrick >> newStringBrick [
 	^ GLMStringBrick new
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-properties' }
 GLMLabelBrick >> text [
 	^ self label text
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-properties' }
 GLMLabelBrick >> text: aString [
 	<brickBuilderProperty: #Text name: 'Text' as: #asString getter: #text model: #GLMUIBuilderTextFieldProperty>
 	
 	self label text: aString
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-properties' }
 GLMLabelBrick >> textColor [
 
 	^ self label textColor
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-properties' }
 GLMLabelBrick >> textColor: aColor [
 	<brickBuilderProperty: #Text name: 'Text color' as: #brickBuilderEvaluate getter: #textColor model: #GLMUIBuilderTextFieldProperty>
 
@@ -247,13 +230,13 @@ GLMLabelBrick >> textColor: aColor [
 	self dotsBrick textColor: aColor
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-properties' }
 GLMLabelBrick >> textPosition [
 
 	^ self label textPosition
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-properties' }
 GLMLabelBrick >> textPosition: aSymbol [
 	<brickBuilderProperty: #Text name: 'Text position' as: #asSymbol getter: #textPosition model: #GLMUIBuilderTextFieldProperty>
 
@@ -269,7 +252,15 @@ GLMLabelBrick >> vShrinkWrap [
 	self dotsBrick vShrinkWrap
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-layout-properties' }
+GLMLabelBrick >> vSpaceFill [
+	super vSpaceFill.
+	
+	self label vSpaceFill.
+	self dotsBrick vShrinkWrap.
+]
+
+{ #category : #'brick-properties' }
 GLMLabelBrick >> weightValue: anInteger [
 
 	self label weightValue: anInteger.

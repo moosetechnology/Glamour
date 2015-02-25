@@ -152,7 +152,7 @@ GLMBrickStructureTrait >> openInBrickWindow [
 
 	GLMSystemWindowBrick new
 		color: Color transparent;
-		addBrickBack: self;
+		addBrickBack: (self hSpaceFill; vSpaceFill; margin: 10);
 		extent: 400@400;
 		openCenteredInWorld
 ]

@@ -208,6 +208,12 @@ GLMBrickPropertiesTrait >> valueOfProperty: aSymbol ifAbsentPut: aBlock [
 ]
 
 { #category : #'brick-properties-events' }
+GLMBrickPropertiesTrait >> when: aventName do: aBlock [
+
+	self announcer when: aventName do: aBlock
+]
+
+{ #category : #'brick-properties-events' }
 GLMBrickPropertiesTrait >> when: aventName send: aSymbol to: aReceiver [
 
 	self announcer weak when: aventName send: aSymbol to: aReceiver

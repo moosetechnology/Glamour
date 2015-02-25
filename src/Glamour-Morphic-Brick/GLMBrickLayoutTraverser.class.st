@@ -253,7 +253,7 @@ GLMBrickLayoutTraverser >> markDirtyAround: aBrick inContext: aContextBrick [
 	aBrick subbricks do: [ :each |
 		each = aContextBrick ifFalse: [
 			each isBrick ifTrue: [
-			(self isDependsOnParent: each) & (self isClean: each) ifTrue: [
+			((self isDependsOnParent: each) & (self isClean: each)) | ((each floating = #none) not) ifTrue: [
 				self markDirty: each.
 				self markDirtyAround: each inContext: aBrick ] ] ] ].
 	

@@ -183,6 +183,7 @@ GLMInteractableBrick >> checkedImage: anObject [
 
 { #category : #actions }
 GLMInteractableBrick >> click: evt [
+	self announce: #onClicked.
 	^ false
 ]
 
