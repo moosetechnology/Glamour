@@ -96,6 +96,13 @@ GLMRoassal2Presentation >> defaultActions [
 						export: roassal view view.
 					self openIfPossible: fileName ] ]
 			entitled: 'Export to HTML...'.
+			
+	(Smalltalk includesKey:#RTPDFExporter) ifTrue: [ 
+			self
+				act: [ :roassal| (Smalltalk at: #RTPDFExporter) exportView: roassal view view ]
+				entitled: 'Export to PDF...'
+			 ].
+			
 
 	
 ]
