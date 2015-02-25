@@ -153,16 +153,12 @@ GLMInteractableBrick class >> selectedColor: isSelected of: aTrick [
 ]
 
 { #category : #actions }
-GLMInteractableBrick >> announcer [
-	^ announcer ifNil: [ announcer := Announcer new ]
-]
-
-{ #category : #actions }
 GLMInteractableBrick >> check [
+	"notifies #onChecked"
 	self isChecked ifFalse: [
 		isChecked := true.
-		self changed.
-	]
+		self announce: #onChecked.
+		self changed ]
 ]
 
 { #category : #accessing }
@@ -205,16 +201,16 @@ GLMInteractableBrick >> depress [
 	self isPressed ifTrue: [
 		isPressed := false.
 		self changed.
-		^ true
-	].
-
+		^ true ].
 	^ false
 ]
 
 { #category : #actions }
 GLMInteractableBrick >> deselect [
+	"notifies #onMouseUnhover"
 	self isSelected ifTrue: [
 		isSelected := false.
+		self announce: #onMouseUnhover.
 		self changed ]
 ]
 
@@ -371,8 +367,10 @@ GLMInteractableBrick >> pressedImage: anObject [
 
 { #category : #actions }
 GLMInteractableBrick >> select [
+	"notifies #onMouseHover"
 	self isSelected ifFalse: [ 
 		isSelected := true.
+		self announce: #onMouseHover.
 		self changed ]
 ]
 
@@ -410,8 +408,9 @@ GLMInteractableBrick >> state [
 
 { #category : #actions }
 GLMInteractableBrick >> uncheck [
+	"notifies #onUnchecked"
 	self isChecked ifTrue: [
 		isChecked := false.
-		self changed.
-	]
+		self announce: #onUnchecked.
+		self changed ]
 ]

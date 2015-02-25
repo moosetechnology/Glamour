@@ -279,6 +279,12 @@ form := PatchForm scaleForm: form by: (800/(form extent x))@(800/(form extent y)
 
 ]
 
+{ #category : #'brick-properties' }
+GLMBrick >> announcer [
+
+	^ super announcer
+]
+
 { #category : #'brick-geometry' }
 GLMBrick >> bounds [
 

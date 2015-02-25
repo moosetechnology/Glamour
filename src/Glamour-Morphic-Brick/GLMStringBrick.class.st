@@ -220,6 +220,12 @@ GLMStringBrick >> fontSize: aNumber [
 	self updateFont.
 ]
 
+{ #category : #'brick-layout-properties' }
+GLMStringBrick >> hShrinkWrap [
+	
+	self width: #approximateWidth
+]
+
 { #category : #public }
 GLMStringBrick >> highlight: aString [
 
@@ -367,4 +373,10 @@ GLMStringBrick >> textSize [
 { #category : #private }
 GLMStringBrick >> updateFont [
 	font := LogicalFont familyName: self familyName pointSize: self fontSize
+]
+
+{ #category : #'brick-layout-properties' }
+GLMStringBrick >> vShrinkWrap [
+	
+	self height: #approximateHeight
 ]

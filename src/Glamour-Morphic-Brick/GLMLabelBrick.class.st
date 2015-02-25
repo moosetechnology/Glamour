@@ -177,6 +177,14 @@ GLMLabelBrick >> fontSize: aNumber [
 	self dotsBrick fontSize: aNumber
 ]
 
+{ #category : #'brick-layout-properties' }
+GLMLabelBrick >> hShrinkWrap [
+	super hShrinkWrap.
+	
+	self label hShrinkWrap.
+	self dotsBrick hShrinkWrap.
+]
+
 { #category : #initialization }
 GLMLabelBrick >> initialize [
 	super initialize.
@@ -251,6 +259,14 @@ GLMLabelBrick >> textPosition: aSymbol [
 
 	self label textPosition: aSymbol.
 	self dotsBrick textPosition: aSymbol.
+]
+
+{ #category : #'brick-layout-properties' }
+GLMLabelBrick >> vShrinkWrap [
+	super vShrinkWrap.
+	
+	self label vShrinkWrap.
+	self dotsBrick vShrinkWrap
 ]
 
 { #category : #accessing }

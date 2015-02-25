@@ -8,6 +8,18 @@ Trait {
 	#category : #'Glamour-Morphic-Brick-Traits'
 }
 
+{ #category : #'brick-properties-events' }
+GLMBrickPropertiesTrait >> announce: anAnnouncement [
+
+	self announcer announce: anAnnouncement
+]
+
+{ #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> announcer [
+
+	^ self explicitRequirement
+]
+
 { #category : #'brick-properties' }
 GLMBrickPropertiesTrait >> border [
 
@@ -193,6 +205,12 @@ GLMBrickPropertiesTrait >> valueOfProperty: aSymbol ifAbsent: aBlock [
 GLMBrickPropertiesTrait >> valueOfProperty: aSymbol ifAbsentPut: aBlock [ 
 	
 	^ self explicitRequirement
+]
+
+{ #category : #'brick-properties-events' }
+GLMBrickPropertiesTrait >> when: aventName send: aSymbol to: aReceiver [
+
+	self announcer weak when: aventName send: aSymbol to: aReceiver
 ]
 
 { #category : #'brick-properties' }
