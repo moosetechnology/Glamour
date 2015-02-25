@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'titleBrick',
 		'generalCheckboxBrick',
-		'buttonsBrick'
+		'buttonsBrick',
+		'advancedBrick'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-UI'
 }
@@ -28,11 +29,15 @@ GLMPrivacyAgreementBrick class >> exampleInWindow [
 				borderWidth: 2;
 				margin: 10;
 				hSpaceFill;
-				vShrinkWrap);
+				vShrinkWrap;
+				with: [ :b |
+					b advancedOption
+						text: 'Include search query and selected search results'.
+					b advancedOption
+						text: 'Include developer name';
+						uncheck ];
+				yourself);
 		yourself)
-			"asBrickedMorph
-				extent: 400@300;
-				openInWindow"
 			openInBrickWindow
 ]
 
@@ -49,7 +54,6 @@ GLMPrivacyAgreementBrick >> addCancelButton [
 		height: [ :b | b icon height * 1.5 ];
 		hintTitle: 'Close';
 		hintText: '';
-		selectedColor: self themer buttonSelectedColor;
 		pressedColor: self themer buttonPressedColor;
 		when: #onClicked do: [  ];
 		enable.
@@ -66,9 +70,10 @@ GLMPrivacyAgreementBrick >> addShowMoreButton [
 		text: 'Advanced options';
 		textColor: (Color r: 51 g: 102 b: 187 range: 255);
 		when: #onMouseHover do: [ button label highlight: button label text ];
-		when: #onMouseUnhover do: [ button label highlight: nil ]; 
+		when: #onMouseUnhover do: [ button label highlight: nil ];
+		when: #onClicked do: [ self toggleAdvanced ];
 		with: [ :b | b label padding: #(3 0) ];
-		width: 100;
+		hShrinkWrap;
 		vShrinkWrap;
 		floating: #right;
 		hAlign: #right;
@@ -87,6 +92,29 @@ GLMPrivacyAgreementBrick >> addSubmitButton [
 		text: 'Agree';
 		when: #onClicked do: [  ].
 	self pushButton: button
+]
+
+{ #category : #accessing }
+GLMPrivacyAgreementBrick >> advancedBrick [
+	^ advancedBrick
+]
+
+{ #category : #accessing }
+GLMPrivacyAgreementBrick >> advancedBrick: anObject [
+	advancedBrick := anObject.
+	
+	self advancedBrick
+		hSpaceFill;
+		margin: self defaultMargin;
+		marginLeft: 20;
+		marginTop: 0
+]
+
+{ #category : #builder }
+GLMPrivacyAgreementBrick >> advancedOption [
+
+	^ self advancedBrick
+		addBrickBack: self newCheckboxBrick
 ]
 
 { #category : #accessing }
@@ -116,12 +144,7 @@ GLMPrivacyAgreementBrick >> checkboxBrick: anObject [
 	generalCheckboxBrick := anObject.
 	
 	self checkboxBrick
-		text: self defaultGeneralText;
-		hSpaceFill;
-		vShrinkWrap;
-		margin: #(5 0);
-		marginLeft: self defaultMargin;
-		check.
+		text: self defaultGeneralText.
 	
 	self addBrickBack: self checkboxBrick.
 ]
@@ -144,6 +167,12 @@ GLMPrivacyAgreementBrick >> defaultMargin [
 	^ 5
 ]
 
+{ #category : #actions }
+GLMPrivacyAgreementBrick >> hideAdvanced [
+
+	self removeBrick: self advancedBrick
+]
+
 { #category : #initialization }
 GLMPrivacyAgreementBrick >> initialize [
 	super initialize.
@@ -153,8 +182,15 @@ GLMPrivacyAgreementBrick >> initialize [
 	self titleBrick: self newTitleBrick.
 	self checkboxBrick: self newCheckboxBrick.
 	self buttonsBrick: self newButtonsBrick.
+	self advancedBrick: self newAdvancedBrick.
 	self addSubmitButton.
 	self addShowMoreButton
+]
+
+{ #category : #'instance creation' }
+GLMPrivacyAgreementBrick >> newAdvancedBrick [
+
+	^ GLMBandBrick new
 ]
 
 { #category : #'instance creation' }
@@ -173,6 +209,11 @@ GLMPrivacyAgreementBrick >> newButtonsBrick [
 GLMPrivacyAgreementBrick >> newCheckboxBrick [
 
 	^ GLMCheckboxBrick new
+		hSpaceFill;
+		vShrinkWrap;
+		margin: #(5 0);
+		marginLeft: self defaultMargin;
+		check.
 ]
 
 { #category : #'instance creation' }
@@ -185,6 +226,13 @@ GLMPrivacyAgreementBrick >> newTitleBrick [
 GLMPrivacyAgreementBrick >> pushButton: aButton [
 
 	self buttonsBrick addBrickBack: aButton
+]
+
+{ #category : #actions }
+GLMPrivacyAgreementBrick >> showAdvanced [
+
+	(self hasSubbrick: self advancedBrick)
+		ifFalse: [ self addBrickBack: self advancedBrick ]
 ]
 
 { #category : #accessing }
@@ -205,4 +253,12 @@ GLMPrivacyAgreementBrick >> titleBrick: anObject [
 		setTextWith: self defaultExplanationText.
 		
 	self addBrickBack: self titleBrick
+]
+
+{ #category : #actions }
+GLMPrivacyAgreementBrick >> toggleAdvanced [
+
+	(self hasSubbrick: self advancedBrick)
+		ifTrue: [ self hideAdvanced ]
+		ifFalse: [ self showAdvanced ]
 ]
