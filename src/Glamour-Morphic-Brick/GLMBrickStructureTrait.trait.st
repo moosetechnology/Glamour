@@ -163,9 +163,10 @@ GLMBrickStructureTrait >> openInBrickWindow [
 		color: Color transparent;
 		addBrickBack: (
 			GLMBrick new
-				addBrickBack: self;
+				vSpaceFill
 				hSpaceFill;
-				vSpaceFill);
+				addBrickBack: self;
+				yourself);
 		extent: 400@400;
 		openCenteredInWorld
 ]

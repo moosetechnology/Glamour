@@ -32,8 +32,6 @@ GLMButtonBrick class >> example [
 GLMButtonBrick class >> exampleInWindow [
 
 	self example
-		width: 200;
-		height: 50;
 		openCenteredInBrickWindow
 ]
 
@@ -59,7 +57,7 @@ GLMButtonBrick >> hSpaceFill [
 ]
 
 { #category : #'button-brick-accessing' }
-GLMButtonBrick >> icon [
+GLMButtonBrick >> iconBrick [
 
 	^ iconBrick
 ]
@@ -122,8 +120,7 @@ GLMButtonBrick >> text [
 { #category : #'brick-properties' }
 GLMButtonBrick >> text: aString [
 
-	self label text: aString.
-	self label label doLayoutForce
+	self label text: aString
 ]
 
 { #category : #'button-updating' }
