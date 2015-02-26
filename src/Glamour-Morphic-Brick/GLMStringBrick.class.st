@@ -223,6 +223,7 @@ GLMStringBrick >> fontSize: aNumber [
 { #category : #'brick-layout-properties' }
 GLMStringBrick >> hShrinkWrap [
 	
+	self hResizing: #rigid.
 	self width: #approximateWidth
 ]
 
@@ -267,6 +268,9 @@ GLMStringBrick >> initialize [
 	
 	textPosition := #leftCenter.
 	
+	self
+		hShrinkWrap;
+		vShrinkWrap.
 	self updateFont.
 	
 ]
@@ -321,7 +325,8 @@ GLMStringBrick >> text [
 { #category : #accessing }
 GLMStringBrick >> text: aString [
 
-	self privateSetText: aString
+	self privateSetText: aString.
+	self wrappedBounds markWidthDirty.
 ]
 
 { #category : #'brick-properties' }
@@ -380,5 +385,6 @@ GLMStringBrick >> updateFont [
 { #category : #'brick-layout-properties' }
 GLMStringBrick >> vShrinkWrap [
 	
+	self vResizing: #rigid.
 	self height: #approximateHeight
 ]

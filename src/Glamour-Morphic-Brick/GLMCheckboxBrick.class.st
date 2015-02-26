@@ -25,28 +25,22 @@ Class {
 GLMCheckboxBrick class >> example [
 	<example: 'Checkbox without label'>
 	^ self new
-		color: Color white;
-		vShrinkWrap;
-		hShrinkWrap
 ]
 
-{ #category : #examples }
+{ #category : #open }
 GLMCheckboxBrick class >> exampleInWindow [
 
-	(GLMBrick new
-		addBrickBack: self exampleWithLabel;
-		yourself)
-			openInBrickWindow
+	self exampleWithLabel
+		hShrinkWrap;
+		vShrinkWrap;
+		openCenteredInBrickWindow
 ]
 
 { #category : #examples }
 GLMCheckboxBrick class >> exampleWithLabel [
 	<example: 'Checkbox with label'>
 	^ self new
-		text: 'I''m label, click me';
-		color: Color white;
-		vShrinkWrap;
-		hShrinkWrap
+		text: 'I''m label, click me'
 ]
 
 { #category : #accessing }
@@ -159,7 +153,8 @@ GLMCheckboxBrick >> text: aString [
 	self label text isEmpty
 			ifTrue: [ self removeBrick: self label ]
 			ifFalse: [ (self hasSubbrick: self label)
-				ifFalse: [ self addBrickBack: self label ] ]
+				ifFalse: [ self addBrickBack: self label ] ].
+	self doLayoutForce
 ]
 
 { #category : #actions }

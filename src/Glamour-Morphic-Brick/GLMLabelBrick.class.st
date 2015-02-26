@@ -31,63 +31,15 @@ Class {
 
 { #category : #examples }
 GLMLabelBrick class >> example [
-	"this example must be called on my subclasses"
-	| rootBrick brick1 brick2 brick3 |
-	
-	rootBrick := GLMInteractableBrick new
-		useVerticalLinearLayout;
-		height: 400;
-		width: 400;
-		enable;
-		selectedColor: Color blue darker;
-		color: Color blue;
-		paddingLeft: 10;
-		paddingTop: 15;
-		paddingRight: 20;
-		paddingBottom: 5.
-	
-	" ---- Creating first brick ---- "
-	brick1 := GLMStringBrick new
-		text: 'Welcome to Brick!';
-		textColor: Color white;
-		textPosition: #center;
-		color: Color green;
-		selectedColor: Color darkGray;
-		normalColor: Color red;
-		pressedColor: Color gray;
-		enable;
-		hSpaceFill: 30;
-		height: 30.		
-		
-	" ---- Creating second brick ---- "
-	brick2 := GLMInteractableBrick new
-		color: Color green;
-		selectedColor: Color pink;
-		normalColor: Color green;
-		pressedColor: Color lightGray;
-		enable;
-		margin: #(15 20 5 10);
-		hSpaceFill: 50;
-		vSpaceFill: 50.
-		
-		
-	" ---- Creating third brick ---- "
-	brick3 := GLMStringBrick new
-		text: 'Welcome to Brick!';
-		textColor: Color black;
-		color: Color yellow;
-		margin: #(15 20 5 10);
-		hSpaceFill: 20;
-		vSpaceFill: 20.
-		
-		
-	" ---- Add them to the root brick ---- "
-	rootBrick
-		addBrickBack: brick1;
-		addBrickBack: brick2;
-		addBrickBack: brick3.
-	
-	rootBrick asBrickedMorph openInWindow
+	<example: 'Label with text'>
+	^ self new
+		text: 'Label'
+]
+
+{ #category : #open }
+GLMLabelBrick class >> exampleInWindow [
+
+	self example openCenteredInBrickWindow
 ]
 
 { #category : #'brick-geometry' }
@@ -157,7 +109,7 @@ GLMLabelBrick >> hShrinkWrap [
 	super hShrinkWrap.
 	
 	self label hShrinkWrap.
-	self dotsBrick hShrinkWrap.
+	self dotsBrick hShrinkWrap
 ]
 
 { #category : #'brick-layout-properties' }
@@ -168,24 +120,37 @@ GLMLabelBrick >> hSpaceFill [
 	self dotsBrick hShrinkWrap.
 ]
 
+{ #category : #'brick-geometry' }
+GLMLabelBrick >> height: anObject [
+
+	self vSpaceFill.
+	super height: anObject.
+]
+
 { #category : #initialization }
 GLMLabelBrick >> initialize [
 	super initialize.
 	
-	stringBrick := self privateAddBrickBack: (
-		self newStringBrick
-			hSpaceFill;
-			vSpaceFill;
-			marginRight: self defaultInsetBeforeDots).
+	stringBrick := self newStringBrick.
+	dotsBrick := self newStringBrick.
+	
+	self
+		hShrinkWrap;
+		vShrinkWrap.
+	
+	stringBrick
+			"hSpaceFill;
+			vSpaceFill;"
+			marginRight: self defaultInsetBeforeDots.
+	self privateAddBrickBack: stringBrick.
 	
 	"creating dots morph, that will be displayed when text is being clipped"
-	dotsBrick := self newStringBrick.
 	dotsBrick text: self defaultDotsText.
 	dotsBrick fontSize: 9.
 	dotsBrick width: [ :b | b approximateWidth ].
 	dotsBrick vSpaceFill.
 	
-	isDotsAdded := false.
+	isDotsAdded := false
 	
 ]
 
@@ -213,7 +178,9 @@ GLMLabelBrick >> text [
 GLMLabelBrick >> text: aString [
 	<brickBuilderProperty: #Text name: 'Text' as: #asString getter: #text model: #GLMUIBuilderTextFieldProperty>
 	
-	self label text: aString
+	self label text: aString.
+	self wrappedBounds markWidthDirty.
+	self doLayout
 ]
 
 { #category : #'brick-properties' }
@@ -265,4 +232,11 @@ GLMLabelBrick >> weightValue: anInteger [
 
 	self label weightValue: anInteger.
 	self dotsBrick weightValue: anInteger.
+]
+
+{ #category : #'brick-geometry' }
+GLMLabelBrick >> width: anObject [
+
+	self hSpaceFill.
+	super width: anObject.
 ]

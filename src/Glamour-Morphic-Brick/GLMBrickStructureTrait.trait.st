@@ -148,11 +148,24 @@ GLMBrickStructureTrait >> onRemovedFrom: aBrick [
 ]
 
 { #category : #'brick-structure-opening' }
+GLMBrickStructureTrait >> openCenteredInBrickWindow [
+
+	self
+		vAlign: #center;
+		hAlign: #center;
+		openInBrickWindow
+]
+
+{ #category : #'brick-structure-opening' }
 GLMBrickStructureTrait >> openInBrickWindow [
 
 	GLMSystemWindowBrick new
 		color: Color transparent;
-		addBrickBack: (self hSpaceFill; vSpaceFill; margin: 10);
+		addBrickBack: (
+			GLMBrick new
+				addBrickBack: self;
+				hSpaceFill;
+				vSpaceFill);
 		extent: 400@400;
 		openCenteredInWorld
 ]

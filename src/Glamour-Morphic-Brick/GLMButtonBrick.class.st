@@ -28,13 +28,13 @@ GLMButtonBrick class >> example [
 	^ self new
 ]
 
-{ #category : #examples }
+{ #category : #open }
 GLMButtonBrick class >> exampleInWindow [
 
-	(GLMBrick new
-		addBrickBack: self example;
-		yourself)
-			openInBrickWindow
+	self example
+		width: 200;
+		height: 50;
+		openCenteredInBrickWindow
 ]
 
 { #category : #actions }
