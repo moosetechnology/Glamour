@@ -110,7 +110,7 @@ GLMPrivacyAgreementBrick >> advancedBrick: anObject [
 		marginTop: 0
 ]
 
-{ #category : #builder }
+{ #category : #scripting }
 GLMPrivacyAgreementBrick >> advancedOption [
 
 	^ self advancedBrick
@@ -220,6 +220,10 @@ GLMPrivacyAgreementBrick >> newCheckboxBrick [
 GLMPrivacyAgreementBrick >> newTitleBrick [
 
 	^ GLMRubEditingAreaBrick new
+]
+
+{ #category : #scripting }
+GLMPrivacyAgreementBrick >> option [
 ]
 
 { #category : #adding }

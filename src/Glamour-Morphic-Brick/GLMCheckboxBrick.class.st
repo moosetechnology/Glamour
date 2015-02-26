@@ -16,7 +16,8 @@ Class {
 	#superclass : #GLMInteractableBrick,
 	#instVars : [
 		'labelBrick',
-		'checkBrick'
+		'checkBrick',
+		'id'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-Basic'
 }
@@ -43,13 +44,19 @@ GLMCheckboxBrick class >> exampleWithLabel [
 		text: 'I''m label, click me'
 ]
 
+{ #category : #'brick-structure-converting' }
+GLMCheckboxBrick >> asFormValue [
+
+	^ self id -> self isChecked
+]
+
 { #category : #accessing }
 GLMCheckboxBrick >> box [
 
 	^ checkBrick
 ]
 
-{ #category : #actions }
+{ #category : #scripting }
 GLMCheckboxBrick >> check [
 	self box check.
 	self label check.
@@ -96,6 +103,18 @@ GLMCheckboxBrick >> hSpaceFill [
 	super hSpaceFill.
 	
 	self label hSpaceFill
+]
+
+{ #category : #accessing }
+GLMCheckboxBrick >> id [
+
+	^ id ifNil: [ self ]
+]
+
+{ #category : #scripting }
+GLMCheckboxBrick >> id: anObejct [
+
+	id := anObejct
 ]
 
 { #category : #initialization }
@@ -146,7 +165,7 @@ GLMCheckboxBrick >> select: anEvent [
 	self label select: anEvent
 ]
 
-{ #category : #accessing }
+{ #category : #scripting }
 GLMCheckboxBrick >> text: aString [
 
 	self label text: aString.
@@ -165,7 +184,7 @@ GLMCheckboxBrick >> toggle [
 		ifFalse: [ self check ]
 ]
 
-{ #category : #actions }
+{ #category : #scripting }
 GLMCheckboxBrick >> uncheck [
 	self box uncheck.
 	self label uncheck.

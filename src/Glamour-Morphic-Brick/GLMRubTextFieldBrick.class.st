@@ -4,7 +4,7 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMRubTextFieldBrick >> newRubricMorph [
 
 	^ RubTextFieldMorph new

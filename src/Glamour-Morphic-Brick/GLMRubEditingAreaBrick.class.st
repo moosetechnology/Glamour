@@ -36,7 +36,8 @@ GLMRubEditingAreaBrick >> initialize [
 	super initialize.
 	
 	self
-		hSpaceFill.
+		hSpaceFill;
+		height: 0.
 	isLayouting := false
 ]
 

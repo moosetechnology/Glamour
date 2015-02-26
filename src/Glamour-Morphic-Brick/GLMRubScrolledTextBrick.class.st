@@ -92,6 +92,12 @@ GLMRubScrolledTextBrick >> rubricBorderWidth: aColor [
 	self updateStyle
 ]
 
+{ #category : #'brick-properties' }
+GLMRubScrolledTextBrick >> text: aText [
+
+	self rubric updateTextWith: aText
+]
+
 { #category : #'rubric-updating' }
 GLMRubScrolledTextBrick >> updateStyle [
 

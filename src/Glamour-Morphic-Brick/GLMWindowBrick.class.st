@@ -42,6 +42,12 @@ GLMWindowBrick >> announce: anAnnouncement [
 	^ self announcer announce: anAnnouncement
 ]
 
+{ #category : #'open/close' }
+GLMWindowBrick >> close [
+
+	^ self delete
+]
+
 { #category : #taskbar }
 GLMWindowBrick >> collapseBoxHit [
 	"The user has clicked on the collapse box.

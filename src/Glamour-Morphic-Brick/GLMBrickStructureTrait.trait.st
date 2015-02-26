@@ -45,6 +45,12 @@ GLMBrickStructureTrait >> addBrickFirst: aBrick [
 ]
 
 { #category : #'brick-structure' }
+GLMBrickStructureTrait >> allOwnersDo: aBlock [
+	"Evaluate aBlock with all owners of the receiver"
+	self owner ifNotNil:[ ^ self owner withAllOwnersDo: aBlock ].
+]
+
+{ #category : #'brick-structure' }
 GLMBrickStructureTrait >> allSubbricks [
 	| all |
 	all := OrderedCollection new.
@@ -70,6 +76,12 @@ GLMBrickStructureTrait >> asBrickedMorph [
 	^ GLMFoundationBrick new brickRoot: self
 ]
 
+{ #category : #'brick-structure-converting' }
+GLMBrickStructureTrait >> asFormValue [
+
+	^ nil
+]
+
 { #category : #'private-structure' }
 GLMBrickStructureTrait >> brickDoubleLink [
 
@@ -86,6 +98,14 @@ GLMBrickStructureTrait >> brickDoubleLink: aDoubleLink [
 GLMBrickStructureTrait >> brickRoot [
 
 	^ self owner ifNotNil: [ self owner brickRoot ] ifNil: [ ^ self ]
+]
+
+{ #category : #'brick-structure' }
+GLMBrickStructureTrait >> firstOwnerSuchThat: conditionBlock [
+
+	self allOwnersDo: [:m | (conditionBlock cull: m) ifTrue: [^ m]].
+	^ nil
+
 ]
 
 { #category : #'brick-structure' }
@@ -154,16 +174,29 @@ GLMBrickStructureTrait >> onRemovedFrom: aBrick [
 { #category : #'brick-structure-opening' }
 GLMBrickStructureTrait >> openCenteredInBrickWindow [
 
+	self openCenteredInBrickWindowLabeled: self
+]
+
+{ #category : #'brick-structure-opening' }
+GLMBrickStructureTrait >> openCenteredInBrickWindowLabeled: aLabel [
+
 	self
 		vAlign: #center;
 		hAlign: #center;
-		openInBrickWindow
+		openInBrickWindowLabeled: aLabel
 ]
 
 { #category : #'brick-structure-opening' }
 GLMBrickStructureTrait >> openInBrickWindow [
 
-	GLMSystemWindowBrick new
+	self openInBrickWindowLabeled: self
+]
+
+{ #category : #'brick-structure-opening' }
+GLMBrickStructureTrait >> openInBrickWindowLabeled: aLabel [
+
+	^ GLMSystemWindowBrick new
+		label: aLabel;
 		color: Color transparent;
 		addBrickBack: (
 			GLMBrick new
@@ -189,6 +222,13 @@ GLMBrickStructureTrait >> owner: aBrick [
 	aBrick
 		ifNotNil: [ self themerChanged ]
 		ifNil: [ self onRemovedFrom: oldOwner ]
+]
+
+{ #category : #'brick-structure' }
+GLMBrickStructureTrait >> ownerThatIsA: aClass [
+	"Return the first enclosing morph that is a kind of aClass, or nil if none"
+
+	^ self firstOwnerSuchThat: [:m | m isKindOf: aClass]
 ]
 
 { #category : #'private-structure' }
@@ -392,6 +432,21 @@ GLMBrickStructureTrait >> subbricksCount [
 GLMBrickStructureTrait >> subbricksReverseDo: aBlock [
 
 	self subbricks reverseDo: aBlock
+]
+
+{ #category : #'brick-structure' }
+GLMBrickStructureTrait >> window [
+	"Answer the receiver's window."
+
+	^ (self ownerThatIsA: GLMWindowBrick)
+		ifNil: [ self ownerThatIsA: SystemWindow ]
+]
+
+{ #category : #'brick-structure' }
+GLMBrickStructureTrait >> withAllOwnersDo: aBlock [
+	"Evaluate aBlock with the receiver and all of its owners"
+	aBlock cull: self.
+	self owner ifNotNil:[ ^ self owner withAllOwnersDo: aBlock ]
 ]
 
 { #category : #'brick-structure' }

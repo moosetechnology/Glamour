@@ -7,6 +7,12 @@ Object >> asBrick [
 ]
 
 { #category : #'*Glamour-Morphic-Brick' }
+Object >> brickAlert [
+
+	GLMAlertBrick alert: self
+]
+
+{ #category : #'*Glamour-Morphic-Brick' }
 Object >> brickValue: aBrick [
 
 	^ self

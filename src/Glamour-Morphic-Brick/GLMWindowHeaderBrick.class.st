@@ -34,7 +34,7 @@ GLMWindowHeaderBrick >> addCloseButton [
 	self pushActionButton: (
 		GLMActionButtonBrick new
 			icon: (GLMUIThemeExtraIcons glamorousClose);
-			addUpAction: [ self window delete ])
+			addUpAction: [ self window close ])
 ]
 
 { #category : #adding }

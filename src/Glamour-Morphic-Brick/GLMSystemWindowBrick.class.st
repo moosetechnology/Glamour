@@ -191,10 +191,29 @@ GLMSystemWindowBrick >> initialize [
 	self fadeBrick: self newFadeBrick
 ]
 
+{ #category : #scripting }
+GLMSystemWindowBrick >> innerExtent: aPoint [
+
+	self extent: aPoint + (0@self headerBrick height) + (self defaultPadding * 2 @ self defaultPadding)
+]
+
 { #category : #testing }
 GLMSystemWindowBrick >> isOffcanvasVisible [
 
 	^ self offcanvasBrick marginRight > self defaultOffcanvasWidth negated
+]
+
+{ #category : #scripting }
+GLMSystemWindowBrick >> label: anObject [
+
+	self headerBrick labelBrick text: anObject asString
+]
+
+{ #category : #accessing }
+GLMSystemWindowBrick >> labelString [
+	"Answer the actual label string."
+
+	^ self headerBrick labelBrick text
 ]
 
 { #category : #'instance creation' }
@@ -219,6 +238,12 @@ GLMSystemWindowBrick >> newHeaderBrick [
 GLMSystemWindowBrick >> newOffcanvasBrick [
 
 	^ GLMWindowOffcanvasBrick new
+]
+
+{ #category : #scripting }
+GLMSystemWindowBrick >> noMenu [
+
+	self headerBrick menuBrick hide
 ]
 
 { #category : #accessing }
