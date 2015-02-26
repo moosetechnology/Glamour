@@ -121,13 +121,17 @@ GLMBrickStructureTrait >> isBrick [
 { #category : #'brick-structure-testing' }
 GLMBrickStructureTrait >> isFirstInOwner [
 
-	^ self brickDoubleLink hasPredecessor not
+	^ self brickDoubleLink 
+		ifNotNilDo: [ :bdl | bdl hasPredecessor not ]
+		ifNil: [ false ]
 ]
 
 { #category : #'brick-structure-testing' }
 GLMBrickStructureTrait >> isLastInOwner [
 
-	^ self brickDoubleLink hasSuccessor not
+	^ self brickDoubleLink
+		ifNotNilDo: [ :bdl | bdl hasSuccessor not ]
+		ifNil: [ false ]
 ]
 
 { #category : #'brick-structure' }
