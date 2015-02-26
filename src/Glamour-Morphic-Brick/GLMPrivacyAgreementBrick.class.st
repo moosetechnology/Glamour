@@ -219,7 +219,7 @@ GLMPrivacyAgreementBrick >> newCheckboxBrick [
 { #category : #'instance creation' }
 GLMPrivacyAgreementBrick >> newTitleBrick [
 
-	^ GLMRubEditingAreaBrick new
+	^ GLMRubTextAreaBrick new
 ]
 
 { #category : #scripting }

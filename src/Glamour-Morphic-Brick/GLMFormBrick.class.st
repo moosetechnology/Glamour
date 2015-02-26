@@ -1,3 +1,7 @@
+"
+A GLMFormBrick is scriptable html-like form with possibility to submit it.
+
+"
 Class {
 	#name : #GLMFormBrick,
 	#superclass : #GLMBandBrick,
@@ -6,10 +10,12 @@ Class {
 
 { #category : #examples }
 GLMFormBrick class >> example [
-	<example: 'Input form with title, two labels, four checkboxes and submit button'>
+	<example: 'Input form with title, two labels, four checkboxes, text and submit button'>
 	^ self new
 		title: [ :t | t
 			text: 'Grüezi' ];
+		text: [ :t | t
+			text: 'Welcome to the Restaurant Zukunft zu Pharo in Berne'];
 		label: [ :l | l
 			text: 'What would you like to eat?' ];
 		checkbox: [ :c | c
@@ -21,7 +27,7 @@ GLMFormBrick class >> example [
 			text: 'Raclette, CHF 15.-' ];
 		
 		label: [ :l | l 
-			text: 'What would you like to drink?'];
+			text: 'What would you like to drink?' ];
 		checkbox: [ :c | c
 			id: #schorle;
 			text: 'Apfel Schorle, CHF 4.-' ];
@@ -106,6 +112,14 @@ GLMFormBrick >> newLabel [
 	^ GLMLabelBrick new margin: #(3 0)
 ]
 
+{ #category : #'instance creation' }
+GLMFormBrick >> newText [
+
+	^ GLMRubTextAreaBrick new
+		width: 200;
+		margin: #(3 0)
+]
+
 { #category : #scripting }
 GLMFormBrick >> submit [
 
@@ -125,6 +139,18 @@ GLMFormBrick >> submit: aBlock [
 GLMFormBrick >> submitForm [
 
 	self announce: (GLMFormSubmitted new result: self asFormValue)
+]
+
+{ #category : #scripting }
+GLMFormBrick >> text [
+
+	^ self addBrickBack: self newText
+]
+
+{ #category : #scripting }
+GLMFormBrick >> text: aBlock [
+
+	aBlock cull: self text
 ]
 
 { #category : #scripting }
