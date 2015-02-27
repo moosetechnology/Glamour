@@ -162,6 +162,7 @@ GLMPrivacyAgreementBrick >> basicAgreeCheckboxBrick [
 GLMPrivacyAgreementBrick >> basicAgreeCheckboxBrick: anObject [
 	generalCheckboxBrick := anObject.
 	self basicAgreeCheckboxBrick
+		marginTop: 5;
 		text: self defaultGeneralText;
 		when: #onChecked do: [ queryAgreeCheckboxBrick 
 				color: Color white;
@@ -170,7 +171,8 @@ GLMPrivacyAgreementBrick >> basicAgreeCheckboxBrick: anObject [
 		when: #onUnchecked do: [ queryAgreeCheckboxBrick 
 				color: Color veryVeryLightGray;
 				uncheck;
-				disable ].
+				disable;
+				changed ].
 	
 	self addBrickBack: self basicAgreeCheckboxBrick.
 ]
