@@ -330,6 +330,14 @@ ThemeIcons >> glamorousPlay [
 ]
 
 { #category : #'*Glamour-Morphic-Theme' }
+ThemeIcons >> glamorousPreferences [
+	"Private - Generated method"
+	^icons 
+			at: #glamorousPreferencesIcon
+			ifAbsentPut:[ Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: self glamorousPreferencesIconContents readStream) ].
+]
+
+{ #category : #'*Glamour-Morphic-Theme' }
 ThemeIcons >> glamorousRedCircle [
 ^ self icons
 		at: #glamorousRedCircle ifAbsentPut: [(Form
