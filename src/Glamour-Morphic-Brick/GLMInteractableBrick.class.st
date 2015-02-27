@@ -161,13 +161,6 @@ GLMInteractableBrick >> check [
 		self changed ]
 ]
 
-{ #category : #actions }
-GLMInteractableBrick >> check: aBoolean [
-	aBoolean
-		ifTrue: [ self check ]
-		ifFalse: [ self uncheck ]
-]
-
 { #category : #accessing }
 GLMInteractableBrick >> checkedColor [
 	^ checkedColor

@@ -41,21 +41,7 @@ GLMCheckboxBrick class >> exampleInWindow [
 GLMCheckboxBrick class >> exampleWithLabel [
 	<example: 'Checkbox with label'>
 	^ self new
-		text: 'I''m label, click me';
-		action: [ :boolean | self inform: 'Checkbox set to ', boolean asString ];
-		yourself
-]
-
-{ #category : #accessing }
-GLMCheckboxBrick >> action: aBlockClosure [ 
-	"aBlockClosure can receive as the first argument aBoolean, as the second argument this object."
-	self 
-		when: #onChecked 
-			do: [ :anAnnouncement :anAnnouncer | 
-					aBlockClosure cull: true cull: self cull: anAnnouncement cull: anAnnouncer ];
-		when: #onUnchecked
-			do: [ :anAnnouncement :anAnnouncer | 
-					aBlockClosure cull: false cull: self cull: anAnnouncement cull: anAnnouncer ]
+		text: 'I''m label, click me'
 ]
 
 { #category : #'brick-structure-converting' }
