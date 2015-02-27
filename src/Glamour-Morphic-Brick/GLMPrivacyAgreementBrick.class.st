@@ -339,9 +339,9 @@ GLMPrivacyAgreementBrick >> queryAgreeCheckboxBrick [
 GLMPrivacyAgreementBrick >> queryAgreeCheckboxBrick: anObject [
 	queryAgreeCheckboxBrick := anObject.
 	self queryAgreeCheckboxBrick
+		uncheck;
 		action: [ :boolean | self inform: 'Include search query set to ', boolean asString ];
 		marginLeft: 25;
-		uncheck;
 		text: 'Include search query and selected search results'.
 	
 	self addBrickBack: self queryAgreeCheckboxBrick.
