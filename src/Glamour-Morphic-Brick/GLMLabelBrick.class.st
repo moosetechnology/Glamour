@@ -42,6 +42,20 @@ GLMLabelBrick class >> exampleInWindow [
 	self example openCenteredInBrickWindow
 ]
 
+{ #category : #open }
+GLMLabelBrick class >> exampleShowPopup [
+
+	self new
+		enable;
+		text: 'Hello';
+		familyName: 'Bitmap DejaVu Sans';
+		fontSize: 11;
+		padding: 5;
+		with: [ :b  | b
+			when: #onMouseHover do: [ GLMPopupBrick new beHelp; openFor: b ] ];
+		openCenteredInBrickWindow
+]
+
 { #category : #'brick-geometry' }
 GLMLabelBrick >> approximateHeight [
 	
