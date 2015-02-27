@@ -5,7 +5,9 @@ Class {
 		'titleBrick',
 		'generalCheckboxBrick',
 		'buttonsBrick',
-		'advancedBrick'
+		'advancedBrick',
+		'buttonAction',
+		'submitButton'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-UI'
 }
@@ -14,6 +16,25 @@ Class {
 GLMPrivacyAgreementBrick class >> example [
 	<example: 'Simple agreement'>
 	^ self new
+]
+
+{ #category : #examples }
+GLMPrivacyAgreementBrick class >> exampleEmptyAgreementInWindow [
+
+	(GLMBrick new
+		hSpaceFill;
+		vSpaceFill;
+		addBrickBack: (
+			self example
+				padding: 2;
+				borderColor: Color lightGray;
+				borderWidth: 2;
+				margin: 10;
+				hSpaceFill;
+				vShrinkWrap;
+				yourself);
+		yourself)
+			openInBrickWindow
 ]
 
 { #category : #examples }
@@ -30,12 +51,19 @@ GLMPrivacyAgreementBrick class >> exampleInWindow [
 				margin: 10;
 				hSpaceFill;
 				vShrinkWrap;
+				applicationName: 'Spotter';
+				buttonText: 'I agree';
+				buttonAction: [ self inform: 'You have agreed.' ];
+				checkboxAction: [ :boolean | self inform: 'Send anonymous data set to ', boolean asString ];
 				with: [ :b |
 					b advancedOption
-						text: 'Include search query and selected search results'.
+						text: 'Include search query and selected search results';
+						action: [ :boolean | self inform: 'Include search query set to ', boolean asString ].
 					b advancedOption
 						text: 'Include developer name';
-						uncheck ];
+						uncheck;
+						action: [ :boolean | self inform: 'Include developer name set to ', boolean asString ].
+					];
 				yourself);
 		yourself)
 			openInBrickWindow
@@ -86,12 +114,13 @@ GLMPrivacyAgreementBrick >> addShowMoreButton [
 { #category : #adding }
 GLMPrivacyAgreementBrick >> addSubmitButton [
 
-	|button|
-	button := self newButtonBrick.
-	button
+	submitButton := self newButtonBrick.
+	submitButton
 		text: 'Agree';
-		when: #onClicked do: [  ].
-	self pushButton: button
+		when: #onClicked 
+			do: [ :anAnnouncemnt :anAnnoucer | 
+						self buttonAction cull: self cull: anAnnouncemnt cull: anAnnoucer ].
+	self pushButton: submitButton
 ]
 
 { #category : #accessing }
@@ -118,6 +147,27 @@ GLMPrivacyAgreementBrick >> advancedOption [
 ]
 
 { #category : #accessing }
+GLMPrivacyAgreementBrick >> applicationName: aString [ 
+	self titleBrick setTextWith: 'Would you like to help us improve ', aString asString, ', by allowing us to collect anonymous usage data?'
+]
+
+{ #category : #accessing }
+GLMPrivacyAgreementBrick >> buttonAction [
+	^ buttonAction ifNil: [ buttonAction := [ self inform: 'You have agreed.' ] ]
+]
+
+{ #category : #accessing }
+GLMPrivacyAgreementBrick >> buttonAction: aBlockClosure [ 
+	"It can have one argument receving this brick object."
+	buttonAction := aBlockClosure 
+]
+
+{ #category : #accessing }
+GLMPrivacyAgreementBrick >> buttonText: aString [
+	submitButton text: aString
+]
+
+{ #category : #accessing }
 GLMPrivacyAgreementBrick >> buttonsBrick [
 	^ buttonsBrick
 ]
@@ -132,6 +182,11 @@ GLMPrivacyAgreementBrick >> buttonsBrick: anObject [
 		vShrinkWrap.
 	
 	self addBrickBack: self buttonsBrick
+]
+
+{ #category : #accessing }
+GLMPrivacyAgreementBrick >> checkboxAction: aBlockClosure [ 
+	generalCheckboxBrick action: aBlockClosure 
 ]
 
 { #category : #accessing }
