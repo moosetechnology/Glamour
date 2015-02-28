@@ -2,14 +2,9 @@ Class {
 	#name : #GLMPrivacyAgreementBrick,
 	#superclass : #GLMBrick,
 	#instVars : [
-		'generalCheckboxBrick',
-		'buttonsBrick',
-		'advancedBrick',
+		'titleBrick',
 		'persistSettingsCheckboxBrick',
-		'queryAgreeCheckboxBrick',
-		'buttonAction',
-		'submitButton',
-		'titleBrick'
+		'basicAgreeCheckboxBrick'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-UI'
 }
@@ -18,25 +13,6 @@ Class {
 GLMPrivacyAgreementBrick class >> example [
 	<example: 'Simple agreement'>
 	^ self new
-]
-
-{ #category : #examples }
-GLMPrivacyAgreementBrick class >> exampleEmptyAgreementInWindow [
-
-	(GLMBrick new
-		hSpaceFill;
-		vSpaceFill;
-		addBrickBack: (
-			self example
-				padding: 2;
-				borderColor: Color lightGray;
-				borderWidth: 2;
-				margin: 10;
-				hSpaceFill;
-				vShrinkWrap;
-				yourself);
-		yourself)
-			openInBrickWindow
 ]
 
 { #category : #examples }
@@ -53,146 +29,26 @@ GLMPrivacyAgreementBrick class >> exampleInWindow [
 				margin: 10;
 				hSpaceFill;
 				vShrinkWrap;
-				applicationName: 'Spotter';
-				buttonText: 'I agree';
-				buttonAction: [ self inform: 'You have agreed.' ];
-				checkboxAction: [ :boolean | self inform: 'Send anonymous data set to ', boolean asString ];
-			"	with: [ :b |
-					b advancedOption
-						text: 'Include search query and selected search results';
-						action: [ :boolean | self inform: 'Include search query set to ', boolean asString ].
-					b advancedOption
-						text: 'Include developer name';
-						uncheck;
-						action: [ :boolean | self inform: 'Include developer name set to ', boolean asString ].
-					];"
 				yourself);
 		yourself)
 			openInBrickWindow
 ]
 
-{ #category : #adding }
-GLMPrivacyAgreementBrick >> addShowMoreButton [
-	|button|
-
-	button := GLMLabelBrick new.
-	button
-		text: 'Advanced options';
-		textColor: (Color r: 51 g: 102 b: 187 range: 255);
-		when: #onMouseHover do: [ button label highlight: button label text ];
-		when: #onMouseUnhover do: [ button label highlight: nil ];
-		when: #onClicked do: [ self toggleAdvanced ];
-		with: [ :b | b label padding: #(3 0) ];
-		hShrinkWrap;
-		vShrinkWrap;
-		floating: #right;
-		hAlign: #right;
-		vAlign: #center;
-		enable.
-		
-	self pushButton: button
-]
-
-{ #category : #adding }
-GLMPrivacyAgreementBrick >> addSubmitButton [
-
-	submitButton := self newButtonBrick.
-	submitButton
-		text: 'Agree';
-		when: #onClicked 
-			do: [ :anAnnouncemnt :anAnnoucer | 
-						self buttonAction cull: self cull: anAnnouncemnt cull: anAnnoucer ].
-	"self pushButton: submitButton"
-]
-
-{ #category : #accessing }
-GLMPrivacyAgreementBrick >> advancedBrick [
-	^ advancedBrick
-]
-
-{ #category : #accessing }
-GLMPrivacyAgreementBrick >> advancedBrick: anObject [
-	advancedBrick := anObject.
-	
-	self advancedBrick
-		hSpaceFill;
-		margin: self defaultMargin;
-		marginLeft: 20;
-		marginTop: 0
-]
-
-{ #category : #scripting }
-GLMPrivacyAgreementBrick >> advancedOption [
-
-	^ self advancedBrick
-		addBrickBack: self newCheckboxBrick
-]
-
-{ #category : #accessing }
-GLMPrivacyAgreementBrick >> applicationName: aString [ 
-	self titleBrick setTextWith: 'Help us improve ', aString asString, ', by allowing us to collect anonymous usage data.'
-]
-
 { #category : #accessing }
 GLMPrivacyAgreementBrick >> basicAgreeCheckboxBrick [
-	^ generalCheckboxBrick
+	^ basicAgreeCheckboxBrick
 ]
 
 { #category : #accessing }
 GLMPrivacyAgreementBrick >> basicAgreeCheckboxBrick: anObject [
-	generalCheckboxBrick := anObject.
+	basicAgreeCheckboxBrick := anObject.
 	self basicAgreeCheckboxBrick
 		marginTop: 5;
 		check: self sendUsageData;
 		action: [ :boolean | self sendUsageData: boolean ];
-		text: self defaultGeneralText;
-		when: #onChecked do: [ queryAgreeCheckboxBrick 
-				color: Color white;
-				enable;
-				changed];
-		when: #onUnchecked do: [ 
-			self sendSearchQuery: false.
-			self disableQueryAgreeCheckboxBrick ].
-	
+		text: self defaultGeneralText.
+
 	self addBrickBack: self basicAgreeCheckboxBrick.
-]
-
-{ #category : #accessing }
-GLMPrivacyAgreementBrick >> buttonAction [
-	^ buttonAction ifNil: [ buttonAction := [ self inform: 'You have agreed.' ] ]
-]
-
-{ #category : #accessing }
-GLMPrivacyAgreementBrick >> buttonAction: aBlockClosure [ 
-	"It can have one argument receving this brick object."
-	buttonAction := aBlockClosure 
-]
-
-{ #category : #accessing }
-GLMPrivacyAgreementBrick >> buttonText: aString [
-	submitButton text: aString
-]
-
-{ #category : #accessing }
-GLMPrivacyAgreementBrick >> buttonsBrick [
-	^ buttonsBrick
-]
-
-{ #category : #accessing }
-GLMPrivacyAgreementBrick >> buttonsBrick: anObject [
-	buttonsBrick := anObject.
-	
-	self buttonsBrick
-		margin: self defaultMargin;
-		hSpaceFill: 100;
-		vShrinkWrap.
-	
-	self addBrickBack: self buttonsBrick
-]
-
-{ #category : #accessing }
-GLMPrivacyAgreementBrick >> checkboxAction: aBlockClosure [ 
-	generalCheckboxBrick action: aBlockClosure 
 ]
 
 { #category : #initialization }
@@ -214,16 +70,6 @@ GLMPrivacyAgreementBrick >> defaultMargin [
 ]
 
 { #category : #accessing }
-GLMPrivacyAgreementBrick >> disableQueryAgreeCheckboxBrick [
-	queryAgreeCheckboxBrick 
-		color: Color veryVeryLightGray;
-		uncheck;
-		disable;
-		changed.
-
-]
-
-{ #category : #accessing }
 GLMPrivacyAgreementBrick >> extraInfoBrick: extraInforBrick [
 	
 	extraInforBrick
@@ -237,12 +83,6 @@ GLMPrivacyAgreementBrick >> extraInfoBrick: extraInforBrick [
 	self addBrickBack: extraInforBrick
 ]
 
-{ #category : #actions }
-GLMPrivacyAgreementBrick >> hideAdvanced [
-
-	self removeBrick: self advancedBrick
-]
-
 { #category : #initialization }
 GLMPrivacyAgreementBrick >> initialize [
 	super initialize.
@@ -250,18 +90,8 @@ GLMPrivacyAgreementBrick >> initialize [
 	self useVerticalLinearLayout.
 	self titleBrick: self newTitleBrick.
 	self basicAgreeCheckboxBrick: self newCheckboxBrick.
-	self queryAgreeCheckboxBrick: self newCheckboxBrick.
 	self persistSettingsCheckboxBrick: self newCheckboxBrick.
 	self extraInfoBrick: self newTitleBrick.
-	self buttonsBrick: self newButtonsBrick.
-	"self advancedBrick: self newAdvancedBrick."
-	self addSubmitButton.
-]
-
-{ #category : #'instance creation' }
-GLMPrivacyAgreementBrick >> newAdvancedBrick [
-
-	^ GLMBandBrick new
 ]
 
 { #category : #'instance creation' }
@@ -328,45 +158,6 @@ GLMPrivacyAgreementBrick >> persistSettingsCheckboxBrick: anObject [
 	self addBrickBack: self persistSettingsCheckboxBrick.
 ]
 
-{ #category : #adding }
-GLMPrivacyAgreementBrick >> pushButton: aButton [
-
-	self buttonsBrick addBrickBack: aButton
-]
-
-{ #category : #accessing }
-GLMPrivacyAgreementBrick >> queryAgreeCheckboxBrick [
-	^ queryAgreeCheckboxBrick
-]
-
-{ #category : #accessing }
-GLMPrivacyAgreementBrick >> queryAgreeCheckboxBrick: anObject [
-	queryAgreeCheckboxBrick := anObject.
-	self queryAgreeCheckboxBrick
-		check: self sendSearchQuery;
-		action: [ :boolean | self sendSearchQuery: boolean ];
-		marginLeft: 25;
-		text: 'Include search query and selected search results'.
-
-	self sendUsageData ifFalse: [ self disableQueryAgreeCheckboxBrick ].
-	
-	self addBrickBack: self queryAgreeCheckboxBrick.
-]
-
-{ #category : #preferences }
-GLMPrivacyAgreementBrick >> sendSearchQuery [
-	| settingsClass |
-	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ false ].
-	^ settingsClass uniqueInstance sendSearchQuery
-]
-
-{ #category : #preferences }
-GLMPrivacyAgreementBrick >> sendSearchQuery: aBoolean [
-	| settingsClass |
-	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ self ].
-	^ settingsClass uniqueInstance sendSearchQuery: aBoolean
-]
-
 { #category : #preferences }
 GLMPrivacyAgreementBrick >> sendUsageData [
 	| settingsClass |
@@ -379,13 +170,6 @@ GLMPrivacyAgreementBrick >> sendUsageData: aBoolean [
 	| settingsClass |
 	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ self ].
 	^ settingsClass uniqueInstance sendUsageData: aBoolean
-]
-
-{ #category : #actions }
-GLMPrivacyAgreementBrick >> showAdvanced [
-
-	(self hasSubbrick: self advancedBrick)
-		ifFalse: [ self addBrickBack: self advancedBrick ]
 ]
 
 { #category : #accessing }
@@ -407,12 +191,4 @@ GLMPrivacyAgreementBrick >> titleBrick: anObject [
 		text: self defaultExplanationText.
 		
 	self addBrickBack: self titleBrick
-]
-
-{ #category : #actions }
-GLMPrivacyAgreementBrick >> toggleAdvanced [
-
-	(self hasSubbrick: self advancedBrick)
-		ifTrue: [ self hideAdvanced ]
-		ifFalse: [ self showAdvanced ]
 ]
