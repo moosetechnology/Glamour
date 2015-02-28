@@ -54,13 +54,13 @@ GLMPrivacyAgreementBrick >> basicAgreeCheckboxBrick: anObject [
 { #category : #initialization }
 GLMPrivacyAgreementBrick >> defaultExplanationText [
 
-	^ 'Help us improve Spotter by sending usage data.'
+	^ 'Help us improve Spotter by allowing us to collect usage data.'
 ]
 
 { #category : #initialization }
 GLMPrivacyAgreementBrick >> defaultGeneralText [
 
-	^ 'Send basic anonymous data'
+	^ 'Send anonymous usage data'
 ]
 
 { #category : #initialization }
@@ -78,7 +78,7 @@ GLMPrivacyAgreementBrick >> extraInfoBrick: extraInforBrick [
 		margin: { 0 . self defaultMargin };
 		marginRight: 15;
 		font: TextStyle defaultFont;
-		text: 'You can at any time change this settings'.
+		text: 'You can at any time change these settings'.
 		
 	self addBrickBack: extraInforBrick
 ]
@@ -91,7 +91,7 @@ GLMPrivacyAgreementBrick >> initialize [
 	self titleBrick: self newTitleBrick.
 	self basicAgreeCheckboxBrick: self newCheckboxBrick.
 	self persistSettingsCheckboxBrick: self newCheckboxBrick.
-	self extraInfoBrick: self newTitleBrick.
+	"self extraInfoBrick: self newTitleBrick."
 ]
 
 { #category : #'instance creation' }
@@ -153,7 +153,7 @@ GLMPrivacyAgreementBrick >> persistSettingsCheckboxBrick: anObject [
 		check: self persistSettings;
 		action: [ :boolean | self persistSettings: boolean ];
 		marginTop: 15;
-		text: 'Set as default settings'.
+		text: 'Remember setting (set as default for all local images)'.
 	
 	self addBrickBack: self persistSettingsCheckboxBrick.
 ]
