@@ -239,6 +239,12 @@ GLMInteractableBrick >> enable [
 	isEnabled := true.
 ]
 
+{ #category : #actions }
+GLMInteractableBrick >> enable: aBoolean [
+	
+	isEnabled := aBoolean.
+]
+
 { #category : #'mouse events' }
 GLMInteractableBrick >> handlesMouseDown: evt [
 	

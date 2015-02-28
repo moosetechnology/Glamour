@@ -143,16 +143,16 @@ GLMPrivacyAgreementBrick >> basicAgreeCheckboxBrick: anObject [
 	generalCheckboxBrick := anObject.
 	self basicAgreeCheckboxBrick
 		marginTop: 5;
+		check: self sendUsageData;
+		action: [ :boolean | self sendUsageData: boolean ];
 		text: self defaultGeneralText;
 		when: #onChecked do: [ queryAgreeCheckboxBrick 
 				color: Color white;
 				enable;
 				changed];
-		when: #onUnchecked do: [ queryAgreeCheckboxBrick 
-				color: Color veryVeryLightGray;
-				uncheck;
-				disable;
-				changed ].
+		when: #onUnchecked do: [ 
+			self sendSearchQuery: false.
+			self disableQueryAgreeCheckboxBrick ].
 	
 	self addBrickBack: self basicAgreeCheckboxBrick.
 ]
@@ -211,6 +211,16 @@ GLMPrivacyAgreementBrick >> defaultGeneralText [
 GLMPrivacyAgreementBrick >> defaultMargin [
 
 	^ 5
+]
+
+{ #category : #accessing }
+GLMPrivacyAgreementBrick >> disableQueryAgreeCheckboxBrick [
+	queryAgreeCheckboxBrick 
+		color: Color veryVeryLightGray;
+		uncheck;
+		disable;
+		changed.
+
 ]
 
 { #category : #accessing }
@@ -287,6 +297,20 @@ GLMPrivacyAgreementBrick >> newTitleBrick [
 GLMPrivacyAgreementBrick >> option [
 ]
 
+{ #category : #preferences }
+GLMPrivacyAgreementBrick >> persistSettings [
+	| settingsClass |
+	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ false ].
+	^ settingsClass uniqueInstance persistSettings
+]
+
+{ #category : #preferences }
+GLMPrivacyAgreementBrick >> persistSettings: aBoolean [
+	| settingsClass |
+	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ self ].
+	settingsClass uniqueInstance persistSettings: aBoolean
+]
+
 { #category : #accessing }
 GLMPrivacyAgreementBrick >> persistSettingsCheckboxBrick [
 	^ persistSettingsCheckboxBrick 
@@ -296,7 +320,8 @@ GLMPrivacyAgreementBrick >> persistSettingsCheckboxBrick [
 GLMPrivacyAgreementBrick >> persistSettingsCheckboxBrick: anObject [
 	persistSettingsCheckboxBrick := anObject.
 	self persistSettingsCheckboxBrick
-		action: [ :boolean | self inform: 'Set as default settings to ', boolean asString ];
+		check: self persistSettings;
+		action: [ :boolean | self persistSettings: boolean ];
 		marginTop: 15;
 		text: 'Set as default settings'.
 	
@@ -318,12 +343,42 @@ GLMPrivacyAgreementBrick >> queryAgreeCheckboxBrick [
 GLMPrivacyAgreementBrick >> queryAgreeCheckboxBrick: anObject [
 	queryAgreeCheckboxBrick := anObject.
 	self queryAgreeCheckboxBrick
-		uncheck;
-		action: [ :boolean | self inform: 'Include search query set to ', boolean asString ];
+		check: self sendSearchQuery;
+		action: [ :boolean | self sendSearchQuery: boolean ];
 		marginLeft: 25;
 		text: 'Include search query and selected search results'.
+
+	self sendUsageData ifFalse: [ self disableQueryAgreeCheckboxBrick ].
 	
 	self addBrickBack: self queryAgreeCheckboxBrick.
+]
+
+{ #category : #preferences }
+GLMPrivacyAgreementBrick >> sendSearchQuery [
+	| settingsClass |
+	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ false ].
+	^ settingsClass uniqueInstance sendSearchQuery
+]
+
+{ #category : #preferences }
+GLMPrivacyAgreementBrick >> sendSearchQuery: aBoolean [
+	| settingsClass |
+	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ self ].
+	^ settingsClass uniqueInstance sendSearchQuery: aBoolean
+]
+
+{ #category : #preferences }
+GLMPrivacyAgreementBrick >> sendUsageData [
+	| settingsClass |
+	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ false ].
+	^ settingsClass uniqueInstance sendUsageData
+]
+
+{ #category : #preferences }
+GLMPrivacyAgreementBrick >> sendUsageData: aBoolean [
+	| settingsClass |
+	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ self ].
+	^ settingsClass uniqueInstance sendUsageData: aBoolean
 ]
 
 { #category : #actions }
