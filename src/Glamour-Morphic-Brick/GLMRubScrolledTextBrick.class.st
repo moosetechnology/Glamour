@@ -93,6 +93,19 @@ GLMRubScrolledTextBrick >> rubricBorderWidth: aColor [
 ]
 
 { #category : #'brick-properties' }
+GLMRubScrolledTextBrick >> rubricTextColor [
+
+	^ self valueOfProperty: #brickRubricTextColor ifAbsent: [ self themer rubricTextColor ]
+]
+
+{ #category : #'brick-properties' }
+GLMRubScrolledTextBrick >> rubricTextColor: aColor [
+
+	self setProperty: #brickRubricTextColor toValue: aColor.
+	self updateStyle
+]
+
+{ #category : #'brick-properties' }
 GLMRubScrolledTextBrick >> text: aText [
 
 	self rubric updateTextWith: aText
@@ -103,5 +116,6 @@ GLMRubScrolledTextBrick >> updateStyle [
 
 	self rubric color: self rubricBackgroundColor.
 	self rubric borderColor: self rubricBorderColor.
-	self rubric borderWidth: self rubricBorderWidth
+	self rubric borderWidth: self rubricBorderWidth.
+	self rubric textColor: self rubricTextColor.
 ]

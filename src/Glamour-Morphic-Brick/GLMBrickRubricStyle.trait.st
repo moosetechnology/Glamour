@@ -29,3 +29,9 @@ GLMBrickRubricStyle >> rubricTextBackgroundColor [
 
 	^ Color transparent
 ]
+
+{ #category : #'brick-rubric' }
+GLMBrickRubricStyle >> rubricTextColor [
+
+	^ self textColor
+]

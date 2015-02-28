@@ -69,20 +69,6 @@ GLMPrivacyAgreementBrick >> defaultMargin [
 	^ 5
 ]
 
-{ #category : #accessing }
-GLMPrivacyAgreementBrick >> extraInfoBrick: extraInforBrick [
-	
-	extraInforBrick
-		beReadOnly;
-		withoutAnyDecorator;
-		margin: { 0 . self defaultMargin };
-		marginRight: 15;
-		font: TextStyle defaultFont;
-		text: 'You can at any time change these settings'.
-		
-	self addBrickBack: extraInforBrick
-]
-
 { #category : #initialization }
 GLMPrivacyAgreementBrick >> initialize [
 	super initialize.
@@ -91,19 +77,6 @@ GLMPrivacyAgreementBrick >> initialize [
 	self titleBrick: self newTitleBrick.
 	self basicAgreeCheckboxBrick: self newCheckboxBrick.
 	self persistSettingsCheckboxBrick: self newCheckboxBrick.
-	"self extraInfoBrick: self newTitleBrick."
-]
-
-{ #category : #'instance creation' }
-GLMPrivacyAgreementBrick >> newButtonBrick [
-
-	^ GLMButtonBrick new
-]
-
-{ #category : #'instance creation' }
-GLMPrivacyAgreementBrick >> newButtonsBrick [
-
-	^ GLMBrick new
 ]
 
 { #category : #'instance creation' }
@@ -185,9 +158,8 @@ GLMPrivacyAgreementBrick >> titleBrick: anObject [
 	self titleBrick
 		beReadOnly;
 		withoutAnyDecorator;
-		margin: { 0 . self defaultMargin };
-		marginRight: 15;
-		font: TextStyle defaultFont;
+		margin: self themer privacyAgreementThemer margin;
+		font: self themer privacyAgreementThemer font;
 		text: self defaultExplanationText.
 		
 	self addBrickBack: self titleBrick

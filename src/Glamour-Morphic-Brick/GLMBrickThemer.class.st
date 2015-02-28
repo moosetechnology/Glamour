@@ -1,8 +1,8 @@
 Class {
 	#name : #GLMBrickThemer,
 	#superclass : #Object,
-	#traits : 'GLMBrickScrollpaneStyle + GLMBrickRubricStyle + GLMBrickWindowStyle + GLMBrickButtonStyle',
-	#classTraits : 'GLMBrickScrollpaneStyle classTrait + GLMBrickRubricStyle classTrait + GLMBrickWindowStyle classTrait + GLMBrickButtonStyle classTrait',
+	#traits : 'GLMBrickScrollpaneStyle + GLMBrickRubricStyle + GLMBrickWindowStyle + GLMBrickButtonStyle + GLMCheckBoxStyle',
+	#classTraits : 'GLMBrickScrollpaneStyle classTrait + GLMBrickRubricStyle classTrait + GLMBrickWindowStyle classTrait + GLMBrickButtonStyle classTrait + GLMCheckBoxStyle classTrait',
 	#instVars : [
 		'modules'
 	],
@@ -75,6 +75,13 @@ GLMBrickThemer >> popupThemer [
 	^ self
 		registerModule: GLMBrickPopupThemer new
 		to: self
+]
+
+{ #category : #themers }
+GLMBrickThemer >> privacyAgreementThemer [
+   ^ self
+	registerModule: GLMPrivacyAgreementThemer new
+	to: self
 ]
 
 { #category : #'brick-modules' }

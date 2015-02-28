@@ -1,19 +1,4 @@
-Class {
-	#name : #GLMBrickDarkThemer,
-	#superclass : #GLMBrickThemer,
-	#category : #'Glamour-Morphic-Brick-Theme'
-}
-
-{ #category : #'brick-checkbox' }
-GLMBrickDarkThemer >> checkboxBorderColor [
-	^ Color lightGray
-]
-
-{ #category : #brick }
-GLMBrickDarkThemer >> contentBackgroundColor [
-
-	^ Color darkGray darker
-]
+Extension { #name : #GLMBrickDarkThemer }
 
 { #category : #'*Glamour-Morphic-Brick' }
 GLMBrickDarkThemer >> popupErrorThemer [
@@ -48,23 +33,4 @@ GLMBrickDarkThemer >> popupThemer [
 	^ self
 		registerModule: GLMBrickPopupDarkThemer new
 		to: self
-]
-
-{ #category : #themers }
-GLMBrickDarkThemer >> privacyAgreementThemer [
-   ^ self
-	registerModule: GLMPrivacyAgreementDarkThemer new
-	to: self
-]
-
-{ #category : #'brick-scrollbar' }
-GLMBrickDarkThemer >> scrollbarColor [
-
-	^ Color black alpha: 0.5
-]
-
-{ #category : #brick }
-GLMBrickDarkThemer >> textColor [
-
-	^ Color white slightlyDarker
 ]
