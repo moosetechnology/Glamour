@@ -160,7 +160,9 @@ GLMPrivacyAgreementBrick >> persistSettingsCheckboxBrick: anObject [
 	persistSettingsCheckboxBrick := anObject.
 	self persistSettingsCheckboxBrick
 		check: self persistSettings;
-		action: [ :boolean | self persistSettings: boolean ];
+		action: [ :boolean | 
+			self persistSettings: boolean.
+			self updateSefaultSettingInfoText ];
 		marginTop: 15;
 		text: 'Remember setting (set as default for all local images)'.
 	
