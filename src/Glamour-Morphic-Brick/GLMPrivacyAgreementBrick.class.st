@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'titleBrick',
 		'persistSettingsCheckboxBrick',
-		'basicAgreeCheckboxBrick'
+		'basicAgreeCheckboxBrick',
+		'defaultSettingsInfoBrick'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-UI'
 }
@@ -45,7 +46,9 @@ GLMPrivacyAgreementBrick >> basicAgreeCheckboxBrick: anObject [
 	self basicAgreeCheckboxBrick
 		marginTop: 5;
 		check: self sendUsageData;
-		action: [ :boolean | self sendUsageData: boolean ];
+		action: [ :boolean | 
+				self sendUsageData: boolean.
+				self updateSefaultSettingInfoText ];
 		text: self defaultGeneralText.
 
 	self addBrickBack: self basicAgreeCheckboxBrick.
@@ -69,6 +72,38 @@ GLMPrivacyAgreementBrick >> defaultMargin [
 	^ 5
 ]
 
+{ #category : #preferences }
+GLMPrivacyAgreementBrick >> defaultSaveUserDataPreferenceStatus [
+	| settingsClass |
+	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ '' ].
+	^ settingsClass defaultSaveUserDataPreferenceStatus
+]
+
+{ #category : #initialization }
+GLMPrivacyAgreementBrick >> defaultSettingInfoText [
+
+	^ 'Current default setting: ', self defaultSaveUserDataPreferenceStatus
+]
+
+{ #category : #accessing }
+GLMPrivacyAgreementBrick >> defaultSettingsInfoBrick [
+	^ defaultSettingsInfoBrick
+]
+
+{ #category : #accessing }
+GLMPrivacyAgreementBrick >> defaultSettingsInfoBrick: anObject [
+	defaultSettingsInfoBrick := anObject.
+	self defaultSettingsInfoBrick
+		beReadOnly;
+		withoutAnyDecorator;
+		marginTop: -5;
+		marginLeft: 20;
+		font: self themer privacyAgreementThemer font;
+		text: self defaultSettingInfoText.
+		
+	self addBrickBack: self defaultSettingsInfoBrick
+]
+
 { #category : #initialization }
 GLMPrivacyAgreementBrick >> initialize [
 	super initialize.
@@ -77,6 +112,7 @@ GLMPrivacyAgreementBrick >> initialize [
 	self titleBrick: self newTitleBrick.
 	self basicAgreeCheckboxBrick: self newCheckboxBrick.
 	self persistSettingsCheckboxBrick: self newCheckboxBrick.
+	self defaultSettingsInfoBrick: self newTitleBrick.
 ]
 
 { #category : #'instance creation' }
@@ -163,4 +199,11 @@ GLMPrivacyAgreementBrick >> titleBrick: anObject [
 		text: self defaultExplanationText.
 		
 	self addBrickBack: self titleBrick
+]
+
+{ #category : #actions }
+GLMPrivacyAgreementBrick >> updateSefaultSettingInfoText [
+
+	self defaultSettingsInfoBrick
+		text: self defaultSettingInfoText.
 ]
