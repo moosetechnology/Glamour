@@ -49,7 +49,7 @@ GLMPrivacyAgreementBrick >> basicAgreeCheckboxBrick: anObject [
 		check: self sendUsageData;
 		action: [ :boolean | 
 				self sendUsageData: boolean.
-				self updateSefaultSettingInfoText ];
+				self refreshDefaultSettingsButtonBrick ];
 		text: self defaultGeneralText.
 
 	self addBrickBack: self basicAgreeCheckboxBrick.
@@ -74,35 +74,10 @@ GLMPrivacyAgreementBrick >> defaultMargin [
 ]
 
 { #category : #preferences }
-GLMPrivacyAgreementBrick >> defaultSaveUserDataPreferenceStatus [
+GLMPrivacyAgreementBrick >> defaultSaveUserDataPreference [
 	| settingsClass |
 	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ '' ].
-	^ settingsClass defaultSaveUserDataPreferenceStatus
-]
-
-{ #category : #initialization }
-GLMPrivacyAgreementBrick >> defaultSettingInfoText [
-
-	^ 'Current default setting: ', self defaultSaveUserDataPreferenceStatus
-]
-
-{ #category : #accessing }
-GLMPrivacyAgreementBrick >> defaultSettingsInfoBrick [
-	^ defaultSettingsInfoBrick
-]
-
-{ #category : #accessing }
-GLMPrivacyAgreementBrick >> defaultSettingsInfoBrick: anObject [
-	defaultSettingsInfoBrick := anObject.
-	self defaultSettingsInfoBrick
-		beReadOnly;
-		withoutAnyDecorator;
-		marginTop: -10;
-		marginLeft: 0;
-		font: self themer privacyAgreementThemer font;
-		text: self defaultSettingInfoText.
-		
-	self addBrickBack: self defaultSettingsInfoBrick
+	^ settingsClass defaultSaveUserDataPreference
 ]
 
 { #category : #initialization }
@@ -110,10 +85,8 @@ GLMPrivacyAgreementBrick >> initialize [
 	super initialize.
 	
 	self useVerticalLinearLayout.
-	self titleBrick: self newTitleBrick.
 	self basicAgreeCheckboxBrick: self newCheckboxBrick.
-	self saveDefaultSettingsButtonBrick: self newButtonBrick.
-	self defaultSettingsInfoBrick: self newTitleBrick.
+	self refreshDefaultSettingsButtonBrick.
 ]
 
 { #category : #'instance creation' }
@@ -151,6 +124,24 @@ GLMPrivacyAgreementBrick >> persistSettings [
 ]
 
 { #category : #accessing }
+GLMPrivacyAgreementBrick >> refreshDefaultSettingsButtonBrick [
+
+	self defaultSaveUserDataPreference = self sendUsageData 
+		ifTrue: [ 
+			self saveDefaultSettingsButtonBrick ifNotNil: [ :aBrick |
+				saveDefaultSettingsButtonBrick := nil.
+				self 
+					removeBrick: aBrick;
+					changed ] ]
+		ifFalse: [  
+				self saveDefaultSettingsButtonBrick ifNil: [ 
+					self saveDefaultSettingsButtonBrick: self newButtonBrick. 
+					self changed.] ]
+	
+	
+]
+
+{ #category : #accessing }
 GLMPrivacyAgreementBrick >> saveDefaultSettingsButtonBrick [
 	^ saveDefaultSettingsButtonBrick
 ]
@@ -161,13 +152,16 @@ GLMPrivacyAgreementBrick >> saveDefaultSettingsButtonBrick: anObject [
 	
 	self saveDefaultSettingsButtonBrick
 		margin: self defaultMargin;
-		hSpaceFill: 85;
+		hSpaceFill: 80;
 		vShrinkWrap;
-		marginTop: 15;
-		text: 'Save as default setting (for all local images)';
+		borderColor: Color red;
+		borderWidth: 0;
+		marginTop: 5;
+		text: 'Make default for all images of this user';
 		when: #onClicked do: [ :anAnnouncemnt :anAnnoucer | 
 			self persistSettings.
-			self updateSefaultSettingInfoText ].
+			"self refreshDefaultSettingsButtonBrick"
+			"self defer: [self refreshDefaultSettingsButtonBrick]" ].
 	
 	self addBrickBack: self saveDefaultSettingsButtonBrick
 ]
@@ -204,11 +198,4 @@ GLMPrivacyAgreementBrick >> titleBrick: anObject [
 		text: self defaultExplanationText.
 		
 	self addBrickBack: self titleBrick
-]
-
-{ #category : #actions }
-GLMPrivacyAgreementBrick >> updateSefaultSettingInfoText [
-
-	self defaultSettingsInfoBrick
-		text: self defaultSettingInfoText.
 ]
