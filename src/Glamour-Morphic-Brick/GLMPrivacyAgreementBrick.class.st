@@ -5,7 +5,8 @@ Class {
 		'titleBrick',
 		'persistSettingsCheckboxBrick',
 		'basicAgreeCheckboxBrick',
-		'defaultSettingsInfoBrick'
+		'defaultSettingsInfoBrick',
+		'saveDefaultSettingsButtonBrick'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-UI'
 }
@@ -96,8 +97,8 @@ GLMPrivacyAgreementBrick >> defaultSettingsInfoBrick: anObject [
 	self defaultSettingsInfoBrick
 		beReadOnly;
 		withoutAnyDecorator;
-		marginTop: -5;
-		marginLeft: 20;
+		marginTop: -10;
+		marginLeft: 0;
 		font: self themer privacyAgreementThemer font;
 		text: self defaultSettingInfoText.
 		
@@ -111,8 +112,14 @@ GLMPrivacyAgreementBrick >> initialize [
 	self useVerticalLinearLayout.
 	self titleBrick: self newTitleBrick.
 	self basicAgreeCheckboxBrick: self newCheckboxBrick.
-	self persistSettingsCheckboxBrick: self newCheckboxBrick.
+	self saveDefaultSettingsButtonBrick: self newButtonBrick.
 	self defaultSettingsInfoBrick: self newTitleBrick.
+]
+
+{ #category : #'instance creation' }
+GLMPrivacyAgreementBrick >> newButtonBrick [
+
+	^ GLMButtonBrick new
 ]
 
 { #category : #'instance creation' }
@@ -143,30 +150,26 @@ GLMPrivacyAgreementBrick >> persistSettings [
 	^ settingsClass uniqueInstance persistSettings
 ]
 
-{ #category : #preferences }
-GLMPrivacyAgreementBrick >> persistSettings: aBoolean [
-	| settingsClass |
-	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ self ].
-	settingsClass uniqueInstance persistSettings: aBoolean
+{ #category : #accessing }
+GLMPrivacyAgreementBrick >> saveDefaultSettingsButtonBrick [
+	^ saveDefaultSettingsButtonBrick
 ]
 
 { #category : #accessing }
-GLMPrivacyAgreementBrick >> persistSettingsCheckboxBrick [
-	^ persistSettingsCheckboxBrick 
-]
-
-{ #category : #accessing }
-GLMPrivacyAgreementBrick >> persistSettingsCheckboxBrick: anObject [
-	persistSettingsCheckboxBrick := anObject.
-	self persistSettingsCheckboxBrick
-		check: self persistSettings;
-		action: [ :boolean | 
-			self persistSettings: boolean.
-			self updateSefaultSettingInfoText ];
-		marginTop: 15;
-		text: 'Remember setting (set as default for all local images)'.
+GLMPrivacyAgreementBrick >> saveDefaultSettingsButtonBrick: anObject [
+	saveDefaultSettingsButtonBrick := anObject.
 	
-	self addBrickBack: self persistSettingsCheckboxBrick.
+	self saveDefaultSettingsButtonBrick
+		margin: self defaultMargin;
+		hSpaceFill: 85;
+		vShrinkWrap;
+		marginTop: 15;
+		text: 'Save as default setting (for all local images)';
+		when: #onClicked do: [ :anAnnouncemnt :anAnnoucer | 
+			self persistSettings.
+			self updateSefaultSettingInfoText ].
+	
+	self addBrickBack: self saveDefaultSettingsButtonBrick
 ]
 
 { #category : #preferences }
