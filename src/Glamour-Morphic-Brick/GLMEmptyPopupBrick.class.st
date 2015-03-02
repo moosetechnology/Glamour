@@ -130,7 +130,9 @@ GLMEmptyPopupBrick >> initializeListeners [
 
 { #category : #'events-processing' }
 GLMEmptyPopupBrick >> isInsideOfContentBrick: anEvent [
-	^ self contentBrick boundsInWorld containsPoint: anEvent position
+	^ self contentBrick 
+		ifNil: [false]
+		ifNotNil: [:aBrick | aBrick boundsInWorld containsPoint: anEvent position]
 ]
 
 { #category : #'events-processing' }
@@ -140,7 +142,9 @@ GLMEmptyPopupBrick >> isInsideOfPopupBrick: anEvent [
 
 { #category : #'events-processing' }
 GLMEmptyPopupBrick >> isInsideOfTriggerBrick: anEvent [
-	^ self triggerBrick boundsInWorld containsPoint: anEvent position
+	^ self triggerBrick 
+		ifNil: [false]
+		ifNotNil: [:aBrick | aBrick boundsInWorld containsPoint: anEvent position ]
 ]
 
 { #category : #'instance creation' }
