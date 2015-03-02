@@ -65,6 +65,12 @@ GLMPrivacyAgreementBrick >> defaultMargin [
 	^ 5
 ]
 
+{ #category : #initialization }
+GLMPrivacyAgreementBrick >> defaultSaveDefaultSettingsButtonText [
+	
+	^ 'Make default for all images of this user that do not have a setting'
+]
+
 { #category : #preferences }
 GLMPrivacyAgreementBrick >> defaultSaveUserDataPreference [
 	| settingsClass |
@@ -163,7 +169,7 @@ GLMPrivacyAgreementBrick >> saveDefaultSettingsButtonBrick: anObject [
 		borderWidth: 0;
 		marginTop: 15;
 		marginBottom: 0;
-		text: 'Make default for all images of this user';
+		text: self defaultSaveDefaultSettingsButtonText;
 		when: #onClicked do: [ :anAnnouncemnt :anAnnoucer | 
 			self persistSettings.
 			self updateSefaultSettingInfoText ].
