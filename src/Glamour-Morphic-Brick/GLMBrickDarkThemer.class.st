@@ -4,6 +4,24 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Theme'
 }
 
+{ #category : #'brick-button' }
+GLMBrickDarkThemer >> buttonBackgroundColor [
+
+	^ Color veryDarkGray lighter
+]
+
+{ #category : #'brick-button' }
+GLMBrickDarkThemer >> buttonPressedColor [
+
+	^ self backgroundColor whiter
+]
+
+{ #category : #'brick-button' }
+GLMBrickDarkThemer >> buttonSelectedColor [
+
+	^ Color veryDarkGray lighter slightlyDarker
+]
+
 { #category : #'brick-checkbox' }
 GLMBrickDarkThemer >> checkboxBorderColor [
 	^ Color lightGray

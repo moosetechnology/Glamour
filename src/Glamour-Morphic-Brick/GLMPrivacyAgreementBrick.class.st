@@ -104,7 +104,7 @@ GLMPrivacyAgreementBrick >> defaultSettingsInfoBrick: anObject [
 		marginLeft: 0;
 		font: self themer privacyAgreementThemer font;
 		text: self defaultSettingInfoText.
-		
+
 	self addBrickBack: self defaultSettingsInfoBrick
 ]
 
@@ -165,8 +165,6 @@ GLMPrivacyAgreementBrick >> saveDefaultSettingsButtonBrick: anObject [
 		margin: self defaultMargin;
 		hSpaceFill: 90;
 		vShrinkWrap;
-		borderColor: Color red;
-		borderWidth: 0;
 		marginTop: 15;
 		marginBottom: 0;
 		text: self defaultSaveDefaultSettingsButtonText;
