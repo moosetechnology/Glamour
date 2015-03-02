@@ -7,13 +7,13 @@ Class {
 { #category : #'brick-popup' }
 GLMBrickPopupThemer >> backgroundColor [
 
-	^ Color white
+	^ Color r: 240 g: 240 b: 240 range: 256
 ]
 
 { #category : #'brick-popup' }
 GLMBrickPopupThemer >> borderColor [
 
-	^ Color lightGray
+	^ Color transparent
 ]
 
 { #category : #'brick-popup' }
