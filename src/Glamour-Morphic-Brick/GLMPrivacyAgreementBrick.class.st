@@ -2,8 +2,6 @@ Class {
 	#name : #GLMPrivacyAgreementBrick,
 	#superclass : #GLMBrick,
 	#instVars : [
-		'titleBrick',
-		'persistSettingsCheckboxBrick',
 		'basicAgreeCheckboxBrick',
 		'defaultSettingsInfoBrick',
 		'saveDefaultSettingsButtonBrick'
@@ -49,16 +47,10 @@ GLMPrivacyAgreementBrick >> basicAgreeCheckboxBrick: anObject [
 		check: self sendUsageData;
 		action: [ :boolean | 
 				self sendUsageData: boolean.
-				self refreshDefaultSettingsButtonBrick ];
+				self updateSefaultSettingInfoText ];
 		text: self defaultGeneralText.
 
 	self addBrickBack: self basicAgreeCheckboxBrick.
-]
-
-{ #category : #initialization }
-GLMPrivacyAgreementBrick >> defaultExplanationText [
-
-	^ 'Help us improve Spotter by allowing us to collect usage data.'
 ]
 
 { #category : #initialization }
@@ -81,12 +73,43 @@ GLMPrivacyAgreementBrick >> defaultSaveUserDataPreference [
 ]
 
 { #category : #initialization }
+GLMPrivacyAgreementBrick >> defaultSettingInfoText [
+
+	^ 'Current default setting: ', (self defaultSaveUserDataPreference
+		ifNil: [ 'unspecified' ]
+		ifNotNil: [ :aBoolean |
+			aBoolean 
+				ifTrue: [ 'send anonymous usage data' ]
+				ifFalse: [ 'do not send any usage data' ] ])
+]
+
+{ #category : #accessing }
+GLMPrivacyAgreementBrick >> defaultSettingsInfoBrick [
+	^ defaultSettingsInfoBrick
+]
+
+{ #category : #accessing }
+GLMPrivacyAgreementBrick >> defaultSettingsInfoBrick: anObject [
+	defaultSettingsInfoBrick := anObject.
+	self defaultSettingsInfoBrick
+		beReadOnly;
+		withoutAnyDecorator;
+		marginTop: -5;
+		marginLeft: 0;
+		font: self themer privacyAgreementThemer font;
+		text: self defaultSettingInfoText.
+		
+	self addBrickBack: self defaultSettingsInfoBrick
+]
+
+{ #category : #initialization }
 GLMPrivacyAgreementBrick >> initialize [
 	super initialize.
 	
 	self useVerticalLinearLayout.
 	self basicAgreeCheckboxBrick: self newCheckboxBrick.
-	self refreshDefaultSettingsButtonBrick.
+	self saveDefaultSettingsButtonBrick: self newButtonBrick. 
+	self defaultSettingsInfoBrick: self newTitleBrick.
 ]
 
 { #category : #'instance creation' }
@@ -124,24 +147,6 @@ GLMPrivacyAgreementBrick >> persistSettings [
 ]
 
 { #category : #accessing }
-GLMPrivacyAgreementBrick >> refreshDefaultSettingsButtonBrick [
-
-	self defaultSaveUserDataPreference = self sendUsageData 
-		ifTrue: [ 
-			self saveDefaultSettingsButtonBrick ifNotNil: [ :aBrick |
-				saveDefaultSettingsButtonBrick := nil.
-				self 
-					removeBrick: aBrick;
-					changed ] ]
-		ifFalse: [  
-				self saveDefaultSettingsButtonBrick ifNil: [ 
-					self saveDefaultSettingsButtonBrick: self newButtonBrick. 
-					self changed.] ]
-	
-	
-]
-
-{ #category : #accessing }
 GLMPrivacyAgreementBrick >> saveDefaultSettingsButtonBrick [
 	^ saveDefaultSettingsButtonBrick
 ]
@@ -152,16 +157,16 @@ GLMPrivacyAgreementBrick >> saveDefaultSettingsButtonBrick: anObject [
 	
 	self saveDefaultSettingsButtonBrick
 		margin: self defaultMargin;
-		hSpaceFill: 80;
+		hSpaceFill: 90;
 		vShrinkWrap;
 		borderColor: Color red;
 		borderWidth: 0;
-		marginTop: 5;
+		marginTop: 15;
+		marginBottom: 0;
 		text: 'Make default for all images of this user';
 		when: #onClicked do: [ :anAnnouncemnt :anAnnoucer | 
 			self persistSettings.
-			"self refreshDefaultSettingsButtonBrick"
-			"self defer: [self refreshDefaultSettingsButtonBrick]" ].
+			self updateSefaultSettingInfoText ].
 	
 	self addBrickBack: self saveDefaultSettingsButtonBrick
 ]
@@ -180,22 +185,9 @@ GLMPrivacyAgreementBrick >> sendUsageData: aBoolean [
 	^ settingsClass uniqueInstance sendUsageData: aBoolean
 ]
 
-{ #category : #accessing }
-GLMPrivacyAgreementBrick >> titleBrick [
-	
-	^ titleBrick
-]
+{ #category : #actions }
+GLMPrivacyAgreementBrick >> updateSefaultSettingInfoText [
 
-{ #category : #accessing }
-GLMPrivacyAgreementBrick >> titleBrick: anObject [
-	
-	titleBrick := anObject.
-	self titleBrick
-		beReadOnly;
-		withoutAnyDecorator;
-		margin: self themer privacyAgreementThemer margin;
-		font: self themer privacyAgreementThemer font;
-		text: self defaultExplanationText.
-		
-	self addBrickBack: self titleBrick
+	self defaultSettingsInfoBrick
+		text: self defaultSettingInfoText.
 ]
