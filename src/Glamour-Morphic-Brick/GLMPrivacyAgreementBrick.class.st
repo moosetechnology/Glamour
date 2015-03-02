@@ -76,7 +76,7 @@ GLMPrivacyAgreementBrick >> defaultSaveUserDataPreference [
 GLMPrivacyAgreementBrick >> defaultSettingInfoText [
 
 	^ 'Current default setting: ', (self defaultSaveUserDataPreference
-		ifNil: [ 'unspecified' ]
+		ifNil: [ 'not set (no data is send)' ]
 		ifNotNil: [ :aBoolean |
 			aBoolean 
 				ifTrue: [ 'send anonymous usage data' ]
