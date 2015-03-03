@@ -62,6 +62,15 @@ GLMEmptyPopupBrick >> beHelp [
 	self themer: self themer popupHelpThemer themer
 ]
 
+{ #category : #opening }
+GLMEmptyPopupBrick >> beRightToLeftWithOffset: anOffset [
+
+	self invalidateWith: [
+		self triggerBrick hAlign: #right.
+		self triggerBrick marginRight: anOffset.
+		self foundationBrick bounds: (self foundationBrick bounds translateBy: (self width - self triggerBrick width - anOffset @ 0) negated ) ]
+]
+
 { #category : #initialization }
 GLMEmptyPopupBrick >> beSuccess [
 
@@ -71,9 +80,7 @@ GLMEmptyPopupBrick >> beSuccess [
 { #category : #opening }
 GLMEmptyPopupBrick >> close [
 
-	(self owner isKindOf: GLMFoundationBrick)
-		ifTrue: [ self owner delete ]
-		ifFalse: [ self delete ]
+	self foundationBrick delete
 ]
 
 { #category : #accessing }
@@ -99,6 +106,14 @@ GLMEmptyPopupBrick >> contentBrick: aBrick [
 	self addBrickBack: contentBrick
 
 	
+]
+
+{ #category : #accessing }
+GLMEmptyPopupBrick >> foundationBrick [
+
+	^ (self owner isKindOf: GLMFoundationBrick)
+		ifTrue: [ self owner ]
+		ifFalse: [ self ]
 ]
 
 { #category : #'events-processing' }
