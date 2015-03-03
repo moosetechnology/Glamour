@@ -39,8 +39,8 @@ GLMFormBrick class >> example [
 		yourself
 ]
 
-{ #category : #open }
-GLMFormBrick class >> exampleInWindow [
+{ #category : #examples }
+GLMFormBrick class >> exampleOpen [
 
 	self example
 		when: GLMFormSubmitted do: [ :ann | ann result brickAlert ];

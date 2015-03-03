@@ -268,6 +268,12 @@ GLMScrollPaneBrick >> isVisible: aBrick [
 	^ myBounds containsRect: testingBounds
 ]
 
+{ #category : #'scrollpane-accessing' }
+GLMScrollPaneBrick >> layoutMorphs: aBoolean [
+
+	self band layoutMorphs: aBoolean
+]
+
 { #category : #'scrollpane-events-mouse' }
 GLMScrollPaneBrick >> mouseWheel: event [
 	

@@ -22,7 +22,7 @@ GLMAlertBrick class >> example [
 	
 ]
 
-{ #category : #open }
+{ #category : #examples }
 GLMAlertBrick class >> exampleOpen [
 
 	'Hello world!' brickAlert

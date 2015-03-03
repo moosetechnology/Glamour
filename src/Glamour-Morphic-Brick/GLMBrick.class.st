@@ -25,85 +25,37 @@ Class {
 }
 
 { #category : #examples }
-GLMBrick class >> exampleDynamicBorder [
-	<example:'Dynamic border width'>
-	
-	(GLMLabelBrick new
-		borderColor: Color blue; 
-		borderWidth: [ :b | (b height min: b width) * 0.1 ];
-		color: Color white;
-		text: 'Resize me';
-		fontSize: 12;
-		textPosition: #center) asBrickedMorph openInWindow
-]
-
-{ #category : #examples }
-GLMBrick class >> exampleWithMorphInsideBrick [
-
-	"self exampleWithMorphInsideBrick"
-
-	|foundation brick morph|
-	
-	foundation := GLMFoundationBrick new.
-	foundation extent: 800@400.
-
-	brick := GLMLabelBrick new.
-	brick text: 'Hello, I''m a Brick inside another Brick!'.
-	brick hSpaceFill: 50.
-	brick color: Color lightBlue lighter.
-
-	morph := Morph new.
-	morph color: Color lightGreen lighter.
-	morph layoutProperties: GLMBrickLayoutProperties new.
-	morph hSpaceFill: 50.
-
-	morph addMorphBack: (LabelMorph new
-		contents: 'Hello, I''m a Morph inside another Morph inside Brick!';
-		hResizing: #spaceFill;
-		vResizing: #spaceFill).
-
-	foundation
-		addBrickBack: brick;
-		addBrickBack: morph;
-		doLayout;
-		openInWindow.
-]
-
-{ #category : #examples }
 GLMBrick class >> exampleZindex [
+	<example: 'Example of z-index support in Brick'>
+	
+	^ GLMBrick new
+		hSpaceFill;
+		vSpaceFill;
+		color: Color blue;
+		addBrickBack: (
+			GLMBrick new
+				color: Color green;
+				brickBounds: (100@100 extent: 100@100);
+				zIndex: 3);
+		addBrickBack: (
+			GLMBrick new
+				color: Color yellow;
+				brickBounds: (50@50 extent: 200@100);
+				zIndex: 2);
+		addBrickBack: (
+			GLMBrick new
+				color: Color red;
+				brickBounds: (0@0 extent: 300@200);
+				zIndex: 1);
+		yourself
+]
 
-	"self exampleZindex"
-
-	|foundationBrick rootBrick brick1 brick2 brick3|
-	
-	rootBrick := GLMBrick new.
-
-	rootBrick color: Color blue.
-	
-	brick1 := GLMBrick new.
-	brick1 color: Color red.
-	brick1 brickBounds: (0@0 extent: 300@200).
-	brick1 layoutProperties zIndex: 1.
-	
-	brick2 := GLMBrick new.
-	brick2 color: Color green.
-	brick2 brickBounds: (50@50 extent: 200@100).
-	brick2 layoutProperties zIndex: 2.
-	
-	brick3 := GLMBrick new.
-	brick3 color: Color yellow.
-	brick3 brickBounds: (100@100 extent: 100@100).
-	brick3 layoutProperties zIndex: 3.
-	
-	rootBrick
-		addBrickBack: brick3;
-		addBrickBack: brick2;
-		addBrickBack: brick1.
-		
-	foundationBrick := GLMFoundationBrick new.
-	foundationBrick brickRoot: rootBrick.
-	foundationBrick openInWindow.
-	foundationBrick color: Color pink.
+{ #category : #examples }
+GLMBrick class >> exampleZindexOpen [
+	"
+	self exampleZindexOpen
+	"
+	self exampleZindex openInBrickWindowLabeled: 'Z-Index example'
 ]
 
 { #category : #utils }

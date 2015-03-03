@@ -36,24 +36,29 @@ GLMLabelBrick class >> example [
 		text: 'Label'
 ]
 
-{ #category : #open }
-GLMLabelBrick class >> exampleInWindow [
+{ #category : #examples }
+GLMLabelBrick class >> exampleOpen [
 
 	self example openCenteredInBrickWindow
 ]
 
-{ #category : #open }
-GLMLabelBrick class >> exampleShowPopup [
-
-	self new
+{ #category : #examples }
+GLMLabelBrick class >> exampleWithPopup [
+	<example: 'Label with text and popup showing when hovered with mouse'>
+	^ self new
 		enable;
 		text: 'Hello';
 		familyName: 'Bitmap DejaVu Sans';
 		fontSize: 11;
 		padding: 5;
 		with: [ :b  | b
-			when: #onMouseHover do: [ GLMPopupBrick new beHelp; openFor: b ] ];
-		openCenteredInBrickWindow
+			when: #onMouseHover do: [ GLMPopupBrick new beHelp; openFor: b ] ]
+]
+
+{ #category : #examples }
+GLMLabelBrick class >> exampleWithPopupOpen [
+	
+	self exampleWithPopup openCenteredInBrickWindowLabeled: 'Label example'
 ]
 
 { #category : #'brick-geometry' }

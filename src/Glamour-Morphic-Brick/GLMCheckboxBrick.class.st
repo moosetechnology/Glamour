@@ -28,13 +28,10 @@ GLMCheckboxBrick class >> example [
 	^ self new
 ]
 
-{ #category : #open }
-GLMCheckboxBrick class >> exampleInWindow [
+{ #category : #examples }
+GLMCheckboxBrick class >> exampleOpen [
 
-	self exampleWithLabel
-		hShrinkWrap;
-		vShrinkWrap;
-		openCenteredInBrickWindow
+	self example openCenteredInBrickWindow
 ]
 
 { #category : #examples }
@@ -44,6 +41,12 @@ GLMCheckboxBrick class >> exampleWithLabel [
 		text: 'I''m label, click me';
 		action: [ :boolean | self inform: 'Checkbox set to ', boolean asString ];
 		yourself
+]
+
+{ #category : #examples }
+GLMCheckboxBrick class >> exampleWithLabelOpen [
+
+	self exampleWithLabel openCenteredInBrickWindow
 ]
 
 { #category : #accessing }

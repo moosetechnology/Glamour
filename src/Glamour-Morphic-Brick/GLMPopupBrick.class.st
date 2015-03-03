@@ -11,61 +11,44 @@ Class {
 }
 
 { #category : #examples }
-GLMPopupBrick class >> exampleAll [
-	<example: 'all types'>
+GLMPopupBrick class >> exampleAllTypes [
+	<example: 'Example of all popup types'>
 
-	(GLMBrick new
+	^ GLMBrick new
+		hShrinkWrap;
+		vShrinkWrap;
 		addBrickBack: (self createButton: [ :b | self new openFor: b ]);
 		addBrickBack: (self createButton: [ :b | self new beHelp; openFor: b ]);
 		addBrickBack: (self createButton: [ :b | self new beError; openFor: b ]);
 		addBrickBack: (self createButton: [ :b | self new beSuccess; openFor: b ]);
-		marginTop: 35)
-			asBrickedMorph
-				extent: 300@120;
-				openInWindow
+		marginTop: 35;
+		yourself
 ]
 
 { #category : #examples }
-GLMPopupBrick class >> exampleAllBelow [
-	<example: 'all types below'>
+GLMPopupBrick class >> exampleAllTypesBelow [
+	<example: 'Example of all popup types opening below of anchor brick'>
 
-	(GLMBrick new
+	^ GLMBrick new
+		hShrinkWrap;
+		vShrinkWrap;
 		addBrickBack: (self createButton: [ :b | self new openBelowFor: b ]);
 		addBrickBack: (self createButton: [ :b | self new beHelp; openBelowFor: b ]);
 		addBrickBack: (self createButton: [ :b | self new beError; openBelowFor: b ]);
 		addBrickBack: (self createButton: [ :b | self new beSuccess; openBelowFor: b ]);
-		marginTop: 35)
-			asBrickedMorph
-				extent: 300@120;
-				openInWindow
+		marginTop: 35
 ]
 
 { #category : #examples }
-GLMPopupBrick class >> exampleError [
-	<example: 'Popup brick example with anchor'>
-
-	self openExample: [ :b | self new beError; openFor: b ]
+GLMPopupBrick class >> exampleAllTypesBelowOpen [
+	
+	self exampleAllTypesBelow openCenteredInBrickWindowLabeled: 'All Below Popup Types'
 ]
 
 { #category : #examples }
-GLMPopupBrick class >> exampleHelp [
-	<example: 'Popup brick example with anchor'>
-
-	self openExample: [ :b | self new beHelp; openFor: b ]
-]
-
-{ #category : #examples }
-GLMPopupBrick class >> exampleNormal [
-	<example: 'Popup brick example with anchor'>
-
-	self openExample: [ :b | self new openFor: b ]
-]
-
-{ #category : #examples }
-GLMPopupBrick class >> exampleSuccess [
-	<example: 'Popup brick example with anchor'>
-
-	self openExample: [ :b | self new beSuccess; openFor: b ]
+GLMPopupBrick class >> exampleAllTypesOpen [
+	
+	self exampleAllTypes openCenteredInBrickWindowLabeled: 'All Popup Types'
 ]
 
 { #category : #opening }

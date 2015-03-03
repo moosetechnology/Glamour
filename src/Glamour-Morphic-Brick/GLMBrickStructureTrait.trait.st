@@ -189,7 +189,7 @@ GLMBrickStructureTrait >> openCenteredInBrickWindowLabeled: aLabel [
 { #category : #'brick-structure-opening' }
 GLMBrickStructureTrait >> openInBrickWindow [
 
-	self openInBrickWindowLabeled: self
+	^ self openInBrickWindowLabeled: self
 ]
 
 { #category : #'brick-structure-opening' }

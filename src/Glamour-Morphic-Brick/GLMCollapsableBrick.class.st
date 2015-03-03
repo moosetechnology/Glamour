@@ -54,25 +54,17 @@ GLMCollapsableBrick class >> createCollapsableArray: anInteger [
 ]
 
 { #category : #examples }
-GLMCollapsableBrick class >> exampleInScrollPane [
-	<example>
-	
-	(GLMScrollPaneBrick new
-		addAllBricks: (self createCollapsableArray: 10);
-		yourself)
-			asBrickedMorph
-				extent: 500@300;
-				color: (Color r: 249 g: 249 b: 249 range: 255);
-				openInWindow
+GLMCollapsableBrick class >> example [
+	<example: 'Very simple one collapsable item'>
+	^ self createCollapsable
+		hSpaceFill;
+		vShrinkWrap
 ]
 
 { #category : #examples }
-GLMCollapsableBrick class >> exampleSimple [
-	<example>
-	(self createCollapsable)
-			asBrickedMorph
-				extent: 300 @ 500;
-				openInWindow
+GLMCollapsableBrick class >> exampleOpen [
+	
+	self example openInBrickWindowLabeled: 'Collapsable Example'
 ]
 
 { #category : #actions }

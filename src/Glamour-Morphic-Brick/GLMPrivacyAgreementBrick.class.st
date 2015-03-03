@@ -16,7 +16,7 @@ GLMPrivacyAgreementBrick class >> example [
 ]
 
 { #category : #examples }
-GLMPrivacyAgreementBrick class >> exampleInWindow [
+GLMPrivacyAgreementBrick class >> exampleOpen [
 
 	(GLMBrick new
 		hSpaceFill;
@@ -32,6 +32,7 @@ GLMPrivacyAgreementBrick class >> exampleInWindow [
 				yourself);
 		yourself)
 			openInBrickWindow
+			extent: 600@400
 ]
 
 { #category : #accessing }

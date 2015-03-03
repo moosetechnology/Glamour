@@ -28,11 +28,10 @@ GLMButtonBrick class >> example [
 	^ self new
 ]
 
-{ #category : #open }
-GLMButtonBrick class >> exampleInWindow [
+{ #category : #examples }
+GLMButtonBrick class >> exampleOpen [
 
-	self example
-		openCenteredInBrickWindow
+	self example openCenteredInBrickWindow
 ]
 
 { #category : #actions }
