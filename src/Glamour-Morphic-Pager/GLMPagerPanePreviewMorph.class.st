@@ -14,6 +14,12 @@ Class {
 	#category : #'Glamour-Morphic-Pager-Morphic'
 }
 
+{ #category : #cleanup }
+GLMPagerPanePreviewMorph class >> cleanUp [
+	super cleanUp.
+	uniqueInstance := nil
+]
+
 { #category : #actions }
 GLMPagerPanePreviewMorph class >> remove [
 
