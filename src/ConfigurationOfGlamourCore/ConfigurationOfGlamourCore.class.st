@@ -219,16 +219,16 @@ ConfigurationOfGlamourCore >> baseline31: spec [
 						'Glamour-Tests-Resources'
 						'Glamour-Morphic-Brick-Tests'). 
 						
+		spec project: 'Rubric' with: [ 
+			spec 
+					className: #ConfigurationOfRubric;
+					versionString: #'development';
+					repository: 'http://www.smalltalkhub.com/mc/AlainPlantec/Rubric/main' ] .
+				
 		spec group: 'default' with: #(
 						'Core'
 						'Morphic'
-						'Tests').		
-		spec project: 'Rubric' with: [ 
-			spec 
-					className: 'ConfigurationOfRubric';
-					file: 'ConfigurationOfRubric';
-					version: #development;
-					repository: 'http://www.smalltalkhub.com/mc/AlainPlantec/Rubric/main' ] ].
+						'Tests' ) ].
 ]
 
 { #category : #accessing }
