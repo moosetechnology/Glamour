@@ -76,6 +76,61 @@ ThemeIcons >> glamorousClose [
 ]
 
 { #category : #'*Glamour-Morphic-Theme' }
+ThemeIcons >> glamorousCloudIcon [
+	"Private - Generated method"
+	^icons 
+			at: #glamorousCloudIcon
+			ifAbsentPut:[ Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: self glamorousCloudIconContents readStream) ].
+]
+
+{ #category : #'*Glamour-Morphic-Theme' }
+ThemeIcons >> glamorousCloudIconContents [
+	"Private - Method generated with the content of the file /Users/girba/Work/Code/moose/icons/glamorousCloud.png"
+	^ 'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAAlwSFlz
+AAALEwAACxMBAJqcGAAAAdVpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEg
+eG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAg
+PHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1z
+eW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAg
+ICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAg
+ICAgICA8dGlmZjpDb21wcmVzc2lvbj41PC90aWZmOkNvbXByZXNzaW9uPgogICAgICAgICA8
+dGlmZjpQaG90b21ldHJpY0ludGVycHJldGF0aW9uPjI8L3RpZmY6UGhvdG9tZXRyaWNJbnRl
+cnByZXRhdGlvbj4KICAgICAgICAgPHRpZmY6T3JpZW50YXRpb24+MTwvdGlmZjpPcmllbnRh
+dGlvbj4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgIDwvcmRmOlJERj4KPC94OnhtcG1l
+dGE+CrDjMt0AAACsSURBVDgRY2AY8oCZCB+IAtV4A7ELEP8H4qdAjBfUA2WvAfEiIA4C4ndA
+DNIIwwuAbCYgxgrcgaIwhfjoAnTdCkCBYiDeC8T4NMLkTgDVwYE1kPUZiGGSxNB/gOrnADEP
+EDOATCNGEzY1ixmBmkG2g00C0qSCT6DQvECqLiT1z0FsYyB+C8TYnIhP7DdQTxDICyAgDsS+
+QCwNxDAxIBMn+ASU2QnEV3GqGDoSAEtMUFDuPX1rAAAAAElFTkSuQmCC'
+]
+
+{ #category : #'*Glamour-Morphic-Theme' }
+ThemeIcons >> glamorousCloudPausedIcon [
+	"Private - Generated method"
+	^icons 
+			at: #glamorousCloudPausedIcon
+			ifAbsentPut:[ Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: self glamorousCloudPausedIconContents readStream) ].
+]
+
+{ #category : #'*Glamour-Morphic-Theme' }
+ThemeIcons >> glamorousCloudPausedIconContents [
+	"Private - Method generated with the content of the file /Users/girba/Work/Code/moose/icons/glamorousCloudPaused.png"
+	^ 'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAAlwSFlz
+AAALEwAACxMBAJqcGAAAAdVpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEg
+eG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAg
+PHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1z
+eW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAg
+ICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAg
+ICAgICA8dGlmZjpDb21wcmVzc2lvbj41PC90aWZmOkNvbXByZXNzaW9uPgogICAgICAgICA8
+dGlmZjpQaG90b21ldHJpY0ludGVycHJldGF0aW9uPjI8L3RpZmY6UGhvdG9tZXRyaWNJbnRl
+cnByZXRhdGlvbj4KICAgICAgICAgPHRpZmY6T3JpZW50YXRpb24+MTwvdGlmZjpPcmllbnRh
+dGlvbj4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgIDwvcmRmOlJERj4KPC94OnhtcG1l
+dGE+CrDjMt0AAADPSURBVDgR1ZA9DgFRFIXHT6LRKEQhkVErlRqFREIoZgUSG7ADswE7UGAX
+SougplBSUJLwHZkrk4mRmXJO8r135v689+44TuZVSDBBlZoh9OAFZ/irOdkDbMCDK6jRWOHz
+8FN9olb4b59Zt43gEpjCBJqwgzXk4BTyLl6qwPLjWDpwh/CNPt+SH2Deap4EdEC5yLKQgTTS
+y/Xikn5GK01npHaskwbQiCQ0uwvdYA97Ql8d5dpwAZsv6f6gx9NNUg1GUAeLYWN1I7OFfWxF
+dhJvrKo2yrDm7AgAAAAASUVORK5CYII='
+]
+
+{ #category : #'*Glamour-Morphic-Theme' }
 ThemeIcons >> glamorousDiveAllRightIcon [
 	"Private - Generated method"
 	^icons 
