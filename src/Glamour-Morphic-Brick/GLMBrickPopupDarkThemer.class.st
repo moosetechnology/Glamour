@@ -10,7 +10,7 @@ GLMBrickPopupDarkThemer >> backgroundColor [
 	^ Color darkGray
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-popup' }
 GLMBrickPopupDarkThemer >> textColor [
 
 	^ Color white slightlyDarker
