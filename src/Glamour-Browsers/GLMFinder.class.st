@@ -18,7 +18,7 @@ Class {
 		'lastActivePresentation',
 		'firstTransmission'
 	],
-	#category : #'Glamour-Browsers'
+	#category : #'Glamour-Browsers-Other'
 }
 
 { #category : #private }

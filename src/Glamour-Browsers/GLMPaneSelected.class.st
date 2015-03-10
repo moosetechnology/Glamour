@@ -1,3 +1,6 @@
+"
+A pane was selected
+"
 Class {
 	#name : #GLMPaneSelected,
 	#superclass : #GLMPaneAnnouncement,

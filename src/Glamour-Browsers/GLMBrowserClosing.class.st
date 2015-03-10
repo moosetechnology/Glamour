@@ -1,3 +1,6 @@
+"
+Browser is closing
+"
 Class {
 	#name : #GLMBrowserClosing,
 	#superclass : #Announcement,

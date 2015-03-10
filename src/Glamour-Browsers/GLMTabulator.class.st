@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'cell'
 	],
-	#category : #'Glamour-Browsers'
+	#category : #'Glamour-Browsers-Tabulator'
 }
 
 { #category : #layout }

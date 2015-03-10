@@ -6,7 +6,7 @@ Class {
 		'extentStrategy',
 		'defaultPaneExtent'
 	],
-	#category : #'Glamour-Browsers'
+	#category : #'Glamour-Browsers-Dashboard'
 }
 
 { #category : #scripting }

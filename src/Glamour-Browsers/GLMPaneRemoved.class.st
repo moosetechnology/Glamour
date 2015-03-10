@@ -1,3 +1,6 @@
+"
+A new pane was removed
+"
 Class {
 	#name : #GLMPaneRemoved,
 	#superclass : #GLMPaneAnnouncement,

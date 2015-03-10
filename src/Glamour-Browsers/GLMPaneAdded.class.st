@@ -1,3 +1,6 @@
+"
+A new pane was added
+"
 Class {
 	#name : #GLMPaneAdded,
 	#superclass : #GLMPaneAnnouncement,

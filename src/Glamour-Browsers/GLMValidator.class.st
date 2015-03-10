@@ -5,7 +5,7 @@ Class {
 		'buttonActions',
 		'specificAnnouncementActions'
 	],
-	#category : #'Glamour-Browsers'
+	#category : #'Glamour-Browsers-Other'
 }
 
 { #category : #accessing }

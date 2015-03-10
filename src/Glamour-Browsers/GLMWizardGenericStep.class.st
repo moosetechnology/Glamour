@@ -1,3 +1,17 @@
+"
+A generic step in a wizard
+
+Instance Variables
+	numberOfDisplayBlock:		<Object>
+	size:		<Object>
+
+numberOfDisplayBlock
+	- xxxxx
+
+size
+	- xxxxx
+
+"
 Class {
 	#name : #GLMWizardGenericStep,
 	#superclass : #GLMAbstractWizardStep,
@@ -5,7 +19,7 @@ Class {
 		'size',
 		'numberOfDisplayBlock'
 	],
-	#category : #'Glamour-Browsers'
+	#category : #'Glamour-Browsers-Wizards'
 }
 
 { #category : #'initialize-release' }
