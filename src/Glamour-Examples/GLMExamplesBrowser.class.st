@@ -7,6 +7,13 @@ Class {
 	#category : #'Glamour-Examples'
 }
 
+{ #category : #'user interface' }
+GLMExamplesBrowser class >> open [
+	<script>
+	
+	self new openOn: GLMBasicExamples
+]
+
 { #category : #building }
 GLMExamplesBrowser >> compose [
 	"self new openOn: GLMBasicExamples"
