@@ -180,14 +180,14 @@ GLMPrivacyAgreementBrick >> saveDefaultSettingsButtonBrick: anObject [
 GLMPrivacyAgreementBrick >> sendUsageData [
 	| settingsClass |
 	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ false ].
-	^ settingsClass uniqueInstance sendUsageData
+	^ settingsClass sendUsageData
 ]
 
 { #category : #preferences }
 GLMPrivacyAgreementBrick >> sendUsageData: aBoolean [
 	| settingsClass |
 	settingsClass := #GTSpotterEventRecorderSettings asClassIfAbsent: [ ^ self ].
-	^ settingsClass uniqueInstance sendUsageData: aBoolean
+	^ settingsClass sendUsageData: aBoolean
 ]
 
 { #category : #actions }
