@@ -11,6 +11,16 @@ Class {
 	#category : #'Glamour-Core'
 }
 
+{ #category : #examples }
+GLMCompositePresentation class >> exampleCompositePresentation [
+	<example>
+
+	^ self new
+		list;
+		table;
+		tree
+]
+
 { #category : #openning }
 GLMCompositePresentation class >> openOn: anObject [ 
 	^ self new openOn: anObject
