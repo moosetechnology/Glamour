@@ -16,8 +16,6 @@ Class {
 
 { #category : #'class initialization' }
 GLMBrickBorder class >> initialize [
-	super initialize.
-	
 	Top := 1.
 	Right := 2.
 	Bottom := 3.
