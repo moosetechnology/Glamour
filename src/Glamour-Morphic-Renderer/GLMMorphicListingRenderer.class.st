@@ -27,7 +27,7 @@ GLMMorphicListingRenderer >> actOnUpdatedPresentation: anAnnouncement [
 { #category : #private }
 GLMMorphicListingRenderer >> newTreeMorph [
 
-	^ PaginatedMorphTreeMorph new
+	^ GLMPaginatedMorphTreeMorph new
 ]
 
 { #category : #rendering }
