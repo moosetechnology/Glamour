@@ -39,7 +39,9 @@ Class {
 		'initializationBlock',
 		'cachedDisplayedValue',
 		'labelActionBlock',
-		'portChangeActions'
+		'portChangeActions',
+		'wantsSteps',
+		'stepTime'
 	],
 	#category : #'Glamour-Core'
 }
@@ -877,6 +879,18 @@ GLMPresentation >> statusbarPresentation [
 	^ GLMLabelPresentation new
 ]
 
+{ #category : #stepping }
+GLMPresentation >> stepTime [
+
+	^ stepTime ifNil: [ super stepTime ]
+]
+
+{ #category : #stepping }
+GLMPresentation >> stepTime: anInteger [
+
+	stepTime := anInteger
+]
+
 { #category : #'accessing ports' }
 GLMPresentation >> strongSelection [
 	^ (self pane port: #strongSelection) value
@@ -1048,6 +1062,18 @@ GLMPresentation >> validate: anObject on: aPort [
 	The presentation has a chance to veto the value."
 	self shouldValidate ifFalse: [ ^ true ].
 	^ self doValidate: anObject on: aPort.
+]
+
+{ #category : #stepping }
+GLMPresentation >> wantsSteps [
+
+	^ wantsSteps ifNil: [ false ]
+]
+
+{ #category : #stepping }
+GLMPresentation >> wantsSteps: aBoolean [
+
+	wantsSteps := aBoolean
 ]
 
 { #category : #accessing }
