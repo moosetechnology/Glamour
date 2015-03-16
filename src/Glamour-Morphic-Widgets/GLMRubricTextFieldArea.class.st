@@ -2,7 +2,8 @@ Class {
 	#name : #GLMRubricTextFieldArea,
 	#superclass : #RubEditingArea,
 	#instVars : [
-		'enabled'
+		'enabled',
+		'doubleClickAction'
 	],
 	#category : #'Glamour-Morphic-Widgets'
 }
@@ -32,8 +33,21 @@ GLMRubricTextFieldArea >> doubleClick: anEvent [
 	self isEnabled ifTrue: [ ^ self ].
 	
 	self isEnabled ifFalse: [
+		self doubleClickAction ifNotNil: [ :aBlock | aBlock value ].
 		self enable.
 		super mouseDown: anEvent ]
+]
+
+{ #category : #accessing }
+GLMRubricTextFieldArea >> doubleClickAction [
+
+	^ doubleClickAction
+]
+
+{ #category : #accessing }
+GLMRubricTextFieldArea >> doubleClickAction: aBlock [
+
+	doubleClickAction := aBlock
 ]
 
 { #category : #protocol }
@@ -126,7 +140,9 @@ GLMRubricTextFieldArea >> singleClick: anEvent [
 	self isEnabled ifTrue: [ ^ super click: anEvent ].
 
 	"sorry for such a dirty hack"
-	self owner owner owner owner owner container listManager mouseUp: anEvent on: self owner owner owner owner owner.
+	self owner owner owner owner owner container  
+		ifNotNil: [ :aContainer | aContainer listManager mouseUp: anEvent on: self owner owner owner owner owner. ]
+		
 ]
 
 { #category : #settings }

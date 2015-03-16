@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMPaginatedResizableMorphTreeMorph,
-	#superclass : #PaginatedMorphTreeMorph,
+	#superclass : #GLMPaginatedMorphTreeMorph,
 	#category : #'Glamour-Morphic-Widgets'
 }
 

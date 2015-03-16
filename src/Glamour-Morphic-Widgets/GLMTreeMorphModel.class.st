@@ -16,7 +16,8 @@ Class {
 		'inputText',
 		'amountToFilterBy',
 		'defaultPageSize',
-		'columnToSortBy'
+		'columnToSortBy',
+		'stopStepping'
 	],
 	#category : #'Glamour-Morphic-Widgets'
 }
@@ -198,6 +199,12 @@ GLMTreeMorphModel >> filteredRoots [
 	^ filtered
 ]
 
+{ #category : #stepping }
+GLMTreeMorphModel >> forceStopStepping [
+	stopStepping := true.
+	self changed.
+]
+
 { #category : #accessing }
 GLMTreeMorphModel >> glamourPresentation [
 	^ glamourPresentation
@@ -257,6 +264,12 @@ GLMTreeMorphModel >> resetChildrenContents [
 { #category : #'search and filtering' }
 GLMTreeMorphModel >> resetInput [
 	self updateRoots
+]
+
+{ #category : #stepping }
+GLMTreeMorphModel >> resetStopStepping [
+	stopStepping := false.
+	self changed.
 ]
 
 { #category : #callbacks }
@@ -319,6 +332,12 @@ GLMTreeMorphModel >> shouldFilterByTextInput [
 	^ self glamourPresentation allowsFilter and: [ self inputText notEmpty ]
 ]
 
+{ #category : #stepping }
+GLMTreeMorphModel >> shouldStopStepping [
+
+	^ stopStepping ifNil: [ false ]
+]
+
 { #category : #callbacks }
 GLMTreeMorphModel >> sortBlock [
 
@@ -335,6 +354,11 @@ GLMTreeMorphModel >> sortByColumn: aGlamourColumn [
 		ifTrue: [ nil ]
 		ifFalse: [ aGlamourColumn ]).
 	self updateRoots
+]
+
+{ #category : #stepping }
+GLMTreeMorphModel >> stepTime [
+	^ self glamourPresentation stepTime
 ]
 
 { #category : #callbacks }
@@ -378,6 +402,11 @@ GLMTreeMorphModel >> wantsDroppedMorph: transferMorph event: evt inMorph: listMo
 		^ self glamourPresentation allow: transferMorph passenger droppedOnItem: targetItem ].
 	self flag: 'we should ask the whole presentation if it wants to receive a dropped object'.
 	^ false
+]
+
+{ #category : #stepping }
+GLMTreeMorphModel >> wantsSteps [
+	^ self shouldStopStepping not and: [ self glamourPresentation wantsSteps ]
 ]
 
 { #category : #announcements }

@@ -36,14 +36,14 @@ GLMRubricTextFieldMorph >> textAreaClass [
 	^ GLMRubricTextFieldArea
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 GLMRubricTextFieldMorph >> whenGotForcus: anAnnouncement [
 	super whenGotForcus: anAnnouncement.
 	
 	self color: Smalltalk ui theme backgroundColor.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 GLMRubricTextFieldMorph >> whenLostForcus: anAnnouncement [
 	super whenLostForcus: anAnnouncement.
 	
