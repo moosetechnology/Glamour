@@ -1,8 +1,18 @@
+"
+A GLMBrickThemer is the main Brick themer class where styles for core and basic Bricks are defined.
+
+Instance Variables
+	modules:		<Dictionary>
+
+modules
+	- dictionary with all registered style modules with association module name -> module
+
+"
 Class {
 	#name : #GLMBrickThemer,
 	#superclass : #Object,
-	#traits : 'GLMBrickScrollpaneStyle + GLMBrickRubricStyle + GLMBrickWindowStyle + GLMBrickButtonStyle + GLMCheckBoxStyle',
-	#classTraits : 'GLMBrickScrollpaneStyle classTrait + GLMBrickRubricStyle classTrait + GLMBrickWindowStyle classTrait + GLMBrickButtonStyle classTrait + GLMCheckBoxStyle classTrait',
+	#traits : 'GLMBrickScrollpaneStyle + GLMBrickRubricStyle + GLMBrickWindowStyle + GLMBrickButtonStyle + GLMBrickCheckBoxStyle + GLMBrickTextStyle',
+	#classTraits : 'GLMBrickScrollpaneStyle classTrait + GLMBrickRubricStyle classTrait + GLMBrickWindowStyle classTrait + GLMBrickButtonStyle classTrait + GLMBrickCheckBoxStyle classTrait + GLMBrickTextStyle classTrait',
 	#instVars : [
 		'modules'
 	],
@@ -74,14 +84,22 @@ GLMBrickThemer >> popupThemer [
 
 	^ self
 		registerModule: GLMBrickPopupThemer new
-		to: self
 ]
 
-{ #category : #themers }
+{ #category : #'*Glamour-Morphic-Brick' }
 GLMBrickThemer >> privacyAgreementThemer [
-   ^ self
-	registerModule: GLMPrivacyAgreementThemer new
-	to: self
+
+	^ self
+		registerModule: GLMPrivacyAgreementThemer new
+]
+
+{ #category : #'brick-modules' }
+GLMBrickThemer >> registerModule: aModule [
+
+	^ self
+		registerModule: aModule
+		to: self
+		named: thisContext sender selector
 ]
 
 { #category : #'brick-modules' }

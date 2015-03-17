@@ -106,6 +106,32 @@ GLMRubScrolledTextBrick >> rubricTextColor: aColor [
 ]
 
 { #category : #'brick-properties' }
+GLMRubScrolledTextBrick >> rubricTextFamilyName [
+
+	^ self valueOfProperty: #brickRubricTextFamilyName ifAbsent: [ self themer rubricTextFamilyName ]
+]
+
+{ #category : #'brick-properties' }
+GLMRubScrolledTextBrick >> rubricTextFamilyName: aString [
+
+	self setProperty: #brickRubricTextFamilyName toValue: aString.
+	self updateStyle
+]
+
+{ #category : #'brick-properties' }
+GLMRubScrolledTextBrick >> rubricTextFontSize [
+
+	^ self valueOfProperty: #brickRubricTextFontSize ifAbsent: [ self themer rubricTextFontSize ]
+]
+
+{ #category : #'brick-properties' }
+GLMRubScrolledTextBrick >> rubricTextFontSize: aFloat [
+
+	self setProperty: #brickRubricTextFontSize toValue: aFloat.
+	self updateStyle
+]
+
+{ #category : #'brick-properties' }
 GLMRubScrolledTextBrick >> text: aText [
 
 	self rubric updateTextWith: aText
@@ -118,4 +144,5 @@ GLMRubScrolledTextBrick >> updateStyle [
 	self rubric borderColor: self rubricBorderColor.
 	self rubric borderWidth: self rubricBorderWidth.
 	self rubric textColor: self rubricTextColor.
+	self rubric font: (LogicalFont familyName: self rubricTextFamilyName pointSize: self rubricTextFontSize)
 ]

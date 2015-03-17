@@ -24,6 +24,7 @@ GLMBrickDarkThemer >> buttonSelectedColor [
 
 { #category : #'brick-checkbox' }
 GLMBrickDarkThemer >> checkboxBorderColor [
+
 	^ Color lightGray
 ]
 
@@ -65,14 +66,13 @@ GLMBrickDarkThemer >> popupThemer [
 
 	^ self
 		registerModule: GLMBrickPopupDarkThemer new
-		to: self
 ]
 
-{ #category : #themers }
+{ #category : #'*Glamour-Morphic-Brick' }
 GLMBrickDarkThemer >> privacyAgreementThemer [
-   ^ self
-	registerModule: GLMPrivacyAgreementDarkThemer new
-	to: self
+
+	^ self
+		registerModule: GLMPrivacyAgreementDarkThemer new
 ]
 
 { #category : #'brick-scrollbar' }

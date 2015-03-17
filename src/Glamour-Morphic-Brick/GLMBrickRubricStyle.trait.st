@@ -35,3 +35,15 @@ GLMBrickRubricStyle >> rubricTextColor [
 
 	^ self textColor
 ]
+
+{ #category : #'brick-rubric' }
+GLMBrickRubricStyle >> rubricTextFamilyName [
+	
+	^ StandardFonts codeFont familyName
+]
+
+{ #category : #'brick-rubric' }
+GLMBrickRubricStyle >> rubricTextFontSize [
+	
+	^ StandardFonts codeFont pointSize
+]

@@ -169,18 +169,6 @@ GLMStringBrick >> customFont [
 				yourself
 ]
 
-{ #category : #defaults }
-GLMStringBrick >> defaultFamilyName [
-
-	^ self theme labelFont familyName
-]
-
-{ #category : #defaults }
-GLMStringBrick >> defaultSize [
-
-	^ self theme labelFont pointSize
-]
-
 { #category : #accessing }
 GLMStringBrick >> familyName [
 	^ familyName
@@ -262,8 +250,8 @@ GLMStringBrick >> highlightingLogic: aBlockWithTwoParameters [
 GLMStringBrick >> initialize [
 	super initialize.
 	
-	fontSize := self defaultSize.
-	familyName := self defaultFamilyName.
+	fontSize := self themer textFontSize.
+	familyName := self themer textFamilyName.
 	text := ''.
 	
 	textPosition := #leftCenter.
