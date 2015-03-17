@@ -6,7 +6,7 @@ Text shrinking works out of box, you don't need to do anything
 Instance Variables
 	dotsBrick		<GLMStringBrick>
 	isDotsAdded:		<boolean>
-	stringBrick rick		<GLMStringBrick>
+	stringBrick:		<GLMStringBrick>
 
 dotsBrick
 	- represents a Brick that is added at the end of the text when Brick's size becomes smaller than actual text size
