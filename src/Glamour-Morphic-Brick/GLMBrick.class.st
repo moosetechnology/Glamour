@@ -270,7 +270,7 @@ GLMBrick >> changedWith: aBlock [
 
 { #category : #'morph-drawing' }
 GLMBrick >> drawOn: aCanvas [
-	super drawOn: aCanvas.
+	"super drawOn: aCanvas."
 	
 	"translating canvas coordinates"
 	 (aCanvas isKindOf: ClippingCanvas) ifTrue: [ ^self "no need to draw anything" ].
@@ -351,6 +351,7 @@ GLMBrick >> hasProperty: aSymbol [
 GLMBrick >> initialize [
 	super initialize.
 	color := Color transparent.
+	self fillStyle: nil.
 	submorphs := OrderedCollection new.
 	
 	self
@@ -421,6 +422,13 @@ GLMBrick >> owner [
 GLMBrick >> ports [
 
 	^ ports  ifNil: [ ports := Dictionary new ]
+]
+
+{ #category : #'morph-common' }
+GLMBrick >> privateMoveBy: delta [ 
+	"Private! Use 'position:' instead."
+	bounds := bounds translateBy: delta.
+	fullBounds ifNotNil: [fullBounds := fullBounds translateBy: delta].
 ]
 
 { #category : #'private-structure' }

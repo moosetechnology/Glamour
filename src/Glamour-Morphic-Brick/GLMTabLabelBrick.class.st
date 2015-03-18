@@ -24,29 +24,28 @@ Class {
 		'normalLabel',
 		'selectedLabel'
 	],
-	#category : #'Glamour-Morphic-Brick-Widgets-Core'
+	#category : #'Glamour-Morphic-Brick-Widgets-UI'
 }
 
-{ #category : #accessing }
-GLMTabLabelBrick >> adoptPaneColor: paneColor [
-	"Use the theme for fillStyle and border."
-	
-	super adoptPaneColor: paneColor.
-	paneColor ifNil: [^self].
-	self fillStyle: self fillStyleToUse.
-	self borderStyle: self borderStyleToUse
+{ #category : #'brick-tab-label-actions' }
+GLMTabLabelBrick >> beNormal [
+
+	self removeAllBricks.
+	self addBrickBack: self normalLabel.
+	self themer tabLabelThemer normalStyleFor: self.
+	self changed
 ]
 
-{ #category : #accessing }
-GLMTabLabelBrick >> borderStyleToUse [
-	"Answer the borderStyle that should be used for the receiver."
-	
-	^self isSelected
-		ifTrue: [self theme tabLabelSelectedBorderStyleFor: self]
-		ifFalse: [self theme tabLabelNormalBorderStyleFor: self]
+{ #category : #'brick-tab-label-actions' }
+GLMTabLabelBrick >> beSelected [
+
+	self removeAllBricks.
+	self addBrickBack: self selectedLabel.
+	self themer tabLabelThemer selectedStyleFor: self.
+	self changed
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMTabLabelBrick >> deselect [
 	self layoutProperties minWidth: 0.
 	self brickRoot changed.
@@ -54,16 +53,7 @@ GLMTabLabelBrick >> deselect [
 	self brickRoot changed.
 ]
 
-{ #category : #accessing }
-GLMTabLabelBrick >> fillStyleToUse [
-	"Answer the basic fill style for the receiver."
-
-	^self isSelected
-		ifTrue: [self selectedFillStyle] 
-		ifFalse: [self normalFillStyle]
-]
-
-{ #category : #accessing }
+{ #category : #'brick-tab-label-accessing' }
 GLMTabLabelBrick >> font: aFont [
 	"Set the label font"
 
@@ -75,34 +65,30 @@ GLMTabLabelBrick >> font: aFont [
 
 { #category : #initialization }
 GLMTabLabelBrick >> initialize [
-	"Initialize the receiver."
-	
 	super initialize.
-	self fillStyle: self fillStyleToUse.
-	self borderStyle: self borderStyleToUse.
 	
-	self enable.
+	self enable
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-tab-label-testing' }
 GLMTabLabelBrick >> isSelected [
 	"Answer whether the tab is selected."
 
-	^self tabSelector
-		ifNil: [false]
-		ifNotNil: [:selector | selector selectedTab == self]
+	^ self tabSelector
+		ifNil: [ false ]
+		ifNotNil: [ :selector | selector selectedTab == self]
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-tab-label-accessing' }
 GLMTabLabelBrick >> label [
 	"Answer the label contents."
 
-	^self isSelected
-		ifTrue: [self selectedLabel userString ifNil: [self firstSubmorph]]
-		ifFalse: [self normalLabel userString ifNil: [self firstSubmorph]]
+	^ self isSelected
+		ifTrue: [self selectedLabel userString ifNil: [ self firstSubmorph ] ]
+		ifFalse: [self normalLabel userString ifNil: [ self firstSubmorph ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-tab-label-accessing' }
 GLMTabLabelBrick >> label: aBrick [
 	"Change the label contents"
 	
@@ -115,7 +101,7 @@ GLMTabLabelBrick >> label: aBrick [
 		selected: self isSelected
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-tab-label-accessing' }
 GLMTabLabelBrick >> label: aBrick selected: aSelectedBrick [
 	"Change the label contents"
 
@@ -132,68 +118,53 @@ GLMTabLabelBrick >> label: aBrick selected: aSelectedBrick [
 		selected: self isSelected
 ]
 
-{ #category : #'as yet unclassified' }
-GLMTabLabelBrick >> normalFillStyle [
-	"Return the normal fillStyle of the receiver."
-	
-	^ self theme tabLabelNormalFillStyleFor: self
-]
-
-{ #category : #accessing }
+{ #category : #'brick-tab-label-accessing' }
 GLMTabLabelBrick >> normalLabel [
 
 	^ normalLabel
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-tab-label-accessing' }
 GLMTabLabelBrick >> normalLabel: anObject [
 
 	normalLabel := anObject
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMTabLabelBrick >> select [
 	self minWidth: [ (self label layout maxWidth brickValue: self label) min: self brickRoot width ].
 	self brickRoot doLayoutForce.
 	self brickRoot changed.
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-tab-label-accessing' }
 GLMTabLabelBrick >> selected: aBoolean [
 	"Use the appropriate label."
 
-	self removeAllBricks.
 	self isSelected
-		ifTrue: [self addBrickBack: self selectedLabel]
-		ifFalse: [self addBrickBack: self normalLabel]
+		ifTrue: [ self beSelected ]
+		ifFalse: [ self beNormal ]
 ]
 
-{ #category : #'as yet unclassified' }
-GLMTabLabelBrick >> selectedFillStyle [
-	"Return the selected fillStyle of the receiver."
-	
-	^ self theme tabLabelSelectedFillStyleFor: self
-]
-
-{ #category : #accessing }
+{ #category : #'brick-tab-label-accessing' }
 GLMTabLabelBrick >> selectedLabel [
 
 	^ selectedLabel
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-tab-label-accessing' }
 GLMTabLabelBrick >> selectedLabel: anObject [
 
 	selectedLabel := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-tab-label-accessing' }
 GLMTabLabelBrick >> tabSelector [
 
 	^ tabSelector
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-tab-label-accessing' }
 GLMTabLabelBrick >> tabSelector: anObject [
 
 	tabSelector := anObject

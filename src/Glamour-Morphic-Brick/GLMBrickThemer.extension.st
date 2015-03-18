@@ -40,3 +40,10 @@ GLMBrickThemer >> privacyAgreementThemer [
 	^ self
 		registerModule: GLMPrivacyAgreementThemer new
 ]
+
+{ #category : #'*Glamour-Morphic-Brick' }
+GLMBrickThemer >> tabLabelThemer [
+
+	^ self
+		registerModule: GLMBrickTabLabelThemer new
+]

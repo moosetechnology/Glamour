@@ -54,7 +54,7 @@ GLMBrickedMorph >> privateFullBounds [
 	^ self fullBounds
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'change reporting' }
 GLMBrickedMorph >> privateInvalidateMorph: aMorph [
 	"empty"
 ]

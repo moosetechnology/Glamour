@@ -152,7 +152,7 @@ GLMInteractableBrick class >> selectedColor: isSelected of: aTrick [
 	^ self pressedColor: false selectedColor: isSelected of: aTrick
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMInteractableBrick >> check [
 	"notifies #onChecked"
 	self isChecked ifFalse: [
@@ -161,50 +161,50 @@ GLMInteractableBrick >> check [
 		self changed ]
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMInteractableBrick >> check: aBoolean [
 	aBoolean
 		ifTrue: [ self check ]
 		ifFalse: [ self uncheck ]
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> checkedColor [
 	^ checkedColor
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> checkedColor: anObject [
 	checkedColor := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> checkedImage [
 	^ checkedImage
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> checkedImage: anObject [
 	checkedImage := anObject
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMInteractableBrick >> click: evt [
 	self announce: #onClicked.
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> currentColor [
 	^ self state pressedColor: (self isPressed) selectedColor: (self isSelected) checkedColor: (self isChecked) of: self
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> currentImage [
 	^ self state pressed: (self isPressed) selected: (self isSelected) checked: (self isChecked) of: self
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMInteractableBrick >> depress [
 	self isPressed ifTrue: [
 		isPressed := false.
@@ -213,7 +213,7 @@ GLMInteractableBrick >> depress [
 	^ false
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMInteractableBrick >> deselect [
 	"notifies #onMouseUnhover"
 	self isSelected ifTrue: [
@@ -222,30 +222,30 @@ GLMInteractableBrick >> deselect [
 		self changed ]
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMInteractableBrick >> deselect: anEvent [
 
 	self deselect
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMInteractableBrick >> disable [
 	isEnabled := false.
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMInteractableBrick >> enable [
 	
 	isEnabled := true.
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMInteractableBrick >> enable: aBoolean [
 	
 	isEnabled := aBoolean.
 ]
 
-{ #category : #'mouse events' }
+{ #category : #'brick-morph-mouse-events' }
 GLMInteractableBrick >> handlesMouseDown: evt [
 	
 	^ self isEnabled
@@ -254,7 +254,7 @@ GLMInteractableBrick >> handlesMouseDown: evt [
 	
 ]
 
-{ #category : #'mouse events' }
+{ #category : #'brick-morph-mouse-events' }
 GLMInteractableBrick >> handlesMouseOver: evt [
 	^ self isEnabled
 		ifTrue: [ true ]
@@ -274,51 +274,51 @@ GLMInteractableBrick >> initialize [
 	self disable.
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-testing' }
 GLMInteractableBrick >> isChecked [
 	^ isChecked.
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-testing' }
 GLMInteractableBrick >> isEnabled [
 	^ isEnabled
 ]
 
-{ #category : #testing }
+{ #category : #'brick-interactable-testing' }
 GLMInteractableBrick >> isFocused [
 
 	^ false
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-testing' }
 GLMInteractableBrick >> isPressed [
 	^ isPressed.
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-testing' }
 GLMInteractableBrick >> isSelected [
 	^ isSelected.
 ]
 
-{ #category : #'mouse events' }
+{ #category : #'brick-morph-mouse-events' }
 GLMInteractableBrick >> mouseDown: evt [
 	super mouseDown: evt.
 	^ self press.
 ]
 
-{ #category : #'mouse events' }
+{ #category : #'brick-morph-mouse-events' }
 GLMInteractableBrick >> mouseEnter: evt [
 	super mouseEnter: evt.
 	^ self select: evt
 ]
 
-{ #category : #'mouse events' }
+{ #category : #'brick-morph-mouse-events' }
 GLMInteractableBrick >> mouseLeave: evt [
 	super mouseLeave: evt.
 	^ self deselect: evt
 ]
 
-{ #category : #'mouse events' }
+{ #category : #'brick-morph-mouse-events' }
 GLMInteractableBrick >> mouseUp: evt [
 	super mouseUp: evt.
 	(self bounds containsPoint: evt position) & (self isPressed) ifTrue: [
@@ -329,27 +329,27 @@ GLMInteractableBrick >> mouseUp: evt [
 		^ self depress ]
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> normalColor [
 	^ normalColor
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> normalColor: anObject [
 	normalColor := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> normalImage [
 	^ normalImage
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> normalImage: anObject [
 	normalImage := anObject
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMInteractableBrick >> press [
 	self isPressed ifFalse: [
 		isPressed := true.
@@ -359,27 +359,27 @@ GLMInteractableBrick >> press [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> pressedColor [
 	^ pressedColor
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> pressedColor: anObject [
 	pressedColor := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> pressedImage [
 	^ pressedImage
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> pressedImage: anObject [
 	pressedImage := anObject
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMInteractableBrick >> select [
 	"notifies #onMouseHover"
 	self isSelected ifFalse: [ 
@@ -388,39 +388,39 @@ GLMInteractableBrick >> select [
 		self changed ]
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMInteractableBrick >> select: anEvent [
 
 	self select
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> selectedColor [
 	^ selectedColor
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> selectedColor: anObject [
 	selectedColor := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> selectedImage [
 	^ selectedImage
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> selectedImage: anObject [
 	selectedImage := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> state [
 
 	^ self class
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMInteractableBrick >> uncheck [
 	"notifies #onUnchecked"
 	self isChecked ifTrue: [
