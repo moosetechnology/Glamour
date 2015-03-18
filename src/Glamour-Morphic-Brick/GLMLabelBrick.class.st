@@ -75,7 +75,7 @@ GLMLabelBrick >> approximateWidth [
 
 { #category : #'label-brick-accessing' }
 GLMLabelBrick >> contents: aStringOrText [
-
+	"alias for text: added to support polymorphism with default morphic label widgets"
 	self text: aStringOrText asString
 ]
 
@@ -158,16 +158,16 @@ GLMLabelBrick >> initialize [
 		vShrinkWrap.
 	
 	stringBrick
-			"hSpaceFill;
-			vSpaceFill;"
 			marginRight: self defaultInsetBeforeDots.
 	self privateAddBrickBack: stringBrick.
 	
 	"creating dots morph, that will be displayed when text is being clipped"
-	dotsBrick text: self defaultDotsText.
-	dotsBrick fontSize: 9.
-	dotsBrick width: [ :b | b approximateWidth ].
-	dotsBrick vSpaceFill.
+	dotsBrick
+		text: self defaultDotsText;
+		width: #approximateWidth;
+		floating: #right;
+		marginTop: 1;
+		vSpaceFill.
 	
 	isDotsAdded := false
 	
@@ -186,6 +186,25 @@ GLMLabelBrick >> label [
 { #category : #'label-brick-creation' }
 GLMLabelBrick >> newStringBrick [
 	^ GLMStringBrick new
+]
+
+{ #category : #'as yet unclassified' }
+GLMLabelBrick >> onLayouted [
+	super onLayouted.
+	
+	self label isFitsInParent
+		ifTrue: [ (self hasSubbrick: self dotsBrick)
+			ifTrue: [
+				self privateRemoveBrick: self dotsBrick.
+				self changed ] ]
+		ifFalse: [ (self hasSubbrick: self dotsBrick)
+			ifFalse: [
+				self privateAddBrickBack: self dotsBrick.
+				self dotsBrick wrappedBounds height: self outerBounds height.
+				self layoutPolicy layoutFloating: self dotsBrick in: self brickBounds.
+				self changed ] ]
+	
+	
 ]
 
 { #category : #'brick-properties' }
@@ -243,7 +262,7 @@ GLMLabelBrick >> vSpaceFill [
 	super vSpaceFill.
 	
 	self label vSpaceFill.
-	self dotsBrick vShrinkWrap.
+	self dotsBrick vSpaceFill.
 ]
 
 { #category : #'brick-properties' }
