@@ -1,14 +1,14 @@
 "
-A GLMBrick is xxxxxxxasdadxx.
+A GLMBrick is the superclass of all Bricks. It subclasses cleaned morph with deleted layouting mechanism
 
 Instance Variables
-	brickBounds:		<Object>
-	transmissions:		<Object>
+	brickBounds:		<GLMBrickBounds>
+	ports:		<Dictionary>
 
 brickBounds
 	- xxxxx
 
-transmissions
+ports
 	- xxxxx
 
 "
@@ -16,7 +16,7 @@ Class {
 	#name : #GLMBrick,
 	#superclass : #GLMBrickedMorph,
 	#traits : 'GLMBrickPropertiesTrait + GLMBrickLayoutTrait + GLMBrickStructureTrait + GLMPhlowTrait + (GLMBrickGeometryTrait - {#privateBounds:})',
-	#classTraits : 'GLMBrickPropertiesTrait classTrait + GLMBrickGeometryTrait classTrait + GLMBrickLayoutTrait classTrait + GLMBrickStructureTrait classTrait + GLMPhlowTrait classTrait',
+	#classTraits : 'GLMBrickPropertiesTrait classTrait + GLMBrickLayoutTrait classTrait + GLMBrickStructureTrait classTrait + GLMPhlowTrait classTrait + GLMBrickGeometryTrait classTrait',
 	#instVars : [
 		'#brickBounds => GLMPhlowSlot',
 		'#ports => GLMPhlowSlot'

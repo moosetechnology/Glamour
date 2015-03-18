@@ -6,10 +6,10 @@ Instance Variables
 	labelBrick:		<GLMLabelBrick>
 
 iconBrick
-	- xxxxx
+	- an icon to be displayed to the left of the label
 
 labelBrick
-	- xxxxx
+	- label showing button text
 
 "
 Class {

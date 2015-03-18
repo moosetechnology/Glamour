@@ -1,5 +1,6 @@
 "
 A GLMCheckboxBrick is very simple checkbox with label support. If label text is set it becomes clickable too.
+
 Instance Variables
 	checkBrick:		<GLMInteractableBrick>
 	labelBrick:		<GLMLabelBrick>
