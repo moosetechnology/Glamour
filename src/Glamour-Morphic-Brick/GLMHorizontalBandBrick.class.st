@@ -8,7 +8,7 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GLMHorizontalBandBrick >> initialize [
 	super initialize.
 	
