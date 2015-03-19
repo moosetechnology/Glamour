@@ -119,6 +119,12 @@ GLMBrickThemer >> registerModule: aModule to: aThemer named: aString [
 		ifAbsent: [ aThemer addModule: aModule named: aString ]
 ]
 
+{ #category : #brick }
+GLMBrickThemer >> secondaryTextColor [
+
+	^ Color r:25 g: 35 b: 45 range: 255
+]
+
 { #category : #'*Glamour-Morphic-Brick' }
 GLMBrickThemer >> tabLabelThemer [
 

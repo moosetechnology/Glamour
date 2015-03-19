@@ -82,6 +82,12 @@ GLMBrickDarkThemer >> scrollbarColor [
 ]
 
 { #category : #brick }
+GLMBrickDarkThemer >> secondaryTextColor [
+
+	^ Color white
+]
+
+{ #category : #brick }
 GLMBrickDarkThemer >> textColor [
 
 	^ Color white slightlyDarker

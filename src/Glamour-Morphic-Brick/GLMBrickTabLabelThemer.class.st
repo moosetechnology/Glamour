@@ -26,6 +26,6 @@ GLMBrickTabLabelThemer >> selectedBackgroundColor [
 { #category : #'brick-tab-label' }
 GLMBrickTabLabelThemer >> selectedStyleFor: aBrick [
 
-	aBrick fillStyle: ((Smalltalk ui theme tabLabelSelectedFillStyleFor: aBrick) origin: aBrick brickBounds origin).
+	aBrick fillStyle: (Smalltalk ui theme tabLabelSelectedFillStyleFor: aBrick).
 	aBrick borderStyle: (Smalltalk ui theme tabLabelSelectedBorderStyleFor: aBrick)
 ]
