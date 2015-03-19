@@ -50,7 +50,7 @@ GLMCheckboxBrick class >> exampleWithLabelOpen [
 	self exampleWithLabel openCenteredInBrickWindow
 ]
 
-{ #category : #accessing }
+{ #category : #'checkbox-accessing' }
 GLMCheckboxBrick >> action: aBlockClosure [ 
 	"aBlockClosure can receive as the first argument aBoolean, as the second argument this object."
 	self 
@@ -68,20 +68,20 @@ GLMCheckboxBrick >> asFormValue [
 	^ self id -> self isChecked
 ]
 
-{ #category : #accessing }
+{ #category : #'checkbox-brick-accessing' }
 GLMCheckboxBrick >> box [
 
 	^ checkBrick
 ]
 
-{ #category : #scripting }
+{ #category : #'brick-interactable-actions' }
 GLMCheckboxBrick >> check [
 	self box check.
 	self label check.
 	super check
 ]
 
-{ #category : #accessing }
+{ #category : #'checkbox-brick-accessing' }
 GLMCheckboxBrick >> checkBrick: anObject [
 	checkBrick := anObject.
 	self box
@@ -95,14 +95,14 @@ GLMCheckboxBrick >> checkBrick: anObject [
 	self addBrickFirst: self box
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMCheckboxBrick >> click: evt [
 
 	self toggle.
 	^ true
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMCheckboxBrick >> deselect: anEvent [
 	super deselect: anEvent.
 	self box deselect: anEvent.
@@ -123,13 +123,13 @@ GLMCheckboxBrick >> hSpaceFill [
 	self label hSpaceFill
 ]
 
-{ #category : #accessing }
+{ #category : #'checkbox-accessing' }
 GLMCheckboxBrick >> id [
 
 	^ id ifNil: [ self ]
 ]
 
-{ #category : #scripting }
+{ #category : #'checkbox-scripting' }
 GLMCheckboxBrick >> id: anObejct [
 
 	id := anObejct
@@ -148,13 +148,13 @@ GLMCheckboxBrick >> initialize [
 		enable
 ]
 
-{ #category : #accessing }
+{ #category : #'checkbox-brick-accessing' }
 GLMCheckboxBrick >> label [
 
 	^ labelBrick
 ]
 
-{ #category : #accessing }
+{ #category : #'checkbox-brick-accessing' }
 GLMCheckboxBrick >> labelBrick: anObject [
 	labelBrick := anObject.
 	
@@ -164,26 +164,26 @@ GLMCheckboxBrick >> labelBrick: anObject [
 		textPosition: #leftCenter.
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'checkbox-brick-creation' }
 GLMCheckboxBrick >> newCheckboxBrick [
 
 	^ GLMInteractableBrick new
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'checkbox-brick-creation' }
 GLMCheckboxBrick >> newLabelBrick [
 
 	^ GLMLabelBrick new
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMCheckboxBrick >> select: anEvent [
 	super select: anEvent.
 	self box select: anEvent.
 	self label select: anEvent
 ]
 
-{ #category : #scripting }
+{ #category : #'checkbox-scripting' }
 GLMCheckboxBrick >> text: aString [
 
 	self label text: aString.
@@ -194,7 +194,7 @@ GLMCheckboxBrick >> text: aString [
 	self doLayoutForce
 ]
 
-{ #category : #actions }
+{ #category : #'checkbox-actions' }
 GLMCheckboxBrick >> toggle [
 
 	self isChecked
@@ -202,7 +202,7 @@ GLMCheckboxBrick >> toggle [
 		ifFalse: [ self check ]
 ]
 
-{ #category : #scripting }
+{ #category : #'brick-interactable-actions' }
 GLMCheckboxBrick >> uncheck [
 	self box uncheck.
 	self label uncheck.

@@ -78,12 +78,12 @@ GLMLabelBrick >> contents: aStringOrText [
 	self text: aStringOrText asString
 ]
 
-{ #category : #'label-brick-default' }
+{ #category : #'label-default' }
 GLMLabelBrick >> defaultDotsText [
 	^ '...'
 ]
 
-{ #category : #'label-brick-default' }
+{ #category : #'label-default' }
 GLMLabelBrick >> defaultInsetBeforeDots [
 	^ 1
 ]
@@ -171,7 +171,7 @@ GLMLabelBrick >> initialize [
 	
 ]
 
-{ #category : #'label-brick-accessing' }
+{ #category : #'label-testing' }
 GLMLabelBrick >> isDotsAdded [
 
 	^ self hasSubbrick: self dotsBrick
@@ -187,7 +187,7 @@ GLMLabelBrick >> newStringBrick [
 	^ GLMStringBrick new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-layout-events' }
 GLMLabelBrick >> onLayouted [
 	super onLayouted.
 	

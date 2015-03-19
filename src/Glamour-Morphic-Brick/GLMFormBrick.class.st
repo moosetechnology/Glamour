@@ -56,13 +56,13 @@ GLMFormBrick >> asFormValue [
 	^ result
 ]
 
-{ #category : #scripting }
+{ #category : #'form-scripting' }
 GLMFormBrick >> checkbox [
 
 	^ self addBrickBack: self newCheckbox
 ]
 
-{ #category : #scripting }
+{ #category : #'form-scripting' }
 GLMFormBrick >> checkbox: aBlock [
 
 	aBlock cull: self checkbox
@@ -81,46 +81,47 @@ GLMFormBrick >> initialize [
 		padding: # (4 7)
 ]
 
-{ #category : #scripting }
+{ #category : #'form-scripting' }
 GLMFormBrick >> label [
 
 	^ self addBrickBack: self newLabel
 ]
 
-{ #category : #scripting }
+{ #category : #'form-scripting' }
 GLMFormBrick >> label: aBlock [
 
 	aBlock cull: self label
 	
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'form-brick-creation' }
 GLMFormBrick >> newButton [
 
 	^ GLMButtonBrick new margin: #(3 0)
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'form-brick-creation' }
 GLMFormBrick >> newCheckbox [
 
 	^ GLMCheckboxBrick new margin: #(3 0)
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'form-brick-creation' }
 GLMFormBrick >> newLabel [
 
 	^ GLMLabelBrick new margin: #(3 0)
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'form-brick-creation' }
 GLMFormBrick >> newText [
 
 	^ GLMRubTextAreaBrick new
 		width: 200;
-		margin: #(3 0)
+		margin: #(3 0);
+		rubricTextFamilyName: StandardFonts defaultFont familyName
 ]
 
-{ #category : #scripting }
+{ #category : #'form-scripting' }
 GLMFormBrick >> submit [
 
 	^ self addBrickBack: (
@@ -129,37 +130,37 @@ GLMFormBrick >> submit [
 			when: #onClicked do: [ self submitForm ])
 ]
 
-{ #category : #scripting }
+{ #category : #'form-scripting' }
 GLMFormBrick >> submit: aBlock [
 
 	aBlock cull: self submit
 ]
 
-{ #category : #actions }
+{ #category : #'form-actions' }
 GLMFormBrick >> submitForm [
 
 	self announce: (GLMFormSubmitted new result: self asFormValue)
 ]
 
-{ #category : #scripting }
+{ #category : #'form-scripting' }
 GLMFormBrick >> text [
 
 	^ self addBrickBack: self newText
 ]
 
-{ #category : #scripting }
+{ #category : #'form-scripting' }
 GLMFormBrick >> text: aBlock [
 
 	aBlock cull: self text
 ]
 
-{ #category : #scripting }
+{ #category : #'form-scripting' }
 GLMFormBrick >> title [
 
 	^ self addBrickBack: (self newLabel hAlign: #center)
 ]
 
-{ #category : #scripting }
+{ #category : #'form-scripting' }
 GLMFormBrick >> title: aBlock [
 
 	aBlock cull: self title

@@ -34,7 +34,7 @@ GLMButtonBrick class >> exampleOpen [
 	self example openCenteredInBrickWindow
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMButtonBrick >> click: evt [
 
 	super click: evt.
@@ -63,6 +63,7 @@ GLMButtonBrick >> iconBrick [
 
 { #category : #'button-brick-accessing' }
 GLMButtonBrick >> iconBrick: anObject [
+
 	iconBrick := anObject
 ]
 
@@ -110,13 +111,13 @@ GLMButtonBrick >> onThemerChanged [
 	self updateStyle
 ]
 
-{ #category : #'brick-properties' }
+{ #category : #'button-properties' }
 GLMButtonBrick >> text [
 
 	^ self label text
 ]
 
-{ #category : #'brick-properties' }
+{ #category : #'button-properties' }
 GLMButtonBrick >> text: aString [
 
 	self label text: aString
