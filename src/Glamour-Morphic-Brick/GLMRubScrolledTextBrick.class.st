@@ -14,6 +14,44 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
 
+{ #category : #examples }
+GLMRubScrolledTextBrick class >> example [
+	<example: 'Two rubric text areas filling half of size'>
+	
+	^ GLMBrick new
+		useVerticalLinearLayout;
+		padding: #(20 20);
+		hSpaceFill;
+		vSpaceFill;
+		color: Color veryVeryLightGray;
+		addAllBricks: { self new vSpaceFill: 50. self new vSpaceFill: 50 };
+		yourself
+]
+
+{ #category : #examples }
+GLMRubScrolledTextBrick class >> exampleBand [
+	<example: 'Two rubric text areas in band'>
+	
+	^ GLMBandBrick new
+		padding: #(20 20);
+		hSpaceFill;
+		color: Color veryVeryLightGray;
+		addAllBricks: { self new vShrinkWrap. self new vShrinkWrap};
+		yourself
+]
+
+{ #category : #examples }
+GLMRubScrolledTextBrick class >> exampleBandOpen [
+
+	self exampleBand openInBrickWindow
+]
+
+{ #category : #examples }
+GLMRubScrolledTextBrick class >> exampleOpen [
+
+	self example openInBrickWindow
+]
+
 { #category : #'reflective operations' }
 GLMRubScrolledTextBrick >> doesNotUnderstand: aMessage [
 	^ self rubric

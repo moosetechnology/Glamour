@@ -1,3 +1,17 @@
+"
+A GLMEditableLabelBrick is improved label that can be edited in-place double-clicking on it or using edit icon
+
+Instance Variables
+	editBrick:		<Object>
+	labelBrick:		<Object>
+
+editBrick
+	- xxxxx
+
+labelBrick
+	- xxxxx
+
+"
 Class {
 	#name : #GLMEditableLabelBrick,
 	#superclass : #GLMInteractableBrick,
@@ -8,27 +22,93 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Widgets-UI'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
+GLMEditableLabelBrick class >> example [
+	<example: 'Editable label simple example'>
+	^ self new
+		text: 'Double click me';
+		yourself
+]
+
+{ #category : #examples }
+GLMEditableLabelBrick class >> exampleOpen [
+
+	self example beEdit openCenteredInBrickWindow
+]
+
+{ #category : #'label-brick-actions' }
+GLMEditableLabelBrick >> beEdit [
+	
+	self editBrick updateTextWith: self labelBrick text.
+	self editBrick rubric width: self width.
+	self addBrickFirst: self editBrick
+]
+
+{ #category : #'reflective operations' }
+GLMEditableLabelBrick >> doesNotUnderstand: aMessage [
+	^ self labelBrick
+		perform: aMessage selector
+		withArguments: aMessage arguments
+]
+
+{ #category : #'label-brick-accessing' }
+GLMEditableLabelBrick >> editBrick [
+
+	^ editBrick
+]
+
+{ #category : #'label-brick-accessing' }
+GLMEditableLabelBrick >> editBrick: aBrick [
+
+	editBrick := aBrick.
+	
+	self editBrick
+		hShrinkWrap;
+		vSpaceFill;
+		zIndex: 2;
+		margin: 5;
+		marginBottom: 10;
+		rubricTextFamilyName: StandardFonts defaultFont familyName;
+		floating: #left
+]
+
+{ #category : #'brick-layout-properties' }
 GLMEditableLabelBrick >> hShrinkWrap [
 	super hShrinkWrap.
 	
-	self labelBrick hShrinkWrap
+	self labelBrick hShrinkWrap.
+	self editBrick hShrinkWrap
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-layout-properties' }
 GLMEditableLabelBrick >> hSpaceFill [
 	super hSpaceFill.
 	
-	self label hSpaceFill
+	self labelBrick hSpaceFill.
+	self editBrick hSpaceFill
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
+GLMEditableLabelBrick >> initialize [
+	super initialize.
+	
+	self labelBrick: self newLabelBrick.
+	self editBrick: self newEditBrick.
+	
+	self
+		color: (Color r: 236 g: 240 b: 241 range: 255);
+		padding: 5;
+		hShrinkWrap;
+		vShrinkWrap.
+]
+
+{ #category : #'label-brick-accessing' }
 GLMEditableLabelBrick >> labelBrick [
 
 	^ labelBrick
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'label-brick-accessing' }
 GLMEditableLabelBrick >> labelBrick: aBrick [
 
 	labelBrick := aBrick.
@@ -37,9 +117,30 @@ GLMEditableLabelBrick >> labelBrick: aBrick [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'label-brick-creation' }
+GLMEditableLabelBrick >> newEditBrick [
+
+	^ GLMRubTextFieldBrick new
+]
+
+{ #category : #'label-brick-creation' }
+GLMEditableLabelBrick >> newLabelBrick [
+
+	^ GLMLabelBrick new
+]
+
+{ #category : #'brick-layout-properties' }
 GLMEditableLabelBrick >> vShrinkWrap [
 	super vShrinkWrap.
 	
-	self label vShrinkWrap
+	self labelBrick vShrinkWrap.
+	self editBrick vShrinkWrap
+]
+
+{ #category : #'brick-layout-properties' }
+GLMEditableLabelBrick >> vSpaceFill [
+	super vSpaceFill.
+	
+	self labelBrick vSpaceFill.
+	self editBrick vSpaceFill
 ]

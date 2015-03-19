@@ -12,7 +12,11 @@ Class {
 	#name : #GLMMorphBrick,
 	#superclass : #GLMBrick,
 	#instVars : [
-		'morph'
+		'morph',
+		'resizing',
+		'isLayouting',
+		'vResizing',
+		'hResizing'
 	],
 	#category : #'Glamour-Morphic-Brick-Morphic'
 }
@@ -23,7 +27,7 @@ GLMMorphBrick class >> on: aMorph [
 	^ self new on: aMorph
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-structure-adding/removing' }
 GLMMorphBrick >> addBrickBack: aBrick [
 	|link|
 	link := aBrick asDoubleLink.
@@ -38,7 +42,7 @@ GLMMorphBrick >> addBrickBack: aBrick [
 	aBrick privateOwner: self.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMMorphBrick >> brickBounds: aRectangle [
 	|origin corner newBounds|
 	super brickBounds: aRectangle.
@@ -51,31 +55,81 @@ GLMMorphBrick >> brickBounds: aRectangle [
 	self morph bounds: newBounds
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'morph-drawing' }
 GLMMorphBrick >> drawSubmorphsOn: aCanvas [
 	
 	self morph fullDrawOn: (aCanvas copy setOrigin: (aCanvas origin + self bounds origin - self morph bounds origin) clipRect: (aCanvas clipRect translateBy: aCanvas origin))
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-layout-properties' }
+GLMMorphBrick >> hShrinkWrap [
+	
+	hResizing := #shrinkWrap.
+	self width: [ self morph width ]
+	
+	
+]
+
+{ #category : #initialization }
+GLMMorphBrick >> initialize [
+	super initialize.
+	
+	isLayouting := false
+]
+
+{ #category : #'brick-layout' }
 GLMMorphBrick >> invalidateLayout [
 
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
+GLMMorphBrick >> isHShrinking [
+
+	^ hResizing = #shrinkWrap
+]
+
+{ #category : #'morph-common' }
 GLMMorphBrick >> isMorphBrick [
 
 	^ true
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
+GLMMorphBrick >> isShrinking [
+
+	^ self isHShrinking | self isVShrinking
+]
+
+{ #category : #testing }
+GLMMorphBrick >> isVShrinking [
+
+	^ vResizing = #shrinkWrap
+]
+
+{ #category : #layout }
+GLMMorphBrick >> layoutChanged [
+	super layoutChanged.
+	
+	self morph ifNil: [ ^ self ].
+	self isShrinking not ifTrue: [ ^ self ].
+	
+	isLayouting ifFalse: [
+		isLayouting := true.
+		self isHShrinking
+			ifTrue: [ self width: [ self morph width ] ].
+		self isVShrinking
+			ifTrue: [ self height: [ self morph height ] ].
+		isLayouting := false ]
+]
+
+{ #category : #accessing }
 GLMMorphBrick >> morph [
 
 	^ morph
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMMorphBrick >> on: aMorph [
 	
 	aMorph layoutProperties ifNil: [ 
@@ -92,7 +146,7 @@ GLMMorphBrick >> on: aMorph [
 	super brickBounds: (0@0 extent: (morph width@morph height)).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-layout-events' }
 GLMMorphBrick >> onLayouted [
 	|origin corner newBounds|
 	super onLayouted.
@@ -105,7 +159,7 @@ GLMMorphBrick >> onLayouted [
 	self morph bounds: newBounds
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-structure-events' }
 GLMMorphBrick >> onRemovedFrom: aBrick [
 	
 	"we should just override it and left empty,
@@ -113,14 +167,23 @@ GLMMorphBrick >> onRemovedFrom: aBrick [
 	to be propagated to morph"
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-properties-events' }
 GLMMorphBrick >> onThemerChanged [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'brick-properties' }
 GLMMorphBrick >> themerChanged [
 
 	self onThemerChanged.
 	self morph brickThemerChanged
+]
+
+{ #category : #'brick-layout-properties' }
+GLMMorphBrick >> vShrinkWrap [
+
+	vResizing := #shrinkWrap.
+	self height: [ self morph height ]
+	
+	
 ]

@@ -1,9 +1,6 @@
 Class {
 	#name : #GLMRubEditingAreaBrick,
 	#superclass : #GLMRubScrolledTextBrick,
-	#instVars : [
-		'isLayouting'
-	],
 	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
 
@@ -51,36 +48,11 @@ GLMRubEditingAreaBrick >> initialize [
 	
 	self
 		hSpaceFill;
-		height: 0.
-	isLayouting := false
-]
-
-{ #category : #layout }
-GLMRubEditingAreaBrick >> layoutChanged [
-	super layoutChanged.
-	
-	self morph ifNil: [ ^ self ].
-	
-	isLayouting ifFalse: [
-		isLayouting := true.
-		self height: self morph height.
-		isLayouting := false ]
+		vShrinkWrap
 ]
 
 { #category : #'instance creation' }
 GLMRubEditingAreaBrick >> newRubricMorph [
 
 	^ RubEditingArea new beWrapped
-]
-
-{ #category : #'instance creation' }
-GLMRubEditingAreaBrick >> on: aMorph [
-	
-	aMorph layoutProperties ifNil: [ 
-		aMorph layoutProperties: GLMBrickLayoutProperties new ].
-
-	morph := aMorph.
-	
-	self addBrickBack: morph.
-	self height: self morph height.
 ]
