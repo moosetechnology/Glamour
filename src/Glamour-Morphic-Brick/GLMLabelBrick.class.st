@@ -22,7 +22,6 @@ Class {
 	#name : #GLMLabelBrick,
 	#superclass : #GLMInteractableBrick,
 	#instVars : [
-		'isDotsAdded',
 		'dotsBrick',
 		'stringBrick'
 	],
@@ -166,16 +165,16 @@ GLMLabelBrick >> initialize [
 		text: self defaultDotsText;
 		width: #approximateWidth;
 		floating: #right;
+		zIndex: 2;
 		marginTop: 1;
-		vSpaceFill.
-	
-	isDotsAdded := false
+		vSpaceFill
 	
 ]
 
 { #category : #'label-brick-accessing' }
 GLMLabelBrick >> isDotsAdded [
-	^ isDotsAdded
+
+	^ self hasSubbrick: self dotsBrick
 ]
 
 { #category : #'label-brick-accessing' }
@@ -193,15 +192,17 @@ GLMLabelBrick >> onLayouted [
 	super onLayouted.
 	
 	self label isFitsInParent
-		ifTrue: [ (self hasSubbrick: self dotsBrick)
+		ifTrue: [ self isDotsAdded
 			ifTrue: [
 				self privateRemoveBrick: self dotsBrick.
+				self doLayoutForce.
 				self changed ] ]
-		ifFalse: [ (self hasSubbrick: self dotsBrick)
+		ifFalse: [ self isDotsAdded
 			ifFalse: [
 				self privateAddBrickBack: self dotsBrick.
 				self dotsBrick wrappedBounds height: self outerBounds height.
 				self layoutPolicy layoutFloating: self dotsBrick in: self brickBounds.
+				self doLayoutForce.
 				self changed ] ]
 	
 	

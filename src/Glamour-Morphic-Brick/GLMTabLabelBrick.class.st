@@ -47,10 +47,9 @@ GLMTabLabelBrick >> beSelected [
 
 { #category : #'brick-interactable-actions' }
 GLMTabLabelBrick >> deselect [
+	self owner ifNil: [ ^ self ].
 	self layoutProperties minWidth: 0.
-	self brickRoot changed.
-	self brickRoot doLayout.
-	self brickRoot changed.
+	self owner doLayoutForce
 ]
 
 { #category : #'brick-tab-label-accessing' }
@@ -92,23 +91,15 @@ GLMTabLabelBrick >> label [
 GLMTabLabelBrick >> label: aBrick [
 	"Change the label contents"
 	
-	aBrick hSpaceFill.
-	self maxWidth: aBrick layout maxWidth.
-
-	self
-		normalLabel: aBrick;
-		selectedLabel: aBrick;
-		selected: self isSelected
+	self label: aBrick selected: aBrick
 ]
 
 { #category : #'brick-tab-label-accessing' }
 GLMTabLabelBrick >> label: aBrick selected: aSelectedBrick [
 	"Change the label contents"
 
-	aBrick hSpaceFill.
-	aBrick vSpaceFill.
-	aSelectedBrick hSpaceFill.
-	aSelectedBrick vSpaceFill.
+	aBrick hSpaceFill; vSpaceFill.
+	aSelectedBrick hSpaceFill; vSpaceFill.
 	
 	self maxWidth: aBrick layout maxWidth.
 	
@@ -132,9 +123,9 @@ GLMTabLabelBrick >> normalLabel: anObject [
 
 { #category : #'brick-interactable-actions' }
 GLMTabLabelBrick >> select [
-	self minWidth: [ (self label layout maxWidth brickValue: self label) min: self brickRoot width ].
-	self brickRoot doLayoutForce.
-	self brickRoot changed.
+	self owner ifNil: [ ^ self ].
+	self minWidth: [ (self label layout maxWidth brickValue: self label) min: self owner width ].
+	self owner doLayoutForce
 ]
 
 { #category : #'brick-tab-label-accessing' }
