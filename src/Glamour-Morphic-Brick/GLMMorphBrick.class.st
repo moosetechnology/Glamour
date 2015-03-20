@@ -42,17 +42,11 @@ GLMMorphBrick >> addBrickBack: aBrick [
 	aBrick privateOwner: self.
 ]
 
-{ #category : #accessing }
+{ #category : #'brick-geometry' }
 GLMMorphBrick >> brickBounds: aRectangle [
-	|origin corner newBounds|
 	super brickBounds: aRectangle.
 	
-	origin := self paddingLeft @ self paddingTop.
-	corner := self paddingRight @ self paddingBottom.
-	newBounds := self globalBounds.
-	newBounds := ((newBounds origin + origin) corner: (newBounds corner - corner)).
-	
-	self morph bounds: newBounds
+	self invalidateMorphBounds
 ]
 
 { #category : #'morph-drawing' }
@@ -81,6 +75,18 @@ GLMMorphBrick >> initialize [
 GLMMorphBrick >> invalidateLayout [
 
 	
+]
+
+{ #category : #'brick-layout' }
+GLMMorphBrick >> invalidateMorphBounds [
+	| origin corner newBounds |
+	
+	origin := self paddingLeft @ self paddingTop.
+	corner := self paddingRight @ self paddingBottom.
+	newBounds := self globalBounds.
+	newBounds := ((newBounds origin + origin) corner: (newBounds corner - corner)).
+	
+	self morph bounds: newBounds
 ]
 
 { #category : #testing }
@@ -112,15 +118,15 @@ GLMMorphBrick >> layoutChanged [
 	super layoutChanged.
 	
 	self morph ifNil: [ ^ self ].
-	self isShrinking not ifTrue: [ ^ self ].
-	
-	isLayouting ifFalse: [
-		isLayouting := true.
-		self isHShrinking
-			ifTrue: [ self width: [ self morph width ] ].
-		self isVShrinking
-			ifTrue: [ self height: [ self morph height ] ].
-		isLayouting := false ]
+	self isShrinking ifFalse: [ ^ self ].
+	isLayouting ifTrue: [ ^ self ].
+
+	isLayouting := true.
+	self isHShrinking
+		ifTrue: [ self width: [ self morph width ] ].
+	self isVShrinking
+		ifTrue: [ self height: [ self morph height ] ].
+	isLayouting := false
 ]
 
 { #category : #accessing }
@@ -148,15 +154,9 @@ GLMMorphBrick >> on: aMorph [
 
 { #category : #'brick-layout-events' }
 GLMMorphBrick >> onLayouted [
-	|origin corner newBounds|
 	super onLayouted.
 	
-	origin := self paddingLeft @ self paddingTop.
-	corner := self paddingRight @ self paddingBottom.
-	newBounds := self globalBounds.
-	newBounds := ((newBounds origin + origin) corner: (newBounds corner - corner)).
-	
-	self morph bounds: newBounds
+	self invalidateMorphBounds
 ]
 
 { #category : #'brick-structure-events' }
