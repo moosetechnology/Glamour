@@ -95,7 +95,9 @@ GLMRubricSmalltalkCodePresentation >> defaultSelectionActions [
 { #category : #actions }
 GLMRubricSmalltalkCodePresentation >> evaluateSelection [
 
-	self evaluateSelectionAndDo: [ :result | result ]
+	self announce: (GLMEvaluateSelection new 
+		action: [ :result | result ];
+		makeSyncronous)
 ]
 
 { #category : #actions }
