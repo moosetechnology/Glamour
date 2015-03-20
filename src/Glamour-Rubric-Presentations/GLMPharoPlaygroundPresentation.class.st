@@ -50,12 +50,6 @@ browser transmit to: #r1; andShow: [ :aComposite |
 browser openOn:''self halt'' '
 ]
 
-{ #category : #accessing }
-GLMPharoPlaygroundPresentation >> currentBindings [
-
-	self withBindingsDo: [ :bingings | ^ bingings copy ]
-]
-
 { #category : #actions }
 GLMPharoPlaygroundPresentation >> installGoAction [
 	self selectionAct: [ :t :entity |
@@ -68,12 +62,6 @@ GLMPharoPlaygroundPresentation >> installGoAction [
 GLMPharoPlaygroundPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
 	^ aRenderer renderPharoPlaygroundPresentation: self
-]
-
-{ #category : #actions }
-GLMPharoPlaygroundPresentation >> resetBindings [
-
-	self withBindingsDo: [ :bindings | bindings removeAll ]
 ]
 
 { #category : #actions }
@@ -90,10 +78,4 @@ GLMPharoPlaygroundPresentation >> variableBindings [
 { #category : #accessing }
 GLMPharoPlaygroundPresentation >> variableBindings: aBlock [
 	^ variableBindingsBlock := aBlock
-]
-
-{ #category : #actions }
-GLMPharoPlaygroundPresentation >> withBindingsDo: aBlock [
-
-	self announce: (GLMVariableBindingsAccessRequest new action: aBlock)
 ]

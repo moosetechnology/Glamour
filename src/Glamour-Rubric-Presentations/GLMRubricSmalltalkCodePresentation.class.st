@@ -95,9 +95,7 @@ GLMRubricSmalltalkCodePresentation >> defaultSelectionActions [
 { #category : #actions }
 GLMRubricSmalltalkCodePresentation >> evaluateSelection [
 
-	self announce: (GLMEvaluateSelection new 
-		action: [ :result | result ];
-		makeSyncronous)
+	self evaluateSelectionAndDo: [ :result | result ]
 ]
 
 { #category : #actions }
@@ -127,6 +125,13 @@ GLMRubricSmalltalkCodePresentation >> executionSelectionActions [
 				title: 'Inspect it'; 
 				action: [ :aPresentation |
 					aPresentation highlightEvaluateAndDo: [ :result | result inspect ] ]; 
+				shortcut: $i; 
+				icon: GLMUIThemeExtraIcons glamorousInspect;
+				yourself.
+		(GLMGenericAction new) 
+				title: 'Basic Inspect it'; 
+				action: [ :aPresentation |
+					aPresentation highlightEvaluateAndDo: [ :result | result basicInspect ] ]; 
 				shortcut: $i; 
 				icon: GLMUIThemeExtraIcons glamorousInspect;
 				yourself.
