@@ -7,5 +7,5 @@ Class {
 { #category : #'instance creation' }
 GLMRubTextFieldBrick >> newRubricMorph [
 
-	^ RubTextFieldMorph new
+	^ GLMRubTextFieldMorph new
 ]

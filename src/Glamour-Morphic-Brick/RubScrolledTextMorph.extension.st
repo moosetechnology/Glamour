@@ -5,3 +5,9 @@ RubScrolledTextMorph >> font: aFont [
 	"polymorphism with text area"
 	self textFont: aFont
 ]
+
+{ #category : #'*Glamour-Morphic-Brick' }
+RubScrolledTextMorph >> margins: aRectangle [
+	"polymorphism with text area"
+	self textArea margins: aRectangle
+]

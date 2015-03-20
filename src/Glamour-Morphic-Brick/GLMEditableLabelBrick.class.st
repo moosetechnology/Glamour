@@ -33,7 +33,7 @@ GLMEditableLabelBrick class >> example [
 { #category : #examples }
 GLMEditableLabelBrick class >> exampleOpen [
 
-	self example beEdit openCenteredInBrickWindow
+	self example openCenteredInBrickWindow
 ]
 
 { #category : #'label-brick-actions' }
@@ -41,7 +41,24 @@ GLMEditableLabelBrick >> beEdit [
 	
 	self editBrick updateTextWith: self labelBrick text.
 	self editBrick rubric width: self width.
+	self borderColor: (Color r: 52 g: 153 b: 219 range: 255).
+
 	self addBrickFirst: self editBrick
+]
+
+{ #category : #'label-brick-actions' }
+GLMEditableLabelBrick >> beNormal [
+	
+
+	self borderColor: Color transparent.
+
+	self removeBrick: self editBrick
+]
+
+{ #category : #'as yet unclassified' }
+GLMEditableLabelBrick >> defaultBorderWidth [
+
+	^ 2
 ]
 
 { #category : #'reflective operations' }
@@ -66,9 +83,14 @@ GLMEditableLabelBrick >> editBrick: aBrick [
 		hShrinkWrap;
 		vSpaceFill;
 		zIndex: 2;
-		margin: 5;
-		marginBottom: 10;
+		margin: self defaultBorderWidth;
+		marginTop: self defaultBorderWidth - 1;
+		"marginBottom: 10;"
+		margins: (0@0 extent: 5@5);
+		withoutAdornment;
 		rubricTextFamilyName: StandardFonts defaultFont familyName;
+		rubricBorderWidth: 0;
+		rubricBorderColor: Color transparent;
 		floating: #left
 ]
 
@@ -97,9 +119,12 @@ GLMEditableLabelBrick >> initialize [
 	
 	self
 		color: (Color r: 236 g: 240 b: 241 range: 255);
-		padding: 5;
+		padding: self defaultBorderWidth;
+		borderWidth: self defaultBorderWidth;
 		hShrinkWrap;
-		vShrinkWrap.
+		vShrinkWrap;
+		enable;
+		when: #onClicked do: [ (self hasSubbrick: self editBrick) ifFalse: [ self beEdit ] ]
 ]
 
 { #category : #'label-brick-accessing' }
