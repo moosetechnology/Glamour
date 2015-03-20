@@ -134,7 +134,7 @@ GLMRubricSmalltalkCodePresentation >> executionSelectionActions [
 				title: 'Basic Inspect it'; 
 				action: [ :aPresentation |
 					aPresentation highlightEvaluateAndDo: [ :result | result basicInspect ] ]; 
-				shortcut: $i; 
+				shortcut: $I; 
 				icon: GLMUIThemeExtraIcons glamorousInspect;
 				yourself.
 		(GLMGenericAction new) 
