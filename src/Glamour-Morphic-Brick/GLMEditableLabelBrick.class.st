@@ -26,7 +26,7 @@ Class {
 GLMEditableLabelBrick class >> example [
 	<example: 'Editable label simple example'>
 	^ self new
-		text: 'Double click me';
+		text: 'Click me to edit. Press enter to accept';
 		yourself
 ]
 
@@ -40,10 +40,12 @@ GLMEditableLabelBrick class >> exampleOpen [
 GLMEditableLabelBrick >> beEdit [
 	
 	self editBrick updateTextWith: self labelBrick text.
+	self editBrick moveCursorToIndex: 1.
 	self editBrick rubric width: self width.
 	self borderColor: (Color r: 52 g: 153 b: 219 range: 255).
 
-	self addBrickFirst: self editBrick
+	self addBrickFirst: self editBrick.
+	self editBrick rubric takeKeyboardFocus.
 ]
 
 { #category : #'label-brick-actions' }
@@ -55,7 +57,7 @@ GLMEditableLabelBrick >> beNormal [
 	self removeBrick: self editBrick
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 GLMEditableLabelBrick >> defaultBorderWidth [
 
 	^ 2
@@ -91,7 +93,9 @@ GLMEditableLabelBrick >> editBrick: aBrick [
 		rubricTextFamilyName: StandardFonts defaultFont familyName;
 		rubricBorderWidth: 0;
 		rubricBorderColor: Color transparent;
-		floating: #left
+		floating: #left.
+		
+	self editBrick textArea announcer subscribe: RubReturnEntered  send: #onTextAccepted: to: self.
 ]
 
 { #category : #'brick-layout-properties' }
@@ -152,6 +156,13 @@ GLMEditableLabelBrick >> newEditBrick [
 GLMEditableLabelBrick >> newLabelBrick [
 
 	^ GLMLabelBrick new
+]
+
+{ #category : #'label-events' }
+GLMEditableLabelBrick >> onTextAccepted: ann [
+
+	self labelBrick text: ann morph text.
+	self beNormal
 ]
 
 { #category : #'brick-layout-properties' }
