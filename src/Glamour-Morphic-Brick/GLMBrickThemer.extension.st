@@ -35,13 +35,6 @@ GLMBrickThemer >> popupThemer [
 ]
 
 { #category : #'*Glamour-Morphic-Brick' }
-GLMBrickThemer >> privacyAgreementThemer [
-
-	^ self
-		registerModule: GLMPrivacyAgreementThemer new
-]
-
-{ #category : #'*Glamour-Morphic-Brick' }
 GLMBrickThemer >> tabLabelThemer [
 
 	^ self

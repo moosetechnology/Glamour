@@ -33,10 +33,3 @@ GLMBrickDarkThemer >> popupThemer [
 	^ self
 		registerModule: GLMBrickPopupDarkThemer new
 ]
-
-{ #category : #'*Glamour-Morphic-Brick' }
-GLMBrickDarkThemer >> privacyAgreementThemer [
-
-	^ self
-		registerModule: GLMPrivacyAgreementDarkThemer new
-]

@@ -86,13 +86,6 @@ GLMBrickThemer >> popupThemer [
 		registerModule: GLMBrickPopupThemer new
 ]
 
-{ #category : #'*Glamour-Morphic-Brick' }
-GLMBrickThemer >> privacyAgreementThemer [
-
-	^ self
-		registerModule: GLMPrivacyAgreementThemer new
-]
-
 { #category : #'brick-modules' }
 GLMBrickThemer >> registerModule: aModule [
 
