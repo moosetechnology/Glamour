@@ -184,3 +184,16 @@ GLMRubScrolledTextBrick >> updateStyle [
 	self rubric textColor: self rubricTextColor.
 	self rubric font: (LogicalFont familyName: self rubricTextFamilyName pointSize: self rubricTextFontSize)
 ]
+
+{ #category : #'brick-properties' }
+GLMRubScrolledTextBrick >> withoutBorder [
+
+	self rubricBorderWidth: 0.
+	self rubricBorderColor: Color transparent.
+]
+
+{ #category : #'brick-properties' }
+GLMRubScrolledTextBrick >> withoutMargins [
+
+	self margins: (0@0 corner: 0@0)
+]

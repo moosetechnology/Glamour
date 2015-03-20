@@ -123,9 +123,9 @@ GLMMorphBrick >> layoutChanged [
 
 	isLayouting := true.
 	self isHShrinking
-		ifTrue: [ self width: [ self morph width ] ].
+		ifTrue: [ self width: self shrinkingWidth ].
 	self isVShrinking
-		ifTrue: [ self height: [ self morph height ] ].
+		ifTrue: [ self height: self shrinkingHeight ].
 	isLayouting := false
 ]
 
@@ -170,6 +170,18 @@ GLMMorphBrick >> onRemovedFrom: aBrick [
 { #category : #'brick-properties-events' }
 GLMMorphBrick >> onThemerChanged [
 	
+]
+
+{ #category : #'brick-geometry' }
+GLMMorphBrick >> shrinkingHeight [
+
+	^ [ self morph height ]
+]
+
+{ #category : #'brick-geometry' }
+GLMMorphBrick >> shrinkingWidth [
+
+	^ [ self morph width ]
 ]
 
 { #category : #'brick-properties' }

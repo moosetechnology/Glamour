@@ -40,21 +40,21 @@ GLMEditableLabelBrick class >> exampleOpen [
 GLMEditableLabelBrick >> beEdit [
 	
 	self editBrick updateTextWith: self labelBrick text.
-	self editBrick moveCursorToIndex: 1.
+	self editBrick moveCursorToIndex: self labelBrick text size + 1.
 	self editBrick rubric width: self width.
 	self borderColor: (Color r: 52 g: 153 b: 219 range: 255).
 
 	self addBrickFirst: self editBrick.
+	self removeBrick: self labelBrick.
 	self editBrick rubric takeKeyboardFocus.
 ]
 
 { #category : #'label-brick-actions' }
 GLMEditableLabelBrick >> beNormal [
 	
-
 	self borderColor: Color transparent.
-
-	self removeBrick: self editBrick
+	self removeBrick: self editBrick.
+	self addBrickBack: self labelBrick
 ]
 
 { #category : #initialization }
@@ -83,19 +83,13 @@ GLMEditableLabelBrick >> editBrick: aBrick [
 	
 	self editBrick
 		hShrinkWrap;
-		vSpaceFill;
-		zIndex: 2;
-		margin: self defaultBorderWidth;
-		marginTop: self defaultBorderWidth - 1;
-		"marginBottom: 10;"
-		margins: (0@0 extent: 5@5);
+		vShrinkWrap;
+		withoutMargins;
 		withoutAdornment;
-		rubricTextFamilyName: StandardFonts defaultFont familyName;
-		rubricBorderWidth: 0;
-		rubricBorderColor: Color transparent;
-		floating: #left.
+		withoutBorder;
+		rubricTextFamilyName: StandardFonts defaultFont familyName.
 		
-	self editBrick textArea announcer subscribe: RubReturnEntered  send: #onTextAccepted: to: self.
+	self editBrick textArea announcer subscribe: RubReturnEntered  send: #onTextAccepted: to: self
 ]
 
 { #category : #'brick-layout-properties' }
