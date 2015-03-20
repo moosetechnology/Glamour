@@ -24,10 +24,10 @@ GLMRoassal2MorphicTest >> testMondrianViewBuilder [
 	| composite |
 	composite := GLMCompositePresentation new.
 	composite roassal2 
-					initializeView: [ RTMondrianViewBuilder new ];
+					initializeView: [ RTMondrian new ];
 					painting: [ :view | view nodes: (1 to: 42) ].
 	window := composite openOn: 42.
-	self assert: composite first view class = RTMondrianViewBuilder.
+	self assert: composite first view class = RTMondrian.
 	self assert: composite first view view elements size = 42
 ]
 
@@ -100,7 +100,7 @@ GLMRoassal2MorphicTest >> testUpdateViewIsProperlyLaidOut [
 GLMRoassal2MorphicTest >> testZoomingActionsWorkForMondrianBuilder [
 	| composite |
 	composite := GLMCompositePresentation new.
-	composite roassal2 initializeView: RTMondrianViewBuilder new.
+	composite roassal2 initializeView: RTMondrian new.
 	window := composite openOn: 42.
 	self assert: composite first actions size equals: 7.
 	self shouldnt: (composite first actions first actOn: composite first) raise: Error.

@@ -24,11 +24,11 @@ GLMRoassal2Examples >> roassalPainting [
 	browser transmit to: #two; from: #one port: #customSelection; andShow: [ :a |
 		a roassal2
 			title: 'Numbers in Roassal';
-			initializeView: [ RTMondrianViewBuilder new ];
+			initializeView: [ RTMondrian new ];
 			painting: [:view :number | 
 				view shape label.
 				view nodes: (1 to: number).
-				view edgesFrom: [:each | each // 5 ].
-				view treeLayout  ]].
+				view edges connectFrom: [:each | each // 5 ].
+				view layout tree ] ].
 	^ browser
 ]
