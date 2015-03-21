@@ -74,12 +74,6 @@ GLMBrickDarkThemer >> scrollbarColor [
 	^ Color black alpha: 0.5
 ]
 
-{ #category : #brick }
-GLMBrickDarkThemer >> secondaryTextColor [
-
-	^ Color white
-]
-
 { #category : #'*Glamour-Morphic-Brick' }
 GLMBrickDarkThemer >> tabLabelThemer [
 
@@ -91,4 +85,10 @@ GLMBrickDarkThemer >> tabLabelThemer [
 GLMBrickDarkThemer >> textColor [
 
 	^ self color whiten
+]
+
+{ #category : #brick }
+GLMBrickDarkThemer >> textSecondaryColor [
+
+	^ Color white
 ]

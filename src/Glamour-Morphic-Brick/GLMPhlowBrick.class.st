@@ -42,7 +42,14 @@ GLMPhlowBrick >> initialize [
 { #category : #'instance creation' }
 GLMPhlowBrick >> newTitleBrick [
 
-	^ GLMLabelBrick new textColor: Color gray
+	^ GLMLabelBrick new
+]
+
+{ #category : #'brick-properties-events' }
+GLMPhlowBrick >> onThemerChanged [
+	super onThemerChanged.
+	
+	self titleBrick textColor: self themer textLightColor
 ]
 
 { #category : #accessing }
