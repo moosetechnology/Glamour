@@ -73,7 +73,7 @@ LazyTabGroupMorph >> buildLabelFrom: aStringOrMorph withAction: aBrick [
 			container := GLMBrick new.
 			labelMorph := GLMLabelBrick new
 				text: aStringOrMorph;
-				textColor: container themer secondaryTextColor;
+				textColor: container themer textSecondaryColor;
 			 	hSpaceFill;
 			 	vSpaceFill;
 				marginLeft: 5.
