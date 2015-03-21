@@ -46,10 +46,22 @@ GLMBrickThemer >> doesNotUnderstand: aMessage [
 	
 ]
 
+{ #category : #brick }
+GLMBrickThemer >> focusedBorderColor [
+
+	^ Color r: 52 g: 153 b: 219 range: 255
+]
+
 { #category : #'brick-modules' }
 GLMBrickThemer >> modules [
 
 	^ modules ifNil: [ modules := Dictionary new ]
+]
+
+{ #category : #brick }
+GLMBrickThemer >> normalBorderColor [
+
+	^ Color r: 189 g: 195 b: 199 range: 255
 ]
 
 { #category : #'*Glamour-Morphic-Brick' }

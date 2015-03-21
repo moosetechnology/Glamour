@@ -56,3 +56,9 @@ GLMRubEditingAreaBrick >> newRubricMorph [
 
 	^ RubEditingArea new beWrapped
 ]
+
+{ #category : #'brick-properties' }
+GLMRubEditingAreaBrick >> withoutBackground [
+
+	self rubric color: Color transparent
+]

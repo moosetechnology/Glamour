@@ -26,6 +26,20 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Async'
 }
 
+{ #category : #'as yet unclassified' }
+GLMAnimation class >> borderColor [
+
+	^ GLMAnimation new
+		step: [ :brick :from :to :delta |
+			|r g b a|
+			r := (to red - from red) * delta + from red.
+			g := (to green - from green) * delta + from green.
+			b := (to blue - from blue) * delta + from blue.
+			a := (to alpha - from alpha) * delta + from alpha.
+			Color r: r g: g b: b alpha: a ];
+		animation: [ :b :v | b borderColor: v. b changed ]
+]
+
 { #category : #sources }
 GLMAnimation class >> exampleSimple [
 	|brick|
@@ -54,6 +68,7 @@ GLMAnimation >> animate: anObject [
 
 	self asyncTask terminate.
 	animatedObject := anObject.
+	self reset.
 	
 	self asyncTask
 		doInBackground: [ [ self shouldStop ] whileFalse: [
@@ -187,6 +202,18 @@ GLMAnimation >> onCompleted: aBlock [
 GLMAnimation >> onStepped: aBlock [
 
 	steppedLogic := aBlock
+]
+
+{ #category : #actions }
+GLMAnimation >> reset [
+
+	isCompleted := false.
+	shouldStop := false.
+	doStep := true.
+	fromValue := nil.
+	toValue := nil.
+	currentValue := nil.
+	startTime := nil
 ]
 
 { #category : #accessing }

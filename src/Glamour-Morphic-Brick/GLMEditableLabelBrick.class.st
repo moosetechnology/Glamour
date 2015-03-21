@@ -17,7 +17,8 @@ Class {
 	#superclass : #GLMInteractableBrick,
 	#instVars : [
 		'labelBrick',
-		'editBrick'
+		'editBrick',
+		'borderAnimation'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-UI'
 }
@@ -38,23 +39,29 @@ GLMEditableLabelBrick class >> exampleOpen [
 
 { #category : #'label-brick-actions' }
 GLMEditableLabelBrick >> beEdit [
-	
+
 	self editBrick updateTextWith: self labelBrick text.
 	self editBrick moveCursorToIndex: self labelBrick text size + 1.
 	self editBrick rubric width: self width.
-	self borderColor: (Color r: 52 g: 153 b: 219 range: 255).
 
 	self addBrickFirst: self editBrick.
 	self removeBrick: self labelBrick.
+	self borderColor: (self themer focusedBorderColor alpha: 0).
 	self editBrick rubric takeKeyboardFocus.
 ]
 
 { #category : #'label-brick-actions' }
 GLMEditableLabelBrick >> beNormal [
 	
-	self borderColor: Color transparent.
 	self removeBrick: self editBrick.
+	self activeHand releaseKeyboardFocus.
 	self addBrickBack: self labelBrick
+]
+
+{ #category : #'label-brick-accessing' }
+GLMEditableLabelBrick >> borderAnimation [
+
+	^ borderAnimation ifNil: [ borderAnimation := GLMAnimation borderColor duration: 200 ]
 ]
 
 { #category : #initialization }
@@ -87,9 +94,12 @@ GLMEditableLabelBrick >> editBrick: aBrick [
 		withoutMargins;
 		withoutAdornment;
 		withoutBorder;
+		beTransparent;
 		rubricTextFamilyName: StandardFonts defaultFont familyName.
 		
-	self editBrick textArea announcer subscribe: RubReturnEntered  send: #onTextAccepted: to: self
+	self editBrick rubric announcer weak subscribe: RubReturnEntered  send: #onTextAccepted: to: self.
+	self editBrick rubric announcer weak subscribe: MorphLostFocus send: #onLostFocus: to: self.
+	self editBrick rubric announcer weak subscribe: MorphGotFocus send: #onGotFocus: to: self.
 ]
 
 { #category : #'brick-layout-properties' }
@@ -116,13 +126,24 @@ GLMEditableLabelBrick >> initialize [
 	self editBrick: self newEditBrick.
 	
 	self
-		color: (Color r: 236 g: 240 b: 241 range: 255);
-		padding: self defaultBorderWidth;
+		padding: self defaultBorderWidth + 2;
 		borderWidth: self defaultBorderWidth;
 		hShrinkWrap;
 		vShrinkWrap;
 		enable;
 		when: #onClicked do: [ (self hasSubbrick: self editBrick) ifFalse: [ self beEdit ] ]
+]
+
+{ #category : #'label-brick-testing' }
+GLMEditableLabelBrick >> isEditMode [
+
+	^ self hasSubbrick: self editBrick
+]
+
+{ #category : #'label-brick-testing' }
+GLMEditableLabelBrick >> isReadMode [
+
+	^ self isEditMode not
 ]
 
 { #category : #'label-brick-accessing' }
@@ -150,6 +171,24 @@ GLMEditableLabelBrick >> newEditBrick [
 GLMEditableLabelBrick >> newLabelBrick [
 
 	^ GLMLabelBrick new
+]
+
+{ #category : #'label-events' }
+GLMEditableLabelBrick >> onGotFocus: ann [
+
+	self borderAnimation
+		from: self borderColor first;
+		to: self themer focusedBorderColor;
+		animate: self.
+]
+
+{ #category : #'label-events' }
+GLMEditableLabelBrick >> onLostFocus: ann [
+	
+	self borderAnimation
+		from: self borderColor first;
+		to: (self isEditMode ifTrue: [ self themer normalBorderColor ] ifFalse: [ self borderColor first alpha: 0 ]);
+		animate: self.
 ]
 
 { #category : #'label-events' }

@@ -52,6 +52,12 @@ GLMRubScrolledTextBrick class >> exampleOpen [
 	self example openInBrickWindow
 ]
 
+{ #category : #'brick-properties' }
+GLMRubScrolledTextBrick >> beTransparent [
+
+	self rubricBackgroundColor: Color transparent
+]
+
 { #category : #'reflective operations' }
 GLMRubScrolledTextBrick >> doesNotUnderstand: aMessage [
 	^ self rubric
@@ -63,7 +69,8 @@ GLMRubScrolledTextBrick >> doesNotUnderstand: aMessage [
 GLMRubScrolledTextBrick >> initialize [
 	super initialize.
 	
-	self rubric: self newRubricMorph
+	self rubric: self newRubricMorph.
+	self withoutBackground.
 ]
 
 { #category : #'instance creation' }
@@ -178,11 +185,18 @@ GLMRubScrolledTextBrick >> text: aText [
 { #category : #'rubric-updating' }
 GLMRubScrolledTextBrick >> updateStyle [
 
-	self rubric color: self rubricBackgroundColor.
+	self color: self rubricBackgroundColor.
 	self rubric borderColor: self rubricBorderColor.
 	self rubric borderWidth: self rubricBorderWidth.
 	self rubric textColor: self rubricTextColor.
 	self rubric font: (LogicalFont familyName: self rubricTextFamilyName pointSize: self rubricTextFontSize)
+]
+
+{ #category : #'brick-properties' }
+GLMRubScrolledTextBrick >> withoutBackground [
+
+	self rubric color: Color transparent.
+	self rubric textArea color: Color transparent
 ]
 
 { #category : #'brick-properties' }
