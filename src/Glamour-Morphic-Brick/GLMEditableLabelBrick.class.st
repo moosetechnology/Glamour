@@ -56,7 +56,6 @@ GLMEditableLabelBrick >> beEdit [
 
 	self editBrick updateTextWith: self labelBrick text.
 	self editBrick moveCursorToIndex: self labelBrick text size + 1.
-	self editBrick rubric width: self width.
 
 	self addBrickFirst: self editBrick.
 	self removeBrick: self labelBrick.
@@ -76,12 +75,6 @@ GLMEditableLabelBrick >> beNormal [
 GLMEditableLabelBrick >> borderAnimation [
 
 	^ borderAnimation ifNil: [ borderAnimation := GLMAnimation borderColor duration: 200 ]
-]
-
-{ #category : #initialization }
-GLMEditableLabelBrick >> defaultBorderWidth [
-
-	^ 2
 ]
 
 { #category : #'reflective operations' }
@@ -110,6 +103,7 @@ GLMEditableLabelBrick >> editBrick: aBrick [
 		withoutBorder;
 		beTransparent;
 		autoAccept: true;
+		marginTop: self themer focusedBorderWidth negated;
 		rubricTextFamilyName: StandardFonts defaultFont familyName.
 		
 	self editBrick rubric announcer weak subscribe: RubReturnEntered  send: #onTextAccepted: to: self.
@@ -142,8 +136,8 @@ GLMEditableLabelBrick >> initialize [
 	self editBrick: self newEditBrick.
 	
 	self
-		padding: self defaultBorderWidth;
-		borderWidth: self defaultBorderWidth;
+		padding: self themer focusedBorderWidth;
+		borderWidth: self themer focusedBorderWidth;
 		hShrinkWrap;
 		vShrinkWrap;
 		enable;

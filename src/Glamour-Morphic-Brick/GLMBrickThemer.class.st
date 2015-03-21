@@ -52,6 +52,12 @@ GLMBrickThemer >> focusedBorderColor [
 	^ Color r: 52 g: 153 b: 219 range: 255
 ]
 
+{ #category : #brick }
+GLMBrickThemer >> focusedBorderWidth [
+
+	^ 1
+]
+
 { #category : #'brick-modules' }
 GLMBrickThemer >> modules [
 

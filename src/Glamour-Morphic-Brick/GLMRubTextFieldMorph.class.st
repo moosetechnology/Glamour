@@ -15,10 +15,6 @@ GLMRubTextFieldMorph >> newScrollPane [
 
 { #category : #geometry }
 GLMRubTextFieldMorph >> textFieldHeight [
-	| vgap |
-	vgap := self currentHScrollBarThickness isZero
-		ifTrue: [  -1 ]
-		ifFalse: [ self currentHScrollBarThickness - 1 ].
-		
-	^ self textArea height + vgap
+
+	^ self textArea height
 ]
