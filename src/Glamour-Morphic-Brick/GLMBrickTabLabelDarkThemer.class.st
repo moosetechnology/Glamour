@@ -13,6 +13,13 @@ GLMBrickTabLabelDarkThemer >> normalBorderStyleFor: aBrick [
 ]
 
 { #category : #'brick-tab-label' }
+GLMBrickTabLabelDarkThemer >> normalStyleFor: aBrick [
+
+	super normalStyleFor: aBrick.
+	aBrick padding: #(0 1).
+]
+
+{ #category : #'brick-tab-label' }
 GLMBrickTabLabelDarkThemer >> selectedBorderStyleFor: aBrick [
 
 	^ self normalBorderStyleFor: aBrick

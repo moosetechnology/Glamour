@@ -146,9 +146,11 @@ GLMEditableLabelBrick >> editBrick: aBrick [
 		withoutBorder;
 		beTransparent;
 		autoAccept: true;
-		marginTop: self themer focusedBorderWidth negated;
-		rubricTextFamilyName: StandardFonts defaultFont familyName.
-		
+		rubricTextFamilyName: StandardFonts defaultFont familyName;
+		rubricTextFontSize: StandardFonts defaultFont pointSize.
+	
+	self editBrick rubric forceHeight: [ self labelBrick height ].
+	
 	self editBrick rubric announcer weak subscribe: RubReturnEntered  send: #onTextAccepted: to: self.
 	self editBrick rubric announcer weak subscribe: MorphLostFocus send: #onLostFocus to: self.
 	self editBrick rubric announcer weak subscribe: MorphGotFocus send: #onGotFocus: to: self.
@@ -222,6 +224,9 @@ GLMEditableLabelBrick >> labelBrick [
 GLMEditableLabelBrick >> labelBrick: aBrick [
 
 	labelBrick := aBrick.
+	
+	self labelBrick
+		textPosition: #leftCenter.
 	
 	self addBrickBack: labelBrick
 	

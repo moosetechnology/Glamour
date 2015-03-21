@@ -138,7 +138,7 @@ GLMStringBrick >> calculateHighlightingBounds [
 GLMStringBrick >> calculateTextPosition [
 
 	self textPosition = #leftCenter ifTrue: [ 
-		^ (self brickBounds origin + self textPositionVerticalCenter) floor
+		^ (self brickBounds origin + self textPositionVerticalCenter) truncated
 	].
 
 	self textPosition = #center ifTrue: [ 
@@ -353,7 +353,7 @@ GLMStringBrick >> textPositionHorizontalCenter [
 { #category : #geometry }
 GLMStringBrick >> textPositionVerticalCenter [
 
-		^ (0@(self brickBounds height / 2)) - (0@(self font height/2)) + (0@1)
+		^ (0@(self brickBounds height / 2.0)) - (0@(self font height/2.0)) truncated
 	
 ]
 
