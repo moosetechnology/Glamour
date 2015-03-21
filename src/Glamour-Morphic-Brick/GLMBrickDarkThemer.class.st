@@ -80,6 +80,13 @@ GLMBrickDarkThemer >> secondaryTextColor [
 	^ Color white
 ]
 
+{ #category : #'*Glamour-Morphic-Brick' }
+GLMBrickDarkThemer >> tabLabelThemer [
+
+	^ self
+		registerModule: GLMBrickTabLabelDarkThemer new
+]
+
 { #category : #brick }
 GLMBrickDarkThemer >> textColor [
 

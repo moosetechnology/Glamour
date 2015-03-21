@@ -5,27 +5,39 @@ Class {
 }
 
 { #category : #'brick-tab-label' }
-GLMBrickTabLabelThemer >> normalBackgroundColor [
+GLMBrickTabLabelThemer >> normalBackgroundStyleFor: aBrick [
 
-	^ self themer backgroundColor
+	^ Smalltalk ui theme tabLabelNormalFillStyleFor: aBrick
+]
+
+{ #category : #'brick-tab-label' }
+GLMBrickTabLabelThemer >> normalBorderStyleFor: aBrick [
+
+	^ Smalltalk ui theme tabLabelNormalBorderStyleFor: aBrick
 ]
 
 { #category : #'brick-tab-label' }
 GLMBrickTabLabelThemer >> normalStyleFor: aBrick [
 
-	aBrick fillStyle: (Smalltalk ui theme tabLabelNormalFillStyleFor: aBrick).
-	aBrick borderStyle: (Smalltalk ui theme tabLabelNormalBorderStyleFor: aBrick)
+	aBrick fillStyle: (self normalBackgroundStyleFor: aBrick).
+	aBrick borderStyle: (self normalBorderStyleFor: aBrick)
 ]
 
 { #category : #'brick-tab-label' }
-GLMBrickTabLabelThemer >> selectedBackgroundColor [
+GLMBrickTabLabelThemer >> selectedBackgroundStyleFor: aBrick [
 
-	^ Color r: 52 g: 152 b: 219 range: 255
+	^ Smalltalk ui theme tabLabelSelectedFillStyleFor: aBrick
+]
+
+{ #category : #'brick-tab-label' }
+GLMBrickTabLabelThemer >> selectedBorderStyleFor: aBrick [
+
+	^ Smalltalk ui theme tabLabelSelectedBorderStyleFor: aBrick
 ]
 
 { #category : #'brick-tab-label' }
 GLMBrickTabLabelThemer >> selectedStyleFor: aBrick [
 
-	aBrick fillStyle: (Smalltalk ui theme tabLabelSelectedFillStyleFor: aBrick).
-	aBrick borderStyle: (Smalltalk ui theme tabLabelSelectedBorderStyleFor: aBrick)
+	aBrick fillStyle: (self selectedBackgroundStyleFor: aBrick).
+	aBrick borderStyle: (self selectedBorderStyleFor: aBrick)
 ]

@@ -33,3 +33,10 @@ GLMBrickDarkThemer >> popupThemer [
 	^ self
 		registerModule: GLMBrickPopupDarkThemer new
 ]
+
+{ #category : #'*Glamour-Morphic-Brick' }
+GLMBrickDarkThemer >> tabLabelThemer [
+
+	^ self
+		registerModule: GLMBrickTabLabelDarkThemer new
+]
