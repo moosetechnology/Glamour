@@ -21,7 +21,8 @@ Class {
 		'callback',
 		'steppedLogic',
 		'isCompleted',
-		'ensureLogic'
+		'ensureLogic',
+		'stamp'
 	],
 	#category : #'Glamour-Morphic-Brick-Async'
 }
@@ -70,6 +71,7 @@ GLMAnimation >> animate: anObject [
 	animatedObject := anObject.
 	self reset.
 	
+	stamp := Time millisecondClockValue.
 	self asyncTask
 		doInBackground: [ [ self shouldStop ] whileFalse: [
 				self needsStep ifTrue: [ self animationStep ] ] ];
@@ -95,7 +97,7 @@ GLMAnimation >> animation: anObject [
 
 { #category : #animating }
 GLMAnimation >> animationStep [
-	|delta stepValue currentTime stop|
+	|delta stepValue currentTime stop stepStamp|
 	self needsStep: false.
 	currentTime := Time millisecondClockValue.
 	stop := currentTime >= self finishTime.
@@ -107,9 +109,9 @@ GLMAnimation >> animationStep [
 		brickValue: self animatedObject
 		withEnoughArguments: { self fromValue . self toValue . delta }.
 	(delta = 1) | (stepValue = self toValue) ifTrue: [ stop := true ].
-	
+	stepStamp := stamp.
 	UIManager default defer: [
-		self asyncTask isTerminated ifFalse: [
+		self asyncTask isTerminated not & (stepStamp = stamp) ifTrue: [
 			steppedLogic brickValue: self animatedObject withEnoughArguments: { delta }.
 			animationLogic brickValue: self animatedObject withEnoughArguments: { stepValue }.
 			stop

@@ -18,7 +18,9 @@ Class {
 	#instVars : [
 		'labelBrick',
 		'editBrick',
-		'borderAnimation'
+		'borderAnimation',
+		'cancelOnEscape',
+		'cancelOnFocusLost'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-UI'
 }
@@ -35,6 +37,33 @@ GLMEditableLabelBrick class >> example [
 GLMEditableLabelBrick class >> exampleOpen [
 
 	self example openCenteredInBrickWindow
+]
+
+{ #category : #'label-animation' }
+GLMEditableLabelBrick >> animateToEditFocused [
+
+	self borderAnimation
+		from: self borderColor first;
+		to: self themer focusedBorderColor;
+		animate: self
+]
+
+{ #category : #'label-animation' }
+GLMEditableLabelBrick >> animateToEditNotFocused [
+
+	self borderAnimation
+		from: self borderColor first;
+		to: self themer normalBorderColor;
+		animate: self
+]
+
+{ #category : #'label-animation' }
+GLMEditableLabelBrick >> animateToNormal [
+
+	self borderAnimation
+		from: self borderColor first;
+		to: (self borderColor first alpha: 0);
+		animate: self
 ]
 
 { #category : #geometry }
@@ -66,6 +95,8 @@ GLMEditableLabelBrick >> beEdit [
 { #category : #'label-brick-actions' }
 GLMEditableLabelBrick >> beNormal [
 	
+	self isReadMode ifTrue: [ ^ self ].
+	self animateToNormal.
 	self removeBrick: self editBrick.
 	self activeHand releaseKeyboardFocus.
 	self addBrickBack: self labelBrick
@@ -75,6 +106,18 @@ GLMEditableLabelBrick >> beNormal [
 GLMEditableLabelBrick >> borderAnimation [
 
 	^ borderAnimation ifNil: [ borderAnimation := GLMAnimation borderColor duration: 200 ]
+]
+
+{ #category : #'label-brick-actions' }
+GLMEditableLabelBrick >> cancelOnEscape [
+
+	cancelOnEscape := true
+]
+
+{ #category : #'label-brick-actions' }
+GLMEditableLabelBrick >> cancelOnFocusLost [
+
+	cancelOnFocusLost := true
 ]
 
 { #category : #'reflective operations' }
@@ -107,9 +150,9 @@ GLMEditableLabelBrick >> editBrick: aBrick [
 		rubricTextFamilyName: StandardFonts defaultFont familyName.
 		
 	self editBrick rubric announcer weak subscribe: RubReturnEntered  send: #onTextAccepted: to: self.
-	self editBrick rubric announcer weak subscribe: MorphLostFocus send: #onLostFocus: to: self.
+	self editBrick rubric announcer weak subscribe: MorphLostFocus send: #onLostFocus to: self.
 	self editBrick rubric announcer weak subscribe: MorphGotFocus send: #onGotFocus: to: self.
-	self editBrick rubric announcer weak subscribe: RubTextAcceptRequest send: #onTextChanged: to: self.
+	self editBrick rubric announcer weak subscribe: RubTextAcceptRequest send: #onTextChanged: to: self
 ]
 
 { #category : #'brick-layout-properties' }
@@ -141,7 +184,20 @@ GLMEditableLabelBrick >> initialize [
 		hShrinkWrap;
 		vShrinkWrap;
 		enable;
-		when: #onClicked do: [ (self hasSubbrick: self editBrick) ifFalse: [ self beEdit ] ]
+		when: #onClicked do: [ (self hasSubbrick: self editBrick) ifFalse: [ self beEdit ] ];
+		bindKeyCombination: Character escape toAction: [ self onEscapePressed ]
+]
+
+{ #category : #'label-brick-testing' }
+GLMEditableLabelBrick >> isCancelOnEscape [
+
+	^ cancelOnEscape ifNil: [ cancelOnEscape := false ]
+]
+
+{ #category : #'label-brick-testing' }
+GLMEditableLabelBrick >> isCancelOnFocusLost [
+
+	^ cancelOnFocusLost ifNil: [ cancelOnFocusLost := false ]
 ]
 
 { #category : #'label-brick-testing' }
@@ -184,21 +240,25 @@ GLMEditableLabelBrick >> newLabelBrick [
 ]
 
 { #category : #'label-events' }
-GLMEditableLabelBrick >> onGotFocus: ann [
+GLMEditableLabelBrick >> onEscapePressed [
 
-	self borderAnimation
-		from: self borderColor first;
-		to: self themer focusedBorderColor;
-		animate: self.
+	self isCancelOnEscape ifTrue: [ self beNormal ]
 ]
 
 { #category : #'label-events' }
-GLMEditableLabelBrick >> onLostFocus: ann [
+GLMEditableLabelBrick >> onGotFocus: ann [
+
+	self animateToEditFocused
+]
+
+{ #category : #'label-events' }
+GLMEditableLabelBrick >> onLostFocus [
 	
-	self borderAnimation
-		from: self borderColor first;
-		to: (self isEditMode ifTrue: [ self themer normalBorderColor ] ifFalse: [ self borderColor first alpha: 0 ]);
-		animate: self.
+	self isCancelOnFocusLost ifTrue: [ self beNormal ].
+	
+	self isEditMode
+		ifTrue: [ self animateToEditNotFocused ]
+		ifFalse: [ self animateToNormal ]
 ]
 
 { #category : #'label-events' }
