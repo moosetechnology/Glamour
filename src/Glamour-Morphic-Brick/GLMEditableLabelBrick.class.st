@@ -37,6 +37,20 @@ GLMEditableLabelBrick class >> exampleOpen [
 	self example openCenteredInBrickWindow
 ]
 
+{ #category : #geometry }
+GLMEditableLabelBrick >> approximateHeight [
+	
+	^ self labelBrick approximateHeight + self vMargin + self vPadding
+]
+
+{ #category : #geometry }
+GLMEditableLabelBrick >> approximateWidth [
+	
+	^ self hMargin + self hPadding + (self isReadMode
+		ifTrue: [ self labelBrick approximateWidth ]
+		ifFalse: [ self editBrick width + self editBrick hPadding + self editBrick hMargin])
+]
+
 { #category : #'label-brick-actions' }
 GLMEditableLabelBrick >> beEdit [
 
@@ -95,11 +109,13 @@ GLMEditableLabelBrick >> editBrick: aBrick [
 		withoutAdornment;
 		withoutBorder;
 		beTransparent;
+		autoAccept: true;
 		rubricTextFamilyName: StandardFonts defaultFont familyName.
 		
 	self editBrick rubric announcer weak subscribe: RubReturnEntered  send: #onTextAccepted: to: self.
 	self editBrick rubric announcer weak subscribe: MorphLostFocus send: #onLostFocus: to: self.
 	self editBrick rubric announcer weak subscribe: MorphGotFocus send: #onGotFocus: to: self.
+	self editBrick rubric announcer weak subscribe: RubTextAcceptRequest send: #onTextChanged: to: self.
 ]
 
 { #category : #'brick-layout-properties' }
@@ -126,7 +142,7 @@ GLMEditableLabelBrick >> initialize [
 	self editBrick: self newEditBrick.
 	
 	self
-		padding: self defaultBorderWidth + 2;
+		padding: self defaultBorderWidth;
 		borderWidth: self defaultBorderWidth;
 		hShrinkWrap;
 		vShrinkWrap;
@@ -193,9 +209,18 @@ GLMEditableLabelBrick >> onLostFocus: ann [
 
 { #category : #'label-events' }
 GLMEditableLabelBrick >> onTextAccepted: ann [
+	|isChanged|
+	
+	isChanged := (self text asString = ann morph text asString) not.
+	ann morph text isEmpty ifFalse: [ self text: ann morph text ].
+	self beNormal.
+	isChanged ifTrue: [ self announce: #onAccepted ]
+]
 
-	self labelBrick text: ann morph text.
-	self beNormal
+{ #category : #'label-events' }
+GLMEditableLabelBrick >> onTextChanged: ann [
+
+	self onTextAccepted: ann
 ]
 
 { #category : #'brick-layout-properties' }
