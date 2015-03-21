@@ -1,3 +1,6 @@
+"
+I'm a style module related to popup
+"
 Class {
 	#name : #GLMBrickPopupThemer,
 	#superclass : #GLMBrickThemerModule,

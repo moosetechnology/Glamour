@@ -1,3 +1,6 @@
+"
+I'm a style module related to tab label
+"
 Class {
 	#name : #GLMBrickTabLabelThemer,
 	#superclass : #GLMBrickThemerModule,

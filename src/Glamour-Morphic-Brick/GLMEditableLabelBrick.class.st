@@ -186,7 +186,8 @@ GLMEditableLabelBrick >> initialize [
 		hShrinkWrap;
 		vShrinkWrap;
 		enable;
-		when: #onClicked do: [ (self hasSubbrick: self editBrick) ifFalse: [ self beEdit ] ];
+		enableDoubleClick;
+		when: #onDoubleClicked do: [ (self hasSubbrick: self editBrick) ifFalse: [ self beEdit ] ];
 		bindKeyCombination: Character escape toAction: [ self onEscapePressed ]
 ]
 

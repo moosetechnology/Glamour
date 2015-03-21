@@ -72,7 +72,8 @@ Class {
 		'isSelected',
 		'isPressed',
 		'isChecked',
-		'isEnabled'
+		'isEnabled',
+		'isDoubleClickEnabled'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
@@ -234,6 +235,13 @@ GLMInteractableBrick >> disable [
 ]
 
 { #category : #'brick-interactable-actions' }
+GLMInteractableBrick >> doubleClick: evt [
+
+	self announce: #onDoubleClicked.
+	^ false
+]
+
+{ #category : #'brick-interactable-actions' }
 GLMInteractableBrick >> enable [
 	
 	isEnabled := true.
@@ -243,6 +251,12 @@ GLMInteractableBrick >> enable [
 GLMInteractableBrick >> enable: aBoolean [
 	
 	isEnabled := aBoolean.
+]
+
+{ #category : #'brick-interactable-actions' }
+GLMInteractableBrick >> enableDoubleClick [
+
+	isDoubleClickEnabled := true
 ]
 
 { #category : #'brick-morph-mouse-events' }
@@ -280,6 +294,12 @@ GLMInteractableBrick >> isChecked [
 ]
 
 { #category : #'brick-interactable-testing' }
+GLMInteractableBrick >> isDoubleClickEnabled [
+
+	^ isDoubleClickEnabled ifNil: [ isDoubleClickEnabled := false ]
+]
+
+{ #category : #'brick-interactable-testing' }
 GLMInteractableBrick >> isEnabled [
 	^ isEnabled
 ]
@@ -302,8 +322,24 @@ GLMInteractableBrick >> isSelected [
 
 { #category : #'brick-morph-mouse-events' }
 GLMInteractableBrick >> mouseDown: evt [
-	super mouseDown: evt.
-	^ self press.
+	|selectors|
+	
+	self isDoubleClickEnabled ifFalse: [
+		super mouseDown: evt.
+		^ self press ].
+	
+	selectors := Array
+				with: #click:
+				with: #doubleClick:
+				with: nil
+				with: nil.
+				
+	evt hand
+		waitForClicksOrDrag: self
+		event: evt
+		selectors: selectors
+		threshold: 10.
+
 ]
 
 { #category : #'brick-morph-mouse-events' }
