@@ -33,6 +33,13 @@ GLMBrickThemer >> backgroundColor [
 	^ Color transparent
 ]
 
+{ #category : #'*Glamour-Morphic-Brick' }
+GLMBrickThemer >> color [
+
+	^ self
+		registerModule: GLMBrickColorThemer new
+]
+
 { #category : #brick }
 GLMBrickThemer >> contentBackgroundColor [
 
@@ -49,7 +56,7 @@ GLMBrickThemer >> doesNotUnderstand: aMessage [
 { #category : #brick }
 GLMBrickThemer >> focusedBorderColor [
 
-	^ Color r: 52 g: 153 b: 219 range: 255
+	^ self color peterRiver
 ]
 
 { #category : #brick }
@@ -67,7 +74,7 @@ GLMBrickThemer >> modules [
 { #category : #brick }
 GLMBrickThemer >> normalBorderColor [
 
-	^ Color r: 189 g: 195 b: 199 range: 255
+	^ self color silver
 ]
 
 { #category : #'*Glamour-Morphic-Brick' }
@@ -146,5 +153,5 @@ GLMBrickThemer >> tabLabelThemer [
 { #category : #brick }
 GLMBrickThemer >> textColor [
 
-	^ Color black
+	^ self color darken
 ]

@@ -39,6 +39,14 @@ GLMEditableLabelBrick class >> exampleOpen [
 	self example openCenteredInBrickWindow
 ]
 
+{ #category : #'label-brick-actions' }
+GLMEditableLabelBrick >> accept [
+
+	self text: self editBrick text.
+	self borderColor: self themer color emerald.
+	self beNormal
+]
+
 { #category : #'label-animation' }
 GLMEditableLabelBrick >> animateToEditFocused [
 
@@ -106,6 +114,13 @@ GLMEditableLabelBrick >> beNormal [
 GLMEditableLabelBrick >> borderAnimation [
 
 	^ borderAnimation ifNil: [ borderAnimation := GLMAnimation borderColor duration: 200 ]
+]
+
+{ #category : #'label-brick-actions' }
+GLMEditableLabelBrick >> cancel [
+
+	self borderColor: self themer color alizarin.
+	self beNormal
 ]
 
 { #category : #'label-brick-actions' }
@@ -248,7 +263,7 @@ GLMEditableLabelBrick >> newLabelBrick [
 { #category : #'label-events' }
 GLMEditableLabelBrick >> onEscapePressed [
 
-	self isCancelOnEscape ifTrue: [ self beNormal ]
+	self isCancelOnEscape ifTrue: [ self cancel ]
 ]
 
 { #category : #'label-events' }
@@ -260,7 +275,8 @@ GLMEditableLabelBrick >> onGotFocus: ann [
 { #category : #'label-events' }
 GLMEditableLabelBrick >> onLostFocus [
 	
-	self isCancelOnFocusLost ifTrue: [ self beNormal ].
+	self isCancelOnFocusLost & self isEditMode
+		ifTrue: [ self cancel ].
 	
 	self isEditMode
 		ifTrue: [ self animateToEditNotFocused ]
@@ -272,8 +288,9 @@ GLMEditableLabelBrick >> onTextAccepted: ann [
 	|isChanged|
 	
 	isChanged := (self text asString = ann morph text asString) not.
-	ann morph text isEmpty ifFalse: [ self text: ann morph text ].
-	self beNormal.
+	ann morph text isEmpty
+		ifFalse: [ self accept ]
+		ifTrue: [ self cancel ].
 	isChanged ifTrue: [ self announce: #onAccepted ]
 ]
 

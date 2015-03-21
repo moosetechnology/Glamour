@@ -90,5 +90,5 @@ GLMBrickDarkThemer >> tabLabelThemer [
 { #category : #brick }
 GLMBrickDarkThemer >> textColor [
 
-	^ Color white slightlyDarker
+	^ self color whiten
 ]

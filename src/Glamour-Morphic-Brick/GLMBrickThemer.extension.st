@@ -1,6 +1,13 @@
 Extension { #name : #GLMBrickThemer }
 
 { #category : #'*Glamour-Morphic-Brick' }
+GLMBrickThemer >> color [
+
+	^ self
+		registerModule: GLMBrickColorThemer new
+]
+
+{ #category : #'*Glamour-Morphic-Brick' }
 GLMBrickThemer >> popupErrorThemer [
 
 	^ self
