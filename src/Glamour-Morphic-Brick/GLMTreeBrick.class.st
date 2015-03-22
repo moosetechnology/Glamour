@@ -87,7 +87,7 @@ GLMTreeBrick >> newToggleButtonFor: aCollapsable [
 			checkedImage: GLMUIThemeExtraIcons glamorousDown;
 			height: [ :b | b icon height * 1.2 ];
 			width: [ :b | b icon width * 1.2 ];
-			addUpAction: [ :b | 
+			action: [ :b | 
 				aCollapsable toggle.
 				aCollapsable isExpanded
 					ifTrue: [ b check ]

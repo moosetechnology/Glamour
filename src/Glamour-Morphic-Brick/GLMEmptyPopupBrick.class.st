@@ -15,7 +15,7 @@ GLMEmptyPopupBrick class >> createButton: hoverAction [
 	^ (GLMActionButtonBrick new
 			color: Color white;
 			icon: GLMUIThemeExtraIcons glamorousBrowse;
-			addHoverAction: hoverAction;
+			hoverAction: hoverAction;
 			width: [ :b | b icon width * 2 ];
 			height: [ :b | b icon height * 2 ])
 ]
@@ -235,7 +235,7 @@ GLMEmptyPopupBrick >> triggerBrick: aBrick [
 		borderWidth: self themer popupThemer borderWidth;
 		borderDo: [ :b | b widthTop: 0 ];
 		marginTop: self themer popupThemer borderWidth negated;
-		addUpAction: [ :b :evt | self close. self anchorBrick click: evt ].
+		action: [ :b :evt | self close. self anchorBrick click: evt ].
 		
 	self addBrickBack: self triggerBrick.
 ]

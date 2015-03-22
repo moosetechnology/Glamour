@@ -63,7 +63,7 @@ GLMHintableActionButtonBrick >> beHelp [
 { #category : #initialization }
 GLMHintableActionButtonBrick >> beMode: aMode [
 
-	self addHoverAction: [ :aBrick :evt |
+	self hoverAction: [ :aBrick :evt |
 			self class asyncTaskUniqueInstance
 				perform: [ self isInWorld ifTrue: [ self class openHint: self hintText title: self hintTitle type: aMode for: self ] ]
 				delay: ((self isModifierPressed: evt) ifTrue: [ 0 ] ifFalse: [ self hintDelay ]) ]
@@ -140,7 +140,7 @@ GLMHintableActionButtonBrick >> initialize [
 	super initialize.
 	
 	self beHelp.
-	self addUnhoverAction: [ :aBrick :anEvent |
+	self unhoverAction: [ :aBrick :anEvent |
 		self class asyncTaskUniqueInstance terminate.
 		(aBrick globalBounds containsPoint: anEvent position)
 			ifFalse: [ self class closeHint ] ]

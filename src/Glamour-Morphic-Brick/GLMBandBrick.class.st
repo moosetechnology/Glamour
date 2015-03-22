@@ -1,7 +1,6 @@
 "
-A GLMBandBrick is a simple Brick with height and bounds to fit all subbricks.
+A GLMBandBrick is a simple Brick with height that shrinks to wrap subbricks.
 Usually used within scroll panes
-
 "
 Class {
 	#name : #GLMBandBrick,

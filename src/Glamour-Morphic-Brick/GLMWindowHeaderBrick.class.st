@@ -34,7 +34,7 @@ GLMWindowHeaderBrick >> addCloseButton [
 	self pushActionButton: (
 		GLMActionButtonBrick new
 			icon: (GLMUIThemeExtraIcons glamorousClose);
-			addUpAction: [ self window close ])
+			action: [ self window close ])
 ]
 
 { #category : #adding }
@@ -43,7 +43,7 @@ GLMWindowHeaderBrick >> addOffcanvasMenuButton [
 	self pushMenuButton: (
 		GLMActionButtonBrick new
 			icon: (Smalltalk ui icons iconNamed: #nautilusIcon);
-			addUpAction: [ self window toggleOffcanvas ])
+			action: [ self window toggleOffcanvas ])
 ]
 
 { #category : #'event handling' }

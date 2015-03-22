@@ -12,58 +12,39 @@ Class {
 	#name : #GLMActionButtonBrick,
 	#superclass : #GLMInteractableBrick,
 	#instVars : [
-		'action',
 		'hoverAction',
-		'unhoverAction'
+		'unhoverAction',
+		'clickAction'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
 
-{ #category : #accessing }
-GLMActionButtonBrick >> action: anAction [
-
-	action := anAction.
-	
-	self normalImage: action icon.
-	self pressedColor: Color veryVeryLightGray
-]
-
-{ #category : #adding }
-GLMActionButtonBrick >> addHoverAction: anObject [
-
-	hoverAction := anObject
-]
-
-{ #category : #adding }
-GLMActionButtonBrick >> addUnhoverAction: anObject [
-
-	unhoverAction := anObject
-]
-
-{ #category : #adding }
-GLMActionButtonBrick >> addUpAction: anActionOrBlock [
-
-	anActionOrBlock isBlock
-		ifTrue: [ action := anActionOrBlock ]
-		ifFalse: [ self action: anActionOrBlock ]
-]
-
 { #category : #actions }
-GLMActionButtonBrick >> click: evt [
+GLMActionButtonBrick >> action: anObject [
+
+	clickAction := anObject
+]
+
+{ #category : #'brick-interactable-actions' }
+GLMActionButtonBrick >> click: anEvent [
 	
-	action ifNil: [ ^ false ].
-	action isBlock
-		ifTrue: [ action cull: self cull: evt ]
-		ifFalse: [ action performOn: self data ].
+	clickAction ifNil: [ ^ false ].
+	clickAction brickValue: self withEnoughArguments: { anEvent }.
 	
 	^ true
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMActionButtonBrick >> deselect: anEvent [
 	super deselect: anEvent.
 	
-	unhoverAction ifNotNil: [ :a | a cull: self cull: anEvent ]
+	unhoverAction ifNotNil: [ :a | a brickValue: self withEnoughArguments: { anEvent } ]
+]
+
+{ #category : #actions }
+GLMActionButtonBrick >> hoverAction: anObject [
+
+	hoverAction := anObject
 ]
 
 { #category : #accessing }
@@ -82,12 +63,18 @@ GLMActionButtonBrick >> icon: anImage [
 GLMActionButtonBrick >> initialize [
 	super initialize.
 	
-	self enable.
+	self enable
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMActionButtonBrick >> select: anEvent [
 	super select: anEvent.
 	
-	hoverAction ifNotNil: [ :a | a cull: self cull: anEvent ]
+	hoverAction ifNotNil: [ :a | a brickValue: self withEnoughArguments: { anEvent } ]
+]
+
+{ #category : #actions }
+GLMActionButtonBrick >> unhoverAction: anObject [
+
+	unhoverAction := anObject
 ]

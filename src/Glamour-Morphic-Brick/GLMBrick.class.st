@@ -6,10 +6,12 @@ Instance Variables
 	ports:		<Dictionary>
 
 brickBounds
-	- xxxxx
+	- wrapper object for brick geometry.  
+		holds margin, padding properties.,
+		responsible for calculation of outer/inner bounds depending on margin/padding
 
 ports
-	- xxxxx
+	- dictionary of phlow bindings. is not implemented yet
 
 "
 Class {

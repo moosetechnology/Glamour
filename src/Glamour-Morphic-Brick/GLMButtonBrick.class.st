@@ -119,7 +119,7 @@ GLMButtonBrick >> text [
 
 { #category : #'button-properties' }
 GLMButtonBrick >> text: aString [
-
+	"changes button text, redraws and updates button bounds"
 	self label text: aString
 ]
 
