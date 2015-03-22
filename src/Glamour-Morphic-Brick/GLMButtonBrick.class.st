@@ -1,5 +1,5 @@
 "
-A GLMButtonBrick is a simple button with support of icons.
+A GLMButtonBrick is a basic  button with label and icon to the left of the label
 
 Instance Variables
 	iconBrick:		<GLMInteractableBrick>
@@ -92,6 +92,7 @@ GLMButtonBrick >> labelBrick: anObject [
 		vShrinkWrap;
 		hShrinkWrap;
 		text: 'button';
+		textPosition: #center;
 		vAlign: #center;
 		hAlign: #center.
 	

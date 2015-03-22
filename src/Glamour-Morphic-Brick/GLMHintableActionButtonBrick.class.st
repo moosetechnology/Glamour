@@ -81,7 +81,7 @@ GLMHintableActionButtonBrick >> beSuccess [
 	self beMode: #beSuccess
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMHintableActionButtonBrick >> click: evt [
 	|result|
 	result := super click: evt.
@@ -158,7 +158,7 @@ GLMHintableActionButtonBrick >> isModifierPressed: anEvent [
 	^ false
 ]
 
-{ #category : #actions }
+{ #category : #'brick-interactable-actions' }
 GLMHintableActionButtonBrick >> press [
 	super press.
 	
