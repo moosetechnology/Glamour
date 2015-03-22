@@ -11,7 +11,7 @@ Class {
 		'asyncTask',
 		'hintBrick'
 	],
-	#category : #'Glamour-Morphic-Brick-Widgets-Core'
+	#category : #'Glamour-Morphic-Brick-Widgets-UI'
 }
 
 { #category : #converting }

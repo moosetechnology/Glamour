@@ -71,6 +71,9 @@ GLMRubScrolledTextBrick >> initialize [
 	
 	self rubric: self newRubricMorph.
 	self withoutBackground.
+	self
+		hSpaceFill;
+		vSpaceFill
 ]
 
 { #category : #'instance creation' }
