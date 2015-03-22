@@ -51,7 +51,7 @@ GLMRubEditingAreaBrick >> initialize [
 		vShrinkWrap
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'rubric-brick-creation' }
 GLMRubEditingAreaBrick >> newRubricMorph [
 
 	^ RubEditingArea new beWrapped

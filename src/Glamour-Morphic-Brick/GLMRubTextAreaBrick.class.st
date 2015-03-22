@@ -11,7 +11,7 @@ GLMRubTextAreaBrick >> initialize [
 	self rubricBackgroundColor: Color transparent
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'rubric-brick-creation' }
 GLMRubTextAreaBrick >> newRubricMorph [
 
 	^ super newRubricMorph

@@ -52,7 +52,7 @@ GLMMorphBrick >> brickBounds: aRectangle [
 { #category : #'morph-drawing' }
 GLMMorphBrick >> drawSubmorphsOn: aCanvas [
 	
-	self morph fullDrawOn: (aCanvas copy setOrigin: (aCanvas origin + self bounds origin - self morph bounds origin) clipRect: (aCanvas clipRect translateBy: aCanvas origin))
+	self morph fullDrawOn: (aCanvas copy setOrigin: (aCanvas origin + self bounds origin - self morph bounds origin + (self paddingLeft @ self paddingTop)) clipRect: (aCanvas clipRect translateBy: aCanvas origin))
 ]
 
 { #category : #'brick-layout-properties' }
@@ -62,6 +62,13 @@ GLMMorphBrick >> hShrinkWrap [
 	self width: [ self morph width ]
 	
 	
+]
+
+{ #category : #'brick-layout-properties' }
+GLMMorphBrick >> hSpaceFill [
+	super hSpaceFill.
+	
+	hResizing := #spaceFill.
 ]
 
 { #category : #initialization }
@@ -90,6 +97,12 @@ GLMMorphBrick >> invalidateMorphBounds [
 ]
 
 { #category : #testing }
+GLMMorphBrick >> isHFilling [
+
+	^ hResizing = #spaceFill
+]
+
+{ #category : #testing }
 GLMMorphBrick >> isHShrinking [
 
 	^ hResizing = #shrinkWrap
@@ -108,6 +121,12 @@ GLMMorphBrick >> isShrinking [
 ]
 
 { #category : #testing }
+GLMMorphBrick >> isVFilling [
+
+	^ vResizing = #spaceFill
+]
+
+{ #category : #testing }
 GLMMorphBrick >> isVShrinking [
 
 	^ vResizing = #shrinkWrap
@@ -122,10 +141,11 @@ GLMMorphBrick >> layoutChanged [
 	isLayouting ifTrue: [ ^ self ].
 
 	isLayouting := true.
+	self changed.
 	self isHShrinking
-		ifTrue: [ self width: self shrinkingWidth ].
+		ifTrue: [ self width: [ self shrinkingWidth + self hPadding ] ].
 	self isVShrinking
-		ifTrue: [ self height: self shrinkingHeight ].
+		ifTrue: [ self height: [ self shrinkingHeight + self vPadding ] ].
 	isLayouting := false
 ]
 
@@ -175,13 +195,13 @@ GLMMorphBrick >> onThemerChanged [
 { #category : #'brick-geometry' }
 GLMMorphBrick >> shrinkingHeight [
 
-	^ [ self morph height ]
+	^ self morph height
 ]
 
 { #category : #'brick-geometry' }
 GLMMorphBrick >> shrinkingWidth [
 
-	^ [ self morph width ]
+	^ self morph width
 ]
 
 { #category : #'brick-properties' }
@@ -198,4 +218,11 @@ GLMMorphBrick >> vShrinkWrap [
 	self height: [ self morph height ]
 	
 	
+]
+
+{ #category : #'brick-layout-properties' }
+GLMMorphBrick >> vSpaceFill [
+	super vSpaceFill.
+	
+	vResizing := #spaceFill.
 ]

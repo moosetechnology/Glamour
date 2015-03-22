@@ -283,7 +283,7 @@ GLMBrickLayoutTrait >> removeProperty: aSymbol [
 	^ self explicitRequirement
 ]
 
-{ #category : #'brick-layout-properties' }
+{ #category : #'private-layout' }
 GLMBrickLayoutTrait >> resetLayout [
 
 	self vResizing: #rigid.

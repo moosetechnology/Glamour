@@ -76,7 +76,7 @@ GLMRubScrolledTextBrick >> initialize [
 		vSpaceFill
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'rubric-brick-creation' }
 GLMRubScrolledTextBrick >> newRubricMorph [
 
 	^ RubScrolledTextMorph new
@@ -88,13 +88,13 @@ GLMRubScrolledTextBrick >> onThemerChanged [
 	self updateStyle
 ]
 
-{ #category : #accessing }
+{ #category : #'rubric-accessing' }
 GLMRubScrolledTextBrick >> rubric [
 
 	^ self morph
 ]
 
-{ #category : #accessing }
+{ #category : #'rubric-accessing' }
 GLMRubScrolledTextBrick >> rubric: aMorph [
 
 	self morph ifNotNil: [ self removeMorph: self morph ].
