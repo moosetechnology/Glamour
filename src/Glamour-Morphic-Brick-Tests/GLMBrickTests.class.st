@@ -78,6 +78,7 @@ GLMBrickTests >> newBrickFullHeightAndWidthDependsOnParent: anInteger [
 	^ GLMBrick new
 		vSpaceFill;
 		hSpaceFill: anInteger;
+		color: Color random;
 		yourself
 ]
 
@@ -87,6 +88,7 @@ GLMBrickTests >> newBrickWithFullDependsOnChildren [
 	^ GLMBrick new 
 		hShrinkWrap;
 		vShrinkWrap;
+		color: Color random;
 		yourself
 ]
 
@@ -96,6 +98,7 @@ GLMBrickTests >> newBrickWithFullFill [
 	^ GLMBrick new 
 		hSpaceFill;
 		vSpaceFill;
+		color: Color random;
 		yourself
 ]
 
@@ -105,6 +108,7 @@ GLMBrickTests >> newBrickWithSmallStaticExtent [
 	^ GLMBrick new 
 		height: self staticSmallHeight;
 		width: self staticSmallWidth;
+		color: Color random;
 		yourself
 ]
 
@@ -114,6 +118,7 @@ GLMBrickTests >> newBrickWithStaticExtent [
 	^ GLMBrick new 
 		height: self staticHeight;
 		width: self staticWidth;
+		color: Color random;
 		yourself
 ]
 
@@ -334,6 +339,40 @@ GLMBrickTests >> testFillBrickInsideStatic [
 GLMBrickTests >> testFreshBrickIsDirty [
 
 	self assertBrickDirty: GLMBrick new
+]
+
+{ #category : #'tests-align' }
+GLMBrickTests >> testFullAlignCenterShrinkWrapInSpaceFill [
+	|root brick1 brick2 brick3 increment|
+	
+	increment := 10.
+	
+	root := self newBrickWithStaticExtent.
+	brick1 := self newBrickWithFullFill.
+	brick2 := self newBrickWithFullDependsOnChildren.
+	brick3 := self newBrickWithSmallStaticExtent.
+	
+	brick2
+		vAlign: #center;
+		hAlign: #center.
+		
+	root addBrickBack: brick1.
+	brick1 addBrickBack: brick2.
+	brick2 addBrickBack: brick3.
+	
+	self assertAllSubbricksAreClean: root.
+	self assert: brick2 brickBounds equals: ((self staticExtent - self staticSmallExtent / 2) extent: self staticSmallExtent) ceiling.
+	
+	brick2
+		height: brick2 height + increment;
+		width: brick2 width + increment.
+	self assertAllSubbricksAreClean: root.
+	
+	self assert: brick2 brickBounds equals: ((self staticExtent - self staticSmallExtent / 2 - (increment / 2) ) extent: (self staticSmallExtent + increment)) ceiling.
+	
+	
+	
+	
 ]
 
 { #category : #'tests-floating' }
