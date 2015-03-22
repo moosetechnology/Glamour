@@ -363,9 +363,9 @@ GLMBrickTests >> testFullAlignCenterShrinkWrapInSpaceFill [
 	self assertAllSubbricksAreClean: root.
 	self assert: brick2 brickBounds equals: ((self staticExtent - self staticSmallExtent / 2) extent: self staticSmallExtent) ceiling.
 	
-	brick2
-		height: brick2 height + increment;
-		width: brick2 width + increment.
+	brick3
+		height: brick3 height + increment;
+		width: brick3 width + increment.
 	self assertAllSubbricksAreClean: root.
 	
 	self assert: brick2 brickBounds equals: ((self staticExtent - self staticSmallExtent / 2 - (increment / 2) ) extent: (self staticSmallExtent + increment)) ceiling.
