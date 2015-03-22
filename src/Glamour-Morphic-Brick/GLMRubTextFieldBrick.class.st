@@ -11,10 +11,7 @@ Class {
 GLMRubTextFieldBrick class >> example [
 	<example: 'Rubric text field that shrinks to fit height and width of the text'>
 	
-	^ self new
-			padding: 20;
-			borderWidth: 20;
-			borderColor: Color lightGray;
+	^ self exampleWithBorder
 			setTextWith: 'Hello world!';
 			yourself
 ]
@@ -23,37 +20,22 @@ GLMRubTextFieldBrick class >> example [
 GLMRubTextFieldBrick class >> exampleFullSpaceFill [
 	<example: 'Rubric centered text field that fills parent'>
 	
-	^ GLMBrick new
-		hSpaceFill;
-		vSpaceFill;
-		padding: #(20 20);
-		color: Color veryVeryLightGray;
-		addBrickBack: (
-			self new
-				hSpaceFill;
-				vSpaceFill;
-				setTextWith: 'Hello world!';
-				yourself);
-		yourself
+	^ self exampleWithBorder
+			hSpaceFill;
+			vSpaceFill;
+			setTextWith: 'Hello world!';
+			yourself
 ]
 
 { #category : #examples }
 GLMRubTextFieldBrick class >> exampleFullSpaceFillCentered [
 	<example: 'Rubric centered text field that fills parent'>
-	
-	^ GLMBrick new
-		hSpaceFill;
-		vSpaceFill;
-		padding: #(20 20);
-		color: Color veryVeryLightGray;
-		addBrickBack: (
-			self new
-				hSpaceFill;
-				vSpaceFill;
-				beCentered;
-				setTextWith: 'Hello world!';
-				yourself);
-		yourself
+	^ self exampleWithBorder
+			hSpaceFill;
+			vSpaceFill;
+			beCentered;
+			setTextWith: 'Hello world!';
+			yourself
 ]
 
 { #category : #'examples-open' }
@@ -72,17 +54,10 @@ GLMRubTextFieldBrick class >> exampleFullSpaceFillOpen [
 GLMRubTextFieldBrick class >> exampleHSpaceFill [
 	<example: 'Rubric text field that shrinks to fit height of the text and fills parent width'>
 	
-	^ GLMBrick new
-		hSpaceFill;
-		vShrinkWrap;
-		padding: #(20 20);
-		color: Color veryVeryLightGray;
-		addBrickBack: (
-			self new
-				hSpaceFill;
-				setTextWith: 'Hello world!';
-				yourself);
-		yourself
+	^ self exampleWithBorder
+			hSpaceFill;
+			setTextWith: 'Hello world!';
+			yourself
 ]
 
 { #category : #'examples-open' }
@@ -101,35 +76,21 @@ GLMRubTextFieldBrick class >> exampleOpen [
 GLMRubTextFieldBrick class >> exampleVSpaceFill [
 	<example: 'Rubric text field that shrinks to fit width of the text and fills parent height'>
 	
-	^ GLMBrick new
-		hShrinkWrap;
-		vSpaceFill;
-		padding: #(20 20);
-		color: Color veryVeryLightGray;
-		addBrickBack: (
-			self new
-				vSpaceFill;
-				setTextWith: 'Hello world!';
-				yourself);
-		yourself
+	^ self exampleWithBorder
+			vSpaceFill;
+			setTextWith: 'Hello world!';
+			yourself
 ]
 
 { #category : #examples }
 GLMRubTextFieldBrick class >> exampleVSpaceFillCentered [
 	<example: 'Rubric centered text field that shrinks to fit width of the text and fills parent height'>
 	
-	^ GLMBrick new
-		hShrinkWrap;
-		vSpaceFill;
-		padding: #(20 20);
-		color: Color veryVeryLightGray;
-		addBrickBack: (
-			self new
-				vSpaceFill;
-				beCentered;
-				setTextWith: 'Hello world!';
-				yourself);
-		yourself
+	^ self exampleWithBorder
+			vSpaceFill;
+			beCentered;
+			setTextWith: 'Hello world!';
+			yourself
 ]
 
 { #category : #'examples-open' }
@@ -144,12 +105,22 @@ GLMRubTextFieldBrick class >> exampleVSpaceFillOpen [
 	self exampleVSpaceFill openCenteredInBrickWindow
 ]
 
+{ #category : #examples }
+GLMRubTextFieldBrick class >> exampleWithBorder [
+	<example: 'Rubric field with support of border'>
+	
+	^ self new
+			padding: 20;
+			borderWidth: 20;
+			borderColor: Color lightGray
+]
+
 { #category : #'brick-properties' }
 GLMRubTextFieldBrick >> beCentered [
 
 	isCentered := true.
 	self isVFilling
-		ifTrue: [ self rubric forceHeight: [ self height ] ].
+		ifTrue: [ self rubric forceHeight: [ self height - self vPadding ] ].
 ]
 
 { #category : #initialization }

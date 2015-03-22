@@ -68,7 +68,7 @@ GLMMorphBrick >> hShrinkWrap [
 GLMMorphBrick >> hSpaceFill [
 	super hSpaceFill.
 	
-	hResizing := #spaceFill.
+	hResizing := #spaceFill
 ]
 
 { #category : #initialization }
@@ -224,5 +224,5 @@ GLMMorphBrick >> vShrinkWrap [
 GLMMorphBrick >> vSpaceFill [
 	super vSpaceFill.
 	
-	vResizing := #spaceFill.
+	vResizing := #spaceFill
 ]
