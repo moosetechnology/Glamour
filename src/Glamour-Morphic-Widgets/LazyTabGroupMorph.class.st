@@ -48,7 +48,7 @@ LazyTabGroupMorph >> addLazyPage: aBlock label: aStringOrMorph toolbar: aToolbar
 			buildLabelFrom: aStringOrMorph 
 			withAction: (aBoolean 
 				ifTrue: [GLMActionButtonBrick new
-					addUpAction: [self removePage: newPage];
+					action: [self removePage: newPage];
 					icon: self theme windowCloseForm ]
 				ifFalse: [nil]).
 	self 
