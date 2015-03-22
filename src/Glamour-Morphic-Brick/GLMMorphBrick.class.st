@@ -65,8 +65,8 @@ GLMMorphBrick >> hShrinkWrap [
 ]
 
 { #category : #'brick-layout-properties' }
-GLMMorphBrick >> hSpaceFill [
-	super hSpaceFill.
+GLMMorphBrick >> hSpaceFill: anInteger [
+	super hSpaceFill: anInteger.
 	
 	hResizing := #spaceFill
 ]
@@ -221,8 +221,8 @@ GLMMorphBrick >> vShrinkWrap [
 ]
 
 { #category : #'brick-layout-properties' }
-GLMMorphBrick >> vSpaceFill [
-	super vSpaceFill.
+GLMMorphBrick >> vSpaceFill: anInteger [
+	super vSpaceFill: anInteger.
 	
 	vResizing := #spaceFill
 ]

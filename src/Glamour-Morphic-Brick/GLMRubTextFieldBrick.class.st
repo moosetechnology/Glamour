@@ -169,9 +169,9 @@ GLMRubTextFieldBrick >> shrinkingWidth [
 	^ self rubric textArea width
 ]
 
-{ #category : #'as yet unclassified' }
-GLMRubTextFieldBrick >> vSpaceFill [
-	super vSpaceFill.
+{ #category : #'brick-layout-properties' }
+GLMRubTextFieldBrick >> vSpaceFill: anInteger [
+	super vSpaceFill: anInteger.
 	
 	self isCentered ifTrue: [ self beCentered ]
 ]

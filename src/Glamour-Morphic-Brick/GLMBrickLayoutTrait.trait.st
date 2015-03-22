@@ -94,8 +94,7 @@ GLMBrickLayoutTrait >> hShrinkWrap [
 { #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> hSpaceFill [
 
-	self layout hSpaceFill.
-	self privateWidth: nil
+	self hSpaceFill: 100
 ]
 
 { #category : #'brick-layout-properties' }
@@ -364,8 +363,7 @@ GLMBrickLayoutTrait >> vShrinkWrap [
 { #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> vSpaceFill [
 
-	self layout vSpaceFill.
-	self privateHeight: nil
+	self vSpaceFill: 100
 ]
 
 { #category : #'brick-layout-properties' }

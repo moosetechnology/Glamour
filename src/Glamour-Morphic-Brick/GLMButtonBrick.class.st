@@ -49,10 +49,10 @@ GLMButtonBrick >> hShrinkWrap [
 ]
 
 { #category : #'brick-layout-properties' }
-GLMButtonBrick >> hSpaceFill [
-	super hSpaceFill.
+GLMButtonBrick >> hSpaceFill: anInteger [
+	super hSpaceFill: anInteger.
 	
-	self label hSpaceFill
+	self label hSpaceFill: anInteger
 ]
 
 { #category : #'button-brick-accessing' }
@@ -147,8 +147,8 @@ GLMButtonBrick >> vShrinkWrap [
 ]
 
 { #category : #'brick-layout-properties' }
-GLMButtonBrick >> vSpaceFill [
-	super vSpaceFill.
+GLMButtonBrick >> vSpaceFill: anInteger [
+	super vSpaceFill: anInteger.
 	
-	self label vSpaceFill
+	self label vSpaceFill: anInteger
 ]

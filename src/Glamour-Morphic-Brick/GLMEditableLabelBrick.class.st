@@ -181,11 +181,11 @@ GLMEditableLabelBrick >> hShrinkWrap [
 ]
 
 { #category : #'brick-layout-properties' }
-GLMEditableLabelBrick >> hSpaceFill [
-	super hSpaceFill.
+GLMEditableLabelBrick >> hSpaceFill: anInteger [
+	super hSpaceFill: anInteger.
 	
-	self labelBrick hSpaceFill.
-	self editBrick hSpaceFill
+	self labelBrick hSpaceFill: anInteger.
+	self editBrick hSpaceFill: anInteger
 ]
 
 { #category : #initialization }
@@ -309,9 +309,9 @@ GLMEditableLabelBrick >> vShrinkWrap [
 ]
 
 { #category : #'brick-layout-properties' }
-GLMEditableLabelBrick >> vSpaceFill [
-	super vSpaceFill.
+GLMEditableLabelBrick >> vSpaceFill: anInteger [
+	super vSpaceFill: anInteger.
 	
-	self labelBrick vSpaceFill.
-	self editBrick vSpaceFill
+	self labelBrick vSpaceFill: anInteger.
+	self editBrick vSpaceFill: anInteger
 ]

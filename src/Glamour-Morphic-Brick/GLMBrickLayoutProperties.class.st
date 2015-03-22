@@ -125,8 +125,7 @@ GLMBrickLayoutProperties >> hShrinkWrap [
 { #category : #scripting }
 GLMBrickLayoutProperties >> hSpaceFill [
 	"my width will change to fill 100% of my parent"
-	self hPercent: 100.
-	self hResizing: #spaceFill
+	self hSpaceFill: 100
 ]
 
 { #category : #scripting }
@@ -276,8 +275,7 @@ GLMBrickLayoutProperties >> vShrinkWrap [
 { #category : #scripting }
 GLMBrickLayoutProperties >> vSpaceFill [
 	"my height will change to fill 100% of my parent"
-	self vPercent: 100.
-	self vResizing: #spaceFill
+	self vSpaceFill: 100
 ]
 
 { #category : #scripting }
