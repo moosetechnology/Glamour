@@ -98,8 +98,8 @@ GLMTabLabelBrick >> label: aBrick [
 GLMTabLabelBrick >> label: aBrick selected: aSelectedBrick [
 	"Change the label contents"
 
-	aBrick hSpaceFill; vSpaceFill.
-	aSelectedBrick hSpaceFill; vSpaceFill.
+	aBrick vSpaceFill.
+	aSelectedBrick vSpaceFill.
 	
 	self maxWidth: aBrick layout maxWidth.
 	
