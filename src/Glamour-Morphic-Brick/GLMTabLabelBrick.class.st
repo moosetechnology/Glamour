@@ -106,7 +106,9 @@ GLMTabLabelBrick >> label: aBrick selected: aSelectedBrick [
 	self
 		normalLabel: aBrick;
 		selectedLabel: aSelectedBrick;
-		selected: self isSelected
+		selected: self isSelected.
+	"in case label was changed"
+	self doLayoutForce
 ]
 
 { #category : #'brick-tab-label-accessing' }
