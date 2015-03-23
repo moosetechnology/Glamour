@@ -27,7 +27,7 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Async'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 GLMAnimation class >> borderColor [
 
 	^ GLMAnimation new
