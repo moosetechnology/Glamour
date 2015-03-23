@@ -1115,6 +1115,28 @@ GLMBrickTests >> testRightMarginParentDependency [
 ]
 
 { #category : #'tests-layouter' }
+GLMBrickTests >> testShrinkInShrinkChange [
+	|root brick1 brick2|
+	
+	root := self newBrickWithFullDependsOnChildren.
+	brick1 := self newBrickWithFullDependsOnChildren.
+	brick2 := self newBrickWithSmallStaticExtent.
+	
+	root addBrickBack: brick1.
+	brick1 addBrickBack: brick2.
+	
+	self assertAllSubbricksAreClean: root.
+	self assert: root brickBounds equals: (0@0 extent: self staticSmallExtent).
+	
+	brick2
+		width: self staticWidth;
+		height: self staticHeight.
+	
+	self assert: root brickBounds equals: (0@0 extent: self staticExtent).
+	
+]
+
+{ #category : #'tests-layouter' }
 GLMBrickTests >> testShrinkWrapInStaticWithNeighbours [
 	|root band child1 child2 neighbour childWidth width|
 	width := 20.
@@ -1187,5 +1209,36 @@ GLMBrickTests >> testTwoDependsOnParentInsideStatic [
 	self assert: root extent equals: self staticExtent.
 	self assert: brick1 brickBounds equals: (0@0 extent: (self staticWidth / 2) @ self staticHeight).
 	self assert: brick2 brickBounds equals: ((self staticWidth / 2)@0 extent: (self staticWidth / 2) @ self staticHeight).
+	
+]
+
+{ #category : #'tests-layouter' }
+GLMBrickTests >> testTwoShrinkInShrinkChange [
+	|root brick1 brick2 brick3|
+	
+	root := self newBrickWithFullDependsOnChildren.
+	brick1 := self newBrickWithFullDependsOnChildren.
+	brick2 := self newBrickWithSmallStaticExtent.
+	brick3 := self newBrickWithSmallStaticExtent.
+	brick1 useVerticalLinearLayout.
+	
+	root addBrickBack: brick1.
+	brick1 addBrickBack: brick2.
+	brick1 addBrickBack: brick3.
+	
+	self assertAllSubbricksAreClean: root.
+	self assert: root brickBounds equals: (0@0 extent: (self staticSmallWidth @ (2* self staticSmallHeight))).
+	self assert: brick1 brickBounds equals: (0@0 extent: (self staticSmallWidth @ (2* self staticSmallHeight))).
+	self assert: brick2 brickBounds equals: (0@0 extent: self staticSmallExtent).
+	self assert: brick3 brickBounds equals: (0@self staticSmallHeight extent: self staticSmallExtent).
+	
+	brick2
+		width: self staticWidth;
+		height: self staticHeight.
+	
+	self assert: root brickBounds equals: (0@0 extent: (self staticWidth @ (self staticHeight + self staticSmallHeight))).
+	self assert: brick1 brickBounds equals: (0@0 extent: (self staticWidth @ (self staticHeight + self staticSmallHeight))).
+	self assert: brick2 brickBounds equals: (0@0 extent: self staticExtent).
+	self assert: brick3 brickBounds equals: (0@self staticHeight extent: self staticSmallExtent).
 	
 ]
