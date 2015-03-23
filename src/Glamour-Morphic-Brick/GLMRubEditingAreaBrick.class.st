@@ -1,8 +1,24 @@
+"
+A GLMRubEditingAreaBrick is basic text editor brick used for multi line input fields. 
+
+vShrinkWrap - height fits text size + vertical paddings
+hShrinkWrap - doesn't make any sense.
+vSpaceFill - fills parent vertically. Actual text editor height = parent height - vertical paddings
+hSpaceFill - doesn't really makes sense, since text area still shrinks to fit text
+"
 Class {
 	#name : #GLMRubEditingAreaBrick,
 	#superclass : #GLMRubScrolledTextBrick,
-	#category : #'Glamour-Morphic-Brick-Widgets-Core'
+	#category : #'Glamour-Morphic-Brick-Widgets-Basic'
 }
+
+{ #category : #examples }
+GLMRubEditingAreaBrick class >> example [
+	<example: 'Basic Rubric Editing Area'>
+	^ self exampleBasic
+		updateTextWith: 'Hello world!';
+		yourself
+]
 
 { #category : #examples }
 GLMRubEditingAreaBrick class >> exampleBand [
@@ -13,30 +29,61 @@ GLMRubEditingAreaBrick class >> exampleBand [
 		hSpaceFill;
 		vShrinkWrap;
 		color: Color veryVeryLightGray;
-		addAllBricks: { self new. self new };
+		addAllBricks: { self exampleBasic. self exampleBasic };
 		yourself
 ]
 
-{ #category : #examples }
+{ #category : #'examples-open' }
 GLMRubEditingAreaBrick class >> exampleBandOpen [
 
 	self exampleBand openInBrickWindow
 ]
 
 { #category : #examples }
+GLMRubEditingAreaBrick class >> exampleBasic [
+	<example: 'Basic Rubric Editing Area with padding and border'>
+	^ self new
+		padding: 20;
+		borderWidth: 20;
+		margin: 5;
+		borderColor: Color veryLightGray
+]
+
+{ #category : #examples }
+GLMRubEditingAreaBrick class >> exampleFill [
+	<example: 'Basic Rubric Editing Area that fills parent'>
+	^ self exampleBasic
+		vSpaceFill;
+		updateTextWith: 'Hello world!';
+		yourself
+]
+
+{ #category : #'examples-open' }
+GLMRubEditingAreaBrick class >> exampleFillOpen [
+
+	self exampleFill openCenteredInBrickWindow
+]
+
+{ #category : #'examples-open' }
+GLMRubEditingAreaBrick class >> exampleOpen [
+
+	self example openCenteredInBrickWindow
+]
+
+{ #category : #examples }
 GLMRubEditingAreaBrick class >> exampleScrollPane [
-	<example: 'Two rubric text areas in scroll pane'>
+	<example: 'Multiple rubric text areas in scroll pane'>
 	
 	^ GLMScrollPaneBrick new
 		hSpaceFill;
 		vSpaceFill;
 		color: Color veryVeryLightGray;
 		layoutMorphs: true;
-		addAllBricks: { self new. self new };
+		addAllBricks: ((1 to: 20) collect: [ :i | self exampleBasic ]);
 		yourself
 ]
 
-{ #category : #examples }
+{ #category : #'examples-open' }
 GLMRubEditingAreaBrick class >> exampleScrollPaneOpen [
 	
 	self exampleScrollPane openInBrickWindowLabeled: 'Rubric in ScrollPane'
