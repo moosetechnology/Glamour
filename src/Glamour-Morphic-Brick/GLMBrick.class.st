@@ -239,6 +239,12 @@ GLMBrick >> announcer [
 	^ super announcer
 ]
 
+{ #category : #'brick-structure-converting' }
+GLMBrick >> asMorph [
+
+	^ self asBrickedMorph
+]
+
 { #category : #'brick-geometry' }
 GLMBrick >> bounds [
 
