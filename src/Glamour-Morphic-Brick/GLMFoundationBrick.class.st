@@ -58,7 +58,7 @@ GLMFoundationBrick >> brickRoot: aBrick [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 GLMFoundationBrick >> brickThemerChanged [
 
 	self brickRoot themerChanged
@@ -70,7 +70,7 @@ GLMFoundationBrick >> doLayout [
 	self brickRoot doLayoutForce.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'reflective operations' }
 GLMFoundationBrick >> doesNotUnderstand: aMessage [
 
 	^ self brickRoot perform: aMessage selector withArguments: aMessage arguments
