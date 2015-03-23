@@ -31,11 +31,10 @@ GLMHorizontalLinearLayout >> align: aBrick in: parentBrick anchorPoint: aPoint i
 	align := aBrick layout vAlign.
 	
 	align = #none ifTrue: [ ^ self ].
-	align = #left ifTrue: [ ^ self ].
 	align = #center ifTrue: [
 		^ aBrick translateY: ((parentBrick innerBounds height - aBrick outerBounds height) / 2) asInteger ].
-	align = #right ifTrue: [
-		^ aBrick translateX: ((parentBrick innerBounds width - aBrick outerBounds width)) asInteger ].
+	align = #bottom ifTrue: [
+		^ aBrick translateY: ((parentBrick innerBounds height - aBrick outerBounds height)) asInteger ].
 ]
 
 { #category : #converting }
