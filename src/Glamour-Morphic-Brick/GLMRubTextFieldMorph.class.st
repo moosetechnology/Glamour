@@ -58,7 +58,7 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Morphic'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #geometry }
 GLMRubTextFieldMorph >> extent: aPoint [
 	|newTop patch offset|
 	super extent: aPoint.
