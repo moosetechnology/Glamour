@@ -262,7 +262,6 @@ GLMBrickLayoutTrait >> layoutSubbricks [
 { #category : #'brick-layout-events' }
 GLMBrickLayoutTrait >> onChildrenLayouted [
 	"called when all my children finished layouting"
-	self changed
 ]
 
 { #category : #'brick-layout-events' }
