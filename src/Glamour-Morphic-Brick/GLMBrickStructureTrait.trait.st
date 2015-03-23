@@ -8,7 +8,9 @@ Trait {
 
 { #category : #'brick-structure-adding/removing' }
 GLMBrickStructureTrait >> addAllBricks: aCollection [
+
 	self privateAddAllBricks: aCollection.
+	aCollection do: [ :b | b wrappedBounds markWidthDirty; markHeightDirty ].
 	self doLayoutForce
 ]
 
@@ -16,6 +18,7 @@ GLMBrickStructureTrait >> addAllBricks: aCollection [
 GLMBrickStructureTrait >> addBrick: aBrick after: otherBrick [
 	|result|
 	result := self privateAddBrick: aBrick after: otherBrick.
+	aBrick wrappedBounds markWidthDirty; markHeightDirty.
 	self doLayoutForce.
 	^ result
 ]
@@ -24,6 +27,7 @@ GLMBrickStructureTrait >> addBrick: aBrick after: otherBrick [
 GLMBrickStructureTrait >> addBrick: aBrick before: otherBrick [
 	|result|
 	result := self privateAddBrick: aBrick before: otherBrick.
+	aBrick wrappedBounds markWidthDirty; markHeightDirty.
 	self doLayoutForce.
 	^ result
 ]
@@ -32,6 +36,7 @@ GLMBrickStructureTrait >> addBrick: aBrick before: otherBrick [
 GLMBrickStructureTrait >> addBrickBack: aBrick [
 	|result|
 	result := self privateAddBrickBack: aBrick.
+	aBrick wrappedBounds markWidthDirty; markHeightDirty.
 	self doLayoutForce.
 	^ result
 ]
@@ -40,6 +45,7 @@ GLMBrickStructureTrait >> addBrickBack: aBrick [
 GLMBrickStructureTrait >> addBrickFirst: aBrick [
 	|result|
 	result := self privateAddBrickFirst: aBrick.
+	aBrick wrappedBounds markWidthDirty; markHeightDirty.
 	self doLayoutForce.
 	^ result
 ]
