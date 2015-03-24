@@ -142,8 +142,9 @@ LazyTabGroupMorph >> newTabSelectorMorph [
 	"Answer a new tab selector morph"
 
 	^ GLMTabSelectorBrick new
-		vResizing: #shrinkWrap;
-		hResizing: #spaceFill
+		minHeight: self theme buttonMinHeight;
+		hSpaceFill;
+		vResizing: #shrinkWrap
 ]
 
 { #category : #private }
