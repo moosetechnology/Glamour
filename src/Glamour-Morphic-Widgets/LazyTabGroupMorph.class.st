@@ -142,9 +142,8 @@ LazyTabGroupMorph >> newTabSelectorMorph [
 	"Answer a new tab selector morph"
 
 	^ GLMTabSelectorBrick new
-		minHeight: self theme buttonMinHeight;
-		hSpaceFill;
-		vResizing: #shrinkWrap
+		vResizing: #shrinkWrap;
+		hResizing: #spaceFill
 ]
 
 { #category : #private }
@@ -219,8 +218,14 @@ LazyTabGroupMorph >> updatePageIndex: index [
 	oldPage := self tabSelectorMorph selectedTab.
 	p := self pageMorph.
 	p isNil
-		ifTrue: [self contentMorph addMorph: (self pageAt: index)]
-		ifFalse: [self contentMorph replaceSubmorph: p by: (self pageAt: index)].
+		ifTrue: [
+			self contentMorph addMorph: (self pageAt: index).]
+		ifFalse: [|pageBounds|
+			pageBounds := self pageMorph bounds.
+			self contentMorph replaceSubmorph: p by: (self pageAt: index).
+			self flag: 'Without setting here the bounds the pange moves a few pizels when refreshing the inspector'.
+			self pageMorph bounds: pageBounds.
+			self pageMorph layoutChanged ].
 		
 	((self pages at: index) toolbar notNil and: [(self pages at: index) toolbar hasSubmorphs])
 		ifTrue: [
