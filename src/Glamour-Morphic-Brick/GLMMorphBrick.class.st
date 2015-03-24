@@ -88,8 +88,14 @@ GLMMorphBrick >> invalidateLayout [
 
 { #category : #'brick-layout' }
 GLMMorphBrick >> invalidateMorphBounds [
+
+	self invalidateMorphBounds: false
+]
+
+{ #category : #'brick-layout' }
+GLMMorphBrick >> invalidateMorphBounds: isForce [
 	| origin corner newBounds |
-	
+	isLayouting & (isForce not) ifTrue: [ ^ self ].
 	origin := self paddingLeft @ self paddingTop.
 	corner := self paddingRight @ self paddingBottom.
 	newBounds := self globalBounds.
@@ -148,7 +154,8 @@ GLMMorphBrick >> layoutChanged [
 		ifTrue: [ self width: [ self shrinkingWidth + self hPadding ] ].
 	self isVShrinking
 		ifTrue: [ self height: [ self shrinkingHeight + self vPadding ] ].
-	isLayouting := false
+		self invalidateMorphBounds: true.
+	isLayouting := false.
 ]
 
 { #category : #accessing }

@@ -272,7 +272,9 @@ GLMBrickLayoutTrait >> onLayoutEvent: aLayoutEvent [
 { #category : #'brick-layout-events' }
 GLMBrickLayoutTrait >> onLayouted [
 	"called when I'm layouted in my parent"
-	
+	self owner ifNotNil: [ :o | (o isKindOf: GLMBrick) ifFalse: [ 
+		self doNotLayoutDuring: [
+			(o isVShrinking | o isHShrinking) ifTrue: [ o privateExtent: self outerBounds extent ] ] ] ]
 ]
 
 { #category : #'private-extension' }

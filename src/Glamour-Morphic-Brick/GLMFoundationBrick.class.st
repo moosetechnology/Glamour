@@ -14,7 +14,9 @@ Class {
 	#name : #GLMFoundationBrick,
 	#superclass : #Morph,
 	#instVars : [
-		'brickRoot'
+		'brickRoot',
+		'vResizing',
+		'hResizing'
 	],
 	#category : #'Glamour-Morphic-Brick-Morphic'
 }
@@ -113,6 +115,19 @@ GLMFoundationBrick >> globalBoundsTranslateFactor [
 	^ self globalBounds origin
 ]
 
+{ #category : #'brick-layout-properties' }
+GLMFoundationBrick >> hShrinkWrap [
+
+	hResizing:= #shrinkWrap
+]
+
+{ #category : #'brick-layout-properties' }
+GLMFoundationBrick >> hSpaceFill [
+
+	self brickRoot hSpaceFill.
+	hResizing:= #spaceFill.
+]
+
 { #category : #initialization }
 GLMFoundationBrick >> initialize [
 	super initialize.
@@ -126,6 +141,18 @@ GLMFoundationBrick >> initialize [
 GLMFoundationBrick >> isFocused [
 
 	^ false
+]
+
+{ #category : #testing }
+GLMFoundationBrick >> isHShrinking [
+
+	^ hResizing = #shrinkWrap
+]
+
+{ #category : #testing }
+GLMFoundationBrick >> isVShrinking [
+
+	^ vResizing = #shrinkWrap
 ]
 
 { #category : #initialize }
@@ -174,4 +201,17 @@ GLMFoundationBrick >> themer: aThemer [
 
 	self setProperty: #brickThemer toValue: aThemer.
 	self brickRoot themerChanged
+]
+
+{ #category : #'brick-layout-properties' }
+GLMFoundationBrick >> vShrinkWrap [
+
+	vResizing:= #shrinkWrap
+]
+
+{ #category : #'brick-layout-properties' }
+GLMFoundationBrick >> vSpaceFill [
+
+	self brickRoot vSpaceFill.
+	vResizing:= #spaceFill.
 ]
