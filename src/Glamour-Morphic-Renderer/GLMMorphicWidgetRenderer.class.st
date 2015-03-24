@@ -30,22 +30,6 @@ GLMMorphicWidgetRenderer >> installKeystrokeActionsOnMorph: aMorph fromPresentat
 ]
 
 { #category : #private }
-GLMMorphicWidgetRenderer >> labelActionBrickFor: aPresentation [
-	
-	 ^ aPresentation titleAction 
-		ifNil: [ nil ]
-		ifNotNil: [ :labelAction |
-			((labelAction isAvailableOn: aPresentation) and: [ labelAction hasIcon ])
-				ifTrue: [
-					GLMActionButtonBrick new
-						icon: labelAction icon;
-						setBalloonText: labelAction title;
-						action: [ labelAction actOn: aPresentation ] ]
-				ifFalse: [ nil ] ]
-	
-]
-
-{ #category : #private }
 GLMMorphicWidgetRenderer >> labelActionMorphFor: aPresentation [
 	
 	 ^ aPresentation titleAction 
@@ -56,6 +40,22 @@ GLMMorphicWidgetRenderer >> labelActionMorphFor: aPresentation [
 					MultistateButtonMorph new
 						extent: labelAction icon extent;
 						activeEnabledOverUpFillStyle: (ImageFillStyle form: labelAction icon);
+						setBalloonText: labelAction title;
+						addUpAction: [ labelAction actOn: aPresentation ] ]
+				ifFalse: [ nil ] ]
+	
+]
+
+{ #category : #private }
+GLMMorphicWidgetRenderer >> labelActionTrickFor: aPresentation [
+	
+	 ^ aPresentation titleAction 
+		ifNil: [ nil ]
+		ifNotNil: [ :labelAction |
+			((labelAction isAvailableOn: aPresentation) and: [ labelAction hasIcon ])
+				ifTrue: [
+					GLMActionButtonBrick new
+						icon: labelAction icon;
 						setBalloonText: labelAction title;
 						addUpAction: [ labelAction actOn: aPresentation ] ]
 				ifFalse: [ nil ] ]
@@ -114,7 +114,7 @@ GLMMorphicWidgetRenderer >> morph: aMorph withTitleOf: aPresentation [
 		addLazyPage: [aMorph]
 		label: (self titleOrIconOf: aPresentation in: tabs)
 		toolbar: (self renderToolbarForPresentation: aPresentation inMorph: aMorph)
-		action: (self labelActionBrickFor: aPresentation).
+		action: (self labelActionTrickFor: aPresentation).
 	tabs selectedPageIndex: 1.
 	^ tabs
 ]
@@ -157,10 +157,12 @@ GLMMorphicWidgetRenderer >> renderToolbarForPresentation: aPresentation inMorph:
 	| dock tools buttons noIconActions |
 	dock := aMorph theme newToolDockingBarIn: aMorph.
 	buttons := (aPresentation allActions select: [:each | each isButton ]) 
-		collect: [:each | 
-			(each renderGlamorouslyOn: self renderer)
-				arguments: { aPresentation };
-				yourself ].
+		collect: [:each | |actionMorph|
+			actionMorph := (each renderGlamorouslyOn: self renderer).
+			actionMorph arguments 
+				ifNil: [ actionMorph arguments: { aPresentation } ]
+				ifNotNil: [ actionMorph arguments: ({ aPresentation }, actionMorph arguments) ].
+			actionMorph ].
 	noIconActions := aPresentation allActions select: #isMenu.
 	tools := aMorph theme newToolbarIn: aMorph for: buttons.
 	noIconActions isEmpty ifFalse: [
@@ -229,7 +231,6 @@ GLMMorphicWidgetRenderer >> titleOrIconOf: aPresentation in: container [
 			image := GLMInteractableBrick new
 						normalImage: aPresentation titleIconValue.
 			image maxWidth: [ aPresentation titleIconValue width * 2 ].
-			image hSpaceFill.
 			image vSpaceFill.
 			aPresentation titleValue ifNotNil: [
 				image setBalloonText: aPresentation titleValue maxLineLength: 100 ].

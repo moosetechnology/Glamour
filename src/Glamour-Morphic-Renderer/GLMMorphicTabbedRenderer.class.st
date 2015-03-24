@@ -36,7 +36,7 @@ GLMMorphicTabbedRenderer >> actOnPresentationUpdated: ann [
 			addLazyPage: [ self renderObject: each ]
 			label: (self titleOrIconOf: each in: tabs)
 			toolbar: (self renderToolbarForPresentation: each inMorph: tabs )
-			action: (self labelActionBrickFor: each) ].
+			action: (self labelActionTrickFor: each) ].
 	index := 1.
 	presentations withIndexDo: [ :each :i | 
 		ann presentation pane lastActivePresentation notNil and: [ 
@@ -68,7 +68,7 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 				addLazyPage: [ self renderObject: each ]
 				label: (self titleOrIconOf: each in: tabs)
 				toolbar: (self renderToolbarForPresentation: each inMorph: tabs)
-				action: (self labelActionBrickFor: each) ].
+				action: (self labelActionTrickFor: each) ].
 	index := 1.
 	presentations
 		withIndexDo: [ :each :i | 

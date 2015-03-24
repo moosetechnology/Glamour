@@ -134,6 +134,26 @@ GLMMorphicRenderer >> renderPharoPlaygroundPresentation: aWorkspacePresentation 
 	^ GLMMorphicPharoPlaygroundRenderer render: aWorkspacePresentation from: self
 ]
 
+{ #category : #'rendering actions' }
+GLMMorphicRenderer >> renderPoppupAction: anAction [
+	| button |
+	button := UITheme current.
+	^(button 
+		newButtonIn: nil 
+		for: anAction
+		getState: nil
+		action: #poppupActOn:from:
+		arguments: nil
+		getEnabled: nil
+		label: (AlphaImageMorph new image: anAction icon)
+		help: (anAction title, Character tab asString, anAction shortcutAsString) trimBoth)
+		valueOfProperty: #noBorder ifAbsentPut: [true]; "this is a hack to tell the GLMUITheme to not draw the border and the fill"
+		valueOfProperty: #noFill ifAbsentPut: [true];
+		setProperty: #wantsKeyboardFocusNavigation toValue: false; "to disable the focus"
+		borderWidth: 0;
+		yourself
+]
+
 { #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderRubricHighlightedTextPresentation: aPresentation [
 
