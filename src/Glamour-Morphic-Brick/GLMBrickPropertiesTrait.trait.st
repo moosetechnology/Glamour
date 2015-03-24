@@ -17,7 +17,7 @@ GLMBrickPropertiesTrait >> announce: anAnnouncement [
 { #category : #'brick-properties-events' }
 GLMBrickPropertiesTrait >> announce: aSymbol event: anEvent [
 
-	self announcer subscriptions subscriptionsDo: [ :each |
+	self announcer subscriptions glmSubscriptions do: [ :each |
 		each announcementClass = aSymbol ifTrue: [
 			(each handlesAnnouncement: aSymbol ) ifTrue: [
 				[ each action cull: anEvent cull: self ] 
