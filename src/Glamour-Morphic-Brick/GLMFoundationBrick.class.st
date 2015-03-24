@@ -124,8 +124,7 @@ GLMFoundationBrick >> hShrinkWrap [
 { #category : #'brick-layout-properties' }
 GLMFoundationBrick >> hSpaceFill [
 
-	hResizing:= #spaceFill.
-	self hResizing: #spaceFill
+	hResizing:= #spaceFill
 ]
 
 { #category : #initialization }

@@ -34,56 +34,83 @@ Class {
 	#superclass : #GLMFoundationBrick,
 	#instVars : [
 		'selectedIndex',
+		'visibleTabRange',
 		'font',
-		'tabs'
+		'tabs',
+		'controls',
+		'wrapScrolling'
 	],
 	#category : #'Glamour-Morphic-Brick-Morphic'
 }
 
-{ #category : #'adding/removing' }
+{ #category : #adding }
 GLMTabSelectorBrick >> addTab: aStringOrMorph [
 	"Add a new tab with the given text."
 	
-	self tabs add: (self newLabelBrick: aStringOrMorph).
+	self tabs add: (self newLabelMorph: aStringOrMorph).
 	self updateTabs
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #adding }
 GLMTabSelectorBrick >> addTab: aStringOrMorph selected: selectedStringOrMorph [
 	"Add a new tab with the given text or morph and alternate for when selected."
 	
-	self tabs add: (self newLabelBrick: aStringOrMorph selected: selectedStringOrMorph).
+	self tabs add: (self newLabelMorph: aStringOrMorph selected: selectedStringOrMorph).
 	self updateTabs
+]
+
+{ #category : #rounding }
+GLMTabSelectorBrick >> cornerStyle: aSymbol [
+	"Pass to tabs also."
+
+	super cornerStyle: aSymbol.
+	self tabs do: [:t | t cornerStyle: aSymbol]
 ]
 
 { #category : #accessing }
 GLMTabSelectorBrick >> font [
 	"Answer the label font"
-	^ font
+
+	^font
 ]
 
 { #category : #accessing }
 GLMTabSelectorBrick >> font: aFont [
 	"Set the label font"
-	font := aFont
+
+	font == aFont ifTrue: [^self].
+	font := aFont.
+	self updateFont
 ]
 
 { #category : #'event handling' }
 GLMTabSelectorBrick >> handlesKeyboard: evt [
 	"Yes, we do it here."
 	
-	^ true
+	^true
+]
+
+{ #category : #initialization }
+GLMTabSelectorBrick >> initialize [
+	"Initialize the receiver."
+
+	super initialize.
+	selectedIndex := 0.
+	self
+		tabs: OrderedCollection new;
+		roundedCorners: #(1 4);
+		borderWidth: 0.
 ]
 
 { #category : #'event handling' }
 GLMTabSelectorBrick >> keyStroke: event [ 
 	"Process keys navigation and space to toggle."
 
-	(self navigationKey: event) ifTrue: [ ^ self ].
+	(self navigationKey: event) ifTrue: [^self].
 	event keyCharacter = Character arrowLeft
-		ifTrue: [ self selectPreviousTab ].
+		ifTrue: [self selectPreviousTab].
 	event keyCharacter = Character arrowRight
-		ifTrue: [ self selectNextTab ]
+		ifTrue: [self selectNextTab]
 ]
 
 { #category : #'event handling' }
@@ -94,44 +121,50 @@ GLMTabSelectorBrick >> keyboardFocusChange: aBoolean [
 	self focusChanged
 ]
 
-{ #category : #'instance creation' }
-GLMTabSelectorBrick >> newLabelBrick: aStringOrBrick [
-	"Answer a new label brick with the given label text."
+{ #category : #layout }
+GLMTabSelectorBrick >> minHeight [
+	^ self theme buttonMinHeight
+]
 
-	^ GLMTabLabelBrick new
-		label: aStringOrBrick;
-		when: #onClicked send: #onTabClicked:with: to: self;
+{ #category : #'instance creation' }
+GLMTabSelectorBrick >> newLabelMorph: aStringOrMorph [
+	"Answer a new label morph with the given label text."
+
+	^GLMTabLabelBrick new
+		roundedCorners: #(1 4);
+		cornerStyle: self cornerStyle;
+		label: aStringOrMorph;
+		font: self font;
+		on: #mouseDown send: #tabClicked:with: to: self;
 		tabSelector: self;
 		vSpaceFill
 ]
 
 { #category : #'instance creation' }
-GLMTabSelectorBrick >> newLabelBrick: aStringOrBrick selected: selectedStringOrBrick [
-	"Answer a new label brick with the given label text or brick and
+GLMTabSelectorBrick >> newLabelMorph: aStringOrMorph selected: selectedStringOrMorph [
+	"Answer a new label morph with the given label text or morph and
 	alternate when selected."
-	^ GLMTabLabelBrick new
-		label: aStringOrBrick selected: selectedStringOrBrick;
-		when: #onClicked send: #onTabClicked:with: to: self;
+
+	^GLMTabLabelBrick new
+		roundedCorners: #(1 4);
+		cornerStyle: self cornerStyle;
+		label: aStringOrMorph selected: selectedStringOrMorph;
+		font: self font;
+		on: #mouseDown send: #tabClicked:with: to: self;
 		tabSelector: self;
 		vSpaceFill
 ]
 
-{ #category : #'event handling' }
-GLMTabSelectorBrick >> onTabClicked: anEvent with: aBrick [ 
-	"A tab has been clicked."
-	
-	self selectedIndex: (self tabs indexOf: aBrick)
-]
-
-{ #category : #actions }
-GLMTabSelectorBrick >> relabelTab: aTab with: aStringOrBrick [
+{ #category : #'as yet unclassified' }
+GLMTabSelectorBrick >> relabelTab: aTab with: aStringOrMorph [
 	"Relabel the tab update tab layout."
 
-	aTab label: aStringOrBrick.
-	self updateTabs
+	aTab label: aStringOrMorph.
+	aTab owner ifNotNil: [
+		self updateTabs ]
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #'as yet unclassified' }
 GLMTabSelectorBrick >> removeTabIndex: anInteger [
 	"Remove the tab at the given index and
 	adjust any selected (next or first if was last)."
@@ -143,14 +176,14 @@ GLMTabSelectorBrick >> removeTabIndex: anInteger [
 		
 ]
 
-{ #category : #actions }
+{ #category : #'as yet unclassified' }
 GLMTabSelectorBrick >> selectNextTab [
 	"Select the next tab, or the first if none selected."
 	
 	self selectedIndex: self selectedIndex \\ self tabs size + 1
 ]
 
-{ #category : #actions }
+{ #category : #'as yet unclassified' }
 GLMTabSelectorBrick >> selectPreviousTab [
 	"Select the previous tab, or the last if none selected."
 	
@@ -163,7 +196,7 @@ GLMTabSelectorBrick >> selectPreviousTab [
 GLMTabSelectorBrick >> selectedIndex [
 	"Answer the value of selectedIndex"
 
-	^ selectedIndex ifNil: [ selectedIndex := 0 ]
+	^ selectedIndex
 ]
 
 { #category : #accessing }
@@ -171,8 +204,8 @@ GLMTabSelectorBrick >> selectedIndex: index [
 	"Set the value of selectedIndex"
 
 	|oldIndex|
-	self selectedIndex == index ifTrue: [^ self ].
-	oldIndex := self selectedIndex.
+	selectedIndex == index ifTrue: [^self].
+	oldIndex := selectedIndex.
 	selectedIndex := (index min: self tabs size).
 	self updateTabs.
 	self changed: #selectedIndex with: oldIndex
@@ -182,14 +215,21 @@ GLMTabSelectorBrick >> selectedIndex: index [
 GLMTabSelectorBrick >> selectedTab [
 	"Answer the selected tab."
 	
-	^ self selectedIndex = 0
-		ifFalse: [self tabs at: self selectedIndex ifAbsent: [ nil ] ]
+	^self selectedIndex = 0
+		ifFalse: [self tabs at: self selectedIndex ifAbsent: [nil]]
+]
+
+{ #category : #'as yet unclassified' }
+GLMTabSelectorBrick >> tabClicked: evt with: aMorph [ 
+	"A tab has been clicked."
+	
+	self selectedIndex: (self tabs indexOf: aMorph)
 ]
 
 { #category : #accessing }
 GLMTabSelectorBrick >> tabs [
 
-	^ tabs ifNil: [ tabs := OrderedCollection new ]
+	^ tabs
 ]
 
 { #category : #accessing }
@@ -198,7 +238,15 @@ GLMTabSelectorBrick >> tabs: anObject [
 	tabs := anObject
 ]
 
-{ #category : #actions }
+{ #category : #private }
+GLMTabSelectorBrick >> updateFont [
+	"Update the label font."
+
+	self tabs do: [:t | t font: self font].
+	self updateTabs
+]
+
+{ #category : #'as yet unclassified' }
 GLMTabSelectorBrick >> updateTabs [
 	"Update the submorphs based on visible tabs."
 
@@ -210,5 +258,6 @@ GLMTabSelectorBrick >> updateTabs [
 		t selected: (t == selectedTab).
 		t hSpaceFill: 100 / self tabs size ].
 	self
-		addAllBricks: self tabs
+		addAllBricks: self tabs;
+		adoptPaneColor
 ]
