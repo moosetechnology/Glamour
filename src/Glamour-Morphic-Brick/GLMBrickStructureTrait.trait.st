@@ -10,7 +10,7 @@ Trait {
 GLMBrickStructureTrait >> addAllBricks: aCollection [
 
 	self privateAddAllBricks: aCollection.
-	aCollection do: [ :b | b wrappedBounds markWidthDirty; markHeightDirty ].
+	aCollection do: [ :b | self privatePrepareBrickAfterAdding: b ].
 	self doLayoutForce
 ]
 
@@ -18,7 +18,7 @@ GLMBrickStructureTrait >> addAllBricks: aCollection [
 GLMBrickStructureTrait >> addBrick: aBrick after: otherBrick [
 	|result|
 	result := self privateAddBrick: aBrick after: otherBrick.
-	aBrick wrappedBounds markWidthDirty; markHeightDirty.
+	self privatePrepareBrickAfterAdding: aBrick.
 	self doLayoutForce.
 	^ result
 ]
@@ -27,7 +27,7 @@ GLMBrickStructureTrait >> addBrick: aBrick after: otherBrick [
 GLMBrickStructureTrait >> addBrick: aBrick before: otherBrick [
 	|result|
 	result := self privateAddBrick: aBrick before: otherBrick.
-	aBrick wrappedBounds markWidthDirty; markHeightDirty.
+	self privatePrepareBrickAfterAdding: aBrick.
 	self doLayoutForce.
 	^ result
 ]
@@ -36,7 +36,7 @@ GLMBrickStructureTrait >> addBrick: aBrick before: otherBrick [
 GLMBrickStructureTrait >> addBrickBack: aBrick [
 	|result|
 	result := self privateAddBrickBack: aBrick.
-	aBrick wrappedBounds markWidthDirty; markHeightDirty.
+	self privatePrepareBrickAfterAdding: aBrick.
 	self doLayoutForce.
 	^ result
 ]
@@ -45,7 +45,7 @@ GLMBrickStructureTrait >> addBrickBack: aBrick [
 GLMBrickStructureTrait >> addBrickFirst: aBrick [
 	|result|
 	result := self privateAddBrickFirst: aBrick.
-	aBrick wrappedBounds markWidthDirty; markHeightDirty.
+	self privatePrepareBrickAfterAdding: aBrick.
 	self doLayoutForce.
 	^ result
 ]
@@ -341,9 +341,31 @@ GLMBrickStructureTrait >> privateAddBrickFirst: aBrick [
 ]
 
 { #category : #'private-structure' }
+GLMBrickStructureTrait >> privateAddIntoWorld: aBrick [
+
+	self world == aBrick world
+		ifFalse: [ self privateRemoveOutWorld: aBrick ].
+	aBrick intoWorld: self world
+	
+]
+
+{ #category : #'private-structure' }
 GLMBrickStructureTrait >> privateOwner: aBrick [
 
 	^ self explicitRequirement
+]
+
+{ #category : #'private-structure' }
+GLMBrickStructureTrait >> privatePrepareBrickAfterAdding: aBrick [
+
+	aBrick wrappedBounds markWidthDirty; markHeightDirty.
+	self privateAddIntoWorld: aBrick
+]
+
+{ #category : #'private-structure' }
+GLMBrickStructureTrait >> privatePrepareBrickAfterRemoving: aBrick [
+
+	self privateRemoveOutWorld: aBrick
 ]
 
 { #category : #'private-structure' }
@@ -385,6 +407,13 @@ GLMBrickStructureTrait >> privateRemoveBrick: aBrick [
 ]
 
 { #category : #'private-structure' }
+GLMBrickStructureTrait >> privateRemoveOutWorld: aBrick [
+
+	aBrick outOfWorld: aBrick world
+	
+]
+
+{ #category : #'private-structure' }
 GLMBrickStructureTrait >> privateSubbricks: aCollection [
 
 	^ self explicitRequirement
@@ -392,8 +421,10 @@ GLMBrickStructureTrait >> privateSubbricks: aCollection [
 
 { #category : #'brick-structure-adding/removing' }
 GLMBrickStructureTrait >> removeAllBricks [
-
+	|copy|
+	copy := self subbricks copy.
 	self privateRemoveAllBricks.
+	copy do: [ :b | self privatePrepareBrickAfterRemoving: b ].
 	self doLayoutForce
 ]
 
@@ -402,6 +433,7 @@ GLMBrickStructureTrait >> removeBrick: aBrick [
 	|result|
 	aBrick ifNil: [ ^ aBrick ].
 	result := self privateRemoveBrick: aBrick.
+	self	privatePrepareBrickAfterRemoving: aBrick.
 	self doLayoutForce.
 	^ result
 ]
