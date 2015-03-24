@@ -513,6 +513,66 @@ ThemeIcons >> glamorousSearch [
 ]
 
 { #category : #'*Glamour-Morphic-Theme' }
+ThemeIcons >> glamorousSmallCriticsErrorIcon [
+	^icons 
+			at: #glamorousSmallCriticsErrorIcon
+			ifAbsentPut:[ Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: self glamorousSmallCriticsErrorIconContents readStream) ].
+]
+
+{ #category : #'*Glamour-Morphic-Theme' }
+ThemeIcons >> glamorousSmallCriticsErrorIconContents [
+	^ 'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAABGdBTUEAALGPC/xhBQAAACBj
+SFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8A
+AAAHdElNRQffAxgKNSxgzyp5AAAAmElEQVQoz32RsQ3CMBREX6TIWSFIqekZw1mGgk2SIeI2
+BXsgOmpcpIkygIWOwkIEYfuufKev/+9DVIPF4QkEPA5Lw04HRja088ZA+8XzD/x4jhHDmMRC
+DBjoWbOBlR5cFgvhKp7H7oT4V8WNh4dwlvRKWLqIUMd0akJUzXLtfAbeYYGpuOQEtnimBcNQ
+LgractUxUnxW8d1vgzaxQkzdgP8AAAAldEVYdGRhdGU6Y3JlYXRlADIwMTUtMDMtMjRUMTA6
+NTM6NDQrMDE6MDBdfUldAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE1LTAzLTI0VDEwOjUzOjQ0
+KzAxOjAwLCDx4QAAAABJRU5ErkJggg=='
+]
+
+{ #category : #'*Glamour-Morphic-Theme' }
+ThemeIcons >> glamorousSmallCriticsInformationIcon [
+	^icons 
+			at: #glamorousSmallCriticsInformationIcon
+			ifAbsentPut:[ Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: self glamorousSmallCriticsInformationIconContents readStream) ].
+]
+
+{ #category : #'*Glamour-Morphic-Theme' }
+ThemeIcons >> glamorousSmallCriticsInformationIconContents [
+	^ 'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAABGdBTUEAALGPC/xhBQAAACBj
+SFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8A
+AAAHdElNRQffAxgKNSxgzyp5AAAA8ElEQVQoz4XRMU4CARSE4W9XEDaEiFoSQmKoPICsFqKJ
+VBzAY1hQU3AOL4C1PRILsfQOaKNGY0FYggkWLhssiNPNvJe8l/kDv4qcOlYwRcnc2L0ZBKDq
+0peRiRKmas7suPEiHfc0BYg9GjtCoKmnCkVdcXqoa2npKnWxruKWC9tu0+jdrifXPsGzQ/v0
+NcherauLMt/QD+VNsqBjaKiT+Yl8zsw8C8oOUM783Cz0j0KRwsZpQRRaqG1cqFmExlobF1rG
+oZFKVtRfxSpGocRAO6068epNklbdNpCsw7oztYcPJecrWMEa7hO5FPe3hxXuH3foO3VOhyRa
+AAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE1LTAzLTI0VDEwOjUzOjQ0KzAxOjAwXX1JXQAAACV0
+RVh0ZGF0ZTptb2RpZnkAMjAxNS0wMy0yNFQxMDo1Mzo0NCswMTowMCwg8eEAAAAASUVORK5C
+YII='
+]
+
+{ #category : #'*Glamour-Morphic-Theme' }
+ThemeIcons >> glamorousSmallCriticsWarningIcon [
+	^icons 
+			at: #glamorousSmallCriticsWarningIcon
+			ifAbsentPut:[ Form fromBinaryStream: (Base64MimeConverter mimeDecodeToBytes: self glamorousSmallCriticsWarningIconContents readStream) ].
+]
+
+{ #category : #'*Glamour-Morphic-Theme' }
+ThemeIcons >> glamorousSmallCriticsWarningIconContents [
+	^ 'iVBORw0KGgoAAAANSUhEUgAAABAAAAAOCAQAAACMJlQBAAAABGdBTUEAALGPC/xhBQAAACBj
+SFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8A
+AAAHdElNRQffAxgKNS0XyBrvAAAA2ElEQVQY023OO2oCARgE4M/EB6ggeAIL7a0EEWJlpbWt
+pZ17ENtE0C4nsBIbt/EE1oq1yNYpfJEU2Zglcf5mmJmfGZKo29urJ6WnBM8KXFwEsh6iK9LX
+F+k+ssvW5nJy5tbK/wMjB00VFU0Ho7921c5YwdJSwdhONTkyLXD16iwr6+zNVSD9+992NART
+UzB01P6xixZWSqCnB0pWForfgYFIJy5sacW1HZEBVGzMZEBeKJQHGTMbFSa2avc1DY07r9ma
+pHxYe/cZizc8xzxl4IXQydXt4Z2EX5MsQT079IEUAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE1
+LTAzLTI0VDEwOjUzOjQ1KzAxOjAw+wpC6QAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxNS0wMy0y
+NFQxMDo1Mzo0NSswMTowMIpX+lUAAAAASUVORK5CYII='
+]
+
+{ #category : #'*Glamour-Morphic-Theme' }
 ThemeIcons >> glamorousSpawn [
 ^ self icons
 		at: #glamorousSpawn ifAbsentPut: [(Form
