@@ -196,8 +196,8 @@ GLMInteractableBrick >> checkedImage: anObject [
 ]
 
 { #category : #'brick-interactable-actions' }
-GLMInteractableBrick >> click: evt [
-	self announce: #onClicked.
+GLMInteractableBrick >> click: anEvent [
+	self announce: #onClicked event: anEvent.
 	^ false
 ]
 
@@ -241,9 +241,9 @@ GLMInteractableBrick >> disable [
 ]
 
 { #category : #'brick-interactable-actions' }
-GLMInteractableBrick >> doubleClick: evt [
+GLMInteractableBrick >> doubleClick: anEvent [
 
-	self announce: #onDoubleClicked.
+	self announce: #onDoubleClicked event: anEvent.
 	^ false
 ]
 
@@ -337,7 +337,7 @@ GLMInteractableBrick >> mouseDown: evt [
 	selectors := Array
 				with: #click:
 				with: #doubleClick:
-				with: nil
+				with: #singleClick:
 				with: nil.
 				
 	evt hand
@@ -454,6 +454,12 @@ GLMInteractableBrick >> selectedImage [
 { #category : #'brick-interactable-accessing' }
 GLMInteractableBrick >> selectedImage: anObject [
 	selectedImage := anObject
+]
+
+{ #category : #'brick-interactable-actions' }
+GLMInteractableBrick >> singleClick: anEvent [
+
+	self announce: #onSingleClicked event: anEvent
 ]
 
 { #category : #'brick-interactable-accessing' }

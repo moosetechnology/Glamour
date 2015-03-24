@@ -14,6 +14,16 @@ GLMBrickPropertiesTrait >> announce: anAnnouncement [
 	self announcer announce: anAnnouncement
 ]
 
+{ #category : #'brick-properties-events' }
+GLMBrickPropertiesTrait >> announce: aSymbol event: anEvent [
+
+	self announcer subscriptions subscriptionsDo: [ :each |
+		each announcementClass = aSymbol ifTrue: [
+			(each handlesAnnouncement: aSymbol ) ifTrue: [
+				[ each action cull: anEvent cull: self ] 
+					on: UnhandledError fork: [:ex | ex pass ] ] ] ]
+]
+
 { #category : #'brick-properties' }
 GLMBrickPropertiesTrait >> announcer [
 
