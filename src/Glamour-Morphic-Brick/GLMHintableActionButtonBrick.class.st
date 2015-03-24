@@ -24,8 +24,7 @@ GLMHintableActionButtonBrick class >> asyncTaskUniqueInstance [
 GLMHintableActionButtonBrick class >> cleanUp [
 
 	self closeHint.
-	asyncTask := nil.
-	hintBrick := nil.
+	self reset.
 ]
 
 { #category : #actions }
@@ -54,6 +53,13 @@ GLMHintableActionButtonBrick class >> openHint: aHintString title: aTitleString 
 	hintBrick := brick
 		
 	
+]
+
+{ #category : #actions }
+GLMHintableActionButtonBrick class >> reset [
+
+	asyncTask := nil.
+	hintBrick := nil.
 ]
 
 { #category : #initialization }
@@ -94,6 +100,7 @@ GLMHintableActionButtonBrick >> click: evt [
 	|result|
 	result := super click: evt.
 	self class asyncTaskUniqueInstance terminate.
+	self class reset.
 	^ result
 ]
 
@@ -151,7 +158,9 @@ GLMHintableActionButtonBrick >> initialize [
 	self unhoverAction: [ :aBrick :anEvent |
 		self class asyncTaskUniqueInstance terminate.
 		(aBrick globalBounds containsPoint: anEvent position)
-			ifFalse: [ self class closeHint ] ]
+			ifFalse: [ self class 
+				closeHint;
+				reset ] ]
 ]
 
 { #category : #testing }
@@ -170,5 +179,6 @@ GLMHintableActionButtonBrick >> isModifierPressed: anEvent [
 GLMHintableActionButtonBrick >> press [
 	super press.
 	
-	self class asyncTaskUniqueInstance terminate
+	self class asyncTaskUniqueInstance terminate.
+	self class reset.
 ]
