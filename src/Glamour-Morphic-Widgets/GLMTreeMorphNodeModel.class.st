@@ -136,6 +136,15 @@ GLMTreeMorphNodeModel >> menu: aMenuMorph shifted: b [
 	^ aMenuMorph
 ]
 
+{ #category : #callbacks }
+GLMTreeMorphNodeModel >> modified: aGlamourColumn with: aText [
+
+	aGlamourColumn modifiedBlock
+		cull: aText
+		cull: self item
+		cull: self containerTree glamourPresentation
+]
+
 { #category : #accessing }
 GLMTreeMorphNodeModel >> parentNode [
 	^ parentNode
@@ -189,17 +198,19 @@ GLMTreeMorphNodeModel >> rowMorphForColumn: aGlamourColumn [
 			column: aGlamourColumn
 			valueFor: self item) asMorph asReadOnlyMorph ]
 		ifNotNil: [
-			contentMorph := self textFieldMorphFor: nil.
-			contentMorph setText: (
-				self containerTree glamourPresentation 
-					column: aGlamourColumn 
-					valueFor: self item) asString.
-			contentMorph hResizing: #rigid.
-			contentMorph width: contentMorph textArea width.
-			contentMorph textArea doubleClickAction: [ self containerTree forceStopStepping ].
-			contentMorph announcer when: RubReturnEntered do: [ :ann |
-				 aGlamourColumn modifiedBlock cull: contentMorph text cull: self item cull: self containerTree glamourPresentation.
-				self containerTree resetStopStepping ] ].
+			contentMorph := GLMEditableLabelBrick new
+				cancelOnEscape;
+				cancelOnFocusLost;
+				text: (self valueFor: aGlamourColumn);
+				minWidth: 100;
+				maxWidth: 240;
+				when: #onSingleClicked do: [ :evt :brick | brick isReadMode ifTrue: [ self selectItem ] ];
+				when: #onAccepted do: [ self modified: aGlamourColumn with: contentMorph text ];
+				yourself.
+			
+			contentMorph := contentMorph asMorph
+				hShrinkWrap;
+				vShrinkWrap ].
 	
 	tagMorphs := self tagMorphsFrom: aGlamourColumn.
 	tagMorphs ifEmpty: [ ^ contentMorph ].
@@ -209,6 +220,12 @@ GLMTreeMorphNodeModel >> rowMorphForColumn: aGlamourColumn [
 		addAll: tagMorphs;
 		yourself.			
 	^ (UITheme current newRowIn: World for: rowElements)
+]
+
+{ #category : #actions }
+GLMTreeMorphNodeModel >> selectItem [
+
+	self containerTree explicitlySelectItem: self item
 ]
 
 { #category : #testing }
@@ -260,28 +277,16 @@ GLMTreeMorphNodeModel >> textBackgroundColor [
 ]
 
 { #category : #callbacks }
-GLMTreeMorphNodeModel >> textFieldMorphFor: textModel [
-	|morph|
-	
-	morph := GLMRubricTextFieldMorph new
-		"getSelectionSelector: #primarySelectionInterval;"
-		"model: textModel;"
-		"color: Smalltalk ui theme backgroundColor;"
-		color: Color transparent;
-		editingMode: RubPlainTextMode new;
-		textFont: StandardFonts defaultFont;
-		yourself.
-		
-	self flag: 'Temporary solution until Moose moves to Pharo 4'.
-	(Smalltalk ui theme class canPerform: #textColor) ifTrue: [ 
-		morph textColor: Smalltalk ui theme  textColor ].
-	
-	^ morph
-]
-
-{ #category : #callbacks }
 GLMTreeMorphNodeModel >> toggleFilteringByTag: aTag [ 
 	self containerTree toggleFilteringByTag: aTag
+]
+
+{ #category : #accessing }
+GLMTreeMorphNodeModel >> valueFor: aGlamourColumn [
+
+	^ self containerTree glamourPresentation 
+			column: aGlamourColumn
+			valueFor: self item
 ]
 
 { #category : #enumerating }
