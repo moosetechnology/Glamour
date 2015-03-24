@@ -361,6 +361,14 @@ GLMBrickGeometryTrait >> translateYTo: anInteger [
 ]
 
 { #category : #'private-geometry' }
+GLMBrickGeometryTrait >> updateFoundationBounds [
+
+	self owner ifNotNil: [ :o | o isFoundationBrick ifTrue: [ 
+		self doNotLayoutDuring: [
+			(o isVShrinking | o isHShrinking) ifTrue: [ o privateExtent: self outerBounds extent ] ] ] ]
+]
+
+{ #category : #'private-geometry' }
 GLMBrickGeometryTrait >> updateHeight [
 	"no need to care about height, when it's logic is not customized"
 	self isHeightCustom ifFalse: [ ^ self ].

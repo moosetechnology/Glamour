@@ -153,6 +153,12 @@ GLMBrickStructureTrait >> isFirstInOwner [
 ]
 
 { #category : #'brick-structure-testing' }
+GLMBrickStructureTrait >> isFoundationBrick [
+
+	^ false
+]
+
+{ #category : #'brick-structure-testing' }
 GLMBrickStructureTrait >> isLastInOwner [
 
 	^ self brickDoubleLink

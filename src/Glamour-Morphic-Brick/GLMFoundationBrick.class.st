@@ -90,8 +90,8 @@ GLMFoundationBrick >> extent: aPoint [
 	right := self extent x - self brickRoot marginRight.
 	bottom := self extent y - self brickRoot marginBottom.
 	
-	self brickRoot width: right - left.
-	self brickRoot height: bottom - top.
+	self isHFilling ifTrue: [ self brickRoot width: right - left ].
+	self isVFilling ifTrue: [ self brickRoot height: bottom - top ].
 	self brickRoot wrappedBounds bounds: (left@top corner: (right@bottom)).
 	
 	self brickRoot doLayoutForce
@@ -124,13 +124,15 @@ GLMFoundationBrick >> hShrinkWrap [
 { #category : #'brick-layout-properties' }
 GLMFoundationBrick >> hSpaceFill [
 
-	self brickRoot hSpaceFill.
-	hResizing:= #spaceFill.
+	hResizing:= #spaceFill
 ]
 
 { #category : #initialization }
 GLMFoundationBrick >> initialize [
 	super initialize.
+	
+	vResizing := #spaceFill.
+	hResizing := #spaceFill.
 	
 	self
 		beTransparent;
@@ -144,9 +146,27 @@ GLMFoundationBrick >> isFocused [
 ]
 
 { #category : #testing }
+GLMFoundationBrick >> isFoundationBrick [
+
+	^ true
+]
+
+{ #category : #testing }
+GLMFoundationBrick >> isHFilling [
+
+	^ hResizing = #spaceFill
+]
+
+{ #category : #testing }
 GLMFoundationBrick >> isHShrinking [
 
 	^ hResizing = #shrinkWrap
+]
+
+{ #category : #testing }
+GLMFoundationBrick >> isVFilling [
+
+	^ vResizing = #spaceFill
 ]
 
 { #category : #testing }
@@ -212,6 +232,5 @@ GLMFoundationBrick >> vShrinkWrap [
 { #category : #'brick-layout-properties' }
 GLMFoundationBrick >> vSpaceFill [
 
-	self brickRoot vSpaceFill.
-	vResizing:= #spaceFill.
+	vResizing:= #spaceFill
 ]
