@@ -7,6 +7,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Utils'
 }
 
+{ #category : #cleanup }
+GLMBrickWidthTraverser class >> cleanUp [
+
+	uniqueInstance := nil
+]
+
 { #category : #accessing }
 GLMBrickWidthTraverser class >> uniqueInstance [
 	^ uniqueInstance ifNil: [ uniqueInstance := self new ]

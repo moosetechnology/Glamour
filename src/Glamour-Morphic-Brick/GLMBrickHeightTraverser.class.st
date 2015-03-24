@@ -7,6 +7,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Utils'
 }
 
+{ #category : #cleanup }
+GLMBrickHeightTraverser class >> cleanUp [
+
+	uniqueInstance := nil
+]
+
 { #category : #accessing }
 GLMBrickHeightTraverser class >> uniqueInstance [
 	^ uniqueInstance ifNil: [ uniqueInstance := self new ]

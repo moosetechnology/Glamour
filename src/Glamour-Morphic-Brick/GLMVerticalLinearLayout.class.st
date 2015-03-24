@@ -7,6 +7,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
+{ #category : #cleanup }
+GLMVerticalLinearLayout class >> cleanUp [
+
+	self reset
+]
+
 { #category : #accessing }
 GLMVerticalLinearLayout class >> reset [
 	"

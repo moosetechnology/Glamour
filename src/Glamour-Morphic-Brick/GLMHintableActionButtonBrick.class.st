@@ -20,7 +20,7 @@ GLMHintableActionButtonBrick class >> asyncTaskUniqueInstance [
 	^ asyncTask ifNil: [ asyncTask := GLMAsyncTask new ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #cleanup }
 GLMHintableActionButtonBrick class >> cleanUp [
 
 	self closeHint.
@@ -34,7 +34,7 @@ GLMHintableActionButtonBrick class >> closeHint [
 	self hintBrickUniqueInstance ifNotNil: #close
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMHintableActionButtonBrick class >> hintBrickUniqueInstance [
 
 	^ hintBrick

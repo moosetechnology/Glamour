@@ -7,6 +7,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
 
+{ #category : #cleanup }
+GLMHorizontalLinearLayout class >> cleanUp [
+
+	self reset
+]
+
 { #category : #accessing }
 GLMHorizontalLinearLayout class >> reset [
 	"
