@@ -91,6 +91,7 @@ GLMEditableLabelBrick >> approximateWidth [
 { #category : #'label-brick-actions' }
 GLMEditableLabelBrick >> beEdit [
 
+	self isEditMode ifTrue: [ ^ self ].
 	self editBrick updateTextWith: self labelBrick text.
 	self editBrick moveCursorToIndex: self labelBrick text size + 1.
 
@@ -98,6 +99,7 @@ GLMEditableLabelBrick >> beEdit [
 	self removeBrick: self labelBrick.
 	self borderColor: (self themer focusedBorderColor alpha: 0).
 	self editBrick rubric takeKeyboardFocus.
+	self announce: #onEditMode
 ]
 
 { #category : #'label-brick-actions' }
@@ -108,7 +110,7 @@ GLMEditableLabelBrick >> beNormal [
 	self removeBrick: self editBrick.
 	self activeHand releaseKeyboardFocus.
 	self addBrickBack: self labelBrick.
-	self announce: #o
+	self announce: #onReadMode
 ]
 
 { #category : #'label-brick-accessing' }
