@@ -30,6 +30,22 @@ GLMMorphicWidgetRenderer >> installKeystrokeActionsOnMorph: aMorph fromPresentat
 ]
 
 { #category : #private }
+GLMMorphicWidgetRenderer >> labelActionBrickFor: aPresentation [
+	
+	 ^ aPresentation titleAction 
+		ifNil: [ nil ]
+		ifNotNil: [ :labelAction |
+			((labelAction isAvailableOn: aPresentation) and: [ labelAction hasIcon ])
+				ifTrue: [
+					GLMActionButtonBrick new
+						icon: labelAction icon;
+						setBalloonText: labelAction title;
+						action: [ labelAction actOn: aPresentation ] ]
+				ifFalse: [ nil ] ]
+	
+]
+
+{ #category : #private }
 GLMMorphicWidgetRenderer >> labelActionMorphFor: aPresentation [
 	
 	 ^ aPresentation titleAction 
@@ -40,22 +56,6 @@ GLMMorphicWidgetRenderer >> labelActionMorphFor: aPresentation [
 					MultistateButtonMorph new
 						extent: labelAction icon extent;
 						activeEnabledOverUpFillStyle: (ImageFillStyle form: labelAction icon);
-						setBalloonText: labelAction title;
-						addUpAction: [ labelAction actOn: aPresentation ] ]
-				ifFalse: [ nil ] ]
-	
-]
-
-{ #category : #private }
-GLMMorphicWidgetRenderer >> labelActionTrickFor: aPresentation [
-	
-	 ^ aPresentation titleAction 
-		ifNil: [ nil ]
-		ifNotNil: [ :labelAction |
-			((labelAction isAvailableOn: aPresentation) and: [ labelAction hasIcon ])
-				ifTrue: [
-					GLMActionButtonBrick new
-						icon: labelAction icon;
 						setBalloonText: labelAction title;
 						addUpAction: [ labelAction actOn: aPresentation ] ]
 				ifFalse: [ nil ] ]
@@ -114,7 +114,7 @@ GLMMorphicWidgetRenderer >> morph: aMorph withTitleOf: aPresentation [
 		addLazyPage: [aMorph]
 		label: (self titleOrIconOf: aPresentation in: tabs)
 		toolbar: (self renderToolbarForPresentation: aPresentation inMorph: aMorph)
-		action: (self labelActionTrickFor: aPresentation).
+		action: (self labelActionBrickFor: aPresentation).
 	tabs selectedPageIndex: 1.
 	^ tabs
 ]
@@ -231,6 +231,7 @@ GLMMorphicWidgetRenderer >> titleOrIconOf: aPresentation in: container [
 			image := GLMInteractableBrick new
 						normalImage: aPresentation titleIconValue.
 			image maxWidth: [ aPresentation titleIconValue width * 2 ].
+			image hSpaceFill.
 			image vSpaceFill.
 			aPresentation titleValue ifNotNil: [
 				image setBalloonText: aPresentation titleValue maxLineLength: 100 ].

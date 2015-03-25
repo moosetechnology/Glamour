@@ -5,6 +5,13 @@ Class {
 }
 
 { #category : #callbacks }
+GLMMorphicPharoPlaygroundRenderer >> actOnVariableBindingsAccessRequest: ann [ 
+
+	ann action ifNotNil: [ :aBlock |
+		aBlock cull: textModel variableBindings ]
+]
+
+{ #category : #callbacks }
 GLMMorphicPharoPlaygroundRenderer >> actOnVariableBindingsUpdated: ann [ 
 
 	textModel variableBindings: nil.
@@ -36,7 +43,10 @@ GLMMorphicPharoPlaygroundRenderer >> morph [
 GLMMorphicPharoPlaygroundRenderer >> registerEventsForPresentation: aPresentation [
 
 	super registerEventsForPresentation: aPresentation.
+	
 	aPresentation on: GLMVariableBindingsChanged send: #actOnVariableBindingsUpdated: to: self.
+	aPresentation on: GLMVariableBindingsAccessRequest send: #actOnVariableBindingsAccessRequest: to: self.
+	
 ]
 
 { #category : #private }
