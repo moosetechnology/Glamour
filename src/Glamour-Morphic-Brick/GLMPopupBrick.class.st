@@ -51,13 +51,6 @@ GLMPopupBrick class >> exampleAllTypesOpen [
 	self exampleAllTypes openCenteredInBrickWindowLabeled: 'All Popup Types'
 ]
 
-{ #category : #opening }
-GLMPopupBrick >> addContentBricks [
-	self titleBrick: self newTitleBrick.
-	self hintBrick: self newHintBrick.
-
-]
-
 { #category : #'events-processing' }
 GLMPopupBrick >> handleListenEvent: anEvent [
 	(self isInsideOfTriggerBrick: anEvent) ifFalse: [ self close ]
@@ -109,6 +102,13 @@ GLMPopupBrick >> newTitleBrick [
 		padding: #(0 10);
 		width: [ :b | b approximateWidth ];
 		height: [ :b | b approximateHeight ]
+]
+
+{ #category : #'events-processing' }
+GLMPopupBrick >> onCreated [
+	self titleBrick: self newTitleBrick.
+	self hintBrick: self newHintBrick.
+
 ]
 
 { #category : #accessing }

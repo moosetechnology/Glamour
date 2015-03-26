@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'anchorBrick',
 		'triggerBrick',
-		'contentBrick'
+		'contentBrick',
+		'contentLogic'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-UI'
 }
@@ -23,6 +24,9 @@ GLMEmptyPopupBrick class >> createButton: hoverAction [
 { #category : #accessing }
 GLMEmptyPopupBrick >> addContentBricks [
 	
+	self onCreated.
+	contentLogic brickValue: self withEnoughArguments: { self triggerBrick }.
+	self announce: #onCreated event: self triggerBrick
 ]
 
 { #category : #accessing }
@@ -164,6 +168,18 @@ GLMEmptyPopupBrick >> newTriggerBrick [
 			ifNotNil: [ self anchorBrick brickTransparentImageForm ]);
 		width: [ :b | b icon width ];
 		height: [ :b | b icon height ]
+]
+
+{ #category : #'events-processing' }
+GLMEmptyPopupBrick >> onCreated [
+
+	
+]
+
+{ #category : #initialization }
+GLMEmptyPopupBrick >> onCreated: aBlock [
+
+	contentLogic := aBlock
 ]
 
 { #category : #opening }

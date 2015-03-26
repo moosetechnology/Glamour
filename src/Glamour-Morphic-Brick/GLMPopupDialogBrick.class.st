@@ -22,12 +22,6 @@ GLMPopupDialogBrick >> addContentBrick: aBrick [
 	^ self contentBricks addLast: aBrick
 ]
 
-{ #category : #accessing }
-GLMPopupDialogBrick >> addContentBricks [
-	self contentBricks do: [ :eachBrick |
-		self contentBrick addBrickBack: eachBrick ]
-]
-
 { #category : #adding }
 GLMPopupDialogBrick >> addText: aTextOrString [
 	^ self addContentBrick: (GLMLabelBrick new text: aTextOrString; yourself)
@@ -36,4 +30,10 @@ GLMPopupDialogBrick >> addText: aTextOrString [
 { #category : #accessing }
 GLMPopupDialogBrick >> contentBricks [
 	^ contentBricks ifNil: [ contentBricks := OrderedCollection new ]
+]
+
+{ #category : #'events-processing' }
+GLMPopupDialogBrick >> onCreated [
+	self contentBricks do: [ :eachBrick |
+		self contentBrick addBrickBack: eachBrick ]
 ]
