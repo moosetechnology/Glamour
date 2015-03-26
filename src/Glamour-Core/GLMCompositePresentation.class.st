@@ -13,7 +13,7 @@ Class {
 
 { #category : #examples }
 GLMCompositePresentation class >> exampleCompositePresentation [
-	<example>
+	<gtExample>
 
 	^ self new
 		list;
