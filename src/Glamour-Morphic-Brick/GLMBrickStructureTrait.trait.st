@@ -248,8 +248,10 @@ GLMBrickStructureTrait >> ownerThatIsA: aClass [
 
 { #category : #'private-structure' }
 GLMBrickStructureTrait >> privateAddAllBricks: aCollection [
-
-	aCollection do: [ :each | self privateAddBrickBack: each ]
+	|bricks|
+	bricks := aCollection collect: #asBrick.
+	bricks do: [ :each | self privateAddBrickLinkBack: each ].
+	self privateSubbricks: (self subbricks, bricks).
 ]
 
 { #category : #'private-structure' }
@@ -304,19 +306,11 @@ GLMBrickStructureTrait >> privateAddBrick: aBrick before: otherBrick [
 
 { #category : #'private-structure' }
 GLMBrickStructureTrait >> privateAddBrickBack: aBrick [
-	|link brick|
+	|brick|
 	
 	brick := aBrick asBrick.
-	link := brick asDoubleLink.
-	brick brickDoubleLink: link.
-	
-	self hasSubbricks ifTrue: [
-		self lastSubbrick brickDoubleLink nextLink: link.	
-		link previousLink: self lastSubbrick brickDoubleLink.
-	].
-	
+	self privateAddBrickLinkBack: brick.
 	self privateSubbricks: (self subbricks copyWith: brick).
-	brick owner: self.
 	
 	^ aBrick
 ]
@@ -338,6 +332,23 @@ GLMBrickStructureTrait >> privateAddBrickFirst: aBrick [
 	head ifNotNil: [ head previousLink: link ].
 	
 	self privateSubbricks: (self subbricks copyWithFirst: brick).
+	brick owner: self.
+	
+	^ aBrick
+]
+
+{ #category : #'private-structure' }
+GLMBrickStructureTrait >> privateAddBrickLinkBack: aBrick [
+	|link brick|
+	
+	brick := aBrick asBrick.
+	link := brick asDoubleLink.
+	brick brickDoubleLink: link.
+	
+	self hasSubbricks ifTrue: [
+		self lastSubbrick brickDoubleLink nextLink: link.	
+		link previousLink: self lastSubbrick brickDoubleLink ].
+	
 	brick owner: self.
 	
 	^ aBrick
