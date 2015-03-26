@@ -28,7 +28,8 @@ Class {
 		'dropOnItemBlock',
 		'allowDropOnItemBlock',
 		'allowItemDragBlock',
-		'transformDraggedItemBlock'
+		'transformDraggedItemBlock',
+		'allowExplicitSelectionChange'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -57,6 +58,16 @@ GLMListingPresentation >> allowDropOnItem: aBlock [
 { #category : #accessing }
 GLMListingPresentation >> allowDropOnItemBlock [
 	^ allowDropOnItemBlock
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> allowExplicitSelectionChange [
+	^ allowExplicitSelectionChange ifNil: [allowExplicitSelectionChange := true]
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> allowExplicitSelectionChange: aBoolean [
+	allowExplicitSelectionChange := aBoolean
 ]
 
 { #category : #scripting }
