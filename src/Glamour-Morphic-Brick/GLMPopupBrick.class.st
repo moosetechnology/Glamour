@@ -12,7 +12,7 @@ Class {
 
 { #category : #examples }
 GLMPopupBrick class >> exampleAllTypes [
-	<example: 'Example of all popup types'>
+	<gtExample: 'Example of all popup types'>
 
 	^ GLMBrick new
 		hShrinkWrap;
@@ -27,7 +27,7 @@ GLMPopupBrick class >> exampleAllTypes [
 
 { #category : #examples }
 GLMPopupBrick class >> exampleAllTypesBelow [
-	<example: 'Example of all popup types opening below of anchor brick'>
+	<gtExample: 'Example of all popup types opening below of anchor brick'>
 
 	^ GLMBrick new
 		hShrinkWrap;

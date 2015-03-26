@@ -24,7 +24,7 @@ Class {
 
 { #category : #examples }
 GLMButtonBrick class >> example [
-	<example: 'Simple button'>
+	<gtExample: 'Simple button'>
 	^ self new
 ]
 

@@ -26,7 +26,7 @@ Class {
 
 { #category : #examples }
 GLMRubTextFieldBrick class >> example [
-	<example: 'Rubric text field that shrinks to fit height and width of the text'>
+	<gtExample: 'Rubric text field that shrinks to fit height and width of the text'>
 	
 	^ self exampleWithBorder
 			setTextWith: 'Hello world!';
@@ -35,7 +35,7 @@ GLMRubTextFieldBrick class >> example [
 
 { #category : #examples }
 GLMRubTextFieldBrick class >> exampleFullSpaceFill [
-	<example: 'Rubric centered text field that fills parent'>
+	<gtExample: 'Rubric centered text field that fills parent'>
 	
 	^ self exampleWithBorder
 			hSpaceFill;
@@ -46,7 +46,7 @@ GLMRubTextFieldBrick class >> exampleFullSpaceFill [
 
 { #category : #examples }
 GLMRubTextFieldBrick class >> exampleFullSpaceFillCentered [
-	<example: 'Rubric centered text field that fills parent'>
+	<gtExample: 'Rubric centered text field that fills parent'>
 	^ self exampleWithBorder
 			hSpaceFill;
 			vSpaceFill;
@@ -69,7 +69,7 @@ GLMRubTextFieldBrick class >> exampleFullSpaceFillOpen [
 
 { #category : #examples }
 GLMRubTextFieldBrick class >> exampleHSpaceFill [
-	<example: 'Rubric text field that shrinks to fit height of the text and fills parent width'>
+	<gtExample: 'Rubric text field that shrinks to fit height of the text and fills parent width'>
 	
 	^ self exampleWithBorder
 			hSpaceFill;
@@ -91,7 +91,7 @@ GLMRubTextFieldBrick class >> exampleOpen [
 
 { #category : #examples }
 GLMRubTextFieldBrick class >> exampleVSpaceFill [
-	<example: 'Rubric text field that shrinks to fit width of the text and fills parent height'>
+	<gtExample: 'Rubric text field that shrinks to fit width of the text and fills parent height'>
 	
 	^ self exampleWithBorder
 			vSpaceFill;
@@ -101,7 +101,7 @@ GLMRubTextFieldBrick class >> exampleVSpaceFill [
 
 { #category : #examples }
 GLMRubTextFieldBrick class >> exampleVSpaceFillCentered [
-	<example: 'Rubric centered text field that shrinks to fit width of the text and fills parent height'>
+	<gtExample: 'Rubric centered text field that shrinks to fit width of the text and fills parent height'>
 	
 	^ self exampleWithBorder
 			vSpaceFill;
@@ -124,7 +124,7 @@ GLMRubTextFieldBrick class >> exampleVSpaceFillOpen [
 
 { #category : #examples }
 GLMRubTextFieldBrick class >> exampleWithBorder [
-	<example: 'Rubric field with support of border'>
+	<gtExample: 'Rubric field with support of border'>
 	
 	^ self new
 			padding: 20;

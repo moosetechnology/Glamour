@@ -17,7 +17,7 @@ GLMAlertBrick class >> alert: anObject [
 
 { #category : #examples }
 GLMAlertBrick class >> example [
-	<example: 'Simple alert window displaying a message'>
+	<gtExample: 'Simple alert window displaying a message'>
 	^ self new alertOn: 'Hello world!'
 	
 ]

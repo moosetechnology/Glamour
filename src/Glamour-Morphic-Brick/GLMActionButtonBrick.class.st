@@ -37,7 +37,7 @@ Class {
 
 { #category : #examples }
 GLMActionButtonBrick class >> example [
-	<example: 'Action button with icon and dynamic background color'>
+	<gtExample: 'Action button with icon and dynamic background color'>
 	
 	^ self new
 			action: [ :b | b gtDisplayString logCr ];

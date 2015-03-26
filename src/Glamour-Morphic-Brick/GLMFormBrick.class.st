@@ -10,7 +10,7 @@ Class {
 
 { #category : #examples }
 GLMFormBrick class >> example [
-	<example: 'Input form with title, two labels, four checkboxes, text and submit button'>
+	<gtExample: 'Input form with title, two labels, four checkboxes, text and submit button'>
 	^ self new
 		title: [ :t | t
 			text: 'Grüezi' ];

@@ -14,7 +14,7 @@ Class {
 
 { #category : #examples }
 GLMRubEditingAreaBrick class >> example [
-	<example: 'Basic Rubric Editing Area'>
+	<gtExample: 'Basic Rubric Editing Area'>
 	^ self exampleBasic
 		updateTextWith: 'Hello world!';
 		yourself
@@ -22,7 +22,7 @@ GLMRubEditingAreaBrick class >> example [
 
 { #category : #examples }
 GLMRubEditingAreaBrick class >> exampleBand [
-	<example: 'Two rubric text areas in band'>
+	<gtExample: 'Two rubric text areas in band'>
 	
 	^ GLMBandBrick new
 		padding: #(20 20);
@@ -41,7 +41,7 @@ GLMRubEditingAreaBrick class >> exampleBandOpen [
 
 { #category : #examples }
 GLMRubEditingAreaBrick class >> exampleBasic [
-	<example: 'Basic Rubric Editing Area with padding and border'>
+	<gtExample: 'Basic Rubric Editing Area with padding and border'>
 	^ self new
 		padding: 20;
 		borderWidth: 20;
@@ -51,7 +51,7 @@ GLMRubEditingAreaBrick class >> exampleBasic [
 
 { #category : #examples }
 GLMRubEditingAreaBrick class >> exampleFill [
-	<example: 'Basic Rubric Editing Area that fills parent'>
+	<gtExample: 'Basic Rubric Editing Area that fills parent'>
 	^ self exampleBasic
 		vSpaceFill;
 		updateTextWith: 'Hello world!';
@@ -72,7 +72,7 @@ GLMRubEditingAreaBrick class >> exampleOpen [
 
 { #category : #examples }
 GLMRubEditingAreaBrick class >> exampleScrollPane [
-	<example: 'Multiple rubric text areas in scroll pane'>
+	<gtExample: 'Multiple rubric text areas in scroll pane'>
 	
 	^ GLMScrollPaneBrick new
 		hSpaceFill;

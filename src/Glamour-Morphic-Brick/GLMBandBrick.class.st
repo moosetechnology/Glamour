@@ -10,7 +10,7 @@ Class {
 
 { #category : #examples }
 GLMBandBrick class >> example [
-	<example: 'Example with subbricks'>
+	<gtExample: 'Example with subbricks'>
 	
 	^ self new
 		hSpaceFill;
