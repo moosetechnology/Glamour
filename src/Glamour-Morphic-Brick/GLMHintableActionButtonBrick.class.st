@@ -30,6 +30,7 @@ GLMHintableActionButtonBrick class >> cleanUp [
 { #category : #actions }
 GLMHintableActionButtonBrick class >> closeHint [
 
+	self asyncTaskUniqueInstance ifNotNil: #terminate.
 	self hintBrickUniqueInstance ifNotNil: #close
 ]
 
@@ -58,6 +59,7 @@ GLMHintableActionButtonBrick class >> openHint: aHintString title: aTitleString 
 { #category : #actions }
 GLMHintableActionButtonBrick class >> reset [
 
+	self closeHint.
 	asyncTask := nil.
 	hintBrick := nil.
 ]
