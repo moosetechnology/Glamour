@@ -206,8 +206,11 @@ GLMBrickStructureTrait >> openInBrickWindow [
 
 { #category : #'brick-structure-opening' }
 GLMBrickStructureTrait >> openInBrickWindowLabeled: aLabel [
-
-	^ GLMSystemWindowBrick new
+	
+	#GLMSystemWindowBrick asClassIfAbsent: [ 
+		^ self asMorph openInWindow ].
+	
+	^ #GLMSystemWindowBrick asClass new
 		label: aLabel;
 		color: Color transparent;
 		addBrickBack: (
