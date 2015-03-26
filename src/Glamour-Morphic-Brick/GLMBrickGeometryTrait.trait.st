@@ -300,6 +300,12 @@ GLMBrickGeometryTrait >> paddingTop: anObject [
 	self wrappedBounds paddingTop: anObject
 ]
 
+{ #category : #'brick-geometry-transformations' }
+GLMBrickGeometryTrait >> position: aPoint [
+
+	self translateBy: (aPoint asNonFractionalPoint - self brickBounds topLeft)
+]
+
 { #category : #'private-geometry' }
 GLMBrickGeometryTrait >> privateBounds: aRectangle [
 	
