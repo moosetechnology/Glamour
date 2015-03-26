@@ -1,6 +1,12 @@
 Extension { #name : #RubScrolledTextMorph }
 
 { #category : #'*Glamour-Morphic-Brick' }
+RubScrolledTextMorph >> cursor [
+	"polymorphism with text area"
+	^ self textArea cursor
+]
+
+{ #category : #'*Glamour-Morphic-Brick' }
 RubScrolledTextMorph >> font: aFont [
 	"polymorphism with text area"
 	self textFont: aFont

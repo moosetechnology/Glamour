@@ -25,6 +25,12 @@ GLMBrickRubricStyle >> rubricBorderWidth [
 ]
 
 { #category : #'brick-rubric' }
+GLMBrickRubricStyle >> rubricCursorColor [
+
+	^ self rubricTextColor
+]
+
+{ #category : #'brick-rubric' }
 GLMBrickRubricStyle >> rubricTextBackgroundColor [
 
 	^ Color transparent

@@ -141,6 +141,19 @@ GLMRubScrolledTextBrick >> rubricBorderWidth: aColor [
 ]
 
 { #category : #'brick-properties' }
+GLMRubScrolledTextBrick >> rubricCursorColor [
+
+	^ self valueOfProperty: #brickRubricCursorColor ifAbsent: [ self themer rubricCursorColor ]
+]
+
+{ #category : #'brick-properties' }
+GLMRubScrolledTextBrick >> rubricCursorColor: aColor [
+
+	self setProperty: #brickRubricCursorColor toValue: aColor.
+	self updateStyle
+]
+
+{ #category : #'brick-properties' }
 GLMRubScrolledTextBrick >> rubricTextColor [
 
 	^ self valueOfProperty: #brickRubricTextColor ifAbsent: [ self themer rubricTextColor ]
@@ -192,7 +205,8 @@ GLMRubScrolledTextBrick >> updateStyle [
 	self rubric borderColor: self rubricBorderColor.
 	self rubric borderWidth: self rubricBorderWidth.
 	self rubric textColor: self rubricTextColor.
-	self rubric font: (LogicalFont familyName: self rubricTextFamilyName pointSize: self rubricTextFontSize)
+	self rubric font: (LogicalFont familyName: self rubricTextFamilyName pointSize: self rubricTextFontSize).
+	self rubric cursor visibleCursorColor: self rubricCursorColor
 ]
 
 { #category : #'brick-properties' }
