@@ -2,10 +2,10 @@ Class {
 	#name : #GLMPhlowTableBrick,
 	#superclass : #GLMPhlowListBrick,
 	#instVars : [
-		'#transformedEntity => GLMPhlowSlot',
-		'#columns => GLMPhlowSlot'
+		'transformedEntity',
+		'columns'
 	],
-	#category : #'Glamour-Morphic-Brick-Phlow'
+	#category : #'Glamour-Morphic-Brick-Widgets-Phlow'
 }
 
 { #category : #examples }

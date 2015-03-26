@@ -36,14 +36,14 @@ Class {
 	#name : #GLMStringBrick,
 	#superclass : #GLMInteractableBrick,
 	#instVars : [
-		'#font',
-		'#familyName',
-		'#fontSize',
-		'#textSize',
-		'#text => GLMPhlowSlot',
-		'#textColor',
-		'#textPosition',
-		'#highlightedString'
+		'font',
+		'familyName',
+		'fontSize',
+		'textSize',
+		'text',
+		'textColor',
+		'textPosition',
+		'highlightedString'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }

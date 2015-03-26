@@ -2,9 +2,9 @@ Class {
 	#name : #GLMPhlowTextBrick,
 	#superclass : #GLMPhlowBrick,
 	#instVars : [
-		'#textBrick => GLMPhlowSlot'
+		'textBrick'
 	],
-	#category : #'Glamour-Morphic-Brick-Phlow'
+	#category : #'Glamour-Morphic-Brick-Widgets-Phlow'
 }
 
 { #category : #examples }

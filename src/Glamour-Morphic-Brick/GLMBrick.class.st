@@ -17,11 +17,10 @@ ports
 Class {
 	#name : #GLMBrick,
 	#superclass : #GLMBrickedMorph,
-	#traits : 'GLMBrickPropertiesTrait + GLMBrickLayoutTrait + GLMBrickStructureTrait + GLMPhlowTrait + (GLMBrickGeometryTrait - {#privateBounds:})',
-	#classTraits : 'GLMBrickPropertiesTrait classTrait + GLMBrickLayoutTrait classTrait + GLMBrickStructureTrait classTrait + GLMPhlowTrait classTrait + GLMBrickGeometryTrait classTrait',
+	#traits : 'GLMBrickPropertiesTrait + GLMBrickLayoutTrait + GLMBrickStructureTrait + (GLMBrickGeometryTrait - {#privateBounds:})',
+	#classTraits : 'GLMBrickPropertiesTrait classTrait + GLMBrickLayoutTrait classTrait + GLMBrickStructureTrait classTrait + GLMBrickGeometryTrait classTrait',
 	#instVars : [
-		'#brickBounds => GLMPhlowSlot',
-		'#ports => GLMPhlowSlot'
+		'brickBounds'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
@@ -424,12 +423,6 @@ GLMBrick >> onThemerChanged [
 GLMBrick >> owner [
 
 	^ owner
-]
-
-{ #category : #'phlow-transmissions' }
-GLMBrick >> ports [
-
-	^ ports  ifNil: [ ports := Dictionary new ]
 ]
 
 { #category : #'morph-common' }

@@ -2,9 +2,9 @@ Class {
 	#name : #GLMPhlowListBrick,
 	#superclass : #GLMPhlowBrick,
 	#instVars : [
-		'#scrollList => GLMPhlowSlot'
+		'scrollList'
 	],
-	#category : #'Glamour-Morphic-Brick-Phlow'
+	#category : #'Glamour-Morphic-Brick-Widgets-Phlow'
 }
 
 { #category : #examples }
