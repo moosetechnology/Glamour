@@ -14,6 +14,12 @@ GLMBrickPopupDarkThemer >> backgroundColor [
 ]
 
 { #category : #'brick-popup' }
+GLMBrickPopupDarkThemer >> borderColor [
+
+	^ self themer color darken lighter
+]
+
+{ #category : #'brick-popup' }
 GLMBrickPopupDarkThemer >> textColor [
 
 	^ Color white slightlyDarker
