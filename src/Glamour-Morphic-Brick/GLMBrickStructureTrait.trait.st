@@ -8,46 +8,47 @@ Trait {
 
 { #category : #'brick-structure-adding/removing' }
 GLMBrickStructureTrait >> addAllBricks: aCollection [
-
-	self privateAddAllBricks: aCollection.
-	aCollection do: [ :b | self privatePrepareBrickAfterAdding: b ].
-	self doLayoutForce
+	|bricks|
+	bricks := self privateAddAllBricks: aCollection.
+	bricks do: [ :b | self privatePrepareBrickAfterAdding: b ].
+	self doLayoutForce.
+	^ aCollection
 ]
 
 { #category : #'brick-structure-adding/removing' }
 GLMBrickStructureTrait >> addBrick: aBrick after: otherBrick [
 	|result|
-	result := self privateAddBrick: aBrick after: otherBrick.
-	self privatePrepareBrickAfterAdding: aBrick.
+	result := self privateAddBrick: aBrick asBrick after: otherBrick.
+	self privatePrepareBrickAfterAdding: result.
 	self doLayoutForce.
-	^ result
+	^ aBrick
 ]
 
 { #category : #'brick-structure-adding/removing' }
 GLMBrickStructureTrait >> addBrick: aBrick before: otherBrick [
 	|result|
-	result := self privateAddBrick: aBrick before: otherBrick.
-	self privatePrepareBrickAfterAdding: aBrick.
+	result := self privateAddBrick: aBrick asBrick before: otherBrick.
+	self privatePrepareBrickAfterAdding: result.
 	self doLayoutForce.
-	^ result
+	^ aBrick
 ]
 
 { #category : #'brick-structure-adding/removing' }
 GLMBrickStructureTrait >> addBrickBack: aBrick [
 	|result|
-	result := self privateAddBrickBack: aBrick.
-	self privatePrepareBrickAfterAdding: aBrick.
+	result := self privateAddBrickBack: aBrick asBrick.
+	self privatePrepareBrickAfterAdding: result.
 	self doLayoutForce.
-	^ result
+	^ aBrick
 ]
 
 { #category : #'brick-structure-adding/removing' }
 GLMBrickStructureTrait >> addBrickFirst: aBrick [
 	|result|
-	result := self privateAddBrickFirst: aBrick.
-	self privatePrepareBrickAfterAdding: aBrick.
+	result := self privateAddBrickFirst: aBrick asBrick.
+	self privatePrepareBrickAfterAdding: result.
 	self doLayoutForce.
-	^ result
+	^ aBrick
 ]
 
 { #category : #'brick-structure' }
@@ -252,6 +253,7 @@ GLMBrickStructureTrait >> privateAddAllBricks: aCollection [
 	bricks := aCollection collect: #asBrick.
 	bricks do: [ :each | self privateAddBrickLinkBack: each ].
 	self privateSubbricks: (self subbricks, bricks).
+	^ bricks
 ]
 
 { #category : #'private-structure' }
