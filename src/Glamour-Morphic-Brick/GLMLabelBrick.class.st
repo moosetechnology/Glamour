@@ -135,7 +135,7 @@ GLMLabelBrick >> hShrinkWrap [
 GLMLabelBrick >> hSpaceFill: anInteger [
 	super hSpaceFill: anInteger.
 	
-	self label hSpaceFill: anInteger.
+	self label hSpaceFill.
 	self dotsBrick hShrinkWrap.
 ]
 
@@ -263,8 +263,8 @@ GLMLabelBrick >> vShrinkWrap [
 GLMLabelBrick >> vSpaceFill: anInteger [
 	super vSpaceFill: anInteger.
 	
-	self label vSpaceFill: anInteger.
-	self dotsBrick vSpaceFill: anInteger.
+	self label vSpaceFill.
+	self dotsBrick vSpaceFill.
 ]
 
 { #category : #'brick-properties' }

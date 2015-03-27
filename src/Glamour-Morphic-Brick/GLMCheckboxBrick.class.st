@@ -120,7 +120,7 @@ GLMCheckboxBrick >> hShrinkWrap [
 GLMCheckboxBrick >> hSpaceFill: anInteger [
 	super hSpaceFill: anInteger.
 	
-	self label hSpaceFill: anInteger
+	self label hSpaceFill
 ]
 
 { #category : #'checkbox-accessing' }
@@ -220,5 +220,5 @@ GLMCheckboxBrick >> vShrinkWrap [
 GLMCheckboxBrick >> vSpaceFill: anInteger [
 	super vSpaceFill: anInteger.
 	
-	self label vSpaceFill: anInteger
+	self label vSpaceFill.
 ]

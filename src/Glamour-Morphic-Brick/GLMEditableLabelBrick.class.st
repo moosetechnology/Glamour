@@ -187,8 +187,8 @@ GLMEditableLabelBrick >> hShrinkWrap [
 GLMEditableLabelBrick >> hSpaceFill: anInteger [
 	super hSpaceFill: anInteger.
 	
-	self labelBrick hSpaceFill: anInteger.
-	self editBrick hSpaceFill: anInteger
+	self labelBrick hSpaceFill.
+	self editBrick hSpaceFill
 ]
 
 { #category : #initialization }
@@ -315,6 +315,6 @@ GLMEditableLabelBrick >> vShrinkWrap [
 GLMEditableLabelBrick >> vSpaceFill: anInteger [
 	super vSpaceFill: anInteger.
 	
-	self labelBrick vSpaceFill: anInteger.
-	self editBrick vSpaceFill: anInteger
+	self labelBrick vSpaceFill.
+	self editBrick vSpaceFill.
 ]
