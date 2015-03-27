@@ -10,7 +10,7 @@ Class {
 { #category : #'brick-popup' }
 GLMBrickPopupDarkThemer >> backgroundColor [
 
-	^ Color darkGray
+	^ Color veryDarkGray
 ]
 
 { #category : #'brick-popup' }
