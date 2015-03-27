@@ -44,7 +44,8 @@ GLMScrollPaneBrick class >> defaultMaxVelocity [
 
 { #category : #'as yet unclassified' }
 GLMScrollPaneBrick class >> defaultScrollAcceleration [
-	^ 2
+
+	^ 4
 ]
 
 { #category : #'as yet unclassified' }
@@ -163,7 +164,7 @@ GLMScrollPaneBrick >> calculateVelocity: event [
 		
 	self velocity: (delta > self class defaultScrollTimeReset
 		ifTrue: [ self class defaultScrollVelocity ]
-		ifFalse: [ (self velocity + self class defaultScrollAcceleration * (delta <= self class defaultScrollTurboTime ifTrue: [ 2 ] ifFalse: [ 1 ] )) min: self calculateMaxVelocity ]).
+		ifFalse: [ self velocityValue: delta ]).
 		
 	lastScrollTimeStamp := event timeStamp.
 	
@@ -499,6 +500,16 @@ GLMScrollPaneBrick >> velocity [
 GLMScrollPaneBrick >> velocity: anInteger [
 
 	velocity := anInteger
+]
+
+{ #category : #'scrollpane-calculations' }
+GLMScrollPaneBrick >> velocityValue: anInteger [
+	|time|
+	
+	time := anInteger <= self class defaultScrollTurboTime
+		ifTrue: [ 2 ]
+		ifFalse: [ 1 ].
+	^ self velocity + ((self class defaultScrollAcceleration * time) min: self calculateMaxVelocity)
 ]
 
 { #category : #'scrollpane-brick-accessing' }
