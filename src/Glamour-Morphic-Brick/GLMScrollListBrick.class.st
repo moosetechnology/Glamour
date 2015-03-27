@@ -12,7 +12,7 @@ Class {
 GLMScrollListBrick class >> example [
 	|adaptor|
 	adaptor := nil.
-	adaptor := GLMBrickListAdaptor new
+	adaptor := GLMBrickListModel new
 		sizeLogic: [ 2000 ];
 		morphAtLogic: [ :index :morph |
 			(morph ifNil: [ GLMLabelBrick new ])
@@ -23,7 +23,7 @@ GLMScrollListBrick class >> example [
 				yourself ].
 
 	GLMFoundationBrick new
-		brickRoot: (self new adaptor: adaptor);
+		brickRoot: (self new model: adaptor);
 		extent: 300@400;
 		openInWindow
 ]
@@ -32,7 +32,7 @@ GLMScrollListBrick class >> example [
 GLMScrollListBrick class >> exampleCollection [
 
 	GLMFoundationBrick new
-		brickRoot: (self new adaptor: (GLMBrickListAdaptor new on: Smalltalk allClasses));
+		brickRoot: (self new model: (GLMBrickListModel new on: Smalltalk allClasses));
 		extent: 300@400;
 		openInWindow
 ]
@@ -41,7 +41,7 @@ GLMScrollListBrick class >> exampleCollection [
 GLMScrollListBrick class >> exampleDifferentHeights [
 	|adaptor|
 	adaptor := nil.
-	adaptor := GLMBrickListAdaptor new
+	adaptor := GLMBrickListModel new
 		sizeLogic: [ 50 ];
 		morphAtLogic: [ :index :morph |
 			(morph ifNil: [ GLMLabelBrick new ])
@@ -54,7 +54,7 @@ GLMScrollListBrick class >> exampleDifferentHeights [
 				yourself ].
 
 	GLMFoundationBrick new
-		brickRoot: (self new adaptor: adaptor);
+		brickRoot: (self new model: adaptor);
 		extent: 800@400;
 		openInWindow
 ]
@@ -63,7 +63,7 @@ GLMScrollListBrick class >> exampleDifferentHeights [
 GLMScrollListBrick class >> exampleInfinity [
 	|adaptor|
 	adaptor := nil.
-	adaptor := GLMBrickListAdaptor new
+	adaptor := GLMBrickListModel new
 		sizeLogic: [ Float infinity ];
 		morphAtLogic: [ :index :morph | 
 			(morph ifNil: [ GLMLabelBrick new ])
@@ -74,7 +74,7 @@ GLMScrollListBrick class >> exampleInfinity [
 				yourself ].
 
 	GLMFoundationBrick new
-		brickRoot: (self new adaptor: adaptor);
+		brickRoot: (self new model: adaptor);
 		extent: 300@400;
 		openInWindow
 ]
@@ -83,17 +83,6 @@ GLMScrollListBrick class >> exampleInfinity [
 GLMScrollListBrick >> adaptor [
 
 	^ adaptor
-]
-
-{ #category : #accessing }
-GLMScrollListBrick >> adaptor: anAdaptor [
-
-	adaptor := anAdaptor.
-	self band hasSubbricks ifFalse: [ self updateVisible ].
-	
-	"self layoutPolicy layout: self in: self brickBounds.
-	self flag: 'Fix bug in Layouts'."
-	self update.
 ]
 
 { #category : #adding }
@@ -184,6 +173,17 @@ GLMScrollListBrick >> isFullyVisible [
 GLMScrollListBrick >> isLastAdded [
 
 	^ (self getIndex: self band lastSubbrick) = self adaptor count
+]
+
+{ #category : #accessing }
+GLMScrollListBrick >> model: anAdaptor [
+
+	adaptor := anAdaptor.
+	self band hasSubbricks ifFalse: [ self updateVisible ].
+	
+	"self layoutPolicy layout: self in: self brickBounds.
+	self flag: 'Fix bug in Layouts'."
+	self update.
 ]
 
 { #category : #layouting }

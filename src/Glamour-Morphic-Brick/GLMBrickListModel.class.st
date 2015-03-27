@@ -17,8 +17,8 @@ origin
 
 "
 Class {
-	#name : #GLMBrickListAdaptor,
-	#superclass : #GLMBrickAbstractAdaptor,
+	#name : #GLMBrickListModel,
+	#superclass : #GLMBrickAbstractModel,
 	#instVars : [
 		'origin',
 		'countLogic',
@@ -28,13 +28,13 @@ Class {
 }
 
 { #category : #'instance creation' }
-GLMBrickListAdaptor class >> on: anObject [
+GLMBrickListModel class >> on: anObject [
 
 	^ self new on: anObject
 ]
 
 { #category : #'adaptor api' }
-GLMBrickListAdaptor >> count [
+GLMBrickListModel >> count [
 
 	^ countLogic
 		ifNil: [ origin size ]
@@ -42,7 +42,7 @@ GLMBrickListAdaptor >> count [
 ]
 
 { #category : #'adaptor api' }
-GLMBrickListAdaptor >> morphAt: anInteger convert: aMorph [
+GLMBrickListModel >> morphAt: anInteger convert: aMorph [
 
 	^ morphLogic
 		ifNil: [ (origin at: anInteger) asMorph ]
@@ -53,25 +53,25 @@ GLMBrickListAdaptor >> morphAt: anInteger convert: aMorph [
 ]
 
 { #category : #'instance creation' }
-GLMBrickListAdaptor >> morphAtLogic: aBlockWithTwoParameters [
+GLMBrickListModel >> morphAtLogic: aBlockWithTwoParameters [
 
 	morphLogic := aBlockWithTwoParameters
 ]
 
 { #category : #'instance creation' }
-GLMBrickListAdaptor >> on: anObject [
+GLMBrickListModel >> on: anObject [
 
 	origin := anObject
 ]
 
 { #category : #accessing }
-GLMBrickListAdaptor >> origin [
+GLMBrickListModel >> origin [
 
 	^ origin
 ]
 
 { #category : #'instance creation' }
-GLMBrickListAdaptor >> sizeLogic: aBlockWithNoParameters [
+GLMBrickListModel >> sizeLogic: aBlockWithNoParameters [
 
 	countLogic := aBlockWithNoParameters
 ]

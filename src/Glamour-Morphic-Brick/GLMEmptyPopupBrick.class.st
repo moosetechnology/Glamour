@@ -91,7 +91,7 @@ GLMEmptyPopupBrick >> contentBrick: aBrick [
 	self contentBrick
 		vShrinkWrap;
 		hShrinkWrap;
-		padding: { 5. self themer popupThemer borderWidth };
+		padding: self themer popupThemer borderWidth;
 		color: self themer popupThemer backgroundColor; 
 		borderColor: self themer popupThemer borderColor;
 	 	borderWidth: self themer popupThemer borderWidth.

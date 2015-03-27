@@ -18,13 +18,6 @@ GLMFallbackScrollListBrick >> adaptor [
 ]
 
 { #category : #accessing }
-GLMFallbackScrollListBrick >> adaptor: anAdaptor [
-
-	adaptor := anAdaptor.
-	self initializeItems
-]
-
-{ #category : #accessing }
 GLMFallbackScrollListBrick >> emptyBrick [
 
 	^ emptyBrick
@@ -55,4 +48,11 @@ GLMFallbackScrollListBrick >> invalidate [
 	self doLayoutForce.
 	self update.
 
+]
+
+{ #category : #accessing }
+GLMFallbackScrollListBrick >> model: anAdaptor [
+
+	adaptor := anAdaptor.
+	self initializeItems
 ]

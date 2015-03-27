@@ -64,12 +64,12 @@ GLMPhlowTableBrick >> entity: anObject [
 { #category : #'as yet unclassified' }
 GLMPhlowTableBrick >> setAdaptor [
 	| adaptor |
-	adaptor := (GLMBrickListAdaptor on: self transformedEntity)
+	adaptor := (GLMBrickListModel on: self transformedEntity)
 		morphAtLogic: [ :index | 
 			GLMPhlowTableRowBrick new
 				in: self;
 				entity: (self transformedEntity at: index) ].
-	self listBrick adaptor: adaptor
+	self listBrick model: adaptor
 ]
 
 { #category : #accessing }
