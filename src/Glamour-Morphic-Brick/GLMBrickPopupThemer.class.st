@@ -16,7 +16,7 @@ GLMBrickPopupThemer >> backgroundColor [
 { #category : #'brick-popup' }
 GLMBrickPopupThemer >> borderColor [
 
-	^ Color transparent
+	^ Color veryLightGray
 ]
 
 { #category : #'brick-popup' }

@@ -90,8 +90,7 @@ GLMEmptyPopupBrick >> contentBrick: aBrick [
 	self contentBrick
 		vShrinkWrap;
 		hShrinkWrap;
-		paddingTop: 5;
-		paddingBottom: 5;
+		padding: { 5 . self themer popupThemer borderWidth };
 		color: self themer popupThemer backgroundColor; 
 		borderColor: self themer popupThemer borderColor;
 	 	borderWidth: self themer popupThemer borderWidth.
@@ -210,7 +209,7 @@ GLMEmptyPopupBrick >> openAboveFor: aBrick [
 GLMEmptyPopupBrick >> openBelow: aRectangle [
 	"aRectangle must be in global coordinates"
 	^ self asBrickedMorph
-		bounds: (aRectangle origin extent: (self extent - (0@self themer popupThemer borderWidth)));
+		bounds: (aRectangle origin extent: (self extent + (0@self themer popupThemer borderWidth)));
 		openInWorld
 	
 ]
@@ -221,6 +220,7 @@ GLMEmptyPopupBrick >> openBelowFor: aBrick [
 	self anchorBrick: aBrick.
 	self triggerBrick: self newTriggerBrick.
 	self contentBrick: self newContentBrick.
+	self triggerBrick zIndex: 2.
 	self triggerBrick
 		borderDo: [ :b | b widthBottom: 0 ];
 		marginBottom: self themer popupThemer borderWidth negated.
