@@ -8,7 +8,7 @@ Class {
 GLMPopupAction >> popupActOn: aPresentation from: aButton [
 
 	GLMEmptyPopupBrick new
-		themer: GLMActionBrickThemer new;
+		with: [ :b | b themer: b themer actionThemer ];
 		doNotHideUnhover;
 		onCreated: [ :popup |self action glamourValueWithArgs: (Array 
 				with: aPresentation 
