@@ -135,14 +135,15 @@ GLMMorphicRenderer >> renderPharoPlaygroundPresentation: aWorkspacePresentation 
 ]
 
 { #category : #'rendering actions' }
-GLMMorphicRenderer >> renderPoppupAction: anAction [
+GLMMorphicRenderer >> renderPopupAction: anAction [
 	| button |
+	
 	button := UITheme current.
 	^(button 
 		newButtonIn: nil 
 		for: anAction
 		getState: nil
-		action: #poppupActOn:from:
+		action: #popupActOn:from:
 		arguments: nil
 		getEnabled: nil
 		label: (AlphaImageMorph new image: anAction icon)
