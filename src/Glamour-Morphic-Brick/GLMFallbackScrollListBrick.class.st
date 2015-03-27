@@ -5,7 +5,8 @@ Class {
 	#name : #GLMFallbackScrollListBrick,
 	#superclass : #GLMScrollPaneBrick,
 	#instVars : [
-		'adaptor'
+		'adaptor',
+		'emptyBrick'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-Scrollpane'
 }
@@ -23,6 +24,18 @@ GLMFallbackScrollListBrick >> adaptor: anAdaptor [
 	self initializeItems
 ]
 
+{ #category : #accessing }
+GLMFallbackScrollListBrick >> emptyBrick [
+
+	^ emptyBrick
+]
+
+{ #category : #accessing }
+GLMFallbackScrollListBrick >> emptyBrick: aBrick [
+	
+	emptyBrick := aBrick
+]
+
 { #category : #initialization }
 GLMFallbackScrollListBrick >> initializeItems [
 	
@@ -31,12 +44,13 @@ GLMFallbackScrollListBrick >> initializeItems [
 			self band addBrickBack: ((self adaptor morphAt: index convert: nil) asBrick with:[:b |
 				b isHeightDependsOnParent ifTrue: [ b height: 30 ]]) ] ].
 	
-	self band hasSubbricks ifFalse: [ ^ self ]
+	self band hasSubbricks ifFalse: [ self emptyBrick ifNotNil: [ :b | self band addBrickBack: b ] ].
 ]
 
 { #category : #scrolling }
 GLMFallbackScrollListBrick >> invalidate [
 
 	self band removeAllBricks.
-	self initializeItems
+	self initializeItems.
+	self doLayoutForce
 ]

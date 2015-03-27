@@ -5,7 +5,8 @@ Class {
 		'anchorBrick',
 		'triggerBrick',
 		'contentBrick',
-		'contentLogic'
+		'contentLogic',
+		'isHideUnhover'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-UI'
 }
@@ -90,13 +91,19 @@ GLMEmptyPopupBrick >> contentBrick: aBrick [
 	self contentBrick
 		vShrinkWrap;
 		hShrinkWrap;
-		padding: { 5 . self themer popupThemer borderWidth };
+		padding: { 5. self themer popupThemer borderWidth };
 		color: self themer popupThemer backgroundColor; 
 		borderColor: self themer popupThemer borderColor;
 	 	borderWidth: self themer popupThemer borderWidth.
 	self addBrickBack: contentBrick
 
 	
+]
+
+{ #category : #actions }
+GLMEmptyPopupBrick >> doNotHideUnhover [
+
+	isHideUnhover := false
 ]
 
 { #category : #accessing }
@@ -109,6 +116,10 @@ GLMEmptyPopupBrick >> foundationBrick [
 
 { #category : #'events-processing' }
 GLMEmptyPopupBrick >> handleListenEvent: anEvent [
+
+	self isHideUnhover not & (anEvent type = #mouseMove)
+		ifTrue: [ ^ self ].
+
 	(self isInsideOfPopupBrick: anEvent) ifFalse: [ self close ]
 ]
 
@@ -132,6 +143,12 @@ GLMEmptyPopupBrick >> initializeListeners [
 
 	"using the most general event subscribtion for all events spawned by the hand"
 	self activeHand addEventListener: self.
+]
+
+{ #category : #actions }
+GLMEmptyPopupBrick >> isHideUnhover [
+
+	^ isHideUnhover ifNil: [ isHideUnhover := true ]
 ]
 
 { #category : #'events-processing' }
