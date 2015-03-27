@@ -25,7 +25,8 @@ GLMEmptyPopupBrick class >> createButton: hoverAction [
 GLMEmptyPopupBrick >> addContentBricks [
 	
 	self onCreated.
-	self contentBrick addAllBricks: (contentLogic brickValue: self withEnoughArguments: { self triggerBrick }) asCollection.
+	contentLogic ifNotNil: [
+		self contentBrick addAllBricks: ((contentLogic brickValue: self withEnoughArguments: { self triggerBrick }) asCollection select: #isNotNil) ].
 	self announce: #onCreated event: self triggerBrick
 ]
 

@@ -108,7 +108,6 @@ GLMPopupBrick >> newTitleBrick [
 GLMPopupBrick >> onCreated [
 	self titleBrick: self newTitleBrick.
 	self hintBrick: self newHintBrick.
-
 ]
 
 { #category : #accessing }
