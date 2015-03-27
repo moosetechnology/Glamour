@@ -25,7 +25,7 @@ GLMEmptyPopupBrick class >> createButton: hoverAction [
 GLMEmptyPopupBrick >> addContentBricks [
 	
 	self onCreated.
-	contentLogic brickValue: self withEnoughArguments: { self triggerBrick }.
+	self contentBrick addAllBricks: (contentLogic brickValue: self withEnoughArguments: { self triggerBrick }) asCollection.
 	self announce: #onCreated event: self triggerBrick
 ]
 
@@ -197,6 +197,9 @@ GLMEmptyPopupBrick >> openAboveFor: aBrick [
 	self anchorBrick: aBrick.
 	self contentBrick: self newContentBrick.
 	self triggerBrick: self newTriggerBrick.
+	self triggerBrick
+		borderDo: [ :b | b widthTop: 0 ];
+		marginTop: self themer popupThemer borderWidth negated.
 	self addContentBricks.
 	
 	^ aBrick ifNotNil: [ self openAbove: aBrick boundsInWorld ]
@@ -206,8 +209,7 @@ GLMEmptyPopupBrick >> openAboveFor: aBrick [
 GLMEmptyPopupBrick >> openBelow: aRectangle [
 	"aRectangle must be in global coordinates"
 	^ self asBrickedMorph
-		bounds: (aRectangle origin 
-						extent: (self extent - (0@self themer popupThemer borderWidth)));
+		bounds: (aRectangle origin extent: (self extent - (0@self themer popupThemer borderWidth)));
 		openInWorld
 	
 ]
@@ -218,6 +220,9 @@ GLMEmptyPopupBrick >> openBelowFor: aBrick [
 	self anchorBrick: aBrick.
 	self triggerBrick: self newTriggerBrick.
 	self contentBrick: self newContentBrick.
+	self triggerBrick
+		borderDo: [ :b | b widthBottom: 0 ];
+		marginBottom: self themer popupThemer borderWidth negated.
 	self addContentBricks.
 	
 	^ aBrick ifNotNil: [ self openBelow: aBrick boundsInWorld ]
@@ -249,8 +254,6 @@ GLMEmptyPopupBrick >> triggerBrick: aBrick [
 		color: self themer popupThemer backgroundColor;
 		borderColor: self themer popupThemer borderColor;
 		borderWidth: self themer popupThemer borderWidth;
-		borderDo: [ :b | b widthTop: 0 ];
-		marginTop: self themer popupThemer borderWidth negated;
 		action: [ :b :evt | self close. self anchorBrick click: evt ].
 		
 	self addBrickBack: self triggerBrick.
