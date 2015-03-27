@@ -203,6 +203,8 @@ GLMEmptyPopupBrick >> onCreated: aBlock [
 GLMEmptyPopupBrick >> openAbove: aRectangle [
 	"aRectangle must be in global coordinates"
 	^ self asBrickedMorph
+		vShrinkWrap;
+		hShrinkWrap;
 		bounds: ((aRectangle origin - (0@self contentBrick height) + (0@self themer popupThemer borderWidth)) extent: self extent);
 		openInWorld
 	
@@ -226,6 +228,8 @@ GLMEmptyPopupBrick >> openAboveFor: aBrick [
 GLMEmptyPopupBrick >> openBelow: aRectangle [
 	"aRectangle must be in global coordinates"
 	^ self asBrickedMorph
+		vShrinkWrap;
+		hShrinkWrap;
 		bounds: (aRectangle origin extent: (self extent + (0@self themer popupThemer borderWidth)));
 		openInWorld
 	
