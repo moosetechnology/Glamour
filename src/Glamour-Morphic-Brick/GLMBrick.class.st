@@ -426,14 +426,6 @@ GLMBrick >> onThemerChanged [
 	self changed
 ]
 
-{ #category : #'morph-common' }
-GLMBrick >> outOfWorld: aWorld [
-	super outOfWorld: aWorld.
-	
-	self primaryHand removeHalo
-	
-]
-
 { #category : #'brick-structure' }
 GLMBrick >> owner [
 
