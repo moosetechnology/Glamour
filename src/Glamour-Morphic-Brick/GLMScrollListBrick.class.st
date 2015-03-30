@@ -79,12 +79,6 @@ GLMScrollListBrick class >> exampleInfinity [
 		openInWindow
 ]
 
-{ #category : #accessing }
-GLMScrollListBrick >> adaptor [
-
-	^ adaptor
-]
-
 { #category : #adding }
 GLMScrollListBrick >> addItemMorph: aMorph after: anotherMorph [
 
@@ -138,7 +132,7 @@ GLMScrollListBrick >> getIndex: aBrick [
 GLMScrollListBrick >> getMorphAt: anInteger recycled: aMorph [
 	|newMorph|
 	
-	newMorph := (self adaptor morphAt: anInteger convert: aMorph) asBrick.
+	newMorph := (self model morphAt: anInteger convert: aMorph) asBrick.
 	newMorph hSpaceFill.
 	self setIndex: anInteger in: newMorph.
 	^ newMorph
@@ -172,7 +166,13 @@ GLMScrollListBrick >> isFullyVisible [
 { #category : #testing }
 GLMScrollListBrick >> isLastAdded [
 
-	^ (self getIndex: self band lastSubbrick) = self adaptor count
+	^ (self getIndex: self band lastSubbrick) = self model count
+]
+
+{ #category : #accessing }
+GLMScrollListBrick >> model [
+
+	^ adaptor
 ]
 
 { #category : #accessing }
@@ -266,8 +266,8 @@ GLMScrollListBrick >> scrollTo: anInteger [
 	self moveBandTop.
 	visibleIndex := nil.
 	
-	self adaptor count > 0 ifTrue: [
-		index := (anInteger max: 1) min: self adaptor count.
+	self model count > 0 ifTrue: [
+		index := (anInteger max: 1) min: self model count.
 		brick := self getMorphAt: index recycled: nil.
 		brick 	withWidth: self band width.
 		brick 	doLayout.
@@ -286,7 +286,7 @@ GLMScrollListBrick >> scrollTo: anInteger [
 { #category : #scrolling }
 GLMScrollListBrick >> scrollToBottom [
 
-	self scrollTo: self adaptor count
+	self scrollTo: self model count
 ]
 
 { #category : #scrolling }
@@ -349,8 +349,8 @@ GLMScrollListBrick >> update [
 GLMScrollListBrick >> updateVisible [
 	|invisible|
 	
-	self adaptor ifNil: [ ^ self ].
-	self adaptor count = 0 ifTrue: [ ^ self ].
+	self model ifNil: [ ^ self ].
+	self model count = 0 ifTrue: [ ^ self ].
 	
 	invisible := self gatherInvisibleItems.
 	invisible = self band subbricks & invisible isEmpty not ifTrue: [ ^ self ].
@@ -368,7 +368,7 @@ GLMScrollListBrick >> updateVisibleBottom: invisibleBricks [
 	|after|
 	
 	after := self band lastSubbrick.
-	[ after isNotNil and: [ (self isPartiallyVisible: after) and: [ (self getIndex: after) < self adaptor count ] ] ] whileTrue: [
+	[ after isNotNil and: [ (self isPartiallyVisible: after) and: [ (self getIndex: after) < self model count ] ] ] whileTrue: [
 		after := self
 			addItemMorph: (
 				self

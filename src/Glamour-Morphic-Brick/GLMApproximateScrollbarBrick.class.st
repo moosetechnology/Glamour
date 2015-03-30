@@ -18,7 +18,7 @@ GLMApproximateScrollbarBrick >> approximateBandHeight [
 	visible isEmpty ifTrue: [ ^ 0 ].
 	
 	averageItemHeight := (visible inject: 0 into: [ :visibleHeight :each | visibleHeight + each height ]) / visible size.
-	^ self scrollPane adaptor count * averageItemHeight.
+	^ self scrollPane model count * averageItemHeight.
 ]
 
 { #category : #'scrollbar-calculations' }
@@ -31,7 +31,7 @@ GLMApproximateScrollbarBrick >> calculateScrollbarHeight [
 	firstIndex := self scrollPane getIndex: (self scrollPane band firstSubbrick).
 	lastIndex := self scrollPane getIndex: (self scrollPane band lastSubbrick).
 	
-	^ ((lastIndex - firstIndex + 1) / self scrollPane adaptor count * self height) ceiling.
+	^ ((lastIndex - firstIndex + 1) / self scrollPane model count * self height) ceiling.
 	
 ]
 
@@ -44,5 +44,5 @@ GLMApproximateScrollbarBrick >> calculateScrollbarTopOffset [
 	firstIndex := self scrollPane getIndex: (self scrollPane band firstSubbrick).
 	lastIndex := self scrollPane getIndex: (self scrollPane band lastSubbrick).
 	
-	^ ((firstIndex-1) / self scrollPane adaptor count * self height) floor.
+	^ ((firstIndex-1) / self scrollPane model count * self height) floor.
 ]

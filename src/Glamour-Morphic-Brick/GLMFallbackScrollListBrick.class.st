@@ -12,12 +12,6 @@ Class {
 }
 
 { #category : #accessing }
-GLMFallbackScrollListBrick >> adaptor [
-
-	^ adaptor
-]
-
-{ #category : #accessing }
 GLMFallbackScrollListBrick >> emptyBrick [
 
 	^ emptyBrick
@@ -33,8 +27,8 @@ GLMFallbackScrollListBrick >> emptyBrick: aBrick [
 GLMFallbackScrollListBrick >> initializeItems [
 	
 	self band layoutAfter: [
-		1 to: self adaptor count do: [ :index |
-			self band addBrickBack: ((self adaptor morphAt: index convert: nil) asBrick with:[:b |
+		1 to: self model count do: [ :index |
+			self band addBrickBack: ((self model morphAt: index convert: nil) asBrick with:[:b |
 				b isHeightDependsOnParent ifTrue: [ b height: 30 ]]) ] ].
 	
 	self band hasSubbricks ifFalse: [ self emptyBrick ifNotNil: [ :b | self band addBrickBack: b ] ].
@@ -48,6 +42,12 @@ GLMFallbackScrollListBrick >> invalidate [
 	self doLayoutForce.
 	self update.
 
+]
+
+{ #category : #accessing }
+GLMFallbackScrollListBrick >> model [
+
+	^ adaptor
 ]
 
 { #category : #accessing }
