@@ -202,8 +202,8 @@ GLMTreeMorphNodeModel >> rowMorphForColumn: aGlamourColumn [
 				cancelOnEscape;
 				cancelOnFocusLost;
 				text: (self valueFor: aGlamourColumn);
-				hSpaceFill;
-				with: [ :b | b editBrick rubricBackgroundColor: b themer rubricBackgroundColor ];
+				minWidth: 100;
+				maxWidth: 240;
 				when: #onEditMode do: [ self containerTree forceStopStepping ];
 				when: #onReadMode do: [ self containerTree resetStopStepping ];
 				when: #onSingleClicked do: [ :evt :brick | brick isReadMode ifTrue: [ self selectItem ] ];
@@ -211,7 +211,7 @@ GLMTreeMorphNodeModel >> rowMorphForColumn: aGlamourColumn [
 				yourself.
 			
 			contentMorph := contentMorph asMorph
-				hSpaceFill;
+				hShrinkWrap;
 				vShrinkWrap ].
 	
 	tagMorphs := self tagMorphsFrom: aGlamourColumn.
@@ -293,7 +293,7 @@ GLMTreeMorphNodeModel >> valueFor: aGlamourColumn [
 
 { #category : #enumerating }
 GLMTreeMorphNodeModel >> withContentsDo: aBlock [
-	self flag: 'if the tree is infinite due to recursion, this might not stop'.
 	aBlock value: self.
-	self contents do: [:each | each withContentsDo: aBlock ]
+	self containerTree glamourPresentation allowsRecursiveSearch ifTrue: [  
+		self contents do: [:each | each withContentsDo: aBlock ] ]
 ]
