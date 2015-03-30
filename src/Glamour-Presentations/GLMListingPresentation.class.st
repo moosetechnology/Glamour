@@ -62,7 +62,7 @@ GLMListingPresentation >> allowDropOnItemBlock [
 
 { #category : #accessing }
 GLMListingPresentation >> allowExplicitSelectionChange [
-	^ allowExplicitSelectionChange ifNil: [allowExplicitSelectionChange := true]
+	^ allowExplicitSelectionChange ifNil: [allowExplicitSelectionChange := false]
 ]
 
 { #category : #accessing }
