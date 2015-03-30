@@ -202,8 +202,8 @@ GLMTreeMorphNodeModel >> rowMorphForColumn: aGlamourColumn [
 				cancelOnEscape;
 				cancelOnFocusLost;
 				text: (self valueFor: aGlamourColumn);
-				minWidth: 100;
-				maxWidth: 240;
+				hSpaceFill;
+				with: [ :b | b editBrick rubricBackgroundColor: b themer rubricBackgroundColor ];
 				when: #onEditMode do: [ self containerTree forceStopStepping ];
 				when: #onReadMode do: [ self containerTree resetStopStepping ];
 				when: #onSingleClicked do: [ :evt :brick | brick isReadMode ifTrue: [ self selectItem ] ];
@@ -211,7 +211,7 @@ GLMTreeMorphNodeModel >> rowMorphForColumn: aGlamourColumn [
 				yourself.
 			
 			contentMorph := contentMorph asMorph
-				hShrinkWrap;
+				hSpaceFill;
 				vShrinkWrap ].
 	
 	tagMorphs := self tagMorphsFrom: aGlamourColumn.
