@@ -36,7 +36,7 @@ GLMTreeMorphicTest >> testExplicitSelectionDoesNotUpdate [
 	| composite |
 	composite := GLMCompositePresentation new
 		with: [ :c | c tree 
-			allowExplicitSelectionChange: false;
+			allowsRecursiveSearch: false;
 			children: [ :each | each  to: each + 10  ] ].
 	window := composite openOn: { 1 }.
 	
