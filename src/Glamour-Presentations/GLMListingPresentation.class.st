@@ -29,7 +29,7 @@ Class {
 		'allowDropOnItemBlock',
 		'allowItemDragBlock',
 		'transformDraggedItemBlock',
-		'allowExplicitSelectionChange'
+		'allowsRecursiveSearch'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -58,16 +58,6 @@ GLMListingPresentation >> allowDropOnItem: aBlock [
 { #category : #accessing }
 GLMListingPresentation >> allowDropOnItemBlock [
 	^ allowDropOnItemBlock
-]
-
-{ #category : #accessing }
-GLMListingPresentation >> allowExplicitSelectionChange [
-	^ allowExplicitSelectionChange ifNil: [allowExplicitSelectionChange := false]
-]
-
-{ #category : #accessing }
-GLMListingPresentation >> allowExplicitSelectionChange: aBoolean [
-	allowExplicitSelectionChange := aBoolean
 ]
 
 { #category : #scripting }
@@ -103,6 +93,16 @@ GLMListingPresentation >> allowsInput [
 { #category : #testing }
 GLMListingPresentation >> allowsItemDrag [
 	^ self allowItemDragBlock notNil
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> allowsRecursiveSearch [
+	^ allowsRecursiveSearch ifNil: [allowsRecursiveSearch := true]
+]
+
+{ #category : #accessing }
+GLMListingPresentation >> allowsRecursiveSearch: aBoolean [
+	allowsRecursiveSearch := aBoolean
 ]
 
 { #category : #testing }
