@@ -494,11 +494,13 @@ GLMBrickStructureTrait >> subbricksReverseDo: aBlock [
 	self subbricks reverseDo: aBlock
 ]
 
-{ #category : #'brick-structure' }
+{ #category : #'as yet unclassified' }
 GLMBrickStructureTrait >> window [
 	"Answer the receiver's window."
-
-	^ (self ownerThatIsA: GLMWindowBrick)
+	#GLMWindowBrick asClassIfAbsent: [ 
+		^ self ownerThatIsA: SystemWindow ].
+	
+	^ (self ownerThatIsA: #GLMWindowBrick asClass)
 		ifNil: [ self ownerThatIsA: SystemWindow ]
 ]
 
