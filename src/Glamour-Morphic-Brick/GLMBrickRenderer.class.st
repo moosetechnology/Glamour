@@ -68,6 +68,12 @@ GLMBrickRenderer >> render: aBrick on: aCanvas [
 		renderBorderOf: aBrick on: aCanvas
 ]
 
+{ #category : #'rendering athens' }
+GLMBrickRenderer >> render: aBrick onAthensCanvas: aCanvas [
+	
+	self render: aBrick on: (AthensCanvasWrapper on: aCanvas)
+]
+
 { #category : #rendering }
 GLMBrickRenderer >> renderBackgroundColorOf: aBrick on: aCanvas [
 	|rectangle|

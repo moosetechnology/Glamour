@@ -9,6 +9,11 @@ GLMRubTextScrollPane >> drawKeyboardFocusOn: aCanvas [
 	"empty to remove focus border"
 ]
 
+{ #category : #drawing }
+GLMRubTextScrollPane >> drawKeyboardFocusOnAthensCanvas: aCanvas [
+	"empty to remove focus border"
+]
+
 { #category : #scrollbars }
 GLMRubTextScrollPane >> hScrollbarInterval [
 	"Answer the computed size of the thumb of the horizontal scrollbar."
