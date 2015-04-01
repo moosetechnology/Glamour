@@ -209,7 +209,9 @@ GLMScrollPaneBrick >> initializeListeners [
 { #category : #'scrollpane-testing' }
 GLMScrollPaneBrick >> isBottomOverscrolled [
 
-	^ self band brickBounds bottom < self height
+	self isLastVisible ifFalse: [ ^ false ].
+	self band brickBounds bottom < self height ifTrue: [ ^ true ].
+	^ ((self band lastSubbrick brickBounds bottom - self band brickBounds top abs) < self height)
 ]
 
 { #category : #'scrollpane-testing' }
@@ -285,7 +287,7 @@ GLMScrollPaneBrick >> mouseWheel: event [
 
 { #category : #'scrollpane-transformations' }
 GLMScrollPaneBrick >> moveBandBottom [
-
+	
 	self band translateY: (self height - self band brickBounds bottom)
 ]
 
@@ -509,7 +511,7 @@ GLMScrollPaneBrick >> velocityValue: anInteger [
 	time := anInteger <= self class defaultScrollTurboTime
 		ifTrue: [ 2 ]
 		ifFalse: [ 1 ].
-	^ self velocity + ((self class defaultScrollAcceleration * time) min: self calculateMaxVelocity)
+	^ (self velocity + (self class defaultScrollAcceleration * time)) min: self calculateMaxVelocity
 ]
 
 { #category : #'scrollpane-brick-accessing' }
