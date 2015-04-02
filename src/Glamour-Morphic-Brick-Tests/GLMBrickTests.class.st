@@ -252,8 +252,8 @@ GLMBrickTests >> testBrickDependsOnChildrenOneStatic [
 	
 	root addBrickBack: brick.
 	
-	self assert: root isWidthDependsOnChildren.
-	self assert: root isHeightDependsOnChildren.
+	self assert: root brickApi layout hState isOnChildren.
+	self assert: root brickApi layout vState isOnChildren.
 	
 	self assertAllSubbricksAreClean: root.
 	
@@ -310,8 +310,8 @@ GLMBrickTests >> testEmptyBrickDependsOnChildren [
 	
 	brick := self newBrickWithFullDependsOnChildren.
 	
-	self assert: brick isWidthDependsOnChildren.
-	self assert: brick isHeightDependsOnChildren.
+	self assert: brick brickApi layout hState isOnChildren.
+	self assert: brick brickApi layout vState isOnChildren.
 	
 	self assertAllSubbricksAreDirty: brick.
 	brick doLayout.
@@ -326,8 +326,8 @@ GLMBrickTests >> testFillBrickInsideStatic [
 	
 	root := self newBrickWithStaticExtent.
 	brick := self newBrickWithFullFill.
-	brick isWidthDependsOnParent.
-	brick isHeightDependsOnParent.
+	brick brickApi layout hState isOnParent.
+	brick brickApi layout vState isOnParent.
 	root addBrickBack: brick.
 	
 	self assertAllSubbricksAreClean: root.
@@ -474,7 +474,7 @@ GLMBrickTests >> testMarkerOneChildrenHeight [
 	self markFullyClean: brick.
 	
 	brick wrappedBounds markHeightDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthClean.
 	self assert: brick wrappedBounds isHeightDirty.
@@ -490,7 +490,7 @@ GLMBrickTests >> testMarkerOneChildrenInChildrenHeight [
 	self markFullyClean: root.
 	
 	brick wrappedBounds markHeightDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthClean.
 	self assert: brick wrappedBounds isHeightDirty.
@@ -509,7 +509,7 @@ GLMBrickTests >> testMarkerOneChildrenInChildrenWidth [
 	self markFullyClean: root.
 	
 	brick wrappedBounds markWidthDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthDirty.
 	self assert: brick wrappedBounds isHeightClean.
@@ -528,7 +528,7 @@ GLMBrickTests >> testMarkerOneChildrenInParentHeight [
 	self markFullyClean: root.
 	
 	brick wrappedBounds markHeightDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthClean.
 	self assert: brick wrappedBounds isHeightDirty.
@@ -547,7 +547,7 @@ GLMBrickTests >> testMarkerOneChildrenInParentWidth [
 	self markFullyClean: root.
 	
 	brick wrappedBounds markWidthDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthDirty.
 	self assert: brick wrappedBounds isHeightClean.
@@ -566,7 +566,7 @@ GLMBrickTests >> testMarkerOneChildrenInStaticHeight [
 	self markFullyClean: root.
 	
 	brick wrappedBounds markHeightDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthClean.
 	self assert: brick wrappedBounds isHeightDirty.
@@ -585,7 +585,7 @@ GLMBrickTests >> testMarkerOneChildrenInStaticWidth [
 	self markFullyClean: root.
 	
 	brick wrappedBounds markWidthDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthDirty.
 	self assert: brick wrappedBounds isHeightClean.
@@ -602,7 +602,7 @@ GLMBrickTests >> testMarkerOneChildrenWidth [
 	self markFullyClean: brick.
 	
 	brick wrappedBounds markWidthDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthDirty.
 	self assert: brick wrappedBounds isHeightClean.
@@ -616,7 +616,7 @@ GLMBrickTests >> testMarkerOneParentHeight [
 	self markFullyClean: brick.
 	
 	brick wrappedBounds markHeightDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthClean.
 	self assert: brick wrappedBounds isHeightDirty.
@@ -632,7 +632,7 @@ GLMBrickTests >> testMarkerOneParentInParentHeight [
 	self markFullyClean: root.
 	
 	brick wrappedBounds markHeightDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthClean.
 	self assert: brick wrappedBounds isHeightDirty.
@@ -651,7 +651,7 @@ GLMBrickTests >> testMarkerOneParentInParentWidth [
 	self markFullyClean: root.
 	
 	brick wrappedBounds markWidthDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthDirty.
 	self assert: brick wrappedBounds isHeightClean.
@@ -670,7 +670,7 @@ GLMBrickTests >> testMarkerOneParentInStaticHeight [
 	self markFullyClean: root.
 	
 	brick wrappedBounds markHeightDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthClean.
 	self assert: brick wrappedBounds isHeightDirty.
@@ -689,7 +689,7 @@ GLMBrickTests >> testMarkerOneParentInStaticWidth [
 	self markFullyClean: root.
 	
 	brick wrappedBounds markWidthDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthDirty.
 	self assert: brick wrappedBounds isHeightClean.
@@ -706,7 +706,7 @@ GLMBrickTests >> testMarkerOneParentWidth [
 	self markFullyClean: brick.
 	
 	brick wrappedBounds markWidthDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthDirty.
 	self assert: brick wrappedBounds isHeightClean.
@@ -720,7 +720,7 @@ GLMBrickTests >> testMarkerOneStaticHeight [
 	self markFullyClean: brick.
 	
 	brick wrappedBounds markHeightDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthClean.
 	self assert: brick wrappedBounds isHeightDirty.
@@ -736,7 +736,7 @@ GLMBrickTests >> testMarkerOneStaticInChildrenHeight [
 	self markFullyClean: root.
 	
 	brick wrappedBounds markHeightDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthClean.
 	self assert: brick wrappedBounds isHeightDirty.
@@ -755,7 +755,7 @@ GLMBrickTests >> testMarkerOneStaticInChildrenWidth [
 	self markFullyClean: root.
 	
 	brick wrappedBounds markWidthDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthDirty.
 	self assert: brick wrappedBounds isHeightClean.
@@ -774,7 +774,7 @@ GLMBrickTests >> testMarkerOneStaticInParentHeight [
 	self markFullyClean: root.
 	
 	brick wrappedBounds markHeightDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthClean.
 	self assert: brick wrappedBounds isHeightDirty.
@@ -793,7 +793,7 @@ GLMBrickTests >> testMarkerOneStaticInParentWidth [
 	self markFullyClean: root.
 	
 	brick wrappedBounds markWidthDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthDirty.
 	self assert: brick wrappedBounds isHeightClean.
@@ -812,7 +812,7 @@ GLMBrickTests >> testMarkerOneStaticInStaticHeight [
 	self markFullyClean: root.
 	
 	brick wrappedBounds markHeightDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthClean.
 	self assert: brick wrappedBounds isHeightDirty.
@@ -831,7 +831,7 @@ GLMBrickTests >> testMarkerOneStaticInStaticWidth [
 	self markFullyClean: root.
 	
 	brick wrappedBounds markWidthDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthDirty.
 	self assert: brick wrappedBounds isHeightClean.
@@ -848,7 +848,7 @@ GLMBrickTests >> testMarkerOneStaticWidth [
 	self markFullyClean: brick.
 	
 	brick wrappedBounds markWidthDirty.
-	GLMBrickLayouter uniqueInstance markDependent: brick.
+	GLMBrickLayouter uniqueInstance markDependent: brick brickApi.
 	
 	self assert: brick wrappedBounds isWidthDirty.
 	self assert: brick wrappedBounds isHeightClean.
@@ -1041,8 +1041,8 @@ GLMBrickTests >> testOneStaticBrick [
 	
 	brick := self newBrickWithStaticExtent.
 	
-	self assert: brick isWidthDependsOnMyself.
-	self assert: brick isHeightDependsOnMyself.
+	self assert: brick brickApi layout hState isOnMyself.
+	self assert: brick brickApi layout vState isOnMyself.
 	self assertBrickClean: brick.
 	self assert: brick extent equals: self staticExtent
 	
