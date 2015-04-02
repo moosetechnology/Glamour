@@ -93,7 +93,7 @@ GLMBrickLayoutTrait >> innerBounds [
 { #category : #'brick-layout' }
 GLMBrickLayoutTrait >> invalidateLayout [
 
-	self layoutPolicy layout: self in: self wrappedBounds innerBounds
+	self layoutPolicy layout: self brickApi in: self wrappedBounds innerBounds
 ]
 
 { #category : #'brick-layout' }
@@ -163,7 +163,7 @@ GLMBrickLayoutTrait >> layoutProperties: aLayoutProperties [
 { #category : #'brick-layout' }
 GLMBrickLayoutTrait >> layoutSubbricks [
 
-	self layoutPolicy layout: self in: self innerBounds
+	self layoutPolicy layout: self brickApi in: self innerBounds
 ]
 
 { #category : #'brick-layout-events' }

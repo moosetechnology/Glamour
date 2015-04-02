@@ -39,19 +39,19 @@ GLMBrickHeightTraverser >> hasMinDimensionRestriction: aBrick [
 { #category : #private }
 GLMBrickHeightTraverser >> isClean: aBrick [
 
-	^ aBrick wrappedBounds isHeightClean
+	^ aBrick isHeightClean
 ]
 
 { #category : #private }
 GLMBrickHeightTraverser >> isOppositeClean: aBrick [
 
-	^ aBrick wrappedBounds isWidthClean
+	^ aBrick isWidthClean
 ]
 
 { #category : #private }
 GLMBrickHeightTraverser >> markClean: aBrick [
 
-	aBrick wrappedBounds markHeightClean
+	aBrick markHeightClean
 	
 ]
 
@@ -59,13 +59,7 @@ GLMBrickHeightTraverser >> markClean: aBrick [
 GLMBrickHeightTraverser >> markDirty: aBrick [
 
 	self markLayoutDirty: aBrick owner.
-	aBrick wrappedBounds markHeightDirty
-]
-
-{ #category : #private }
-GLMBrickHeightTraverser >> markOppositeDirty: aBrick [
-
-	aBrick wrappedBounds markWidthDirty
+	aBrick markHeightDirty
 ]
 
 { #category : #accessing }
@@ -83,7 +77,7 @@ GLMBrickHeightTraverser >> state [
 { #category : #private }
 GLMBrickHeightTraverser >> updateDimension: aBrick [
 	"my height is already calculated, maybe because my children triggered calculation"
-	aBrick wrappedBounds isHeightClean ifTrue: [ ^ self ].
+	aBrick isHeightClean ifTrue: [ ^ self ].
 	
 	(self dimensionPolicy: aBrick) updateHeight: aBrick
 ]

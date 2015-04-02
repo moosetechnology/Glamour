@@ -41,6 +41,17 @@ GLMBrickLayoutParentState >> layout: aBrick on: aTraverser [
 	aTraverser layoutChildrenOf: aBrick
 ]
 
+{ #category : #layouting }
+GLMBrickLayoutParentState >> layoutPolicy: aBrick on: aTraverser [
+
+	^ (aBrick owner
+		ifNil: [ aBrick ]
+		ifNotNil: [ :owner |
+			owner isBrick
+				ifTrue: [ owner ]
+				ifFalse: [ aBrick ] ]) layoutPolicy
+]
+
 { #category : #accessing }
 GLMBrickLayoutParentState >> percent [
 	^ percent
@@ -54,11 +65,11 @@ GLMBrickLayoutParentState >> percent: anObject [
 { #category : #layouting }
 GLMBrickLayoutParentState >> updateHeight: aBrick on: aLayout [
 
-	aBrick wrappedBounds outerHeight: (aLayout normalizeHeight: (aLayout heightParentDependency: aBrick) of: aBrick)
+	aBrick outerHeight: (aLayout normalizeHeight: (aLayout heightParentDependency: aBrick) of: aBrick)
 ]
 
 { #category : #layouting }
 GLMBrickLayoutParentState >> updateWidth: aBrick on: aLayout [
 
-	aBrick wrappedBounds outerWidth: (aLayout normalizeWidth: (aLayout widthParentDependency: aBrick) of: aBrick)
+	aBrick outerWidth: (aLayout normalizeWidth: (aLayout widthParentDependency: aBrick) of: aBrick)
 ]

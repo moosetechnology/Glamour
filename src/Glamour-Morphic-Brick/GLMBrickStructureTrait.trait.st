@@ -89,6 +89,12 @@ GLMBrickStructureTrait >> asFormValue [
 	^ nil
 ]
 
+{ #category : #'brick-structure-converting' }
+GLMBrickStructureTrait >> brick [
+
+	^ self
+]
+
 { #category : #'private-structure' }
 GLMBrickStructureTrait >> brickDoubleLink [
 

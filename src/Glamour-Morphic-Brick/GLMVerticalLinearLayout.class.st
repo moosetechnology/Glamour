@@ -59,10 +59,10 @@ GLMVerticalLinearLayout >> heightChildrenDependency: aBrick [
 GLMVerticalLinearLayout >> heightParentDependency: aBrick [
 	| allowedHeight |
 	aBrick owner ifNil: [ Exception signal: 'My height depends on parent, but it is nil' ].
-	allowedHeight := aBrick owner subbricks inject: aBrick owner wrappedBounds innerBounds height into: [ :height :each |
-		each wrappedBounds isHeightClean ifTrue: [
+	allowedHeight := aBrick owner subbricks inject: aBrick owner innerBounds height into: [ :height :each |
+		each isHeightClean ifTrue: [
 			(each layout vState isOnParent not | (self hasHeightRestrictions: each))
-				ifTrue: [ height - each wrappedBounds outerBounds height ]
+				ifTrue: [ height - each outerBounds height ]
 				ifFalse: [ height ] ]
 			ifFalse: [ height ] ].
 	^ (allowedHeight * aBrick layout vPercent / 100) ceiling
@@ -76,8 +76,8 @@ GLMVerticalLinearLayout >> layout: aBrick in: newBounds [
 		in: newBounds
 		inject: aBrick paddingLeft @ aBrick paddingTop
 		into: [ :origin :each |
-			each wrappedBounds outerOrigin: origin.
-			0@each wrappedBounds outerBounds height ]
+			each outerOrigin: origin.
+			0@each outerBounds height ]
 ]
 
 { #category : #width }
@@ -93,5 +93,5 @@ GLMVerticalLinearLayout >> widthChildrenDependency: aBrick [
 GLMVerticalLinearLayout >> widthParentDependency: aBrick [
 	
 	aBrick owner ifNil: [ Exception signal: 'My width depends on parent, but it is nil' ].
-	^ (aBrick owner wrappedBounds innerBounds width * aBrick layout hPercent / 100) ceiling
+	^ (aBrick owner innerBounds width * aBrick layout hPercent / 100) ceiling
 ]

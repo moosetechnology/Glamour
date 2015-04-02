@@ -25,11 +25,11 @@ GLMBrickLayoutChildrenState >> layout: aBrick on: aTraverser [
 { #category : #layouting }
 GLMBrickLayoutChildrenState >> updateHeight: aBrick on: aLayout [
 
-	aBrick wrappedBounds height: (aLayout normalizeHeight: (aLayout heightChildrenDependency: aBrick) of: aBrick)
+	aBrick withHeight: (aLayout normalizeHeight: (aLayout heightChildrenDependency: aBrick) of: aBrick)
 ]
 
 { #category : #layouting }
 GLMBrickLayoutChildrenState >> updateWidth: aBrick on: aLayout [
 
-	aBrick wrappedBounds width: (aLayout normalizeWidth: (aLayout widthChildrenDependency: aBrick) of: aBrick)
+	aBrick withWidth: (aLayout normalizeWidth: (aLayout widthChildrenDependency: aBrick) of: aBrick)
 ]

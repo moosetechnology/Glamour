@@ -11,45 +11,9 @@ GLMBrickWrapper >> brickBounds: aRectangle [
 ]
 
 { #category : #api }
-GLMBrickWrapper >> customHeight [
-
-	^ self brick customHeight
-]
-
-{ #category : #api }
-GLMBrickWrapper >> customWidth [
-
-	^ self brick customWidth
-]
-
-{ #category : #api }
 GLMBrickWrapper >> extent [
 
 	^ self brick extent
-]
-
-{ #category : #api }
-GLMBrickWrapper >> floating [
-
-	^ self brick floating
-]
-
-{ #category : #api }
-GLMBrickWrapper >> hAlign [
-
-	^ self brick hAlign
-]
-
-{ #category : #api }
-GLMBrickWrapper >> hResizing [
-
-	^ self brick hResizing
-]
-
-{ #category : #api }
-GLMBrickWrapper >> height [
-
-	^ self brick height
 ]
 
 { #category : #api }
@@ -62,6 +26,30 @@ GLMBrickWrapper >> innerBounds [
 GLMBrickWrapper >> invalidateLayout [
 
 	^ self brick invalidateLayout
+]
+
+{ #category : #api }
+GLMBrickWrapper >> isHeightClean [
+
+	^ self brick wrappedBounds isHeightClean
+]
+
+{ #category : #api }
+GLMBrickWrapper >> isHeightDirty [
+
+	^ self brick wrappedBounds isHeightDirty
+]
+
+{ #category : #api }
+GLMBrickWrapper >> isWidthClean [
+
+	^ self brick wrappedBounds isWidthClean
+]
+
+{ #category : #api }
+GLMBrickWrapper >> isWidthDirty [
+
+	^ self brick wrappedBounds isWidthDirty
 ]
 
 { #category : #api }
@@ -89,6 +77,30 @@ GLMBrickWrapper >> marginTop [
 ]
 
 { #category : #api }
+GLMBrickWrapper >> markHeightClean [
+
+	^ self brick wrappedBounds markHeightClean
+]
+
+{ #category : #api }
+GLMBrickWrapper >> markHeightDirty [
+
+	^ self brick wrappedBounds markHeightDirty
+]
+
+{ #category : #api }
+GLMBrickWrapper >> markWidthClean [
+
+	^ self brick wrappedBounds markWidthClean
+]
+
+{ #category : #api }
+GLMBrickWrapper >> markWidthDirty [
+
+	^ self brick wrappedBounds markWidthDirty
+]
+
+{ #category : #api }
 GLMBrickWrapper >> onChildrenLayouted [
 
 	^ self brick onChildrenLayouted
@@ -110,6 +122,24 @@ GLMBrickWrapper >> onLayouted [
 GLMBrickWrapper >> outerBounds [
 
 	^ self brick outerBounds
+]
+
+{ #category : #api }
+GLMBrickWrapper >> outerHeight: anInteger [
+
+	^ self brick wrappedBounds outerHeight: anInteger
+]
+
+{ #category : #api }
+GLMBrickWrapper >> outerOrigin: aPoint [
+
+	^ self brick wrappedBounds outerOrigin: aPoint
+]
+
+{ #category : #api }
+GLMBrickWrapper >> outerWidth: anInteger [
+
+	^ self brick wrappedBounds outerWidth: anInteger
 ]
 
 { #category : #api }
@@ -149,25 +179,19 @@ GLMBrickWrapper >> translateY: anObject [
 ]
 
 { #category : #api }
-GLMBrickWrapper >> vAlign [
-
-	^ self brick vAlign
-]
-
-{ #category : #api }
-GLMBrickWrapper >> vResizing [
-
-	^ self brick vResizing
-]
-
-{ #category : #api }
 GLMBrickWrapper >> width [
 
 	^ self brick width
 ]
 
 { #category : #api }
-GLMBrickWrapper >> wrappedBounds [
+GLMBrickWrapper >> withHeight: anInteger [
 
-	^ self brick wrappedBounds
+	^ self brick withHeight: anInteger
+]
+
+{ #category : #api }
+GLMBrickWrapper >> withWidth: anInteger [
+
+	^ self brick withWidth: anInteger
 ]

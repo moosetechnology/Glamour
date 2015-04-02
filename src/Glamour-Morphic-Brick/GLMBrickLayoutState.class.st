@@ -26,6 +26,12 @@ GLMBrickLayoutState >> isOnParent [
 GLMBrickLayoutState >> layout: aBrick on: aTraverser [
 ]
 
+{ #category : #layouting }
+GLMBrickLayoutState >> layoutPolicy: aBrick on: aTraverser [
+
+	^ aBrick layoutPolicy
+]
+
 { #category : #doing }
 GLMBrickLayoutState >> on: aSymbol do: aBlock ifAbsent: absentBlock [
 	|state|

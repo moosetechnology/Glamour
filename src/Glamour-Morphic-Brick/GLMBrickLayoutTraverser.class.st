@@ -13,16 +13,7 @@ GLMBrickLayoutTraverser >> customDependencies: aBrick [
 { #category : #private }
 GLMBrickLayoutTraverser >> dimensionPolicy: aBrick [
 
-	^ ((self isDependsOnParent: aBrick)
-		ifTrue: [
-			aBrick owner
-				ifNil: [ aBrick ]
-				ifNotNil: [ :owner |
-					owner isBrick
-						ifTrue: [ owner ]
-						ifFalse: [ aBrick ] ] ]
-		ifFalse: [ aBrick ])
-		layoutPolicy
+	^ (self stateOf: aBrick) layoutPolicy: aBrick on: self
 ]
 
 { #category : #private }
@@ -175,15 +166,15 @@ GLMBrickLayoutTraverser >> markDirtyAround: aBrick inContext: aContextBrick [
 						self markDirty: aBrick owner.
 						self markDirtyChildrenAround: aBrick owner inContext: aBrick ] ].
 				
-				(self isClean: aBrick owner) ifTrue:[ 
-					(aBrick floating = #none) not | (aBrick vAlign = #none) not | (aBrick hAlign = #none) not ifTrue: [ 
+				(self isClean: aBrick owner) ifTrue: [
+					(aBrick layout floating = #none) not | (aBrick layout vAlign = #none) not | (aBrick layout hAlign = #none) not ifTrue: [ 
 						self markLayoutDirty: aBrick owner ] ] ] ] ].
 	
 	aBrick subbricks do: [ :each |
 		each = aContextBrick ifFalse: [
 			each isBrick ifTrue: [
 			((self isDependsOnParent: each) & (self isClean: each))
-					| (each floating = #none) not | (each vAlign = #none) not | (each hAlign = #none) not ifTrue: [
+					| (each layout floating = #none) not | (each layout vAlign = #none) not | (each layout hAlign = #none) not ifTrue: [
 				self markDirty: each.
 				self markDirtyAround: each inContext: aBrick ] ] ] ].
 	

@@ -140,9 +140,9 @@ GLMBrickLayouter >> heightTraverser [
 { #category : #private }
 GLMBrickLayouter >> layout: aBrick [
 
-	aBrick wrappedBounds isWidthDirty
+	aBrick isWidthDirty
 		ifTrue: [ self widthTraverser layoutAround: aBrick inContext: nil ].
-	aBrick wrappedBounds isHeightDirty
+	aBrick isHeightDirty
 		ifTrue: [ self heightTraverser layoutAround: aBrick inContext: nil ]
 ]
 
@@ -157,16 +157,16 @@ GLMBrickLayouter >> layoutIn: aBrick [
 { #category : #private }
 GLMBrickLayouter >> markDependent: aBrick [
 
-	(aBrick wrappedBounds isWidthDirty | aBrick wrappedBounds isHeightDirty)
+	(aBrick isWidthDirty | aBrick isHeightDirty)
 		ifTrue: [
 			"we mark layout as dirty of brick itself"
 			aBrick layout markDirty.
 			"and its direct parent"
 			aBrick owner ifNotNil: [ :o | o isBrick ifTrue: [ o layout markDirty ] ] ].
 
-	aBrick wrappedBounds isWidthDirty
+	aBrick isWidthDirty
 		ifTrue: [ self widthTraverser markDirtyAround: aBrick inContext: nil ].
-	aBrick wrappedBounds isHeightDirty
+	aBrick isHeightDirty
 		ifTrue: [ self heightTraverser markDirtyAround: aBrick inContext: nil ]
 	
 ]

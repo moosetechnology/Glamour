@@ -38,7 +38,7 @@ GLMLinearLayout >> heightChildrenDependency: aBrick [
 GLMLinearLayout >> heightMyselfDependency: aBrick [
 	"when height depends only from aBrick just return its cutom height"
 	
-	^ aBrick customHeight
+	^ aBrick layout height brickValue: aBrick brick
 ]
 
 { #category : #height }
@@ -50,9 +50,9 @@ GLMLinearLayout >> heightParentDependency: aBrick [
 { #category : #floating }
 GLMLinearLayout >> isFloating: aBrick [
 	
-	aBrick layoutProperties floating = #none ifTrue: [ ^ false ].
+	aBrick layout floating = #none ifTrue: [ ^ false ].
 	
-	^ self respondsTo: (self floatingMethodFor: aBrick layoutProperties floating)
+	^ self respondsTo: (self floatingMethodFor: aBrick layout floating)
 ]
 
 { #category : #layout }
@@ -79,7 +79,7 @@ GLMLinearLayout >> layoutFloating: aBrick in: newBounds [
 	"must return an integer that will be added to the offset, if necessary"
 	
 	|float symbol|
-	float := aBrick layoutProperties floating.
+	float := aBrick layout floating.
 	symbol := self floatingMethodFor: float.
 	
 	^ (self respondsTo: symbol)
@@ -140,7 +140,7 @@ GLMLinearLayout >> sendEvent: aLayoutEvent to: aBrick [
 { #category : #height }
 GLMLinearLayout >> updateHeight: aBrick [
 	"this method should be called only when height of aBrick is dirty"
-	aBrick wrappedBounds isHeightClean ifTrue: [ Exception signal: 'Clean height can''t be updated!' ].
+	aBrick isHeightClean ifTrue: [ Exception signal: 'Clean height can''t be updated!' ].
 	aBrick layout vState updateHeight: aBrick on: self
 	
 	
@@ -151,7 +151,7 @@ GLMLinearLayout >> updateHeight: aBrick [
 GLMLinearLayout >> updateWidth: aBrick [
 	"aBrick is a Brick that uses me as current layout"
 	"this method should be called only when width of aBrick is dirty"
-	aBrick wrappedBounds isWidthClean ifTrue: [ Exception signal: 'Clean width can''t be updated!' ].
+	aBrick isWidthClean ifTrue: [ Exception signal: 'Clean width can''t be updated!' ].
 	aBrick layout hState updateWidth: aBrick on: self
 	
 	
@@ -167,7 +167,7 @@ GLMLinearLayout >> widthChildrenDependency: aBrick [
 { #category : #width }
 GLMLinearLayout >> widthMyselfDependency: aBrick [
 
-	^ aBrick customWidth
+	^ aBrick layout width brickValue: aBrick brick
 ]
 
 { #category : #width }
