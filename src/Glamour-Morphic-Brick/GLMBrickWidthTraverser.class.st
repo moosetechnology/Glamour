@@ -43,55 +43,9 @@ GLMBrickWidthTraverser >> isClean: aBrick [
 ]
 
 { #category : #private }
-GLMBrickWidthTraverser >> isDependsOnChildren: aBrick [
-
-	"Returns true if my width depends only from my children, otherwise false.
-	It means that layouter should first position my children and only then based on their
-	sizes set my width"
-	
-	^ aBrick layout isHShrinkWrap
-	
-]
-
-{ #category : #private }
-GLMBrickWidthTraverser >> isDependsOnMyself: aBrick [
-	"Returns true if my width depends only from myself, otherwise false.
-	It means that layouter can immediately calculate and set it"
-	
-	^ aBrick layout isWidthCustom
-	
-]
-
-{ #category : #private }
-GLMBrickWidthTraverser >> isDependsOnOpposite: aBrick [
-	"Returns true if my width depends from my height, otherwise false.
-	It means that layouter must first calculate my width and as soon as it is done my width"
-	
-	^ aBrick layout isHOpposite
-]
-
-{ #category : #private }
-GLMBrickWidthTraverser >> isDependsOnParent: aBrick [
-	"Returns true if my width depends only on my parent, otherwise false.
-	It means that layouter must first calculate width of my parent and only then my"
-	
-	^ aBrick layout isHSpaceFill
-]
-
-{ #category : #private }
 GLMBrickWidthTraverser >> isOppositeClean: aBrick [
 
 	^ aBrick wrappedBounds isHeightClean
-]
-
-{ #category : #private }
-GLMBrickWidthTraverser >> isOppositeDependsOn: aBrick [
-
-	"Returns true if my height depends on my width, otherwise false.
-	It means that layouter must first calculate my width and as soon as it is done my height"
-	
-	^ aBrick layout isVOpposite
-	
 ]
 
 { #category : #private }
@@ -119,6 +73,12 @@ GLMBrickWidthTraverser >> markOppositeDirty: aBrick [
 GLMBrickWidthTraverser >> opposite [
 
 	^ GLMBrickHeightTraverser uniqueInstance
+]
+
+{ #category : #accessing }
+GLMBrickWidthTraverser >> state [
+
+	^ #hState
 ]
 
 { #category : #private }

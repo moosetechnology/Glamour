@@ -141,12 +141,7 @@ GLMLinearLayout >> sendEvent: aLayoutEvent to: aBrick [
 GLMLinearLayout >> updateHeight: aBrick [
 	"this method should be called only when height of aBrick is dirty"
 	aBrick wrappedBounds isHeightClean ifTrue: [ Exception signal: 'Clean height can''t be updated!' ].
-	"when my height depends on children I set it to be able to fit the highest subbrick"
-	aBrick isHeightDependsOnChildren ifTrue: [ aBrick wrappedBounds height: (self normalizeHeight: (self heightChildrenDependency: aBrick) of: aBrick) ].
-	"when my height depends only from myself I can directly set it"
-	aBrick isHeightDependsOnMyself ifTrue: [ aBrick wrappedBounds height: (self normalizeHeight: (self heightMyselfDependency: aBrick) of: aBrick) ].
-	"when my height depends only from my parent"
-	aBrick isHeightDependsOnParent ifTrue: [ aBrick wrappedBounds outerHeight: (self normalizeHeight: (self heightParentDependency: aBrick) of: aBrick) ].
+	aBrick layout vState updateHeight: aBrick on: self
 	
 	
 	
@@ -157,12 +152,7 @@ GLMLinearLayout >> updateWidth: aBrick [
 	"aBrick is a Brick that uses me as current layout"
 	"this method should be called only when width of aBrick is dirty"
 	aBrick wrappedBounds isWidthClean ifTrue: [ Exception signal: 'Clean width can''t be updated!' ].
-	"when my width depends on children I set it to be able to fit all subbricks"
-	aBrick isWidthDependsOnChildren ifTrue: [ aBrick wrappedBounds width: (self normalizeWidth: (self widthChildrenDependency: aBrick) of: aBrick) ].
-	"when my width depends only from myself I can directly set it"
-	aBrick isWidthDependsOnMyself ifTrue: [ aBrick wrappedBounds width: (self normalizeWidth: (self widthMyselfDependency: aBrick) of: aBrick) ].
-	"when my width depends only from my parent"
-	aBrick isWidthDependsOnParent ifTrue: [ aBrick wrappedBounds outerWidth: (self normalizeWidth: (self widthParentDependency: aBrick) of: aBrick) ].
+	aBrick layout hState updateWidth: aBrick on: self
 	
 	
 	

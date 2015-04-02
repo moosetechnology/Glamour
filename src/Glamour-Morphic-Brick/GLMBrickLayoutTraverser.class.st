@@ -58,19 +58,19 @@ GLMBrickLayoutTraverser >> isClean: aBrick [
 { #category : #private }
 GLMBrickLayoutTraverser >> isDependsOnChildren: aBrick [
 
-	^ self subclassResponsibility
+	^ (self state cull: aBrick layout) isOnChildren
 ]
 
 { #category : #private }
 GLMBrickLayoutTraverser >> isDependsOnMyself: aBrick [
 
-	^ self subclassResponsibility
+	^ (self state cull: aBrick layout) isOnMyself
 ]
 
 { #category : #private }
 GLMBrickLayoutTraverser >> isDependsOnParent: aBrick [
 
-	^ self subclassResponsibility
+	^ (self state cull: aBrick layout) isOnParent
 ]
 
 { #category : #private }
@@ -109,16 +109,7 @@ GLMBrickLayoutTraverser >> layoutAround: aBrick inContext: aContextBrick [
 			[ b :=  (each brickValue: aBrick) brickApi ] on: Exception do: [ b := nil ] .
 			b ifNotNil: [ self layoutAround: b inContext: aBrick ] ].
 		
-	"children and parent dependencies must be before myself,
-	because custom dimension can theoretically depend on children or parent"
-	(self isDependsOnChildren: aBrick) ifTrue: [
-		self layoutChildrenDependency: aBrick ].
-	
-	(self isDependsOnParent: aBrick) ifTrue: [
-		self layoutParentDependency: aBrick ].
-	
-	(self isDependsOnMyself: aBrick) ifTrue: [
-		self layoutMyselftDependency: aBrick ].
+	(self stateOf: aBrick) layout: aBrick on: self.
 	
 	"and finally we position them"
 	self layoutSubbricks: aBrick.
@@ -129,54 +120,15 @@ GLMBrickLayoutTraverser >> layoutAround: aBrick inContext: aContextBrick [
 ]
 
 { #category : #traversing }
-GLMBrickLayoutTraverser >> layoutChildrenDependency: aBrick [
-	
-	"we need to calculate sizes of all subbricks"
-	self layoutChildrenOf: aBrick.
-	"first we calculate corresponding dimension"
-	self updateDimension: aBrick.
-	"after everything is done we can mark dimension as clean"
-	self markClean: aBrick.
-	"because my dimension changed, maybe my owner would like to adapt"
-	self layoutOwnerOf: aBrick
-]
-
-{ #category : #traversing }
 GLMBrickLayoutTraverser >> layoutChildrenOf: aBrick [
 
 	(self prioritySortedSubbricks: aBrick) do: [ :each | self layoutAround: each inContext: aBrick ]
 ]
 
 { #category : #traversing }
-GLMBrickLayoutTraverser >> layoutMyselftDependency: aBrick [
-	
-	"immidiately set my dimension"
-	self updateDimension: aBrick.
-	self markClean: aBrick.
-	self layoutChildrenOf: aBrick.
-	self layoutOwnerOf: aBrick
-]
-
-{ #category : #traversing }
 GLMBrickLayoutTraverser >> layoutOwnerOf: aBrick [
 
 	aBrick owner ifNotNil: [ self layoutAround: aBrick owner inContext: aBrick ]
-]
-
-{ #category : #traversing }
-GLMBrickLayoutTraverser >> layoutParentDependency: aBrick [
-
-	aBrick owner ifNil: [ ^ self markClean: aBrick. "Exception signal: 'Dimension depends on parent, but owner is nil'" ].
-	(self isDependsOnChildren: aBrick owner) ifTrue: [ Error signal: 'Circle dependency detected!' ].
-	
-	"because I depend on my parent, it should be layouted first"
-	self layoutOwnerOf: aBrick.
-	"then I can update my dimension"
-	self updateDimension: aBrick.
-	"everething is done I can mark dimension as clean"
-	self markClean: aBrick.
-	"and I can say my children to layout themselves, because I'm already clean"
-	self layoutChildrenOf: aBrick
 ]
 
 { #category : #private }
@@ -306,6 +258,18 @@ GLMBrickLayoutTraverser >> prioritySortedSubbricks: aBrick [
 					ifTrue: [ (self hasMinDimensionRestriction: first) ifFalse: [ false ]
 						ifTrue: [ true ] ] ] ] ] ].
 	^ sorted
+]
+
+{ #category : #accessing }
+GLMBrickLayoutTraverser >> state [
+
+	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+GLMBrickLayoutTraverser >> stateOf: aBrick [
+
+	^ self state cull: aBrick layout
 ]
 
 { #category : #private }

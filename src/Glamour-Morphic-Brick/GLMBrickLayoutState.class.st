@@ -22,6 +22,10 @@ GLMBrickLayoutState >> isOnParent [
 	^ false
 ]
 
+{ #category : #layouting }
+GLMBrickLayoutState >> layout: aBrick on: aTraverser [
+]
+
 { #category : #doing }
 GLMBrickLayoutState >> on: aSymbol do: aBlock ifAbsent: absentBlock [
 	|state|
@@ -57,4 +61,12 @@ GLMBrickLayoutState >> onParentDo: aBlock [
 		on: #isOnParent
 		do: aBlock
 		ifAbsent: [ GLMBrickLayoutParentState new ]
+]
+
+{ #category : #layouting }
+GLMBrickLayoutState >> updateHeight: aBrick on: aLayout [
+]
+
+{ #category : #layouting }
+GLMBrickLayoutState >> updateWidth: aBrick on: aLayout [
 ]

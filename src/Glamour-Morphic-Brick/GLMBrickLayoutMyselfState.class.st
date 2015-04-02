@@ -35,3 +35,25 @@ GLMBrickLayoutMyselfState >> isOnMyself [
 
 	^ true
 ]
+
+{ #category : #layouting }
+GLMBrickLayoutMyselfState >> layout: aBrick on: aTraverser [
+
+	"immidiately set my dimension"
+	aTraverser updateDimension: aBrick.
+	aTraverser markClean: aBrick.
+	aTraverser layoutChildrenOf: aBrick.
+	aTraverser layoutOwnerOf: aBrick
+]
+
+{ #category : #layouting }
+GLMBrickLayoutMyselfState >> updateHeight: aBrick on: aLayout [
+
+	aBrick wrappedBounds height: (aLayout normalizeHeight: (aLayout heightMyselfDependency: aBrick) of: aBrick)
+]
+
+{ #category : #layouting }
+GLMBrickLayoutMyselfState >> updateWidth: aBrick on: aLayout [
+
+	aBrick wrappedBounds width: (aLayout normalizeWidth: (aLayout widthMyselfDependency: aBrick) of: aBrick)
+]
