@@ -4,7 +4,7 @@ Class {
 	#classInstVars : [
 		'uniqueInstance'
 	],
-	#category : #'Glamour-Morphic-Brick-Utils'
+	#category : #'Glamour-Morphic-Brick-Layouts-Utils'
 }
 
 { #category : #cleanup }
@@ -44,26 +44,36 @@ GLMBrickHeightTraverser >> isClean: aBrick [
 
 { #category : #private }
 GLMBrickHeightTraverser >> isDependsOnChildren: aBrick [
-
-	^ aBrick isHeightDependsOnChildren 
+	"Returns true if my height depends only from my children, otherwise false.
+	It means that layouter should first position my children and only then based on their
+	sizes set my height"
+	
+	^ aBrick layout isVShrinkWrap
 ]
 
 { #category : #private }
 GLMBrickHeightTraverser >> isDependsOnMyself: aBrick [
+	"Returns true if my height depends only from myself, otherwise false.
+	It means that layouter can immediately calculate and set it"
 	
-	^ aBrick isHeightDependsOnMyself
+	^ aBrick layout isHeightCustom
 ]
 
 { #category : #private }
 GLMBrickHeightTraverser >> isDependsOnOpposite: aBrick [
+	"Returns true if my height depends from my width, otherwise false.
+	It means that layouter must first calculate my width and as soon as it is done my height"
 	
-	^ aBrick isHeightDependsOnWidth
+	^ aBrick layout isVOpposite
 ]
 
 { #category : #private }
 GLMBrickHeightTraverser >> isDependsOnParent: aBrick [
+
+	"Returns true if my height depends only from my parent, otherwise false.
+	It means that layouter must first calculate height of my parent and only then my"
 	
-	^ aBrick isHeightDependsOnParent
+	^ aBrick layout isVSpaceFill
 ]
 
 { #category : #private }
@@ -74,8 +84,10 @@ GLMBrickHeightTraverser >> isOppositeClean: aBrick [
 
 { #category : #private }
 GLMBrickHeightTraverser >> isOppositeDependsOn: aBrick [
-
-	^ aBrick isWidthDependsOnHeight
+	"Returns true if my width depends from my height, otherwise false.
+	It means that layouter must first calculate my width and as soon as it is done my width"
+	
+	^ aBrick layout isHOpposite
 	
 ]
 

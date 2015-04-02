@@ -34,7 +34,7 @@ Class {
 	#classInstVars : [
 		'uniqueInstance'
 	],
-	#category : #'Glamour-Morphic-Brick-Utils'
+	#category : #'Glamour-Morphic-Brick-Layouts-Utils'
 }
 
 { #category : #examples }

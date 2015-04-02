@@ -4,7 +4,7 @@ Class {
 	#classInstVars : [
 		'uniqueInstance'
 	],
-	#category : #'Glamour-Morphic-Brick-Utils'
+	#category : #'Glamour-Morphic-Brick-Layouts-Utils'
 }
 
 { #category : #cleanup }
@@ -45,28 +45,37 @@ GLMBrickWidthTraverser >> isClean: aBrick [
 { #category : #private }
 GLMBrickWidthTraverser >> isDependsOnChildren: aBrick [
 
-	^ aBrick isWidthDependsOnChildren
+	"Returns true if my width depends only from my children, otherwise false.
+	It means that layouter should first position my children and only then based on their
+	sizes set my width"
+	
+	^ aBrick layout isHShrinkWrap
 	
 ]
 
 { #category : #private }
 GLMBrickWidthTraverser >> isDependsOnMyself: aBrick [
-
-	^ aBrick isWidthDependsOnMyself
+	"Returns true if my width depends only from myself, otherwise false.
+	It means that layouter can immediately calculate and set it"
+	
+	^ aBrick layout isWidthCustom
 	
 ]
 
 { #category : #private }
 GLMBrickWidthTraverser >> isDependsOnOpposite: aBrick [
-
-	^ aBrick isWidthDependsOnHeight	
+	"Returns true if my width depends from my height, otherwise false.
+	It means that layouter must first calculate my width and as soon as it is done my width"
+	
+	^ aBrick layout isHOpposite
 ]
 
 { #category : #private }
 GLMBrickWidthTraverser >> isDependsOnParent: aBrick [
-
-	^ aBrick isWidthDependsOnParent
+	"Returns true if my width depends only on my parent, otherwise false.
+	It means that layouter must first calculate width of my parent and only then my"
 	
+	^ aBrick layout isHSpaceFill
 ]
 
 { #category : #private }
@@ -78,7 +87,10 @@ GLMBrickWidthTraverser >> isOppositeClean: aBrick [
 { #category : #private }
 GLMBrickWidthTraverser >> isOppositeDependsOn: aBrick [
 
-	^ aBrick isHeightDependsOnWidth
+	"Returns true if my height depends on my width, otherwise false.
+	It means that layouter must first calculate my width and as soon as it is done my height"
+	
+	^ aBrick layout isVOpposite
 	
 ]
 

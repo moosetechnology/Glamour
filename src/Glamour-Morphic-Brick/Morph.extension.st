@@ -7,6 +7,12 @@ Morph >> asBrick [
 ]
 
 { #category : #'*Glamour-Morphic-Brick' }
+Morph >> brickApi [
+
+	^ self valueOfProperty: #brickApi ifAbsentPut: [ GLMBrickMorphWrapper on: self ]
+]
+
+{ #category : #'*Glamour-Morphic-Brick' }
 Morph >> brickDoubleLink [
 
 	^ self valueOfProperty: #brickDoubleLink ifAbsentPut: [ nil ]

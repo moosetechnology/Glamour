@@ -20,7 +20,8 @@ Class {
 	#traits : 'GLMBrickPropertiesTrait + GLMBrickLayoutTrait + GLMBrickStructureTrait + (GLMBrickGeometryTrait - {#privateBounds:})',
 	#classTraits : 'GLMBrickPropertiesTrait classTrait + GLMBrickLayoutTrait classTrait + GLMBrickStructureTrait classTrait + GLMBrickGeometryTrait classTrait',
 	#instVars : [
-		'brickBounds'
+		'brickBounds',
+		'brickApi'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-Core'
 }
@@ -254,6 +255,12 @@ GLMBrick >> bounds [
 GLMBrick >> boundsInWorld [
 
 	^ self globalBounds
+]
+
+{ #category : #'*Glamour-Morphic-Brick' }
+GLMBrick >> brickApi [
+
+	^ brickApi ifNil: [ brickApi := GLMBrickWrapper on: self ]
 ]
 
 { #category : #'morph-drawing' }

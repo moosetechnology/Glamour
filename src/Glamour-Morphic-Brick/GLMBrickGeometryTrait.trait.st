@@ -30,13 +30,13 @@ GLMBrickGeometryTrait >> brickBounds: aRectangle [
 { #category : #'private-geometry' }
 GLMBrickGeometryTrait >> customHeight [
 
-	^ (self valueOfProperty: #brickGeometryHeightLogic) brickValue: self
+	^ self layout height brickValue: self
 ]
 
 { #category : #'private-geometry' }
 GLMBrickGeometryTrait >> customWidth [
 
-	^ (self valueOfProperty: #brickGeometryWidthLogic) brickValue: self
+	^ self layout width brickValue: self
 ]
 
 { #category : #'brick-geometry' }
@@ -111,8 +111,6 @@ GLMBrickGeometryTrait >> height: anObject [
 	<brickBuilderProperty: #Geometry name: 'Height' as: #asInteger getter: #height model: #GLMUIBuilderTextFieldProperty>
 
 	self privateHeight: anObject.
-	self vResizing: #rigid.
-	self vPercent: 0.
 	self updateHeight
 ]
 
@@ -120,18 +118,6 @@ GLMBrickGeometryTrait >> height: anObject [
 GLMBrickGeometryTrait >> innerBounds [
 	"can be used in layouts"
 	^ self wrappedBounds innerBounds
-]
-
-{ #category : #'private-geometry' }
-GLMBrickGeometryTrait >> isHeightCustom [
-
-	^ (self valueOfProperty: #brickGeometryHeightLogic ifAbsentPut: [ nil ]) isNotNil
-]
-
-{ #category : #'private-geometry' }
-GLMBrickGeometryTrait >> isWidthCustom [
-
-	^ (self valueOfProperty: #brickGeometryWidthLogic ifAbsentPut: [ nil ]) isNotNil
 ]
 
 { #category : #'brick-layout' }
@@ -312,16 +298,16 @@ GLMBrickGeometryTrait >> privateBounds: aRectangle [
 	^ self explicitRequirement
 ]
 
-{ #category : #'brick-geometry' }
+{ #category : #'private-geometry' }
 GLMBrickGeometryTrait >> privateHeight: anObject [
 	
-	self setProperty: #brickGeometryHeightLogic toValue: anObject
+	self layout height: anObject
 ]
 
-{ #category : #'brick-geometry' }
+{ #category : #'private-geometry' }
 GLMBrickGeometryTrait >> privateWidth: anObject [
 
-	self setProperty: #brickGeometryWidthLogic toValue: anObject
+	self layout width: anObject
 ]
 
 { #category : #'private-extension' }
@@ -377,8 +363,8 @@ GLMBrickGeometryTrait >> updateFoundationBounds [
 { #category : #'private-geometry' }
 GLMBrickGeometryTrait >> updateHeight [
 	"no need to care about height, when it's logic is not customized"
-	self isHeightCustom ifFalse: [ ^ self ].
-	[ self bounds: (self brickBounds withHeight: ((self valueOfProperty: #brickGeometryHeightLogic) brickValue: self)) ]
+	self layout isHeightCustom ifFalse: [ ^ self ].
+	[ self bounds: (self brickBounds withHeight: self customHeight) ]
 		on: Exception
 		do: [ "just skip and do nothing" ]
 ]
@@ -386,8 +372,8 @@ GLMBrickGeometryTrait >> updateHeight [
 { #category : #'private-geometry' }
 GLMBrickGeometryTrait >> updateWidth [
 	"no need to care about width, when it's logic is not customized"
-	self isWidthCustom ifFalse: [ ^ self ].
-	[ self bounds: (self brickBounds withWidth: ((self valueOfProperty: #brickGeometryWidthLogic) brickValue: self)) ]
+	self layout isWidthCustom ifFalse: [ ^ self ].
+	[ self bounds: (self brickBounds withWidth: self customWidth) ]
 		on: Exception
 		do: [ "just skip and do nothing" ]
 ]
@@ -433,8 +419,6 @@ GLMBrickGeometryTrait >> width: anObject [
 	<brickBuilderProperty: #Geometry name: 'Width' as: #asInteger getter: #width model: #GLMUIBuilderTextFieldProperty>
 
 	self privateWidth: anObject.
-	self hResizing: #rigid.
-	self hPercent: 0.
 	self updateWidth
 ]
 

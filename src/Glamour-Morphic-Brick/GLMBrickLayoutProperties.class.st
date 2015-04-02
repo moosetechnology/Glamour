@@ -67,16 +67,16 @@ Class {
 		'floating',
 		'hAlign',
 		'heightDependencies',
-		'horizontalPercent',
 		'maxHeight',
 		'maxWidth',
 		'minHeight',
 		'vAlign',
-		'verticalPercent',
 		'widthDependencies',
 		'zIndex',
 		'minWidth',
-		'isDirty'
+		'isDirty',
+		'hState',
+		'vState'
 	],
 	#category : #'Glamour-Morphic-Brick-Layouts'
 }
@@ -107,19 +107,19 @@ GLMBrickLayoutProperties >> hAlign: aSymbol [
 { #category : #scripting }
 GLMBrickLayoutProperties >> hPercent [
 
-	^ horizontalPercent ifNil: [ horizontalPercent := 0 ]
+	^ self hState percent
 ]
 
 { #category : #scripting }
 GLMBrickLayoutProperties >> hPercent: anInteger [
 
-	horizontalPercent := anInteger
+	hState := self hState onParentDo: [ :s | s percent: anInteger ]
 ]
 
 { #category : #scripting }
 GLMBrickLayoutProperties >> hShrinkWrap [
 	"my width will change to fit children"
-	self hResizing: #shrinkWrap
+	hState := self hState onChildrenDo: #yourself
 ]
 
 { #category : #scripting }
@@ -131,8 +131,13 @@ GLMBrickLayoutProperties >> hSpaceFill [
 { #category : #scripting }
 GLMBrickLayoutProperties >> hSpaceFill: anInteger [
 	"my width will change to fill anInteger percents of my parent"
-	self hPercent: anInteger.
-	self hResizing: #spaceFill
+	self hPercent: anInteger
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> hState [
+
+	^ hState
 ]
 
 { #category : #private }
@@ -159,6 +164,18 @@ GLMBrickLayoutProperties >> hasMinWidth [
 	^ (self minWidth isNumber ifTrue: [ self minWidth <= 0 ] ifFalse: [ false ]) not
 ]
 
+{ #category : #accessing }
+GLMBrickLayoutProperties >> height [
+
+	^ self vState dimension
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> height: anObject [
+
+	vState := self vState onMyselfDo: [ :s | s dimension: anObject ]
+]
+
 { #category : #private }
 GLMBrickLayoutProperties >> heightDependencies [
 
@@ -171,6 +188,14 @@ GLMBrickLayoutProperties >> heightDependency: anObject [
 	self heightDependencies add: anObject
 ]
 
+{ #category : #initialization }
+GLMBrickLayoutProperties >> initialize [
+	super initialize.
+	
+	hState := GLMBrickLayoutDummState new.
+	vState := GLMBrickLayoutDummState new
+]
+
 { #category : #accessing }
 GLMBrickLayoutProperties >> isClean [
 
@@ -181,6 +206,42 @@ GLMBrickLayoutProperties >> isClean [
 GLMBrickLayoutProperties >> isDirty [
 
 	^ isDirty ifNil: [ isDirty := true ]
+]
+
+{ #category : #testing }
+GLMBrickLayoutProperties >> isHShrinkWrap [
+
+	^ self hState isOnChildren
+]
+
+{ #category : #testing }
+GLMBrickLayoutProperties >> isHSpaceFill [
+
+	^ self hState isOnParent
+]
+
+{ #category : #testing }
+GLMBrickLayoutProperties >> isHeightCustom [
+
+	^ self vState isOnMyself
+]
+
+{ #category : #testing }
+GLMBrickLayoutProperties >> isVShrinkWrap [
+
+	^ self vState isOnChildren
+]
+
+{ #category : #testing }
+GLMBrickLayoutProperties >> isVSpaceFill [
+
+	^ self vState isOnParent
+]
+
+{ #category : #testing }
+GLMBrickLayoutProperties >> isWidthCustom [
+
+	^ self hState isOnMyself
 ]
 
 { #category : #accessing }
@@ -257,19 +318,19 @@ GLMBrickLayoutProperties >> vAlign: aSymbol [
 { #category : #scripting }
 GLMBrickLayoutProperties >> vPercent [
 
-	^ verticalPercent ifNil: [ verticalPercent := 0 ]
+	^ self vState percent
 ]
 
 { #category : #scripting }
 GLMBrickLayoutProperties >> vPercent: anInteger [
 
-	verticalPercent := anInteger
+	vState := self vState onParentDo: [ :s | s percent: anInteger ]
 ]
 
 { #category : #scripting }
 GLMBrickLayoutProperties >> vShrinkWrap [
 
-	self vResizing: #shrinkWrap
+	vState := self vState onChildrenDo: #yourself
 ]
 
 { #category : #scripting }
@@ -281,8 +342,25 @@ GLMBrickLayoutProperties >> vSpaceFill [
 { #category : #scripting }
 GLMBrickLayoutProperties >> vSpaceFill: anInteger [
 	"my height will change to fill anInteger percents of my parent"
-	self vPercent: anInteger.
-	self vResizing: #spaceFill
+	self vPercent: anInteger
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> vState [
+
+	^ vState
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> width [
+
+	^ self hState dimension
+]
+
+{ #category : #accessing }
+GLMBrickLayoutProperties >> width: anObject [
+
+	hState := self hState onMyselfDo: [ :s | s dimension: anObject ]
 ]
 
 { #category : #private }

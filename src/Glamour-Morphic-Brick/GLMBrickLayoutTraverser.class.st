@@ -1,7 +1,7 @@
 Class {
 	#name : #GLMBrickLayoutTraverser,
 	#superclass : #Object,
-	#category : #'Glamour-Morphic-Brick-Utils'
+	#category : #'Glamour-Morphic-Brick-Layouts-Utils'
 }
 
 { #category : #private }
@@ -68,12 +68,6 @@ GLMBrickLayoutTraverser >> isDependsOnMyself: aBrick [
 ]
 
 { #category : #private }
-GLMBrickLayoutTraverser >> isDependsOnOpposite: aBrick [
-
-	^ self subclassResponsibility
-]
-
-{ #category : #private }
 GLMBrickLayoutTraverser >> isDependsOnParent: aBrick [
 
 	^ self subclassResponsibility
@@ -101,12 +95,6 @@ GLMBrickLayoutTraverser >> isOppositeClean: aBrick [
 	^ self subclassResponsibility
 ]
 
-{ #category : #private }
-GLMBrickLayoutTraverser >> isOppositeDependsOn: aBrick [
-
-	^ self subclassResponsibility
-]
-
 { #category : #traversing }
 GLMBrickLayoutTraverser >> layoutAround: aBrick inContext: aContextBrick [
 	"want to layout non-Brick object? nice try, bro."
@@ -118,7 +106,7 @@ GLMBrickLayoutTraverser >> layoutAround: aBrick inContext: aContextBrick [
 	to detect cycles fast"
 	(self customDependencies: aBrick)
 		do: [ :each | |b|
-			[ b :=  each brickValue: aBrick ] on: Exception do: [ b := nil ] .
+			[ b :=  (each brickValue: aBrick) brickApi ] on: Exception do: [ b := nil ] .
 			b ifNotNil: [ self layoutAround: b inContext: aBrick ] ].
 		
 	"children and parent dependencies must be before myself,
@@ -131,12 +119,6 @@ GLMBrickLayoutTraverser >> layoutAround: aBrick inContext: aContextBrick [
 	
 	(self isDependsOnMyself: aBrick) ifTrue: [
 		self layoutMyselftDependency: aBrick ].
-	
-	(self isDependsOnOpposite: aBrick) ifTrue: [
-		self layoutOppositeDependency: aBrick ].
-	
-	(self isOppositeDependsOn: aBrick) ifTrue: [
-		self opposite layoutAround: aBrick inContext: nil ].
 	
 	"and finally we position them"
 	self layoutSubbricks: aBrick.
@@ -170,16 +152,6 @@ GLMBrickLayoutTraverser >> layoutMyselftDependency: aBrick [
 	
 	"immidiately set my dimension"
 	self updateDimension: aBrick.
-	self markClean: aBrick.
-	self layoutChildrenOf: aBrick.
-	self layoutOwnerOf: aBrick
-]
-
-{ #category : #traversing }
-GLMBrickLayoutTraverser >> layoutOppositeDependency: aBrick [
-
-	self opposite layoutAround: aBrick inContext: nil.
-	self flag: 'set my size depending from opposite dimension'.
 	self markClean: aBrick.
 	self layoutChildrenOf: aBrick.
 	self layoutOwnerOf: aBrick
@@ -246,7 +218,7 @@ GLMBrickLayoutTraverser >> markDirtyAround: aBrick inContext: aContextBrick [
 					self markDirty: aBrick owner.
 					self markDirtyAround: aBrick owner inContext: aBrick ].
 			
-				((self isDependsOnMyself: aBrick) | (self isDependsOnChildren: aBrick) | (self isDependsOnOpposite: aBrick))
+				((self isDependsOnMyself: aBrick) | (self isDependsOnChildren: aBrick))
 					ifTrue: [ (aBrick owner subbricks anySatisfy: [ :each | self isDependsOnParent: each]) ifTrue: [
 						self markDirty: aBrick owner.
 						self markDirtyChildrenAround: aBrick owner inContext: aBrick ] ].
@@ -262,10 +234,6 @@ GLMBrickLayoutTraverser >> markDirtyAround: aBrick inContext: aContextBrick [
 					| (each floating = #none) not | (each vAlign = #none) not | (each hAlign = #none) not ifTrue: [
 				self markDirty: each.
 				self markDirtyAround: each inContext: aBrick ] ] ] ].
-	
-	(self isOppositeDependsOn: aBrick) & (self isOppositeClean: aBrick) ifTrue: [
-		self markOppositeDirty: aBrick.
-		self opposite markDirtyAround: aBrick inContext: nil ].
 	
 	self markDirtyCustomDependency: aBrick inContext: aContextBrick.
 	aBrick subbricks do: [ :each | self markDirtyCustomDependency: each inContext: aBrick ]
@@ -295,7 +263,7 @@ GLMBrickLayoutTraverser >> markDirtyCustomDependency: aBrick inContext: aContext
 						self markDirtyAround: each inContext: aBrick ] ].
 				
 				(self customDependencies: aBrick) do: [ :each | |brick|
-					[ brick := each brickValue: aBrick ] on: Exception do: [ brick := nil ].
+					[ brick := (each brickValue: aBrick) brickApi ] on: Exception do: [ brick := nil ].
 					brick ifNotNil: [
 						(brick = aContextBrick) not & (brick = aBrick) not & brick isBrick ifTrue: [
 							(self isClean: brick) ifTrue: [
