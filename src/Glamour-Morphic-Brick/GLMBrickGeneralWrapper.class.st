@@ -32,6 +32,12 @@ GLMBrickGeneralWrapper >> changed [
 ]
 
 { #category : #api }
+GLMBrickGeneralWrapper >> hState [
+
+	^ self layout hState
+]
+
+{ #category : #api }
 GLMBrickGeneralWrapper >> isBrick [
 
 	^ self brick isBrick
@@ -59,4 +65,10 @@ GLMBrickGeneralWrapper >> owner [
 GLMBrickGeneralWrapper >> subbricks [
 
 	^ self brick subbricks collect:  #brickApi
+]
+
+{ #category : #api }
+GLMBrickGeneralWrapper >> vState [
+
+	^ self layout vState
 ]

@@ -49,19 +49,19 @@ GLMBrickLayoutTraverser >> isClean: aBrick [
 { #category : #private }
 GLMBrickLayoutTraverser >> isDependsOnChildren: aBrick [
 
-	^ (self state cull: aBrick layout) isOnChildren
+	^ (self stateOf: aBrick) isOnChildren
 ]
 
 { #category : #private }
 GLMBrickLayoutTraverser >> isDependsOnMyself: aBrick [
 
-	^ (self state cull: aBrick layout) isOnMyself
+	^ (self stateOf: aBrick) isOnMyself
 ]
 
 { #category : #private }
 GLMBrickLayoutTraverser >> isDependsOnParent: aBrick [
 
-	^ (self state cull: aBrick layout) isOnParent
+	^ (self stateOf: aBrick) isOnParent
 ]
 
 { #category : #private }
@@ -260,7 +260,7 @@ GLMBrickLayoutTraverser >> state [
 { #category : #accessing }
 GLMBrickLayoutTraverser >> stateOf: aBrick [
 
-	^ self state cull: aBrick layout
+	^ self state cull: aBrick
 ]
 
 { #category : #private }

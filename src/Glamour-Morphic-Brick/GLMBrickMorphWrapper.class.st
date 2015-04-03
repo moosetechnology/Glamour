@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #api }
+GLMBrickMorphWrapper >> hState [
+
+	^ GLMBrickLayoutDummState new
+]
+
+{ #category : #api }
 GLMBrickMorphWrapper >> isBrick [
 
 	^ false
@@ -14,4 +20,10 @@ GLMBrickMorphWrapper >> isBrick [
 GLMBrickMorphWrapper >> subbricks [
 
 	^ self brick submorphs
+]
+
+{ #category : #api }
+GLMBrickMorphWrapper >> vState [
+
+	^ GLMBrickLayoutDummState new
 ]
