@@ -89,6 +89,18 @@ GLMBrickWrapper >> markHeightDirty [
 ]
 
 { #category : #api }
+GLMBrickWrapper >> markLayoutClean [
+
+	self layout markClean
+]
+
+{ #category : #api }
+GLMBrickWrapper >> markLayoutDirty [
+
+	self layout markDirty
+]
+
+{ #category : #api }
 GLMBrickWrapper >> markWidthClean [
 
 	^ self brick wrappedBounds markWidthClean

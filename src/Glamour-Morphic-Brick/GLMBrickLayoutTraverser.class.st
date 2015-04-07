@@ -217,13 +217,13 @@ GLMBrickLayoutTraverser >> markDirtyCustomDependency: aBrick inContext: aContext
 { #category : #private }
 GLMBrickLayoutTraverser >> markLayoutClean: aBrick [
 
-	aBrick ifNotNil: [ :b | b layout markClean ]
+	aBrick ifNotNil: [ :b | b markLayoutClean ]
 ]
 
 { #category : #private }
 GLMBrickLayoutTraverser >> markLayoutDirty: aBrick [
 
-	aBrick ifNotNil: [ :b | b isBrick ifTrue: [ b layout markDirty ] ]
+	aBrick ifNotNil: [ :b | b isBrick ifTrue: [ b markLayoutDirty ] ]
 ]
 
 { #category : #private }
