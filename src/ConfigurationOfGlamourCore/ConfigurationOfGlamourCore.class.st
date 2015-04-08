@@ -264,7 +264,7 @@ ConfigurationOfGlamourCore >> project [
 ConfigurationOfGlamourCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.1.1'.
+	spec for: #'common' version: '3.1.0'.
 	spec for: #'pharo3.x' version: '3.0.7'.
 
 ]
@@ -647,12 +647,12 @@ ConfigurationOfGlamourCore >> version309: spec [
 ]
 
 { #category : #versions }
-ConfigurationOfGlamourCore >> version311: spec [
-	<version: '3.1.1' imports: #('3.1-baseline' )>
+ConfigurationOfGlamourCore >> version310: spec [
+	<version: '3.1.0' imports: #('3.1-baseline' )>
 
 	spec for: #'common' do: [
 		spec blessing: #'stable'.
-		spec description: 'version 3.1.1 - Pharo 4 release'.
+		spec description: 'version 3.1.0 - Pharo 4 release'.
 		spec author: 'AndreiChis'.
 		spec timestamp: '04/08/2015 19:07'.
 		spec 
