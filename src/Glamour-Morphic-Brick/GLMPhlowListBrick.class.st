@@ -10,7 +10,7 @@ Class {
 { #category : #examples }
 GLMPhlowListBrick class >> example [
 	
-	^ GLMCompositeBrick exampleList
+	^ GLMCompositeBrick gtExampleList
 ]
 
 { #category : #examples }

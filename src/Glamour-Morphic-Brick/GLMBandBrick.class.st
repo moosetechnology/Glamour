@@ -9,7 +9,13 @@ Class {
 }
 
 { #category : #examples }
-GLMBandBrick class >> example [
+GLMBandBrick class >> exampleOpen [
+	
+	self gtExample openInBrickWindowLabeled: 'Band example'
+]
+
+{ #category : #examples }
+GLMBandBrick class >> gtExample [
 	<gtExample: 'Example with subbricks'>
 	
 	^ self new
@@ -25,12 +31,6 @@ GLMBandBrick class >> example [
 						color: Color random muchLighter;
 						height: 40;
 						hSpaceFill ) ] ]
-]
-
-{ #category : #examples }
-GLMBandBrick class >> exampleOpen [
-	
-	self example openInBrickWindowLabeled: 'Band example'
 ]
 
 { #category : #initialization }

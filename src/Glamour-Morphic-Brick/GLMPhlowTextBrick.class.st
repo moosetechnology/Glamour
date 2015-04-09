@@ -10,7 +10,7 @@ Class {
 { #category : #examples }
 GLMPhlowTextBrick class >> example [
 	
-	^ GLMCompositeBrick examplePharoMethod
+	^ GLMCompositeBrick gtExamplePharoMethod
 ]
 
 { #category : #phlow }

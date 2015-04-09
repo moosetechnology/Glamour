@@ -16,16 +16,16 @@ GLMAlertBrick class >> alert: anObject [
 ]
 
 { #category : #examples }
-GLMAlertBrick class >> example [
-	<gtExample: 'Simple alert window displaying a message'>
-	^ self new alertOn: 'Hello world!'
-	
-]
-
-{ #category : #examples }
 GLMAlertBrick class >> exampleOpen [
 
 	'Hello world!' brickAlert
+]
+
+{ #category : #examples }
+GLMAlertBrick class >> gtExample [
+	<gtExample: 'Simple alert window displaying a message'>
+	^ self new alertOn: 'Hello world!'
+	
 ]
 
 { #category : #scripting }

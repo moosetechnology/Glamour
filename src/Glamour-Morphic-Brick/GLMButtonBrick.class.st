@@ -23,15 +23,15 @@ Class {
 }
 
 { #category : #examples }
-GLMButtonBrick class >> example [
-	<gtExample: 'Simple button'>
-	^ self new
+GLMButtonBrick class >> exampleOpen [
+
+	self gtExample openCenteredInBrickWindow
 ]
 
 { #category : #examples }
-GLMButtonBrick class >> exampleOpen [
-
-	self example openCenteredInBrickWindow
+GLMButtonBrick class >> gtExample [
+	<gtExample: 'Simple button'>
+	^ self new
 ]
 
 { #category : #'brick-interactable-actions' }

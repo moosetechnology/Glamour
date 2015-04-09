@@ -9,7 +9,15 @@ Class {
 }
 
 { #category : #examples }
-GLMFormBrick class >> example [
+GLMFormBrick class >> exampleOpen [
+
+	self gtExample
+		when: GLMFormSubmitted do: [ :ann | ann result brickAlert ];
+		openCenteredInBrickWindow
+]
+
+{ #category : #examples }
+GLMFormBrick class >> gtExample [
 	<gtExample: 'Input form with title, two labels, four checkboxes, text and submit button'>
 	^ self new
 		title: [ :t | t
@@ -37,14 +45,6 @@ GLMFormBrick class >> example [
 			text: 'Rivella, CHF 4.-' ];
 		submit;
 		yourself
-]
-
-{ #category : #examples }
-GLMFormBrick class >> exampleOpen [
-
-	self example
-		when: GLMFormSubmitted do: [ :ann | ann result brickAlert ];
-		openCenteredInBrickWindow
 ]
 
 { #category : #'brick-structure-converting' }

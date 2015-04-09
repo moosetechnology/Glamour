@@ -36,7 +36,13 @@ Class {
 }
 
 { #category : #examples }
-GLMActionButtonBrick class >> example [
+GLMActionButtonBrick class >> exampleOpen [
+
+	self gtExample openCenteredInBrickWindowLabeled: 'Action button example'
+]
+
+{ #category : #examples }
+GLMActionButtonBrick class >> gtExample [
 	<gtExample: 'Action button with icon and dynamic background color'>
 	
 	^ self new
@@ -49,12 +55,6 @@ GLMActionButtonBrick class >> example [
 			borderColor: Color veryVeryLightGray;
 			borderWidth: 1;
 			padding: 5
-]
-
-{ #category : #examples }
-GLMActionButtonBrick class >> exampleOpen [
-
-	self example openCenteredInBrickWindowLabeled: 'Action button example'
 ]
 
 { #category : #'action-button-actions' }

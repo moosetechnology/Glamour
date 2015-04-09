@@ -26,17 +26,17 @@ Class {
 }
 
 { #category : #examples }
-GLMEditableLabelBrick class >> example [
+GLMEditableLabelBrick class >> exampleOpen [
+
+	self gtExample openCenteredInBrickWindow
+]
+
+{ #category : #examples }
+GLMEditableLabelBrick class >> gtExample [
 	<gtExample: 'Editable label simple example'>
 	^ self new
 		text: 'Click me to edit. Press enter to accept';
 		yourself
-]
-
-{ #category : #examples }
-GLMEditableLabelBrick class >> exampleOpen [
-
-	self example openCenteredInBrickWindow
 ]
 
 { #category : #'label-brick-actions' }

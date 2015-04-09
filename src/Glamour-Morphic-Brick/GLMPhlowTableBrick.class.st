@@ -11,7 +11,7 @@ Class {
 { #category : #examples }
 GLMPhlowTableBrick class >> example [
 	
-	^ GLMCompositeBrick exampleTable
+	^ GLMCompositeBrick gtExampleTable
 ]
 
 { #category : #accessing }

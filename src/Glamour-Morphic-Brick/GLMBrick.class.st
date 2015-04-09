@@ -27,7 +27,15 @@ Class {
 }
 
 { #category : #examples }
-GLMBrick class >> exampleZindex [
+GLMBrick class >> exampleZindexOpen [
+	"
+	self exampleZindexOpen
+	"
+	self gtExampleZindex openInBrickWindowLabeled: 'Z-Index example'
+]
+
+{ #category : #examples }
+GLMBrick class >> gtExampleZindex [
 	<gtExample: 'Example of z-index support in Brick'>
 	
 	^ GLMBrick new
@@ -50,14 +58,6 @@ GLMBrick class >> exampleZindex [
 				brickBounds: (0@0 extent: 300@200);
 				zIndex: 1);
 		yourself
-]
-
-{ #category : #examples }
-GLMBrick class >> exampleZindexOpen [
-	"
-	self exampleZindexOpen
-	"
-	self exampleZindex openInBrickWindowLabeled: 'Z-Index example'
 ]
 
 { #category : #utils }

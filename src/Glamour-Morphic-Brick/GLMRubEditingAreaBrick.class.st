@@ -12,16 +12,40 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Widgets-Basic'
 }
 
+{ #category : #'examples-open' }
+GLMRubEditingAreaBrick class >> exampleBandOpen [
+
+	self gtExampleBand openInBrickWindow
+]
+
+{ #category : #'examples-open' }
+GLMRubEditingAreaBrick class >> exampleFillOpen [
+
+	self gtExampleFill openCenteredInBrickWindow
+]
+
+{ #category : #'examples-open' }
+GLMRubEditingAreaBrick class >> exampleOpen [
+
+	self gtExample openCenteredInBrickWindow
+]
+
+{ #category : #'examples-open' }
+GLMRubEditingAreaBrick class >> exampleScrollPaneOpen [
+	
+	self gtExampleScrollPane openInBrickWindowLabeled: 'Rubric in ScrollPane'
+]
+
 { #category : #examples }
-GLMRubEditingAreaBrick class >> example [
+GLMRubEditingAreaBrick class >> gtExample [
 	<gtExample: 'Basic Rubric Editing Area'>
-	^ self exampleBasic
+	^ self gtExampleBasic
 		updateTextWith: 'Hello world!';
 		yourself
 ]
 
 { #category : #examples }
-GLMRubEditingAreaBrick class >> exampleBand [
+GLMRubEditingAreaBrick class >> gtExampleBand [
 	<gtExample: 'Two rubric text areas in band'>
 	
 	^ GLMBandBrick new
@@ -29,18 +53,12 @@ GLMRubEditingAreaBrick class >> exampleBand [
 		hSpaceFill;
 		vShrinkWrap;
 		color: Color veryVeryLightGray;
-		addAllBricks: { self exampleBasic. self exampleBasic };
+		addAllBricks: { self gtExampleBasic. self gtExampleBasic };
 		yourself
 ]
 
-{ #category : #'examples-open' }
-GLMRubEditingAreaBrick class >> exampleBandOpen [
-
-	self exampleBand openInBrickWindow
-]
-
 { #category : #examples }
-GLMRubEditingAreaBrick class >> exampleBasic [
+GLMRubEditingAreaBrick class >> gtExampleBasic [
 	<gtExample: 'Basic Rubric Editing Area with padding and border'>
 	^ self new
 		padding: 20;
@@ -50,28 +68,16 @@ GLMRubEditingAreaBrick class >> exampleBasic [
 ]
 
 { #category : #examples }
-GLMRubEditingAreaBrick class >> exampleFill [
+GLMRubEditingAreaBrick class >> gtExampleFill [
 	<gtExample: 'Basic Rubric Editing Area that fills parent'>
-	^ self exampleBasic
+	^ self gtExampleBasic
 		vSpaceFill;
 		updateTextWith: 'Hello world!';
 		yourself
 ]
 
-{ #category : #'examples-open' }
-GLMRubEditingAreaBrick class >> exampleFillOpen [
-
-	self exampleFill openCenteredInBrickWindow
-]
-
-{ #category : #'examples-open' }
-GLMRubEditingAreaBrick class >> exampleOpen [
-
-	self example openCenteredInBrickWindow
-]
-
 { #category : #examples }
-GLMRubEditingAreaBrick class >> exampleScrollPane [
+GLMRubEditingAreaBrick class >> gtExampleScrollPane [
 	<gtExample: 'Multiple rubric text areas in scroll pane'>
 	
 	^ GLMScrollPaneBrick new
@@ -79,14 +85,8 @@ GLMRubEditingAreaBrick class >> exampleScrollPane [
 		vSpaceFill;
 		color: Color veryVeryLightGray;
 		layoutMorphs: true;
-		addAllBricks: ((1 to: 20) collect: [ :i | self exampleBasic ]);
+		addAllBricks: ((1 to: 20) collect: [ :i | self gtExampleBasic ]);
 		yourself
-]
-
-{ #category : #'examples-open' }
-GLMRubEditingAreaBrick class >> exampleScrollPaneOpen [
-	
-	self exampleScrollPane openInBrickWindowLabeled: 'Rubric in ScrollPane'
 ]
 
 { #category : #initialization }

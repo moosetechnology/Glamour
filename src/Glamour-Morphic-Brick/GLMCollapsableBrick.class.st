@@ -54,17 +54,17 @@ GLMCollapsableBrick class >> createCollapsableArray: anInteger [
 ]
 
 { #category : #examples }
-GLMCollapsableBrick class >> example [
+GLMCollapsableBrick class >> exampleOpen [
+	
+	self gtExample openInBrickWindowLabeled: 'Collapsable Example'
+]
+
+{ #category : #examples }
+GLMCollapsableBrick class >> gtExample [
 	<gtExample: 'Very simple one collapsable item'>
 	^ self createCollapsable
 		hSpaceFill;
 		vShrinkWrap
-]
-
-{ #category : #examples }
-GLMCollapsableBrick class >> exampleOpen [
-	
-	self example openInBrickWindowLabeled: 'Collapsable Example'
 ]
 
 { #category : #actions }

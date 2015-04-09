@@ -5,7 +5,14 @@ Class {
 }
 
 { #category : #examples }
-GLMTreeBrick class >> example [
+GLMTreeBrick class >> exampleOpen [
+	
+	self gtExample openInBrickWindowLabeled: 'Tree Example'
+	
+]
+
+{ #category : #examples }
+GLMTreeBrick class >> gtExample [
 	<gtExample: 'Simple tree with a few elements'>
 	
 	^ self new
@@ -17,13 +24,6 @@ GLMTreeBrick class >> example [
 			'Third' -> { 
 				'Sub First' -> '3-1'.
 				'Sub Second' -> '3-2' } }
-	
-]
-
-{ #category : #examples }
-GLMTreeBrick class >> exampleOpen [
-	
-	self example openInBrickWindowLabeled: 'Tree Example'
 	
 ]
 

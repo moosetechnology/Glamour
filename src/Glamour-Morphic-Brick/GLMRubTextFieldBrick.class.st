@@ -24,106 +24,106 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Widgets-Basic'
 }
 
-{ #category : #examples }
-GLMRubTextFieldBrick class >> example [
-	<gtExample: 'Rubric text field that shrinks to fit height and width of the text'>
-	
-	^ self exampleWithBorder
-			setTextWith: 'Hello world!';
-			yourself
-]
-
-{ #category : #examples }
-GLMRubTextFieldBrick class >> exampleFullSpaceFill [
-	<gtExample: 'Rubric centered text field that fills parent'>
-	
-	^ self exampleWithBorder
-			hSpaceFill;
-			vSpaceFill;
-			setTextWith: 'Hello world!';
-			yourself
-]
-
-{ #category : #examples }
-GLMRubTextFieldBrick class >> exampleFullSpaceFillCentered [
-	<gtExample: 'Rubric centered text field that fills parent'>
-	^ self exampleWithBorder
-			hSpaceFill;
-			vSpaceFill;
-			beCentered;
-			setTextWith: 'Hello world!';
-			yourself
-]
-
 { #category : #'examples-open' }
 GLMRubTextFieldBrick class >> exampleFullSpaceFillCenteredOpen [
 
-	self exampleFullSpaceFillCentered openCenteredInBrickWindow
+	self gtExampleFullSpaceFillCentered openCenteredInBrickWindow
 ]
 
 { #category : #'examples-open' }
 GLMRubTextFieldBrick class >> exampleFullSpaceFillOpen [
 
-	self exampleFullSpaceFill openCenteredInBrickWindow
-]
-
-{ #category : #examples }
-GLMRubTextFieldBrick class >> exampleHSpaceFill [
-	<gtExample: 'Rubric text field that shrinks to fit height of the text and fills parent width'>
-	
-	^ self exampleWithBorder
-			hSpaceFill;
-			setTextWith: 'Hello world!';
-			yourself
+	self gtExampleFullSpaceFill openCenteredInBrickWindow
 ]
 
 { #category : #'examples-open' }
 GLMRubTextFieldBrick class >> exampleHSpaceFillOpen [
 
-	self exampleHSpaceFill openCenteredInBrickWindow
+	self gtExampleHSpaceFill openCenteredInBrickWindow
 ]
 
 { #category : #'examples-open' }
 GLMRubTextFieldBrick class >> exampleOpen [
 
-	self example openCenteredInBrickWindow
+	self gtExample openCenteredInBrickWindow
+]
+
+{ #category : #'examples-open' }
+GLMRubTextFieldBrick class >> exampleVSpaceFillCenteredOpen [
+
+	self gtExampleVSpaceFillCentered openCenteredInBrickWindow
+]
+
+{ #category : #'examples-open' }
+GLMRubTextFieldBrick class >> exampleVSpaceFillOpen [
+
+	self gtExampleVSpaceFill openCenteredInBrickWindow
 ]
 
 { #category : #examples }
-GLMRubTextFieldBrick class >> exampleVSpaceFill [
-	<gtExample: 'Rubric text field that shrinks to fit width of the text and fills parent height'>
+GLMRubTextFieldBrick class >> gtExample [
+	<gtExample: 'Rubric text field that shrinks to fit height and width of the text'>
 	
-	^ self exampleWithBorder
+	^ self gtExampleWithBorder
+			setTextWith: 'Hello world!';
+			yourself
+]
+
+{ #category : #examples }
+GLMRubTextFieldBrick class >> gtExampleFullSpaceFill [
+	<gtExample: 'Rubric centered text field that fills parent'>
+	
+	^ self gtExampleWithBorder
+			hSpaceFill;
 			vSpaceFill;
 			setTextWith: 'Hello world!';
 			yourself
 ]
 
 { #category : #examples }
-GLMRubTextFieldBrick class >> exampleVSpaceFillCentered [
-	<gtExample: 'Rubric centered text field that shrinks to fit width of the text and fills parent height'>
-	
-	^ self exampleWithBorder
+GLMRubTextFieldBrick class >> gtExampleFullSpaceFillCentered [
+	<gtExample: 'Rubric centered text field that fills parent'>
+	^ self gtExampleWithBorder
+			hSpaceFill;
 			vSpaceFill;
 			beCentered;
 			setTextWith: 'Hello world!';
 			yourself
 ]
 
-{ #category : #'examples-open' }
-GLMRubTextFieldBrick class >> exampleVSpaceFillCenteredOpen [
-
-	self exampleVSpaceFillCentered openCenteredInBrickWindow
-]
-
-{ #category : #'examples-open' }
-GLMRubTextFieldBrick class >> exampleVSpaceFillOpen [
-
-	self exampleVSpaceFill openCenteredInBrickWindow
+{ #category : #examples }
+GLMRubTextFieldBrick class >> gtExampleHSpaceFill [
+	<gtExample: 'Rubric text field that shrinks to fit height of the text and fills parent width'>
+	
+	^ self gtExampleWithBorder
+			hSpaceFill;
+			setTextWith: 'Hello world!';
+			yourself
 ]
 
 { #category : #examples }
-GLMRubTextFieldBrick class >> exampleWithBorder [
+GLMRubTextFieldBrick class >> gtExampleVSpaceFill [
+	<gtExample: 'Rubric text field that shrinks to fit width of the text and fills parent height'>
+	
+	^ self gtExampleWithBorder
+			vSpaceFill;
+			setTextWith: 'Hello world!';
+			yourself
+]
+
+{ #category : #examples }
+GLMRubTextFieldBrick class >> gtExampleVSpaceFillCentered [
+	<gtExample: 'Rubric centered text field that shrinks to fit width of the text and fills parent height'>
+	
+	^ self gtExampleWithBorder
+			vSpaceFill;
+			beCentered;
+			setTextWith: 'Hello world!';
+			yourself
+]
+
+{ #category : #examples }
+GLMRubTextFieldBrick class >> gtExampleWithBorder [
 	<gtExample: 'Rubric field with support of border'>
 	
 	^ self new

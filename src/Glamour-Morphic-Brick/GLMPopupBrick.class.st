@@ -11,7 +11,19 @@ Class {
 }
 
 { #category : #examples }
-GLMPopupBrick class >> exampleAllTypes [
+GLMPopupBrick class >> exampleAllTypesBelowOpen [
+	
+	self gtExampleAllTypesBelow openCenteredInBrickWindowLabeled: 'All Below Popup Types'
+]
+
+{ #category : #examples }
+GLMPopupBrick class >> exampleAllTypesOpen [
+	
+	self gtExampleAllTypes openCenteredInBrickWindowLabeled: 'All Popup Types'
+]
+
+{ #category : #examples }
+GLMPopupBrick class >> gtExampleAllTypes [
 	<gtExample: 'Example of all popup types'>
 
 	^ GLMBrick new
@@ -26,7 +38,7 @@ GLMPopupBrick class >> exampleAllTypes [
 ]
 
 { #category : #examples }
-GLMPopupBrick class >> exampleAllTypesBelow [
+GLMPopupBrick class >> gtExampleAllTypesBelow [
 	<gtExample: 'Example of all popup types opening below of anchor brick'>
 
 	^ GLMBrick new
@@ -37,18 +49,6 @@ GLMPopupBrick class >> exampleAllTypesBelow [
 		addBrickBack: (self createButton: [ :b | self new beError; openBelowFor: b ]);
 		addBrickBack: (self createButton: [ :b | self new beSuccess; openBelowFor: b ]);
 		marginTop: 35
-]
-
-{ #category : #examples }
-GLMPopupBrick class >> exampleAllTypesBelowOpen [
-	
-	self exampleAllTypesBelow openCenteredInBrickWindowLabeled: 'All Below Popup Types'
-]
-
-{ #category : #examples }
-GLMPopupBrick class >> exampleAllTypesOpen [
-	
-	self exampleAllTypes openCenteredInBrickWindowLabeled: 'All Popup Types'
 ]
 
 { #category : #'events-processing' }

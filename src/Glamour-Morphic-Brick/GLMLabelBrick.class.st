@@ -29,20 +29,26 @@ Class {
 }
 
 { #category : #examples }
-GLMLabelBrick class >> example [
+GLMLabelBrick class >> exampleOpen [
+
+	self gtExample openCenteredInBrickWindow
+]
+
+{ #category : #examples }
+GLMLabelBrick class >> exampleWithPopupOpen [
+	
+	self gtExampleWithPopup openCenteredInBrickWindowLabeled: 'Label example'
+]
+
+{ #category : #examples }
+GLMLabelBrick class >> gtExample [
 	<gtExample: 'Label with text'>
 	^ self new
 		text: 'Label'
 ]
 
 { #category : #examples }
-GLMLabelBrick class >> exampleOpen [
-
-	self example openCenteredInBrickWindow
-]
-
-{ #category : #examples }
-GLMLabelBrick class >> exampleWithPopup [
+GLMLabelBrick class >> gtExampleWithPopup [
 	<gtExample: 'Label with text and popup showing when hovered with mouse'>
 	^ self new
 		enable;
@@ -53,12 +59,6 @@ GLMLabelBrick class >> exampleWithPopup [
 		padding: 5;
 		with: [ :b  | b
 			when: #onMouseHover do: [ GLMPopupBrick new beHelp; openFor: b ] ]
-]
-
-{ #category : #examples }
-GLMLabelBrick class >> exampleWithPopupOpen [
-	
-	self exampleWithPopup openCenteredInBrickWindowLabeled: 'Label example'
 ]
 
 { #category : #'brick-geometry' }

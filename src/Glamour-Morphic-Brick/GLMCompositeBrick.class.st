@@ -12,7 +12,37 @@ Class {
 }
 
 { #category : #examples }
-GLMCompositeBrick class >> exampleList [
+GLMCompositeBrick class >> exampleListClassMethodsOpen [
+	
+	self gtExampleListClassMethods openInBrickWindow
+]
+
+{ #category : #examples }
+GLMCompositeBrick class >> exampleListOpen [
+	
+	self gtExampleList openInBrickWindow
+]
+
+{ #category : #examples }
+GLMCompositeBrick class >> exampleListWithCustomItemsOpen [
+	
+	self gtExampleListWithCustomItems openInBrickWindowLabeled: 'Phlow list with custom item'
+]
+
+{ #category : #examples }
+GLMCompositeBrick class >> examplePharoMethodOpen [
+	
+	self gtExamplePharoMethod openInBrickWindowLabeled: 'Phlow Pharo method'
+]
+
+{ #category : #examples }
+GLMCompositeBrick class >> exampleTableOpen [
+
+	self gtExampleTable openInBrickWindowLabeled: 'Phlowr table'
+]
+
+{ #category : #examples }
+GLMCompositeBrick class >> gtExampleList [
 	<gtExample: 'Phlow simple list'>
 
 	^ self new
@@ -27,7 +57,7 @@ GLMCompositeBrick class >> exampleList [
 ]
 
 { #category : #examples }
-GLMCompositeBrick class >> exampleListClassMethods [
+GLMCompositeBrick class >> gtExampleListClassMethods [
 	<gtExample: 'Phlow list displaying all methods of an object '>
 
 	^ self new
@@ -43,19 +73,7 @@ GLMCompositeBrick class >> exampleListClassMethods [
 ]
 
 { #category : #examples }
-GLMCompositeBrick class >> exampleListClassMethodsOpen [
-	
-	self exampleListClassMethods openInBrickWindow
-]
-
-{ #category : #examples }
-GLMCompositeBrick class >> exampleListOpen [
-	
-	self exampleList openInBrickWindow
-]
-
-{ #category : #examples }
-GLMCompositeBrick class >> exampleListWithCustomItems [
+GLMCompositeBrick class >> gtExampleListWithCustomItems [
 	<gtExample: 'Phlow list with custom items'>
 
 	^ self new
@@ -71,13 +89,7 @@ GLMCompositeBrick class >> exampleListWithCustomItems [
 ]
 
 { #category : #examples }
-GLMCompositeBrick class >> exampleListWithCustomItemsOpen [
-	
-	self exampleListWithCustomItems openInBrickWindowLabeled: 'Phlow list with custom item'
-]
-
-{ #category : #examples }
-GLMCompositeBrick class >> examplePharoMethod [
+GLMCompositeBrick class >> gtExamplePharoMethod [
 	<gtExample: 'Phlow Pharo method'>
 
 	^ self new
@@ -92,13 +104,7 @@ GLMCompositeBrick class >> examplePharoMethod [
 ]
 
 { #category : #examples }
-GLMCompositeBrick class >> examplePharoMethodOpen [
-	
-	self examplePharoMethod openInBrickWindowLabeled: 'Phlow Pharo method'
-]
-
-{ #category : #examples }
-GLMCompositeBrick class >> exampleTable [
+GLMCompositeBrick class >> gtExampleTable [
 	<gtExample: 'Phlowr table'>
 	
 	^ self new
@@ -115,12 +121,6 @@ GLMCompositeBrick class >> exampleTable [
 					evaluated: [:assoc | GTObjectPrinter new asTruncatedTextFrom: assoc value ]
 					styled: [ :aBrick | aBrick margin: #(0 0 0 15) ];
 				entity: Morph new ]
-]
-
-{ #category : #examples }
-GLMCompositeBrick class >> exampleTableOpen [
-
-	self exampleTable openInBrickWindowLabeled: 'Phlowr table'
 ]
 
 { #category : #phlow }

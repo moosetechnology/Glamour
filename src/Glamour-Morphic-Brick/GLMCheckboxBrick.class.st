@@ -24,30 +24,30 @@ Class {
 }
 
 { #category : #examples }
-GLMCheckboxBrick class >> example [
-	<gtExample: 'Checkbox without label'>
-	^ self new
-]
-
-{ #category : #examples }
 GLMCheckboxBrick class >> exampleOpen [
 
-	self example openCenteredInBrickWindow
-]
-
-{ #category : #examples }
-GLMCheckboxBrick class >> exampleWithLabel [
-	<gtExample: 'Checkbox with label'>
-	^ self new
-		text: 'I''m label, click me';
-		action: [ :boolean | self inform: 'Checkbox set to ', boolean asString ];
-		yourself
+	self gtExample openCenteredInBrickWindow
 ]
 
 { #category : #examples }
 GLMCheckboxBrick class >> exampleWithLabelOpen [
 
-	self exampleWithLabel openCenteredInBrickWindow
+	self gtExampleWithLabel openCenteredInBrickWindow
+]
+
+{ #category : #examples }
+GLMCheckboxBrick class >> gtExample [
+	<gtExample: 'Checkbox without label'>
+	^ self new
+]
+
+{ #category : #examples }
+GLMCheckboxBrick class >> gtExampleWithLabel [
+	<gtExample: 'Checkbox with label'>
+	^ self new
+		text: 'I''m label, click me';
+		action: [ :boolean | self inform: 'Checkbox set to ', boolean asString ];
+		yourself
 ]
 
 { #category : #'checkbox-accessing' }

@@ -15,7 +15,19 @@ Class {
 }
 
 { #category : #examples }
-GLMRubScrolledTextBrick class >> example [
+GLMRubScrolledTextBrick class >> exampleBandOpen [
+
+	self gtExampleBand openInBrickWindow
+]
+
+{ #category : #examples }
+GLMRubScrolledTextBrick class >> exampleOpen [
+
+	self gtExample openInBrickWindow
+]
+
+{ #category : #examples }
+GLMRubScrolledTextBrick class >> gtExample [
 	<gtExample: 'Two rubric text areas filling half of size'>
 	
 	^ GLMBrick new
@@ -29,7 +41,7 @@ GLMRubScrolledTextBrick class >> example [
 ]
 
 { #category : #examples }
-GLMRubScrolledTextBrick class >> exampleBand [
+GLMRubScrolledTextBrick class >> gtExampleBand [
 	<gtExample: 'Two rubric text areas in band'>
 	
 	^ GLMBandBrick new
@@ -38,18 +50,6 @@ GLMRubScrolledTextBrick class >> exampleBand [
 		color: Color veryVeryLightGray;
 		addAllBricks: { self new vShrinkWrap. self new vShrinkWrap};
 		yourself
-]
-
-{ #category : #examples }
-GLMRubScrolledTextBrick class >> exampleBandOpen [
-
-	self exampleBand openInBrickWindow
-]
-
-{ #category : #examples }
-GLMRubScrolledTextBrick class >> exampleOpen [
-
-	self example openInBrickWindow
 ]
 
 { #category : #'brick-properties' }
