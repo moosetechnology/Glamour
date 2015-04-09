@@ -658,10 +658,10 @@ ConfigurationOfGlamourCore >> version310: spec [
 		spec 
 			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
 			package: 'Glamour-Browsers' with: 'Glamour-Browsers-TorstenBergmann.109';
-			package: 'Glamour-Core' with: 'Glamour-Core-AliakseiSyrel.298';
+			package: 'Glamour-Core' with: 'Glamour-Core-StefanReichhart.299';
 			package: 'Glamour-Examples' with: 'Glamour-Examples-TorstenBergmann.291';
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-AndreiChis.39';
-			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-AliakseiSyrel.397';
+			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-StefanReichhart.398';
 			package: 'Glamour-Morphic-Brick-Tests' with: 'Glamour-Morphic-Brick-Tests-AliakseiSyrel.13';
 			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-AndreiChis.103';
 			package: 'Glamour-Morphic-Renderer' with:'Glamour-Morphic-Renderer-AndreiChis.319';
