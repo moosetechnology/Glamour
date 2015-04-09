@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #examples }
-GLMCompositePresentation class >> exampleCompositePresentation [
+GLMCompositePresentation class >> gtExampleCompositePresentation [
 	<gtExample>
 
 	^ self new
