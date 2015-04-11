@@ -37,14 +37,17 @@ GLMMorphicPharoCodeRenderer >> actOnHighlightAndEvaluate: ann [
 	If we do not defer the execution and an exception is triggered by the execution of the code
 	then resuming the execution in the debugger will trigger an error when unwinding the stack."
 	UIManager default defer: [ 
-		textMorph textArea handleEdit: [textMorph textArea editor highlightEvaluateAndDo: ann action ]]
+		textMorph textArea handleEdit: [
+			textMorph textArea editor highlightEvaluateAndDo: ann action .
+			textMorph shoutStyler style: textMorph text. ] ]
 ]
 
 { #category : #callbacks }
 GLMMorphicPharoCodeRenderer >> debugHighlightedText [
 
 	UIManager default defer: [ 
-		textMorph textArea editor debugHighlight ]
+		textMorph textArea editor debugHighlight.
+		textMorph shoutStyler style: textMorph text. ]
 	
 ]
 
@@ -53,6 +56,7 @@ GLMMorphicPharoCodeRenderer >> evaluateAndPopPrintHighlight [
 
 	GLMPrintPopper installAlarmFor: [ 
 		textMorph textArea editor highlightEvaluateAndDo: [ :result | 
+			textMorph shoutStyler style: textMorph text.
 			GLMPrintPopper new 
 				openFromRubric: textMorph textArea withResult: result ] ]
 ]
@@ -77,7 +81,8 @@ GLMMorphicPharoCodeRenderer >> modelFor: aPresentation [
 { #category : #callbacks }
 GLMMorphicPharoCodeRenderer >> profileHighlightedText [
 
-	textMorph textArea editor tallyHighlight
+	textMorph textArea editor tallyHighlight.
+	textMorph shoutStyler style: textMorph text.
 ]
 
 { #category : #private }
