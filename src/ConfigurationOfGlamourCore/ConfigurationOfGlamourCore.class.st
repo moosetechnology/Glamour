@@ -701,7 +701,7 @@ ConfigurationOfGlamourCore >> version311: spec [
 			package: 'Glamour-Morphic-Renderer' with:'Glamour-Morphic-Renderer-AndreiChis.319';
 			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-StefanReichhart.212';
 			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.177';
-			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.175';
+			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.176';
 			package: 'Glamour-Rubric-Presentations' with: 'Glamour-Rubric-Presentations-AndreiChis.41';
 			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-AliakseiSyrel.104';
 			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-AndreiChis.124';
