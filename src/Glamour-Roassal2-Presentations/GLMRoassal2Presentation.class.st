@@ -102,8 +102,10 @@ GLMRoassal2Presentation >> defaultActions [
 				act: [ :roassal| (Smalltalk at: #RTPDFExporter) exportView: roassal view view ]
 				entitled: 'Export to PDF...'
 			 ].
-			
-
+		
+	self 
+		act: [ :roassal | roassal view view inspect ]
+			entitled: 'Inspect View'.
 	
 ]
 
