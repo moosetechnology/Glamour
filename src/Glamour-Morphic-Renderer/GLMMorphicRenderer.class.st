@@ -78,15 +78,6 @@ GLMMorphicRenderer >> renderFinder: aBrowser [
 ]
 
 { #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderInputPresentation: aPresentation [ 
-	
-	| morph |
-	self flag: 'hook the cuis editor'.
-	morph := GLMMorphic containerMorph.
-	^ morph
-]
-
-{ #category : #'rendering presentations' }
 GLMMorphicRenderer >> renderLabelPresentation: aLabelPresentation [ 
 	^ GLMMorphicLabelRenderer render: aLabelPresentation from: self
 ]
