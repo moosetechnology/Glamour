@@ -1959,6 +1959,56 @@ ConfigurationOfGlamour >> baseline32: spec [
 					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ] ]
 ]
 
+{ #category : #baselines }
+ConfigurationOfGlamour >> baseline33: spec [ 
+	<version: '3.3-baseline'>
+	
+	spec for: #common do: [
+		spec blessing: #baseline.
+		spec description: 'readded magritte'.
+		spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'.
+		spec 
+			package: 'Glamour-Tools' with: [spec requires: #('GlamourCore')];
+			package: 'Glamour-Examples-Extras' with: [spec requires: #('Glamour-Tools')];
+			package: 'Glamour-Roassal2-Presentations' with: [spec requires: #('Roassal2 for Glamour' 'Glamour-Tools')];
+			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];	
+			package: 'Glamour-Morphic-Brick-Experiments'].
+
+	spec for: #squeakCommon do: [ 
+		spec
+			package: 'CollectionExtensions' with: [spec repository: 'http://www.smalltalkhub.com/mc/Moose/CollectionExtensions/main'];
+			package: 'Glamour-Tools' with: [spec requires: #('GlamourCore' 'CollectionExtensions')] ].
+
+	spec for: #common do: [ 						
+		spec group: 'default' with: #(
+						'GlamourCore'
+						'Glamour-Roassal2-Presentations'
+						'Glamour-Tools'
+						'Glamour-Examples-Extras' ).
+		spec 
+			project: 'GlamourCore' with: [ 
+				spec 
+					className: 'ConfigurationOfGlamourCore';
+					file: 'ConfigurationOfGlamourCore';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'].
+		spec
+			project: 'Roassal2 for Glamour' with: [
+				spec
+					className: 'ConfigurationOfRoassal2';
+					file: 'ConfigurationOfRoassal2';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ].
+		spec 
+			project: 'Magritte3' with: [
+				spec
+					className: 'ConfigurationOfMagritte3';
+					file: 'ConfigurationOfMagritte3';
+					version: #stable;
+					repository: 'http://www.smalltalkhub.com/mc/Magritte/Magritte3/main';
+					loads: #('Magritte-Model' 'Magritte-Tests-Model' 'Magritte-Morph' 'Magritte-Pharo-Model') ] ]
+]
+
 { #category : #'symbolic versions' }
 ConfigurationOfGlamour >> development: spec [
 	<symbolicVersion: #'development'>
