@@ -2013,11 +2013,11 @@ ConfigurationOfGlamour >> baseline33: spec [
 ConfigurationOfGlamour >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '3.2-baseline'.
+	spec for: #'common' version: '3.3-baseline'.
 
 	spec for: #'pharo2.x' version: '2.6-baseline'.
 	spec for: #'pharo3.x' version: '3.0-baseline'.
-	spec for: #'pharo4.x' version: '3.2-baseline'.
+	spec for: #'pharo4.x' version: '3.3-baseline'.
 	
 ]
 
