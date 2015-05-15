@@ -76,6 +76,14 @@ GLMMagrittePersonExample >> exampleSupportIdentityInSample [
 ]
 
 { #category : #'as yet unclassified' }
+GLMMagrittePersonExample >> gtInspectorMagritteIn: composite [
+	<gtInspectorPresentationOrder: 40>
+	composite magritte
+		title: 'Form';
+		display: [ self ]
+]
+
+{ #category : #'as yet unclassified' }
 GLMMagrittePersonExample >> name [
 	^ name
 ]
