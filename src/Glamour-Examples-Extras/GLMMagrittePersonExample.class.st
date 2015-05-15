@@ -12,6 +12,14 @@ Class {
 }
 
 { #category : #'examples-utils' }
+GLMMagrittePersonExample class >> gtExampleShakespeare [
+	<gtExample>
+	^ self new
+		name: 'William Shakespeare';
+		address: 'Stratford-upon-Avon' 
+]
+
+{ #category : #'examples-utils' }
 GLMMagrittePersonExample class >> sampleData [
 	"self new magritteAddressBook openOn: self new magritteAddressBookModel "
 	SampleData ifNil: 
