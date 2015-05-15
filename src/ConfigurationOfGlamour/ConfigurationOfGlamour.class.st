@@ -1964,7 +1964,7 @@ ConfigurationOfGlamour >> baseline33: spec [
 	<version: '3.3-baseline'>
 	
 	spec for: #common do: [
-		spec blessing: #baseline.
+		spec blessing: #development.
 		spec description: 'readded magritte'.
 		spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'.
 		spec 
@@ -1983,6 +1983,7 @@ ConfigurationOfGlamour >> baseline33: spec [
 		spec group: 'default' with: #(
 						'GlamourCore'
 						'Glamour-Roassal2-Presentations'
+						'Glamour-Magritte-Presentations'
 						'Glamour-Tools'
 						'Glamour-Examples-Extras' ).
 		spec 
