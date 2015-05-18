@@ -3235,7 +3235,7 @@ ConfigurationOfGlamour >> version330: spec [
 	spec for: #squeakCommon do: [ 
 		spec blessing: #'stable'.
 		spec 
-			package: 'CollectionExtensions' with: 'CollectionExtensions-TudorGirba.40';
+			package: 'CollectionExtensions' with: 'CollectionExtensions-TudorGirba.41';
 			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.85' ]
 
 
