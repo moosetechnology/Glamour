@@ -3134,7 +3134,7 @@ ConfigurationOfGlamour >> version330: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '5/15/2015'.
 		spec 
-			package: 'Glamour-Examples-Extras' with: 'Glamour-Examples-Extras-AlexandreBergel.4';
+			package: 'Glamour-Examples-Extras' with: 'Glamour-Examples-Extras-TudorGirba.6';
 			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.85';
 			package: 'Glamour-Roassal2-Presentations' with: 'Glamour-Roassal2-Presentations-TudorGirba.38';
 			package: 'Glamour-Magritte-Presentations' with: 'Glamour-Magritte-Presentations-AndreiChis.7';
