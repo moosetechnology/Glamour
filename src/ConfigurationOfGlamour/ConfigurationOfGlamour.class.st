@@ -3125,93 +3125,6 @@ ConfigurationOfGlamour >> version306: spec [
 ]
 
 { #category : #versions }
-ConfigurationOfGlamour >> version307: spec [
-	<version: '3.0.7' imports: #('3.0-baseline' )>
-
-	spec for: #'common' do: [
-		spec blessing: #'stable'.
-		spec description: 'version 3.0.7'.
-		spec author: 'AndreiChis'.
-		spec timestamp: '01/07/2015 17:39'.
-		spec 
-			package: 'Glamour-Examples-Extras' with: 'Glamour-Examples-Extras-TudorGirba.2';
-			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.85';
-			package: 'Glamour-Roassal2-Presentations' with: 'Glamour-Roassal2-Presentations-TudorGirba.33';
-			package: 'Glamour-Magritte-Presentations' with: 'Glamour-Magritte-Presentations-AndreiChis.7'. 
-		
-		spec 
-			project: 'GlamourCore' with: #'stable';
-			project: 'Roassal2 for Glamour' with: #'stable';
-			project: 'Magritte3' with: #stable. ].
-		
-	spec for: #squeakCommon do: [ 
-		spec blessing: #'stable'.
-		spec 
-			package: 'CollectionExtensions' with: 'CollectionExtensions-TudorGirba.40';
-			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.85' ]
-
-
-]
-
-{ #category : #versions }
-ConfigurationOfGlamour >> version308: spec [
-	<version: '3.0.8' imports: #('3.0-baseline' )>
-
-	spec for: #'common' do: [
-		spec blessing: #'stable'.
-		spec description: 'version 3.0.8'.
-		spec author: 'AndreiChis'.
-		spec timestamp: '01/16/2015 19:07'.
-		spec 
-			package: 'Glamour-Examples-Extras' with: 'Glamour-Examples-Extras-TudorGirba.2';
-			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.85';
-			package: 'Glamour-Roassal2-Presentations' with: 'Glamour-Roassal2-Presentations-TudorGirba.33';
-			package: 'Glamour-Magritte-Presentations' with: 'Glamour-Magritte-Presentations-AndreiChis.7'. 
-		
-		spec 
-			project: 'GlamourCore' with: #'stable';
-			project: 'Roassal2 for Glamour' with: #'stable';
-			project: 'Magritte3' with: #stable. ].
-		
-	spec for: #squeakCommon do: [ 
-		spec blessing: #'stable'.
-		spec 
-			package: 'CollectionExtensions' with: 'CollectionExtensions-TudorGirba.40';
-			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.85' ]
-
-
-]
-
-{ #category : #versions }
-ConfigurationOfGlamour >> version309: spec [
-	<version: '3.0.9' imports: #('3.0-baseline' )>
-
-	spec for: #'common' do: [
-		spec blessing: #'stable'.
-		spec description: 'version 3.0.9'.
-		spec author: 'AndreiChis'.
-		spec timestamp: '05/05/2015'.
-		spec 
-			package: 'Glamour-Examples-Extras' with: 'Glamour-Examples-Extras-AlexandreBergel.4';
-			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.85';
-			package: 'Glamour-Roassal2-Presentations' with: 'Glamour-Roassal2-Presentations-TudorGirba.38';
-			package: 'Glamour-Magritte-Presentations' with: 'Glamour-Magritte-Presentations-AndreiChis.7'. 
-		
-		spec 
-			project: 'GlamourCore' with: #'stable';
-			project: 'Roassal2 for Glamour' with: #'stable';
-			project: 'Magritte3' with: #stable. ].
-		
-	spec for: #squeakCommon do: [ 
-		spec blessing: #'stable'.
-		spec 
-			package: 'CollectionExtensions' with: 'CollectionExtensions-TudorGirba.40';
-			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.85' ]
-
-
-]
-
-{ #category : #versions }
 ConfigurationOfGlamour >> version330: spec [
 	<version: '3.3.0' imports: #('3.3-baseline' )>
 
@@ -3221,7 +3134,7 @@ ConfigurationOfGlamour >> version330: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '5/15/2015'.
 		spec 
-			package: 'Glamour-Examples-Extras' with: 'Glamour-Examples-Extras-TudorGirba.6';
+			package: 'Glamour-Examples-Extras' with: 'Glamour-Examples-Extras-AlexandreBergel.4';
 			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.85';
 			package: 'Glamour-Roassal2-Presentations' with: 'Glamour-Roassal2-Presentations-TudorGirba.38';
 			package: 'Glamour-Magritte-Presentations' with: 'Glamour-Magritte-Presentations-AndreiChis.7';
