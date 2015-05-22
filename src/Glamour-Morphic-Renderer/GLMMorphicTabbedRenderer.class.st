@@ -51,7 +51,7 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 	presentations := aPresentation matchingPresentations.
 	presentations isEmpty
 		ifTrue: [ ^ GLMMorphic emptyMorph ].
-	(presentations size = 1 and: [ presentations first hasTitle not ] )
+	(presentations size = 1 and: [ presentations first hasTitle not ])
 		ifTrue: [ ^ self renderWithTitleOrNil: presentations first ].
 	tabs := LazyTabGroupMorph new.
 	tabs
@@ -61,7 +61,9 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 		font: self theme buttonFont.
 	tabs announcer
 		when: LazyTabPageChanged
-		do: [ :ann | aPresentation announcer suspendAllWhile: [ aPresentation  pane lastActivePresentation: (aPresentation matchingPresentations at: ann pageIndex) ]].
+		do: [ :ann | 
+			aPresentation announcer
+				suspendAllWhile: [ aPresentation pane lastActivePresentation: (aPresentation matchingPresentations at: ann pageIndex) ] ].
 	presentations
 		do: [ :each | 
 			tabs
@@ -75,8 +77,8 @@ GLMMorphicTabbedRenderer >> render: aPresentation [
 			(aPresentation pane isLastActivePresentation: each)
 				ifTrue: [ index := i ] ].
 	tabs announcer suspendAllWhile: [ tabs selectedPageIndex: index ].
-	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
-	aPresentation on: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
-	aPresentation on: GLMPresentationToolbarUpdated send: #actOnPresentationToolbarUpdated: to: self.
+	aPresentation when: GLMContextChanged send: #actOnContextChanged: to: self.
+	aPresentation when: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
+	aPresentation when: GLMPresentationToolbarUpdated send: #actOnPresentationToolbarUpdated: to: self.
 	^ tabs
 ]

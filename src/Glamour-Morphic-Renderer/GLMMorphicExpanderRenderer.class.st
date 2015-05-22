@@ -52,6 +52,6 @@ GLMMorphicExpanderRenderer >> renderWithTree: aBrowser [
 		model: treeModel;
 		columns: ( OrderedCollection with: (MorphTreeColumn new rowMorphGetSelector: #elementColumn)).
 	treeMorph vShowScrollBar.
-	aBrowser on: GLMBrowserClosed send: #actOnBrowserClosed: to: self.
+	aBrowser when: GLMBrowserClosed send: #actOnBrowserClosed: to: self.
 	^ treeMorph buildContents
 ]

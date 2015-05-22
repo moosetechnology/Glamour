@@ -18,10 +18,7 @@ GLMMorphicPaneWithoutTitleRenderer >> actOnMatchingPresentationsChanged: anAnnou
 { #category : #rendering }
 GLMMorphicPaneWithoutTitleRenderer >> render: aPane [
 	paneMorph := GLMMorphic containerMorph.
-	aPane
-		on: GLMMatchingPresentationsChanged
-		send: #actOnMatchingPresentationsChanged:
-		to: self.
+	aPane when: GLMMatchingPresentationsChanged send: #actOnMatchingPresentationsChanged: to: self.
 	self renderMorphFor: aPane.
 	^ paneMorph
 ]

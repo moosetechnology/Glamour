@@ -69,12 +69,8 @@ GLMMorphicValidatorPaneRenderer >> newColumnWith: aCollectionOfMorphElements [
 
 { #category : #rendering }
 GLMMorphicValidatorPaneRenderer >> render: aPane [
-
 	paneMorph := GLMMorphic containerMorph.
-	aPane
-		on: GLMMatchingPresentationsChanged
-		send: #actOnMatchingPresentationsChanged:
-		to: self.
+	aPane when: GLMMatchingPresentationsChanged send: #actOnMatchingPresentationsChanged: to: self.
 	self renderMorphFor: aPane.
 	^ paneMorph
 ]
