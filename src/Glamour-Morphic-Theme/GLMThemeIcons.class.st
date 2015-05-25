@@ -200,3 +200,23 @@ GLMThemeIcons class >> windowMinimizeInactiveFormContents [
 { #category : #'see class side' }
 GLMThemeIcons >> seeClassSide [
 ]
+
+{ #category : #'accessing - icons' }
+GLMThemeIcons >> windowCloseForm [
+	^ self class windowCloseForm
+]
+
+{ #category : #'accessing - icons' }
+GLMThemeIcons >> windowMaximizeForm [
+	^ self class windowMaximizeForm
+]
+
+{ #category : #'accessing - icons' }
+GLMThemeIcons >> windowMenuForm [
+	^self class windowMenuForm
+]
+
+{ #category : #'accessing - icons' }
+GLMThemeIcons >> windowMinimizeForm [
+	^self class windowMinimizeForm
+]
