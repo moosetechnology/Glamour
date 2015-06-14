@@ -234,52 +234,61 @@ ConfigurationOfGlamourCore >> baseline31: spec [
 { #category : #baselines }
 ConfigurationOfGlamourCore >> baseline32: spec [
 	<version: '3.2-baseline'>
-
-	spec for: #'common' do: [
-		spec blessing: #'baseline'.
-		spec repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main'.
-		spec project: 'Rubric' with: [
-				spec
+	
+	spec for: #common do: [
+		spec blessing: #baseline.
+		spec description: 'Updated rubric repo'.
+		spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'.
+		spec 
+			package: 'Glamour-Announcements' ;
+			package: 'Glamour-Helpers';
+			package: 'Glamour-Core' with: [spec requires: #('Glamour-Helpers' 'Glamour-Announcements')];
+			package: 'Glamour-Presentations' with: [spec requires: #('Glamour-Core')];
+			package: 'Glamour-Rubric-Presentations' with: [spec requires: #('Rubric' 'Glamour-Presentations')];
+			package: 'Glamour-Browsers' with: [spec requires: #('Glamour-Core')];
+			package: 'Glamour-Examples' with: [spec requires: #('Glamour-Core')];
+			package: 'Glamour-Morphic-Brick' with: [spec requires: #('Glamour-Core')];
+			package: 'Glamour-Morphic-Brick-Tests' with: [spec requires: #('Glamour-Morphic-Brick')];
+			package: 'Glamour-Morphic-Widgets' with: [spec requires: #('Rubric' 'Glamour-Morphic-Brick')];
+			package: 'Glamour-Morphic-Renderer' with: [spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core')];
+			package: 'Glamour-Morphic-Pager' with: [spec requires: #('Glamour-Morphic-Renderer' 'Glamour-Morphic-Brick')];
+			package: 'Glamour-Morphic-Theme' with: [spec requires: 'Rubric'];
+			package: 'Glamour-Tests-Core';
+			package: 'Glamour-Tests-Morphic' with: [spec requires: #('Glamour-Morphic-Renderer' 'Glamour-Morphic-Brick' 'Glamour-Morphic-Pager')];
+			package: 'Glamour-Tests-Rubric' with: [spec requires: #('Glamour-Tests-Morphic' 'Glamour-Rubric-Presentations')];
+			package: 'Glamour-Tests-Resources'.
+			
+		spec group: 'Core' with: #(
+						'Glamour-Announcements'
+						'Glamour-Helpers'
+						'Glamour-Core'
+						'Glamour-Presentations'
+						'Glamour-Browsers'
+						'Glamour-Examples'
+						'Glamour-Rubric-Presentations').
+		spec group: 'Morphic' with: #(
+						'Glamour-Morphic-Brick'
+						'Glamour-Morphic-Widgets'
+						'Glamour-Morphic-Renderer'
+						'Glamour-Morphic-Theme'
+						'Glamour-Morphic-Pager').		
+		spec group: 'Tests' with: #(
+						'Glamour-Tests-Core'
+						'Glamour-Tests-Morphic'
+						'Glamour-Tests-Rubric'
+						'Glamour-Tests-Resources'
+						'Glamour-Morphic-Brick-Tests'). 
+						
+		spec project: 'Rubric' with: [ 
+			spec 
 					className: #ConfigurationOfRubric;
 					versionString: #'development';
-					repository: 'http://www.smalltalkhub.com/mc/Pharo/Rubric/main' ].
-		spec 
-			package: 'Glamour-Announcements';
-			package: 'Glamour-Helpers';
-			package: 'Glamour-Core' with: [
-				spec requires: #('Glamour-Helpers' 'Glamour-Announcements' ). ];
-			package: 'Glamour-Presentations' with: [
-				spec requires: #('Glamour-Core' ). ];
-			package: 'Glamour-Browsers' with: [
-				spec requires: #('Glamour-Core' ). ];
-			package: 'Glamour-Examples' with: [
-				spec requires: #('Glamour-Core' ). ];
-			package: 'Glamour-Morphic-Brick' with: [
-				spec requires: #('Glamour-Core' ). ];
-			package: 'Glamour-Morphic-Brick-Tests' with: [
-				spec requires: #('Glamour-Morphic-Brick' ). ];
-			package: 'Glamour-Tests-Core';
-			package: 'Glamour-Tests-Resources';
-			package: 'Glamour-Morphic-Theme' with: [
-				spec requires: #('Rubric' ). ];
-			package: 'Glamour-Morphic-Widgets' with: [
-				spec requires: #('Rubric' 'Glamour-Morphic-Brick' ). ];
-			package: 'Glamour-Morphic-Renderer' with: [
-				spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core' ). ];
-			package: 'Glamour-Morphic-Pager' with: [
-				spec requires: #('Glamour-Morphic-Renderer' 'Glamour-Morphic-Brick' ). ];
-			package: 'Glamour-Tests-Morphic' with: [
-				spec requires: #('Glamour-Morphic-Renderer' 'Glamour-Morphic-Brick' 'Glamour-Morphic-Pager' ). ];
-			package: 'Glamour-Rubric-Presentations' with: [
-				spec requires: #('Rubric' 'Glamour-Presentations' ). ];
-			package: 'Glamour-Tests-Rubric' with: [
-				spec requires: #('Glamour-Tests-Morphic' 'Glamour-Rubric-Presentations' ). ].
-		spec 
-			group: 'Core' with: #('Glamour-Announcements' 'Glamour-Helpers' 'Glamour-Core' 'Glamour-Presentations' 'Glamour-Browsers' 'Glamour-Examples' 'Glamour-Rubric-Presentations' );
-			group: 'Morphic' with: #('Glamour-Morphic-Brick' 'Glamour-Morphic-Widgets' 'Glamour-Morphic-Renderer' 'Glamour-Morphic-Theme' 'Glamour-Morphic-Pager' );
-			group: 'Tests' with: #('Glamour-Tests-Core' 'Glamour-Tests-Morphic' 'Glamour-Tests-Rubric' 'Glamour-Tests-Resources' 'Glamour-Morphic-Brick-Tests' );
-			group: 'default' with: #('Core' 'Morphic' 'Tests' ). ].
-
+					repository: 'http://www.smalltalkhub.com/mc/Pharo/Rubric/main' ] .
+				
+		spec group: 'default' with: #(
+						'Core'
+						'Morphic'
+						'Tests' ) ].
 ]
 
 { #category : #accessing }
@@ -295,7 +304,6 @@ ConfigurationOfGlamourCore >> development: spec [
 	<symbolicVersion: #'development'>
 
 	spec for: #'common' version: '3.2-baseline'.
-
 	spec for: #'pharo4.x' version: '3.2-baseline'.
 
 ]
@@ -317,11 +325,9 @@ ConfigurationOfGlamourCore >> project [
 ConfigurationOfGlamourCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.1.4'.
-
+	spec for: #'common' version: '3.1.5'.
+	spec for: #'pharo4.x' version: '3.1.5'.
 	spec for: #'pharo3.x' version: '3.0.7'.
-
-	spec for: #'pharo4.x' version: '3.1.3'.
 
 ]
 
@@ -840,31 +846,68 @@ ConfigurationOfGlamourCore >> version313: spec [
 
 { #category : #versions }
 ConfigurationOfGlamourCore >> version314: spec [
-	<version: '3.1.4' imports: #('3.2-baseline' )>
+	<version: '3.1.4' imports: #('3.1-baseline' )>
 
 	spec for: #'common' do: [
 		spec blessing: #'stable'.
-		spec description: 'bugfix: shortcut string for windows and linux is "ctrl", not "alt"'.
-		spec author: 'EstebanLorenzano'.
-		spec timestamp: '5/29/2015 16:12'.
-		spec project: 'Rubric' with: '1.2.15'.
+		spec description: 'version 3.1.4'.
+		spec author: 'AndreiChis'.
+		spec timestamp: '5/15/2015'.
 		spec 
 			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
-			package: 'Glamour-Helpers' with: 'Glamour-Helpers-AndreiChis.39';
-			package: 'Glamour-Core' with: 'Glamour-Core-EstebanLorenzano.300';
-			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.177';
 			package: 'Glamour-Browsers' with: 'Glamour-Browsers-TorstenBergmann.109';
+			package: 'Glamour-Core' with: 'Glamour-Core-StefanReichhart.299';
 			package: 'Glamour-Examples' with: 'Glamour-Examples-TorstenBergmann.291';
+			package: 'Glamour-Helpers' with: 'Glamour-Helpers-AndreiChis.39';
 			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-StefanReichhart.398';
 			package: 'Glamour-Morphic-Brick-Tests' with: 'Glamour-Morphic-Brick-Tests-AliakseiSyrel.13';
-			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-AliakseiSyrel.104';
-			package: 'Glamour-Tests-Resources' with: 'Glamour-Tests-Resources-AndreiChis.3';
-			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-StefanReichhart.212';
-			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.177';
-			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-AndreiChis.321';
 			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-AndreiChis.103';
+			package: 'Glamour-Morphic-Renderer' with:'Glamour-Morphic-Renderer-AndreiChis.321';
+			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-AndreiChis.213';
+			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.177';
+			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.177';
+			package: 'Glamour-Rubric-Presentations' with: 'Glamour-Rubric-Presentations-TorstenBergmann.42';
+			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-AliakseiSyrel.104';
 			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-AndreiChis.124';
-			package: 'Glamour-Rubric-Presentations' with: 'Glamour-Rubric-Presentations-AndreiChis.41';
-			package: 'Glamour-Tests-Rubric' with: 'Glamour-Tests-Rubric-AndreiChis.14'. ].
+			package: 'Glamour-Tests-Resources' with: 'Glamour-Tests-Resources-AndreiChis.3';
+			package: 'Glamour-Tests-Rubric' with: 'Glamour-Tests-Rubric-AndreiChis.14'. 
+		
+		spec 
+			project: 'Rubric' with: '1.2.14' ].
+
+
+]
+
+{ #category : #versions }
+ConfigurationOfGlamourCore >> version315: spec [
+	<version: '3.1.5' imports: #('3.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 3.1.5'.
+		spec author: 'CyrilFerlicot'.
+		spec timestamp: '6/14/2015'.
+		spec 
+			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
+			package: 'Glamour-Browsers' with: 'Glamour-Browsers-TorstenBergmann.109';
+			package: 'Glamour-Core' with: 'Glamour-Core-StefanReichhart.299';
+			package: 'Glamour-Examples' with: 'Glamour-Examples-TorstenBergmann.291';
+			package: 'Glamour-Helpers' with: 'Glamour-Helpers-AndreiChis.39';
+			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-StefanReichhart.398';
+			package: 'Glamour-Morphic-Brick-Tests' with: 'Glamour-Morphic-Brick-Tests-AliakseiSyrel.13';
+			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-AndreiChis.103';
+			package: 'Glamour-Morphic-Renderer' with:'Glamour-Morphic-Renderer-AndreiChis.321';
+			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-AndreiChis.213';
+			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.177';
+			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.177';
+			package: 'Glamour-Rubric-Presentations' with: 'Glamour-Rubric-Presentations-CyrilFerlicot.43';
+			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-AliakseiSyrel.104';
+			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-AndreiChis.124';
+			package: 'Glamour-Tests-Resources' with: 'Glamour-Tests-Resources-AndreiChis.3';
+			package: 'Glamour-Tests-Rubric' with: 'Glamour-Tests-Rubric-AndreiChis.14'. 
+		
+		spec 
+			project: 'Rubric' with: '1.2.14' ].
+
 
 ]
