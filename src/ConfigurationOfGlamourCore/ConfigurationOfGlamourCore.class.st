@@ -880,7 +880,7 @@ ConfigurationOfGlamourCore >> version314: spec [
 
 { #category : #versions }
 ConfigurationOfGlamourCore >> version315: spec [
-	<version: '3.1.5' imports: #('3.1-baseline' )>
+	<version: '3.1.5' imports: #('3.2-baseline' )>
 
 	spec for: #'common' do: [
 		spec blessing: #'stable'.
