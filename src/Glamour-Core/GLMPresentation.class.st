@@ -902,6 +902,11 @@ GLMPresentation >> strongSelection: anObject [
 ]
 
 { #category : #accessing }
+GLMPresentation >> taskbarIcon [ 
+	^ self titleIcon
+]
+
+{ #category : #accessing }
 GLMPresentation >> title [
 	^ title
 ]
