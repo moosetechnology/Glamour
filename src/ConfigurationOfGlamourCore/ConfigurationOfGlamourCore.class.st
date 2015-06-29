@@ -877,8 +877,8 @@ ConfigurationOfGlamourCore >> version315: spec [
 		spec blessing: #'stable'.
 		spec description: 'version 3.1.5'.
 		spec author: 'FranckWarlouzet'.
-		spec timestamp: '6/29/2015 14:45'.
-		spec project: 'Rubric' with: '2.1-baseline'.
+		spec timestamp: '6/29/2015 15:40'.
+		spec project: 'Rubric' with: '1.9'.
 		spec 
 			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-AndreiChis.39';
@@ -891,7 +891,7 @@ ConfigurationOfGlamourCore >> version315: spec [
 			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-AliakseiSyrel.104';
 			package: 'Glamour-Tests-Resources' with: 'Glamour-Tests-Resources-AndreiChis.3';
 			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-MarcusDenker.214';
-			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-FranckWarlouzet.178';
+			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.177';
 			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-CyrilFerlicot.322';
 			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-AndreiChis.103';
 			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-AndreiChis.124';
