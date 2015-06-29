@@ -878,7 +878,7 @@ ConfigurationOfGlamourCore >> version315: spec [
 		spec description: 'version 3.1.5'.
 		spec author: 'FranckWarlouzet'.
 		spec timestamp: '6/29/2015 15:40'.
-		spec project: 'Rubric' with: '1.9'.
+		spec project: 'Rubric' with: '1.10'.
 		spec 
 			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-AndreiChis.39';
