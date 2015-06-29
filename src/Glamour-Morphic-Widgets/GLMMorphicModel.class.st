@@ -1,6 +1,8 @@
 Class {
 	#name : #GLMMorphicModel,
 	#superclass : #Announcer,
+	#traits : 'TViewModel',
+	#classTraits : 'TViewModel classTrait',
 	#instVars : [
 		'glamourPresentation'
 	],
