@@ -4,6 +4,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Theme'
 }
 
+{ #category : #'theme-actions' }
+GLMBrickDarkThemer >> actionThemer [
+
+	^ GLMActionBrickDarkThemer new
+]
+
 { #category : #'brick-button' }
 GLMBrickDarkThemer >> buttonBackgroundColor [
 

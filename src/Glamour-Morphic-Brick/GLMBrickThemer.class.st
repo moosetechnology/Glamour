@@ -19,6 +19,12 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Theme'
 }
 
+{ #category : #'theme-actions' }
+GLMBrickThemer >> actionThemer [
+
+	^ GLMActionBrickThemer new
+]
+
 { #category : #'brick-modules' }
 GLMBrickThemer >> addModule: aThemerModule named: aSymbol [
 
