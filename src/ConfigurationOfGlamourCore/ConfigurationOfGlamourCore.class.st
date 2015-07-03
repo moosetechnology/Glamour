@@ -349,6 +349,7 @@ ConfigurationOfGlamourCore >> development: spec [
 
 	spec for: #'pharo4.x' version: '3.2-baseline'.
 
+	spec for: #'pharo5.x' version: '3.3-baseline'.
 ]
 
 { #category : #accessing }
@@ -1041,11 +1042,11 @@ These methods try to extend classes in Glamour-Morphic-Brick package but they be
 			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.177';
 			package: 'Glamour-Browsers' with: 'Glamour-Browsers-TorstenBergmann.109';
 			package: 'Glamour-Examples' with: 'Glamour-Examples-CyrilFerlicot.292';
-			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-AndreiChis.399';
+			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-AndreiChis.400';
 			package: 'Glamour-Morphic-Brick-Tests' with: 'Glamour-Morphic-Brick-Tests-AliakseiSyrel.13';
 			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-AliakseiSyrel.104';
 			package: 'Glamour-Tests-Resources' with: 'Glamour-Tests-Resources-AndreiChis.3';
-			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-MarcusDenker.214';
+			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-AndreiChis.215';
 			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-FranckWarlouzet.178';
 			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-CyrilFerlicot.322';
 			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-AndreiChis.103';
