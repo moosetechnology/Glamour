@@ -89,7 +89,7 @@ GLMBrowserTest >> testTransmissionTriggeredAnnounced [
 	transmission destination: (pane2 port: #destination).
 	browser addTransmission: transmission.
 	browser
-		on: GLMTransmissionTriggered
+		when: GLMTransmissionTriggered
 		do: [ :ann | announcements add: ann ].
 	self assert: announcements isEmpty.
 	transmission transmit.
@@ -181,7 +181,7 @@ GLMBrowserTest >> testUpdateRecomputesMatchingPresentations [
 		a list when: [:col | col isEmpty not ]].
 	browser startOn: collection.
 	matchingPresentationsChangedAnnounced := false.
-	browser panes first on: GLMMatchingPresentationsChanged do: [:ann | 
+	browser panes first when: GLMMatchingPresentationsChanged do: [:ann | 
 		matchingPresentationsChangedAnnounced := true ].
 	collection removeLast.
 	browser update.

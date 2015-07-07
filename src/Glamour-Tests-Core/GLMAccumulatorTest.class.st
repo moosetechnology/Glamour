@@ -56,7 +56,7 @@ GLMAccumulatorTest >> testPaneAddedAnnouncement [
 	presentation := GLMPresentation new.
 	accumulator addPresentation: presentation.
 	annoumcementsCount := 0.
-	accumulator on: GLMPaneAdded do: [ :ann | annoumcementsCount := annoumcementsCount + 1 ].
+	accumulator when: GLMPaneAdded do: [ :ann | annoumcementsCount := annoumcementsCount + 1 ].
 	1 to: 42 do: [ :i | accumulator entity: i ].
 	self assert: annoumcementsCount equals: 42
 ]
@@ -98,7 +98,7 @@ GLMAccumulatorTest >> testPaneRemovedAnnouncement [
 	presentation := GLMPresentation new.
 	accumulator addPresentation: presentation.
 	annoumcementsCount := 0.
-	accumulator on: GLMPaneRemoved do: [ :ann | annoumcementsCount := annoumcementsCount + 1 ].
+	accumulator when: GLMPaneRemoved do: [ :ann | annoumcementsCount := annoumcementsCount + 1 ].
 	1 to: 42 do: [ :i | accumulator entity: i ].
 	self assert: annoumcementsCount equals: 0.
 	1 to: 42 do: [ :i | accumulator removePaneIndex: 1 ].
@@ -114,9 +114,9 @@ GLMAccumulatorTest >> testPaneSelectedAnnouncement [
 	annoumcementsCount := 0.
 	otherAnnoumcementsCount := 0.
 	1 to: 42 do: [ :i | accumulator entity: i ].
-	accumulator on: GLMPaneSelected do: [ :ann | annoumcementsCount := annoumcementsCount + 1 ].
-	accumulator on: GLMPaneAdded do: [ :ann | otherAnnoumcementsCount := otherAnnoumcementsCount + 1 ].
-	accumulator on: GLMPaneRemoved do: [ :ann | otherAnnoumcementsCount := otherAnnoumcementsCount + 1 ].
+	accumulator when: GLMPaneSelected do: [ :ann | annoumcementsCount := annoumcementsCount + 1 ].
+	accumulator when: GLMPaneAdded do: [ :ann | otherAnnoumcementsCount := otherAnnoumcementsCount + 1 ].
+	accumulator when: GLMPaneRemoved do: [ :ann | otherAnnoumcementsCount := otherAnnoumcementsCount + 1 ].
 	self assert: annoumcementsCount equals: 0.
 	self assert: otherAnnoumcementsCount equals: 0.
 	1 to: 42 do: [ :i | accumulator entityToSelect: i ].
