@@ -79,7 +79,7 @@ GLMRoassal2Presentation >> defaultActions [
 			entitled: 'Export to SVG'.
 	self act: [ :roassal |
 		| fileName |
-		fileName := (RTHTML5Exporter new export: roassal view view) asUrl open.
+		fileName := (RTHTML5Exporter new export: roassal view view) asUrl.
 		self openIfPossible: fileName.
 		 ] entitled: 'Export to HTML'.
 	self
