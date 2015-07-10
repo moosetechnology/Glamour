@@ -993,7 +993,7 @@ These methods try to extend classes in Glamour-Morphic-Brick package but they be
 			package: 'Glamour-Morphic-Brick-Tests' with: 'Glamour-Morphic-Brick-Tests-AliakseiSyrel.13';
 			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-BernardoContreras.105';
 			package: 'Glamour-Tests-Resources' with: 'Glamour-Tests-Resources-AndreiChis.3';
-			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-AndreiChis.215';
+			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-AndreiChis.216';
 			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-FranckWarlouzet.178';
 			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-usmanbhatti.323';
 			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-AndreiChis.103';
