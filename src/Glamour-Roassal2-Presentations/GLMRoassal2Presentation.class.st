@@ -145,7 +145,10 @@ GLMRoassal2Presentation >> openIfPossible: fileName [
 
 	'http://google.com' asUrl open.
 	"
-	#NewExternalWebBrowser asClassIfPresent: [ :cls | fileName asUrl open ]
+	
+	#NewExternalWebBrowser asClassIfPresent: [ :cls | fileName asUrl open ].
+	#NewExternalWebBrowser asClassIfAbsent: [ 
+		self inform: 'Try to load NewExternalWebBrowser to fast open of this file' ].
 ]
 
 { #category : #scripting }
