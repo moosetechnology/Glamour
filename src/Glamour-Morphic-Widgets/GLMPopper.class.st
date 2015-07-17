@@ -29,7 +29,7 @@ GLMPopper class >> installAlarmFor: aBlock [
 { #category : #public }
 GLMPopper >> computeOriginFor: aMorph [
 	| desiredTop desiredLeft |
-	"self halt."
+
 	aMorph textArea scrollSelectionIntoView: nil.
 	desiredTop := (self originMorphFor: aMorph) positionInWorld y - 6.
 						"unclear why 6 is the magic number"
