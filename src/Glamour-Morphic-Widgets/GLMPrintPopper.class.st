@@ -72,7 +72,9 @@ GLMPrintPopper >> initializeTextMorph [
 	textMorph
 		beReadOnly;
 		beWrapped;
-		color: BalloonMorph balloonColor.
+		textFont: self theme textFont;
+		textColor: self theme textColor;
+		backgroundColor: BalloonMorph balloonColor.
 	self
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;

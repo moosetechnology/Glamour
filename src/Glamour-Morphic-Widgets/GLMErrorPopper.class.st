@@ -32,7 +32,9 @@ GLMErrorPopper >> initializeTextMorph [
 	textMorph
 		beReadOnly;
 		beWrapped;
-		color: Color paleRed.
+		textFont: self theme textFont;
+		textColor: self theme textColor;
+		backgroundColor: Color paleRed.
 	self
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;

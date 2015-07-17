@@ -79,7 +79,9 @@ GLMPopper >> updateWithString: string from: aMorph [
 GLMPopper >> withString: string from: aMorph [
 	| top width left stringMorph height desiredOrigin |
 	desiredOrigin := self computeOriginFor: aMorph.
-	stringMorph := RubEditingArea new updateTextWith: string.
+	stringMorph := RubEditingArea new 
+		font: self theme textFont;
+		updateTextWith: string.
 	width := stringMorph width + 12 min: World width / 3.
 	left := desiredOrigin x + width > World width
 		ifTrue: [ World width - width ]
