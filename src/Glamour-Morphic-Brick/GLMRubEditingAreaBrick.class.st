@@ -52,6 +52,8 @@ GLMRubEditingAreaBrick class >> gtExampleBand [
 		padding: #(20 20);
 		hSpaceFill;
 		vShrinkWrap;
+		width: 350;
+		height: 200;
 		color: Color veryVeryLightGray;
 		addAllBricks: { self gtExampleBasic. self gtExampleBasic };
 		yourself
@@ -64,6 +66,8 @@ GLMRubEditingAreaBrick class >> gtExampleBasic [
 		padding: 20;
 		borderWidth: 20;
 		margin: 5;
+		width: 300;
+		height: 200;
 		borderColor: Color veryLightGray
 ]
 
@@ -85,6 +89,8 @@ GLMRubEditingAreaBrick class >> gtExampleScrollPane [
 		vSpaceFill;
 		color: Color veryVeryLightGray;
 		layoutMorphs: true;
+		width: 350;
+		height: 200;
 		addAllBricks: ((1 to: 20) collect: [ :i | self gtExampleBasic ]);
 		yourself
 ]
