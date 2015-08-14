@@ -1012,7 +1012,7 @@ ConfigurationOfGlamourCore >> version319: spec [
 		spec description: 'update'.
 		spec author: 'AndreiChis'.
 		spec timestamp: '8/12/2015 15:22'.
-		spec project: 'Rubric' with: '1.16.5'.
+		spec project: 'Rubric' with: '1.16.6'.
 		spec 
 			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-AndreiChis.39';
@@ -1026,7 +1026,7 @@ ConfigurationOfGlamourCore >> version319: spec [
 			package: 'Glamour-Tests-Resources' with: 'Glamour-Tests-Resources-AndreiChis.3';
 			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-AndreiChis.216';
 			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.180';
-			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-SeanDeNigris.324';
+			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-AndreiChis.325';
 			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-AndreiChis.103';
 			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-AndreiChis.124';
 			package: 'Glamour-Rubric-Presentations' with: 'Glamour-Rubric-Presentations-CyrilFerlicot.43';
