@@ -1019,7 +1019,7 @@ ConfigurationOfGlamourCore >> version319: spec [
 			package: 'Glamour-Core' with: 'Glamour-Core-AndreiChis.302';
 			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.177';
 			package: 'Glamour-Browsers' with: 'Glamour-Browsers-TorstenBergmann.109';
-			package: 'Glamour-Examples' with: 'Glamour-Examples-CyrilFerlicot.292';
+			package: 'Glamour-Examples' with: 'Glamour-Examples-MarcusDenker.293';
 			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-AndreiChis.401';
 			package: 'Glamour-Morphic-Brick-Tests' with: 'Glamour-Morphic-Brick-Tests-AliakseiSyrel.13';
 			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-BernardoContreras.105';
