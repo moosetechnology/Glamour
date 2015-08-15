@@ -396,6 +396,11 @@ GLMPresentation >> hasTitleIcon [
 	^ self titleIcon notNil
 ]
 
+{ #category : #testing }
+GLMPresentation >> hasTransformation [
+	^ transformation isNotNil and: [ transformation ~= #yourself ]
+]
+
 { #category : #'initialize-release' }
 GLMPresentation >> initialize [
 	super initialize.
@@ -899,11 +904,6 @@ GLMPresentation >> strongSelection [
 { #category : #'accessing ports' }
 GLMPresentation >> strongSelection: anObject [
 	(self pane port: #strongSelection) value: (self selectionTransformation glamourValue: anObject)
-]
-
-{ #category : #accessing }
-GLMPresentation >> taskbarIcon [ 
-	^ self titleIcon
 ]
 
 { #category : #accessing }
