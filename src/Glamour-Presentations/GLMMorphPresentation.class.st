@@ -25,7 +25,7 @@ GLMMorphPresentation >> initialize [
 				title: '-'.
 		GLMGenericAction new
 				"icon: GLMUIThemeExtraIcons glamorousClose;"
-				shortcut: $w;
+				shortcut: $d;
 				title: 'Fit Width'.
 		GLMGenericAction new
 				"icon: GLMUIThemeExtraIcons glamorousClose;"
