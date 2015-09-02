@@ -13,7 +13,24 @@ Class {
 { #category : #initialization }
 GLMMorphPresentation >> initialize [
 	super initialize.
-	morphBuilder := [ :thisPresentation :theDisplayValue | theDisplayValue asMorph ]
+	morphBuilder := [ :thisPresentation :theDisplayValue | theDisplayValue asMorph ].
+	actions := {
+		GLMGenericAction new
+				"icon: GLMUIThemeExtraIcons glamorousClose;"
+				shortcut: $=;
+				title: '+'.
+		GLMGenericAction new
+				"icon: GLMUIThemeExtraIcons glamorousClose;"
+				shortcut: $-;
+				title: '-'.
+		GLMGenericAction new
+				"icon: GLMUIThemeExtraIcons glamorousClose;"
+				shortcut: $w;
+				title: 'Fit Width'.
+		GLMGenericAction new
+				"icon: GLMUIThemeExtraIcons glamorousClose;"
+				shortcut: $f;
+				title: 'Fit' } asOrderedCollection.
 ]
 
 { #category : #rendering }
@@ -30,6 +47,14 @@ GLMMorphPresentation >> morph: aBlock [
 
 { #category : #rendering }
 GLMMorphPresentation >> renderGlamorouslyOn: aRenderer [ 
+	| morph |
 	self registerAnnouncements.
-	^ aRenderer renderMorphPresentation: self
+	morph := aRenderer renderMorphPresentation: self.
+	actions first action: [ morph scrollTarget extent: 1.2 * morph scrollTarget extent ].
+	actions second action: [ morph scrollTarget extent: 0.8 * morph scrollTarget extent ].
+	actions third action: [ morph scrollTarget extent: (morph width @ (morph scrollTarget height * (morph width / morph scrollTarget width))) ].
+	actions fourth action: [ (morph width / morph height) > (morph scrollTarget width / morph scrollTarget height)
+			ifTrue:  [ morph scrollTarget extent: ((morph scrollTarget width * (morph height / morph scrollTarget height))) @ morph height ]
+			ifFalse: actions third action ].
+	^ morph
 ]
