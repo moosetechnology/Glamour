@@ -56,12 +56,20 @@ GLMPharoPlaygroundPresentation >> currentBindings [
 	self withBindingsDo: [ :bingings | ^ bingings copy ]
 ]
 
+{ #category : #accessing }
+GLMPharoPlaygroundPresentation >> defaultSelectionActions [
+
+	^ {self goAction}, super defaultSelectionActions
+]
+
 { #category : #actions }
-GLMPharoPlaygroundPresentation >> installGoAction [
-	self selectionAct: [ :t :entity |
-		t highlightEvaluateAndDo: [ :result | t selection: result ] ]
-			on: $g
-			entitled: 'Do it and go'
+GLMPharoPlaygroundPresentation >> goAction [
+	^ GLMGenericAction new
+				title: 'Do it and go';
+				action: [ :t :entity |
+					t highlightEvaluateAndDo: [ :result | t selection: result ] ]; 
+				shortcut: $g; 
+				yourself.
 ]
 
 { #category : #rendering }
