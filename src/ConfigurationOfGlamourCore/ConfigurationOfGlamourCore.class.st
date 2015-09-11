@@ -899,7 +899,7 @@ ConfigurationOfGlamourCore >> version313Moose51: spec [
 		
 		spec repository: 'http://smalltalkhub.com/mc/Moose/Moose51/main'.
 		spec
-			package: 'Glamour-Morphic-Renderer' with:'Glamour-Morphic-Renderer-Moose51-usmanbhatti.324'.
+			package: 'Glamour-Morphic-Renderer' with:'Glamour-Morphic-Renderer.Moose51-usmanbhatti.324'.
 		
 		spec 
 			project: 'Rubric' with: '1.2.14.Moose51' ].
