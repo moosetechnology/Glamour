@@ -33,9 +33,7 @@ GLMEditableLabelBrick class >> exampleOpen [
 
 { #category : #examples }
 GLMEditableLabelBrick class >> gtExample [
-	<gtExample>
-	<label: 'Editable label simple example'>
-	
+	<gtExample: 'Editable label simple example'>
 	^ self new
 		text: 'Click me to edit. Press enter to accept';
 		yourself
@@ -171,10 +169,10 @@ GLMEditableLabelBrick >> editBrick: aBrick [
 	
 	self editBrick rubric forceHeight: [ self labelBrick height ].
 	
-	self editBrick rubric announcer weak subscribe: RubReturnEntered  send: #onTextAccepted: to: self.
-	self editBrick rubric announcer weak subscribe: MorphLostFocus send: #onLostFocus to: self.
-	self editBrick rubric announcer weak subscribe: MorphGotFocus send: #onGotFocus: to: self.
-	self editBrick rubric announcer weak subscribe: RubTextAcceptRequest send: #onTextChanged: to: self
+	self editBrick rubric announcer weak when: RubReturnEntered  send: #onTextAccepted: to: self.
+	self editBrick rubric announcer weak when: MorphLostFocus send: #onLostFocus to: self.
+	self editBrick rubric announcer weak when: MorphGotFocus send: #onGotFocus: to: self.
+	self editBrick rubric announcer weak when: RubTextAcceptRequest send: #onTextChanged: to: self
 ]
 
 { #category : #'brick-layout-properties' }

@@ -28,8 +28,7 @@ GLMRubScrolledTextBrick class >> exampleOpen [
 
 { #category : #examples }
 GLMRubScrolledTextBrick class >> gtExample [
-	<gtExample>
-	<label: 'Two rubric text areas filling half of size'>
+	<gtExample: 'Two rubric text areas filling half of size'>
 	
 	^ GLMBrick new
 		useVerticalLinearLayout;
@@ -43,8 +42,7 @@ GLMRubScrolledTextBrick class >> gtExample [
 
 { #category : #examples }
 GLMRubScrolledTextBrick class >> gtExampleBand [
-	<gtExample>
-	<label: 'Two rubric text areas in band'>
+	<gtExample: 'Two rubric text areas in band'>
 	
 	^ GLMBandBrick new
 		padding: #(20 20);

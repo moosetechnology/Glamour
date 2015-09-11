@@ -36,8 +36,7 @@ GLMBrick class >> exampleZindexOpen [
 
 { #category : #examples }
 GLMBrick class >> gtExampleZindex [
-	<gtExample>
-	<label: 'Example of z-index support in Brick'>
+	<gtExample: 'Example of z-index support in Brick'>
 	
 	^ GLMBrick new
 		hSpaceFill;

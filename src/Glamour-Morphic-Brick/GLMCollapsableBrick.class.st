@@ -61,9 +61,7 @@ GLMCollapsableBrick class >> exampleOpen [
 
 { #category : #examples }
 GLMCollapsableBrick class >> gtExample [
-	<gtExample>
-	<label: 'Very simple one collapsable item'>
-	
+	<gtExample: 'Very simple one collapsable item'>
 	^ self createCollapsable
 		hSpaceFill;
 		vShrinkWrap

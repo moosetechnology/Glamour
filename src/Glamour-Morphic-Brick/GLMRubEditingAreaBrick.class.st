@@ -38,9 +38,7 @@ GLMRubEditingAreaBrick class >> exampleScrollPaneOpen [
 
 { #category : #examples }
 GLMRubEditingAreaBrick class >> gtExample [
-	<gtExample>
-	<label: 'Basic Rubric Editing Area'>
-	
+	<gtExample: 'Basic Rubric Editing Area'>
 	^ self gtExampleBasic
 		updateTextWith: 'Hello world!';
 		yourself
@@ -48,8 +46,7 @@ GLMRubEditingAreaBrick class >> gtExample [
 
 { #category : #examples }
 GLMRubEditingAreaBrick class >> gtExampleBand [
-	<gtExample>
-	<label: 'Two rubric text areas in band'>
+	<gtExample: 'Two rubric text areas in band'>
 	
 	^ GLMBandBrick new
 		padding: #(20 20);
@@ -64,9 +61,7 @@ GLMRubEditingAreaBrick class >> gtExampleBand [
 
 { #category : #examples }
 GLMRubEditingAreaBrick class >> gtExampleBasic [
-	<gtExample>
-	<label: 'Basic Rubric Editing Area with padding and border'>
-	
+	<gtExample: 'Basic Rubric Editing Area with padding and border'>
 	^ self new
 		padding: 20;
 		borderWidth: 20;
@@ -78,9 +73,7 @@ GLMRubEditingAreaBrick class >> gtExampleBasic [
 
 { #category : #examples }
 GLMRubEditingAreaBrick class >> gtExampleFill [
-	<gtExample>
-	<label: 'Basic Rubric Editing Area that fills parent'>
-	
+	<gtExample: 'Basic Rubric Editing Area that fills parent'>
 	^ self gtExampleBasic
 		vSpaceFill;
 		updateTextWith: 'Hello world!';
@@ -89,8 +82,7 @@ GLMRubEditingAreaBrick class >> gtExampleFill [
 
 { #category : #examples }
 GLMRubEditingAreaBrick class >> gtExampleScrollPane [
-	<gtExample>
-	<label: 'Multiple rubric text areas in scroll pane'>
+	<gtExample: 'Multiple rubric text areas in scroll pane'>
 	
 	^ GLMScrollPaneBrick new
 		hSpaceFill;
