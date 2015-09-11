@@ -15,9 +15,9 @@ GLMPagerButtonsPaneBrick >> addButton: aBrick [
 	
 	aBrick enable.
 	aBrick index: self buttons size.
-	aBrick announcer weak subscribe: GLMPagerButtonClicked send: #onButtonClicked: to: self.
-	aBrick announcer weak subscribe: GLMPagerButtonSelected send: #onButtonSelected: to: self.
-	aBrick announcer weak subscribe: GLMPagerButtonDeselected send: #onButtonDeselected to: self.
+	aBrick announcer weak when: GLMPagerButtonClicked send: #onButtonClicked: to: self.
+	aBrick announcer weak when: GLMPagerButtonSelected send: #onButtonSelected: to: self.
+	aBrick announcer weak when: GLMPagerButtonDeselected send: #onButtonDeselected to: self.
 	
 	self theme pagerWidgetThemer defaultScrollButtonStyleFor: aBrick.
 	
@@ -176,9 +176,9 @@ GLMPagerButtonsPaneBrick >> pagerModel: aModel [
 	
 	pagerModel := aModel.
 		
-	self pagerModel announcer weak subscribe: GLMPageSwitched send: #onPageSwitched to: self.
-	self pagerModel announcer weak subscribe: GLMPagerBoundsChanged send: #onScrollBoundsChanged: to: self.
-	self pagerModel announcer weak subscribe: GLMFocusedPageChanged send: #onFocusedPageChanged to: self.
+	self pagerModel announcer weak when: GLMPageSwitched send: #onPageSwitched to: self.
+	self pagerModel announcer weak when: GLMPagerBoundsChanged send: #onScrollBoundsChanged: to: self.
+	self pagerModel announcer weak when: GLMFocusedPageChanged send: #onFocusedPageChanged to: self.
 		
 	self updateButtons
 ]
