@@ -13,7 +13,8 @@ GLMTreeBrick class >> exampleOpen [
 
 { #category : #examples }
 GLMTreeBrick class >> gtExample [
-	<gtExample: 'Simple tree with a few elements'>
+	<gtExample>
+	<label: 'Simple tree with a few elements'>
 	
 	^ self new
 		hSpaceFill;
