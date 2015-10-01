@@ -16,8 +16,7 @@ GLMBandBrick class >> exampleOpen [
 
 { #category : #examples }
 GLMBandBrick class >> gtExample [
-	<gtExample>
-	<label: 'Example with subbricks'>
+	<gtExample: 'Example with subbricks'>
 	
 	^ self new
 		hSpaceFill;

@@ -33,9 +33,7 @@ GLMEditableLabelBrick class >> exampleOpen [
 
 { #category : #examples }
 GLMEditableLabelBrick class >> gtExample [
-	<gtExample>
-	<label: 'Editable label simple example'>
-	
+	<gtExample: 'Editable label simple example'>
 	^ self new
 		text: 'Click me to edit. Press enter to accept';
 		yourself

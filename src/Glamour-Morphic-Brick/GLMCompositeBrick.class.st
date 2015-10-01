@@ -43,8 +43,7 @@ GLMCompositeBrick class >> exampleTableOpen [
 
 { #category : #examples }
 GLMCompositeBrick class >> gtExampleList [
-	<gtExample>
-	<label: 'Phlow simple list'>
+	<gtExample: 'Phlow simple list'>
 
 	^ self new
 		hSpaceFill;
@@ -59,8 +58,7 @@ GLMCompositeBrick class >> gtExampleList [
 
 { #category : #examples }
 GLMCompositeBrick class >> gtExampleListClassMethods [
-	<gtExample>
-	<label: 'Phlow list displaying all methods of an object '>
+	<gtExample: 'Phlow list displaying all methods of an object '>
 
 	^ self new
 		hSpaceFill;
@@ -76,8 +74,7 @@ GLMCompositeBrick class >> gtExampleListClassMethods [
 
 { #category : #examples }
 GLMCompositeBrick class >> gtExampleListWithCustomItems [
-	<gtExample>
-	<label: 'Phlow list with custom items'>
+	<gtExample: 'Phlow list with custom items'>
 
 	^ self new
 		hSpaceFill;
@@ -93,8 +90,7 @@ GLMCompositeBrick class >> gtExampleListWithCustomItems [
 
 { #category : #examples }
 GLMCompositeBrick class >> gtExamplePharoMethod [
-	<gtExample>
-	<label: 'Phlow Pharo method'>
+	<gtExample: 'Phlow Pharo method'>
 
 	^ self new
 		hSpaceFill;
@@ -109,8 +105,7 @@ GLMCompositeBrick class >> gtExamplePharoMethod [
 
 { #category : #examples }
 GLMCompositeBrick class >> gtExampleTable [
-	<gtExample>
-	<label: 'Phlowr table'>
+	<gtExample: 'Phlowr table'>
 	
 	^ self new
 		hSpaceFill;

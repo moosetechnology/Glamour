@@ -18,9 +18,7 @@ GLMFormBrick class >> exampleOpen [
 
 { #category : #examples }
 GLMFormBrick class >> gtExample [
-	<gtExample>
-	<label: 'Input form with title, two labels, four checkboxes, text and submit button'>
-	
+	<gtExample: 'Input form with title, two labels, four checkboxes, text and submit button'>
 	^ self new
 		title: [ :t | t
 			text: 'Grüezi' ];
@@ -80,7 +78,7 @@ GLMFormBrick >> initialize [
 		color: Color veryVeryLightGray muchLighter;
 		borderWidth: 1;
 		borderColor: Color veryVeryLightGray;
-		padding: # (4 7)
+		padding: #(4 7)
 ]
 
 { #category : #'form-scripting' }

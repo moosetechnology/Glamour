@@ -37,17 +37,13 @@ GLMCheckboxBrick class >> exampleWithLabelOpen [
 
 { #category : #examples }
 GLMCheckboxBrick class >> gtExample [
-	<gtExample>
-	<label: 'Checkbox without label'>
-	
+	<gtExample: 'Checkbox without label'>
 	^ self new
 ]
 
 { #category : #examples }
 GLMCheckboxBrick class >> gtExampleWithLabel [
-	<gtExample>
-	<label: 'Checkbox with label'>
-	
+	<gtExample: 'Checkbox with label'>
 	^ self new
 		text: 'I''m label, click me';
 		action: [ :boolean | self inform: 'Checkbox set to ', boolean asString ];
