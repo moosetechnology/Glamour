@@ -297,6 +297,7 @@ ConfigurationOfGlamourCore >> development: spec [
 	spec for: #'common' version: '3.2-baseline'.
 
 	spec for: #'pharo4.x' version: '3.2-baseline'.
+
 ]
 
 { #category : #accessing }
@@ -316,12 +317,12 @@ ConfigurationOfGlamourCore >> project [
 ConfigurationOfGlamourCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.2.1'.
+	spec for: #'common' version: '3.2.2'.
 
 	spec for: #'pharo3.x' version: '3.0.7'.
 
 	spec for: #'pharo4.x' version: '3.1.3.Moose51'.
-	
+
 	spec for: #'pharo5.x' version: '3.2.1'.
 
 ]
@@ -1158,6 +1159,37 @@ ConfigurationOfGlamourCore >> version321: spec [
 			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.180';
 			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-MarcusDenker.326';
 			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-CyrilFerlicot.104';
+			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-AndreiChis.124';
+			package: 'Glamour-Rubric-Presentations' with: 'Glamour-Rubric-Presentations-CyrilFerlicot.43';
+			package: 'Glamour-Tests-Rubric' with: 'Glamour-Tests-Rubric-AndreiChis.14'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGlamourCore >> version322: spec [
+	<version: '3.2.2' imports: #('3.2-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'remove  hard dependency to theme icons (they will be remove, and also it was bad :) )'.
+		spec author: 'EstebanLorenzano'.
+		spec timestamp: '10/1/2015 14:23'.
+		spec project: 'Rubric' with: '1.18'.
+		spec 
+			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
+			package: 'Glamour-Helpers' with: 'Glamour-Helpers-AndreiChis.39';
+			package: 'Glamour-Core' with: 'Glamour-Core-AndreiChis.302';
+			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.177';
+			package: 'Glamour-Browsers' with: 'Glamour-Browsers-TorstenBergmann.109';
+			package: 'Glamour-Examples' with: 'Glamour-Examples-EstebanLorenzano.294';
+			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-AndreiChis.401';
+			package: 'Glamour-Morphic-Brick-Tests' with: 'Glamour-Morphic-Brick-Tests-AliakseiSyrel.13';
+			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-BernardoContreras.105';
+			package: 'Glamour-Tests-Resources' with: 'Glamour-Tests-Resources-AndreiChis.3';
+			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-EstebanLorenzano.217';
+			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.180';
+			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-AndreiChis.325';
+			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-AndreiChis.103';
 			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-AndreiChis.124';
 			package: 'Glamour-Rubric-Presentations' with: 'Glamour-Rubric-Presentations-CyrilFerlicot.43';
 			package: 'Glamour-Tests-Rubric' with: 'Glamour-Tests-Rubric-AndreiChis.14'. ].
