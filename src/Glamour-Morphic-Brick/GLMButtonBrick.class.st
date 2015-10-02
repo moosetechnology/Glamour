@@ -30,7 +30,9 @@ GLMButtonBrick class >> exampleOpen [
 
 { #category : #examples }
 GLMButtonBrick class >> gtExample [
-	<gtExample: 'Simple button'>
+	<gtExample>
+	<label: 'Simple button'>
+	
 	^ self new
 ]
 

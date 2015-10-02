@@ -42,14 +42,18 @@ GLMLabelBrick class >> exampleWithPopupOpen [
 
 { #category : #examples }
 GLMLabelBrick class >> gtExample [
-	<gtExample: 'Label with text'>
+	<gtExample>
+	<label: 'Label with text'>
+	
 	^ self new
 		text: 'Label'
 ]
 
 { #category : #examples }
 GLMLabelBrick class >> gtExampleWithPopup [
-	<gtExample: 'Label with text and popup showing when hovered with mouse'>
+	<gtExample>
+	<label: 'Label with text and popup showing when hovered with mouse'>
+	
 	^ self new
 		enable;
 		text: 'Hello';
