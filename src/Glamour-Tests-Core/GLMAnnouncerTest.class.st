@@ -16,7 +16,7 @@ GLMAnnouncerTest >> setUp [
 GLMAnnouncerTest >> testNestedSuspendAllWhile [
 	| announcement |
 	announcer
-		subscribe: GLMTestAnnouncement
+		when: GLMTestAnnouncement
 		do: [ :ann | announcement := ann ].
 	
 	announcement := nil.
@@ -30,7 +30,7 @@ GLMAnnouncerTest >> testNestedSuspendAllWhile [
 GLMAnnouncerTest >> testNestedSuspendParticularAnnouncementWhile [
 	| announcement instance2 announcement2 |
 	announcer
-		subscribe: GLMTestAnnouncement, GLMTestAnnouncement2
+		when: GLMTestAnnouncement, GLMTestAnnouncement2
 		do: [ :ann | announcement := ann ].
 	
 	announcement2 := nil.
@@ -48,7 +48,7 @@ GLMAnnouncerTest >> testNestedSuspendParticularAnnouncementWhile [
 GLMAnnouncerTest >> testSimpleNestedSuspendParticularAnnouncementWhile [
 	| announcement |
 	announcer
-		subscribe: GLMTestAnnouncement
+		when: GLMTestAnnouncement
 		do: [ :ann | announcement := ann ].
 	
 	announcement := nil.
@@ -61,7 +61,7 @@ GLMAnnouncerTest >> testSimpleNestedSuspendParticularAnnouncementWhile [
 { #category : #tests }
 GLMAnnouncerTest >> testSuspendAllWhile [
 	| announcement instance |
-	announcer subscribe: GLMTestAnnouncement do: [ :ann | announcement := ann ].
+	announcer when: GLMTestAnnouncement do: [ :ann | announcement := ann ].
 	announcement := nil.
 	instance := announcer announce: GLMTestAnnouncement.
 	self assert: announcement equals: instance.
@@ -73,8 +73,8 @@ GLMAnnouncerTest >> testSuspendAllWhile [
 { #category : #tests }
 GLMAnnouncerTest >> testSuspendParticularAnnouncementWhile [
 	| announcement instance |
-	announcer subscribe: GLMTestAnnouncement do: [ :ann | announcement := ann ].
-	announcer subscribe: GLMTestAnnouncement2 do: [ :ann | announcement := ann ].
+	announcer when: GLMTestAnnouncement do: [ :ann | announcement := ann ].
+	announcer when: GLMTestAnnouncement2 do: [ :ann | announcement := ann ].
 	announcement := nil.
 	instance := announcer announce: GLMTestAnnouncement.
 	self assert: announcement equals: instance.
@@ -92,7 +92,7 @@ GLMAnnouncerTest >> testSuspendParticularAnnouncementWhile [
 { #category : #tests }
 GLMAnnouncerTest >> testSuspendParticularAnnouncementWithInheritanceWhile [
 	| announcement instance |
-	announcer subscribe: Announcement do: [ :ann | announcement := ann ].
+	announcer when: Announcement do: [ :ann | announcement := ann ].
 	announcement := nil.
 	instance := announcer announce: Announcement.
 	self assert: announcement equals: instance.
