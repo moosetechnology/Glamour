@@ -2,9 +2,7 @@ Class {
 	#name : #GLMMorphicMorphRenderer,
 	#superclass : #GLMMorphicWidgetRenderer,
 	#instVars : [
-		'scrollPane',
-		'containerMorphClass',
-		'container'
+		'scrollPane'
 	],
 	#category : #'Glamour-Morphic-Renderer'
 }
@@ -24,8 +22,7 @@ GLMMorphicMorphRenderer >> actOnKeyStroke: aPresentation event: anEvent from: aM
 
 { #category : #rendering }
 GLMMorphicMorphRenderer >> actOnPresentationUpdated: ann [
-	container removeAllMorphs.
-	container addMorphBack: (self morphFrom: ann presentation)
+	scrollPane scrollTarget: (self morphFrom: ann presentation)
 ]
 
 { #category : #private }
@@ -56,12 +53,6 @@ GLMMorphicMorphRenderer >> morphFrom: aMorphPresentation [
 
 { #category : #rendering }
 GLMMorphicMorphRenderer >> render: aMorphPresentation [
-	| morph zoomableMorph |
 	aMorphPresentation when: GLMPresentationUpdated send: #actOnPresentationUpdated: to: self.
-	morph := self morphFrom: aMorphPresentation.
-	zoomableMorph := morph newTransformationMorph asFlexOf: morph.
-	zoomableMorph
-		hResizing: #rigid;
-		vResizing: #rigid.
-	^ self scrollMorphFor: zoomableMorph
+	^ (scrollPane := self scrollMorphFor: (self morphFrom: aMorphPresentation))
 ]

@@ -62,7 +62,8 @@ GLMMorphicRubricTextRenderer >> registerEventsForPresentation: aPresentation [
 { #category : #rendering }
 GLMMorphicRubricTextRenderer >> render: aPresentation [
 	textModel := self modelFor: aPresentation.
-	textModel primarySelectionInterval: aPresentation primarySelectionInterval.
+	textModel primarySelectionInterval: (aPresentation primarySelectionInterval 
+		ifNil:[ aPresentation selectionInterval ifNil: [1 to: 0] ]).
 	textMorph := self morph.
 	aPresentation text: textMorph text.
 	aPresentation withLineNumbers
