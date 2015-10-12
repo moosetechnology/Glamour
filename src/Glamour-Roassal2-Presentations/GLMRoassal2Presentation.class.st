@@ -79,7 +79,7 @@ GLMRoassal2Presentation >> defaultActions [
 			entitled: 'Export to SVG'.
 	self act: [ :roassal |
 		| fileName |
-		fileName := (RTHTML5Exporter new export: roassal view view) asUrl.
+		fileName := (RTHTML5Exporter new export: roassal view view) asUrl open.
 		self openIfPossible: fileName.
 		 ] entitled: 'Export to HTML'.
 	self
@@ -145,10 +145,7 @@ GLMRoassal2Presentation >> openIfPossible: fileName [
 
 	'http://google.com' asUrl open.
 	"
-	
-	#NewExternalWebBrowser asClassIfPresent: [ :cls | fileName asUrl open ].
-	#NewExternalWebBrowser asClassIfAbsent: [ 
-		self inform: 'Try to load NewExternalWebBrowser to fast open of this file' ].
+	#NewExternalWebBrowser asClassIfPresent: [ :cls | fileName asUrl open ]
 ]
 
 { #category : #scripting }
