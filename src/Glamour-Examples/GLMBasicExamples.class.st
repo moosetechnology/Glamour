@@ -1463,7 +1463,7 @@ GLMBasicExamples >> watcher [
 	browser transmit
 		from: #one;
 		toWatcher;
-		andShow: [ :a | a smalltalkCode display: #getSource ].
+		andShow: [ :a | a pharoMethod display: #getSource ].
 	^ browser
 ]
 
