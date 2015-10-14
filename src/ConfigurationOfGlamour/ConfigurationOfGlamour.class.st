@@ -1982,7 +1982,56 @@ ConfigurationOfGlamour >> baseline33: spec [
 	spec for: #common do: [ 						
 		spec group: 'default' with: #(
 						'GlamourCore'
-						'Glamour-Roassal2-Presentations'
+						'Glamour-Magritte-Presentations'
+						'Glamour-Tools'
+						'Glamour-Examples-Extras' ).
+		spec 
+			project: 'GlamourCore' with: [ 
+				spec 
+					className: 'ConfigurationOfGlamourCore';
+					file: 'ConfigurationOfGlamourCore';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'].
+		spec
+			project: 'Roassal2 for Glamour' with: [
+				spec
+					className: 'ConfigurationOfRoassal2';
+					file: 'ConfigurationOfRoassal2';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ].
+		spec 
+			project: 'Magritte3' with: [
+				spec
+					className: 'ConfigurationOfMagritte3';
+					file: 'ConfigurationOfMagritte3';
+					version: #stable;
+					repository: 'http://www.smalltalkhub.com/mc/Magritte/Magritte3/main';
+					loads: #('Magritte-Model' 'Magritte-Tests-Model' 'Magritte-Morph' 'Magritte-Pharo-Model') ] ]
+]
+
+{ #category : #baselines }
+ConfigurationOfGlamour >> baseline34: spec [ 
+	<version: '3.4-baseline'>
+	
+	spec for: #common do: [
+		spec blessing: #development.
+		spec description: 'readded magritte'.
+		spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'.
+		spec 
+			package: 'Glamour-Tools' with: [spec requires: #('GlamourCore')];
+			package: 'Glamour-Examples-Extras' with: [spec requires: #('Glamour-Tools')];
+			package: 'Glamour-Roassal2-Presentations' with: [spec requires: #('Roassal2 for Glamour' 'Glamour-Tools')];
+			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];	
+			package: 'Glamour-Morphic-Brick-Experiments'].
+
+	spec for: #squeakCommon do: [ 
+		spec
+			package: 'CollectionExtensions' with: [spec repository: 'http://www.smalltalkhub.com/mc/Moose/CollectionExtensions/main'];
+			package: 'Glamour-Tools' with: [spec requires: #('GlamourCore' 'CollectionExtensions')] ].
+
+	spec for: #common do: [ 						
+		spec group: 'default' with: #(
+						'GlamourCore'
 						'Glamour-Magritte-Presentations'
 						'Glamour-Tools'
 						'Glamour-Examples-Extras' ).
@@ -2014,7 +2063,7 @@ ConfigurationOfGlamour >> baseline33: spec [
 ConfigurationOfGlamour >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '3.3-baseline'.
+	spec for: #'common' version: '3.4-baseline'.
 
 	spec for: #'pharo2.x' version: '2.6-baseline'.
 	spec for: #'pharo3.x' version: '3.0-baseline'.
@@ -3168,6 +3217,35 @@ ConfigurationOfGlamour >> version330: spec [
 			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.85';
 			package: 'Glamour-Roassal2-Presentations' with: 'Glamour-Roassal2-Presentations-TudorGirba.38';
 			package: 'Glamour-Magritte-Presentations' with: 'Glamour-Magritte-Presentations-AndreiChis.7';
+			package: 'Glamour-Morphic-Brick-Experiments' with: 'Glamour-Morphic-Brick-Experiments-AliakseiSyrel.13'. 
+		
+		spec 
+			project: 'GlamourCore' with: #'stable';
+			project: 'Roassal2 for Glamour' with: #'stable';
+			project: 'Magritte3' with: #stable. ].
+		
+	spec for: #squeakCommon do: [ 
+		spec blessing: #'stable'.
+		spec 
+			package: 'CollectionExtensions' with: 'CollectionExtensions-TudorGirba.41';
+			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.85' ]
+
+
+]
+
+{ #category : #versions }
+ConfigurationOfGlamour >> version331: spec [
+	<version: '3.3.1' imports: #('3.4-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 3.3.0'.
+		spec author: 'AlexandreBergel'.
+		spec timestamp: '14/10/2015'.
+		spec 
+			package: 'Glamour-Examples-Extras' with: 'Glamour-Examples-Extras-TudorGirba.6';
+			package: 'Glamour-Tools' with: 'Glamour-Tools-TudorGirba.85';
+			package: 'Glamour-Magritte-Presentations' with: 'Glamour-Magritte-Presentations-AlexandreBergel.8';
 			package: 'Glamour-Morphic-Brick-Experiments' with: 'Glamour-Morphic-Brick-Experiments-AliakseiSyrel.13'. 
 		
 		spec 
