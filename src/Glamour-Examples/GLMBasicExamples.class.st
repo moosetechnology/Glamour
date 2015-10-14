@@ -858,7 +858,7 @@ GLMBasicExamples >> smalltalkCode [
 	browser := GLMTabulator new.
 	browser row: #code span: 2; row: #preview.
 	browser transmit to: #code; andShow: [ :a | 
-		a smalltalkCode 
+		a pharoPlayground  
 			title: 'Smalltalk Code';
 			populate: #acceptedCode icon: GLMUIThemeExtraIcons glamorousAccept on: $s entitled: 'Accept' with: [:text | text text ] ].
 	browser transmit from: #code port: #acceptedCode; to: #preview; andShow: [ :a | 
