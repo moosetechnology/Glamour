@@ -2021,7 +2021,6 @@ ConfigurationOfGlamour >> baseline34: spec [
 		spec 
 			package: 'Glamour-Tools' with: [spec requires: #('GlamourCore')];
 			package: 'Glamour-Examples-Extras' with: [spec requires: #('Glamour-Tools')];
-			package: 'Glamour-Roassal2-Presentations' with: [spec requires: #('Roassal2 for Glamour' 'Glamour-Tools')];
 			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];	
 			package: 'Glamour-Morphic-Brick-Experiments'].
 
@@ -2043,13 +2042,13 @@ ConfigurationOfGlamour >> baseline34: spec [
 					file: 'ConfigurationOfGlamourCore';
 					version: #development;
 					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'].
-		spec
+		"spec
 			project: 'Roassal2 for Glamour' with: [
 				spec
 					className: 'ConfigurationOfRoassal2';
 					file: 'ConfigurationOfRoassal2';
 					version: #development;
-					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ].
+					repository: 'http://www.smalltalkhub.com/mc/ObjectProfile/Roassal2/main' ]."
 		spec 
 			project: 'Magritte3' with: [
 				spec
