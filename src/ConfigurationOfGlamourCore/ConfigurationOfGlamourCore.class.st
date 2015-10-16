@@ -1277,7 +1277,7 @@ ConfigurationOfGlamourCore >> version325: spec [
 			package: 'Glamour-Morphic-Brick-Tests' with: 'Glamour-Morphic-Brick-Tests-AliakseiSyrel.13';
 			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-BernardoContreras.106';
 			package: 'Glamour-Tests-Resources' with: 'Glamour-Tests-Resources-AndreiChis.3';
-			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-AndreiChis.219';
+			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-AndreiChis.221';
 			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.180';
 			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-AndreiChis.327';
 			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-CyrilFerlicot.104';
