@@ -60,7 +60,8 @@ GLMWhitespaceTheme class >> importGlamorousIcons [
 		'glamorousCheckboxUnselected'
 		'glamorousRadioSelected'
 		'glamorousRadioUnselected').
-	self importIcons: icons fromFolder: 'icons' inClass: GLMThemeIcons category: '*glamour-morphic-theme'
+	self flag: 'Commented this as GLMThemeIcons was removed.'
+	"self importIcons: icons fromFolder: 'icons' inClass: GLMThemeIcons category: '*glamour-morphic-theme'"
 ]
 
 { #category : #private }
