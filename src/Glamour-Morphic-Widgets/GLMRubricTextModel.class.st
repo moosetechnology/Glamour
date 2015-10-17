@@ -44,3 +44,9 @@ GLMRubricTextModel >> setText: aText from: aRubScrolledTextMorph [
 	self glamourPresentation text: aText.
 	^true
 ]
+
+{ #category : #callbacks }
+GLMRubricTextModel >> shiftMenu [
+
+	^ nil
+]
