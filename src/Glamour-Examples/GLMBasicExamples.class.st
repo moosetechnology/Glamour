@@ -652,7 +652,7 @@ GLMBasicExamples >> onChangeOfPortAction [
 
 	^ GLMCompositePresentation new 
 		with: [ :composite |
-			composite rubricText 
+			composite text 
 				onChangeOfPort: #text act: [ :textPresentation | 
 					Transcript cr; cr; show: textPresentation text ] ];
 		act: [ Transcript open ] entitled: 'Open Transcript'
@@ -1085,7 +1085,7 @@ GLMBasicExamples >> textPortsExamples [
 		row: [ :r | r column: #selectionInterval; column: #selectedText; column: #full ].
 	(browser transmit)
 		to: #main;
-		andShow: [ :a | a rubricText ].
+		andShow: [ :a | a text ].
 	(browser transmit)
 		to: #selectionInterval;
 		from: #main port: #selectionInterval;
