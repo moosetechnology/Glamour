@@ -7,6 +7,12 @@ GLMCompositePresentation >> pharoMethod [
 
 { #category : #'*glamour-rubric-presentations' }
 GLMCompositePresentation >> pharoPlayground [
+	self deprecated: 'Use pharoScript instead'.
+	^ self custom: GLMPharoPlaygroundPresentation new
+]
+
+{ #category : #'*glamour-rubric-presentations' }
+GLMCompositePresentation >> pharoScript [
 	^ self custom: GLMPharoPlaygroundPresentation new
 ]
 

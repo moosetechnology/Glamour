@@ -25,7 +25,7 @@ GLMPharoPlaygroundPresentation class >> pharoPlaygroundPresentationExample [
 	browser transmit
 		to: #r1;
 		andShow: [ :aComposite | 
-					aComposite pharoPlayground
+					aComposite pharoScript
 						selectionAct: [ :workspace :page | workspace evaluateSelection ] on: $d entitled: 'Do it';
 						selectionAct: [ :workspace :page | workspace evaluateSelectionAndDo: [ :result | result inspect ] ]
 							on: $i
@@ -36,7 +36,7 @@ GLMPharoPlaygroundPresentation class >> pharoPlaygroundPresentationExample [
 	browser transmit
 		to: #r2;
 		andShow: [ :aComposite | 
-					aComposite pharoPlayground
+					aComposite pharoScript
 						variableBindings: [ 
 							{(#browser -> browser).
 							(#a -> 1)} ] ].
