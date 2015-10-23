@@ -8,7 +8,7 @@ Class {
 GLMMorphicPharoCodeRendererTest >> testCodeExecutionWithBindings [
 	| composite textMorph result |
 	composite := GLMCompositePresentation new.
-	composite pharoPlayground.
+	composite pharoScript.
 	window := composite openOn: 'a:=1'.
 
 	result := nil.
