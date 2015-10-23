@@ -199,7 +199,7 @@ GLMCompositePresentationMorphicTest >> testTabsLastActivePresentation [
 	window := browser openOn: 42.
 	self compositeTabGroup selectedPageIndex: 2.
 	self assert: browser panes first lastActivePresentation notNil.
-	self assert: (browser panes first lastActivePresentation isKindOf: GLMTextPresentation)
+	self assert: (browser panes first lastActivePresentation isKindOf: GLMRubricTextPresentation)
 ]
 
 { #category : #tests }

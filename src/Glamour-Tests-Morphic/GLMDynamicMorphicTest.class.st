@@ -19,7 +19,7 @@ GLMDynamicMorphicTest >> testSurroundingPanel [
 
 	dynamicContainerMorph := window submorphs last submorphs first submorphs first.
 	self assert: (dynamicContainerMorph isKindOf: PanelMorph).
-	self assert: (dynamicContainerMorph submorphs first isKindOf: PluggableTextMorph)
+	self assert: (dynamicContainerMorph submorphs first isKindOf: RubScrolledTextMorph)
 ]
 
 { #category : #tests }

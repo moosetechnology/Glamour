@@ -15,7 +15,7 @@ GLMTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	overriden := false.
 	composite := GLMCompositePresentation new with: [ :a | a text act: [ :text | overriden := true ] on: $s entitled: 'Override'].
 	window := composite openOn: 4.
-	textMorph := self find: PluggableTextMorph in: window.
+	textMorph := self find: RubScrolledTextMorph  in: window.
 	textMorph simulateClick.
 	self simulateKeyStroke: $s command.
 	self simulateKeyStroke: $s control.
@@ -26,9 +26,10 @@ GLMTextMorphicTest >> testAcceptKeyCanBeOverriden [
 { #category : #tests }
 GLMTextMorphicTest >> testExplicitAcceptDoesNotAffectTextPort [
 	| composite textMorph |
+	self halt.
 	composite := GLMCompositePresentation new with: [ :a | a text display: '123' ].
 	window := composite openOn: 4.
-	textMorph := self find: PluggableTextMorph in: window.
+	textMorph := self find: RubScrolledTextMorph in: window.
 	textMorph simulateClick.
 	self simulateKeyStrokes: '4'.
 	self assert: (composite pane port: #text) value = '1234'.
@@ -42,11 +43,11 @@ GLMTextMorphicTest >> testMultipleSelectionWithChange [
 	| composite textMorph textPresentation |
 	composite := GLMCompositePresentation new with: [ :a | a text display: '123456789' ].
 	window := composite openOn: 4.
-	textMorph := self find: PluggableTextMorph in: window.
+	textMorph := self find: RubScrolledTextMorph in: window.
 	self assert: textMorph selectionInterval isEmpty.
 	textPresentation := composite presentations first.
 	textPresentation selectionInterval: (2 to: 5).
-	self assert: textMorph selectedContents asString equals: '2345'.
+	self assert: textMorph textArea editor selection asString equals: '2345'.
 	self assert: textPresentation selectedText asString equals: '2345'
 ]
 
@@ -55,9 +56,9 @@ GLMTextMorphicTest >> testPastingUpdatesTextPort [
 	| composite textMorph |
 	composite := GLMCompositePresentation new with: [ :a | a text display: '' ].
 	window := composite openOn: 42.
-	textMorph := self find: PluggableTextMorph in: window.
+	textMorph := self find: RubScrolledTextMorph in: window.
 	Clipboard clipboardText: '42'.
-	textMorph paste.
+	textMorph textArea editor paste.
 	self assert: (composite pane port: #text) value = '42'
 ]
 
