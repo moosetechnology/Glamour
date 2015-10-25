@@ -29,6 +29,11 @@ GLMAnnouncingCollection >> add: newObject beforeOrLast: oldObject [
 	self announce: GLMItemAdded
 ]
 
+{ #category : #converting }
+GLMAnnouncingCollection >> asOrderedCollection [
+	^ self
+]
+
 { #category : #initialization }
 GLMAnnouncingCollection >> at: anObject [
 
