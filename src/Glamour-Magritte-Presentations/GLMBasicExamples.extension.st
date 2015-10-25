@@ -13,6 +13,7 @@ GLMBasicExamples >> magritte [
 	browser column: #list; column: #detail.
 	browser transmit to: #list ; andShow: [ :a | 
 		a list
+			title: 'Contacts';
 			format: [ :person | person name ] ;
 			updateOn: GLMItemAdded from: [ GLMMagrittePersonExample sampleData ] ;
 			updateOn: GLMItemRemoved from: [ GLMMagrittePersonExample sampleData ] ;
