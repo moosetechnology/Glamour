@@ -327,7 +327,7 @@ GLMCompositePresentation >> tabulator [
 
 { #category : #scripting }
 GLMCompositePresentation >> text [ 
-	^ self custom: GLMTextPresentation new
+	^ self custom: GLMRubricTextPresentation new
 ]
 
 { #category : #scripting }
