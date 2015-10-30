@@ -9,7 +9,7 @@ GLMDynamicPresentationTest >> testCachedPresentation [
 	| dynamic currentPresentation |
 	dynamic := GLMDynamicPresentation new.
 	dynamic entity: 42.
-	dynamic transformation: [ :entity | GLMTextPresentation new ].
+	dynamic transformation: [ :entity | GLMRubricTextPresentation new ].
 	currentPresentation := dynamic currentPresentation.
 
 	self assert: dynamic cachedPresentation == currentPresentation
@@ -20,9 +20,9 @@ GLMDynamicPresentationTest >> testDefaultPresentation [
 	| dynamic |
 	dynamic := GLMDynamicPresentation new.
 	dynamic entity: 42.
-	dynamic transformation: [ :entity | GLMTextPresentation new ].
+	dynamic transformation: [ :entity | GLMRubricTextPresentation new ].
 	self assert: dynamic currentPresentation presentations size equals: 1.
-	self assert: (dynamic currentPresentation presentations first isKindOf: GLMTextPresentation).
+	self assert: (dynamic currentPresentation presentations first isKindOf: GLMRubricTextPresentation).
 	self assert: dynamic currentPresentation pane == dynamic pane
 ]
 
@@ -32,7 +32,7 @@ GLMDynamicPresentationTest >> testDirectEventsPropagationTransformation [
 	counter := 0.
 	dynamic := GLMDynamicPresentation new.
 	dynamic entity: '42'.
-	dynamic display: [ :entity | textPresentation := GLMTextPresentation new ].
+	dynamic display: [ :entity | textPresentation := GLMRubricTextPresentation new ].
 	
 	"Build the presentation"
 	dynamic currentPresentation.
@@ -50,7 +50,7 @@ GLMDynamicPresentationTest >> testIndirectEventsPropagationTransformation [
 	counter := 0.
 	dynamic := GLMDynamicPresentation new.
 	dynamic entity: '42'.
-	dynamic display: [ :entity | textPresentation := GLMTextPresentation new ].
+	dynamic display: [ :entity | textPresentation := GLMRubricTextPresentation new ].
 	"Build the presentation"
 	dynamic currentPresentation.
 	

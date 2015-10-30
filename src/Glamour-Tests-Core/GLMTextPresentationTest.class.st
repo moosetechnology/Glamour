@@ -13,7 +13,7 @@ GLMTextPresentationTest >> expectedFailures [
 { #category : #tests }
 GLMTextPresentationTest >> testSelectedText [
 	| presentation |
-	presentation := GLMTextPresentation new.
+	presentation := GLMRubricTextPresentation new.
 	self assert: presentation selectedText equals: ''.
 	presentation selectedTextBlock: [ 'selection' ].
 	self assert: presentation selectedText equals: 'selection'
@@ -22,7 +22,7 @@ GLMTextPresentationTest >> testSelectedText [
 { #category : #tests }
 GLMTextPresentationTest >> testSelectionIntervalInitialization [
 	| presentation |
-	presentation := GLMTextPresentation new
+	presentation := GLMRubricTextPresentation new
 		initialize: [ :pres | pres selectionInterval: (3 to: 9) ].
 	self assert: presentation selectionInterval equals: nil.
 	presentation initializePresentation.
