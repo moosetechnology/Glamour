@@ -659,6 +659,25 @@ GLMBasicExamples >> onChangeOfPortAction [
 ]
 
 { #category : #text }
+GLMBasicExamples >> pharoScript [
+	<glmBrowser: 'Pharo script' input: '''"Enter some Smalltalk code and then accept to preview the result."'''>
+	"self new pharoScript openOn: ''"
+	| browser |
+	browser := GLMTabulator new.
+	browser row: #code span: 2; row: #preview.
+	browser transmit to: #code; andShow: [ :a | 
+		a pharoScript  
+			title: 'Smalltalk Code';
+			populate: #acceptedCode icon: GLMUIThemeExtraIcons glamorousAccept on: $s entitled: 'Accept' with: [:text | text text ] ].
+	browser transmit from: #code port: #acceptedCode; to: #preview; andShow: [ :a | 
+		a text 
+			title: 'Evaluated result';
+			display: [:code | [Smalltalk evaluate: code ] on: Error do: ['Error']];
+			act: [:text | text displayValue explore] icon: GLMUIThemeExtraIcons glamorousInspect entitled: 'Explore' ].
+	^ browser
+]
+
+{ #category : #text }
 GLMBasicExamples >> populatePortAction [
 	<glmBrowser: 'Populate port action' input: 'String withAll: ''Select a piece of text and open on the next pane via the contextual menu or by pressing Modifier+o. Otherwise just open the complete copy of the current text on the next pane via the menu or by pressing Modifier+l.'''>
 	"self new populatePortAction openOn: 'Select a piece of text and open on the next pane either with the overall button, or via the context menu'"
@@ -847,25 +866,6 @@ GLMBasicExamples >> singleInitialSelection [
 	browser transmit to: #two; from: #one; andShow: [ :a |
 		a list
 			display: [:x | 1 to: x * 2]].
-	^ browser
-]
-
-{ #category : #text }
-GLMBasicExamples >> smalltalkCode [
-	<glmBrowser: 'Smalltalk code' input: '''"Enter some Smalltalk code and then accept to preview the result."'''>
-	"self new smalltalkCode openOn: ''"
-	| browser |
-	browser := GLMTabulator new.
-	browser row: #code span: 2; row: #preview.
-	browser transmit to: #code; andShow: [ :a | 
-		a pharoScript  
-			title: 'Smalltalk Code';
-			populate: #acceptedCode icon: GLMUIThemeExtraIcons glamorousAccept on: $s entitled: 'Accept' with: [:text | text text ] ].
-	browser transmit from: #code port: #acceptedCode; to: #preview; andShow: [ :a | 
-		a text 
-			title: 'Evaluated result';
-			display: [:code | [Smalltalk evaluate: code ] on: Error do: ['Error']];
-			act: [:text | text displayValue explore] icon: GLMUIThemeExtraIcons glamorousInspect entitled: 'Explore' ].
 	^ browser
 ]
 
@@ -1085,6 +1085,32 @@ GLMBasicExamples >> textAttributes [
 				addAttribute: (TextFontReference toFont: (LogicalFont familyName: 'Open Sans' pointSize: 36)) from: 1 to: 1; "ignored when font family cannot be found"
 				yourself.]].
 	^ browser 
+]
+
+{ #category : #text }
+GLMBasicExamples >> textPortAction [
+	<glmBrowser: 'Text port action' input: '''Type some text here'''>
+	"self new textPortAction openOn: 'Type some text here'"
+	
+	| browser morph |
+   morph := StringMorph new.
+   morph font:(LogicalFont familyName: 'Source Code Pro' pointSize: 30).
+   browser := GLMTabulator new.
+   browser
+   		row: #main;
+		row: #preview.
+   browser transmit
+      to: #main;
+      andShow: [ :a | a text
+        onChangeOfPort: #text act: [ :text  |
+            morph contents:text text] ].
+   browser transmit
+		to: #preview;
+		andShow: [ :a | a morph
+			title: 'Preview';
+          display: [ morph ] ].
+
+ 	^ browser
 ]
 
 { #category : #text }
