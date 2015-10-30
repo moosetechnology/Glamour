@@ -19,7 +19,7 @@ GLMRubricTextMorphicTest >> simulateOnlyOneClickOn: aMorph [
 GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	| composite textMorph overriden |
 	overriden := false.
-	composite := GLMCompositePresentation new with: [ :a | a rubricText act: [ :text | overriden := true ] on: $s entitled: 'Override'].
+	composite := GLMCompositePresentation new with: [ :a | a text act: [ :text | overriden := true ] on: $s entitled: 'Override'].
 	window := composite openOn: '4'.
 	textMorph := self find: RubScrolledTextMorph in: window.
 	self simulateOnlyOneClickOn: textMorph.
@@ -32,7 +32,7 @@ GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 { #category : #tests }
 GLMRubricTextMorphicTest >> testEnteringTextInPort [
 	| composite textMorph |
-	composite := GLMCompositePresentation new with: [ :a | a rubricText display: '' ].
+	composite := GLMCompositePresentation new with: [ :a | a text display: '' ].
 	window := composite openOn: 4.
 	textMorph := self find: RubScrolledTextMorph in: window.
 	self simulateOnlyOneClickOn: textMorph.
@@ -43,7 +43,7 @@ GLMRubricTextMorphicTest >> testEnteringTextInPort [
 { #category : #tests }
 GLMRubricTextMorphicTest >> testExplicitAcceptDoesNotAffectTextPort [
 	| composite textMorph |
-	composite := GLMCompositePresentation new with: [ :a | a rubricText display: '123' ].
+	composite := GLMCompositePresentation new with: [ :a | a text display: '123' ].
 	window := composite openOn: 4.
 	textMorph := self find: RubScrolledTextMorph in: window.
 	self simulateOnlyOneClickOn: textMorph.
@@ -57,7 +57,7 @@ GLMRubricTextMorphicTest >> testExplicitAcceptDoesNotAffectTextPort [
 { #category : #tests }
 GLMRubricTextMorphicTest >> testMultipleSelectionWithChange [
 	| composite textMorph textPresentation |
-	composite := GLMCompositePresentation new with: [ :a | a rubricText display: '123456789' ].
+	composite := GLMCompositePresentation new with: [ :a | a text display: '123456789' ].
 	window := composite openOn: 4.
 	textMorph := self find: RubScrolledTextMorph in: window.
 	self assert: textMorph selectionInterval isEmpty.
@@ -71,7 +71,7 @@ GLMRubricTextMorphicTest >> testMultipleSelectionWithChange [
 GLMRubricTextMorphicTest >> testOKeyCanBeOverriden [
 	| composite textMorph overriden |
 	overriden := false.
-	composite := GLMCompositePresentation new with: [ :a | a rubricText act: [ :text | overriden := true ] on: $o entitled: 'Override'].
+	composite := GLMCompositePresentation new with: [ :a | a text act: [ :text | overriden := true ] on: $o entitled: 'Override'].
 	window := composite openOn: '4'.
 	textMorph := self find: RubScrolledTextMorph in: window.
 	self simulateOnlyOneClickOn: textMorph.
@@ -84,7 +84,7 @@ GLMRubricTextMorphicTest >> testOKeyCanBeOverriden [
 { #category : #tests }
 GLMRubricTextMorphicTest >> testPastingUpdatesTextPort [
 	| composite textMorph  |
-	composite := GLMCompositePresentation new with: [ :a | a rubricText display: '' ].
+	composite := GLMCompositePresentation new with: [ :a | a text display: '' ].
 	window := composite openOn: 42.
 	textMorph := self find: RubEditingArea in: window.
 	Clipboard clipboardText: '42'.
@@ -95,7 +95,7 @@ GLMRubricTextMorphicTest >> testPastingUpdatesTextPort [
 { #category : #tests }
 GLMRubricTextMorphicTest >> testResettingTheSelection [
 	| composite textPresentation |
-	composite := GLMCompositePresentation new with: [ :a | a rubricText display: '123456789' ].
+	composite := GLMCompositePresentation new with: [ :a | a text display: '123456789' ].
 	window := composite openOn: 4.
 	textPresentation := composite presentations first.
 	textPresentation selectionInterval: (2 to: 5).
@@ -105,7 +105,7 @@ GLMRubricTextMorphicTest >> testResettingTheSelection [
 { #category : #tests }
 GLMRubricTextMorphicTest >> testTextPortPopulatedByDefault [
 	| composite |
-	composite := GLMCompositePresentation new with: [:a | a rubricText ].
+	composite := GLMCompositePresentation new with: [:a | a text ].
 	window := composite openOn: '42'.
 	self assert: (composite pane port: #text) value asString equals: '42'
 ]
@@ -116,7 +116,7 @@ GLMRubricTextMorphicTest >> testUnregisterFromAnnouncementsWhenUpdating [
 	numberOfExecutions := 0.
 	announcingCollection := GLMAnnouncingCollection new.
 	composite :=  GLMCompositePresentation new with: [ :a | 
-					(a rubricText)
+					(a text)
 						updateOn: GLMItemAdded from: [ announcingCollection ];
 						display: [ 
 								numberOfExecutions := numberOfExecutions + 1. 
