@@ -79,7 +79,7 @@ GLMScriptingEditorTemplate >> resultIn: a [
 
 { #category : #building }
 GLMScriptingEditorTemplate >> scriptIn: a [
-	^ a smalltalkCode
+	^ a pharoScript
 		title: 'Script';
 		variableBindings: [ :bindings | 
 					| col |
