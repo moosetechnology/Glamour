@@ -115,9 +115,10 @@ GLMTreeMorphNodeModel >> keyStroke: aCharacter from: aTreeMorph [
 
 { #category : #menu }
 GLMTreeMorphNodeModel >> menu: aMenuMorph shifted: b [ 
-	| subMenus targetMenuMorph subMenu |
+	| subMenus targetMenuMorph subMenu allActions|
 	subMenus := Dictionary new.
-	self containerTree allMenuActions do: [ :action |
+	allActions := self containerTree allMenuActions.
+	allActions do: [ :action |	 
 		targetMenuMorph := action category notNil 
 			ifTrue: [ subMenus at: action category ifAbsentPut: [ 
 					subMenu :=  MenuMorph new.
@@ -132,7 +133,9 @@ GLMTreeMorphNodeModel >> menu: aMenuMorph shifted: b [
 			icon:  action icon;
 			keyText: (action hasShortcut 
 				ifTrue: [ action shortcutAsString ]
-				ifFalse: [ nil ]) ].
+				ifFalse: [ nil ]).
+			(action separatorAfter and: [ allActions last ~= action ]) ifTrue: [ targetMenuMorph addLine ] 	
+				 ].
 	^ aMenuMorph
 ]
 
