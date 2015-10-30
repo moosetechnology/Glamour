@@ -133,6 +133,7 @@ GLMSmalltalkCodePresentation >> profileSelection [
 
 { #category : #rendering }
 GLMSmalltalkCodePresentation >> renderGlamorouslyOn: aRenderer [ 
+	self deprecated:  'Use GLMPharoMethodPresentation GLMPharoScriptPresentation instead.'.
 	self registerAnnouncements.
 	^ aRenderer renderSmalltalkCodePresentation: self
 ]
