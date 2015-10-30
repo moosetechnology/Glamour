@@ -1,18 +1,18 @@
 Class {
-	#name : #GLMMorphicPharoPlaygroundRenderer,
+	#name : #GLMMorphicPharoScriptRenderer,
 	#superclass : #GLMMorphicPharoCodeRenderer,
 	#category : #'Glamour-Morphic-Renderer'
 }
 
 { #category : #callbacks }
-GLMMorphicPharoPlaygroundRenderer >> actOnVariableBindingsAccessRequest: ann [ 
+GLMMorphicPharoScriptRenderer >> actOnVariableBindingsAccessRequest: ann [ 
 
 	ann action ifNotNil: [ :aBlock |
 		aBlock cull: textModel variableBindings ]
 ]
 
 { #category : #callbacks }
-GLMMorphicPharoPlaygroundRenderer >> actOnVariableBindingsUpdated: ann [ 
+GLMMorphicPharoScriptRenderer >> actOnVariableBindingsUpdated: ann [ 
 
 	textModel variableBindings: nil.
 	textModel appendVariableBinding: ann presentation variableBindings.
@@ -20,7 +20,7 @@ GLMMorphicPharoPlaygroundRenderer >> actOnVariableBindingsUpdated: ann [
 ]
 
 { #category : #rendering }
-GLMMorphicPharoPlaygroundRenderer >> modelFor: aPresentation [
+GLMMorphicPharoScriptRenderer >> modelFor: aPresentation [
 
 	^ (super modelFor: aPresentation)
 		bindingsStrategy: self workspaceBindingsStrategy;
@@ -29,7 +29,7 @@ GLMMorphicPharoPlaygroundRenderer >> modelFor: aPresentation [
 ]
 
 { #category : #rendering }
-GLMMorphicPharoPlaygroundRenderer >> morph [
+GLMMorphicPharoScriptRenderer >> morph [
 	^ RubScrolledTextMorph new
 		model: textModel;
 		beForSmalltalkScripting;
@@ -41,7 +41,7 @@ GLMMorphicPharoPlaygroundRenderer >> morph [
 ]
 
 { #category : #private }
-GLMMorphicPharoPlaygroundRenderer >> registerEventsForPresentation: aPresentation [
+GLMMorphicPharoScriptRenderer >> registerEventsForPresentation: aPresentation [
 
 	super registerEventsForPresentation: aPresentation.
 	
@@ -51,7 +51,7 @@ GLMMorphicPharoPlaygroundRenderer >> registerEventsForPresentation: aPresentatio
 ]
 
 { #category : #private }
-GLMMorphicPharoPlaygroundRenderer >> workspaceBindingsStrategy [
+GLMMorphicPharoScriptRenderer >> workspaceBindingsStrategy [
 
 	^ [ :currentBindings :aString |
 		(currentBindings includesKey: aString)

@@ -108,8 +108,8 @@ GLMMorphicRenderer >> renderPharoMethodPresentation: aSmalltalkMethodPresentatio
 ]
 
 { #category : #'rendering presentations' }
-GLMMorphicRenderer >> renderPharoPlaygroundPresentation: aWorkspacePresentation [ 
-	^ GLMMorphicPharoPlaygroundRenderer render: aWorkspacePresentation from: self
+GLMMorphicRenderer >> renderPharoScriptPresentation: aPharoScriptPresentation [ 
+	^ GLMMorphicPharoScriptRenderer render: aPharoScriptPresentation from: self
 ]
 
 { #category : #'rendering actions' }
