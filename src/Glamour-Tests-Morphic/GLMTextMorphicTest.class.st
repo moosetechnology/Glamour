@@ -26,7 +26,6 @@ GLMTextMorphicTest >> testAcceptKeyCanBeOverriden [
 { #category : #tests }
 GLMTextMorphicTest >> testExplicitAcceptDoesNotAffectTextPort [
 	| composite textMorph |
-	self halt.
 	composite := GLMCompositePresentation new with: [ :a | a text display: '123' ].
 	window := composite openOn: 4.
 	textMorph := self find: RubScrolledTextMorph in: window.
