@@ -1,10 +1,9 @@
 "
 I provide support for displaying snippets of Smalltalk code  (e.g. dealing with variable binding)
 
-self pharoPlaygroundPresentationExample
 "
 Class {
-	#name : #GLMPharoPlaygroundPresentation,
+	#name : #GLMPharoScriptPresentation,
 	#superclass : #GLMRubricSmalltalkCodePresentation,
 	#instVars : [
 		'variableBindingsBlock'
@@ -13,9 +12,9 @@ Class {
 }
 
 { #category : #examples }
-GLMPharoPlaygroundPresentation class >> pharoPlaygroundPresentationExample [
+GLMPharoScriptPresentation class >> pharoScriptPresentationExample [
 	"
-	self pharoPlaygroundPresentationExample
+	self pharoScriptPresentationExample
 	"
 	| browser |
 	browser := GLMTabulator new.
@@ -51,19 +50,19 @@ browser openOn:''self halt'' '
 ]
 
 { #category : #accessing }
-GLMPharoPlaygroundPresentation >> currentBindings [
+GLMPharoScriptPresentation >> currentBindings [
 
 	self withBindingsDo: [ :bingings | ^ bingings copy ]
 ]
 
 { #category : #accessing }
-GLMPharoPlaygroundPresentation >> defaultSelectionActions [
+GLMPharoScriptPresentation >> defaultSelectionActions [
 
 	^ {self goAction}, super defaultSelectionActions
 ]
 
 { #category : #actions }
-GLMPharoPlaygroundPresentation >> goAction [
+GLMPharoScriptPresentation >> goAction [
 	^ GLMGenericAction new
 				title: 'Do it and go';
 				action: [ :t :entity |
@@ -73,35 +72,35 @@ GLMPharoPlaygroundPresentation >> goAction [
 ]
 
 { #category : #rendering }
-GLMPharoPlaygroundPresentation >> renderGlamorouslyOn: aRenderer [ 
+GLMPharoScriptPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
-	^ aRenderer renderPharoPlaygroundPresentation: self
+	^ aRenderer renderPharoScriptPresentation: self
 ]
 
 { #category : #actions }
-GLMPharoPlaygroundPresentation >> resetBindings [
+GLMPharoScriptPresentation >> resetBindings [
 
 	self withBindingsDo: [ :bindings | bindings removeAll ]
 ]
 
 { #category : #actions }
-GLMPharoPlaygroundPresentation >> updateVariableBindings [
+GLMPharoScriptPresentation >> updateVariableBindings [
 
 	self announce: (GLMVariableBindingsChanged new presentation: self).
 ]
 
 { #category : #accessing }
-GLMPharoPlaygroundPresentation >> variableBindings [
+GLMPharoScriptPresentation >> variableBindings [
 	^ (variableBindingsBlock glamourValue: self entity) ifNil: [OrderedCollection new]
 ]
 
 { #category : #accessing }
-GLMPharoPlaygroundPresentation >> variableBindings: aBlock [
+GLMPharoScriptPresentation >> variableBindings: aBlock [
 	^ variableBindingsBlock := aBlock
 ]
 
 { #category : #actions }
-GLMPharoPlaygroundPresentation >> withBindingsDo: aBlock [
+GLMPharoScriptPresentation >> withBindingsDo: aBlock [
 
 	self announce: (GLMVariableBindingsAccessRequest new action: aBlock)
 ]
