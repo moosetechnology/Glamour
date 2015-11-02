@@ -17,8 +17,29 @@ Class {
 }
 
 { #category : #utils }
-GLMPopper class >> installAlarmFor: aBlock [
+GLMPopper class >> installAlarm: aSelector for: anObject [
 
+	World
+		addAlarm: aSelector
+		withArguments: #()
+		for: anObject
+		at: Time millisecondClockValue + 50.
+]
+
+{ #category : #utils }
+GLMPopper class >> installAlarm: aSelector for: anObject withArguments: anArray [
+
+	World
+		addAlarm: aSelector
+		withArguments: anArray
+		for: anObject
+		at: Time millisecondClockValue + 50.
+]
+
+{ #category : #utils }
+GLMPopper class >> installAlarmFor: aBlock [
+	<deprecated: 'Please use installAlarm: for: instead.
+		Installing alarm for a block without existing references is not the best practice as it can be garbage collected and alarm will never be launched.'>
 	World
 		addAlarm: #value
 		withArguments: #()

@@ -7,7 +7,7 @@ Class {
 	#category : #'Glamour-Morphic-Widgets'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #notification }
 GLMPopperNotificationStrategy >> notify: aString at: anInteger in: aStream [
 	| pos |
 	pos := self editor selectionInterval notEmpty
@@ -15,7 +15,14 @@ GLMPopperNotificationStrategy >> notify: aString at: anInteger in: aStream [
 		ifFalse: [anInteger].
 	self editor selectFrom: pos to: pos.
 	
-	GLMErrorPopper installAlarmFor: [ 
-		(GLMErrorPopper new withString: aString from: self editor textArea owner owner owner)
-			openInWorld ]
+	GLMErrorPopper
+		installAlarm: #popupError:
+		for: self
+		withArguments: { aString }
+]
+
+{ #category : #callbacks }
+GLMPopperNotificationStrategy >> popupError: aString [
+	(GLMErrorPopper new withString: aString from: self editor textArea owner owner owner)
+		openInWorld
 ]
