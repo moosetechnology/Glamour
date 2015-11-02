@@ -54,11 +54,9 @@ GLMMorphicPharoCodeRenderer >> debugHighlightedText [
 { #category : #callbacks }
 GLMMorphicPharoCodeRenderer >> evaluateAndPopPrintHighlight [
 
-	GLMPrintPopper installAlarmFor: [ 
-		textMorph textArea editor highlightEvaluateAndDo: [ :result | 
-			textMorph shoutStyler style: textMorph text.
-			GLMPrintPopper new 
-				openFromRubric: textMorph textArea withResult: result ] ]
+	GLMPrintPopper
+		installAlarm: #popupPrint
+		for: self
 ]
 
 { #category : #callbacks }
@@ -76,6 +74,15 @@ GLMMorphicPharoCodeRenderer >> modelFor: aPresentation [
 		glamourPresentation: aPresentation;
 		highlightSmalltalk: true;
 		yourself
+]
+
+{ #category : #'events-alarms' }
+GLMMorphicPharoCodeRenderer >> popupPrint [
+	"Evaluates selected code and prints it in a popper"
+	textMorph textArea editor highlightEvaluateAndDo: [ :result | 
+		textMorph shoutStyler style: textMorph text.
+		GLMPrintPopper new 
+			openFromRubric: textMorph textArea withResult: result ]
 ]
 
 { #category : #callbacks }
