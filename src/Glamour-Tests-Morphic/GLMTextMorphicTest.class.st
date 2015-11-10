@@ -9,6 +9,12 @@ GLMTextMorphicTest >> expectedFailures [
 	^ #(testUpdatingTextPortUpdatesTheMorph)
 ]
 
+{ #category : #private }
+GLMTextMorphicTest >> simulateOnlyOneClickOn: aMorph [
+	(Delay forMilliseconds: HandMorph doubleClickTime + 1) wait.
+	aMorph simulateClick
+]
+
 { #category : #tests }
 GLMTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	| composite textMorph overriden |
@@ -16,7 +22,7 @@ GLMTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	composite := GLMCompositePresentation new with: [ :a | a text act: [ :text | overriden := true ] on: $s entitled: 'Override'].
 	window := composite openOn: 4.
 	textMorph := self find: RubScrolledTextMorph  in: window.
-	textMorph simulateClick.
+	self simulateOnlyOneClickOn: textMorph.
 	self simulateKeyStroke: $s command.
 	self simulateKeyStroke: $s control.
 	self simulateKeyStroke: $s alt.
@@ -29,7 +35,7 @@ GLMTextMorphicTest >> testExplicitAcceptDoesNotAffectTextPort [
 	composite := GLMCompositePresentation new with: [ :a | a text display: '123' ].
 	window := composite openOn: 4.
 	textMorph := self find: RubScrolledTextMorph in: window.
-	textMorph simulateClick.
+	self simulateOnlyOneClickOn: textMorph.
 	self simulateKeyStrokes: '4'.
 	self assert: (composite pane port: #text) value = '1234'.
 	self simulateKeyStroke: $s command.
