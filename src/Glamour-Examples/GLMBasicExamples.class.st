@@ -1400,12 +1400,13 @@ GLMBasicExamples >> updateableBrowser [
 	| browser |
 	browser := GLMTabulator new.
 	browser column: #preview.
+	browser title: 'Updatable browser'.
 	browser 
-		act: [:b | b entity add: (b entity size + 1). b update ] 	
+		act: [:b | b entity add: (b entity size + 1). b update; updateToolbar. ] 	
 		icon: GLMUIThemeExtraIcons glamorousAdd
 		entitled: 'Add an item in the collection'.
 	browser 
-		act: [:b | b entity removeLast. b update ] 
+		act: [:b | b entity removeLast. b update; updateToolbar. ] 
 		icon: GLMUIThemeExtraIcons glamorousRemove
 		entitled: 'Remove last item from the collection'.
 	browser 
@@ -1413,9 +1414,10 @@ GLMBasicExamples >> updateableBrowser [
 		updateOn: GLMItemRemoved from: #yourself.
 	browser transmit to: #preview; andShow: [ :a |
 		a list 
-			title: [:collection | 'List: ', collection size printString ];
+			title: 'List';
 			when: [:collection | collection size > 1 ].
-		a text title: 'Text'; 
+		a text 
+			title: 'Text';
 			format: [:collection | 'Current collection: ', collection printString, '
 Add more items to show the list'] ].
 	^ browser
