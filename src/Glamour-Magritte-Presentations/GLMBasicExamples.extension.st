@@ -17,6 +17,7 @@ GLMBasicExamples >> magritte [
 			format: [ :person | person name ] ;
 			updateOn: GLMItemAdded from: [ GLMMagrittePersonExample sampleData ] ;
 			updateOn: GLMItemRemoved from: [ GLMMagrittePersonExample sampleData ] ;
+			updateOn: GLMItemChanged from: [ GLMMagrittePersonExample sampleData ] ;
 			act: [ :listPresentation :glmAC | 
 					| newItem | 
 					newItem := GLMMagrittePersonExample new name: 'New...'  .
@@ -34,7 +35,9 @@ GLMBasicExamples >> magritte [
 		a magritte
 			title: 'Details';
 			description: [:person | person magritteDescription] ;
-			onAnswer: [ :person :presentation | browser update ] . 
+			onAnswer: [ :person :presentation | 
+				"browser update -- this works only if the current broser is not embedded in any other browser." 
+				GLMMagrittePersonExample sampleData announce: GLMItemChanged ] . 
 	].
 
 	^ browser
