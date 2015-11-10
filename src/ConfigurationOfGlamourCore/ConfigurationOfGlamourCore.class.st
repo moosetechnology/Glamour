@@ -1315,8 +1315,8 @@ ConfigurationOfGlamourCore >> version33: spec [
 			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AliakseiSyrel.184';
 			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-AliakseiSyrel.329';
 			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-CyrilFerlicot.104';
-			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-AndreiChis.128';
+			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-AndreiChis.129';
 			package: 'Glamour-Rubric-Presentations' with: 'Glamour-Rubric-Presentations-AndreiChis.47';
-			package: 'Glamour-Tests-Rubric' with: 'Glamour-Tests-Rubric-AndreiChis.15'. ].
+			package: 'Glamour-Tests-Rubric' with: 'Glamour-Tests-Rubric-AndreiChis.16'. ].
 
 ]
