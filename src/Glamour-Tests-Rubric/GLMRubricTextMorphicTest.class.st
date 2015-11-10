@@ -4,9 +4,9 @@ Class {
 	#category : #'Glamour-Tests-Rubric'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 GLMRubricTextMorphicTest >> expectedFailures [
-	^ super expectedFailures, #(testOKeyCanBeOverriden)
+	^ #(testUpdatingTextPortUpdatesTheMorph)
 ]
 
 { #category : #private }
@@ -124,4 +124,15 @@ GLMRubricTextMorphicTest >> testUnregisterFromAnnouncementsWhenUpdating [
 	window := composite openOn: announcingCollection.
 	1 to: 3 do: [ :each | announcingCollection add: each ].
 	self assert: numberOfExecutions equals: 4	"it should not be 8"
+]
+
+{ #category : #tests }
+GLMRubricTextMorphicTest >> testUpdatingTextPortUpdatesTheMorph [
+	| composite textMorph |
+	composite := GLMCompositePresentation new with: [:a | a text ].
+	window := composite openOn: 'fourtytwo'.
+	composite first text: '42'.
+	self assert: (composite pane port: #text) value asString equals: '42'.
+	textMorph := self find: RubScrolledTextMorph in: window.
+	self assert: textMorph text asString equals: '42'
 ]
