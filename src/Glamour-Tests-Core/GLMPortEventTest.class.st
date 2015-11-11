@@ -6,20 +6,24 @@ Class {
 
 { #category : #tests }
 GLMPortEventTest >> testCreation [
-	| anEvent |
-	anEvent := GLMPortEvent on: 1 previouslyValued: 2.
-	self assert: anEvent port equals: 1.
-	self assert: anEvent oldValue equals: 2.
+	| anEvent portOne portTwo |
+	portOne := (GLMSimplePort new) name: #portOne; value: 1.
+	portTwo := (GLMSimplePort new) name: #portTwo; value: 2.
+	anEvent := GLMPortEvent on: portOne previouslyValued: portTwo.
+	self assert: anEvent port equals: portOne.
+	self assert: anEvent oldValue equals: portTwo.
 	self assert: anEvent transmissionContext isEmpty
 ]
 
 { #category : #tests }
 GLMPortEventTest >> testCreationWithTransmissionContext [
-	| anEvent aContext |
+	| anEvent aContext portOne portTwo |
 	aContext := OrderedCollection new.
-	anEvent := GLMPortEvent on: 1 previouslyValued: 2 in: aContext.
-	self assert: anEvent port equals: 1.
-	self assert: anEvent oldValue equals: 2.
+	portOne := (GLMSimplePort new) name: #portOne; value: 1.
+	portTwo := (GLMSimplePort new) name: #portTwo; value: 2.
+	anEvent := GLMPortEvent on: portOne previouslyValued: portTwo in: aContext.
+	self assert: anEvent port equals: portOne.
+	self assert: anEvent oldValue equals: portTwo.
 	self assert: anEvent transmissionContext equals: aContext
 ]
 
@@ -105,12 +109,13 @@ GLMPortEventTest >> testInterdependentPanesProperPorts [
 
 { #category : #tests }
 GLMPortEventTest >> testPortName [
-	| anEvent |
+	| anEvent portTwo|
+	portTwo := (GLMSimplePort new) name: #portTwo; value: 2.
 	anEvent := GLMPortEvent
 		on:
 			((GLMPort new)
 				name: '1';
 				yourself)
-		previouslyValued: 2.
+		previouslyValued: portTwo.
 	self assert: anEvent portName equals: '1'
 ]

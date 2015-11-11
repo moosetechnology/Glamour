@@ -28,7 +28,7 @@ GLMDynamicPresentationTest >> testDefaultPresentation [
 
 { #category : #tests }
 GLMDynamicPresentationTest >> testDirectEventsPropagationTransformation [
-	| dynamic textPresentation counter |
+	| dynamic textPresentation counter portOne portTwo |
 	counter := 0.
 	dynamic := GLMDynamicPresentation new.
 	dynamic entity: '42'.
@@ -39,7 +39,9 @@ GLMDynamicPresentationTest >> testDirectEventsPropagationTransformation [
 	
 	textPresentation announcer when: GLMContextChanged do: [ :ann |
 		counter := counter + 1 ].
-	dynamic outerPortEvent: (GLMPortEvent on: 1 previouslyValued: 2).
+	portOne := (GLMSimplePort new) name: #portOne; value: 1.
+	portTwo := (GLMSimplePort new) name: #portTwo; value: 2.
+	dynamic outerPortEvent: (GLMPortEvent on: portOne previouslyValued: portTwo).
 	
 	self assert: counter equals: 1.
 ]
