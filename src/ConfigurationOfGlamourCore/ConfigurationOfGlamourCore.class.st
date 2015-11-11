@@ -1299,7 +1299,7 @@ ConfigurationOfGlamourCore >> version33: spec [
   - improved event recorder'.
 		spec author: 'AndreiChis'.
 		spec timestamp: '11/9/2015 14:32'.
-		spec project: 'Rubric' with: '2.1'.
+		spec project: 'Rubric' with: '2.2'.
 		spec 
 			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-AndreiChis.39';
