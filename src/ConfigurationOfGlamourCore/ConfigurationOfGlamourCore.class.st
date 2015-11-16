@@ -1307,7 +1307,7 @@ ConfigurationOfGlamourCore >> version33: spec [
 			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.179';
 			package: 'Glamour-Browsers' with: 'Glamour-Browsers-TorstenBergmann.109';
 			package: 'Glamour-Examples' with: 'Glamour-Examples-AndreiChis.301';
-			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-EstebanLorenzano.406';
+			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-AndreiChis.407';
 			package: 'Glamour-Morphic-Brick-Tests' with: 'Glamour-Morphic-Brick-Tests-AliakseiSyrel.13';
 			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-AndreiChis.109';
 			package: 'Glamour-Tests-Resources' with: 'Glamour-Tests-Resources-AndreiChis.5';
