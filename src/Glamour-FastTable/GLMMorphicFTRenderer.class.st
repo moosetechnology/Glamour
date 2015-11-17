@@ -1,0 +1,188 @@
+"
+I am an abstract class that define the way to render a FastTable related presentation.
+
+Description
+--------------------
+
+I manage a FastTable dataSource and a FastTable morph. I define how to build and render them. I try to manage the maximum of the rendering and I let my subclasses define some specialities. 
+
+My subclasses are use by a FastTable related presentation as GLMFastListPresentation or GLMFastTreePresentation. 
+I use a FTTableMorph to manage the rendering and a subclass of FTDataSource to manage the data. 
+
+Public API and Key Messages
+--------------------
+
+- #render: aPresentation 		This method is the main method of the class It allow to render myself on the presentation.
+		
+My subclasses should manage: 
+
+- #createDataSourceFrom: aPresentation 		This method have to return  a new dataSource that match the presentation.
+		
+- #specificTableMorphInitializiation and #specificDataSourceInitializiation 		are two methods  my subclasses can override to add functionalites to the FastTable.
+
+Internal Representation and Key Implementation Points.
+--------------------
+
+    Instance Variables
+	tableModel:		Is a DataSource for Glamour that will hold the data of the presentation.
+	tableMorph:		Is a FastTableMorph use to display the presentation.
+
+"
+Class {
+	#name : #GLMMorphicFTRenderer,
+	#superclass : #GLMMorphicWidgetRenderer,
+	#instVars : [
+		'tableModel',
+		'tableMorph'
+	],
+	#category : #'Glamour-FastTable-Morphic-Renderer'
+}
+
+{ #category : #rendering }
+GLMMorphicFTRenderer >> actOnContextChanged: anAnnouncement [ 
+	anAnnouncement property = #selection ifTrue: [ 
+		tableModel announcer 
+			suspendAll: self suspendedAnnouncements
+			while: [ 
+				tableModel explicitSelection: anAnnouncement value ] ]
+]
+
+{ #category : #rendering }
+GLMMorphicFTRenderer >> actOnUpdatedPresentation: anAnnouncement [
+	tableModel resetElements.
+	tableMorph refresh
+]
+
+{ #category : #adding }
+GLMMorphicFTRenderer >> addFastTableIn: container [
+	container addMorphBack: tableMorph
+]
+
+{ #category : #initialization }
+GLMMorphicFTRenderer >> createDataSourceFrom: aPresentation [
+	self subclassResponsibility
+]
+
+{ #category : #initialization }
+GLMMorphicFTRenderer >> createFastTable [
+	^ FTTableMorph new
+]
+
+{ #category : #private }
+GLMMorphicFTRenderer >> dataSourceUpdated: announcement [
+	tableModel ifNotNil: [ self unsubscribeDataSource: tableModel ].
+	tableModel := announcement newDataSource.
+	self initializeAnnouncementForDataSource
+]
+
+{ #category : #private }
+GLMMorphicFTRenderer >> initializeAnnoucementForPresentation: aPresentation [
+	aPresentation when: GLMDataSourceUpdated send: #dataSourceUpdated: to: self.
+	aPresentation when: GLMContextChanged send: #actOnContextChanged: to: self.
+	aPresentation when: GLMPresentationUpdated send: #actOnUpdatedPresentation: to: self
+]
+
+{ #category : #private }
+GLMMorphicFTRenderer >> initializeAnnouncementForDataSource [
+	tableModel announcer
+		when: GLMTreeMorphSelectionChanged
+		do: [ :ann | 
+			tableModel glamourPresentation announcer
+				suspendAllWhile: [ 
+					tableModel glamourPresentation selection: ann selectionValue.
+					tableModel glamourPresentation selectionPath: ann selectionPathValue ] ].
+	tableModel announcer
+		when: GLMTreeMorphStrongSelectionChanged
+		do: [ :ann | tableModel glamourPresentation strongSelection: ann strongSelectionValue ].
+	tableMorph
+		onAnnouncement: FTStrongSelectionChanged send: #strongSelection: to: tableModel;
+		onAnnouncement: FTSelectionChanged send: #selection: to: tableModel
+]
+
+{ #category : #initialization }
+GLMMorphicFTRenderer >> initializeTableModel: aPresentation [
+	tableModel := (self createDataSourceFrom: aPresentation)
+		glamourPresentation: aPresentation;
+		yourself.
+	self specificDataSourceInitializiation
+]
+
+{ #category : #initialization }
+GLMMorphicFTRenderer >> initializeTableMorph [
+	| presentation |
+	presentation := tableModel glamourPresentation.
+	tableMorph := self createFastTable.
+	tableMorph
+		dataSource: tableModel;
+		intercellSpacing: 3;
+		hResizing: #spaceFill;
+		vResizing: #spaceFill;
+		cornerStyle: tableMorph preferredCornerStyle;
+		borderStyle: (BorderStyle inset width: 1);
+		dragEnabled: presentation allowsItemDrag;
+		dropEnabled: presentation isDropTarget;
+		allowsDeselection: presentation allowsDeselection.
+	self setFastTableLayoutFrame: tableMorph.
+	presentation isMultiple
+		ifTrue: [ tableMorph beMultipleSelection ]
+		ifFalse: [ tableMorph beSingleSelection ].
+	self specificTableMorphInitializiation
+]
+
+{ #category : #rendering }
+GLMMorphicFTRenderer >> render: aPresentation [
+	| container |
+	container := GLMMorphic containerMorph.
+	self initializeAnnoucementForPresentation: aPresentation.
+	self initializeTableModel: aPresentation.
+	self initializeTableMorph.
+	self addFastTableIn: container.
+	self installActionsOnModel: tableModel fromPresentation: aPresentation.
+	self installKeystrokeActionsOnMorph: tableMorph fromPresentation: aPresentation.
+	aPresentation selection ifNotNil: [ tableModel announcer suspendAll: self suspendedAnnouncements while: [ tableModel explicitSelection: aPresentation selection ] ].
+	self initializeAnnouncementForDataSource.
+	^ container
+]
+
+{ #category : #'build ui' }
+GLMMorphicFTRenderer >> setFastTableLayoutFrame: newTableMorph [
+	newTableMorph layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1))
+]
+
+{ #category : #initialization }
+GLMMorphicFTRenderer >> specificDataSourceInitializiation [
+	"Override me if you need to add something to the data source."
+]
+
+{ #category : #initialization }
+GLMMorphicFTRenderer >> specificTableMorphInitializiation [
+	"Override me if need to add something to the tableMorph."
+
+	| presentation |
+	presentation := tableModel glamourPresentation.
+	"I set the right function."
+	presentation isSearchable
+		ifTrue: [ tableMorph enableSearch ].
+	presentation isFilterable
+		ifTrue: [ presentation needActionButton
+				ifTrue: [ tableMorph enableFilterWithAction: presentation actionBlock named: presentation actionName ]
+				ifFalse: [ tableMorph enableFilter ] ].
+	(presentation isFilterable or: [ presentation isSearchable ])
+		ifFalse: [ tableMorph disableFunction ]
+		ifTrue: [ tableMorph explicitFunction ]
+]
+
+{ #category : #private }
+GLMMorphicFTRenderer >> suspendedAnnouncements [
+	^ OrderedCollection  
+		with: GLMTreeMorphSelectionChanged 
+		with: GLMTreeMorphStrongSelectionChanged 
+		with: GLMMenuItemSelected 
+		with: GLMKeyStroke
+]
+
+{ #category : #private }
+GLMMorphicFTRenderer >> unsubscribeDataSource: aTableModel [
+	aTableModel announcer unsubscribe: self.
+	tableMorph announcer unsubscribe: aTableModel
+]
