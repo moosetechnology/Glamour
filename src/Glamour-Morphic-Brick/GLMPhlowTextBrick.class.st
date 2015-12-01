@@ -41,7 +41,8 @@ GLMPhlowTextBrick >> initialize [
 
 { #category : #phlow }
 GLMPhlowTextBrick >> installEntity [
-	self textBrick setTextWith: (self displayLogic phlowValue: self entity)
+	self textBrick setTextWith: (self displayLogic phlowValue: self entity).
+	self textBrick selectionInterval: (self selectionInterval phlowValue: self entity)
 	
 ]
 
@@ -49,6 +50,18 @@ GLMPhlowTextBrick >> installEntity [
 GLMPhlowTextBrick >> newTextBrick [
 
 	^ GLMRubScrolledTextBrick new
+]
+
+{ #category : #accessing }
+GLMPhlowTextBrick >> selectionInterval [
+	
+	^ self valueOfProperty: #phlowSelectionInterval ifAbsent: [ 1 to: 0 ]
+]
+
+{ #category : #accessing }
+GLMPhlowTextBrick >> selectionInterval: anObject [
+	
+	self setProperty: #phlowSelectionInterval toValue: anObject
 ]
 
 { #category : #accessing }
