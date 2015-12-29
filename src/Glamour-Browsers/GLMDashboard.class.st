@@ -2,65 +2,20 @@ Class {
 	#name : #GLMDashboard,
 	#superclass : #GLMExplicitBrowser,
 	#instVars : [
-		'panesExtents',
-		'extentStrategy',
-		'defaultPaneExtent'
+		'panesLayouts'
 	],
 	#category : #'Glamour-Browsers-Dashboard'
 }
 
-{ #category : #scripting }
+{ #category : #adding }
 GLMDashboard >> addPaneNamed: aString [
-
 	self addNewPaneNamed: aString
 ]
 
-{ #category : #scripting }
-GLMDashboard >> addPaneNamed: aSymbol extent: aPoint [
-
+{ #category : #adding }
+GLMDashboard >> addPaneNamed: aSymbol layout: aLayout [
 	self addPaneNamed: aSymbol.
-	self panesExtents at: aSymbol put: aPoint
-]
-
-{ #category : #accessing }
-GLMDashboard >> defaultPaneExtent [
-
-	^ defaultPaneExtent ifNil: [defaultPaneExtent := 300@150]
-]
-
-{ #category : #accessing }
-GLMDashboard >> defaultPaneExtent: anObject [
-
-	"so that each renderer can make specific the way to compute the default extent"
-	defaultPaneExtent := anObject
-]
-
-{ #category : #accessing }
-GLMDashboard >> extentOfPaneNamed: aSymbol [
-
-	^ self panesExtents at: aSymbol ifAbsent: [
-		"default extent for a pane"
-		"#glamourOptimalExtent"
-		self defaultPaneExtent
-		]
-]
-
-{ #category : #accessing }
-GLMDashboard >> extentStrategy [
-
-	^ extentStrategy ifNil: [extentStrategy := GLMFillWidthStrategy new].
-]
-
-{ #category : #accessing }
-GLMDashboard >> extentStrategy: aGLMDashboardExtentStrategy [
-
-	extentStrategy := aGLMDashboardExtentStrategy.
-]
-
-{ #category : #scripting }
-GLMDashboard >> fillWidthStrategy [
-
-	self extentStrategy: GLMFillWidthStrategy new 
+	self panesLayouts at: aSymbol put: aLayout
 ]
 
 { #category : #scripting }
@@ -76,19 +31,30 @@ GLMDashboard >> initializeScriptingDefaults [
 ]
 
 { #category : #accessing }
-GLMDashboard >> panesExtents [
+GLMDashboard >> layoutOfPaneNamed: aSymbol [
+	^ self panesLayouts
+		at: aSymbol
+		ifAbsent:
+			[ | index pas yTop yBot |
+			"I think this can be clean a little but I don't have the time right now."
+			index := (self panes collect: [ :e | e name ]) indexOf: aSymbol.
+			pas := 1 / ((self panes size / 2) floor + 1).
+			yTop := ((index / 2) rounded - 1) * pas.
+			yBot := (index / 2) rounded * pas.
+			(index = self panes size and: [ index odd ])
+				ifTrue: [ ^ (0 @ yTop corner: 1 @ yBot) asLayoutFrame ].
+			index odd
+				ifTrue: [ (0 @ yTop corner: 0.5 @ yBot) asLayoutFrame ]
+				ifFalse: [ (0.5 @ yTop corner: 1 @ yBot) asLayoutFrame ] ]
+]
 
-	^ panesExtents ifNil: [panesExtents := Dictionary new]
+{ #category : #accessing }
+GLMDashboard >> panesLayouts [
+	^ panesLayouts ifNil: [ panesLayouts := Dictionary new ]
 ]
 
 { #category : #rendering }
 GLMDashboard >> renderGlamorouslyOn: aRenderer [ 
 	 
 	^aRenderer renderDashboard: self
-]
-
-{ #category : #scripting }
-GLMDashboard >> rigidStrategy [
-
-	self extentStrategy: GLMRigidStrategy new 
 ]
