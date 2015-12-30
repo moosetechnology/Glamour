@@ -140,6 +140,32 @@ GLMFastTreeDataSource >> rowMorphForItem: anItem [
 	^ Smalltalk ui theme newRowIn: World for: rowElements
 ]
 
+{ #category : #selecting }
+GLMFastTreeDataSource >> selection: ann [
+	| selection |
+	selection := ann newSelectedRowIndexes
+		select: [ :each | each ~= 0 ]
+		thenCollect: [ :each | (self elementAt: each) data ].
+	self announcer
+		announce:
+			(GLMTreeMorphSelectionChanged new
+				selectionValue:
+						(selection size = 1
+								ifTrue: [ selection first ]
+								ifFalse: [ selection ]);
+				selectionPathValue: selection;
+				yourself)
+]
+
+{ #category : #selecting }
+GLMFastTreeDataSource >> strongSelection: ann [
+	self announcer
+		announce:
+			(GLMTreeMorphStrongSelectionChanged new
+				strongSelectionValue: (self elementAt: ann selectedRowIndex) data;
+				yourself)
+]
+
 { #category : #accessing }
 GLMFastTreeDataSource >> tagsToFilterBy [
 	^ tagsToFilterBy ifNil: [ tagsToFilterBy := OrderedCollection new ]
