@@ -114,7 +114,6 @@ GLMMorphicFTRenderer >> initializeTableMorph [
 	tableMorph := self createFastTable.
 	tableMorph
 		dataSource: tableModel;
-		intercellSpacing: 3;
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		cornerStyle: tableMorph preferredCornerStyle;
