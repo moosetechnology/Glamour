@@ -98,8 +98,8 @@ GLMFastTreeDataSource >> matchingTag: anItem [
 				children: coll asArray;
 				yourself ].
 	^ (self tagsToFilterBy allSatisfy: [ :each | elementTags includes: each ])
-		ifTrue: [ nil ]
-		ifFalse: [ self newStaticItemFrom: anItem ]
+		ifFalse: [ nil ]
+		ifTrue: [ self newStaticItemFrom: anItem ]
 ]
 
 { #category : #'instance creation' }
