@@ -992,7 +992,7 @@ GLMPresentation >> titleValue [
 { #category : #accessing }
 GLMPresentation >> transformation [ 
 	 
-	^transformation ifNil: [transformation := #yourself]
+	^transformation ifNil: [transformation := [:x | x ]]
 ]
 
 { #category : #accessing }
