@@ -78,6 +78,11 @@ GLMFastTreeDataSource >> createRootItem [
 				yourself ]
 ]
 
+{ #category : #selecting }
+GLMFastTreeDataSource >> explicitSelection: anObject [
+	self table selectRowIndexes: (self searchText: anObject asString)
+]
+
 { #category : #accessing }
 GLMFastTreeDataSource >> glamourPresentation [
 	^ glamourPresentation

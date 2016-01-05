@@ -71,11 +71,6 @@ GLMFastListOutlineDataSource >> elementShouldBeDisplayed: anObject [
 	^ self tagsToFilterBy allSatisfy: [ :each | elementTags includes: each ]
 ]
 
-{ #category : #selecting }
-GLMFastListOutlineDataSource >> explicitSelection: anObject [ 
-	self table selectRowIndex: (self elements indexOf: anObject)
-]
-
 { #category : #accessing }
 GLMFastListOutlineDataSource >> glamourPresentation [
 	^ glamourPresentation

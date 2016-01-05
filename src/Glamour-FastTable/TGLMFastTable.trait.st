@@ -60,6 +60,11 @@ TGLMFastTable >> executeMenuAction: anAction [
 	self announcer announce: (GLMMenuItemSelected action: anAction)
 ]
 
+{ #category : #selecting }
+TGLMFastTable >> explicitSelection: anObject [ 
+	self table selectRowIndex: (self elements indexOf: anObject)
+]
+
 { #category : #accessing }
 TGLMFastTable >> glamourPresentation [
 	self explicitRequirement

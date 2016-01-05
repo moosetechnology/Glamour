@@ -71,11 +71,6 @@ GLMFastListDataSource >> elements [
 	^ elements ifNil: [ elements := self calculateElements ]
 ]
 
-{ #category : #selecting }
-GLMFastListDataSource >> explicitSelection: anObject [ 
-	self table selectRowIndex: (self elements indexOf: anObject)
-]
-
 { #category : #accessing }
 GLMFastListDataSource >> glamourPresentation [
 	^ glamourPresentation
