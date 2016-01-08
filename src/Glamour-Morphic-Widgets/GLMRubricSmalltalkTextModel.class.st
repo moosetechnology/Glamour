@@ -99,6 +99,12 @@ GLMRubricSmalltalkTextModel >> selectedClassOrMetaClass [
 	^ self selectedBehavior
 ]
 
+{ #category : #accessing }
+GLMRubricSmalltalkTextModel >> selectedMethod [
+
+	^ self doItContext ifNil: [ nil ] ifNotNil: [ :aContext | aContext method ]
+]
+
 { #category : #shout }
 GLMRubricSmalltalkTextModel >> shoutAboutToStyle: aPluggableShoutMorph [
 	self highlightSmalltalk ifFalse: [^ false].
