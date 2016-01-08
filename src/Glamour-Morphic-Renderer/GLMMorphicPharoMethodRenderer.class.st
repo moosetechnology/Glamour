@@ -22,12 +22,14 @@ GLMMorphicPharoMethodRenderer >> modelFor: aPresentation [
 
 { #category : #rendering }
 GLMMorphicPharoMethodRenderer >> morph [
-	
-	^ RubScrolledTextMorph new
+	|morph|
+	 morph := RubScrolledTextMorph new
 		beForSmalltalkCode;
 		getSelectionSelector: #primarySelectionInterval;
 		model: textModel;
 		color: Smalltalk ui theme backgroundColor;
 		textFont: StandardFonts codeFont;
-		yourself
+		yourself.
+	textModel addDependent: morph.
+	^ morph
 ]
