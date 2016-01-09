@@ -336,7 +336,7 @@ ConfigurationOfGlamourCore >> baseline33: spec [
 				spec requires: #('Glamour-Tests-Morphic' 'Glamour-Rubric-Presentations' ). ].
 		spec 
 			group: 'Core' with: #('Glamour-Announcements' 'Glamour-Helpers' 'Glamour-Core' 'Glamour-Presentations' 'Glamour-Browsers' 'Glamour-Examples' 'Glamour-Rubric-Presentations' );
-			group: 'Morphic' with: #('Glamour-Morphic-Brick' 'Glamour-Morphic-Widgets' 'Glamour-Morphic-Renderer' 'Glamour-Morphic-Theme' 'Glamour-Morphic-Pager' );
+			group: 'Morphic' with: #('Glamour-Morphic-Brick' 'Glamour-Morphic-Widgets' 'Glamour-Morphic-Renderer' 'Glamour-Morphic-Theme' 'Glamour-Morphic-Pager' 'Glamour-FastTable' );
 			group: 'Tests' with: #('Glamour-Tests-Core' 'Glamour-Tests-Morphic' 'Glamour-Tests-Rubric' 'Glamour-Tests-Resources' 'Glamour-Morphic-Brick-Tests' );
 			group: 'default' with: #('Core' 'Morphic' 'Tests' ). ].
 
