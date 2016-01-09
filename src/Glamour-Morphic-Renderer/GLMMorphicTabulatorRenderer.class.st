@@ -6,7 +6,7 @@ Class {
 
 { #category : #private }
 GLMMorphicTabulatorRenderer >> margin [
-	^ 1
+	^ 5
 ]
 
 { #category : #rendering }
