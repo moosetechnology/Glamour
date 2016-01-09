@@ -117,7 +117,7 @@ GLMMorphicFTRenderer >> initializeTableMorph [
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		cornerStyle: tableMorph preferredCornerStyle;
-		borderStyle: (BorderStyle inset width: 1);
+		borderStyle: (BorderStyle inset width: 0);
 		dragEnabled: presentation allowsItemDrag;
 		dropEnabled: presentation isDropTarget;
 		allowsDeselection: presentation allowsDeselection.
