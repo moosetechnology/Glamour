@@ -146,13 +146,13 @@ GLMCompositePresentation >> includes: aPresentation [
 	^ self presentations includes: aPresentation 
 ]
 
-{ #category : #'initialize-release' }
+{ #category : #initialization }
 GLMCompositePresentation >> initialize [ 
 	super initialize.
 	self compose
 ]
 
-{ #category : #'initialize-release' }
+{ #category : #initialization }
 GLMCompositePresentation >> initializePresentation [
 
 	super initializePresentation.
