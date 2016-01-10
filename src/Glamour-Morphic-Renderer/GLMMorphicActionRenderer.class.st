@@ -28,8 +28,6 @@ GLMMorphicActionRenderer >> render: anAction [
 		getEnabledSelector: nil;
 		setBalloonText: (anAction title , Character tab asString , anAction shortcutAsString) trimBoth;
 		extent: b minExtent;
-		hResizing: #rigid;
-		vResizing: #rigid;
 		removeProperty: #theme.
 	anAction shouldShowTitle 
 		ifTrue: [ b 
