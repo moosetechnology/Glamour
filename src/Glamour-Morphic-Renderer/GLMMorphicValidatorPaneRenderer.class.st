@@ -82,7 +82,7 @@ GLMMorphicValidatorPaneRenderer >> renderCompositiePresentation: aCompositePrese
 	paneMorph
 		addMorph: 
 			(self newColumnWith:  { (self renderObject: aCompositePresentation).  (self buttonRowFrom: self buttons) }) 
-			fullFrame: (LayoutFrame identity);
+			fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		"addMorphBack: (self buttonRowFrom: self buttons)  ;  "
 		adoptPaneColor: paneMorph paneColor.
 	

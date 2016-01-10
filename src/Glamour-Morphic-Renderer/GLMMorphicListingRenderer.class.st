@@ -108,7 +108,7 @@ GLMMorphicListingRenderer >> treeMorphFor: tmpTreeModel and: aPresentation [
 		dropEnabled: tmpTreeModel dropEnabled;		
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
-		layoutFrame: (LayoutFrame identity).
+		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1)).
 	columns := aPresentation columns isEmpty 
 		ifTrue: [ OrderedCollection with: (MorphTreeColumn new rowMorphGetSelector: #elementColumn)]
 		ifFalse: [

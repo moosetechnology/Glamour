@@ -83,7 +83,7 @@ GLMMorphicTextRenderer >> textMorphForModel:  aTextModel [
 		changedAction: [:aText|
 			aText asString trimBoth ifNotEmpty:  [aTextModel text: aText] ];
 		onKeyStrokeSend: #keystroke:from: to: aTextModel;
-		layoutFrame: (LayoutFrame identity);
+		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
 		color: Smalltalk ui theme backgroundColor;
