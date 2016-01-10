@@ -137,7 +137,7 @@ LazyTabGroupMorph >> newHeaderMorph [
 			for: {self tabSelectorMorph . self toolbarMorph}) cellInset: 0; cellPositioning: #bottomCenter; borderWidth: 0
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 LazyTabGroupMorph >> newTabSelectorMorph [
 	"Answer a new tab selector morph"
 
@@ -195,7 +195,7 @@ LazyTabGroupMorph >> toolbarMorph: anObject [
 	toolbarMorph := anObject.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #updating }
 LazyTabGroupMorph >> updatePageAtIndex: anInteger withLabel: aStringOrMorph toolbar: aToolbar action: anActionMorph [
 	
 	(self pages at: anInteger)
@@ -205,7 +205,8 @@ LazyTabGroupMorph >> updatePageAtIndex: anInteger withLabel: aStringOrMorph tool
 		with: (self 
 			buildLabelFrom: aStringOrMorph 
 			withAction: anActionMorph).
-	self updatePageIndex: anInteger.
+	(self tabSelectorMorph selectedIndex = anInteger) ifTrue: [  
+		self updatePageIndex: anInteger ]
 
 ]
 
