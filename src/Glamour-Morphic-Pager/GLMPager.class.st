@@ -2,10 +2,23 @@ Class {
 	#name : #GLMPager,
 	#superclass : #GLMFinder,
 	#instVars : [
-		'scrollButtonIconRenderBlock'
+		'scrollButtonIconRenderBlock',
+		'minimumPageNumberForScrollbar'
 	],
 	#category : #'Glamour-Morphic-Pager-Glamour'
 }
+
+{ #category : #accessing }
+GLMPager >> minimumPageNumberForScrollbar [
+
+	^ minimumPageNumberForScrollbar
+]
+
+{ #category : #accessing }
+GLMPager >> minimumPageNumberForScrollbar: aNumber [
+
+	minimumPageNumberForScrollbar := aNumber
+]
 
 { #category : #rendering }
 GLMPager >> renderGlamorouslyOn: aRenderer [

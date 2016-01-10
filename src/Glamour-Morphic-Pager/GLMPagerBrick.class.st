@@ -193,7 +193,7 @@ GLMPagerBrick >> scrollerSizeShortcutAction: first second: second [
 { #category : #'pager-actions' }
 GLMPagerBrick >> showOrHideScrollBar [
 	
-	((self pagerModel size > 1) & (self showScrollBarWhenNeeded))
+	((self pagerModel size > self pagerModel minimumPageNumberForScrollbar) & (self showScrollBarWhenNeeded))
 		ifTrue: [ (self hasSubbrick: self pagerBar)
 			ifFalse: [ self addBrickBack: self pagerBar ] ]
 		ifFalse: [ self removeBrick: self pagerBar ].

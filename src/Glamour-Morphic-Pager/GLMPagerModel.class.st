@@ -16,7 +16,8 @@ Class {
 		'isDependenciesShown',
 		'scrollToRightTask',
 		'isNotificationsAllowed',
-		'scrollingDelay'
+		'scrollingDelay',
+		'minimumPageNumberForScrollbar'
 	],
 	#category : #'Glamour-Morphic-Pager-Model'
 }
@@ -259,6 +260,16 @@ GLMPagerModel >> lastVisiblePageIndex [
 	^ lastIndex > self size
 		ifTrue: [ self size ]
 		ifFalse: [ lastIndex ]
+]
+
+{ #category : #accessing }
+GLMPagerModel >> minimumPageNumberForScrollbar [
+	^ minimumPageNumberForScrollbar ifNil: [ 1 ]
+]
+
+{ #category : #accessing }
+GLMPagerModel >> minimumPageNumberForScrollbar: aNumber [
+	minimumPageNumberForScrollbar := aNumber
 ]
 
 { #category : #'as yet unclassified' }

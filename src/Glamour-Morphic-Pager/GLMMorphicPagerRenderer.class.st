@@ -34,7 +34,8 @@ GLMMorphicPagerRenderer >> render: aBrowser [
 	|pagerModel|
 	pagerModel := GLMPagerModel new
 		isDependenciesShown: false;
-		defaultNumberOfVisiblePages: aBrowser fixedSizePanes.
+		defaultNumberOfVisiblePages: aBrowser fixedSizePanes;
+		minimumPageNumberForScrollbar: aBrowser minimumPageNumberForScrollbar.
 	
 	aBrowser scrollButtonIconRenderBlock ifNotNil: [
 		"result value of the block is raw icon of the Form class"
