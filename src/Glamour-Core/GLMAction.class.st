@@ -15,7 +15,8 @@ Class {
 		'icon',
 		'condition',
 		'separatorAfter',
-		'separatorBefore'
+		'separatorBefore',
+		'shouldShowTitle'
 	],
 	#category : #'Glamour-Core'
 }
@@ -191,6 +192,21 @@ GLMAction >> shortcutAsString [
 		self shortcut isUppercase 
 			ifTrue: [ stream << 'shift+' ].
 		stream << self shortcut asLowercase asString ]
+]
+
+{ #category : #accessing }
+GLMAction >> shouldShowTitle [
+	^ shouldShowTitle ifNil: [ shouldShowTitle := false ]
+]
+
+{ #category : #accessing }
+GLMAction >> shouldShowTitle: anObject [
+	shouldShowTitle := anObject
+]
+
+{ #category : #accessing }
+GLMAction >> showTitle [
+	shouldShowTitle := true
 ]
 
 { #category : #accessing }
