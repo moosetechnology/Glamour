@@ -33,8 +33,8 @@ GLMMorphicActionRenderer >> render: anAction [
 		removeProperty: #theme.
 	anAction shouldShowTitle 
 		ifTrue: [ b 
-				label: anAction title font: UITheme current buttonFont;
-				icon: anAction icon ]
+				icon: anAction icon ;
+				label: anAction title font: UITheme current buttonFont ]
 		ifFalse: [ b label: (AlphaImageMorph new image: anAction icon) ].
 	
 	"this is a hack to tell the GLMUITheme to not draw the border and the fill, and to disable the focus"
