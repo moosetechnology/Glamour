@@ -31,14 +31,6 @@ Class {
 	#category : #'Glamour-FastTable-Model'
 }
 
-{ #category : #'as yet unclassified' }
-GLMFastTreeDataSource class >> emptyMorph [
-	| icon |
-	icon := (Smalltalk ui icons iconNamed: #emptyIcon) asMorph.
-	icon form: (icon form scaledToSize: 16 @ 16).
-	^ icon
-]
-
 { #category : #accessing }
 GLMFastTreeDataSource >> announcer [
 	^ announcer ifNil: [ announcer := GLMAnnouncer new ]
