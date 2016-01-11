@@ -1,3 +1,9 @@
+"
+I represent a toolbar position (who can be: top, left, bottom and right).
+I'm an abstract class and my children implements each one of the possible positions. 
+
+I am used by GLMMorphicToolbarWindowRenderer to place the toolbar where it belongs (see #addToolbar: to:) and to configure the toolbar when is needed (see #configureToolbar:)
+"
 Class {
 	#name : #GLMToolbarPosition,
 	#superclass : #Object,

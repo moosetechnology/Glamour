@@ -1,3 +1,6 @@
+"
+I'm a toolbar aligned at the top of the parent morph.
+"
 Class {
 	#name : #GLMToolbarPositionTop,
 	#superclass : #GLMToolbarPosition,

@@ -1,3 +1,13 @@
+"
+I render a GLMTooltipWindow.
+I'm a window who can have a toolbar. 
+
+Toolbars are rendered taking the actions defined in presentation (as long as they have an icon) and following #toolbarPosition (also defined in GLMCompositePresentation)
+
+To be able to use me, you need to modify ==GLMMorphicRenderer>>#open:== to use me instead the regular one. 
+
+This is not optimal and a possible solution is to let the renderable object to decide which window renderer should use. 
+"
 Class {
 	#name : #GLMMorphicToolbarWindowRenderer,
 	#superclass : #GLMMorphicWindowRenderer,
