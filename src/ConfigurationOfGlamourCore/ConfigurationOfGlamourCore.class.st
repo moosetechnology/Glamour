@@ -1593,7 +1593,7 @@ ConfigurationOfGlamourCore >> version37: spec [
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-TudorGirba.40';
 			package: 'Glamour-FastTable' with: 'Glamour-FastTable-AndreiChis.49';
 			package: 'Glamour-Core' with: 'Glamour-Core-AndreiChis.309';
-			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.180';
+			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.181';
 			package: 'Glamour-Browsers' with: 'Glamour-Browsers-AndreiChis.111';
 			package: 'Glamour-Examples' with: 'Glamour-Examples-TudorGirba.303';
 			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-AndreiChis.409';
@@ -1602,7 +1602,7 @@ ConfigurationOfGlamourCore >> version37: spec [
 			package: 'Glamour-Tests-Resources' with: 'Glamour-Tests-Resources-AndreiChis.5';
 			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-AndreiChis.221';
 			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.187';
-			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-TudorGirba.337';
+			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-AndreiChis.338';
 			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-AndreiChis.105';
 			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-SkipLentz.133';
 			package: 'Glamour-Rubric-Presentations' with: 'Glamour-Rubric-Presentations-AndreiChis.47';
