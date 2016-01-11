@@ -1591,7 +1591,7 @@ ConfigurationOfGlamourCore >> version37: spec [
 		spec 
 			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-TudorGirba.40';
-			package: 'Glamour-FastTable' with: 'Glamour-FastTable-AndreiChis.49';
+			package: 'Glamour-FastTable' with: 'Glamour-FastTable-AndreiChis.50';
 			package: 'Glamour-Core' with: 'Glamour-Core-AndreiChis.309';
 			package: 'Glamour-Presentations' with: 'Glamour-Presentations-AndreiChis.181';
 			package: 'Glamour-Browsers' with: 'Glamour-Browsers-AndreiChis.111';
