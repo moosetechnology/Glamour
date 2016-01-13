@@ -2,25 +2,32 @@ Class {
 	#name : #GLMRubricTextModel,
 	#superclass : #GLMMorphicModel,
 	#instVars : [
-		'announcer',
-		'primarySelectionInterval'
+		'primarySelectionInterval',
+		'hasUnacceptedEdits'
 	],
 	#category : #'Glamour-Morphic-Widgets'
 }
 
-{ #category : #accessing }
-GLMRubricTextModel >> announcer [
-	^ announcer ifNil: [ announcer := Announcer new weak ]
-]
-
-{ #category : #accessing }
-GLMRubricTextModel >> announcer: anObject [
-	announcer := anObject
+{ #category : #'text managing' }
+GLMRubricTextModel >> clearUserEdits [
+	
+	self hasUnacceptedEdits: false
 ]
 
 { #category : #accessing }
 GLMRubricTextModel >> getText [
 	^ self glamourPresentation formatedDisplayValue
+]
+
+{ #category : #accessing }
+GLMRubricTextModel >> hasUnacceptedEdits [
+	^ hasUnacceptedEdits ifNil: [ hasUnacceptedEdits := false ]
+]
+
+{ #category : #accessing }
+GLMRubricTextModel >> hasUnacceptedEdits: aBoolean [
+	hasUnacceptedEdits := aBoolean.
+	self announce: RubEditsStateChangedInModel new
 ]
 
 { #category : #callbacks }
