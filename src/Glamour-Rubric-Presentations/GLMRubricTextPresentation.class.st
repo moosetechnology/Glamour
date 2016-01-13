@@ -23,6 +23,15 @@ GLMRubricTextPresentation >> addTextSegment: aTextSegmentMorph [
 	self textSegments add: aTextSegmentMorph
 ]
 
+{ #category : #'actions text' }
+GLMRubricTextPresentation >> clearUserEdits [
+	self flag: 'Should remove the need for using #defer:. Currently it used as
+	the rendered suspends all announcements for a presentation when it handles a text changed request.'.
+	UIManager default defer: [ 
+		self announce: (GLMTextEditorRequest new 
+			action: [ :anEditor | anEditor model clearUserEdits]) ]
+]
+
 { #category : #accessing }
 GLMRubricTextPresentation >> codeEditingSelectionActions [
 	| uitheme |
