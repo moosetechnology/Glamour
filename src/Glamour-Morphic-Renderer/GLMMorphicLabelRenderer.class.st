@@ -15,7 +15,7 @@ GLMMorphicLabelRenderer >> actOnPresentationUpdated: anAnnouncement [
 { #category : #rendering }
 GLMMorphicLabelRenderer >> render: aLabelPresentation [
 	labelMorph := (LabelMorph contents: aLabelPresentation formatedDisplayValue)
-		layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1));
+		layoutFrame: (LayoutFrame identity);
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
 		font: StandardFonts haloFont;
