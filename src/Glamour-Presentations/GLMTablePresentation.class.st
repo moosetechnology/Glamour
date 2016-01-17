@@ -24,7 +24,8 @@ Class {
 	#instVars : [
 		'columns',
 		'children',
-		'rootsExpanded'
+		'rootsExpanded',
+		'shouldShowHeader'
 	],
 	#category : #'Glamour-Presentations'
 }
@@ -73,7 +74,7 @@ GLMTablePresentation >> column: aBlockOrString evaluated: aBlock [
 		computation: aBlock)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #scripting }
 GLMTablePresentation >> column: aBlockOrString evaluated: aBlock modified: aModifiedBlock [
 	self addColumn: (GLMTableColumn new 
 		title: aBlockOrString;
@@ -226,6 +227,11 @@ GLMTablePresentation >> hasTagsFilter [
 	^ self columns anySatisfy: [ :aColumn | aColumn hasTagsFilter ]
 ]
 
+{ #category : #accessing }
+GLMTablePresentation >> hideHeader [
+	shouldShowHeader := false
+]
+
 { #category : #initialization }
 GLMTablePresentation >> initialize [
 	super initialize.
@@ -253,6 +259,11 @@ GLMTablePresentation >> shouldRootsExpand [
 { #category : #accessing }
 GLMTablePresentation >> shouldRootsExpand: anObject [
 	rootsExpanded := anObject
+]
+
+{ #category : #accessing }
+GLMTablePresentation >> shouldShowHeader [
+	^ shouldShowHeader ifNil: [ shouldShowHeader := true ]
 ]
 
 { #category : #private }
