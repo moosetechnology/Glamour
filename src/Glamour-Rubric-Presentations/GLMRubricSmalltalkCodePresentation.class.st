@@ -87,9 +87,8 @@ GLMRubricSmalltalkCodePresentation >> debugSelection [
 GLMRubricSmalltalkCodePresentation >> defaultSelectionActions [
 
 	^ self executionSelectionActions, 
-		self codeEditingSelectionActions, 
-		self browsingSelectionActions
-	
+		self browsingSelectionActions,
+		self codeEditingSelectionActions
 ]
 
 { #category : #actions }
