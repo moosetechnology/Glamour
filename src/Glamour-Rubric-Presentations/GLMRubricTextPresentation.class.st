@@ -88,6 +88,20 @@ GLMRubricTextPresentation >> defaultSelectionActions [
 ]
 
 { #category : #'actions text' }
+GLMRubricTextPresentation >> flash [
+
+	self announce: (GLMTextEditorRequest new 
+		action: [ :anEditor | anEditor flash])
+]
+
+{ #category : #'actions text' }
+GLMRubricTextPresentation >> hasUnacceptedEdits [
+
+	self announce: (GLMTextEditorRequest new 
+		action: [ :anEditor | ^ anEditor model hasUnacceptedEdits])
+]
+
+{ #category : #'actions text' }
 GLMRubricTextPresentation >> paste [
 
 	self announce: (GLMTextEditorRequest for: #paste)
