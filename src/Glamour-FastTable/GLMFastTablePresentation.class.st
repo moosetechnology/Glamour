@@ -51,6 +51,16 @@ GLMFastTablePresentation >> initialize [
 	parameters := Dictionary new
 ]
 
+{ #category : #'public api' }
+GLMFastTablePresentation >> intercellSpacing [
+	^ self parameters at: 'intercellSpacing' ifAbsent: [ nil ]
+]
+
+{ #category : #'public api' }
+GLMFastTablePresentation >> intercellSpacing: aNumber [
+	self parameters at: 'intercellSpacing' put: aNumber
+]
+
 { #category : #accessing }
 GLMFastTablePresentation >> parameters [
 	^ parameters
