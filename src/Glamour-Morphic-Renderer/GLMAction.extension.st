@@ -3,15 +3,9 @@ Extension { #name : #GLMAction }
 { #category : #'*glamour-morphic-renderer' }
 GLMAction >> installKeyCombinationForPresentation: aPresentation onMorph: aMorph [
 	aMorph 
-		on: (self shortcut isUppercase 
-			ifTrue: [ self shortcut command shift ]
-			ifFalse: [ self shortcut command ])
-		do: [ self actOn: aPresentation ].
-	aMorph 
-		on: (self shortcut isUppercase 
-			ifTrue: [ self shortcut ctrl shift ]
-			ifFalse: [ self shortcut ctrl ])
-		do: [ self actOn: aPresentation ]
+		bindKeyCombination: self keymap		
+		toAction: [ self actOn: aPresentation ].
+	
 ]
 
 { #category : #'*glamour-morphic-renderer' }
