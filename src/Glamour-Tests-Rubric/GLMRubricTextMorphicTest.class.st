@@ -24,8 +24,8 @@ GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	textMorph := self find: RubScrolledTextMorph in: window.
 	self simulateOnlyOneClickOn: textMorph.
 	Smalltalk os isMacOSX ifTrue: [self simulateKeyStroke: $s command].
-	Smalltalk os isUnix ifTrue: [self simulateKeyStroke: $s alt].
-	Smalltalk os isWindows ifTrue: [self simulateKeyStroke: $s alt].
+	Smalltalk os isUnix ifTrue: [self simulateKeyStroke: $s ctrl].
+	Smalltalk os isWindows ifTrue: [self simulateKeyStroke: $s ctrl].
 	self assert: overriden
 ]
 
@@ -68,7 +68,7 @@ GLMRubricTextMorphicTest >> testMultipleSelectionWithChange [
 ]
 
 { #category : #tests }
-GLMRubricTextMorphicTest >> testOKeyCanBeOverriden [
+GLMRubricTextMorphicTest >> testOKeyCannotBeOverriden [
 	| composite textMorph overriden |
 	overriden := false.
 	composite := GLMCompositePresentation new with: [ :a | a text act: [ :text | overriden := true ] on: $o entitled: 'Override'].
@@ -78,7 +78,7 @@ GLMRubricTextMorphicTest >> testOKeyCanBeOverriden [
 	Smalltalk os isMacOSX ifTrue: [self simulateKeyStroke: $o command].
 	Smalltalk os isUnix ifTrue: [self simulateKeyStroke: $o alt].
 	Smalltalk os isWindows ifTrue: [self simulateKeyStroke: $o alt].
-	self assert: overriden
+	self assert: overriden not
 ]
 
 { #category : #tests }
