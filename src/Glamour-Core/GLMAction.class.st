@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'action',
 		'title',
-		'shortcut',
+		'keymap',
 		'position',
 		'category',
 		'icon',
@@ -81,7 +81,7 @@ GLMAction >> hasIcon [
 { #category : #testing }
 GLMAction >> hasShortcut [ 
 	 
-	^self shortcut notNil
+	^self keymap notNil
 ]
 
 { #category : #testing }
@@ -122,6 +122,18 @@ GLMAction >> isCategorized [
 { #category : #testing }
 GLMAction >> isMenu [
 	^self hasTitle and: [ self hasIcon not]
+]
+
+{ #category : #accessing }
+GLMAction >> keymap [
+
+	^ keymap
+]
+
+{ #category : #accessing }
+GLMAction >> keymap: aKeymap [
+
+	keymap := aKeymap
 ]
 
 { #category : #accessing }
@@ -172,7 +184,8 @@ GLMAction >> shortcut [
 	"Shortcut character that this action should be triggered with when the focus rests on the corresponding presentation. 
 	Modifiers are platform specific an can not be defined." 
 	 
-	^shortcut
+	^ self keymap 
+		ifNotNil: [ self keymap currentCharacter ]
 ]
 
 { #category : #accessing }
@@ -180,7 +193,20 @@ GLMAction >> shortcut: aCharacter [
 	"Shortcut character that this action should be triggered with when the focus rests on the corresponding presentation. 
 	Modifiers are platform specific an can not be defined." 
 	 
-	shortcut := aCharacter
+	aCharacter ifNil: [ 
+		keymap := nil.
+		^ self ].
+	keymap := 
+		(aCharacter isUppercase 
+			ifTrue: [ aCharacter command shift ]
+			ifFalse: [ aCharacter command ]) mac |
+		(aCharacter isUppercase 
+			ifTrue: [ aCharacter ctrl shift ]
+			ifFalse: [ aCharacter ctrl ]) win | 
+		(aCharacter isUppercase 
+			ifTrue: [ aCharacter ctrl shift ]
+			ifFalse: [ aCharacter ctrl ]) unix		
+	
 ]
 
 { #category : #accessing }
