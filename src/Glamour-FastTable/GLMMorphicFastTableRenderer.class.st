@@ -23,8 +23,8 @@ GLMMorphicFastTableRenderer >> specificTableMorphInitializiation [
 	| presentation |
 	super specificTableMorphInitializiation.
 	presentation := tableModel glamourPresentation.
-	tableModel glamourPresentation intercellSpacing ifNotNil: [ :aNumberOrPoint |
-		tableMorph intercellSpacing: aNumberOrPoint ].
+	tableMorph intercellSpacing: tableModel glamourPresentation intercellSpacing.
+	tableMorph beResizable.
 	tableMorph
 		columns:
 			(presentation columns

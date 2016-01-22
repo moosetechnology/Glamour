@@ -53,7 +53,7 @@ GLMFastTablePresentation >> initialize [
 
 { #category : #'public api' }
 GLMFastTablePresentation >> intercellSpacing [
-	^ self parameters at: 'intercellSpacing' ifAbsent: [ nil ]
+	^ self parameters at: 'intercellSpacing' ifAbsent: [ 8@1 ]
 ]
 
 { #category : #'public api' }
