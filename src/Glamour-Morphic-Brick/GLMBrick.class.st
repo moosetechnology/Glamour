@@ -283,6 +283,11 @@ GLMBrick >> changedWith: aBlock [
 	self changed.
 ]
 
+{ #category : #'brick-properties' }
+GLMBrick >> currentColor [
+	^ self color
+]
+
 { #category : #'morph-drawing' }
 GLMBrick >> drawOn: aCanvas [
 	"super drawOn: aCanvas."

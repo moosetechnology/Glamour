@@ -101,6 +101,12 @@ GLMBrickPropertiesTrait >> data: anObject [
 	^ self setProperty: #brickDataObject  toValue:  anObject
 ]
 
+{ #category : #'private-extension' }
+GLMBrickPropertiesTrait >> hasProperty: aSymbol [
+
+	^ self explicitRequirement
+]
+
 { #category : #'brick-properties-testing' }
 GLMBrickPropertiesTrait >> isColorSet [
 

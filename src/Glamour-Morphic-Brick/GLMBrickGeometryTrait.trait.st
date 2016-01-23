@@ -100,6 +100,12 @@ GLMBrickGeometryTrait >> hPadding [
 	^ self paddingLeft + self paddingRight
 ]
 
+{ #category : #'private-extension' }
+GLMBrickGeometryTrait >> hasProperty: aSymbol [
+
+	^ self explicitRequirement
+]
+
 { #category : #'brick-geometry' }
 GLMBrickGeometryTrait >> height [
 
