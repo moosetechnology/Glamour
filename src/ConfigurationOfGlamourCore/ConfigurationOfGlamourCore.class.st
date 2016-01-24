@@ -1695,7 +1695,7 @@ ConfigurationOfGlamourCore >> version40: spec [
 			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-TudorGirba.40';
 			package: 'Glamour-FastTable' with: 'Glamour-FastTable-TudorGirba.55';
-			package: 'Glamour-Core' with: 'Glamour-Core-AndreiChis.310';
+			package: 'Glamour-Core' with: 'Glamour-Core-AndreiChis.311';
 			package: 'Glamour-Presentations' with: 'Glamour-Presentations-TudorGirba.182';
 			package: 'Glamour-Browsers' with: 'Glamour-Browsers-AndreiChis.111';
 			package: 'Glamour-Examples' with: 'Glamour-Examples-TudorGirba.303';
