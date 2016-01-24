@@ -1709,6 +1709,6 @@ ConfigurationOfGlamourCore >> version40: spec [
 			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-AndreiChis.105';
 			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-SkipLentz.133';
 			package: 'Glamour-Rubric-Presentations' with: 'Glamour-Rubric-Presentations-AndreiChis.50';
-			package: 'Glamour-Tests-Rubric' with: 'Glamour-Tests-Rubric-AndreiChis.17'. ].
+			package: 'Glamour-Tests-Rubric' with: 'Glamour-Tests-Rubric-AndreiChis.18'. ].
 
 ]
