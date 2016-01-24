@@ -199,13 +199,10 @@ GLMAction >> shortcut: aCharacter [
 	keymap := 
 		(aCharacter isUppercase 
 			ifTrue: [ aCharacter command shift ]
-			ifFalse: [ aCharacter command ]) mac |
+			ifFalse: [ aCharacter command ]) |
 		(aCharacter isUppercase 
 			ifTrue: [ aCharacter ctrl shift ]
-			ifFalse: [ aCharacter ctrl ]) win | 
-		(aCharacter isUppercase 
-			ifTrue: [ aCharacter ctrl shift ]
-			ifFalse: [ aCharacter ctrl ]) unix		
+			ifFalse: [ aCharacter ctrl ]) 		
 	
 ]
 
