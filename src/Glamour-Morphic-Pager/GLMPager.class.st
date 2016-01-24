@@ -9,6 +9,11 @@ Class {
 }
 
 { #category : #accessing }
+GLMPager class >> extensionsPragma [
+	^ #gtInspectorPresentationOrder:
+]
+
+{ #category : #accessing }
 GLMPager >> minimumPageNumberForScrollbar [
 
 	^ minimumPageNumberForScrollbar
