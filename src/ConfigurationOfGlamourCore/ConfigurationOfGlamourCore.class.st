@@ -1689,7 +1689,7 @@ ConfigurationOfGlamourCore >> version40: spec [
 		spec author: 'AndreiChis'.
 		spec timestamp: '1/23/2016 15:53'.
 		spec 
-			project: 'Rubric' with: '2.5';
+			project: 'Rubric' with: '2.6';
 			project: 'FastTable' with: '0.9'.
 		spec 
 			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
