@@ -1694,7 +1694,7 @@ ConfigurationOfGlamourCore >> version40: spec [
 		spec 
 			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-TudorGirba.40';
-			package: 'Glamour-FastTable' with: 'Glamour-FastTable-TudorGirba.55';
+			package: 'Glamour-FastTable' with: 'Glamour-FastTable-TudorGirba.56';
 			package: 'Glamour-Core' with: 'Glamour-Core-AndreiChis.311';
 			package: 'Glamour-Presentations' with: 'Glamour-Presentations-TudorGirba.182';
 			package: 'Glamour-Browsers' with: 'Glamour-Browsers-AndreiChis.111';
@@ -1706,9 +1706,9 @@ ConfigurationOfGlamourCore >> version40: spec [
 			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-AndreiChis.221';
 			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.189';
 			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-AndreiChis.344';
-			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-AndreiChis.105';
+			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-SergeStinckwich.106';
 			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-SkipLentz.133';
 			package: 'Glamour-Rubric-Presentations' with: 'Glamour-Rubric-Presentations-AndreiChis.50';
-			package: 'Glamour-Tests-Rubric' with: 'Glamour-Tests-Rubric-AndreiChis.18'. ].
+			package: 'Glamour-Tests-Rubric' with: 'Glamour-Tests-Rubric-AndreiChis.19'. ].
 
 ]
