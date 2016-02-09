@@ -24,7 +24,7 @@ GLMWatcherWindow class >> buildKeymapsOn: aBuilder [
 	
 	(aBuilder shortcut: #openGlamourWatcher) 
 		category: #Glamour
-		default: Character space command shift 
+		default: Character space meta shift 
 		do: [ :morph | self uniqueInstance toggleOpen ].
 
 	aBuilder attachShortcutCategory: #Glamour to: Morph.
