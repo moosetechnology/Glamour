@@ -198,12 +198,8 @@ GLMAction >> shortcut: aCharacter [
 		^ self ].
 	keymap := 
 		(aCharacter isUppercase 
-			ifTrue: [ aCharacter command shift ]
-			ifFalse: [ aCharacter command ]) |
-		(aCharacter isUppercase 
-			ifTrue: [ aCharacter ctrl shift ]
-			ifFalse: [ aCharacter ctrl ]) 		
-	
+			ifTrue: [ aCharacter meta shift ]
+			ifFalse: [ aCharacter meta ])
 ]
 
 { #category : #accessing }
