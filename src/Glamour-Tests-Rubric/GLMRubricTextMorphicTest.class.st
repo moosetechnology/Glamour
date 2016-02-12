@@ -23,9 +23,7 @@ GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	window := composite openOn: '4'.
 	textMorph := self find: RubScrolledTextMorph in: window.
 	self simulateOnlyOneClickOn: textMorph.
-	Smalltalk os isMacOSX ifTrue: [self simulateKeyStroke: $s command].
-	Smalltalk os isUnix ifTrue: [self simulateKeyStroke: $s alt].
-	Smalltalk os isWindows ifTrue: [self simulateKeyStroke: $s alt].
+	self simulateKeyStroke: $s meta.
 	self assert: overriden
 ]
 
@@ -49,7 +47,7 @@ GLMRubricTextMorphicTest >> testExplicitAcceptDoesNotAffectTextPort [
 	self simulateOnlyOneClickOn: textMorph.
 	self simulateKeyStrokes: '4'.
 	self assert: (composite pane port: #text) value asString equals: '1234'.
-	self simulateKeyStroke: $s command.
+	self simulateKeyStroke: $s meta.
 	self simulateKeyStrokes: '56'.
 	self assert: (composite pane port: #text) value asString equals: '123456'
 ]
