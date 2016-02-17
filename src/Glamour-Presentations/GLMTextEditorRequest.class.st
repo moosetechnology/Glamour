@@ -5,7 +5,7 @@ Class {
 	#name : #GLMTextEditorRequest,
 	#superclass : #Announcement,
 	#instVars : [
-		'action'
+		'selector'
 	],
 	#category : #'Glamour-Presentations-Announcements'
 }
@@ -13,15 +13,15 @@ Class {
 { #category : #'instance creation' }
 GLMTextEditorRequest class >> for: aSelector [
 
-	^ self new action: [ :editor | editor perform: aSelector ]
+	^ self new selector: aSelector
 ]
 
 { #category : #accessing }
-GLMTextEditorRequest >> action [
-	^ action
+GLMTextEditorRequest >> selector [
+	^ selector
 ]
 
 { #category : #accessing }
-GLMTextEditorRequest >> action: anObject [
-	action := anObject
+GLMTextEditorRequest >> selector: anObject [
+	selector := anObject
 ]

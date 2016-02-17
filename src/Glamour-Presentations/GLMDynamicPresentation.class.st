@@ -42,7 +42,7 @@ GLMDynamicPresentation >> initialize [
 	presentationTransformation := [ :aComposite :each | aComposite custom: each ]
 ]
 
-{ #category : #events }
+{ #category : #'as yet unclassified' }
 GLMDynamicPresentation >> outerPortEvent: aPortEvent [
 	
 	super outerPortEvent: aPortEvent.
@@ -70,14 +70,6 @@ GLMDynamicPresentation >> presentationTransformation: anObject [
 GLMDynamicPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
 	^ aRenderer renderDynamicPresentation: self
-]
-
-{ #category : #updating }
-GLMDynamicPresentation >> updateToolbar [
-	super updateToolbar.
-	cachedPresentation ifNotNil: [ 
-		cachedPresentation updateToolbar.
-		cachedPresentation presentations do: #updateToolbar ]
 ]
 
 { #category : #scripting }

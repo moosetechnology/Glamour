@@ -44,7 +44,6 @@ GLMTextPresentation >> highlightSmalltalkContext [
 
 { #category : #rendering }
 GLMTextPresentation >> renderGlamorouslyOn: aRenderer [ 
-	self deprecated:  'Use GLMRubricTextPresentation instead.'.
 	self registerAnnouncements.
 	^ aRenderer renderTextPresentation: self
 ]
