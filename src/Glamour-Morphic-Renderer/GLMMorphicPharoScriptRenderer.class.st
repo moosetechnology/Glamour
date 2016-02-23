@@ -32,8 +32,8 @@ GLMMorphicPharoScriptRenderer >> modelFor: aPresentation [
 GLMMorphicPharoScriptRenderer >> morph [
 	|morph|
 	morph := RubScrolledTextMorph new
-		beForSmalltalkScripting;
 		model: textModel;
+		beForSmalltalkScripting;
 		getSelectionSelector: #primarySelectionInterval;
 		textFont: StandardFonts codeFont;
 		color: Smalltalk ui theme backgroundColor;
