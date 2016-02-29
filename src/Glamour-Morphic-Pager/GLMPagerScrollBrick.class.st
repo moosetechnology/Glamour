@@ -134,7 +134,6 @@ GLMPagerScrollBrick >> newBand [
 { #category : #'brick-layout-events' }
 GLMPagerScrollBrick >> onChildrenLayouted [
 	super onChildrenLayouted.
-	
 	self band translateXTo: (self convertScrollValue: (self pagerModel convertIndexToValue: self pagerModel firstVisiblePageIndex))
 ]
 
@@ -327,7 +326,7 @@ GLMPagerScrollBrick >> scrollTo: aValue smooth: isSmooth [
 
 { #category : #scrolling }
 GLMPagerScrollBrick >> scrollTo: aValue smooth: isSmooth callback: aBlock [
-	
+
  	isSmooth ifTrue: [ self glmAnimateValue: aValue duration: 300 callback: aBlock ]
 				ifFalse: [ self scrollValue: (self convertScrollValue: aValue). self updatePaneBounds. aBlock value ].
 ]

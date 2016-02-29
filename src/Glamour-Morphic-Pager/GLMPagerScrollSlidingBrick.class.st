@@ -199,7 +199,6 @@ GLMPagerScrollSlidingBrick >> moveLeft: left [ "Integer - pixels"
 { #category : #'brick-layout-events' }
 GLMPagerScrollSlidingBrick >> onChildrenLayouted [
 	super onChildrenLayouted.
-	"'slider onChildrenLayouted' logCr."
 	self translateXTo: self leftPosition
 ]
 
