@@ -50,8 +50,18 @@ GLMSystemWindow >> initialize [
 ]
 
 { #category : #accessing }
+GLMSystemWindow >> setLabelWidgetAllowance [
+	^ labelWidgetAllowance :=  super setLabelWidgetAllowance +
+		(toolbarBox
+			ifNil: [ 0 ]
+			ifNotNil: [ :toolbar | toolbarBox width ])
+]
+
+{ #category : #accessing }
 GLMSystemWindow >> toolbarBox: anObject [
+
 	toolbarBox := anObject.
+	self setLabelWidgetAllowance.
 	self replacePane: menuBox with: toolbarBox
 ]
 
