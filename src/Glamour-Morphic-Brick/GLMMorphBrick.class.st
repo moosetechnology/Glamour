@@ -53,7 +53,6 @@ GLMMorphBrick >> brickBounds: aRectangle [
 GLMMorphBrick >> drawSubmorphsOn: aCanvas [
 	aCanvas
 		translateBy: self bounds origin - self morph bounds origin + (self paddingLeft @ self paddingTop)
-		clippingTo: (aCanvas clipRect translateBy: aCanvas origin)
 		during: [ :canvas | self morph fullDrawOn: canvas ]
 ]
 
