@@ -13,8 +13,7 @@ Class {
 	#name : #GLMFastTableDataSource,
 	#superclass : #GLMFastListDataSource,
 	#instVars : [
-		'columnToSortBy',
-		'stopStepping'
+		'columnToSortBy'
 	],
 	#category : #'Glamour-FastTable-Model'
 }
@@ -39,22 +38,20 @@ GLMFastTableDataSource >> cellColumn: column row: rowIndex [
 	^ cell
 ]
 
-{ #category : #private }
+{ #category : #factory }
 GLMFastTableDataSource >> editRowMorphForColumn: glamourColumn element: element [
 	| brick |
 	
 	(brick := GLMEditableLabelBrick new)
 		cancelOnEscape;
 		cancelOnFocusLost;
-		text: (self glamourPresentation 
-			column: glamourColumn
-			valueFor: element);
+		text: (self valueFor: glamourColumn);
 		hSpaceFill;
 		with: [ :b | b editBrick rubricBackgroundColor: b themer rubricBackgroundColor ];
-		when: #onEditMode do: [ self forceStopStepping ];
-		when: #onReadMode do: [ self resetStopStepping ];
-		when: #onSingleClicked do: [ :event :b | b isReadMode ifTrue: [ self explicitSelection: element ] ];
-		when: #onAccepted do: [ self modified: element from: glamourColumn with: brick text ];
+		"when: #onEditMode do: [ self containerTree forceStopStepping ];
+		when: #onReadMode do: [ self containerTree resetStopStepping ];"
+		"when: #onSingleClicked do: [ :event :b | b isReadMode ifTrue: [ self selectItem ] ];"
+		"when: #onAccepted do: [ self modified: glamourColumn with: brick text ];"
 		yourself.
 			
 	^ brick asMorph
@@ -68,27 +65,6 @@ GLMFastTableDataSource >> elementsSorted [
 	^ columnToSortBy 
 		ifNotNil: [ elements sorted: self sortBlock ]
 		ifNil: [ self calculateElements ]
-]
-
-{ #category : #private }
-GLMFastTableDataSource >> forceStopStepping [
-	stopStepping := true.
-	"self changed."
-]
-
-{ #category : #factory }
-GLMFastTableDataSource >> modified: anElement from: aGlamourColumn with: aText [
-
-	aGlamourColumn modifiedBlock
-		cull: aText
-		cull: anElement
-		cull: self glamourPresentation
-]
-
-{ #category : #private }
-GLMFastTableDataSource >> resetStopStepping [
-	stopStepping := false.
-	"self changed."
 ]
 
 { #category : #factory }
@@ -110,12 +86,6 @@ GLMFastTableDataSource >> rowMorphForColumn: glamourColumn element: element [
 	^ (UITheme current newRowIn: World for: rowElements)	
 ]
 
-{ #category : #stepping }
-GLMFastTableDataSource >> shouldStopStepping [
-
-	^ stopStepping ifNil: [ false ]
-]
-
 { #category : #private }
 GLMFastTableDataSource >> sortBlock [
 	^ columnToSortBy sortBlock ifNil: [ 
@@ -129,14 +99,4 @@ GLMFastTableDataSource >> sortByColumn: aGlamourColumn [
 		ifFalse: [ aGlamourColumn ]).
 	elements := self elementsSorted.
 	self glamourPresentation changed.
-]
-
-{ #category : #stepping }
-GLMFastTableDataSource >> stepTime [
-	^ self glamourPresentation stepTime
-]
-
-{ #category : #stepping }
-GLMFastTableDataSource >> wantsSteps [
-	^ self shouldStopStepping not and: [ self glamourPresentation wantsSteps ]
 ]
