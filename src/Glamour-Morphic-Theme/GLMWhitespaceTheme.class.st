@@ -78,21 +78,6 @@ GLMWhitespaceTheme class >> importIcons: icons fromFolder: aString inClass: aCla
 	aClass initialize
 ]
 
-{ #category : #installing }
-GLMWhitespaceTheme class >> installFullTheme [
-	"Installs full theme: 
-		this theme
-		default forts
-		desktop background
-		completion list colors"
-		
-	self beCurrent.
-	self setPreferredShoutColors.
-	self setPreferredWorldBackground.
-	NECPreferences backgroundColor: UITheme current windowColor. 
-	Paragraph insertionPointColor: UITheme current caretColor.
-]
-
 { #category : #testing }
 GLMWhitespaceTheme class >> isAbstract [
 	"Answer whether the receiver is considered to be abstract."
@@ -135,129 +120,6 @@ GLMWhitespaceTheme class >> setPreferredPreferences [
 	NECPreferences 
 		expandPrefixes: true;
 		popupShowWithShortcut: Character tab asShortcut.
-]
-
-{ #category : #settings }
-GLMWhitespaceTheme class >> setPreferredShoutColors [
-	"self setPreferredShoutColors"
-
-	SHTextStylerST80 styleTable: 
-		#(
-			"(symbol color [emphasisSymbolOrArray [textStyleName [pixelHeight]]])" 
-			(default 								black)
-			(invalid 									red)
-			(excessCode 							red)
-			(comment 								(gray darker))
-			(unfinishedComment 					(red muchDarker))
-			(#'$' 									(red muchDarker))
-			(character 								(red muchDarker))
-			(integer 								(red muchDarker))
-			(number 								(red muchDarker)) 
-			(#- 										(red muchDarker))
-			(symbol 								(magenta muchDarker)) 
-			(stringSymbol 							(magenta muchDarker)) 
-			(literalArray 							(magenta muchDarker))
-			(string 									(magenta muchDarker) normal)
-			(unfinishedString 						red normal)
-			(assignment 							nil)
-			(ansiAssignment 						nil)
-			(literal 									nil italic)
-			(keyword 								(black))
-			(binary 									(black)) 
-			(unary 									(black))
-			(incompleteIdentifier 				(gray muchDarker))
-			(incompleteKeyword 					(gray muchDarker))
-			(incompleteBinary 						(gray muchDarker)) 
-			(incompleteUnary 						(gray muchDarker))
-			(undefinedIdentifier 					red)
-			(undefinedKeyword 						red)
-			(undefinedBinary 						red) 
-			(undefinedUnary 						red) 
-			(patternKeyword 						nil bold)
-			(patternBinary 							nil bold)
-			(patternUnary 							nil bold) 
-			(#self 									(cyan muchDarker ))
-			(#super 								(cyan muchDarker ))
-			(#true 									(red muchDarker))
-			(#false 									(red muchDarker))
-			(#nil 									(red muchDarker))
-			(#thisContext 							(cyan muchDarker ))
-			(#return 								(cyan muchDarker ) bold)
-			(patternArg 							(blue muchDarker)) 
-			(methodArg 							(blue muchDarker))
-			(blockPatternArg 						(blue muchDarker))
-			(blockArg 								(blue muchDarker))
-			(argument 								(blue muchDarker))
-			(blockArgColon 						black)
-			(leftParenthesis 						black)
-			(rightParenthesis 						black)
-			(leftParenthesis1 						(green muchDarker))
-			(rightParenthesis1 						(green muchDarker))
-			(leftParenthesis2 						(magenta muchDarker))
-			(rightParenthesis2 						(magenta muchDarker))
-			(leftParenthesis3 						(red muchDarker))
-			(rightParenthesis3 						(red muchDarker))
-			(leftParenthesis4 						(green darker))
-			(rightParenthesis4 						(green darker))
-			(leftParenthesis5 						(orange darker))
-			(rightParenthesis5 						(orange darker))
-			(leftParenthesis6 						(magenta darker))
-			(rightParenthesis6 						(magenta darker))
-			(leftParenthesis7 						blue)
-			(rightParenthesis7 						blue)
-			(blockStart 								black)
-			(blockEnd 								black)
-			(blockStart1 							(green muchDarker))
-			(blockEnd1 								(green muchDarker))
-			(blockStart2 							(magenta muchDarker))
-			(blockEnd2 								(magenta muchDarker))
-			(blockStart3 							(red muchDarker))
-			(blockEnd3 								(red muchDarker))
-			(blockStart4 							(green darker))
-			(blockEnd4 								(green darker))
-			(blockStart5 							(orange darker))
-			(blockEnd5 								(orange darker))
-			(blockStart6 							(magenta darker))
-			(blockEnd6 								(magenta darker))
-			(blockStart7 							blue)
-			(blockEnd7 								blue) 
-			(arrayStart 								black)
-			(arrayEnd 								black)
-			(arrayStart1 							black)
-			(arrayEnd1 								black)
-			(leftBrace 								black)
-			(rightBrace 								black)
-			(cascadeSeparator 					black)
-			(statementSeparator 					black)
-			(externalCallType 						black)
-			(externalCallTypePointerIndicator 		black)
-			(primitiveOrExternalCallStart 			black bold)
-			(primitiveOrExternalCallEnd 			black bold)
-			(methodTempBar 						(black))
-			(blockTempBar 						(black))
-			(blockArgsBar 							(black))
-			(primitive 								(green muchDarker))
-			(pragmaKeyword 						(green muchDarker))
-			(pragmaUnary 							(green muchDarker))
-			(pragmaBinary 							(green muchDarker)) 
-			(externalFunctionCallingConvention 	(green muchDarker) bold)
-			(module 								(green muchDarker) bold)
-			(blockTempVar 						(blue muchDarker))
-			(blockPatternTempVar 					(blue muchDarker))
-			(instVar 								(blue muchDarker))
-			(workspaceVar 							(blue muchDarker))
-			(tempVar 								(blue muchDarker))
-			(patternTempVar 						(blue muchDarker))
-			(poolConstant 							(blue muchDarker))
-			(classVar 								(blue muchDarker))
-			(globalVar 								(blue muchDarker)))
-
-]
-
-{ #category : #settings }
-GLMWhitespaceTheme class >> setPreferredWorldBackground [
-	"self setPreferredWorldBackground"
-	PolymorphSystemSettings desktopColor: (Color r: 250 g: 250 b: 250 range: 256)
 ]
 
 { #category : #accessing }
@@ -507,6 +369,12 @@ GLMWhitespaceTheme >> createMenuBoxFor: aSystemWindow [
 		setBalloonText: 'window menu' translated;
 		extent: aSystemWindow boxExtent.
 	^msb
+]
+
+{ #category : #'fill-styles' }
+GLMWhitespaceTheme >> desktopColor [
+
+	^(Color r: 250 g: 250 b: 250 range: 256)
 ]
 
 { #category : #defaults }
@@ -1005,6 +873,121 @@ GLMWhitespaceTheme >> separatorFillStyleFor: aSeparator [
 	"Return the separator fillStyle for the given separator."
 	
 	^ SolidFillStyle color: (self glamorousBaseColorFor: aSeparator) darker
+]
+
+{ #category : #defaults }
+GLMWhitespaceTheme >> shStyleTable [
+
+	^#(
+			"(symbol color [emphasisSymbolOrArray [textStyleName [pixelHeight]]])" 
+			(default 								black)
+			(invalid 									red)
+			(excessCode 							red)
+			(comment 								(gray darker))
+			(unfinishedComment 					(red muchDarker))
+			(#'$' 									(red muchDarker))
+			(character 								(red muchDarker))
+			(integer 								(red muchDarker))
+			(number 								(red muchDarker)) 
+			(#- 										(red muchDarker))
+			(symbol 								(magenta muchDarker)) 
+			(stringSymbol 							(magenta muchDarker)) 
+			(literalArray 							(magenta muchDarker))
+			(string 									(magenta muchDarker) normal)
+			(unfinishedString 						red normal)
+			(assignment 							nil)
+			(ansiAssignment 						nil)
+			(literal 									nil italic)
+			(keyword 								(black))
+			(binary 									(black)) 
+			(unary 									(black))
+			(incompleteIdentifier 				(gray muchDarker))
+			(incompleteKeyword 					(gray muchDarker))
+			(incompleteBinary 						(gray muchDarker)) 
+			(incompleteUnary 						(gray muchDarker))
+			(undefinedIdentifier 					red)
+			(undefinedKeyword 						red)
+			(undefinedBinary 						red) 
+			(undefinedUnary 						red) 
+			(patternKeyword 						nil bold)
+			(patternBinary 							nil bold)
+			(patternUnary 							nil bold) 
+			(#self 									(cyan muchDarker ))
+			(#super 								(cyan muchDarker ))
+			(#true 									(red muchDarker))
+			(#false 									(red muchDarker))
+			(#nil 									(red muchDarker))
+			(#thisContext 							(cyan muchDarker ))
+			(#return 								(cyan muchDarker ) bold)
+			(patternArg 							(blue muchDarker)) 
+			(methodArg 							(blue muchDarker))
+			(blockPatternArg 						(blue muchDarker))
+			(blockArg 								(blue muchDarker))
+			(argument 								(blue muchDarker))
+			(blockArgColon 						black)
+			(leftParenthesis 						black)
+			(rightParenthesis 						black)
+			(leftParenthesis1 						(green muchDarker))
+			(rightParenthesis1 						(green muchDarker))
+			(leftParenthesis2 						(magenta muchDarker))
+			(rightParenthesis2 						(magenta muchDarker))
+			(leftParenthesis3 						(red muchDarker))
+			(rightParenthesis3 						(red muchDarker))
+			(leftParenthesis4 						(green darker))
+			(rightParenthesis4 						(green darker))
+			(leftParenthesis5 						(orange darker))
+			(rightParenthesis5 						(orange darker))
+			(leftParenthesis6 						(magenta darker))
+			(rightParenthesis6 						(magenta darker))
+			(leftParenthesis7 						blue)
+			(rightParenthesis7 						blue)
+			(blockStart 								black)
+			(blockEnd 								black)
+			(blockStart1 							(green muchDarker))
+			(blockEnd1 								(green muchDarker))
+			(blockStart2 							(magenta muchDarker))
+			(blockEnd2 								(magenta muchDarker))
+			(blockStart3 							(red muchDarker))
+			(blockEnd3 								(red muchDarker))
+			(blockStart4 							(green darker))
+			(blockEnd4 								(green darker))
+			(blockStart5 							(orange darker))
+			(blockEnd5 								(orange darker))
+			(blockStart6 							(magenta darker))
+			(blockEnd6 								(magenta darker))
+			(blockStart7 							blue)
+			(blockEnd7 								blue) 
+			(arrayStart 								black)
+			(arrayEnd 								black)
+			(arrayStart1 							black)
+			(arrayEnd1 								black)
+			(leftBrace 								black)
+			(rightBrace 								black)
+			(cascadeSeparator 					black)
+			(statementSeparator 					black)
+			(externalCallType 						black)
+			(externalCallTypePointerIndicator 		black)
+			(primitiveOrExternalCallStart 			black bold)
+			(primitiveOrExternalCallEnd 			black bold)
+			(methodTempBar 						(black))
+			(blockTempBar 						(black))
+			(blockArgsBar 							(black))
+			(primitive 								(green muchDarker))
+			(pragmaKeyword 						(green muchDarker))
+			(pragmaUnary 							(green muchDarker))
+			(pragmaBinary 							(green muchDarker)) 
+			(externalFunctionCallingConvention 	(green muchDarker) bold)
+			(module 								(green muchDarker) bold)
+			(blockTempVar 						(blue muchDarker))
+			(blockPatternTempVar 					(blue muchDarker))
+			(instVar 								(blue muchDarker))
+			(workspaceVar 							(blue muchDarker))
+			(tempVar 								(blue muchDarker))
+			(patternTempVar 						(blue muchDarker))
+			(poolConstant 							(blue muchDarker))
+			(classVar 								(blue muchDarker))
+			(globalVar 								(blue muchDarker)))
+
 ]
 
 { #category : #'fill-styles' }
