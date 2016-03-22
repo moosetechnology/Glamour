@@ -4,11 +4,22 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Widgets-Phlow'
 }
 
+{ #category : #accessing }
+GLMPhlowPharoMethodBrick >> getText [
+	^ self displayLogic phlowValue: self entity
+]
+
 { #category : #phlow }
 GLMPhlowPharoMethodBrick >> installEntity [
+	self textBrick model: self.
 	self textBrick classOrMetaClass: (self smalltalkClassLogic phlowValue: self entity).
 	self textBrick setTextWith: (self displayLogic phlowValue: self entity).
 	self textBrick selectionInterval: (self selectionInterval phlowValue: self entity)
+]
+
+{ #category : #accessing }
+GLMPhlowPharoMethodBrick >> interactionModel [
+	^ self
 ]
 
 { #category : #phlow }
