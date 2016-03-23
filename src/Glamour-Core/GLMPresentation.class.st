@@ -1127,10 +1127,20 @@ GLMPresentation >> whenKindOf: aClass [
 	self when: [:each | each isKindOf: aClass]
 ]
 
+{ #category : #accessing }
+GLMPresentation >> window [
+	"If this presentation is the model of a window return the window."
+	^ self dependents ifNotNil: [ :dependentsArray |
+		dependentsArray ifNotEmpty: [ 
+			(dependentsArray at: 1) isSystemWindow
+				ifTrue: [ dependentsArray at: 1 ]
+				ifFalse: [ nil ] ] ]
+]
+
 { #category : #events }
 GLMPresentation >> windowIsClosing [ 
 	| event |
-	event := GLMBrowserClosing new.
+	event := GLMBrowserClosing new presentation: self.
 	self withAllPresentations do: [ :each | each announce: event ]
 ]
 
