@@ -11,7 +11,7 @@ GLMRubricTextMorphicTest >> expectedFailures [
 
 { #category : #private }
 GLMRubricTextMorphicTest >> simulateOnlyOneClickOn: aMorph [
-	(Delay forMilliseconds: HandMorph doubleClickTime + 1) wait.
+	"(Delay forMilliseconds: HandMorph doubleClickTime + 1) wait."
 	aMorph simulateClick
 ]
 
@@ -22,7 +22,7 @@ GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	composite := GLMCompositePresentation new with: [ :a | a text act: [ :text | overriden := true ] on: $s entitled: 'Override'].
 	window := composite openOn: '4'.
 	textMorph := self find: RubScrolledTextMorph in: window.
-	self simulateOnlyOneClickOn: textMorph.
+	"self simulateOnlyOneClickOn: textMorph."
 	self assert: ActiveHand keyboardFocus equals: textMorph textArea.
 	
 	shortcut := $s meta asKeyCombination.
