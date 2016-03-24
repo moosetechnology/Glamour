@@ -26,7 +26,7 @@ GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	self assert: ActiveHand keyboardFocus equals: textMorph textArea.
 	
 	shortcut := $s meta asKeyCombination.
-	textMorph textArea processEvent: (KeyboardEvent new
+	textMorph textArea handleKeystroke: (KeyboardEvent new
 		setType: #keystroke
 		buttons: shortcut modifier eventCode
 		position: textMorph textArea center
