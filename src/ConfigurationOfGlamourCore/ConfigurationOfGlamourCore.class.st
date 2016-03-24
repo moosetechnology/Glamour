@@ -1971,7 +1971,7 @@ ConfigurationOfGlamourCore >> version48: spec [
 			package: 'Glamour-Presentations' with: 'Glamour-Presentations-TudorGirba.182';
 			package: 'Glamour-Browsers' with: 'Glamour-Browsers-AndreiChis.111';
 			package: 'Glamour-Examples' with: 'Glamour-Examples-TudorGirba.303';
-			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-AliakseiSyrel.413';
+			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-YuriyTymchuk.414';
 			package: 'Glamour-Morphic-Brick-Tests' with: 'Glamour-Morphic-Brick-Tests-TheIntegrator.14';
 			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-AndreiChis.111';
 			package: 'Glamour-Tests-Resources' with: 'Glamour-Tests-Resources-AndreiChis.5';
