@@ -23,9 +23,10 @@ GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	window := composite openOn: '4'.
 	textMorph := self find: RubScrolledTextMorph in: window.
 	self simulateOnlyOneClickOn: textMorph.
+	self assert: ActiveHand keyboardFocus equals: textMorph textArea.
 	
 	shortcut := $s meta asKeyCombination.
-	ActiveHand handleEvent: (KeyboardEvent new
+	ActiveHand sendKeyboardEvent: (KeyboardEvent new
 		setType: #keystroke
 		buttons: shortcut modifier eventCode
 		position: window center
