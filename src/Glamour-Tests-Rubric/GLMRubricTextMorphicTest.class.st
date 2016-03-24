@@ -17,13 +17,22 @@ GLMRubricTextMorphicTest >> simulateOnlyOneClickOn: aMorph [
 
 { #category : #tests }
 GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
-	| composite textMorph overriden |
+	| composite textMorph overriden shortcut|
 	overriden := false.
 	composite := GLMCompositePresentation new with: [ :a | a text act: [ :text | overriden := true ] on: $s entitled: 'Override'].
 	window := composite openOn: '4'.
 	textMorph := self find: RubScrolledTextMorph in: window.
 	self simulateOnlyOneClickOn: textMorph.
-	self simulateKeyStroke: $s meta.
+	
+	shortcut := $s meta asKeyCombination.
+	ActiveHand handleEvent: (KeyboardEvent new
+		setType: #keystroke
+		buttons: shortcut modifier eventCode
+		position: window center
+		keyValue: shortcut key asciiValue
+		charCode: shortcut key asciiValue
+		hand: ActiveHand
+		stamp: DateAndTime now).
 	self assert: overriden
 ]
 
