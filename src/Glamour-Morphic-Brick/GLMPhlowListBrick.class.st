@@ -16,7 +16,7 @@ GLMPhlowListBrick class >> example [
 { #category : #examples }
 GLMPhlowListBrick class >> example2 [
 	
-	^ GLMCompositeBrick exampleListWithCustomItem
+	^ GLMCompositeBrick gtExampleListWithCustomItems
 ]
 
 { #category : #phlow }
