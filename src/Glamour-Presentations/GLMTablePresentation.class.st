@@ -151,7 +151,7 @@ GLMTablePresentation >> column: aGlamourColumn valueFor: anObject [
 	^ aGlamourColumn computation glamourValue: 
 		(anObject asGlamorousMultiValue,
 		 self entity asGlamorousMultiValue,
-		 self)
+		 self asGlamorousMultiValue)
 ]
 
 { #category : #accessing }
