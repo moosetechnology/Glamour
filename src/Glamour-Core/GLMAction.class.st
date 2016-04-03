@@ -253,13 +253,3 @@ GLMAction >> withSeparatorBefore [
 
 	self separatorBefore: true
 ]
-
-{ #category : #testing }
-GLMAction >> worksWithMorphic [
-	^ false
-]
-
-{ #category : #testing }
-GLMAction >> worksWithSeaside [
-	^ false
-]
