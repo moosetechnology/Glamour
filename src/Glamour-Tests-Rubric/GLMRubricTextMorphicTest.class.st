@@ -28,7 +28,15 @@ GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	shortcut := $s meta asKeyCombination.
 	shortcut logCr.
 	textMorph textArea allowsKeymapping logCr.
-	textMorph textArea kmDispatcher gtAllKeyCategoryPairs logCr.
+	'global' logCr.
+	KMRepository default globalCategories do: [ :aCategory | 
+		aCategory allEntries keymaps logCr].
+	'direct' logCr.
+	textMorph textArea kmDispatcher directKeymaps allEntries keymaps logCr.
+	textMorph textArea kmDispatcher targets do: [ :aTarget |
+		aTarget logCr.
+		aTarget category allEntries keymaps logCr ].
+
 	textMorph textArea handleKeystroke: (KeyboardEvent new
 		setType: #keystroke
 		buttons: shortcut modifier eventCode
