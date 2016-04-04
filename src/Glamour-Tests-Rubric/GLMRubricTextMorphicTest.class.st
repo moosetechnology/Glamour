@@ -19,7 +19,7 @@ GLMRubricTextMorphicTest >> simulateOnlyOneClickOn: aMorph [
 GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	| composite textMorph overriden shortcut event|
 	overriden := false.
-	composite := GLMCompositePresentation new with: [ :a | a text act: [ overriden := true ] on: $s entitled: 'Override'].
+	composite := GLMCompositePresentation new with: [ :a | a text act: [self logCr. self halt. overriden := true ] on: $s entitled: 'Override'].
 	window := composite openOn: '4'.
 	textMorph := self find: RubScrolledTextMorph in: window.
 	"self simulateOnlyOneClickOn: textMorph."
