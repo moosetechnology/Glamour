@@ -17,43 +17,15 @@ GLMRubricTextMorphicTest >> simulateOnlyOneClickOn: aMorph [
 
 { #category : #tests }
 GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
-	| composite textMorph overriden shortcut event|
+	| composite textMorph overriden shortcut|
 	overriden := false.
-	composite := GLMCompositePresentation new with: [ :a | a text act: [self logCr. self halt. overriden := true ] on: $s entitled: 'Override'].
+	composite := GLMCompositePresentation new with: [ :a | a text act: [ :text | overriden := true ] on: $s entitled: 'Override'].
 	window := composite openOn: '4'.
 	textMorph := self find: RubScrolledTextMorph in: window.
 	"self simulateOnlyOneClickOn: textMorph."
 	self assert: ActiveHand keyboardFocus equals: textMorph textArea.
 	
 	shortcut := $s meta asKeyCombination.
-	event := KeyboardEvent new
-		setType: #keystroke
-		buttons: shortcut modifier eventCode
-		position: textMorph textArea center
-		keyValue: shortcut key asciiValue
-		charCode: shortcut key asciiValue
-		hand: nil
-		stamp: DateAndTime now.
-	event logCr.
-		
-		
-	shortcut logCr.
-	'global' logCr.
-	KMRepository default globalCategories do: [ :aCategory | 
-		aCategory allEntries keymaps do: [:aKeyMap |
-			aKeyMap crLog.
-			(aKeyMap matches: {event}) logCr]].
-	'direct' logCr.
-
-	textMorph textArea kmDispatcher directKeymaps allEntries keymaps do: [:aKeyMap |
-			aKeyMap crLog.
-			(aKeyMap matches: {event}) logCr].
-	textMorph textArea kmDispatcher targets do: [ :aTarget |
-		aTarget logCr.
-		aTarget category allEntries keymaps do: [:aKeyMap |
-			aKeyMap crLog.
-			(aKeyMap matches: {event}) logCr] ].
-
 	textMorph textArea handleKeystroke: (KeyboardEvent new
 		setType: #keystroke
 		buttons: shortcut modifier eventCode
@@ -62,7 +34,6 @@ GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 		charCode: shortcut key asciiValue
 		hand: nil
 		stamp: DateAndTime now).
-	overriden logCr.
 	self assert: overriden
 ]
 
