@@ -232,7 +232,7 @@ GLMBrickPropertiesTrait >> when: aventName do: aBlock [
 { #category : #'brick-properties-events' }
 GLMBrickPropertiesTrait >> when: aventName send: aSymbol to: aReceiver [
 
-	self announcer weak when: aventName send: aSymbol to: aReceiver
+	self announcer when: aventName send: aSymbol to: aReceiver
 ]
 
 { #category : #'brick-properties' }
