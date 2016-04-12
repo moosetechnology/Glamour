@@ -1723,8 +1723,8 @@ ConfigurationOfGlamourCore >> version4101: spec [
 		spec author: 'GuillermoPolito'.
 		spec timestamp: '4/12/2016 11:46'.
 		spec 
-			project: 'Rubric' with: '2.2-baseline';
-			project: 'FastTable' with: '0.3-baseline'.
+			project: 'Rubric' with: '2.18';
+			project: 'FastTable' with: '0.10.1'.
 		spec 
 			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-TudorGirba.40';
