@@ -125,8 +125,8 @@ GLMPagerBrick >> pagerModel: aModel [
 
 	pagerModel := aModel.
 	
-	self pagerModel announcer weak when: GLMPagePushed send: #onPagePushed to: self.
-	self pagerModel announcer weak when: GLMPagePoped send: #onPagePoped to: self.
+	self pagerModel announcer when: GLMPagePushed send: #onPagePushed to: self.
+	self pagerModel announcer when: GLMPagePoped send: #onPagePoped to: self.
 	
 	self initializeShortcuts.
 	
