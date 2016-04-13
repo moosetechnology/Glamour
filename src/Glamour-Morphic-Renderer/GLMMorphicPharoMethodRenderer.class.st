@@ -30,6 +30,5 @@ GLMMorphicPharoMethodRenderer >> morph [
 		color: Smalltalk ui theme backgroundColor;
 		textFont: StandardFonts codeFont;
 		yourself.
-	textModel addDependent: morph.
 	^ morph
 ]

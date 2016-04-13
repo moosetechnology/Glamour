@@ -17,7 +17,7 @@ GLMMorphicActionRenderer >> actionSelector [
 { #category : #rendering }
 GLMMorphicActionRenderer >> render: anAction [
 	|b|
-	b := PluggableButtonMorph
+	b := GLMPluggableButtonMorph
 			on: anAction getState: nil action: self actionSelector.
 	b
 		theme: UITheme current;
