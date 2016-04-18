@@ -10,6 +10,12 @@ Class {
 	#category : #'Glamour-Morphic-Widgets'
 }
 
+{ #category : #callbacks }
+GLMSystemWindow >> actOnWindowRequest: ann [
+
+	ann action value: self	
+]
+
 { #category : #announcement }
 GLMSystemWindow >> allKeystrokeActions [
 	^ self model notNil 
