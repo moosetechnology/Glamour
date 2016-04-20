@@ -41,7 +41,8 @@ Class {
 		'labelActionBlock',
 		'portChangeActions',
 		'wantsSteps',
-		'stepTime'
+		'stepTime',
+		'stepCondition'
 	],
 	#category : #'Glamour-Core'
 }
@@ -895,6 +896,18 @@ GLMPresentation >> statusbarPane [
 { #category : #statusbar }
 GLMPresentation >> statusbarPresentation [
 	^ GLMLabelPresentation new
+]
+
+{ #category : #stepping }
+GLMPresentation >> stepCondition [
+
+	^ stepCondition ifNil: [ [ false ] ]
+]
+
+{ #category : #stepping }
+GLMPresentation >> stepCondition: aBlock [
+
+	stepCondition := aBlock
 ]
 
 { #category : #stepping }
