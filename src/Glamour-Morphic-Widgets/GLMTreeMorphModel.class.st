@@ -317,6 +317,11 @@ GLMTreeMorphModel >> selectionPathItems [
 	^ self selectedNodePath isNil ifTrue: [nil] ifFalse: [self selectedNodePath collect: [:each | each item]]
 ]
 
+{ #category : #stepping }
+GLMTreeMorphModel >> shouldDoStep [
+	^ self glamourPresentation stepCondition cull: self
+]
+
 { #category : #'search and filtering' }
 GLMTreeMorphModel >> shouldFilterByAmount [
 	^ self amountToFilterBy notNil and: [self amountToFilterBy isZero not]
@@ -406,7 +411,8 @@ GLMTreeMorphModel >> wantsDroppedMorph: transferMorph event: evt inMorph: listMo
 
 { #category : #stepping }
 GLMTreeMorphModel >> wantsSteps [
-	^ self shouldStopStepping not and: [ self glamourPresentation wantsSteps ]
+	^ self shouldStopStepping not and: [
+		self glamourPresentation wantsSteps ]
 ]
 
 { #category : #announcements }
