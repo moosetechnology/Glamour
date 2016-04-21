@@ -9,14 +9,8 @@ GLMRubricTextMorphicTest >> expectedFailures [
 	^ #(testUpdatingTextPortUpdatesTheMorph)
 ]
 
-{ #category : #private }
-GLMRubricTextMorphicTest >> simulateOnlyOneClickOn: aMorph [
-	"(Delay forMilliseconds: HandMorph doubleClickTime + 1) wait."
-	aMorph simulateClick
-]
-
 { #category : #tests }
-GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
+GLMRubricTextMorphicTest >> noTestAcceptKeyCanBeOverriden [
 	| composite textMorph overriden shortcut|
 	overriden := false.
 	composite := GLMCompositePresentation new with: [ :a | a text act: [ :text | overriden := true ] on: $s entitled: 'Override'].
@@ -24,7 +18,7 @@ GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 	textMorph := self find: RubScrolledTextMorph in: window.
 	self simulateOnlyOneClickOn: textMorph.
 	(Delay forMilliseconds: HandMorph doubleClickTime + 1) wait.
-	self simulateOnlyOneClickOn: textMorph.
+	"self simulateOnlyOneClickOn: textMorph."
 	self assert: ActiveHand keyboardFocus equals: textMorph textArea.
 	
 	shortcut := $s meta asKeyCombination.
@@ -40,7 +34,7 @@ GLMRubricTextMorphicTest >> testAcceptKeyCanBeOverriden [
 ]
 
 { #category : #tests }
-GLMRubricTextMorphicTest >> testEnteringTextInPort [
+GLMRubricTextMorphicTest >> noTestEnteringTextInPort [
 	| composite textMorph |
 	composite := GLMCompositePresentation new with: [ :a | a text display: '' ].
 	window := composite openOn: 4.
@@ -51,7 +45,7 @@ GLMRubricTextMorphicTest >> testEnteringTextInPort [
 ]
 
 { #category : #tests }
-GLMRubricTextMorphicTest >> testExplicitAcceptDoesNotAffectTextPort [
+GLMRubricTextMorphicTest >> noTestExplicitAcceptDoesNotAffectTextPort [
 	| composite textMorph |
 	composite := GLMCompositePresentation new with: [ :a | a text display: '123' ].
 	window := composite openOn: 4.
@@ -65,6 +59,34 @@ GLMRubricTextMorphicTest >> testExplicitAcceptDoesNotAffectTextPort [
 ]
 
 { #category : #tests }
+GLMRubricTextMorphicTest >> noTestOKeyWithCtrlCannotBeOverriden [
+	| composite textMorph overriden shortcut|
+	overriden := false.
+	composite := GLMCompositePresentation new with: [ :a | a text act: [ :text | overriden := true ] on: $o entitled: 'Override'].
+	window := composite openOn: '4'.
+	textMorph := self find: RubScrolledTextMorph in: window.
+	"self simulateOnlyOneClickOn: textMorph."
+	
+	shortcut := $o meta asKeyCombination.
+	textMorph textArea handleKeystroke: (KeyboardEvent new
+		setType: #keystroke
+		buttons: shortcut modifier eventCode
+		position: textMorph textArea center
+		keyValue: shortcut key asciiValue
+		charCode: shortcut key asciiValue
+		hand: nil
+		stamp: DateAndTime now).
+	
+	self assert: overriden not
+]
+
+{ #category : #private }
+GLMRubricTextMorphicTest >> simulateOnlyOneClickOn: aMorph [
+	"(Delay forMilliseconds: HandMorph doubleClickTime + 1) wait."
+	aMorph simulateClick
+]
+
+{ #category : #tests }
 GLMRubricTextMorphicTest >> testMultipleSelectionWithChange [
 	| composite textMorph textPresentation |
 	composite := GLMCompositePresentation new with: [ :a | a text display: '123456789' ].
@@ -75,18 +97,6 @@ GLMRubricTextMorphicTest >> testMultipleSelectionWithChange [
 	textPresentation selectionInterval: (2 to: 5).
 	self assert: textMorph textArea selection asString equals: '2345'.
 	self assert: textPresentation selectedText asString equals: '2345'
-]
-
-{ #category : #tests }
-GLMRubricTextMorphicTest >> testOKeyWithCtrlCannotBeOverriden [
-	| composite textMorph overriden |
-	overriden := false.
-	composite := GLMCompositePresentation new with: [ :a | a text act: [ :text | overriden := true ] on: $o entitled: 'Override'].
-	window := composite openOn: '4'.
-	textMorph := self find: RubScrolledTextMorph in: window.
-	self simulateOnlyOneClickOn: textMorph.
-	self simulateKeyStroke: $o meta.
-	self assert: overriden not
 ]
 
 { #category : #tests }
