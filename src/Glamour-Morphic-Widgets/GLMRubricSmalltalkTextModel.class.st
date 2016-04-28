@@ -21,7 +21,7 @@ GLMRubricSmalltalkTextModel >> appendVariableBinding: anAssociationList [
 { #category : #bindings }
 GLMRubricSmalltalkTextModel >> bindingOf: aSymbol [
 
-	^ self bindingsStrategy cull: self variableBindings cull: aSymbol
+	^ self bindingsStrategy cull: self variableBindings cull: aSymbol cull: self
 ]
 
 { #category : #bindings }
