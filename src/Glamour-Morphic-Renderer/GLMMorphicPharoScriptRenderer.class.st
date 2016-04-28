@@ -39,6 +39,8 @@ GLMMorphicPharoScriptRenderer >> morph [
 		color: Smalltalk ui theme backgroundColor;
 		notificationStrategy: GLMPopperNotificationStrategy new;
 		yourself.
+	"Without forcing styling explicitly the first time the presentation is opened with some text on it the styling is wrong."
+	(morph textArea decoratorNamed: #shoutStyler) ifNotNil: [ :styler | styler refreshStyling ].
 	^ morph
 ]
 
@@ -55,8 +57,11 @@ GLMMorphicPharoScriptRenderer >> registerEventsForPresentation: aPresentation [
 { #category : #private }
 GLMMorphicPharoScriptRenderer >> workspaceBindingsStrategy [
 
-	^ [ :currentBindings :aString |
-		(currentBindings includesKey: aString)
-			ifFalse: [currentBindings add: (WorkspaceVariable key: aString asSymbol) ].
-		currentBindings associationAt: aString]
+	^ [ :currentBindings :aString :aTextModel |
+		(aTextModel doItReceiver class allInstVarNames includes: aString) 
+			ifTrue: [ nil ]
+			ifFalse: [  	
+				(currentBindings includesKey: aString)
+					ifFalse: [currentBindings add: (WorkspaceVariable key: aString asSymbol) ].
+				currentBindings associationAt: aString] ]
 ]
