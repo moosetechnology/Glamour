@@ -9,9 +9,6 @@ self pharoMethodPresentationExample
 Class {
 	#name : #GLMPharoMethodPresentation,
 	#superclass : #GLMRubricSmalltalkCodePresentation,
-	#instVars : [
-		'highlightSmalltalkContext'
-	],
 	#category : #'Glamour-Rubric-Presentations'
 }
 
@@ -38,22 +35,8 @@ GLMPharoMethodPresentation class >> pharoMethodPresentationExample [
 	browser openOn: CompiledMethod class >> #gtExampleSimple
 ]
 
-{ #category : #accessing }
-GLMPharoMethodPresentation >> highlightSmalltalkContext [
-	^ highlightSmalltalkContext isNil 
-		ifTrue: [nil] 
-		ifFalse: [highlightSmalltalkContext glamourValue: self entity]
-]
-
 { #category : #rendering }
 GLMPharoMethodPresentation >> renderGlamorouslyOn: aRenderer [ 
 	self registerAnnouncements.
 	^ aRenderer renderPharoMethodPresentation: self
-]
-
-{ #category : #accessing }
-GLMPharoMethodPresentation >> smalltalkClass: aBlock [
-	"aBlock takes as parameters the entity objects and 
-	its evaluation is expected to produce a Smalltalk class"
-	highlightSmalltalkContext := aBlock.
 ]

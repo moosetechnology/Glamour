@@ -4,6 +4,9 @@ I extend the simple Rubric text presentation with basic support for dealing with
 Class {
 	#name : #GLMRubricSmalltalkCodePresentation,
 	#superclass : #GLMRubricTextPresentation,
+	#instVars : [
+		'highlightSmalltalkContext'
+	],
 	#category : #'Glamour-Rubric-Presentations'
 }
 
@@ -157,6 +160,13 @@ GLMRubricSmalltalkCodePresentation >> highlightEvaluateAndDo: aBlock [
 	self announce: (GLMHighlightAndEvaluate new action: aBlock)
 ]
 
+{ #category : #accessing }
+GLMRubricSmalltalkCodePresentation >> highlightSmalltalkContext [
+	^ highlightSmalltalkContext isNil 
+		ifTrue: [nil] 
+		ifFalse: [highlightSmalltalkContext glamourValue: self entity]
+]
+
 { #category : #'actions browsing' }
 GLMRubricSmalltalkCodePresentation >> implementorsOfIt [
 
@@ -192,4 +202,11 @@ GLMRubricSmalltalkCodePresentation >> referencesToIt [
 GLMRubricSmalltalkCodePresentation >> sendersOfIt [
 
 	self announce: (GLMTextEditorRequest for: #sendersOfIt)
+]
+
+{ #category : #accessing }
+GLMRubricSmalltalkCodePresentation >> smalltalkClass: aBlock [
+	"aBlock takes as parameters the entity objects and 
+	its evaluation is expected to produce a Smalltalk class"
+	highlightSmalltalkContext := aBlock.
 ]
