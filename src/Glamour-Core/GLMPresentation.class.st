@@ -359,6 +359,15 @@ GLMPresentation >> entity: anObject [
 	(self pane port: #entity) value: anObject
 ]
 
+{ #category : #'as yet unclassified' }
+GLMPresentation >> gtActionsIn: composite [
+	<gtInspectorPresentationOrder: 50>
+	composite list 
+		title: 'Actions';
+		display: [ self actions ];
+		format: [ :each | each gtDisplayString ]
+]
+
 { #category : #testing }
 GLMPresentation >> hasActions [
 	^ self allActions notEmpty
