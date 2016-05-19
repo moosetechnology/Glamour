@@ -20,7 +20,7 @@ GLMCompositePresentationTest >> testAddRaisesAnnouncement [
 	pane := composite pane.
 	announcementCount := 0.
 	composite entity: 42.
-	pane on: GLMMatchingPresentationsChanged do: [:ann | 
+	pane when: GLMMatchingPresentationsChanged do: [:ann | 
 		announcementCount := announcementCount + 1 ].
 	composite add: GLMPresentation new.
 	self assert: announcementCount equals: 1

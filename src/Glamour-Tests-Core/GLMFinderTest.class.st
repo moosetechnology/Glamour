@@ -71,7 +71,7 @@ GLMFinderTest >> testPaneAddedAnnouncement [
 	| browser count |
 	count := 0.
 	browser := GLMFinder new.
-	browser on: GLMPaneAdded do: [ :ann | count := count + 1 ].
+	browser when: GLMPaneAdded do: [ :ann | count := count + 1 ].
 	browser startOn: #a.
 	self assert: count equals: 1.
 	(browser panes first port: #selection) value: #b.
@@ -128,7 +128,7 @@ GLMFinderTest >> testPaneRemovedAnnouncement [
 	| browser count |
 	count := 0.
 	browser := GLMFinder new.
-	browser on: GLMPaneRemoved do: [ :ann | count := count + 1 ].
+	browser when: GLMPaneRemoved do: [ :ann | count := count + 1 ].
 	browser startOn: #a.
 	self assert: count equals: 0.
 	(browser panes first port: #selection) value: #b.
@@ -144,7 +144,7 @@ GLMFinderTest >> testPaneReplacedAnnouncement [
 	| browser count |
 	count := 0.
 	browser := GLMFinder new.
-	browser on: GLMPaneReplaced do: [ :ann | count := count + 1 ].
+	browser when: GLMPaneReplaced do: [ :ann | count := count + 1 ].
 	browser startOn: #a.
 	self assert: count equals: 0.
 	(browser panes first port: #selection) value: #b.
