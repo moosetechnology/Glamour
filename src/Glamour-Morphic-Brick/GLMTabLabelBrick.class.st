@@ -156,3 +156,11 @@ GLMTabLabelBrick >> tabSelector: anObject [
 
 	tabSelector := anObject
 ]
+
+{ #category : #theme }
+GLMTabLabelBrick >> themeChanged [
+	self isSelected
+		ifTrue: [ self themer tabLabelThemer selectedStyleFor: self ]
+		ifFalse: [ self themer tabLabelThemer normalStyleFor: self ].
+	super themeChanged
+]
