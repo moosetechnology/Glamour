@@ -38,5 +38,5 @@ GLMPhlowPharoMethodBrick >> smalltalkClassLogic [
 GLMPhlowPharoMethodBrick >> textBrick: aBrick [
 
 	super textBrick: aBrick.
-	self textBrick beForSmalltalkCode.
+	self textBrick beForSmalltalkCode beReadOnly.
 ]
