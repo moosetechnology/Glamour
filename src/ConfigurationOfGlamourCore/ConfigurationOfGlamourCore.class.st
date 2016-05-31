@@ -1939,7 +1939,7 @@ ConfigurationOfGlamourCore >> version415: spec [
 			package: 'Glamour-Examples' with: 'Glamour-Examples-TudorGirba.303';
 			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-AndreiChis.421';
 			package: 'Glamour-Morphic-Brick-Tests' with: 'Glamour-Morphic-Brick-Tests-TheIntegrator.14';
-			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-AndreiChis.111';
+			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-CyrilFerlciot.112';
 			package: 'Glamour-Tests-Resources' with: 'Glamour-Tests-Resources-AndreiChis.5';
 			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-HenrikNergaard.222';
 			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-AndreiChis.195';
