@@ -305,7 +305,7 @@ ConfigurationOfGlamourCore >> baseline33: spec [
 			package: 'Glamour-Announcements';
 			package: 'Glamour-Helpers';
 			package: 'Glamour-FastTable' with: [
-				spec requires: #('FastTable' 'Glamour-Examples' 'Glamour-Core' 'Glamour-Morphic-Renderer'). ];
+				spec requires: #('FastTable' 'Glamour-Examples' 'Glamour-Core' 'Glamour-Morphic-Renderer' 'Glamour-Tests-Morphic'). ];
 			package: 'Glamour-Core' with: [
 				spec requires: #('Glamour-Helpers' 'Glamour-Announcements' ). ];
 			package: 'Glamour-Presentations' with: [
