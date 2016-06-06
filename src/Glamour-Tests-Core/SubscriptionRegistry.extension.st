@@ -1,6 +1,6 @@
 Extension { #name : #SubscriptionRegistry }
 
-{ #category : #'*glamour-tests-core' }
+{ #category : #'*Glamour-Tests-Core' }
 SubscriptionRegistry >> glmSubscriptions [
 	^ subscriptions
 ]
