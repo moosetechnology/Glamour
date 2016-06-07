@@ -78,7 +78,7 @@ GLMPopper >> originMorphFor: aMorph [
 
 { #category : #private }
 GLMPopper >> updateWithString: string from: aMorph [
-	textMorph
+	textMorph textArea
 		updateTextWith: string;
 		takeKeyboardFocus;
 		on: Character escape do: [ 

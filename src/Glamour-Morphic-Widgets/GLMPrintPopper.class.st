@@ -87,10 +87,10 @@ GLMPrintPopper >> openFromRubric: aMorph withResult: anObject [
 	string := anObject printString.
 	self withString: string from: aMorph.
 	self width: self width + inspectButton width.
-	textMorph
+	textMorph textArea
 		on: $i meta
 		do: [ anObject inspect ].
-	textMorph
+	textMorph textArea
 		on: Character cr asKeyCombination
 		do: [ 
 			self delete.
