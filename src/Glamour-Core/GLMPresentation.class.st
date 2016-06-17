@@ -696,6 +696,18 @@ GLMPresentation >> selectionAct: aBlock entitled: aString categorized: anotherSt
 ]
 
 { #category : #'scripting actions' }
+GLMPresentation >> selectionAct: aBlock entitled: aString enabledWhen: conditionBlock [
+	 
+	self 
+		addSelectionAction: 
+			((GLMGenericAction new) 
+				action: aBlock; 
+				title: aString;
+				enabledCondition: conditionBlock; 
+				yourself)
+]
+
+{ #category : #'scripting actions' }
 GLMPresentation >> selectionAct: aBlock icon: anIcon entitled: aString [
 	self 
 		addSelectionAction: 

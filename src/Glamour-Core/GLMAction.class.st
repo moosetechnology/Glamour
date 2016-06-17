@@ -14,6 +14,7 @@ Class {
 		'category',
 		'icon',
 		'condition',
+		'enabledCondition',
 		'separatorAfter',
 		'separatorBefore',
 		'shouldShowTitle'
@@ -72,6 +73,16 @@ GLMAction >> condition: anObject [
 	condition := anObject
 ]
 
+{ #category : #accessing }
+GLMAction >> enabledCondition [
+	^ enabledCondition ifNil: [ true ]
+]
+
+{ #category : #accessing }
+GLMAction >> enabledCondition: anObject [
+	enabledCondition := anObject
+]
+
 { #category : #printing }
 GLMAction >> gtDisplayOn: stream [
 	self hasTitle ifTrue: [
@@ -127,6 +138,14 @@ GLMAction >> isButton [
 GLMAction >> isCategorized [
 	 
 	^self category notNil
+]
+
+{ #category : #testing }
+GLMAction >> isEnabledOn: aPresentation [
+	^ self enabledCondition glamourValueWithArgs: 
+			(Array 
+				with: aPresentation 
+				withAll: aPresentation entity asGlamorousArray)
 ]
 
 { #category : #testing }
