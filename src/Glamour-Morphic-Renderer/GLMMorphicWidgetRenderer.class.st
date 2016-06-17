@@ -98,6 +98,7 @@ GLMMorphicWidgetRenderer >> menuIn: aMenuMorph for: aPresentation [
 			target: action 
 			selector: #morphicActOn:
 			argument: aPresentation)
+			enabled: (action isEnabledOn: aPresentation);
 			icon:  action icon;
 			keyText: (action hasShortcut 
 				ifTrue: [ action shortcutAsString ]
@@ -110,11 +111,13 @@ GLMMorphicWidgetRenderer >> moreToolbarActions: noIconActions on: aBrowser [
 	| menuMorph |
 	menuMorph := MenuMorph new.
 	noIconActions do: [ :each | 
-		menuMorph 
-				add: each title
-				target: each
-				selector: #actOn:
-				argument: aBrowser ].
+		(menuMorph 
+			add: each title
+			target: each
+			selector: #actOn:
+			argument: aBrowser)
+			enabled: (each isEnabledOn: aBrowser);
+ 			yourself].
 	^ menuMorph
 ]
 
