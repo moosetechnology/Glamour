@@ -987,9 +987,9 @@ GLMBasicExamples >> staticAndDynamicMenu [
 			display: [:each | $a to: each];
 			dynamicActionsOnSelection: [:list | self actionsFor: list ];
 			selectionAct: [self inform: 'static action'] entitled: 'Static action';
-			selectionAct: [ self inform: 'disabled' ] 
-				entitled: 'Static disabled' 
-				enabledWhen: [ false ];
+			selectionAct: [ self inform: 'Enabled for items < $d' ] 
+				entitled: 'Enabled for items < $d' 
+				enabledWhen: [ :presentation | presentation selection < $d ];
 			selectionAct: [self inform: 'static sub action'] entitled: 'Static sub action' categorized: 'Sub menu'.
 		a text
 			title: 'Text';
