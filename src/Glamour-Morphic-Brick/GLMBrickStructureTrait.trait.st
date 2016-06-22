@@ -155,7 +155,7 @@ GLMBrickStructureTrait >> isBrick [
 GLMBrickStructureTrait >> isFirstInOwner [
 
 	^ self brickDoubleLink 
-		ifNotNil: [ :bdl | bdl hasPredecessor not ]
+		ifNotNilDo: [ :bdl | bdl hasPredecessor not ]
 		ifNil: [ false ]
 ]
 
@@ -169,7 +169,7 @@ GLMBrickStructureTrait >> isFoundationBrick [
 GLMBrickStructureTrait >> isLastInOwner [
 
 	^ self brickDoubleLink
-		ifNotNil: [ :bdl | bdl hasSuccessor not ]
+		ifNotNilDo: [ :bdl | bdl hasSuccessor not ]
 		ifNil: [ false ]
 ]
 
