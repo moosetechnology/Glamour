@@ -102,7 +102,7 @@ GLMCompositeBrick class >> gtExamplePharoMethod [
 		with: [ :b |
 			b pharoMethod
 				title: #printString;
-				display: #getSource;
+				display: #sourceCode;
 				smalltalkClass: #methodClass;
 				entity: Morph>>#bounds ]
 ]
