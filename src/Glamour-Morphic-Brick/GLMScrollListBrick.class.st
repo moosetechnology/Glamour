@@ -24,7 +24,7 @@ GLMScrollListBrick class >> example [
 				hSpaceFill;
 				yourself ].
 
-	GLMFoundationBrick new
+	^ GLMFoundationBrick new
 		brickRoot: (self new model: adaptor);
 		extent: 300@400;
 		openInWindow
@@ -33,7 +33,7 @@ GLMScrollListBrick class >> example [
 { #category : #examples }
 GLMScrollListBrick class >> exampleCollection [
 
-	GLMFoundationBrick new
+	^ GLMFoundationBrick new
 		brickRoot: (self new model: (GLMBrickListModel new on: Smalltalk allClasses));
 		extent: 300@400;
 		openInWindow
@@ -55,10 +55,31 @@ GLMScrollListBrick class >> exampleDifferentHeights [
 				hSpaceFill;
 				yourself ].
 
-	GLMFoundationBrick new
+	^ GLMFoundationBrick new
 		brickRoot: (self new model: adaptor);
 		extent: 800@400;
 		openInWindow
+]
+
+{ #category : #examples }
+GLMScrollListBrick class >> exampleEmptyCollection [
+	|adaptor|
+	adaptor := nil.
+	adaptor := GLMBrickListModel new
+		sizeLogic: [ 0 ];
+		morphAtLogic: [ :index :morph | 
+			(morph ifNil: [ GLMLabelBrick new ])
+				color: Color random muchLighter;
+				text: index asString, ' of ', adaptor count asString;
+				height: 30;
+				textPosition: #center;
+				hSpaceFill;
+				yourself ].
+
+	^ GLMFoundationBrick new
+			brickRoot: (self new model: adaptor);
+			extent: 300@400;
+			openInWindow
 ]
 
 { #category : #examples }
@@ -76,7 +97,7 @@ GLMScrollListBrick class >> exampleInfinity [
 				hSpaceFill;
 				yourself ].
 
-	GLMFoundationBrick new
+	^ GLMFoundationBrick new
 		brickRoot: (self new model: adaptor);
 		extent: 300@400;
 		openInWindow
@@ -162,6 +183,11 @@ GLMScrollListBrick >> getMorphAt: anInteger recycled: aMorph [
 	newMorph hSpaceFill.
 	self setIndex: anInteger in: newMorph.
 	^ newMorph
+]
+
+{ #category : #testing }
+GLMScrollListBrick >> hasItems [
+	^ self model notNil and: [ self model count > 0 ]
 ]
 
 { #category : #initialization }
@@ -394,6 +420,7 @@ GLMScrollListBrick >> topOffset [
 
 { #category : #scrolling }
 GLMScrollListBrick >> update [
+	self hasItems ifFalse: [ ^ self ].
 	isUpdating := true.
 	self updateVisible.
 	self doNotLayoutDuring:  [ |delta|
@@ -409,8 +436,7 @@ GLMScrollListBrick >> update [
 GLMScrollListBrick >> updateVisible [
 	|invisible|
 	
-	self model ifNil: [ ^ self ].
-	self model count = 0 ifTrue: [ ^ self ].
+	self hasItems ifFalse: [ ^ self ].
 	
 	invisible := self gatherInvisibleItems.
 	invisible = self band subbricks & invisible isEmpty not ifTrue: [ ^ self ].
