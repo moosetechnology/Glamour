@@ -41,7 +41,6 @@ Class {
 		'fontSize',
 		'textSize',
 		'text',
-		'textColor',
 		'textPosition',
 		'highlightedString'
 	],
