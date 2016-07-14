@@ -441,6 +441,8 @@ ConfigurationOfGlamourCore >> stable: spec [
 
 	spec for: #'pharo4.x' version: '3.1.4.Moose51'.
 
+	spec for: #'pharo5.x' version: '4.19'.
+
 ]
 
 { #category : #versions }
