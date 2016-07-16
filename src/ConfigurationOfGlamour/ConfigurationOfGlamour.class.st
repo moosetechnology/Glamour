@@ -2250,10 +2250,10 @@ ConfigurationOfGlamour >> snapshot2 [
 ConfigurationOfGlamour >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '3.3.2'.
+	spec for: #'common' version: '3.3.3'.
 	
-	spec for: #'pharo6.x' version: '3.3.2'.
-	spec for: #'pharo5.x' version: '3.3.2'.
+	spec for: #'pharo6.x' version: '3.3.3'.
+	spec for: #'pharo5.x' version: '3.3.3'.
 	spec for: #'pharo4.x' version: '3.3.0'.
 	spec for: #'pharo3.x' version: '3.0.6'.
 	spec for: #'pharo2.x' version: '2.6-snapshot'.
