@@ -2069,7 +2069,8 @@ ConfigurationOfGlamour >> development: spec [
 	spec for: #'pharo3.x' version: '3.0-baseline'.
 	spec for: #'pharo4.x' version: '3.3-baseline'.
 	spec for: #'pharo5.x' version: '3.4-baseline'.
-	
+	spec for: #'pharo6.x' version: '3.4-baseline'.
+
 ]
 
 { #category : #snapshots }
@@ -2251,15 +2252,13 @@ ConfigurationOfGlamour >> stable: spec [
 
 	spec for: #'common' version: '3.3.2'.
 	
+	spec for: #'pharo6.x' version: '3.3.2'.
+	spec for: #'pharo5.x' version: '3.3.2'.
 	spec for: #'pharo4.x' version: '3.3.0'.
-	
 	spec for: #'pharo3.x' version: '3.0.6'.
-
-	spec for: #'pharo1.3.x' version: '2.2'.
-
-	spec for: #'pharo1.4.x' version: '2.4'.
-
 	spec for: #'pharo2.x' version: '2.6-snapshot'.
+	spec for: #'pharo1.4.x' version: '2.4'.
+	spec for: #'pharo1.3.x' version: '2.2'.
 
 ]
 
