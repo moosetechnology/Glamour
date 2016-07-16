@@ -3289,3 +3289,31 @@ ConfigurationOfGlamour >> version332: spec [
 
 
 ]
+
+{ #category : #versions }
+ConfigurationOfGlamour >> version333: spec [
+	<version: '3.3.3' imports: #('3.4-baseline' )>
+ 
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 3.3.3'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '7/16/2016'.
+		spec 
+			package: 'Glamour-Examples-Extras' with: 'Glamour-Examples-Extras-AndreiChis.7';
+			package: 'Glamour-Tools' with: 'Glamour-Tools-AndreiChis.87';
+			package: 'Glamour-Magritte-Presentations' with: 'Glamour-Magritte-Presentations-AndreiChis.10';
+			package: 'Glamour-Morphic-Brick-Experiments' with: 'Glamour-Morphic-Brick-Experiments-AliakseiSyrel.13'. 
+		
+		spec 
+			project: 'GlamourCore' with: #'stable';
+			project: 'Magritte3' with: #stable. ].
+		
+	spec for: #squeakCommon do: [ 
+		spec blessing: #'stable'.
+		spec 
+			package: 'CollectionExtensions' with: 'CollectionExtensions-TudorGirba.41';
+			package: 'Glamour-Tools' with: 'Glamour-Tools-AndreiChis.87' ]
+
+
+]
