@@ -2066,9 +2066,13 @@ ConfigurationOfGlamour >> development: spec [
 	spec for: #'common' version: '3.4-baseline'.
 
 	spec for: #'pharo2.x' version: '2.6-baseline'.
+
 	spec for: #'pharo3.x' version: '3.0-baseline'.
+
 	spec for: #'pharo4.x' version: '3.3-baseline'.
-	spec for: #'pharo5.x' version: '3.4-baseline'.
+
+	spec for: #'pharo5.x' version: #'stable'.
+
 	spec for: #'pharo6.x' version: '3.4-baseline'.
 
 ]
@@ -2251,14 +2255,49 @@ ConfigurationOfGlamour >> stable: spec [
 	<symbolicVersion: #'stable'>
 
 	spec for: #'common' version: '3.3.3'.
-	
-	spec for: #'pharo6.x' version: '3.3.3'.
-	spec for: #'pharo5.x' version: '3.3.3'.
-	spec for: #'pharo4.x' version: '3.3.0'.
-	spec for: #'pharo3.x' version: '3.0.6'.
-	spec for: #'pharo2.x' version: '2.6-snapshot'.
-	spec for: #'pharo1.4.x' version: '2.4'.
+
 	spec for: #'pharo1.3.x' version: '2.2'.
+
+	spec for: #'pharo1.4.x' version: '2.4'.
+
+	spec for: #'pharo2.x' version: '2.6-snapshot'.
+
+	spec for: #'pharo3.x' version: '3.0.6'.
+
+	spec for: #'pharo4.x' version: '3.3.0'.
+
+	spec for: #'pharo5.x' version: '1.0'.
+
+	spec for: #'pharo6.x' version: '3.3.3'.
+
+]
+
+{ #category : #versions }
+ConfigurationOfGlamour >> version10: spec [
+	<version: '1.0' imports: #('3.4-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Moose 6.0 release'.
+		spec author: 'TudorGirba'.
+		spec timestamp: '8/14/2016 20:44'.
+		spec 
+			package: 'Glamour-Tools' with: 'Glamour-Tools-AndreiChis.87';
+			package: 'Glamour-Examples-Extras' with: 'Glamour-Examples-Extras-AndreiChis.7';
+			package: 'Glamour-Magritte-Presentations' with: 'Glamour-Magritte-Presentations-AndreiChis.10';
+			package: 'Glamour-Morphic-Brick-Experiments' with: 'Glamour-Morphic-Brick-Experiments'. ].
+
+	spec for: #'squeakCommon' do: [
+		spec package: 'CollectionExtensions' with: 'CollectionExtensions-TudorGirba.42'. ].
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Moose 6.0 release'.
+		spec author: 'TudorGirba'.
+		spec timestamp: '8/14/2016 20:44'.
+		spec 
+			project: 'GlamourCore' with: '4.19';
+			project: 'Magritte3' with: '3.5.1'. ].
 
 ]
 
