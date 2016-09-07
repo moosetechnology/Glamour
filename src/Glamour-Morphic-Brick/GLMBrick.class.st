@@ -459,13 +459,6 @@ GLMBrick >> isFitsInParent [
 		ifNil: [ self owner ifNotNil: [ self owner bounds containsRect: self globalBounds ] ifNil: [ ^ true ] ]
 ]
 
-{ #category : #'brick-structure-testing' }
-GLMBrick >> isLastInOwner [
-	^ self brickDoubleLink
-		ifNotNil: [ :bdl | bdl hasSuccessor not ]
-		ifNil: [ false ]
-]
-
 { #category : #'morph-common' }
 GLMBrick >> isMorphBrick [
 
