@@ -1,6 +1,6 @@
 Class {
 	#name : #GLMRubricExample,
-	#superclass : #Object,
+	#superclass : #Model,
 	#category : #'Glamour-Rubric-Presentations-Examples'
 }
 
