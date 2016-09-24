@@ -215,14 +215,14 @@ GLMWhitespaceTheme >> checkboxForm [
 GLMWhitespaceTheme >> checkboxSelectedForm [
 	"Answer the form to use for a selected checkbox."
 
-	^ Smalltalk ui icons iconNamed: #checkboxSelectedForm
+	^ self iconNamed: #checkboxSelectedForm
 ]
 
 { #category : #forms }
 GLMWhitespaceTheme >> checkboxUnselectedForm [
 	"Answer the form to use for a selected checkbox."
 
-	^ Smalltalk ui icons iconNamed: #checkboxUnselectedForm
+	^ self iconNamed: #checkboxUnselectedForm
 ]
 
 { #category : #'watcher window' }
@@ -596,7 +596,7 @@ GLMWhitespaceTheme >> menuItemInDockingBarSelectedFillStyleFor: aMenuItem [
 GLMWhitespaceTheme >> menuPinForm [
 	"Answer the form to use for the pin button of a menu."
 
-	^ Smalltalk ui icons iconNamed: #menuPinForm
+	^ self iconNamed: #menuPinForm
 ]
 
 { #category : #'fill-styles' }
@@ -613,7 +613,7 @@ GLMWhitespaceTheme >> morphTreeSplitterPressedFillStyleFor: aSplitter [
 GLMWhitespaceTheme >> newCheckboxMarkerForm [
 	"Answer a new checkbox marker form."
 
-	^ Smalltalk ui icons iconNamed: #checkboxMarkerForm
+	^ self iconNamed: #checkboxMarkerForm
 ]
 
 { #category : #'morph creation' }
@@ -662,7 +662,7 @@ GLMWhitespaceTheme >> newFocusIndicatorMorphFor: aMorph [
 GLMWhitespaceTheme >> newRadioButtonMarkerForm [
 	"Answer a new radio button marker form. We make it empty because we already have the selected radio button take care of the state."
 
-	^ Smalltalk ui icons iconNamed: #radioButtonMarkerForm
+	^ self iconNamed: #radioButtonMarkerForm
 ]
 
 { #category : #'initialize-release' }
@@ -698,7 +698,7 @@ GLMWhitespaceTheme >> newTreeUnexpandedForm [
 GLMWhitespaceTheme >> newWindowCloseForm [
 	"Answer a new form for a window close box."
 
-	^ Smalltalk ui icons iconNamed: #windowCloseForm
+	^ self iconNamed: #windowCloseForm
 ]
 
 { #category : #forms }
@@ -723,7 +723,7 @@ GLMWhitespaceTheme >> newWindowInactiveControlForm [
 GLMWhitespaceTheme >> newWindowMaximizeForm [
 	"Answer a new form for a window maximize box."
 
-	^ Smalltalk ui icons iconNamed: #windowMaximizeForm
+	^ self iconNamed: #windowMaximizeForm
 ]
 
 { #category : #forms }
@@ -737,21 +737,21 @@ GLMWhitespaceTheme >> newWindowMaximizeOverForm [
 GLMWhitespaceTheme >> newWindowMenuForm [
 	"Answer a new form for a window menu box."
 
-	^ Smalltalk ui icons iconNamed: #windowMenuForm
+	^ self iconNamed: #windowMenuForm
 ]
 
 { #category : #forms }
 GLMWhitespaceTheme >> newWindowMenuPassiveForm [
 	"Answer a new form for a window menu box."
 
-	^ Smalltalk ui icons iconNamed: #windowMenuInactiveForm
+	^ self iconNamed: #windowMenuInactiveForm
 ]
 
 { #category : #forms }
 GLMWhitespaceTheme >> newWindowMinimizeForm [
 	"Answer a new form for a window minimize box."
 
-	^ Smalltalk ui icons iconNamed: #windowMinimizeForm
+	^ self iconNamed: #windowMinimizeForm
 ]
 
 { #category : #forms }
@@ -790,14 +790,14 @@ GLMWhitespaceTheme >> progressFillStyleFor: aProgress [
 GLMWhitespaceTheme >> radioButtonForm [
 	"Answer the form to use for a normal radio button."
 
-	^ Smalltalk ui icons iconNamed: #radioButtonUnselectedForm
+	^ self iconNamed: #radioButtonUnselectedForm
 ]
 
 { #category : #forms }
 GLMWhitespaceTheme >> radioButtonSelectedForm [
 	"Answer the form to use for a selected radio button."
 
-	^ Smalltalk ui icons iconNamed: #radioButtonSelectedForm
+	^ self iconNamed: #radioButtonSelectedForm
 ]
 
 { #category : #'fill-styles' }
@@ -1139,7 +1139,7 @@ GLMWhitespaceTheme >> windowCloseOverForm [
 GLMWhitespaceTheme >> windowClosePassiveForm [
 	"Answer the form to use for passive (background) window close buttons"
 
-	^ Smalltalk ui icons iconNamed: #windowCloseInactiveForm
+	^ self iconNamed: #windowCloseInactiveForm
 ]
 
 { #category : #'fill-styles' }
@@ -1173,7 +1173,7 @@ GLMWhitespaceTheme >> windowMaximizeOverForm [
 GLMWhitespaceTheme >> windowMaximizePassiveForm [
 	"Answer the form to use for passive (background) window maximize/restore buttons"
 
-	^ Smalltalk ui icons iconNamed: #windowMaximizeInactiveForm
+	^ self iconNamed: #windowMaximizeInactiveForm
 ]
 
 { #category : #'label-styles' }
@@ -1194,7 +1194,7 @@ GLMWhitespaceTheme >> windowMinimizeOverForm [
 GLMWhitespaceTheme >> windowMinimizePassiveForm [
 	"Answer the form to use for passive (background) window minimize buttons"
 
-	^ Smalltalk ui icons iconNamed: #windowMinimizeInactiveForm
+	^ self iconNamed: #windowMinimizeInactiveForm
 ]
 
 { #category : #defaults }
