@@ -106,6 +106,16 @@ GLMPresentation >> act: aBlock icon: anIcon on: aCharacter entitled: aString [
 ]
 
 { #category : #'scripting actions' }
+GLMPresentation >> act: aBlock iconName: aSymbol entitled: aString [
+	self act: aBlock icon: (self iconNamed: aSymbol) entitled: aString
+]
+
+{ #category : #'scripting actions' }
+GLMPresentation >> act: aBlock iconName: aSymbol on: aCharacter entitled: aString [
+	self act: aBlock icon: (self iconNamed: aSymbol) on: aCharacter entitled: aString
+]
+
+{ #category : #'scripting actions' }
 GLMPresentation >> act: aBlock on: aCharacter [ 
 	 
 	self 
@@ -556,6 +566,18 @@ GLMPresentation >> populate: aPortSymbol icon: anIcon on: aCharacter entitled: a
 ]
 
 { #category : #'scripting actions' }
+GLMPresentation >> populate: aPortSymbol iconName: aSymbol entitled: aString with: aBlock [ 
+	 
+	self populate: aPortSymbol icon: (self iconNamed: aSymbol) entitled: aString with: aBlock 
+]
+
+{ #category : #'scripting actions' }
+GLMPresentation >> populate: aPortSymbol iconName: aSymbol on: aCharacter entitled: aString with: aBlock [ 
+	 
+	self populate: aPortSymbol icon: (self iconNamed: aSymbol) on: aCharacter entitled: aString with: aBlock 
+]
+
+{ #category : #'scripting actions' }
 GLMPresentation >> populate: aPortSymbol on: aCharacter entitled: aString with: aBlock [ 
 	 
 	self 
@@ -732,6 +754,17 @@ GLMPresentation >> selectionAct: aBlock icon: anIcon on: aCharacter entitled: aS
 ]
 
 { #category : #'scripting actions' }
+GLMPresentation >> selectionAct: aBlock iconName: aSymbol entitled: aString [
+	self selectionAct: aBlock icon: (self iconNamed: aSymbol) entitled: aString
+]
+
+{ #category : #'scripting actions' }
+GLMPresentation >> selectionAct: aBlock iconName: aSymbol on: aCharacter entitled: aString [ 
+	 
+	self selectionAct: aBlock icon: (self iconNamed: aSymbol) on: aCharacter entitled: aString
+]
+
+{ #category : #'scripting actions' }
 GLMPresentation >> selectionAct: aBlock on: aCharacter [ 
 	 
 	self 
@@ -901,6 +934,12 @@ GLMPresentation >> spawn: aBlock icon: anIcon entitled: aString [
 				icon: anIcon;
 				title: aString;
 				yourself)
+]
+
+{ #category : #'scripting actions' }
+GLMPresentation >> spawn: aBlock iconName: aSymbol entitled: aString [
+	self spawn: aBlock icon: (self iconNamed: aSymbol) entitled: aString
+	
 ]
 
 { #category : #'accessing ports' }

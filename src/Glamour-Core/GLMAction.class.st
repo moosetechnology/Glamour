@@ -121,6 +121,12 @@ GLMAction >> icon: anObject [
 	icon := anObject
 ]
 
+{ #category : #accessing }
+GLMAction >> iconName: aSymbol [
+	"Set the icon whose name is given by the aSymbol"
+	self icon: (Smalltalk ui icons iconNamed: aSymbol)
+]
+
 { #category : #testing }
 GLMAction >> isAvailableOn: aPresentation [
 	^ self condition glamourValueWithArgs: 
