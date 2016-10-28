@@ -214,20 +214,21 @@ GLMBrickStructureTrait >> openInBrickWindow [
 { #category : #'brick-structure-opening' }
 GLMBrickStructureTrait >> openInBrickWindowLabeled: aLabel [
 	
-	#GLMSystemWindowBrick asClassIfAbsent: [ 
-		^ self asMorph openInWindow ].
+	^ self class environment at: #GLMSystemWindowBrick 
+		ifPresent: [ :glmSystemWindowBrick |
+			glmSystemWindowBrick new
+				label: aLabel;
+				color: Color transparent;
+				addBrickBack: (
+					GLMBrick new
+						vSpaceFill
+						hSpaceFill;
+						addBrickBack: self;
+						yourself);
+				extent: 400@400;
+				openCenteredInWorld ]
+		ifAbsent: [ self asMorph openInWindow ] 
 	
-	^ #GLMSystemWindowBrick asClass new
-		label: aLabel;
-		color: Color transparent;
-		addBrickBack: (
-			GLMBrick new
-				vSpaceFill
-				hSpaceFill;
-				addBrickBack: self;
-				yourself);
-		extent: 400@400;
-		openCenteredInWorld
 ]
 
 { #category : #'brick-structure' }
@@ -503,11 +504,12 @@ GLMBrickStructureTrait >> subbricksReverseDo: aBlock [
 { #category : #'brick-structure-opening' }
 GLMBrickStructureTrait >> window [
 	"Answer the receiver's window."
-	#GLMWindowBrick asClassIfAbsent: [ 
-		^ self ownerThatIsA: SystemWindow ].
 	
-	^ (self ownerThatIsA: #GLMWindowBrick asClass)
-		ifNil: [ self ownerThatIsA: SystemWindow ]
+	^ self class environment at: #GLMWindowBrick 
+		ifPresent: [ :glmWindowBrick |
+			(self ownerThatIsA: glmWindowBrick)
+				ifNil: [ self ownerThatIsA: SystemWindow ]]
+		ifAbsent: [ self ownerThatIsA: SystemWindow ].
 ]
 
 { #category : #'brick-structure' }
