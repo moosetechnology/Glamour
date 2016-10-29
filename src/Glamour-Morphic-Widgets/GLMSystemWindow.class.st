@@ -38,21 +38,22 @@ GLMSystemWindow >> extent: aPoint [
 ]
 
 { #category : #'event handling' }
-GLMSystemWindow >> handleKeyStroke: anEvent [
-	| action |
-	action := self allKeystrokeActions detect: [:a | 
-		anEvent commandKeyPressed and: [ 
-			a shortcut = anEvent keyCharacter ]] ifNone: [nil].
-	action ifNotNil: [ self announcer announce: (GLMKeyStroke action: action) ]
+GLMSystemWindow >> handlesKeyStroke: evt [
+	^ true
 ]
 
 { #category : #initialization }
 GLMSystemWindow >> initialize [ 
 	super initialize.
-	self
-		on: #keyStroke 
-		send: #handleKeyStroke: 
-		to: self	
+]
+
+{ #category : #'event handling' }
+GLMSystemWindow >> keyStroke: anEvent [
+	| action |
+	action := self allKeystrokeActions detect: [:a | 
+		anEvent commandKeyPressed and: [ 
+			a shortcut = anEvent keyCharacter ]] ifNone: [nil].
+	action ifNotNil: [ self announcer announce: (GLMKeyStroke action: action) ]
 ]
 
 { #category : #accessing }
