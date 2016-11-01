@@ -52,8 +52,11 @@ GLMSystemWindow >> keyStroke: anEvent [
 	| action |
 	action := self allKeystrokeActions detect: [:a | 
 		anEvent commandKeyPressed and: [ 
-			a shortcut = anEvent keyCharacter ]] ifNone: [nil].
-	action ifNotNil: [ self announcer announce: (GLMKeyStroke action: action) ]
+			a shortcut = anEvent keyCharacter ]] ifNone: [ ^ false ].
+	
+	self announcer announce: (GLMKeyStroke action: action).
+	
+	^ true
 ]
 
 { #category : #accessing }
