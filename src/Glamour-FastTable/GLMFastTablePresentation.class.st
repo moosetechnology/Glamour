@@ -45,11 +45,6 @@ Class {
 	#category : #'Glamour-FastTable-Presentations'
 }
 
-{ #category : #accessing }
-GLMFastTablePresentation class >> defaultIntercellSpacing [
-	^ 3@1
-]
-
 { #category : #initialization }
 GLMFastTablePresentation >> initialize [
 	super initialize.
@@ -58,9 +53,7 @@ GLMFastTablePresentation >> initialize [
 
 { #category : #'public api' }
 GLMFastTablePresentation >> intercellSpacing [
-	^ self parameters 
-		at: 'intercellSpacing' 
-		ifAbsent: [ self class defaultIntercellSpacing ]
+	^ self parameters at: 'intercellSpacing' ifAbsent: [ 8@1 ]
 ]
 
 { #category : #'public api' }
