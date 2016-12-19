@@ -107,10 +107,11 @@ GLMPrivacyAgreementBrick >> privacyMessage [
 ]
 
 { #category : #preferences }
-GLMPrivacyAgreementBrick >> sendUsageData [
-	| settingsClass |
-	settingsClass := #Privacy asClassIfAbsent: [ ^ false ].
-	^ settingsClass sendDiagnosticsAndUsageData
+GLMPrivacyAgreementBrick >> sendUsageData [	
+	^ self class environment at: #Privacy 
+		ifPresent: [ :privacy | privacy sendDiagnosticsAndUsageData ]
+		ifAbsent: [ false ].
+		
 ]
 
 { #category : #accessing }
