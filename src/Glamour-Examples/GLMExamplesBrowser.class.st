@@ -35,16 +35,15 @@ GLMExamplesBrowser >> compose [
 { #category : #private }
 GLMExamplesBrowser >> exampleBrowserForPragma: each in: aClass [
 	| exampleBrowser wrapperBrowser |
-	exampleBrowser := aClass new perform: each selector.
-
+	exampleBrowser := aClass new perform: each methodSelector.
 	wrapperBrowser := GLMTabulator new.
 	wrapperBrowser column: #theOuterPane.
 	wrapperBrowser transmit
-		fromOutsideEntityPort; 
+		fromOutsideEntityPort;
 		to: #theOuterPane;
-		andShow: [:a | 
-			a custom: exampleBrowser ].
-	^ wrapperBrowser startOn: (Smalltalk compiler evaluate: (each argumentAt: 2) logged: false)
+		andShow: [ :a | a custom: exampleBrowser ].
+	^ wrapperBrowser
+		startOn: (Smalltalk compiler evaluate: (each argumentAt: 2) logged: false)
 ]
 
 { #category : #building }
