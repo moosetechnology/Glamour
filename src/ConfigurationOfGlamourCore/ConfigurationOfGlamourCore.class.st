@@ -553,7 +553,7 @@ ConfigurationOfGlamourCore >> stable: spec [
 
 	spec for: #'pharo5.x' version: '4.19.1'.
 
-	spec for: #'pharo6.x' version: '4.28'.
+	spec for: #'pharo6.x' version: '4.29'.
 
 ]
 
