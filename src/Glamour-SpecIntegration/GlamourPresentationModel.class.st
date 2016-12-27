@@ -22,10 +22,10 @@ GlamourPresentationModel class >> defaultSpec [
 
 { #category : #example }
 GlamourPresentationModel class >> example [
-	|ui lay|
-	
+	<gtExample>
+	|ui lay|	
 	ui := DynamicComposableModel new.
-	ui title: 'Too Much Glamour!'.
+	ui title: 'Too Much Glamour!' translated.
 	ui instantiateModels: #(
 		play GlamourPresentationModel
 		insp GlamourPresentationModel).
@@ -43,43 +43,48 @@ GlamourPresentationModel class >> example [
 
 { #category : #example }
 GlamourPresentationModel class >> exampleGLMExamples [
+	<gtExample>
 	"open the Glamour Examples Browser"
 	|ui|
 	ui := GlamourPresentationModel new.
 	ui presentationClass: GLMExamplesBrowser startOn: GLMBasicExamples.
-	ui openWithSpec
+	^ ui openWithSpec
 ]
 
 { #category : #example }
 GlamourPresentationModel class >> exampleInspectorOn42 [
+	<gtExample>
 	"open an inspector on 42"
 	|ui|
 	ui := GlamourPresentationModel new.
 	ui presentationClass: GTInspector startOn: 42.
-	ui openWithSpec
+	^ ui openWithSpec
 ]
 
 { #category : #example }
 GlamourPresentationModel class >> exampleMethodsBrowser [
+	<gtExample>
 	"open a Methods Browser on Object"
 	|ui|
 	ui := GlamourPresentationModel new.
- ui presentationClass: GTSimpleMethodsBrowser startOn: Object.
-	ui openWithSpec
+	ui presentationClass: GTSimpleMethodsBrowser startOn: Object.
+	^ ui openWithSpec
 ]
 
 { #category : #example }
 GlamourPresentationModel class >> examplePlayground [
-	GlamourPresentationModel new openWithSpec.
+	<gtExample>
+	^ GlamourPresentationModel new openWithSpec.
 ]
 
 { #category : #example }
 GlamourPresentationModel class >> examplePlaygroundOn42 [
+	<gtExample>
 	"open a playground on 42"
 	|ui|
 	ui := GlamourPresentationModel new.
 	ui presentationClass: GTPlayground startOn: (GTPlayPage new saveContent: '42').
-	ui openWithSpec
+	^ ui openWithSpec
 ]
 
 { #category : #accessing }
