@@ -450,6 +450,62 @@ ConfigurationOfGlamourCore >> baseline40: spec [
 
 ]
 
+{ #category : #baselines }
+ConfigurationOfGlamourCore >> baseline41: spec [
+	<version: '4.1-baseline'>
+
+	spec for: #'common' do: [
+		spec blessing: #'baseline'.
+		spec description: 'For Pharo 6.0 - adds Glamour-SpecIntegration package'.
+		spec repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main'.
+		
+		spec project: 'FastTable' with: [
+				spec
+					className: #ConfigurationOfFastTable;
+					versionString: #'development';
+					repository: 'http://smalltalkhub.com/mc/estebanlm/FastTable/main/' ].
+		spec 
+			package: 'Glamour-Announcements';
+			package: 'Glamour-Helpers';
+			package: 'Glamour-FastTable' with: [
+				spec requires: #('FastTable' 'Glamour-Examples' 'Glamour-Core' 'Glamour-Morphic-Renderer' 'Glamour-Tests-Morphic'). ];
+			package: 'Glamour-Core' with: [
+				spec requires: #('Glamour-Helpers' 'Glamour-Announcements' ). ];
+			package: 'Glamour-Presentations' with: [
+				spec requires: #('Glamour-Core' ). ];
+			package: 'Glamour-Browsers' with: [
+				spec requires: #('Glamour-Core' ). ];
+			package: 'Glamour-Examples' with: [
+				spec requires: #('Glamour-Core' ). ];
+			package: 'Glamour-Morphic-Brick' with: [
+				spec requires: #('Glamour-Core' ). ];
+			package: 'Glamour-Morphic-Brick-Tests' with: [
+				spec requires: #('Glamour-Morphic-Brick' ). ];
+			package: 'Glamour-Tests-Core';
+			package: 'Glamour-Tests-Resources';
+			package: 'Glamour-Morphic-Theme';
+			package: 'Glamour-Morphic-Widgets' with: [
+				spec requires: #('Glamour-Morphic-Brick' ). ];
+			package: 'Glamour-Morphic-Renderer' with: [
+				spec requires: #('Glamour-Morphic-Widgets' 'Glamour-Core' ). ];
+			package: 'Glamour-Morphic-Pager' with: [
+				spec requires: #('Glamour-Morphic-Renderer' 'Glamour-Morphic-Brick' ). ];
+			package: 'Glamour-Tests-Morphic' with: [
+				spec requires: #('Glamour-Morphic-Renderer' 'Glamour-Morphic-Brick' 'Glamour-Morphic-Pager' ). ];
+			package: 'Glamour-Rubric-Presentations' with: [
+				spec requires: #('Glamour-Presentations' ). ];
+			package: 'Glamour-Tests-Rubric' with: [
+				spec requires: #('Glamour-Tests-Morphic' 'Glamour-Rubric-Presentations' ). ];
+			package: 'Glamour-SpecIntegration' with: [
+				spec requires: #('Glamour-Core' 'Glamour-Examples' 'Glamour-Morphic-Renderer' 'Glamour-Rubric-Presentations'). ].
+		spec 
+			group: 'Core' with: #('Glamour-Announcements' 'Glamour-Helpers' 'Glamour-Core' 'Glamour-Presentations' 'Glamour-Browsers' 'Glamour-Examples' 'Glamour-Rubric-Presentations' );
+			group: 'Morphic' with: #('Glamour-Morphic-Brick' 'Glamour-Morphic-Widgets' 'Glamour-Morphic-Renderer' 'Glamour-Morphic-Theme' 'Glamour-Morphic-Pager' 'Glamour-FastTable' 'Glamour-SpecIntegration' );
+			group: 'Tests' with: #('Glamour-Tests-Core' 'Glamour-Tests-Morphic' 'Glamour-Tests-Rubric' 'Glamour-Tests-Resources' 'Glamour-Morphic-Brick-Tests' );
+			group: 'default' with: #('Core' 'Morphic' 'Tests' ). ].
+
+]
+
 { #category : #accessing }
 ConfigurationOfGlamourCore >> customProjectAttributes [
 	 "Edit to return a collection of any custom attributes e.g. for conditional loading: Array with: #'Condition1' with: #'Condition2.
@@ -462,13 +518,13 @@ ConfigurationOfGlamourCore >> customProjectAttributes [
 ConfigurationOfGlamourCore >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '4.0-baseline'.
+	spec for: #'common' version: '4.1-baseline'.
 
 	spec for: #'pharo4.x' version: '3.1.4.Moose51'.
 
 	spec for: #'pharo5.x' version: '4.19'.
 
-	spec for: #'pharo6.x' version: '4.0-baseline'.
+	spec for: #'pharo6.x' version: '4.1-baseline'.
 
 ]
 
@@ -489,7 +545,7 @@ ConfigurationOfGlamourCore >> project [
 ConfigurationOfGlamourCore >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '4.27'.
+	spec for: #'common' version: '4.28'.
 
 	spec for: #'pharo3.x' version: '3.0.7'.
 
@@ -2534,6 +2590,39 @@ ConfigurationOfGlamourCore >> version427: spec [
 			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-TudorGirba.137';
 			package: 'Glamour-Rubric-Presentations' with: 'Glamour-Rubric-Presentations-TheIntegrator.58';
 			package: 'Glamour-Tests-Rubric' with: 'Glamour-Tests-Rubric-AndreiChis.35'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfGlamourCore >> version428: spec [
+	<version: '4.28' imports: #('4.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'Glamour version 4.28 includes Glamour <--> Spec integration'.
+		spec author: 'JurajKubelka'.
+		spec timestamp: '12/27/2016 12:49'.
+		spec project: 'FastTable' with: '0.10.6'.
+		spec 
+			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.8';
+			package: 'Glamour-Helpers' with: 'Glamour-Helpers-TudorGirba.40';
+			package: 'Glamour-FastTable' with: 'Glamour-FastTable-JurajKubelka.64';
+			package: 'Glamour-Core' with: 'Glamour-Core-JurajKubelka.327';
+			package: 'Glamour-Presentations' with: 'Glamour-Presentations-JurajKubelka.187';
+			package: 'Glamour-Browsers' with: 'Glamour-Browsers-AndreiChis.112';
+			package: 'Glamour-Examples' with: 'Glamour-Examples-JurajKubelka.315';
+			package: 'Glamour-Morphic-Brick' with: 'Glamour-Morphic-Brick-AndreiChis.436';
+			package: 'Glamour-Morphic-Brick-Tests' with: 'Glamour-Morphic-Brick-Tests-JurajKubelka.15';
+			package: 'Glamour-Tests-Core' with: 'Glamour-Tests-Core-PavelKrivanek.113';
+			package: 'Glamour-Tests-Resources' with: 'Glamour-Tests-Resources-AndreiChis.5';
+			package: 'Glamour-Morphic-Theme' with: 'Glamour-Morphic-Theme-TheIntegrator.229';
+			package: 'Glamour-Morphic-Widgets' with: 'Glamour-Morphic-Widgets-TudorGirba.201';
+			package: 'Glamour-Morphic-Renderer' with: 'Glamour-Morphic-Renderer-TudorGirba.352';
+			package: 'Glamour-Morphic-Pager' with: 'Glamour-Morphic-Pager-MarcusDenker.111';
+			package: 'Glamour-Tests-Morphic' with: 'Glamour-Tests-Morphic-TudorGirba.137';
+			package: 'Glamour-Rubric-Presentations' with: 'Glamour-Rubric-Presentations-TheIntegrator.58';
+			package: 'Glamour-Tests-Rubric' with: 'Glamour-Tests-Rubric-AndreiChis.35';
+			package: 'Glamour-SpecIntegration' with: 'Glamour-SpecIntegration-JurajKubelka.4'. ].
 
 ]
 
