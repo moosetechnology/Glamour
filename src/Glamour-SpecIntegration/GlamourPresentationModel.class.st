@@ -21,27 +21,6 @@ GlamourPresentationModel class >> defaultSpec [
 ]
 
 { #category : #example }
-GlamourPresentationModel class >> example [
-	<gtExample>
-	|ui lay|	
-	ui := DynamicComposableModel new.
-	ui title: 'Too Much Glamour!' translated.
-	ui instantiateModels: #(
-		play GlamourPresentationModel
-		insp GlamourPresentationModel).
-	
-	ui insp presentationClass: GTInspector startOn: 42.
-	
-	lay := SpecLayout composed
-		newColumn: [ :c |
-			c newRow: [ :r | r add: #play];
-			newRow: [ :r | r add: #insp ]];
-		yourself.
-		
-	ui openWithSpecLayout: lay.
-]
-
-{ #category : #example }
 GlamourPresentationModel class >> exampleGLMExamples [
 	<gtExample>
 	"open the Glamour Examples Browser"
@@ -52,45 +31,15 @@ GlamourPresentationModel class >> exampleGLMExamples [
 ]
 
 { #category : #example }
-GlamourPresentationModel class >> exampleInspectorOn42 [
-	<gtExample>
-	"open an inspector on 42"
-	|ui|
-	ui := GlamourPresentationModel new.
-	ui presentationClass: GTInspector startOn: 42.
-	^ ui openWithSpec
-]
-
-{ #category : #example }
-GlamourPresentationModel class >> exampleMethodsBrowser [
-	<gtExample>
-	"open a Methods Browser on Object"
-	|ui|
-	ui := GlamourPresentationModel new.
-	ui presentationClass: GTSimpleMethodsBrowser startOn: Object.
-	^ ui openWithSpec
-]
-
-{ #category : #example }
-GlamourPresentationModel class >> examplePlayground [
+GlamourPresentationModel class >> exampleGLMPharoScript [
 	<gtExample>
 	^ GlamourPresentationModel new openWithSpec.
 ]
 
-{ #category : #example }
-GlamourPresentationModel class >> examplePlaygroundOn42 [
-	<gtExample>
-	"open a playground on 42"
-	|ui|
-	ui := GlamourPresentationModel new.
-	ui presentationClass: GTPlayground startOn: (GTPlayPage new saveContent: '42').
-	^ ui openWithSpec
-]
-
 { #category : #accessing }
 GlamourPresentationModel >> glmPres [
-	glmPres isNil ifTrue:[glmPres := GTPlayground new startOn:  GTPlayPage new].
-	^glmPres 
+	glmPres isNil ifTrue:[glmPres := GLMPharoScriptPresentation new].
+	^ glmPres 
 ]
 
 { #category : #initialization }
