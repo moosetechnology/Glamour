@@ -4,6 +4,31 @@ Class {
 	#category : #'Glamour-Tests-Rubric'
 }
 
+{ #category : #private }
+GLMRubricTextMorphicTest >> checkInitializeBlockSetsTextSelectionForPresentation: aSelector [
+	| browser textMorph |
+	
+	browser := GLMTabulator new.
+	browser act: [ :aBrowser | aBrowser entity: '2 + 3 + 4' ] 
+		icon: GLMUIThemeExtraIcons glamorousRefresh 
+		entitled: 'Change text'.
+	browser row: #main.
+	browser transmit to: #main; andShow: [ :c |
+		(c perform: aSelector)
+			title: 'Code';
+			initialize: [ :script |
+				script selectionInterval: (1 to: 5) ] ].
+	window := browser openOn: ('1 + 2 + 3').
+
+	textMorph := self find: RubScrolledTextMorph in: window.
+	self assert: textMorph getSelectionFromModel equals: (1 to: 5).
+	self assert: textMorph selectionInterval equals: (1 to: 5).
+	
+	browser entity: '2 + 3 + 4'.
+	self assert: textMorph getSelectionFromModel equals: (1 to: 5).
+	self assert: textMorph selectionInterval equals: (1 to: 5).
+]
+
 { #category : #tests }
 GLMRubricTextMorphicTest >> expectedFailures [
 	^ #(testUpdatingTextPortUpdatesTheMorph)
@@ -87,6 +112,24 @@ GLMRubricTextMorphicTest >> simulateOnlyOneClickOn: aMorph [
 ]
 
 { #category : #tests }
+GLMRubricTextMorphicTest >> testInitializeBlockSetsTextSelectionForMethodPresentation [
+	
+	self checkInitializeBlockSetsTextSelectionForPresentation: #pharoMethod
+]
+
+{ #category : #tests }
+GLMRubricTextMorphicTest >> testInitializeBlockSetsTextSelectionForScriptPresentation [
+
+	self checkInitializeBlockSetsTextSelectionForPresentation: #pharoScript
+]
+
+{ #category : #tests }
+GLMRubricTextMorphicTest >> testInitializeBlockSetsTextSelectionForTextPresentation [
+	
+	self checkInitializeBlockSetsTextSelectionForPresentation: #text
+]
+
+{ #category : #tests }
 GLMRubricTextMorphicTest >> testMultipleSelectionWithChange [
 	| composite textMorph textPresentation |
 	composite := GLMCompositePresentation new with: [ :a | a text display: '123456789' ].
@@ -142,6 +185,35 @@ GLMRubricTextMorphicTest >> testUnregisterFromAnnouncementsWhenUpdating [
 	window := composite openOn: announcingCollection.
 	1 to: 3 do: [ :each | announcingCollection add: each ].
 	self assert: numberOfExecutions equals: 4	"it should not be 8"
+]
+
+{ #category : #tests }
+GLMRubricTextMorphicTest >> testUpdatingScriptPresentationPreservesSelection [
+	| composite textPresentation textMorph |
+	
+	composite := GLMCompositePresentation new with: [ :c | 
+		c pharoScript
+			title: 'Code';
+			act: [ :aPresentation | aPresentation update ] 
+				icon: GLMUIThemeExtraIcons glamorousRefresh 
+				entitled: 'Update presentation'  ].
+	
+	window := composite openOn: '1 + 2 + 3'.
+	textPresentation := composite presentations first.
+	textPresentation selectionInterval: (1 to: 5).
+	textMorph := self find: RubScrolledTextMorph in: window.
+	
+	self assert: textPresentation selectionInterval equals: (1 to: 5).
+	self assert: textMorph selectionInterval equals: (1 to: 5).
+	
+	self assert: textMorph getSelectionFromModel equals: (1 to: 0).
+	
+	textPresentation update.
+	
+	self assert: textPresentation selectionInterval equals: (1 to: 5).
+	self assert: textMorph selectionInterval equals: (1 to: 5).
+	
+	self assert: textMorph getSelectionFromModel equals: (1 to: 0).
 ]
 
 { #category : #tests }
