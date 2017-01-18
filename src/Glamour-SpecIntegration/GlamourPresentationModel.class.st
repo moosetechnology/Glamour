@@ -1,7 +1,7 @@
 "
-I am a Spec ComposableModel for all Glamour presentations (GLMPresentation subclasses.) By default I open a Playground because its creation contract is special.
+I am a Spec ComposableModel for all Glamour presentations (GLMPresentation subclasses.) By default I open a GLMPharoScriptPresentation, a Smalltalk code snippet editor.
 
-For examples see my class side
+For examples see my class side.
 
 "
 Class {
