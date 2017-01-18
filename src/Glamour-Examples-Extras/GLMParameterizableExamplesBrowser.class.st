@@ -46,7 +46,7 @@ GLMParameterizableExamplesBrowser >> exampleIn: composer [
 	self renderedExampleIn: composer.
 	composer pharoMethod
 		title: 'Source code';
-		act: [ :text :exampleClass :exampleSelector | Smalltalk tools browser fullOnClass: exampleClass selector: exampleSelector ]
+		act: [ :text :exampleClass :exampleSelector | Smalltalk tools browser openOnClass: exampleClass selector: exampleSelector ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			entitled: 'Browse';
 		smalltalkClass: [ :exampleClass | exampleClass ];
