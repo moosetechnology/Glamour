@@ -57,7 +57,7 @@ GLMListingPresentation >> allowDropOnItem: aBlock [
 
 { #category : #accessing }
 GLMListingPresentation >> allowDropOnItemBlock [
-	^ allowDropOnItemBlock
+	^ allowDropOnItemBlock ifNil: [ allowDropOnItemBlock := [ false ] ]
 ]
 
 { #category : #scripting }
