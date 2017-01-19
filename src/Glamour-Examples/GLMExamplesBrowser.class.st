@@ -67,12 +67,13 @@ GLMExamplesBrowser >> exampleIn: composer [
 		act: [ :text :exampleClass :examplePragma | 
 			Smalltalk tools browser
 				openOnClass: exampleClass
-				selector: examplePragma selector ]
+				selector: examplePragma methodSelector ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			entitled: 'Browse';
 		smalltalkClass: [ :exampleClass | exampleClass ];
 		doItReceiver: [ :exampleClass | exampleClass ];
-		display: [ :exampleClass :pragma | exampleClass sourceCodeAt: pragma methodSelector ]
+		display:
+				[ :exampleClass :pragma | exampleClass sourceCodeAt: pragma methodSelector ]
 ]
 
 { #category : #building }
