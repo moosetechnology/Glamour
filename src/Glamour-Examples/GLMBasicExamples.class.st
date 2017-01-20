@@ -158,6 +158,36 @@ GLMBasicExamples >> browserWithToolbar [
 	^ wrapper
 ]
 
+{ #category : #composite }
+GLMBasicExamples >> changingTabsInComposite [
+	"self new changingTabsInComposite openOn: '42'"
+	<glmBrowser: 'Changing tabs' input: '42'>	
+	|browser|
+	
+	browser := GLMTabulator new.
+	browser column: #one.
+	(browser transmit)
+		to: #one;
+		andShow: [ :a | a 
+			title: 'Composite';
+			act: [ :aComposite |
+				aComposite pane lastActivePresentation: aComposite first] 
+			  icon: '1' asMorph imageForm
+			  entitled: 'Select first';
+			act: [ :aComposite |
+				aComposite pane lastActivePresentation: aComposite second] 
+			  icon: '2' asMorph imageForm
+			  entitled: 'Select second';
+			act: [ :aComposite |
+				aComposite pane lastActivePresentation: aComposite presentations third] 
+			  icon: '3' asMorph imageForm
+			  entitled: 'Select third'.
+		a list title: 'One'.
+		a text title: 'Two'.
+		a text title: 'Three'. ].
+	^ browser
+]
+
 { #category : #others }
 GLMBasicExamples >> compoundTaggedTree [
 	"self new compoundTaggedTree openOn: #(window help home)"
@@ -575,7 +605,7 @@ GLMBasicExamples >> morphWithCustomInteraction [
 								morph: [ :morphPresentation | 
 									| button |
 									(button := SimpleButtonMorph new)
-										when: #mouseUp send: #value to: [ morphPresentation selection: 'You just clicked' ];
+										on: #mouseUp send: #value to: [ morphPresentation selection: 'You just clicked' ];
 										label: 'I am a button. Please click me';
 										yourself ] ].
 			tabulator transmit
