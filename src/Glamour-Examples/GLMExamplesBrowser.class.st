@@ -8,6 +8,18 @@ Class {
 }
 
 { #category : #'user interface' }
+GLMExamplesBrowser class >> menuExamplesOn: aBuilder [
+	"Add a custom menu item to the world menu"
+
+	<worldMenu>
+	(aBuilder item: #'Glamour Example Browser')
+		iconName: #glamorousHelp;
+		parent: #Help;
+		help: 'Open Glamour Example Browser';
+		action: [ self open ]
+]
+
+{ #category : #'user interface' }
 GLMExamplesBrowser class >> open [
 	<script>
 	
@@ -67,13 +79,12 @@ GLMExamplesBrowser >> exampleIn: composer [
 		act: [ :text :exampleClass :examplePragma | 
 			Smalltalk tools browser
 				openOnClass: exampleClass
-				selector: examplePragma methodSelector ]
+				selector: examplePragma selector ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			entitled: 'Browse';
 		smalltalkClass: [ :exampleClass | exampleClass ];
 		doItReceiver: [ :exampleClass | exampleClass ];
-		display:
-				[ :exampleClass :pragma | exampleClass sourceCodeAt: pragma methodSelector ]
+		display: [ :exampleClass :pragma | exampleClass sourceCodeAt: pragma methodSelector ]
 ]
 
 { #category : #building }
