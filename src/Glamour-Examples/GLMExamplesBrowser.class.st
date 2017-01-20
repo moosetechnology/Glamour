@@ -8,18 +8,6 @@ Class {
 }
 
 { #category : #'user interface' }
-GLMExamplesBrowser class >> menuExamplesOn: aBuilder [
-	"Add a custom menu item to the world menu"
-
-	<worldMenu>
-	(aBuilder item: #'Glamour Example Browser')
-		iconName: #glamorousHelp;
-		parent: #Help;
-		help: 'Open Glamour Example Browser';
-		action: [ self open ]
-]
-
-{ #category : #'user interface' }
 GLMExamplesBrowser class >> open [
 	<script>
 	
