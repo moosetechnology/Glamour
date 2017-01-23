@@ -132,7 +132,7 @@ GLMFastTreeDataSource >> rowMorphForItem: anItem [
 	rowElements add: (self buttonFor: anItem).
 	(self glamourPresentation icon cull: anItem data) ifNotNil: [ :icon | rowElements add: icon asMorph ].
 	rowElements
-		add: (self glamourPresentation formatedDisplayValueOf: anItem data) asMorph asReadOnlyMorph;
+		add: (self glamourPresentation formatedDisplayValueOf: anItem data) asMorph;
 		addAll: (self tagMorphsFrom: self glamourPresentation for: anItem data).
 	^ Smalltalk ui theme newRowIn: World for: rowElements
 ]

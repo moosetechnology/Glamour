@@ -160,6 +160,7 @@ GLMMorphicFTRenderer >> specificTableMorphInitializiation [
 
 	| presentation |
 	presentation := tableModel glamourPresentation.
+	tableMorph rowHeight: presentation rowHeight.
 	"I set the right function."
 	presentation isSearchable
 		ifTrue: [ tableMorph enableSearch ].

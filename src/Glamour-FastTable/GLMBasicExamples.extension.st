@@ -1,6 +1,68 @@
 Extension { #name : #GLMBasicExamples }
 
 { #category : #'*Glamour-FastTable' }
+GLMBasicExamples >> fastListDoubleHeight [
+	"self new fastListDoubleHeight openOn: (Smalltalk allClassesAndTraits)"
+
+	<glmBrowser: 'Fast List With Double Height' input: 'Smalltalk allClassesAndTraits'>
+	| browser |
+	browser := GLMTabulator new.
+	browser row: #Example.
+	browser transmit
+		to: #Example;
+		andShow: [ :a | a fastList 
+			display: Smalltalk allClassesAndTraits;
+			rowHeight: [ :presentation | presentation class defaultRowHeight * 2 ] ].
+	^ browser
+]
+
+{ #category : #'*Glamour-FastTable' }
+GLMBasicExamples >> fastListDoubleHeightCustomFormat [
+	"self new fastListDoubleHeightCustomFormat openOn: (Smalltalk allClassesAndTraits)"
+
+	<glmBrowser: 'Fast List With Double Height And Custom Format' input: 'Smalltalk allClassesAndTraits'>
+	| browser |
+	browser := GLMTabulator new.
+	browser row: #Example.
+	browser transmit
+		to: #Example;
+		andShow: [ :a | a fastList 
+			display: Smalltalk allClassesAndTraits;
+			rowHeight: [ :presentation | presentation class defaultRowHeight * 2 ];
+			format: [ :aClass | 
+				(Smalltalk ui theme newColumnIn: World for: { 
+					aClass asStringMorph. 
+					(' with ', aClass methods size printString, ' methods') asStringMorph })
+						cellInset: 0; yourself ] ].
+	^ browser
+]
+
+{ #category : #'*Glamour-FastTable' }
+GLMBasicExamples >> fastListDoubleHeightCustomFormatAndTags [
+	"self new fastListDoubleHeightCustomFormatAndTags openOn: (Smalltalk allClassesAndTraits)"
+
+	<glmBrowser: 'Fast List With Double Height And Custom Format And Tags' input: 'Smalltalk allClassesAndTraits'>
+	| browser |
+	browser := GLMTabulator new.
+	browser row: #Example.
+	browser transmit
+		to: #Example;
+		andShow: [ :a | a fastList 
+			display: Smalltalk allClassesAndTraits;
+			rowHeight: [ :presentation | presentation class defaultRowHeight * 2 ];
+			format: [ :aClass | 
+				(Smalltalk ui theme newColumnIn: World for: { 
+					aClass asStringMorph. 
+					(' with ', aClass methods size printString, ' methods') asStringMorph })
+						cellInset: 0; 
+						hResizing: #shrinkWrap;
+						vResizing: #shrinkWrap;
+						yourself ];
+			tags: [ :aClass | aClass methods size asString, ' methods' ] ].
+	^ browser
+]
+
+{ #category : #'*Glamour-FastTable' }
 GLMBasicExamples >> fastListDragAndDrop [
 	<glmBrowser: 'Fast List drag&drop' input: '(1 to: 5) asOrderedCollection'>
 	"self new fastListDragAndDrop openOn: (1 to: 5) asOrderedCollection"

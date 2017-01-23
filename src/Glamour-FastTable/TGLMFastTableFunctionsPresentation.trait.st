@@ -35,6 +35,11 @@ Trait {
 }
 
 { #category : #accessing }
+TGLMFastTableFunctionsPresentation classSide >> defaultRowHeight [
+	^ StandardFonts defaultFont pixelSize + 7
+]
+
+{ #category : #accessing }
 TGLMFastTableFunctionsPresentation >> actionBlock [
 	^ self parameters at: 'actionBlock'
 ]
@@ -92,6 +97,23 @@ TGLMFastTableFunctionsPresentation >> needActionButton [
 { #category : #accessing }
 TGLMFastTableFunctionsPresentation >> parameters [
 	self explicitRequirement
+]
+
+{ #category : #'public api' }
+TGLMFastTableFunctionsPresentation >> rowHeight [
+	^ self rowHeightBlock glamourValue: self asGlamorousMultiValue, self entity asGlamorousMultiValue
+]
+
+{ #category : #'public api' }
+TGLMFastTableFunctionsPresentation >> rowHeight: aNumber [
+	self parameters at: 'rowHeight' put: aNumber
+]
+
+{ #category : #'public api' }
+TGLMFastTableFunctionsPresentation >> rowHeightBlock [
+	^ self parameters 
+		at: 'rowHeight'
+		ifAbsent: [ self class defaultRowHeight ]
 ]
 
 { #category : #'public api' }
