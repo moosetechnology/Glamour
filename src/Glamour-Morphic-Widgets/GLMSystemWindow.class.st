@@ -65,10 +65,13 @@ GLMSystemWindow >> setLabelWidgetAllowance [
 
 { #category : #accessing }
 GLMSystemWindow >> toolbarBox: anObject [
-
+	| previousToolbar |
+	
+	previousToolbar := toolbarBox ifNil: [ menuBox ].
+	
 	toolbarBox := anObject.
 	self setLabelWidgetAllowance.
-	self replacePane: menuBox with: toolbarBox
+	self replacePane: previousToolbar with: toolbarBox
 ]
 
 { #category : #announcement }
