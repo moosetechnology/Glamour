@@ -21,6 +21,8 @@ rootsExpanded
 Class {
 	#name : #GLMTablePresentation,
 	#superclass : #GLMListingPresentation,
+	#traits : 'TGLMScriptingAPITablePresentation',
+	#classTraits : 'TGLMScriptingAPITablePresentation classTrait',
 	#instVars : [
 		'columns',
 		'children',
@@ -29,11 +31,6 @@ Class {
 	],
 	#category : #'Glamour-Presentations'
 }
-
-{ #category : #accessing }
-GLMTablePresentation >> addColumn: aColumn [
-	self columns add: aColumn
-]
 
 { #category : #validation }
 GLMTablePresentation >> allDisplayedDo: aBlock [
@@ -65,93 +62,6 @@ GLMTablePresentation >> childrenValueOf: anObject atLevel: anInteger [
 		self entity asGlamorousMultiValue,
 		anInteger asGlamorousMultiValue,
 		self asGlamorousMultiValue)
-]
-
-{ #category : #scripting }
-GLMTablePresentation >> column: aBlockOrString evaluated: aBlock [
-	self addColumn: (GLMTableColumn new 
-		title: aBlockOrString; 
-		computation: aBlock)
-]
-
-{ #category : #scripting }
-GLMTablePresentation >> column: aBlockOrString evaluated: aBlock modified: aModifiedBlock [
-	self addColumn: (GLMTableColumn new 
-		title: aBlockOrString;
-		computation: aBlock;
-		modifiedBlock: aModifiedBlock)
-]
-
-{ #category : #scripting }
-GLMTablePresentation >> column: aBlockOrString evaluated: aBlock sortedBy: aSortingBlock [
-	self addColumn: (GLMTableColumn new 
-		title: aBlockOrString; 
-		computation: aBlock;
-		sortBlock: aSortingBlock)
-]
-
-{ #category : #scripting }
-GLMTablePresentation >> column: aBlockOrString evaluated: aBlock tags: anObject [ 
-	self addColumn: (GLMTableColumn new 
-		title: aBlockOrString; 
-		computation: aBlock;
-		tags: anObject)
-]
-
-{ #category : #scripting }
-GLMTablePresentation >> column: aBlockOrString evaluated: aBlock tags: anObject filtered: anotherObject [
-	self addColumn: (GLMTableColumn new 
-		title: aBlockOrString; 
-		computation: aBlock;
-		tagsBlock: anObject;
-		tagsFilter: anotherObject)
-]
-
-{ #category : #scripting }
-GLMTablePresentation >> column: aBlockOrString evaluated: aBlock tags: anObject sortedBy: aSortingBlock [
-	self addColumn: (GLMTableColumn new 
-		title: aBlockOrString; 
-		computation: aBlock;
-		tags: anObject;
-		sortBlock: aSortingBlock)
-]
-
-{ #category : #scripting }
-GLMTablePresentation >> column: aBlockOrString evaluated: aBlock width: aNumber [ 
-	self addColumn: (GLMTableColumn new 
-		title: aBlockOrString; 
-		computation: aBlock;
-		width: aNumber;
-		yourself)	
-]
-
-{ #category : #scripting }
-GLMTablePresentation >> column: aBlockOrString evaluated: aBlock width: aNumber tags: anObject [
-	self addColumn: (GLMTableColumn new 
-		title: aBlockOrString; 
-		computation: aBlock;
-		width: aNumber;
-		tags: anObject;
-		yourself)	
-]
-
-{ #category : #scripting }
-GLMTablePresentation >> column: aBlockOrString evaluated: aBlock width: aNumber tags: anObject sortedBy: aSortingBlock [
-	self addColumn: (GLMTableColumn new 
-		title: aBlockOrString; 
-		computation: aBlock;
-		width: aNumber;
-		tags: anObject;
-		sortBlock: aSortingBlock
-		yourself)	
-]
-
-{ #category : #private }
-GLMTablePresentation >> column: aGlamourColumn valueFor: anObject [
-	^ aGlamourColumn computation glamourValue: 
-		(anObject asGlamorousMultiValue,
-		 self entity asGlamorousMultiValue,
-		 self asGlamorousMultiValue)
 ]
 
 { #category : #accessing }
@@ -265,11 +175,6 @@ GLMTablePresentation >> shouldRootsExpand: anObject [
 { #category : #accessing }
 GLMTablePresentation >> shouldShowHeader [
 	^ shouldShowHeader ifNil: [ shouldShowHeader := true ]
-]
-
-{ #category : #private }
-GLMTablePresentation >> titleValueOfColumn: aColumn [
-	^ aColumn title glamourValue: self entity
 ]
 
 { #category : #validation }
