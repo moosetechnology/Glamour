@@ -348,6 +348,50 @@ GLMBasicExamples >> fastTreeStrategies [
 ]
 
 { #category : #'*Glamour-FastTable' }
+GLMBasicExamples >> fastTreeWithColumnsAndEditing [
+	"self new fastTreeWithColumnsAndEditing openOn: ((1 to: 5) collect: [ :index1 |
+	((1 to: 10) collect: [ :index | index -> (ValueHolder new contents: 'description') ]) asDictionary ]) "
+
+	<glmBrowser: 'Fast Tree With Editable Columns' input: '((1 to: 5) collect: [ :index1 |
+	((1 to: 10) collect: [ :index | index -> (ValueHolder new contents: ''description'') ]) asDictionary ])'>
+	| browser |
+	browser := GLMTabulator new.
+	browser row: #Example.
+	browser transmit
+		to: #Example;
+		andShow: [ :a | a fastTreeTable 
+			children: [ :x | x isDictionary ifTrue: [ x associations ] ifFalse: [ #() ] ];
+			column: [:x | 'Numbers'] evaluated: [ :value | value isDictionary ifTrue: [ value ] ifFalse: [ value key ] ];
+			column: 'Description' 
+			   evaluated: [ :value | value isDictionary ifTrue: [ '' ] ifFalse: [ value value contents ] ] 
+			   modified: [ :newText :value :presentation | 
+					value isDictionary ifFalse: [ value value contents: newText  ]] ].
+	^ browser
+]
+
+{ #category : #'*Glamour-FastTable' }
+GLMBasicExamples >> fastTreeWithColumnsSimple [
+	"self new fastTreeWithColumnsSimple openOn: (1 to: 10)"
+
+	<glmBrowser: 'Fast Tree With Columns' input: '(1 to: 10)'>
+	| browser |
+	browser := GLMTabulator new.
+	browser row: #Example.
+	browser transmit
+		to: #Example;
+		andShow: [ :a | a fastTreeTable 
+			children: [ :x | 1 to: x-1 ];
+			column: [:x | 'Numbers from 1 to ', x asString] evaluated: #asString;
+			column: 'Even' evaluated: [ :each | each even asString ];
+			column: 'Odd' evaluated: [ :each | each odd asString ];
+			icon: [ :each | 
+				each asInteger odd
+					ifTrue: [ GLMUIThemeExtraIcons glamorousRedCircle ]
+					ifFalse: [ GLMUIThemeExtraIcons glamorousGreenCircle ] ] ].
+	^ browser
+]
+
+{ #category : #'*Glamour-FastTable' }
 GLMBasicExamples >> fastTreeWithIcon [
 	"self new fastTreeWithIcon openOn: (1 to: 10)"
 
@@ -366,6 +410,24 @@ GLMBasicExamples >> fastTreeWithIcon [
 					each asInteger odd
 						ifTrue: [ GLMUIThemeExtraIcons glamorousRedCircle ]
 						ifFalse: [ GLMUIThemeExtraIcons glamorousGreenCircle ] ] ].
+	^ browser
+]
+
+{ #category : #'*Glamour-FastTable' }
+GLMBasicExamples >> fastTreeWithLazyChildren [
+	"self new fastTreeWithLazyChildren openOn: (1 to: 10)"
+
+	<glmBrowser: 'Fast Tree Lazy Children' input: '(1 to: 10)'>
+	| browser |
+	browser := GLMTabulator new.
+	browser column: #one.
+	browser transmit
+		to: #one;
+		andShow: [ :a | 
+			a fastTree
+				title: 'Fast Tree';
+				hasChildren: [ :x | x > 2 ];
+				children: [ :x | 1 to: x - 1 ] ].
 	^ browser
 ]
 

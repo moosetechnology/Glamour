@@ -46,8 +46,9 @@ Class {
 }
 
 { #category : #accessing }
-GLMFastTablePresentation class >> defaultIntercellSpacing [
-	^ 3@1
+GLMFastTablePresentation >> children: anObject [ 
+	 
+	self shouldNotImplement 
 ]
 
 { #category : #initialization }

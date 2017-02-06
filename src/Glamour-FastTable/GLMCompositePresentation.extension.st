@@ -14,3 +14,8 @@ GLMCompositePresentation >> fastTable [
 GLMCompositePresentation >> fastTree [
 	^ self custom: GLMFastTreePresentation new
 ]
+
+{ #category : #'*Glamour-FastTable' }
+GLMCompositePresentation >> fastTreeTable [
+	^ self custom: GLMFastTreeTablePresentation new
+]

@@ -154,6 +154,28 @@ GLMMorphicFTRenderer >> specificDataSourceInitializiation [
 	"Override me if you need to add something to the data source."
 ]
 
+{ #category : #private }
+GLMMorphicFTRenderer >> specificTableMorphColumnsInitialization [
+	| presentation |
+	presentation := tableModel glamourPresentation.
+	tableMorph intercellSpacing: tableModel glamourPresentation intercellSpacing.
+	tableMorph beResizable.
+	presentation shouldShowHeader 
+		ifFalse: [ tableMorph hideColumnHeaders ]
+		ifTrue: [ tableMorph showColumnHeaders ].
+	tableMorph
+		columns:
+			(presentation columns
+				collect:
+					[ :each | 
+					GLMFastTableColumn new
+						id: (presentation titleValueOfColumn: each);
+						width: each width;
+						glamourColumn: each;
+						target: tableModel actionSelector: #sortByColumn: arguments: {each};
+						yourself ]).
+]
+
 { #category : #initialization }
 GLMMorphicFTRenderer >> specificTableMorphInitializiation [
 	"Override me if need to add something to the tableMorph."

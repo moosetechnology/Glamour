@@ -14,3 +14,8 @@ GLMMorphicRenderer >> renderFastTablePresentation: aPresentation [
 GLMMorphicRenderer >> renderFastTreePresentation: aPresentation [ 
 	^ GLMMorphicFastTreeRenderer render: aPresentation from: self
 ]
+
+{ #category : #'*Glamour-FastTable' }
+GLMMorphicRenderer >> renderFastTreeWithColumnsPresentation: aPresentation [ 
+	^ GLMMorphicFastTreeWithColumnsRenderer render: aPresentation from: self
+]

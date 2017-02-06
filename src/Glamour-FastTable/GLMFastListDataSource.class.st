@@ -128,11 +128,6 @@ GLMFastListDataSource >> tagsToFilterBy [
 	^ tagsToFilterBy ifNil: [ tagsToFilterBy := OrderedCollection new ]
 ]
 
-{ #category : #factory }
-GLMFastListDataSource >> viewRowMorphForColumn: glamourColumn element: element [
-	^ (self glamourPresentation column: glamourColumn valueFor: element) asMorph asReadOnlyMorph
-]
-
 { #category : #'drag and drop' }
 GLMFastListDataSource >> wantsDropElements: aCollection type: type index: rowIndex [
 	^ (aCollection isEmptyOrNil or: [ type ~= self dragTransferType ])

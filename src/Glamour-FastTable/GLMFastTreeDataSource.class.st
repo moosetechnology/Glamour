@@ -42,6 +42,13 @@ GLMFastTreeDataSource >> basicRoots [
 ]
 
 { #category : #accessing }
+GLMFastTreeDataSource >> buttonFor: item [
+	^ ( (self canDisplayChildrenOf: item) and: [self hasChildren: item])
+		ifTrue: [ item generateButton ]
+		ifFalse: [ self class emptyMorph ]
+]
+
+{ #category : #accessing }
 GLMFastTreeDataSource >> cellColumn: aColumnIndex row: aRowIndex [
 	| item cell |
 	item := self elementAt: aRowIndex.
@@ -63,7 +70,7 @@ GLMFastTreeDataSource >> createRootItem [
 			children := OrderedCollection new.
 			fullRoot children
 				do: [ :item | (self matchingTag: item) ifNotNil: [ :itemNew | children add: itemNew ] ]
-				displayingProgress: [ :each | 'Looking inside ' , each name ].
+				displayingProgress: [ :each | 'Looking inside ' , each printString ].
 			FTRootItem new
 				dataSource: self;
 				children: children asArray;
@@ -83,6 +90,13 @@ GLMFastTreeDataSource >> glamourPresentation [
 { #category : #accessing }
 GLMFastTreeDataSource >> glamourPresentation: aGLMFastTreePresentation [
 	glamourPresentation := aGLMFastTreePresentation
+]
+
+{ #category : #testing }
+GLMFastTreeDataSource >> hasChildren: anItem [
+	^ self glamourPresentation hasChildrenBlock 
+		ifNil: [ anItem children isNotEmpty ]
+		ifNotNil: [ :aBlock | aBlock cull: anItem data ]
 ]
 
 { #category : #tag }

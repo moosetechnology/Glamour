@@ -6,57 +6,25 @@ Description
 
 I am a GLMFastListDataSource that can also manage multi columns.
 
-I work with a GLMFastTablePresentation and a GLMMorphicFastTableRenderer. 
+I work with a GLMFastTablePresentation and a GLMMorphicFastTableRenderer.  
+
+ I rely on TGLMFastTableColumnsRenderer for the logic that actually builds the row morphs. 
 
 "
 Class {
 	#name : #GLMFastTableDataSource,
 	#superclass : #GLMFastListDataSource,
+	#traits : 'TGLMFastTableColumnsRenderer',
+	#classTraits : 'TGLMFastTableColumnsRenderer classTrait',
 	#instVars : [
 		'columnToSortBy'
 	],
 	#category : #'Glamour-FastTable-Model'
 }
 
-{ #category : #accessing }
-GLMFastTableDataSource >> cellColumn: column row: rowIndex [ 
-	| element cell |
-	
-	element := self elementAt: rowIndex.
-	cell := FTCellMorph new
-		cellInset: 5;
-		addMorph: (self 
-			rowMorphForColumn: column glamourColumn 
-			element: element);
-		yourself.
-
-	(self table columns first == column) ifTrue: [
-		| icon |
-		icon := self glamourPresentation icon cull: element.
-		icon ifNotNil: [ cell addMorph: icon asMorph ] ].
-
-	^ cell
-]
-
-{ #category : #factory }
-GLMFastTableDataSource >> editRowMorphForColumn: glamourColumn element: element [
-	| brick |
-	
-	(brick := GLMEditableLabelBrick new)
-		cancelOnEscape;
-		cancelOnFocusLost;
-		text: (self valueFor: glamourColumn);
-		hSpaceFill;
-		with: [ :b | b editBrick rubricBackgroundColor: b themer rubricBackgroundColor ];
-		"when: #onEditMode do: [ self containerTree forceStopStepping ];
-		when: #onReadMode do: [ self containerTree resetStopStepping ];"
-		"when: #onSingleClicked do: [ :event :b | b isReadMode ifTrue: [ self selectItem ] ];"
-		"when: #onAccepted do: [ self modified: glamourColumn with: brick text ];"
-		yourself.
-			
-	^ brick asMorph
-		hSpaceFill;
-		vShrinkWrap
+{ #category : #'as yet unclassified' }
+GLMFastTableDataSource >> dataFromPresentationItem: anItem [
+	^ anItem
 ]
 
 { #category : #private }
@@ -67,23 +35,12 @@ GLMFastTableDataSource >> elementsSorted [
 		ifNil: [ self calculateElements ]
 ]
 
-{ #category : #factory }
-GLMFastTableDataSource >> rowMorphForColumn: glamourColumn element: element [
-	| rowElements contentMorph tagMorphs |
-		
-	contentMorph := glamourColumn modifiedBlock
-		ifNotNil: [ self editRowMorphForColumn: glamourColumn element: element ]
-		ifNil: [ self viewRowMorphForColumn: glamourColumn element: element ].
+{ #category : #accessing }
+GLMFastTableDataSource >> rowMorphElementsForFirstColumn: aColumn item: anItem in: rowElements [
+	| icon |
 	
-	tagMorphs := self tagMorphsFrom: glamourColumn for: element.
-	tagMorphs ifEmpty: [ ^ contentMorph ].
-	
-	rowElements := OrderedCollection new
-		add: contentMorph;
-		addAll: tagMorphs;
-		yourself.
-	
-	^ (UITheme current newRowIn: World for: rowElements)	
+	icon := self glamourPresentation icon cull: anItem.
+	icon ifNotNil: [ rowElements add: icon asMorph ] 
 ]
 
 { #category : #private }

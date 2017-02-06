@@ -59,6 +59,16 @@ GLMFastTreePresentation >> expandedUntil: anInteger [
 	self shouldExpandToLevel: anInteger
 ]
 
+{ #category : #'public api' }
+GLMFastTreePresentation >> hasChildren: aBlock [
+	self parameters at: 'hasChildrenBlock' put: aBlock
+]
+
+{ #category : #accessing }
+GLMFastTreePresentation >> hasChildrenBlock [ 
+	^ self parameters at: 'hasChildrenBlock' ifAbsent: [ nil ]
+]
+
 { #category : #'initialize-release' }
 GLMFastTreePresentation >> initialize [
 	super initialize.
