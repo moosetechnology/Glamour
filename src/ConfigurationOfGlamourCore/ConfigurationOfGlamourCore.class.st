@@ -467,8 +467,6 @@ ConfigurationOfGlamourCore >> baseline41: spec [
 		spec 
 			package: 'Glamour-Announcements';
 			package: 'Glamour-Helpers';
-			package: 'Glamour-FastTable' with: [
-				spec requires: #('FastTable' 'Glamour-Examples' 'Glamour-Core' 'Glamour-Morphic-Renderer' 'Glamour-Tests-Morphic' 'Glamour-Presentations'). ];
 			package: 'Glamour-Core' with: [
 				spec requires: #('Glamour-Helpers' 'Glamour-Announcements' ). ];
 			package: 'Glamour-Presentations' with: [
@@ -477,6 +475,8 @@ ConfigurationOfGlamourCore >> baseline41: spec [
 				spec requires: #('Glamour-Core' ). ];
 			package: 'Glamour-Examples' with: [
 				spec requires: #('Glamour-Core' ). ];
+			package: 'Glamour-FastTable' with: [
+				spec requires: #('FastTable' 'Glamour-Examples' 'Glamour-Core' 'Glamour-Presentations' 'Glamour-Morphic-Renderer' 'Glamour-Tests-Morphic'). ];
 			package: 'Glamour-Morphic-Brick' with: [
 				spec requires: #('Glamour-Core' ). ];
 			package: 'Glamour-Morphic-Brick-Tests' with: [
