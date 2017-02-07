@@ -458,12 +458,7 @@ ConfigurationOfGlamourCore >> baseline41: spec [
 		spec blessing: #'baseline'.
 		spec description: 'For Pharo 6.0 - adds Glamour-SpecIntegration package'.
 		spec repository: 'http://smalltalkhub.com/mc/Moose/Glamour/main'.
-		
-		spec project: 'FastTable' with: [
-				spec
-					className: #ConfigurationOfFastTable;
-					versionString: #'development';
-					repository: 'http://smalltalkhub.com/mc/estebanlm/FastTable/main/' ].
+
 		spec 
 			package: 'Glamour-Announcements';
 			package: 'Glamour-Helpers';
@@ -498,6 +493,13 @@ ConfigurationOfGlamourCore >> baseline41: spec [
 				spec requires: #('Glamour-Tests-Morphic' 'Glamour-Rubric-Presentations' ). ];
 			package: 'Glamour-SpecIntegration' with: [
 				spec requires: #('Glamour-Core' 'Glamour-Examples' 'Glamour-Morphic-Renderer' 'Glamour-Rubric-Presentations'). ].
+			
+		spec project: 'FastTable' with: [
+				spec
+					className: #ConfigurationOfFastTable;
+					versionString: #'development';
+					repository: 'http://smalltalkhub.com/mc/estebanlm/FastTable/main/' ].
+			
 		spec 
 			group: 'Core' with: #('Glamour-Announcements' 'Glamour-Helpers' 'Glamour-Core' 'Glamour-Presentations' 'Glamour-Browsers' 'Glamour-Examples' 'Glamour-Rubric-Presentations' );
 			group: 'Morphic' with: #('Glamour-Morphic-Brick' 'Glamour-Morphic-Widgets' 'Glamour-Morphic-Renderer' 'Glamour-Morphic-Theme' 'Glamour-Morphic-Pager' 'Glamour-FastTable' 'Glamour-SpecIntegration' );
