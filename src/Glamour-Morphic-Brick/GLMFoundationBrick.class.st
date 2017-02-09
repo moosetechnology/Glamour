@@ -30,7 +30,7 @@ GLMFoundationBrick class >> root: aBrick [
 { #category : #adding }
 GLMFoundationBrick >> addAllBricks: aCollection [
 
-	aCollection do: [ :each | self addBrickBack: each ]
+	self brickRoot addAllBricks: aCollection
 ]
 
 { #category : #adding }
