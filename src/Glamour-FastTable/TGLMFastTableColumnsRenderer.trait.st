@@ -110,7 +110,7 @@ TGLMFastTableColumnsRenderer >> valueFor: anElement in: aGlamourColumn [
 { #category : #rendering }
 TGLMFastTableColumnsRenderer >> viewRowMorphForColumn: aGlamourColumn element: anElement withIndex: anInteger [
 	^ (self 
-		valueFor: (self glamourPresentation isWithRowIndex
+		valueFor: (self glamourPresentation isWithElementIndex
 			ifTrue: [ 
 				anElement asGlamorousMultiValue,
 				anInteger asGlamorousMultiValue ]
