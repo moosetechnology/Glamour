@@ -75,7 +75,7 @@ GLMCompositePresentationMorphicTest >> testAccordionWithTitle [
 	window := browser openOn: 42.
 	self assert: self compositeTabGroup submorphs notEmpty.
 	self assert: self compositeTabGroup submorphs size equals: 2.
-	self assert: self compositeTabGroup contentMorph class equals: PanelMorph.
+	self assert: self compositeTabGroup contentMorph class equals: GLMPanelMorph.
 	self assert: self compositeTabGroup contentMorph submorphs first submorphs size equals: 2.
 	self assert: self compositeTabGroup contentMorph submorphs first submorphs first class equals: ExpanderMorph
 ]
@@ -112,9 +112,9 @@ GLMCompositePresentationMorphicTest >> testOneStackedVerticallyWithTitle [
 	window := browser openOn: 42.
 	self assert: self compositeTabGroup submorphs notEmpty.
 	self assert: self compositeTabGroup submorphs size equals: 2.
-	self assert: self compositeTabGroup contentMorph class equals: PanelMorph.
+	self assert: self compositeTabGroup contentMorph class equals: GLMPanelMorph.
 	self assert: self compositeTabGroup contentMorph submorphs size equals: 1.
-	self assert: self compositeTabGroup contentMorph submorphs first class equals: PanelMorph.
+	self assert: self compositeTabGroup contentMorph submorphs first class equals: GLMPanelMorph.
 	self assert: self compositeTabGroup contentMorph submorphs first submorphs size equals: 1.
 	self assert: self compositeTabGroup contentMorph submorphs first submorphs first class equals: LazyTabGroupMorph
 ]
@@ -128,7 +128,7 @@ GLMCompositePresentationMorphicTest >> testOneTabWithActions [
 		to: #one;
 		andShow: [ :a | a list act: #inspect entitled: 'Inspect' ].
 	window := browser openOn: 42.
-	self assert: self compositeMorph class equals: PanelMorph.
+	self assert: self compositeMorph class equals: GLMPanelMorph.
 	self assert: self compositeMorph submorphs size equals: 2
 ]
 
@@ -144,7 +144,7 @@ GLMCompositePresentationMorphicTest >> testStackedVertically [
 					a list title: 'list'.
 					a text title: 'text' ].
 	window := browser openOn: 42.
-	self assert: self compositeMorph class equals: PanelMorph.
+	self assert: self compositeMorph class equals: GLMPanelMorph.
 	self assert: self compositeMorph submorphs size equals: 2.
 	self assert: self compositeMorph submorphs size equals: 2.
 	self assert: self compositeMorph submorphs first class equals: LazyTabGroupMorph
@@ -165,9 +165,9 @@ GLMCompositePresentationMorphicTest >> testStackedVerticallyWithTitle [
 	window := browser openOn: 42.
 	self assert: self compositeTabGroup submorphs notEmpty.
 	self assert: self compositeTabGroup submorphs size equals: 2.
-	self assert: self compositeTabGroup contentMorph class equals: PanelMorph.
+	self assert: self compositeTabGroup contentMorph class equals: GLMPanelMorph.
 	self assert: self compositeTabGroup contentMorph submorphs size equals: 1.
-	self assert: self compositeTabGroup contentMorph submorphs first class equals: PanelMorph.
+	self assert: self compositeTabGroup contentMorph submorphs first class equals: GLMPanelMorph.
 	self assert: self compositeTabGroup contentMorph submorphs first submorphs size equals: 2.
 	self assert: self compositeTabGroup contentMorph submorphs first submorphs first class equals: LazyTabGroupMorph
 ]
@@ -233,7 +233,7 @@ GLMCompositePresentationMorphicTest >> testTabsWithTitle [
 					a text ].
 	window := browser openOn: 42.
 	self assert: self compositeTabGroup submorphs size equals: 2.
-	self assert: self compositeTabGroup submorphs first class equals: PanelMorph.
+	self assert: self compositeTabGroup submorphs first class equals: GLMPanelMorph.
 	self assert: self compositeTabGroup submorphs first submorphs size equals: 1.
 	self assert: self compositeTabGroup submorphs first submorphs first class equals: LazyTabGroupMorph.
 	self assert: self compositeTabGroup submorphs first submorphs first pages size equals: 2
@@ -252,7 +252,7 @@ GLMCompositePresentationMorphicTest >> testTabsWithTitleIconWithoutTitle [
 					a text ].
 	window := browser openOn: 42.
 	self assert: self compositeTabGroup submorphs size equals: 2.
-	self assert: self compositeTabGroup submorphs first class equals: PanelMorph.
+	self assert: self compositeTabGroup submorphs first class equals: GLMPanelMorph.
 	self assert: self compositeTabGroup submorphs first submorphs size equals: 1.
 	self assert: self compositeTabGroup submorphs first submorphs first class equals: LazyTabGroupMorph.
 	self assert: self compositeTabGroup submorphs first submorphs first pages size equals: 2
