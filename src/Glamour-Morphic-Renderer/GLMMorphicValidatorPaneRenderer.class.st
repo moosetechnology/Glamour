@@ -57,7 +57,7 @@ GLMMorphicValidatorPaneRenderer >> newColumnWith: aCollectionOfMorphElements [
 	<lint: 'Utility methods' rationale: 'defined here to facilate the use of the library' author: 'cyrille.delaunay'>
 	
 	|answer|
-	answer := PanelMorph new
+	answer := GLMPanelMorph new
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;
 		fillStyle: Color transparent; "non pane color tracking"
@@ -84,7 +84,8 @@ GLMMorphicValidatorPaneRenderer >> renderCompositiePresentation: aCompositePrese
 			(self newColumnWith:  { (self renderObject: aCompositePresentation).  (self buttonRowFrom: self buttons) }) 
 			fullFrame: (LayoutFrame identity);
 		"addMorphBack: (self buttonRowFrom: self buttons)  ;  "
-		adoptPaneColor: paneMorph paneColor.
+		"adoptPaneColor: paneMorph paneColor."
+		yourself.
 	
 	^ paneMorph
 ]
@@ -98,5 +99,6 @@ GLMMorphicValidatorPaneRenderer >> renderMorphFor: aPane [
 			fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 0.90));
 		addMorph:  (self buttonRowFrom: self buttons)
 			fullFrame: (LayoutFrame fractions: (0 @ 0.93 corner: 1 @ 1));
-		adoptPaneColor: paneMorph paneColor
+		"adoptPaneColor: paneMorph paneColor"
+		yourself
 ]

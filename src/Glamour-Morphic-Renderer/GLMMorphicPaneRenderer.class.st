@@ -51,5 +51,6 @@ GLMMorphicPaneRenderer >> renderContainerFor: aPane [
 		
 	container
 		addMorph: contentMorph fullFrame: (LayoutFrame identity);
-		adoptPaneColor: Color transparent
+		"adoptPaneColor: Color transparent"
+		yourself
 ]
