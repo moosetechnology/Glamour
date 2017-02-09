@@ -65,8 +65,8 @@ TGLMFastTableColumnsRenderer >> rowMorphElementsForColumn: glamourColumn element
 	| rowElements contentMorph tagMorphs |
 		
 	contentMorph := glamourColumn modifiedBlock
-		ifNotNil: [ self editRowMorphForColumn: glamourColumn element: element withIndex: aRowIndex  ]
-		ifNil: [ self viewRowMorphForColumn: glamourColumn element: element ].
+		ifNotNil: [ self editRowMorphForColumn: glamourColumn element: element withIndex: aRowIndex ]
+		ifNil: [ self viewRowMorphForColumn: glamourColumn element: element withIndex: aRowIndex ].
 	
 	rowElements := OrderedCollection new
 		add: contentMorph;
@@ -108,6 +108,12 @@ TGLMFastTableColumnsRenderer >> valueFor: anElement in: aGlamourColumn [
 ]
 
 { #category : #rendering }
-TGLMFastTableColumnsRenderer >> viewRowMorphForColumn: aGlamourColumn element: anElement [
-	^ (self valueFor: anElement in: aGlamourColumn) asMorph asReadOnlyMorph
+TGLMFastTableColumnsRenderer >> viewRowMorphForColumn: aGlamourColumn element: anElement withIndex: anInteger [
+	^ (self 
+		valueFor: (self glamourPresentation isWithRowIndex
+			ifTrue: [ 
+				anElement asGlamorousMultiValue,
+				anInteger asGlamorousMultiValue ]
+			ifFalse: [ anElement ])
+		in: aGlamourColumn) asMorph asReadOnlyMorph
 ]

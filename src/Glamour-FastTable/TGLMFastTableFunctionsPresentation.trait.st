@@ -50,6 +50,11 @@ TGLMFastTableFunctionsPresentation >> actionName [
 ]
 
 { #category : #'public api' }
+TGLMFastTableFunctionsPresentation >> enableElementIndex [
+	self parameters at: 'withRowIndex' put: true
+]
+
+{ #category : #'public api' }
 TGLMFastTableFunctionsPresentation >> enableFilter [
 	self parameters at: 'isFilterable' put: true
 	
@@ -87,6 +92,11 @@ TGLMFastTableFunctionsPresentation >> isFilterable [
 { #category : #testing }
 TGLMFastTableFunctionsPresentation >> isSearchable [
 	^ self parameters at: 'isSearchable' ifAbsent: [ false ]
+]
+
+{ #category : #accessing }
+TGLMFastTableFunctionsPresentation >> isWithElementIndex [
+	^ self parameters at: 'withRowIndex' ifAbsent: [ false ]
 ]
 
 { #category : #testing }
