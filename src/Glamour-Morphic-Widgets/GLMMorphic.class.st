@@ -24,7 +24,7 @@ GLMMorphic class >> alignmentMorph: aCollectionOfMorphs [
 
 { #category : #'utils - morph creation' }
 GLMMorphic class >> containerMorph [
-	^ PanelMorph new
+	^ GLMPanelMorph new
 		layoutPolicy: ProportionalLayout new;
 		hResizing: #spaceFill;
 		vResizing: #spaceFill;

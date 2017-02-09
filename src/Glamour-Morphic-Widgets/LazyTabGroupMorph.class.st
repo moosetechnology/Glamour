@@ -130,6 +130,22 @@ LazyTabGroupMorph >> initialize [
 	self tabSelectorMorph addDependent: self"
 ]
 
+{ #category : #'instance creation' }
+LazyTabGroupMorph >> newContentMorph [
+	"Answer a new content morph"
+
+	|p|
+	p := GLMPanelMorph new
+		roundedCorners: #(2 3 4);
+		changeTableLayout; 
+		layoutInset: 4;
+		cellInset: 8;
+		vResizing: #spaceFill;
+		hResizing: #spaceFill.
+	p borderStyle: (self theme tabPanelBorderStyleFor: self).
+	^p
+]
+
 { #category : #private }
 LazyTabGroupMorph >> newHeaderMorph [
 	^ (self theme 
@@ -149,7 +165,7 @@ LazyTabGroupMorph >> newTabSelectorMorph [
 
 { #category : #private }
 LazyTabGroupMorph >> newToolbarMorph [
-	^ PanelMorph new
+	^ GLMPanelMorph new
 		fillStyle: (SolidFillStyle color: Color transparent);
 		borderStyle: (BorderStyle width: 0);
 		vResizing: #spaceFill;
