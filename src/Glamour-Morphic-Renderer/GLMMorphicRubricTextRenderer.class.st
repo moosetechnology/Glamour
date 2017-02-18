@@ -75,6 +75,8 @@ GLMMorphicRubricTextRenderer >> render: aPresentation [
 		ifFalse: [ textMorph withoutColumns ].
 	textMorph wrapped: aPresentation wrapped.
 	textMorph tabWidth: aPresentation tabWidth.
+	aPresentation withGhostText ifNotNil: [ 
+		textMorph withGhostText: aPresentation withGhostText asStringOrText ].
 	aPresentation textSegments do: [:each | 
 			textMorph addSegment: each ].
 	(aPresentation textSegments anySatisfy: [ :ts | ts icon notNil ])
