@@ -13,7 +13,8 @@ Class {
 		'tabWidth',
 		'withColumns',
 		'textSegments',
-		'primarySelectionInterval'
+		'primarySelectionInterval',
+		'withGhostText'
 	],
 	#category : #'Glamour-Rubric-Presentations'
 }
@@ -170,6 +171,18 @@ GLMRubricTextPresentation >> withColumns [
 GLMRubricTextPresentation >> withColumns: aBoolean [
 	
 	withColumns := aBoolean
+]
+
+{ #category : #accessing }
+GLMRubricTextPresentation >> withGhostText [
+	
+	^ withGhostText
+]
+
+{ #category : #accessing }
+GLMRubricTextPresentation >> withGhostText: aText [
+	
+	withGhostText := aText
 ]
 
 { #category : #accessing }
