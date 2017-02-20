@@ -9,6 +9,7 @@ Class {
 	#instVars : [
 		'action',
 		'title',
+		'help',
 		'keymap',
 		'position',
 		'category',
@@ -109,6 +110,16 @@ GLMAction >> hasShortcut [
 GLMAction >> hasTitle [ 
 	 
 	^self title notNil
+]
+
+{ #category : #accessing }
+GLMAction >> help [
+	^ help 
+]
+
+{ #category : #accessing }
+GLMAction >> help: anObject [
+	help := anObject
 ]
 
 { #category : #accessing }
