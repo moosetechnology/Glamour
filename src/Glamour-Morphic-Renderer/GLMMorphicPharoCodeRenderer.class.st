@@ -69,11 +69,12 @@ GLMMorphicPharoCodeRenderer >> evaluateAndPrintSelection [
 
 { #category : #rendering }
 GLMMorphicPharoCodeRenderer >> modelFor: aPresentation [
-
+	| highlightContext |
+	highlightContext := aPresentation highlightSmalltalkContext. 
 	^ GLMRubricSmalltalkTextModel new
 		glamourPresentation: aPresentation;
-		highlightSmalltalk: true;
-		highlightSmalltalkContext: aPresentation highlightSmalltalkContext;
+		highlightSmalltalk: highlightContext notNil;
+		highlightSmalltalkContext: highlightContext;
 		yourself
 ]
 

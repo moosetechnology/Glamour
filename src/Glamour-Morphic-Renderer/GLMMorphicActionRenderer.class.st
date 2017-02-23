@@ -26,7 +26,7 @@ GLMMorphicActionRenderer >> render: anAction [
 		hResizing: #shrinkWrap;
 		vResizing: #shrinkWrap;
 		getEnabledSelector: nil;
-		setBalloonText: ((anAction help ifNil: [ anAction title]) , Character tab asString , anAction shortcutAsString) trimBoth;
+		setBalloonText: (anAction title , Character tab asString , anAction shortcutAsString) trimBoth;
 		extent: b minExtent;
 		removeProperty: #theme.
 	anAction shouldShowTitle 
