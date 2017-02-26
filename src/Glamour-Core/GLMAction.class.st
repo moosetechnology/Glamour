@@ -9,6 +9,7 @@ Class {
 	#instVars : [
 		'action',
 		'title',
+		'help',
 		'keymap',
 		'position',
 		'category',
@@ -17,8 +18,7 @@ Class {
 		'enabledCondition',
 		'separatorAfter',
 		'separatorBefore',
-		'shouldShowTitle',
-		'help'
+		'shouldShowTitle'
 	],
 	#category : #'Glamour-Core'
 }
@@ -114,7 +114,7 @@ GLMAction >> hasTitle [
 
 { #category : #accessing }
 GLMAction >> help [
-	^ help
+	^ help 
 ]
 
 { #category : #accessing }
