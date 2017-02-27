@@ -5,7 +5,8 @@ Class {
 	#name : #GLMSystemWindow,
 	#superclass : #StandardWindow,
 	#instVars : [
-		'toolbarBox'
+		'toolbarBox',
+		'hasInitialStep'
 	],
 	#category : #'Glamour-Morphic-Widgets'
 }
@@ -52,7 +53,8 @@ GLMSystemWindow >> initialize [
 	self
 		on: #keyStroke 
 		send: #handleKeyStroke: 
-		to: self	
+		to: self.
+	hasInitialStep := false
 ]
 
 { #category : #accessing }
@@ -61,6 +63,21 @@ GLMSystemWindow >> setLabelWidgetAllowance [
 		(toolbarBox
 			ifNil: [ 0 ]
 			ifNotNil: [ :toolbar | toolbarBox width ])
+]
+
+{ #category : #stepping }
+GLMSystemWindow >> stepAt: millisecondClockValue [
+	"An alarm will also be fired the first time the window is opened, 
+	even if stepTime was not reached. Ignore the very first step."
+	hasInitialStep ifFalse: [ 
+		hasInitialStep := true.
+		^ self ].
+	super stepAt: millisecondClockValue
+]
+
+{ #category : #stepping }
+GLMSystemWindow >> stepTime [
+	^ self model stepTime
 ]
 
 { #category : #accessing }
@@ -72,6 +89,11 @@ GLMSystemWindow >> toolbarBox: anObject [
 	toolbarBox := anObject.
 	self setLabelWidgetAllowance.
 	self replacePane: previousToolbar with: toolbarBox
+]
+
+{ #category : #stepping }
+GLMSystemWindow >> wantsSteps [
+	^ self model wantsSteps
 ]
 
 { #category : #announcement }
