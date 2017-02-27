@@ -42,7 +42,8 @@ Class {
 		'portChangeActions',
 		'wantsSteps',
 		'stepTime',
-		'stepCondition'
+		'stepCondition',
+		'wantsAutomaticRefresh'
 	],
 	#category : #'Glamour-Core'
 }
@@ -656,6 +657,16 @@ GLMPresentation >> rawSelectionTransmissionFor: aPortSymbol ifNone: ifNoneBlock 
 ]
 
 { #category : #updating }
+GLMPresentation >> refreshRequest [
+	"I send the presentation a request to update that the presentation can ignore depending
+	on it's state. For example the presentation can ingnore this if it is not visible on screen.
+	Use #update to force a refresh."
+	self pane ports do: [:each |
+		(self validate: each value on: each) ifFalse: [each resetValue] ].
+	self announce: (GLMPresentationRefreshRequest new presentation: self)
+]
+
+{ #category : #updating }
 GLMPresentation >> registerAnnouncements [
 	"this method is called from the rendering code"
 	self flag: 'The announcements should potentially be interested in any ports, not just in entity'.
@@ -959,6 +970,12 @@ GLMPresentation >> statusbarPresentation [
 ]
 
 { #category : #stepping }
+GLMPresentation >> step [
+	"Be default no action is performed. Custom presentations that enable 
+	stepping should specify a concrete behaviour."
+]
+
+{ #category : #stepping }
 GLMPresentation >> stepCondition [
 
 	^ stepCondition ifNil: [ [ false ] ]
@@ -1160,9 +1177,24 @@ GLMPresentation >> validate: anObject on: aPort [
 	^ self doValidate: anObject on: aPort.
 ]
 
+{ #category : #accessing }
+GLMPresentation >> wantsAutomaticRefresh [
+	"Answer whether this presentations supports automatic refresh. Unlike stepping
+	the refresh rate is not controlled by the presentation but by the browser containing
+	the presentation. If a presentation wants to control its refresh rate it should
+	rely on #wantsStep."
+	^ wantsAutomaticRefresh ifNil: [ false ]
+]
+
+{ #category : #accessing }
+GLMPresentation >> wantsAutomaticRefresh: aBoolean [
+	wantsAutomaticRefresh := aBoolean
+]
+
 { #category : #stepping }
 GLMPresentation >> wantsSteps [
-
+	"Answer whether this presentation wants stepping. Stepping is controlled by the morph
+	and sends to the presentation the message #step at intervals controlled by #stepTime."
 	^ wantsSteps ifNil: [ false ]
 ]
 
