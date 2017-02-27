@@ -48,6 +48,16 @@ GLMMorphicFTRenderer >> actOnContextChanged: anAnnouncement [
 ]
 
 { #category : #rendering }
+GLMMorphicFTRenderer >> actOnPresentationRefreshRequest: anAnnouncement [
+
+	tableMorph window ifNil: [ ^ self ].
+	tableMorph window isActive ifFalse: [ ^ self ].
+	(tableMorph window boundsInWorld containsRect: tableMorph boundsInWorld) ifFalse: [ ^ self ].
+  " tableModel resetElements."
+	tableMorph refresh
+]
+
+{ #category : #rendering }
 GLMMorphicFTRenderer >> actOnUpdatedPresentation: anAnnouncement [
 	tableModel resetElements.
 	tableMorph refresh
@@ -79,7 +89,8 @@ GLMMorphicFTRenderer >> dataSourceUpdated: announcement [
 GLMMorphicFTRenderer >> initializeAnnoucementForPresentation: aPresentation [
 	aPresentation when: GLMDataSourceUpdated send: #dataSourceUpdated: to: self.
 	aPresentation when: GLMContextChanged send: #actOnContextChanged: to: self.
-	aPresentation when: GLMPresentationUpdated send: #actOnUpdatedPresentation: to: self
+	aPresentation when: GLMPresentationUpdated send: #actOnUpdatedPresentation: to: self.
+	aPresentation when: GLMPresentationRefreshRequest send: #actOnPresentationRefreshRequest: to: self
 ]
 
 { #category : #private }
