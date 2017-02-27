@@ -57,9 +57,9 @@ GLMContextChanged >> printOn: aStream [
 		nextPutAll: ', property = #';
 		nextPutAll: self property;
 		nextPutAll: ', oldValue = ';
-		nextPutAll: self oldValue gtDisplayString;
+		nextPutAll: self oldValue asString;
 		nextPutAll: ', value = ';
-		nextPutAll: self value gtDisplayString;
+		nextPutAll: self value asString;
 		nextPutAll: ')'
 ]
 
