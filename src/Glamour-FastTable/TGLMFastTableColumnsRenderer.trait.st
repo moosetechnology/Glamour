@@ -39,9 +39,9 @@ TGLMFastTableColumnsRenderer >> dataFromPresentationItem: anItem [
 
 { #category : #rendering }
 TGLMFastTableColumnsRenderer >> editRowMorphForColumn: glamourColumn element: element withIndex: aRowIndex [ 
-	| brick |
+	"| brick |"
 	
-	(brick := GLMEditableLabelBrick new)
+	"(brick := GLMEditableLabelBrick new)
 		cancelOnEscape;
 		cancelOnFocusLost;
 		text: (self valueFor: element in: glamourColumn);
@@ -53,11 +53,46 @@ TGLMFastTableColumnsRenderer >> editRowMorphForColumn: glamourColumn element: el
 				cull: brick text
 				cull: element
 				cull: self glamourPresentation ];
-		yourself.
-			
+		yourself."
+
+	"brick := GLMLabelBrick new
+			enable;
+			text: (self valueFor: element in: glamourColumn);
+			vShrinkWrap;
+			hSpaceFill;
+			yourself.
+
+	brick	when: #onMouseHover do: [
+		GLMEditPopupBrick new
+			closer: (GLMPopupBrickCloser predicate: GLMPopupBrickOutisideClickPredicate new);
+			textModel: (self valueFor: element in: glamourColumn);
+			padding: #(8 10);
+			openBelowFor: brick ].
+
 	^ brick asMorph
 		hSpaceFill;
-		vShrinkWrap
+		vShrinkWrap"
+	| rowMorph |
+
+	rowMorph := self viewRowMorphForColumn: glamourColumn element: element withIndex: aRowIndex.
+	rowMorph hResizing: #spaceFill.
+	rowMorph
+		on: #mouseDown
+		send: #value:
+		to: [ :event | 
+			event shiftPressed ifTrue: [
+				GLMEditPopupBrick new
+					closer: (GLMPopupBrickCloser new
+						predicate: GLMPopupBrickOutisideClickPredicate new;
+						predicate: GLMPopupBrickEscPredicate new;
+						yourself);
+					textModel: (self valueFor: element in: glamourColumn);
+					padding: #(8 10);
+					openBelowFor: rowMorph ]
+				ifFalse: [ event wasHandled: false ] ].
+	
+	^ rowMorph
+
 ]
 
 { #category : #rendering }
