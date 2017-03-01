@@ -329,7 +329,7 @@ GLMBrick >> drawSubmorphsOn: aCanvas [
 				
 			(area intersects: globalBounds) ifTrue: [
 				| zIndex |
-				zIndex := each layoutProperties zIndex.
+				zIndex := each layoutProperties zIndex brickValue: each.
 				zIndex = 1 ifTrue: [
 					"immediately draw ones with the lowest possible z-index.
 					With this approach performance doesn't degrade"
@@ -339,8 +339,7 @@ GLMBrick >> drawSubmorphsOn: aCanvas [
 					"if z-index is not 1 we add it to collection, in order to sort and draw as second attempt"
 				ifFalse: [ zIndexedBricks add: each ] ] ] ].
 		
-		"z-index drawing section"
-		zIndexedBricks sort: [ :first :second | first layoutProperties zIndex < second layoutProperties zIndex ].
+		zIndexedBricks sort: [ :first :second | (first layoutProperties zIndex brickValue: first) < (second layoutProperties zIndex brickValue: second) ].
 		
 		zIndexedBricks do: [ :each |
 			| intersection canvas globalBounds |
@@ -380,7 +379,7 @@ GLMBrick >> drawSubmorphsOnAthensCanvas: anAthensCanvas [
 				
 			(area intersects: globalBounds) ifTrue: [
 				| zIndex |
-				zIndex := each layoutProperties zIndex.
+				zIndex := each layoutProperties zIndex brickValue: each.
 				zIndex = 1 ifTrue: [
 					"immediately draw ones with the lowest possible z-index.
 					With this approach performance doesn't degrade"
@@ -390,7 +389,7 @@ GLMBrick >> drawSubmorphsOnAthensCanvas: anAthensCanvas [
 				ifFalse: [ zIndexedBricks add: each ] ] ] ].
 		
 		"z-index drawing section"
-		zIndexedBricks sort: [ :first :second | first layoutProperties zIndex < second layoutProperties zIndex ].
+		zIndexedBricks sort: [ :first :second | (first layoutProperties zIndex brickValue: first) < (second layoutProperties zIndex brickValue: second) ].
 		
 		zIndexedBricks do: [ :each |
 			| intersection globalBounds |

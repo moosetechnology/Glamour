@@ -1,3 +1,6 @@
+"
+I am a popup with an action button hint text
+"
 Class {
 	#name : #GLMPopupBrick,
 	#superclass : #GLMEmptyPopupBrick,
@@ -7,7 +10,7 @@ Class {
 		'titleBrick',
 		'titleText'
 	],
-	#category : #'Glamour-Morphic-Brick-Widgets-UI'
+	#category : #'Glamour-Morphic-Brick-Widgets-UI-Popup'
 }
 
 { #category : #examples }
@@ -80,9 +83,9 @@ GLMPopupBrick >> hintText [
 ]
 
 { #category : #accessing }
-GLMPopupBrick >> hintText: anObject [
-	hintText := anObject.
-	
+GLMPopupBrick >> hintText: aBrick [
+	hintText := aBrick.
+
 	self hintBrick ifNotNil: [ self hintBrick text: self hintText ]
 ]
 
@@ -119,8 +122,8 @@ GLMPopupBrick >> titleBrick [
 ]
 
 { #category : #accessing }
-GLMPopupBrick >> titleBrick: anObject [
-	titleBrick := anObject.
+GLMPopupBrick >> titleBrick: aBrick [
+	titleBrick := aBrick.
 	
 	self titleBrick
 		textColor: self themer popupThemer textColor.
@@ -134,8 +137,8 @@ GLMPopupBrick >> titleText [
 ]
 
 { #category : #accessing }
-GLMPopupBrick >> titleText: anObject [
-	titleText := anObject.
+GLMPopupBrick >> titleText: aText [
+	titleText := aText.
 	
 	self titleBrick ifNotNil: [ self titleBrick text: self titleText ]
 ]

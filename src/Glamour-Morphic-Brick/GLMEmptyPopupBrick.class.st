@@ -1,3 +1,8 @@
+"
+I am a general popup widget that also visually preserves a context of a trigger element.
+I can opened based on opening strategy (hover, shift + hover, or double click + shift).
+Subclasses should implement #onCreated method to customize popup content
+"
 Class {
 	#name : #GLMEmptyPopupBrick,
 	#superclass : #GLMInteractableBrick,
@@ -5,10 +10,10 @@ Class {
 		'anchorBrick',
 		'triggerBrick',
 		'contentBrick',
-		'contentLogic',
-		'isHideUnhover'
+		'isHideUnhover',
+		'closer'
 	],
-	#category : #'Glamour-Morphic-Brick-Widgets-UI'
+	#category : #'Glamour-Morphic-Brick-Widgets-UI-Popup'
 }
 
 { #category : #examples }
@@ -22,12 +27,39 @@ GLMEmptyPopupBrick class >> createButton: hoverAction [
 			height: [ :b | b icon height * 2 ])
 ]
 
+{ #category : #examples }
+GLMEmptyPopupBrick class >> createLabel: hoverAction [
+	| label |
+
+	label := GLMLabelBrick new
+			enable;
+			color: Color white;
+			text: 'Hover me';
+			vShrinkWrap;
+			hShrinkWrap;
+			yourself.
+	
+	
+	label	when: #onMouseHover do: [ hoverAction value: label ].
+	
+	^ label
+]
+
+{ #category : #initialization }
+GLMEmptyPopupBrick >> addCloserListener [
+
+	self
+		assert: [ self closer isNotNil ]
+		description: [ 'Closer must not be nil' ].
+	
+	self closer popup: self.
+	self activeHand addEventListener: self closer
+]
+
 { #category : #accessing }
 GLMEmptyPopupBrick >> addContentBricks [
 	
 	self onCreated.
-	contentLogic ifNotNil: [
-		self contentBrick addAllBricks: ((contentLogic brickValue: self withEnoughArguments: { self triggerBrick }) asOrderedCollection select: #isNotNil) ].
 	self announce: #onCreated event: self triggerBrick
 ]
 
@@ -72,8 +104,22 @@ GLMEmptyPopupBrick >> beSuccess [
 
 { #category : #opening }
 GLMEmptyPopupBrick >> close [
-
 	self foundationBrick delete
+]
+
+{ #category : #accessing }
+GLMEmptyPopupBrick >> closer [
+	"Return a current popup closer"
+	^ closer
+]
+
+{ #category : #accessing }
+GLMEmptyPopupBrick >> closer: aPopupCloser [
+	"Change current popup closer to a given one"
+	
+	self removeCloserListener.
+	closer := aPopupCloser.
+	self addCloserListener
 ]
 
 { #category : #accessing }
@@ -100,10 +146,14 @@ GLMEmptyPopupBrick >> contentBrick: aBrick [
 	
 ]
 
-{ #category : #actions }
-GLMEmptyPopupBrick >> doNotHideUnhover [
+{ #category : #initialization }
+GLMEmptyPopupBrick >> defaultCloser [
+	"Return a default popup closer responsible for hiding a popup"
+	<return: #GLMPopupBrickCloser>
 
-	isHideUnhover := false
+	^ GLMPopupBrickCloser new
+		predicate: GLMPopupBrickUnhoverPredicate new;
+		yourself
 ]
 
 { #category : #accessing }
@@ -114,41 +164,25 @@ GLMEmptyPopupBrick >> foundationBrick [
 		ifFalse: [ self ]
 ]
 
-{ #category : #'events-processing' }
-GLMEmptyPopupBrick >> handleListenEvent: anEvent [
-
-	self isHideUnhover not & (anEvent type = #mouseMove)
-		ifTrue: [ ^ self ].
-
-	(self isInsideOfPopupBrick: anEvent) ifFalse: [ self close ]
-]
-
 { #category : #initialization }
 GLMEmptyPopupBrick >> initialize [
 	super initialize.
-	
+
+	closer := self defaultCloser.
+
 	self
 		initializeListeners;
 		useVerticalLinearLayout;
 		vShrinkWrap;
 		hShrinkWrap;
-		enable.
-	
-	
-	
+		enable
 ]
 
 { #category : #initialization }
 GLMEmptyPopupBrick >> initializeListeners [
-
 	"using the most general event subscribtion for all events spawned by the hand"
-	self activeHand addEventListener: self.
-]
-
-{ #category : #actions }
-GLMEmptyPopupBrick >> isHideUnhover [
-
-	^ isHideUnhover ifNil: [ isHideUnhover := true ]
+	
+	self addCloserListener
 ]
 
 { #category : #'events-processing' }
@@ -184,21 +218,19 @@ GLMEmptyPopupBrick >> newTriggerBrick [
 	^ GLMActionButtonBrick new
 		icon: (self anchorBrick
 			ifNil: [ GLMUIThemeExtraIcons glamorousExample ]
-			ifNotNil: [ self anchorBrick brickTransparentImageForm ]);
-		width: [ :b | b icon width ];
-		height: [ :b | b icon height ]
+			ifNotNil: [ self anchorBrick brickImageForm: self themer popupThemer backgroundColor ]);
+		width: [ :b | b icon width + b paddingLeft + b paddingRight ];
+		height: [ :b | b icon height + b paddingTop + b paddingBottom ];
+		padding: self padding
 ]
 
 { #category : #'events-processing' }
 GLMEmptyPopupBrick >> onCreated [
-
-	
+	self subclassResponsibility
 ]
 
-{ #category : #initialization }
-GLMEmptyPopupBrick >> onCreated: aBlock [
-
-	contentLogic := aBlock
+{ #category : #'events-processing' }
+GLMEmptyPopupBrick >> onOpened [
 ]
 
 { #category : #opening }
@@ -229,12 +261,20 @@ GLMEmptyPopupBrick >> openAboveFor: aBrick [
 { #category : #opening }
 GLMEmptyPopupBrick >> openBelow: aRectangle [
 	"aRectangle must be in global coordinates"
-	^ self asBrickedMorph
+	| anOrigin anExtent aFoundationBrick |
+
+	anOrigin := aRectangle origin - ((self paddingLeft @ self paddingTop) * 2).
+	anExtent := self extent + (0 @ self themer popupThemer borderWidth) + (self hPadding @ self vPadding).
+
+	aFoundationBrick := self asBrickedMorph
 		vShrinkWrap;
 		hShrinkWrap;
-		bounds: (aRectangle origin extent: (self extent + (0@self themer popupThemer borderWidth)));
-		openInWorld
+		bounds: (anOrigin extent: anExtent);
+		openInWorld.
+		
+	self onOpened.
 	
+	^ aFoundationBrick
 ]
 
 { #category : #opening }
@@ -243,11 +283,25 @@ GLMEmptyPopupBrick >> openBelowFor: aBrick [
 	self anchorBrick: aBrick.
 	self triggerBrick: self newTriggerBrick.
 	self contentBrick: self newContentBrick.
-	self triggerBrick zIndex: 2.
 	self triggerBrick
-		borderDo: [ :b | b widthBottom: 0 ];
 		marginBottom: self themer popupThemer borderWidth negated.
 	self addContentBricks.
+	
+	self contentBrick
+		borderDo: [ :b | b widthTop: [ self contentBrick width > self triggerBrick width
+			ifTrue: [ self themer popupThemer borderWidth ]
+			ifFalse: [ 0 ] ] ];
+		zIndex: [ :b | self contentBrick width > self triggerBrick width
+			ifTrue: [ 1 ]
+			ifFalse: [ 2 ] ].
+
+	self triggerBrick
+		borderDo: [ :b | b widthBottom: [ self contentBrick width > self triggerBrick width
+			ifTrue: [ 0 ]
+			ifFalse: [ self themer popupThemer borderWidth ] ] ];
+	zIndex: [ :b | self contentBrick width > self triggerBrick width
+			ifTrue: [ 2 ]
+			ifFalse: [ 1 ] ].
 	
 	^ aBrick ifNotNil: [ self openBelow: aBrick boundsInWorld ]
 ]
@@ -264,6 +318,24 @@ GLMEmptyPopupBrick >> outOfWorld: aWorld [
 	self unsubscribeListeners
 ]
 
+{ #category : #'brick-geometry-properties' }
+GLMEmptyPopupBrick >> padding: aCollection [
+	super padding: aCollection.
+	
+	self triggerBrick ifNotNil: [ :aBrick | aBrick padding: aCollection ]
+]
+
+{ #category : #initialization }
+GLMEmptyPopupBrick >> removeCloserListener [
+
+	self
+		assert: [ self closer isNotNil ]
+		description: [ 'Closer must not be nil' ].
+	
+	self activeHand removeEventListener: self closer.
+	self closer popup: nil
+]
+
 { #category : #accessing }
 GLMEmptyPopupBrick >> triggerBrick [
 
@@ -277,14 +349,13 @@ GLMEmptyPopupBrick >> triggerBrick: aBrick [
 	self triggerBrick
 		color: self themer popupThemer backgroundColor;
 		borderColor: self themer popupThemer borderColor;
-		borderWidth: self themer popupThemer borderWidth;
-		action: [ :b :evt | self close. self anchorBrick click: evt ].
+		borderWidth: self themer popupThemer borderWidth.
 		
-	self addBrickBack: self triggerBrick.
+	self addBrickBack: self triggerBrick
 ]
 
 { #category : #initialization }
 GLMEmptyPopupBrick >> unsubscribeListeners [
 
-	self activeHand removeEventListener: self
+	self removeCloserListener
 ]

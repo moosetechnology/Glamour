@@ -194,6 +194,11 @@ GLMRubScrolledTextBrick >> rubricTextFontSize: aFloat [
 	self updateStyle
 ]
 
+{ #category : #protocol }
+GLMRubScrolledTextBrick >> takeKeyboardFocus [
+	self rubric takeKeyboardFocus
+]
+
 { #category : #'brick-properties' }
 GLMRubScrolledTextBrick >> text: aText [
 
