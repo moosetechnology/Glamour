@@ -77,8 +77,8 @@ GLMTabLabelBrick >> label [
 	"Answer the label contents."
 
 	^ self isSelected
-		ifTrue: [self selectedLabel userString ifNil: [ self firstSubmorph ] ]
-		ifFalse: [self normalLabel userString ifNil: [ self firstSubmorph ] ]
+		ifTrue: [ self selectedLabel userString ifNil: [ self firstSubmorph ] ]
+		ifFalse: [ self normalLabel userString ifNil: [ self firstSubmorph ] ]
 ]
 
 { #category : #'brick-tab-label-accessing' }
@@ -120,7 +120,9 @@ GLMTabLabelBrick >> normalLabel: anObject [
 { #category : #'brick-interactable-actions' }
 GLMTabLabelBrick >> select [
 	self owner ifNil: [ ^ self ].
-	self minWidth: [ (self label layout maxWidth brickValue: self label) min: self owner width ].
+	self minWidth: [ self owner width min: (self hasSubbricks
+		ifTrue: [ (self label layout maxWidth brickValue: self label) ]
+		ifFalse: [ 0 ]) ].
 	self owner doLayoutForce
 ]
 

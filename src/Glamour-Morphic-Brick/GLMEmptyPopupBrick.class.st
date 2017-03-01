@@ -10,7 +10,6 @@ Class {
 		'anchorBrick',
 		'triggerBrick',
 		'contentBrick',
-		'isHideUnhover',
 		'closer'
 	],
 	#category : #'Glamour-Morphic-Brick-Widgets-UI-Popup'
