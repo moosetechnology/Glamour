@@ -7,9 +7,8 @@ Class {
 { #category : #actions }
 GLMPopupAction >> popupActOn: aPresentation from: aButton [
 
-	GLMEmptyPopupBrick new
-		with: [ :b | b themer: b themer actionThemer ];
-		doNotHideUnhover;
+	GLMPopupActionBrick new
+		closer: (GLMPopupBrickCloser predicate: GLMPopupBrickOutisideClickPredicate new);
 		onCreated: [ :popup |self action glamourValueWithArgs: (Array 
 				with: aPresentation 
 				withAll: { aPresentation entity . popup }) ];
