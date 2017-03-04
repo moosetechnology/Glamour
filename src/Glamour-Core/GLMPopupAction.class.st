@@ -12,7 +12,7 @@ GLMPopupAction >> popupActOn: aPresentation from: aButton [
 		onCreated: [ :popup |self action glamourValueWithArgs: (Array 
 				with: aPresentation 
 				withAll: { aPresentation entity . popup }) ];
-		openBelowFor: aButton;
+		openOn: aButton;
 		beRightToLeftWithOffset: 0
 ]
 
