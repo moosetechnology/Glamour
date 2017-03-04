@@ -10,61 +10,92 @@ Class {
 
 { #category : #'private-shadow' }
 GLMBrickRenderer >> bottomLeftCornerShadowOf: aBrick on: aCanvas [
-	|gradient width|
+	| gradient width origin offset |
+
 	width := aBrick shadowWidth.
+	offset := (width @ width) negated / 2.0.
+	origin := aBrick brickBounds bottomLeft + offset + aBrick shadowOffset.
+
 	"draw top left corner"
 	gradient := (self shadowGradientFor: aBrick)
-		origin: aBrick brickBounds bottomLeft + (width@width negated);
-		direction: (width negated@width)/1.4;
+		origin: origin + (width @ 0);
+		direction: (width negated @ width) / 1.4;
 		radial: true;
 		yourself.
-	aCanvas fillRectangle: (aBrick brickBounds bottomLeft - (0@width) corner: (aBrick brickBounds bottomLeft + (width@0))) fillStyle: gradient.
+
+	aCanvas fillRectangle: (origin extent: width @ width) fillStyle: gradient
 ]
 
 { #category : #'private-shadow' }
 GLMBrickRenderer >> bottomRightCornerShadowOf: aBrick on: aCanvas [
-	|gradient width|
+	| gradient width origin offset |
+
 	width := aBrick shadowWidth.
+	offset := (width @ width) negated / 2.0.
+	origin := aBrick brickBounds bottomRight + offset + aBrick shadowOffset.
+
 	"draw top right corner"
 	gradient := (self shadowGradientFor: aBrick)
-		origin: aBrick brickBounds corner  - (width@width);
-		direction: (width@width)/1.4;
+		origin: origin;
+		direction: (width @ width) / 1.4;
 		radial: true;
 	yourself.
-	
-	aCanvas fillRectangle: (aBrick brickBounds corner  - (width@width) corner: (aBrick brickBounds corner)) fillStyle: gradient.
+
+	aCanvas fillRectangle: (origin extent: width @ width) fillStyle: gradient.
 ]
 
 { #category : #'private-shadow' }
 GLMBrickRenderer >> bottomShadowOf: aBrick on: aCanvas [
-	|gradient width|
+	| gradient width origin offset |
+	
 	width := aBrick shadowWidth.
+	offset := (width @ width negated) / 2.0.
+	origin := aBrick brickBounds bottomLeft + offset + aBrick shadowOffset.
+
 	"draw bottom shadow"
 	gradient := (self shadowGradientFor: aBrick)
-		origin: aBrick brickBounds bottomCenter - (0@width);
-		direction: (0@width);
+		origin: origin - offset - (0 @ (width / 2.0));
+		direction: 0 @ width;
 		yourself.
-	aCanvas fillRectangle: ((aBrick brickBounds bottomLeft + (width@width negated)) corner: (aBrick brickBounds bottomLeft - (width @width) + (aBrick brickBounds width @ width))) fillStyle: gradient.
+
+	aCanvas fillRectangle: (origin extent: (aBrick width - width) @ width) fillStyle: gradient
+]
+
+{ #category : #geometry }
+GLMBrickRenderer >> drawingBounds: aBrick [
+	| aRectangle anOffset |
+
+	aRectangle := aBrick brickBounds.
+	anOffset := aBrick shadowOffset.
+
+	^ aBrick shadowWidth isZero
+		ifTrue: [ aRectangle ]
+		ifFalse: [ aRectangle quickMerge: ((aRectangle expandBy: aBrick shadowWidth) translateBy: anOffset) ]
 ]
 
 { #category : #'private-shadow' }
 GLMBrickRenderer >> leftShadowOf: aBrick on: aCanvas [
-	|gradient width|
+	| gradient width origin offset |
+	
 	width := aBrick shadowWidth.
+	offset := (width negated @ width) / 2.0.
+	origin := aBrick brickBounds topLeft + offset + aBrick shadowOffset.
+
 	"draw left shadow"
 	gradient := (self shadowGradientFor: aBrick)
-		origin: aBrick brickBounds leftCenter + (width@0);
-		direction: (width@0)negated;
+		origin: origin - offset + (width / 2.0 @ 0);
+		direction: (width @ 0) negated;
 		yourself.
-	aCanvas fillRectangle: ((aBrick brickBounds origin + (0@width)) corner: (aBrick brickBounds origin + (width@width negated) + (0@ aBrick brickBounds height))) fillStyle: gradient.
+
+	aCanvas fillRectangle: (origin extent: width @ (aBrick height - width)) fillStyle: gradient.
 ]
 
 { #category : #rendering }
 GLMBrickRenderer >> render: aBrick on: aCanvas [
 	
 	self
-		renderBackgroundColorOf: aBrick on: aCanvas;
 		renderShadowOf: aBrick on: aCanvas;
+		renderBackgroundColorOf: aBrick on: aCanvas;
 		renderBorderOf: aBrick on: aCanvas
 ]
 
@@ -76,16 +107,23 @@ GLMBrickRenderer >> render: aBrick onAthensCanvas: aCanvas [
 
 { #category : #rendering }
 GLMBrickRenderer >> renderBackgroundColorOf: aBrick on: aCanvas [
-	|rectangle|
+	| rectangle |
+
 	rectangle := aBrick brickBounds expandBy: aBrick shadowWidth negated.
-	aCanvas fillRectangle: rectangle color: aBrick color.
+	self renderBackgroundColorOf: aBrick on: aCanvas in: rectangle
+]
+
+{ #category : #private }
+GLMBrickRenderer >> renderBackgroundColorOf: aBrick on: aCanvas in: aRectangle [
+
+	aCanvas fillRectangle: aRectangle color: aBrick color.
 	(aBrick fillStyle = Color transparent) ifFalse: [ 
-		aCanvas fillRectangle: rectangle fillStyle: aBrick fillStyle borderStyle: aBrick borderStyle ]
+		aCanvas fillRectangle: aRectangle fillStyle: aBrick fillStyle borderStyle: aBrick borderStyle ]
 ]
 
 { #category : #rendering }
 GLMBrickRenderer >> renderBorderOf: aBrick on: aCanvas [
-	|markColor markWidth|
+	| markColor markWidth |
 	aBrick border renderBorderOf: aBrick on: aCanvas.
 	
 	markColor := aBrick valueOfProperty: #brickMarkBorderColor ifAbsent: nil.
@@ -99,8 +137,9 @@ GLMBrickRenderer >> renderBorderOf: aBrick on: aCanvas [
 GLMBrickRenderer >> renderShadowOf: aBrick on: aCanvas [
 
 	"no need to even try drawing if shadow width is zero"
-	aBrick shadowWidth = 0 ifTrue: [ ^ self ].
-	
+	aBrick shadowWidth = 0
+		ifTrue: [ ^ self ].
+
 	self
 		topLeftCornerShadowOf: aBrick on: aCanvas;
 		topRightCornerShadowOf: aBrick on: aCanvas;
@@ -109,20 +148,27 @@ GLMBrickRenderer >> renderShadowOf: aBrick on: aCanvas [
 		leftShadowOf: aBrick on: aCanvas;
 		topShadowOf: aBrick on: aCanvas;
 		rightShadowOf: aBrick on: aCanvas;
-		bottomShadowOf: aBrick on: aCanvas
-
+		bottomShadowOf: aBrick on: aCanvas.
+		
+	aCanvas
+		fillRectangle: ((aBrick brickBounds insetBy: aBrick shadowWidth / 2.0) translateBy: aBrick shadowOffset)
+		color: aBrick shadowColor
 ]
 
 { #category : #'private-shadow' }
 GLMBrickRenderer >> rightShadowOf: aBrick on: aCanvas [
-	|gradient width|
+	| gradient width origin |
+
 	width := aBrick shadowWidth.
-	"draw top shadow"
+	origin := aBrick brickBounds topRight + ((width negated @ width) / 2.0) + aBrick shadowOffset.
+
+	"draw right shadow"
 	gradient := (self shadowGradientFor: aBrick)
-		origin: aBrick brickBounds rightCenter - (width@0);
+		origin: origin;
 		direction: (width@0);
 		yourself.
-	aCanvas fillRectangle: ((aBrick brickBounds topRight + (width negated@width)) corner: (aBrick brickBounds corner + (width@width negated))) fillStyle: gradient.
+
+	aCanvas fillRectangle: (origin extent: width @ (aBrick height - width)) fillStyle: gradient
 ]
 
 { #category : #'private-shadow' }
@@ -132,41 +178,60 @@ GLMBrickRenderer >> shadowGradientFor: aBrick [
 ]
 
 { #category : #'private-shadow' }
+GLMBrickRenderer >> shadowGradientReverseFor: aBrick [
+
+	^ GradientFillStyle ramp: { 0.0 -> (aBrick shadowColor alpha: 0). 1.0 -> (aBrick shadowColor) }
+]
+
+{ #category : #'private-shadow' }
 GLMBrickRenderer >> topLeftCornerShadowOf: aBrick on: aCanvas [
-	|gradient width|
+	| gradient width origin offset extent |
+	
 	width := aBrick shadowWidth.
+	extent := width @ width.
+	offset := extent negated / 2.0.
+	origin := aBrick brickBounds origin + offset + aBrick shadowOffset.
+	
 	"draw top left corner"
 	gradient := (self shadowGradientFor: aBrick)
-		origin: aBrick brickBounds origin + (width@width);
-		direction: (width@width)/1.4 negated;
+		origin: origin + (offset * 2 negated);
+		direction: extent / 1.4 negated;
 		radial: true;
 		yourself.
-	aCanvas fillRectangle: (aBrick brickBounds origin corner: (aBrick brickBounds origin + (width@width))) fillStyle: gradient.
+	aCanvas fillRectangle: (origin extent: extent) fillStyle: gradient.
 ]
 
 { #category : #'private-shadow' }
 GLMBrickRenderer >> topRightCornerShadowOf: aBrick on: aCanvas [
-	|gradient width|
+	| gradient width origin offset |
+	
 	width := aBrick shadowWidth.
+	offset := (width @ width) negated / 2.0.
+	origin := aBrick brickBounds topRight + offset + aBrick shadowOffset.
+	
 	"draw top right corner"
 	gradient := (self shadowGradientFor: aBrick)
-		origin: aBrick brickBounds topRight  - (width@width negated);
-		direction: (width@width negated)/1.4;
+		origin: origin + (0 @ width);
+		direction: (width @ width negated) / 1.4;
 		radial: true;
 	yourself.
 	
-	aCanvas fillRectangle: (aBrick brickBounds topRight - (width@0) corner: (aBrick brickBounds topRight + (0@width))) fillStyle: gradient.
+	aCanvas fillRectangle: (origin extent: width @ width) fillStyle: gradient.
 ]
 
 { #category : #'private-shadow' }
 GLMBrickRenderer >> topShadowOf: aBrick on: aCanvas [
-	|gradient width|
+	| gradient width origin offset |
+
 	width := aBrick shadowWidth.
+	offset := (width @ width negated) / 2.0.
+	origin := aBrick brickBounds topLeft + offset + aBrick shadowOffset.
+
 	"draw top shadow"
 	gradient := (self shadowGradientFor: aBrick)
-		origin: aBrick brickBounds topCenter + (0@width);
-		direction: (0@width)negated;
+		origin: origin - offset + (0 @ (width / 2.0));
+		direction: (0 @ width) negated;
 		yourself.
 		
-	aCanvas fillRectangle: ((aBrick brickBounds origin + (width@0)) corner: (aBrick brickBounds origin - (width@0) + (aBrick brickBounds width @ width))) fillStyle: gradient.
+	aCanvas fillRectangle: (origin extent: (aBrick width - width) @ width) fillStyle: gradient.
 ]

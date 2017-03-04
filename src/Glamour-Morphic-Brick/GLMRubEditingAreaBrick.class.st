@@ -115,7 +115,7 @@ GLMRubEditingAreaBrick >> initialize [
 { #category : #'rubric-brick-creation' }
 GLMRubEditingAreaBrick >> newRubricMorph [
 
-	^ RubEditingArea new beWrapped
+	^ GLMRubEditingArea new beWrapped
 ]
 
 { #category : #'brick-geometry' }

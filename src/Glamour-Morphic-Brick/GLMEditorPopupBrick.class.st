@@ -2,7 +2,7 @@
 I am a popup with a text editor allowing users to ""in-place"" edit values
 "
 Class {
-	#name : #GLMEditPopupBrick,
+	#name : #GLMEditorPopupBrick,
 	#superclass : #GLMEmptyPopupBrick,
 	#instVars : [
 		'titleBrick',
@@ -14,13 +14,13 @@ Class {
 }
 
 { #category : #examples }
-GLMEditPopupBrick class >> exampleOpen [
+GLMEditorPopupBrick class >> exampleOpen [
 	
 	self gtExample openCenteredInBrickWindowLabeled: 'All Popup Types'
 ]
 
 { #category : #examples }
-GLMEditPopupBrick class >> gtExample [
+GLMEditorPopupBrick class >> gtExample [
 	<gtExample>
 	<label: 'Example of all popup types'>
 
@@ -29,32 +29,42 @@ GLMEditPopupBrick class >> gtExample [
 		vShrinkWrap;
 		addBrickBack: (self createLabel: [ :b |
 			self new
+				closer: (GLMPopupBrickCloser predicate: GLMPopupBrickOutisideClickPredicate new);
 				textModel: 'haba';
-				openBelowFor: b ]);
-		marginBottom: 35;
+				openOn: b ]);
 		yourself
 ]
 
+{ #category : #initialization }
+GLMEditorPopupBrick >> initialize [
+	super initialize.
+	
+	self themer: self themer popupEditorShadowThemer themer.
+	"self themer: self themer popupEditorBorderThemer themer"
+]
+
 { #category : #'instance creation' }
-GLMEditPopupBrick >> newTextEditField [
+GLMEditorPopupBrick >> newTextEditField [
 
 	^ GLMRubEditingAreaBrick new
 		wrapped: false;
 		hShrinkWrap;
 		vShrinkWrap;
+		withoutBorder;
+		withoutMargins;
+		beForSmalltalkCode;
 		text: self textModel;
 		yourself
 ]
 
 { #category : #'events-processing' }
-GLMEditPopupBrick >> onCreated [
+GLMEditorPopupBrick >> onCreated [
 
-	self contentBrick padding: 2.
 	self textEditBrick: self newTextEditField
 ]
 
 { #category : #'events-processing' }
-GLMEditPopupBrick >> onOpened [
+GLMEditorPopupBrick >> onOpened [
 	super onOpened.
 
 	self textEditBrick
@@ -63,24 +73,24 @@ GLMEditPopupBrick >> onOpened [
 ]
 
 { #category : #accessing }
-GLMEditPopupBrick >> textEditBrick [
+GLMEditorPopupBrick >> textEditBrick [
 	^ textEditBrick
 ]
 
 { #category : #accessing }
-GLMEditPopupBrick >> textEditBrick: aBrick [
+GLMEditorPopupBrick >> textEditBrick: aBrick [
 	textEditBrick := aBrick.
 	
 	self contentBrick addBrickBack: self textEditBrick
 ]
 
 { #category : #accessing }
-GLMEditPopupBrick >> textModel [
+GLMEditorPopupBrick >> textModel [
 	^ textModel ifNil: [ textModel := '' ]
 ]
 
 { #category : #accessing }
-GLMEditPopupBrick >> textModel: aTextModel [
+GLMEditorPopupBrick >> textModel: aTextModel [
 	textModel := aTextModel.
 	
 	self textEditBrick ifNotNil: [ :aTextEditBrick | aTextEditBrick text: self textModel ]

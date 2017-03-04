@@ -4,12 +4,6 @@ Class {
 	#category : #'Glamour-Morphic-Brick-Theme'
 }
 
-{ #category : #modules }
-GLMActionBrickDarkThemer >> popupThemer [
-
-	^ self registerModule: GLMActionBrickPopupDarkThemer new
-]
-
 { #category : #'brick-scrollbar' }
 GLMActionBrickDarkThemer >> scrollbarWidth [
 

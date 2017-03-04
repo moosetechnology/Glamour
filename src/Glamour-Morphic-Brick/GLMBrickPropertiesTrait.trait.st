@@ -169,6 +169,26 @@ GLMBrickPropertiesTrait >> shadowColor: aColor [
 ]
 
 { #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> shadowInset [
+	^ self valueOfProperty: #brickShadowInset ifAbsentPut: [ 0 ]
+]
+
+{ #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> shadowInset: aNumber [
+	self setProperty: #brickShadowInset toValue: aNumber
+]
+
+{ #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> shadowOffset [
+	^ self valueOfProperty: #brickShadowOffset ifAbsentPut: [ 0@0 ]
+]
+
+{ #category : #'brick-properties' }
+GLMBrickPropertiesTrait >> shadowOffset: aPoint [
+	self setProperty: #brickShadowOffset toValue: aPoint
+]
+
+{ #category : #'brick-properties' }
 GLMBrickPropertiesTrait >> shadowWidth [
 
 	^ self valueOfProperty: #brickShadowWidth ifAbsentPut: [ 0 ]

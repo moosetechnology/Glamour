@@ -211,6 +211,11 @@ GLMInteractableBrick >> currentImage [
 	^ self state pressed: (self isPressed) selected: (self isSelected) checked: (self isChecked) of: self
 ]
 
+{ #category : #initialization }
+GLMInteractableBrick >> defaultRenderer [
+	^ GLMInteractableBrickRenderer new
+]
+
 { #category : #'brick-interactable-actions' }
 GLMInteractableBrick >> depress [
 	self isPressed ifTrue: [
@@ -288,8 +293,6 @@ GLMInteractableBrick >> initialize [
 	isChecked := false.
 	isPressed := false.
 	isSelected := false.
-	
-	self renderer: GLMInteractableBrickRenderer new.
 	
 	self disable.
 ]

@@ -1,5 +1,5 @@
 "
-I am a popup closer responsible for determening when and how a popup should be hidden
+I am a popup closer responsible for closing a popup if any of my predicates are activated as the result of an event
 "
 Class {
 	#name : #GLMPopupBrickCloser,

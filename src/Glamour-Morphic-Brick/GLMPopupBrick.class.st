@@ -49,16 +49,29 @@ GLMPopupBrick class >> gtExampleAllTypesBelow [
 	^ GLMBrick new
 		hShrinkWrap;
 		vShrinkWrap;
-		addBrickBack: (self createButton: [ :b | self new openBelowFor: b ]);
-		addBrickBack: (self createButton: [ :b | self new beHelp; openBelowFor: b ]);
-		addBrickBack: (self createButton: [ :b | self new beError; openBelowFor: b ]);
-		addBrickBack: (self createButton: [ :b | self new beSuccess; openBelowFor: b ]);
+		addBrickBack: (self createButton: [ :b | self new openOn: b ]);
+		addBrickBack: (self createButton: [ :b | self new beHelp; openOn: b ]);
+		addBrickBack: (self createButton: [ :b | self new beError; openOn: b ]);
+		addBrickBack: (self createButton: [ :b | self new beSuccess; openOn: b ]);
 		marginTop: 35
 ]
 
-{ #category : #'events-processing' }
-GLMPopupBrick >> handleListenEvent: anEvent [
-	(self isInsideOfTriggerBrick: anEvent) ifFalse: [ self close ]
+{ #category : #initialization }
+GLMPopupBrick >> beError [
+
+	self themer: self themer popupErrorThemer themer
+]
+
+{ #category : #initialization }
+GLMPopupBrick >> beHelp [
+
+	self themer: self themer popupHelpThemer themer
+]
+
+{ #category : #initialization }
+GLMPopupBrick >> beSuccess [
+
+	self themer: self themer popupSuccessThemer themer
 ]
 
 { #category : #accessing }

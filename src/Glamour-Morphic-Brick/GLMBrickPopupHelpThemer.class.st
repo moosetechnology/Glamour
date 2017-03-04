@@ -1,7 +1,7 @@
 Class {
 	#name : #GLMBrickPopupHelpThemer,
 	#superclass : #GLMBrickPopupThemer,
-	#category : #'Glamour-Morphic-Brick-Theme'
+	#category : #'Glamour-Morphic-Brick-Widgets-UI-Popup-Themer'
 }
 
 { #category : #'brick-popup' }
