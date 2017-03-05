@@ -39,39 +39,6 @@ TGLMFastTableColumnsRenderer >> dataFromPresentationItem: anItem [
 
 { #category : #rendering }
 TGLMFastTableColumnsRenderer >> editRowMorphForColumn: glamourColumn element: element withIndex: aRowIndex [ 
-	"| brick |"
-	
-	"(brick := GLMEditableLabelBrick new)
-		cancelOnEscape;
-		cancelOnFocusLost;
-		text: (self valueFor: element in: glamourColumn);
-		hSpaceFill;
-		with: [ :b | b editBrick rubricBackgroundColor: b themer rubricBackgroundColor ];
-		when: #onSingleClicked do: [ :event :b | b isReadMode ifTrue: [ self table selectRowIndex: aRowIndex ] ];
-		when: #onAccepted do: [ 
-			glamourColumn modifiedBlock
-				cull: brick text
-				cull: element
-				cull: self glamourPresentation ];
-		yourself."
-
-	"brick := GLMLabelBrick new
-			enable;
-			text: (self valueFor: element in: glamourColumn);
-			vShrinkWrap;
-			hSpaceFill;
-			yourself.
-
-	brick	when: #onMouseHover do: [
-		GLMEditPopupBrick new
-			closer: (GLMPopupBrickCloser predicate: GLMPopupBrickOutisideClickPredicate new);
-			textModel: (self valueFor: element in: glamourColumn);
-			padding: #(8 10);
-			openBelowFor: brick ].
-
-	^ brick asMorph
-		hSpaceFill;
-		vShrinkWrap"
 	| rowMorph |
 
 	rowMorph := self viewRowMorphForColumn: glamourColumn element: element withIndex: aRowIndex.
@@ -81,14 +48,13 @@ TGLMFastTableColumnsRenderer >> editRowMorphForColumn: glamourColumn element: el
 		send: #value:
 		to: [ :event | 
 			event shiftPressed ifTrue: [
-				GLMEditPopupBrick new
+				GLMEditorPopupBrick new
 					closer: (GLMPopupBrickCloser new
 						predicate: GLMPopupBrickOutisideClickPredicate new;
 						predicate: GLMPopupBrickEscPredicate new;
 						yourself);
 					textModel: (self valueFor: element in: glamourColumn);
-					padding: #(8 10);
-					openBelowFor: rowMorph ]
+					openOn: rowMorph ]
 				ifFalse: [ event wasHandled: false ] ].
 	
 	^ rowMorph
