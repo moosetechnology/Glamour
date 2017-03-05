@@ -5,7 +5,8 @@ Class {
 	#name : #GLMRubricSmalltalkCodePresentation,
 	#superclass : #GLMRubricTextPresentation,
 	#instVars : [
-		'highlightSmalltalkContext'
+		'highlightSmalltalkContext',
+		'variableBindingsBlock'
 	],
 	#category : #'Glamour-Rubric-Presentations'
 }
@@ -209,4 +210,14 @@ GLMRubricSmalltalkCodePresentation >> smalltalkClass: aBlock [
 	"aBlock takes as parameters the entity objects and 
 	its evaluation is expected to produce a Smalltalk class"
 	highlightSmalltalkContext := aBlock.
+]
+
+{ #category : #accessing }
+GLMRubricSmalltalkCodePresentation >> variableBindings [
+	^ (variableBindingsBlock glamourValue: self entity) ifNil: [OrderedCollection new]
+]
+
+{ #category : #accessing }
+GLMRubricSmalltalkCodePresentation >> variableBindings: aBlock [
+	^ variableBindingsBlock := aBlock
 ]

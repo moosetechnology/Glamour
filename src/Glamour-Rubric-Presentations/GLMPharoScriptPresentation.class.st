@@ -5,9 +5,6 @@ I provide support for displaying snippets of Smalltalk code  (e.g. dealing with 
 Class {
 	#name : #GLMPharoScriptPresentation,
 	#superclass : #GLMRubricSmalltalkCodePresentation,
-	#instVars : [
-		'variableBindingsBlock'
-	],
 	#category : #'Glamour-Rubric-Presentations'
 }
 
@@ -87,16 +84,6 @@ GLMPharoScriptPresentation >> resetBindings [
 GLMPharoScriptPresentation >> updateVariableBindings [
 
 	self announce: (GLMVariableBindingsChanged new presentation: self).
-]
-
-{ #category : #accessing }
-GLMPharoScriptPresentation >> variableBindings [
-	^ (variableBindingsBlock glamourValue: self entity) ifNil: [OrderedCollection new]
-]
-
-{ #category : #accessing }
-GLMPharoScriptPresentation >> variableBindings: aBlock [
-	^ variableBindingsBlock := aBlock
 ]
 
 { #category : #actions }
