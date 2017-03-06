@@ -50,29 +50,20 @@ GLMFoundationBrick >> brickRoot: aBrick [
 
 	self brickRoot ifNotNil: [
 		self removeMorph: self brickRoot.
-		brickRoot := nil ].
+		brickRoot := nil.
+	].
 	
 	brickRoot := aBrick.
 	self addMorphBack: brickRoot.
 	brickRoot onThemerChanged
+	
+	
 ]
 
 { #category : #private }
 GLMFoundationBrick >> brickThemerChanged [
 
 	self brickRoot themerChanged
-]
-
-{ #category : #recategorized }
-GLMFoundationBrick >> changed [
-	"Report that the area occupied by this morph should be redrawn.
-	Fixed to include submorphs outside the outerBounds."
-	
-	"fixed direct reference to fullBounds, causing wrong results, because fullBounds are not being updated when parent's or child's bounds changed"
-	self world
-		ifNil: [ ^ self ].
-
-	self invalidRect: (self fullBounds expandBy: 100)
 ]
 
 { #category : #layouting }
@@ -106,10 +97,10 @@ GLMFoundationBrick >> extent: aPoint [
 	self brickRoot doLayoutForce
 ]
 
-{ #category : #accessing }
-GLMFoundationBrick >> fullBounds [
-	super fullBounds.
-	^ self brickRoot globalClippingBounds
+{ #category : #drawing }
+GLMFoundationBrick >> fullDrawOn: aCanvas [
+	"preventing from drawing outside of me"
+	super fullDrawOn: (aCanvas copyClipRect: self fullBounds).
 ]
 
 { #category : #geometry }
@@ -140,10 +131,10 @@ GLMFoundationBrick >> hSpaceFill [
 { #category : #initialization }
 GLMFoundationBrick >> initialize [
 	super initialize.
-
+	
 	vResizing := #spaceFill.
 	hResizing := #spaceFill.
-
+	
 	self
 		beTransparent;
 		brickRoot: GLMBrick new

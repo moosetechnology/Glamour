@@ -1,6 +1,3 @@
-"
-I am a popup with an action button hint text
-"
 Class {
 	#name : #GLMPopupBrick,
 	#superclass : #GLMEmptyPopupBrick,
@@ -10,7 +7,7 @@ Class {
 		'titleBrick',
 		'titleText'
 	],
-	#category : #'Glamour-Morphic-Brick-Widgets-UI-Popup'
+	#category : #'Glamour-Morphic-Brick-Widgets-UI'
 }
 
 { #category : #examples }
@@ -49,29 +46,16 @@ GLMPopupBrick class >> gtExampleAllTypesBelow [
 	^ GLMBrick new
 		hShrinkWrap;
 		vShrinkWrap;
-		addBrickBack: (self createButton: [ :b | self new openOn: b ]);
-		addBrickBack: (self createButton: [ :b | self new beHelp; openOn: b ]);
-		addBrickBack: (self createButton: [ :b | self new beError; openOn: b ]);
-		addBrickBack: (self createButton: [ :b | self new beSuccess; openOn: b ]);
+		addBrickBack: (self createButton: [ :b | self new openBelowFor: b ]);
+		addBrickBack: (self createButton: [ :b | self new beHelp; openBelowFor: b ]);
+		addBrickBack: (self createButton: [ :b | self new beError; openBelowFor: b ]);
+		addBrickBack: (self createButton: [ :b | self new beSuccess; openBelowFor: b ]);
 		marginTop: 35
 ]
 
-{ #category : #initialization }
-GLMPopupBrick >> beError [
-
-	self themer: self themer popupErrorThemer themer
-]
-
-{ #category : #initialization }
-GLMPopupBrick >> beHelp [
-
-	self themer: self themer popupHelpThemer themer
-]
-
-{ #category : #initialization }
-GLMPopupBrick >> beSuccess [
-
-	self themer: self themer popupSuccessThemer themer
+{ #category : #'events-processing' }
+GLMPopupBrick >> handleListenEvent: anEvent [
+	(self isInsideOfTriggerBrick: anEvent) ifFalse: [ self close ]
 ]
 
 { #category : #accessing }
@@ -96,9 +80,9 @@ GLMPopupBrick >> hintText [
 ]
 
 { #category : #accessing }
-GLMPopupBrick >> hintText: aBrick [
-	hintText := aBrick.
-
+GLMPopupBrick >> hintText: anObject [
+	hintText := anObject.
+	
 	self hintBrick ifNotNil: [ self hintBrick text: self hintText ]
 ]
 
@@ -135,8 +119,8 @@ GLMPopupBrick >> titleBrick [
 ]
 
 { #category : #accessing }
-GLMPopupBrick >> titleBrick: aBrick [
-	titleBrick := aBrick.
+GLMPopupBrick >> titleBrick: anObject [
+	titleBrick := anObject.
 	
 	self titleBrick
 		textColor: self themer popupThemer textColor.
@@ -150,8 +134,8 @@ GLMPopupBrick >> titleText [
 ]
 
 { #category : #accessing }
-GLMPopupBrick >> titleText: aText [
-	titleText := aText.
+GLMPopupBrick >> titleText: anObject [
+	titleText := anObject.
 	
 	self titleBrick ifNotNil: [ self titleBrick text: self titleText ]
 ]

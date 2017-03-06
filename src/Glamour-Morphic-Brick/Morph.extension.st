@@ -25,26 +25,6 @@ Morph >> brickDoubleLink: aDoubleLink [
 ]
 
 { #category : #'*Glamour-Morphic-Brick' }
-Morph >> brickImageForm: aBackground [
-	| background form brickBorder |
-	
-	self isBrick ifFalse: [
-		^ self imageForm ].
-
-	brickBorder := self border.
-	self border: GLMBrickBorder new.
-	
-	background := self color.
-	self color: aBackground.
-	form := self imageForm.
-	self color: background.
-	
-	self border: brickBorder.
-	
-	^ form
-]
-
-{ #category : #'*Glamour-Morphic-Brick' }
 Morph >> brickThemer [
 	^ (self nearestOwnerThat: [ :each | (each isKindOf: GLMFoundationBrick) | (each isKindOf: GLMBrick) ])
 		ifNotNil: [ :brick | brick themer ]

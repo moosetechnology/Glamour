@@ -8,24 +8,6 @@ GLMBrickThemer >> color [
 ]
 
 { #category : #'*Glamour-Morphic-Brick' }
-GLMBrickThemer >> popupEditorBorderThemer [
-
-	^ self
-		registerModule: GLMBrickPopupEditBorderThemer new
-		to: self
-		named: #popupThemer
-]
-
-{ #category : #'*Glamour-Morphic-Brick' }
-GLMBrickThemer >> popupEditorShadowThemer [
-
-	^ self
-		registerModule: GLMBrickPopupEditShadowThemer new
-		to: self
-		named: #popupThemer
-]
-
-{ #category : #'*Glamour-Morphic-Brick' }
 GLMBrickThemer >> popupErrorThemer [
 
 	^ self
