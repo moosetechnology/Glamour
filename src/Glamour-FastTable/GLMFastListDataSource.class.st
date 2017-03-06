@@ -26,7 +26,8 @@ Class {
 	#instVars : [
 		'glamourPresentation',
 		'announcer',
-		'tagsToFilterBy'
+		'tagsToFilterBy',
+		'dataCache'
 	],
 	#category : #'Glamour-FastTable-Model'
 }
@@ -52,6 +53,11 @@ GLMFastListDataSource >> cellColumn: column row: rowIndex [
 		addMorph: (self rowMorphForElement: element);
 		yourself.
 	^ cell
+]
+
+{ #category : #cache }
+GLMFastListDataSource >> dataCache [
+	^ dataCache ifNil: [ dataCache := self class defaultCache ]
 ]
 
 { #category : #'drag and drop' }
@@ -99,11 +105,18 @@ GLMFastListDataSource >> headerColumn: column [
 
 { #category : #private }
 GLMFastListDataSource >> resetChildrenContent [
-	elements := self calculateElements
+	elements := self calculateElements.
+	self resetDataCache
+]
+
+{ #category : #cache }
+GLMFastListDataSource >> resetDataCache [
+	dataCache := nil
 ]
 
 { #category : #accessing }
 GLMFastListDataSource >> resetElements [
+	self resetDataCache.
 	elements := nil
 ]
 
@@ -111,9 +124,9 @@ GLMFastListDataSource >> resetElements [
 GLMFastListDataSource >> rowMorphForElement: element [
 	| rowElements |
 	rowElements := OrderedCollection new.
-	(self glamourPresentation icon cull: element) ifNotNil: [ :icon | rowElements add: icon asMorph ].
+	(self iconFor: element) ifNotNil: [ :icon | rowElements add: icon asMorph ].
 	rowElements
-		add: (self glamourPresentation formatedDisplayValueOf: element) asMorph asReadOnlyMorph;
+		add: (self formatedDisplayValueOf: element) asMorph asReadOnlyMorph;
 		addAll: (self tagMorphsFrom: self glamourPresentation for: element).
 	^ Smalltalk ui theme newRowIn: World for: rowElements
 ]

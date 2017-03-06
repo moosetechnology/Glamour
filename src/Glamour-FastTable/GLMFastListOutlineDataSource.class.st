@@ -26,7 +26,8 @@ Class {
 	#instVars : [
 		'announcer',
 		'glamourPresentation',
-		'tagsToFilterBy'
+		'tagsToFilterBy',
+		'dataCache'
 	],
 	#category : #'Glamour-FastTable-Model'
 }
@@ -62,6 +63,11 @@ GLMFastListOutlineDataSource >> cellColumn: column row: rowIndex [
 	^ cell
 ]
 
+{ #category : #cache }
+GLMFastListOutlineDataSource >> dataCache [
+	^ dataCache ifNil: [ dataCache := self class defaultCache ]
+]
+
 { #category : #accessing }
 GLMFastListOutlineDataSource >> glamourPresentation [
 	^ glamourPresentation
@@ -80,15 +86,21 @@ GLMFastListOutlineDataSource >> items [
 { #category : #private }
 GLMFastListOutlineDataSource >> resetChildrenContent [
 	items := self calculateItems.
+	self resetDataCache
+]
+
+{ #category : #cache }
+GLMFastListOutlineDataSource >> resetDataCache [
+	dataCache := nil
 ]
 
 { #category : #factory }
 GLMFastListOutlineDataSource >> rowMorphForElement: element [
 	| rowElements |
 	rowElements := OrderedCollection new.
-	(self glamourPresentation icon cull: element) ifNotNil: [ :icon | rowElements add: icon asMorph ].
+	(self iconFor: element) ifNotNil: [ :icon | rowElements add: icon asMorph ].
 	rowElements
-		add: (self glamourPresentation formatedDisplayValueOf: element) asMorph;
+		add: (self formatedDisplayValueOf: element) asMorph;
 		addAll: (self tagMorphsFrom: self glamourPresentation for: element).
 	^ Smalltalk ui theme newRowIn: World for: rowElements
 ]

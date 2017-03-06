@@ -37,7 +37,7 @@ GLMFastTreeTableDataSource >> actionColumn: column [
 	self tableRefresh
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 GLMFastTreeTableDataSource >> dataFromPresentationItem: anItem [
 	^ anItem data
 ]
@@ -63,7 +63,7 @@ GLMFastTreeTableDataSource >> rowMorphElementsForFirstColumn: aColumn item: anIt
 
 	anItem depth timesRepeat: [ rowElements add: self class emptyMorph ].
 	rowElements add: (self buttonFor: anItem).
-	(self glamourPresentation icon cull: anItem data) ifNotNil: [ :icon | rowElements add: icon asMorph ].
+	(self iconFor: anItem data) ifNotNil: [ :icon | rowElements add: icon asMorph ].
 ]
 
 { #category : #sorting }

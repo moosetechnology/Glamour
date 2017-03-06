@@ -53,7 +53,7 @@ TGLMFastTableColumnsRenderer >> editRowMorphForColumn: glamourColumn element: el
 						predicate: GLMPopupBrickOutisideClickPredicate new;
 						predicate: GLMPopupBrickEscPredicate new;
 						yourself);
-					textModel: (self valueFor: element in: glamourColumn);
+					textModel: (self valueFor: element withIndex: aRowIndex in: glamourColumn);
 					openOn: rowMorph ]
 				ifFalse: [ event wasHandled: false ] ].
 	
@@ -102,19 +102,26 @@ TGLMFastTableColumnsRenderer >> rowMorphForColumn: aColumn item: anItem withInde
 	^ Smalltalk ui theme newRowIn: World for: rowElements
 ]
 
-{ #category : #accessing }
-TGLMFastTableColumnsRenderer >> valueFor: anElement in: aGlamourColumn [
+{ #category : #'accessing - cache' }
+TGLMFastTableColumnsRenderer >> valueFor: anElement withIndex: anInteger in: aGlamourColumn [
+	
+	^ self 
+		cacheAt: aGlamourColumn title 
+		for: anElement 
+		ifAbsentPut: [ 
+			self glamourPresentation 
+				column: aGlamourColumn 
+				valueFor: (self glamourPresentation isWithElementIndex
+					ifTrue: [ 
+						anElement asGlamorousMultiValue,
+						anInteger asGlamorousMultiValue ]
+			ifFalse: [ anElement ]) ]
 
-	^ self glamourPresentation column: aGlamourColumn valueFor: anElement
+
+	
 ]
 
 { #category : #rendering }
 TGLMFastTableColumnsRenderer >> viewRowMorphForColumn: aGlamourColumn element: anElement withIndex: anInteger [
-	^ (self 
-		valueFor: (self glamourPresentation isWithElementIndex
-			ifTrue: [ 
-				anElement asGlamorousMultiValue,
-				anInteger asGlamorousMultiValue ]
-			ifFalse: [ anElement ])
-		in: aGlamourColumn) asMorph asReadOnlyMorph
+	^ (self valueFor: anElement withIndex: anInteger in: aGlamourColumn) asMorph asReadOnlyMorph
 ]

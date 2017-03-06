@@ -11,6 +11,11 @@ Trait {
 	#category : #'Glamour-FastTable-Model'
 }
 
+{ #category : #'accessing - cache' }
+TGLMFastTable classSide >> defaultCache [
+	^ LRUCache new maximumWeight: 128
+]
+
 { #category : #accessing }
 TGLMFastTable >> allMenuActions [
 	^ self glamourPresentation allSelectionActions select: #hasTitle
@@ -26,6 +31,21 @@ TGLMFastTable >> basicElements [
 	^ self glamourPresentation displayValue
 ]
 
+{ #category : #'accessing - cache' }
+TGLMFastTable >> cacheAt: aKey for: anElement ifAbsentPut: aBlock [
+	| elementCache |
+	
+	self shouldUseCache ifFalse: [ 
+		^ aBlock value ].
+	
+	elementCache := self dataCacheFor: anElement.
+	(elementCache includesKey: aKey) 
+		ifTrue: [ ^ elementCache at: aKey ].
+		
+	^ aBlock value 
+		ifNotNil: [ :anObject | elementCache at: aKey ifAbsentPut: [ anObject ] ]
+]
+
 { #category : #private }
 TGLMFastTable >> calculateElements [
 	^ self tagsToFilterBy 
@@ -39,6 +59,17 @@ TGLMFastTable >> collectionToDragPassenger: aCollection [
 	^ aCollection size = 1
 		ifTrue: [ aCollection anyOne ] 
 		ifFalse: [ aCollection ]
+]
+
+{ #category : #cache }
+TGLMFastTable >> dataCache [
+	self explicitRequirement
+]
+
+{ #category : #cache }
+TGLMFastTable >> dataCacheFor: anElement. [
+
+	^ self dataCache at: anElement ifAbsentPut: [ Dictionary new ]
 ]
 
 { #category : #private }
@@ -67,6 +98,14 @@ TGLMFastTable >> explicitSelection: anObject [
 	self table selectRowIndex: (self elements indexOf: anObject)
 ]
 
+{ #category : #'accessing - cache' }
+TGLMFastTable >> formatedDisplayValueOf: anElement [
+	^ self 
+		cacheAt: #formatedDisplayValue 
+		for: anElement 
+		ifAbsentPut: [ self glamourPresentation formatedDisplayValueOf: anElement ]
+]
+
 { #category : #accessing }
 TGLMFastTable >> glamourPresentation [
 	self explicitRequirement
@@ -75,6 +114,14 @@ TGLMFastTable >> glamourPresentation [
 { #category : #accessing }
 TGLMFastTable >> glamourPresentation: anObject [
 	self explicitRequirement
+]
+
+{ #category : #'accessing - cache' }
+TGLMFastTable >> iconFor: anElement [
+	^ self 
+		cacheAt: #icon 
+		for: anElement 
+		ifAbsentPut: [ self glamourPresentation icon cull: anElement ]
 ]
 
 { #category : #menu }
@@ -115,6 +162,11 @@ TGLMFastTable >> readyToBeDisplayed [
 	self glamourPresentation announcer announce: (GLMDataSourceUpdated newDataSource: self).
 ]
 
+{ #category : #cache }
+TGLMFastTable >> resetDataCache [
+	self explicitRequirement
+]
+
 { #category : #selecting }
 TGLMFastTable >> selection: ann [
 	| selection |
@@ -130,6 +182,11 @@ TGLMFastTable >> selection: ann [
 										ifFalse: [ selection ]);
 						selectionPathValue: selection;
 						yourself) ]
+]
+
+{ #category : #'accessing - cache' }
+TGLMFastTable >> shouldUseCache [
+	^ self glamourPresentation shouldUseCache
 ]
 
 { #category : #selecting }
