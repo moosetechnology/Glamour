@@ -42,7 +42,7 @@ TGLMFastTableColumnsRenderer >> editRowMorphForColumn: glamourColumn element: el
 	| rowMorph |
 
 	rowMorph := self viewRowMorphForColumn: glamourColumn element: element withIndex: aRowIndex.
-	rowMorph hResizing: #spaceFill.
+	"rowMorph hResizing: #spaceFill.
 	rowMorph
 		on: #mouseDown
 		send: #value:
@@ -55,7 +55,7 @@ TGLMFastTableColumnsRenderer >> editRowMorphForColumn: glamourColumn element: el
 						yourself);
 					textModel: (self valueFor: element withIndex: aRowIndex in: glamourColumn);
 					openOn: rowMorph ]
-				ifFalse: [ event wasHandled: false ] ].
+				ifFalse: [ event wasHandled: false ] ]."
 	
 	^ rowMorph
 
