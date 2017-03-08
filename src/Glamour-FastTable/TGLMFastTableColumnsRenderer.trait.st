@@ -49,6 +49,7 @@ TGLMFastTableColumnsRenderer >> editRowMorphForColumn: glamourColumn element: el
 		to: [ :event | 
 			event shiftPressed ifTrue: [
 				GLMEditorPopupBrick new
+					in: [ :aPopup | aPopup themer: aPopup themer popupEditorBorderThemer themer ];
 					closer: (GLMPopupBrickCloser new
 						predicate: GLMPopupBrickOutisideClickPredicate new;
 						predicate: GLMPopupBrickEscPredicate new;
