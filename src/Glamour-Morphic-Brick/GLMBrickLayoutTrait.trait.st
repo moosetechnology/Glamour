@@ -275,7 +275,7 @@ GLMBrickLayoutTrait >> valueOfProperty: aSymbol ifAbsentPut: aBlock [
 { #category : #'brick-layout-properties' }
 GLMBrickLayoutTrait >> zIndex [
 
-	^ self layout zIndex
+	^ self layout zIndex brickValue: self
 ]
 
 { #category : #'brick-layout-properties' }

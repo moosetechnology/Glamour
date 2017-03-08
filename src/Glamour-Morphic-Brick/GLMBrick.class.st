@@ -270,9 +270,10 @@ GLMBrick >> changed [
 	Fixed to include submorphs outside the outerBounds."
 	
 	"fixed direct reference to fullBounds, causing wrong results, because fullBounds are not being updated when parent's or child's bounds changed"
-	^ self fullBounds 
-		ifNil: [self invalidRect: self privateFullBounds]
-		ifNotNil: [self invalidRect: self fullBounds]
+	self world
+		ifNil: [ ^ self ].
+	
+	self invalidRect: self globalClippingBounds
 ]
 
 { #category : #'morph-drawing' }
@@ -283,9 +284,19 @@ GLMBrick >> changedWith: aBlock [
 	self changed.
 ]
 
+{ #category : #'brick-geometry' }
+GLMBrick >> clippingBounds [
+	^ self renderer drawingBounds: self
+]
+
 { #category : #'brick-properties' }
 GLMBrick >> currentColor [
 	^ self color
+]
+
+{ #category : #initialization }
+GLMBrick >> defaultRenderer [
+	^ GLMBrickRenderer new
 ]
 
 { #category : #'morph-drawing' }
@@ -316,20 +327,18 @@ GLMBrick >> drawSubmorphsOn: aCanvas [
 	area width = 0 | (area height = 0) ifTrue: [ 
 			"draw nothing"
 			^ self ].
-	
+
 	zIndexedBricks := OrderedCollection new.
 	
 	self subbricks
 		do: [ :each | 
 			| intersection canvas globalBounds |
-			each ifNotNil: [ self flag: 'fix nil case'.
-			globalBounds := each isBrick
-				ifTrue: [ each globalBounds ]
-				ifFalse: [ each fullBounds ].
-				
+			each ifNotNil: [
+			globalBounds := each globalClippingBounds.
+
 			(area intersects: globalBounds) ifTrue: [
 				| zIndex |
-				zIndex := each layoutProperties zIndex.
+				zIndex := each layoutProperties zIndex brickValue: each.
 				zIndex = 1 ifTrue: [
 					"immediately draw ones with the lowest possible z-index.
 					With this approach performance doesn't degrade"
@@ -339,16 +348,13 @@ GLMBrick >> drawSubmorphsOn: aCanvas [
 					"if z-index is not 1 we add it to collection, in order to sort and draw as second attempt"
 				ifFalse: [ zIndexedBricks add: each ] ] ] ].
 		
-		"z-index drawing section"
-		zIndexedBricks sort: [ :first :second | first layoutProperties zIndex < second layoutProperties zIndex ].
+		zIndexedBricks sort: [ :first :second | (first layoutProperties zIndex brickValue: first) < (second layoutProperties zIndex brickValue: second) ].
 		
 		zIndexedBricks do: [ :each |
 			| intersection canvas globalBounds |
-			each ifNotNil: [ self flag: 'fix nil case'.
-			globalBounds := each isBrick
-				ifTrue: [ each globalBounds ]
-				ifFalse: [ each fullBounds ].
-				
+			each ifNotNil: [
+			globalBounds := each globalClippingBounds.
+
 			intersection := area intersect: globalBounds ifNone: (0 @ 0 extent: 0 @ 0).
 			canvas := aCanvas copyClipRect: intersection.
 			each fullDrawOn: canvas ] ]
@@ -380,7 +386,7 @@ GLMBrick >> drawSubmorphsOnAthensCanvas: anAthensCanvas [
 				
 			(area intersects: globalBounds) ifTrue: [
 				| zIndex |
-				zIndex := each layoutProperties zIndex.
+				zIndex := each layoutProperties zIndex brickValue: each.
 				zIndex = 1 ifTrue: [
 					"immediately draw ones with the lowest possible z-index.
 					With this approach performance doesn't degrade"
@@ -390,7 +396,7 @@ GLMBrick >> drawSubmorphsOnAthensCanvas: anAthensCanvas [
 				ifFalse: [ zIndexedBricks add: each ] ] ] ].
 		
 		"z-index drawing section"
-		zIndexedBricks sort: [ :first :second | first layoutProperties zIndex < second layoutProperties zIndex ].
+		zIndexedBricks sort: [ :first :second | (first layoutProperties zIndex brickValue: first) < (second layoutProperties zIndex brickValue: second) ].
 		
 		zIndexedBricks do: [ :each |
 			| intersection globalBounds |
@@ -419,8 +425,18 @@ GLMBrick >> fullBounds [
 { #category : #'morph-drawing' }
 GLMBrick >> fullDrawOn: aCanvas [
 	"fixes bug in canvas, when it tries to draw a morph even if clip rect has size 0"
-	aCanvas clipRect width = 0 | (aCanvas clipRect height = 0) ifTrue: [ ^ self ].
+	
+	aCanvas clipRect hasPositiveExtent
+		ifFalse: [ ^ self ].	
+	
 	super fullDrawOn: aCanvas
+]
+
+{ #category : #'brick-geometry' }
+GLMBrick >> globalClippingBounds [
+	^ self owner
+		ifNotNil: [ self clippingBounds translateBy: self owner globalBoundsTranslateFactor ]
+		ifNil: [ self clippingBounds ]
 ]
 
 { #category : #'morph-common' }
@@ -446,7 +462,7 @@ GLMBrick >> initialize [
 	self
 		layoutProperties: GLMBrickLayoutProperties new;
 		useHorizontalLinearLayout;
-		renderer: GLMBrickRenderer new
+		renderer: self defaultRenderer
 ]
 
 { #category : #'brick-testing' }
@@ -505,6 +521,13 @@ GLMBrick >> onDrawAthensCanvas: aCanvas [
 GLMBrick >> onThemerChanged [
 
 	self changed
+]
+
+{ #category : #'brick-geometry' }
+GLMBrick >> outerBoundsInParent [
+	^ self owner
+		ifNotNil: [ self wrappedBounds outerBounds translateBy: self owner brickBounds origin ]
+		ifNil: [ self wrappedBounds outerBounds ]
 ]
 
 { #category : #'brick-structure' }

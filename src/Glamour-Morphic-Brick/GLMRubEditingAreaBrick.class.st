@@ -115,7 +115,15 @@ GLMRubEditingAreaBrick >> initialize [
 { #category : #'rubric-brick-creation' }
 GLMRubEditingAreaBrick >> newRubricMorph [
 
-	^ RubEditingArea new beWrapped
+	^ GLMRubEditingArea new beWrapped
+]
+
+{ #category : #'brick-geometry' }
+GLMRubEditingAreaBrick >> shrinkingWidth [
+
+	self rubric width: self rubric textArea width.
+	self onLayouted.
+	^ self rubric textArea width
 ]
 
 { #category : #'brick-properties' }

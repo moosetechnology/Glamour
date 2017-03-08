@@ -50,14 +50,11 @@ GLMFoundationBrick >> brickRoot: aBrick [
 
 	self brickRoot ifNotNil: [
 		self removeMorph: self brickRoot.
-		brickRoot := nil.
-	].
+		brickRoot := nil ].
 	
 	brickRoot := aBrick.
 	self addMorphBack: brickRoot.
 	brickRoot onThemerChanged
-	
-	
 ]
 
 { #category : #private }
@@ -97,10 +94,16 @@ GLMFoundationBrick >> extent: aPoint [
 	self brickRoot doLayoutForce
 ]
 
+{ #category : #accessing }
+GLMFoundationBrick >> fullBounds [
+	super fullBounds.
+	^ self brickRoot globalClippingBounds
+]
+
 { #category : #drawing }
 GLMFoundationBrick >> fullDrawOn: aCanvas [
 	"preventing from drawing outside of me"
-	super fullDrawOn: (aCanvas copyClipRect: self fullBounds).
+	super fullDrawOn: (aCanvas copyClipRect: (self position extent: self extent))
 ]
 
 { #category : #geometry }
@@ -131,10 +134,10 @@ GLMFoundationBrick >> hSpaceFill [
 { #category : #initialization }
 GLMFoundationBrick >> initialize [
 	super initialize.
-	
+
 	vResizing := #spaceFill.
 	hResizing := #spaceFill.
-	
+
 	self
 		beTransparent;
 		brickRoot: GLMBrick new
