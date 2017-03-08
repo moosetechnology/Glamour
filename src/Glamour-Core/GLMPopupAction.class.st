@@ -7,12 +7,13 @@ Class {
 { #category : #actions }
 GLMPopupAction >> popupActOn: aPresentation from: aButton [
 
-	GLMPopupActionBrick new
-		closer: (GLMPopupBrickCloser predicate: GLMPopupBrickOutisideClickPredicate new);
+	GLMEmptyPopupBrick new
+		with: [ :b | b themer: b themer actionThemer ];
+		doNotHideUnhover;
 		onCreated: [ :popup |self action glamourValueWithArgs: (Array 
 				with: aPresentation 
 				withAll: { aPresentation entity . popup }) ];
-		openOn: aButton;
+		openBelowFor: aButton;
 		beRightToLeftWithOffset: 0
 ]
 
