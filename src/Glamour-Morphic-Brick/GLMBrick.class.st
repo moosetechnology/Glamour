@@ -284,11 +284,6 @@ GLMBrick >> changedWith: aBlock [
 	self changed.
 ]
 
-{ #category : #'brick-geometry' }
-GLMBrick >> clippingBounds [
-	^ self renderer drawingBounds: self
-]
-
 { #category : #'brick-properties' }
 GLMBrick >> currentColor [
 	^ self color
@@ -410,10 +405,9 @@ GLMBrick >> drawSubmorphsOnAthensCanvas: anAthensCanvas [
 		
 ]
 
-{ #category : #'morph-common' }
+{ #category : #'brick-geometry' }
 GLMBrick >> drawingBounds [
-
-	^ self globalBounds
+	^ self renderer drawingBounds: self
 ]
 
 { #category : #'morph-common' }
@@ -435,8 +429,8 @@ GLMBrick >> fullDrawOn: aCanvas [
 { #category : #'brick-geometry' }
 GLMBrick >> globalClippingBounds [
 	^ self owner
-		ifNotNil: [ self clippingBounds translateBy: self owner globalBoundsTranslateFactor ]
-		ifNil: [ self clippingBounds ]
+		ifNotNil: [ self drawingBounds translateBy: self owner globalBoundsTranslateFactor ]
+		ifNil: [ self drawingBounds ]
 ]
 
 { #category : #'morph-common' }
