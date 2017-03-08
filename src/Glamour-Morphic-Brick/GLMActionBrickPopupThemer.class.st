@@ -7,5 +7,5 @@ Class {
 { #category : #'brick-popup' }
 GLMActionBrickPopupThemer >> borderWidth [
 
-	^ 2
+	^ 1
 ]

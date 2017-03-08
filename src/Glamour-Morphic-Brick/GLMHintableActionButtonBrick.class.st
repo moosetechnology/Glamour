@@ -46,10 +46,11 @@ GLMHintableActionButtonBrick class >> openHint: aHintString title: aTitleString 
 	
 	self closeHint.
 	brick :=  GLMPopupBrick new
+		beUpward;
 		hintText: aHintString;
 		titleText: aTitleString;
 		perform: aTypeSymbol withEnoughArguments: {  };
-		openFor: aBrick.
+		openOn: aBrick.
 		
 	hintBrick := brick
 		

@@ -36,7 +36,7 @@ GLMBrickPopupThemer >> contentBackgroundColor [
 	"Return a background color of a content brick"
 	<return: #Color>
 
-	^ Smalltalk ui theme backgroundColor "delegate to current Pharo theme"
+	^ Color transparent
 ]
 
 { #category : #'brick-popup' }
@@ -53,7 +53,7 @@ GLMBrickPopupThemer >> inset [
 	Basically, it works similar to padding"
 	<return: #Number>
 	
-	^ 0
+	^ self borderWidth
 ]
 
 { #category : #'brick-popup-shadow' }

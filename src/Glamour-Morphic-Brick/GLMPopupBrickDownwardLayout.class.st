@@ -1,6 +1,6 @@
 "
 I am a special downward popup layout.
-I make sure that content is below trigger brick
+I make sure that content is below the trigger brick
 "
 Class {
 	#name : #GLMPopupBrickDownwardLayout,
@@ -14,4 +14,11 @@ GLMPopupBrickDownwardLayout >> build: aPopup trigger: aTriggerBrick content: aCo
 	aPopup removeAllBricks.
 	aPopup triggerBrick: aTriggerBrick.
 	aPopup contentBrick: aContentBrick
+]
+
+{ #category : #opening }
+GLMPopupBrickDownwardLayout >> open: aPopupBrick with: aRectangle [
+	"In case of downward direction we want popup's content to be below trigger brick"
+
+	^ aPopupBrick openBelow: aRectangle
 ]

@@ -14,21 +14,45 @@ Class {
 }
 
 { #category : #examples }
-GLMEditorPopupBrick class >> exampleOpen [
+GLMEditorPopupBrick class >> exampleBorderOpen [
 	
-	self gtExample openCenteredInBrickWindowLabeled: 'All Popup Types'
+	self gtExampleBorder openCenteredInBrickWindowLabeled: 'All Popup Types'
 ]
 
 { #category : #examples }
-GLMEditorPopupBrick class >> gtExample [
+GLMEditorPopupBrick class >> exampleShadowOpen [
+	
+	self gtExampleShadow openCenteredInBrickWindowLabeled: 'All Popup Types'
+]
+
+{ #category : #examples }
+GLMEditorPopupBrick class >> gtExampleBorder [
 	<gtExample>
-	<label: 'Example of all popup types'>
+	<label: 'Example of editable popup with border'>
 
 	^ GLMBrick new
 		hShrinkWrap;
 		vShrinkWrap;
 		addBrickBack: (self createLabel: [ :b |
 			self new
+				in: [ :aPopup  | self haltOnce. aPopup themer: aPopup themer popupEditorBorderThemer themer ];
+				closer: (GLMPopupBrickCloser predicate: GLMPopupBrickOutisideClickPredicate new);
+				textModel: 'haba';
+				openOn: b ]);
+		yourself
+]
+
+{ #category : #examples }
+GLMEditorPopupBrick class >> gtExampleShadow [
+	<gtExample>
+	<label: 'Example of editable popup with shadow'>
+
+	^ GLMBrick new
+		hShrinkWrap;
+		vShrinkWrap;
+		addBrickBack: (self createLabel: [ :b |
+			self new
+				in: [ :aPopup  | aPopup themer: aPopup themer popupEditorShadowThemer themer ];
 				closer: (GLMPopupBrickCloser predicate: GLMPopupBrickOutisideClickPredicate new);
 				textModel: 'haba';
 				openOn: b ]);
@@ -38,9 +62,9 @@ GLMEditorPopupBrick class >> gtExample [
 { #category : #initialization }
 GLMEditorPopupBrick >> initialize [
 	super initialize.
-	
-	self themer: self themer popupEditorShadowThemer themer.
-	"self themer: self themer popupEditorBorderThemer themer"
+
+	"self themer: self themer popupEditorShadowThemer themer."
+	self themer: self themer popupEditorBorderThemer themer
 ]
 
 { #category : #'instance creation' }

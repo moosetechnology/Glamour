@@ -62,7 +62,7 @@ GLMLabelBrick class >> gtExampleWithPopup [
 		fontSize: 11;
 		padding: 5;
 		with: [ :b  | b
-			when: #onMouseHover do: [ GLMPopupBrick new beHelp; openFor: b ] ]
+			when: #onMouseHover do: [ GLMPopupBrick new beHelp; openOn: b ] ]
 ]
 
 { #category : #'brick-geometry' }

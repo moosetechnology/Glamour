@@ -20,7 +20,7 @@ GLMBrickThemer >> popupEditorBorderThemer [
 GLMBrickThemer >> popupEditorShadowThemer [
 
 	^ self
-		registerModule: GLMBrickPopupEditShadowThemer new
+		registerModule: [ GLMBrickPopupEditShadowThemer new ]
 		to: self
 		named: #popupThemer
 ]

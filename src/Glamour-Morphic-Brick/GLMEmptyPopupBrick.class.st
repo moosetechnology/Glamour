@@ -81,24 +81,31 @@ GLMEmptyPopupBrick >> anchorBrick: aBrick [
 
 { #category : #'brick-geometry' }
 GLMEmptyPopupBrick >> area [
-	| triggerBounds contentBounds |
+	| firstBounds secondBounds |
 
-	triggerBounds := self triggerBrick outerBounds.
-	contentBounds := self contentBrick outerBounds.
+	firstBounds := self subbricks first outerBounds.
+	secondBounds := self subbricks second outerBounds.
 
 	^ GLMArea
 		origin: self brickBounds origin
 		vectors: { 
-			GLMVector east: triggerBounds width.
-			GLMVector south: triggerBounds height.
-			GLMVector horizontal: contentBounds width - triggerBounds width.
-			GLMVector south: contentBounds height.
-			GLMVector west: contentBounds width.
-			GLMVector north: contentBounds height + triggerBounds height.
+			GLMVector east: firstBounds width.
+			GLMVector south: firstBounds height.
+			GLMVector horizontal: secondBounds width - firstBounds width.
+			GLMVector south: secondBounds height.
+			GLMVector west: secondBounds width.
+			GLMVector north: secondBounds height + firstBounds height.
 		}
 ]
 
-{ #category : #opening }
+{ #category : #'popup - layout' }
+GLMEmptyPopupBrick >> beDownward [
+	"Make popup layout to be downward"
+
+	self popupLayout: GLMPopupBrickDownwardLayout new
+]
+
+{ #category : #'popup - opening' }
 GLMEmptyPopupBrick >> beRightToLeftWithOffset: anOffset [
 
 	self invalidateWith: [
@@ -107,9 +114,19 @@ GLMEmptyPopupBrick >> beRightToLeftWithOffset: anOffset [
 		self foundationBrick bounds: (self foundationBrick bounds translateBy: (self width - self triggerBrick width - anOffset @ 0) negated ) ]
 ]
 
-{ #category : #opening }
+{ #category : #'popup - layout' }
+GLMEmptyPopupBrick >> beUpward [
+	"Make popup layout to be upward"
+
+	self popupLayout: GLMPopupBrickUpwardLayout new
+]
+
+{ #category : #'popup - opening' }
 GLMEmptyPopupBrick >> close [
-	self foundationBrick delete
+	"Close popup and remove it from the world"
+	
+	self foundationBrick delete.
+	self onClosed
 ]
 
 { #category : #accessing }
@@ -177,8 +194,8 @@ GLMEmptyPopupBrick >> initialize [
 	anchorBrick := Morph new extent: 1@1.
 	popupLayout := self defaultPopupLayout.
 	closer := self defaultCloser.
-	inset := 0 asMargin.
-	spacing := 0.
+	inset := self themer popupThemer inset asMargin.
+	spacing := self themer popupThemer spacing.
 
 	self
 		initializeListeners;
@@ -257,6 +274,12 @@ GLMEmptyPopupBrick >> newTriggerBrick [
 ]
 
 { #category : #'popup - hooks' }
+GLMEmptyPopupBrick >> onClosed [
+	"I am send after popup is closed and removed from the world.
+	Override me to perform additional actions, for example restore keyboard or mouse focus"
+]
+
+{ #category : #'popup - hooks' }
 GLMEmptyPopupBrick >> onCreated [
 	self subclassResponsibility
 ]
@@ -292,57 +315,43 @@ GLMEmptyPopupBrick >> onThemerChanged [
 	self updateTriggerBrick
 ]
 
-{ #category : #opening }
+{ #category : #'popup - opening dispatch' }
 GLMEmptyPopupBrick >> openAbove: aRectangle [
 	"aRectangle must be in global coordinates"
-	^ self asBrickedMorph
-		vShrinkWrap;
-		hShrinkWrap;
-		bounds: ((aRectangle origin - (0@self contentBrick height) + (0@self themer popupThemer borderWidth)) extent: self extent);
-		openInWorld
-]
-
-{ #category : #opening }
-GLMEmptyPopupBrick >> openAboveFor: aBrick [
-
-	self anchorBrick: aBrick.
-	self contentBrick: self newContentBrick.
-	self triggerBrick: self newTriggerBrick.
-	self triggerBrick
-		borderDo: [ :b | b widthTop: 0 ];
-		marginTop: self themer popupThemer borderWidth negated.
-	self addContentBricks.
+	| anOrigin |
 	
-	^ aBrick ifNotNil: [ self openAbove: aBrick boundsInWorld ]
+	anOrigin := aRectangle origin - (0 @ self contentBrick height) - ( 0 @ self inset top).
+	^ self openAt: anOrigin
 ]
 
-{ #category : #opening }
-GLMEmptyPopupBrick >> openBelow: aRectangle [
-	"aRectangle must be in global coordinates"
-	| anOrigin aFoundationBrick |
-
-	anOrigin := aRectangle origin - (self inset left @ self inset top).
+{ #category : #'popup - opening' }
+GLMEmptyPopupBrick >> openAt: aPoint [
+	"Open me in the world at a given position provided in global coordinates.
+	Return a morphic foundation brick that is used to wrap a popup"
+	<return: #GLMFoundationBrick>
+	| aFoundationBrick |
 
 	aFoundationBrick := self asBrickedMorph
 		vShrinkWrap;
 		hShrinkWrap;
-		position: anOrigin;
+		position: aPoint;
 		openInWorld.
-		
+
 	self onOpened.
 	
 	^ aFoundationBrick
 ]
 
-{ #category : #opening }
-GLMEmptyPopupBrick >> openFor: aBrick [
-	^ self openAboveFor: aBrick
+{ #category : #'popup - opening dispatch' }
+GLMEmptyPopupBrick >> openBelow: aRectangle [
+	"aRectangle must be in global coordinates"
+	^ self openAt: aRectangle origin
 ]
 
-{ #category : #opening }
+{ #category : #'popup - opening' }
 GLMEmptyPopupBrick >> openOn: aBrick [
 	"Open popup for a given brick playing a role of my anchor"
-	
+
 	self
 		assert: [ aBrick isNotNil ]
 		description: [ 'Can not open below a nil brick!' ].
@@ -351,7 +360,7 @@ GLMEmptyPopupBrick >> openOn: aBrick [
 	self onCreated.
 	self announce: #onCreated event: self.
 
-	^ self openBelow: aBrick boundsInWorld
+	^ self popupLayout open: self with: (aBrick boundsInWorld expandBy: self inset)
 ]
 
 { #category : #initialization }
