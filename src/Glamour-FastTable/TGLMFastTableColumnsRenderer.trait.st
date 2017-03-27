@@ -38,11 +38,11 @@ TGLMFastTableColumnsRenderer >> dataFromPresentationItem: anItem [
 ]
 
 { #category : #rendering }
-TGLMFastTableColumnsRenderer >> editRowMorphForColumn: glamourColumn element: element withIndex: aRowIndex [ 
+TGLMFastTableColumnsRenderer >> editRowMorphForColumn: glamourColumn node: aNode withIndex: aRowIndex [ 
 	| rowMorph |
 
-	rowMorph := self viewRowMorphForColumn: glamourColumn element: element withIndex: aRowIndex.
-	"rowMorph hResizing: #spaceFill.
+	rowMorph := self viewRowMorphForColumn: glamourColumn node: aNode withIndex: aRowIndex.
+	rowMorph hResizing: #spaceFill.
 	rowMorph
 		on: #mouseDown
 		send: #value:
@@ -54,27 +54,31 @@ TGLMFastTableColumnsRenderer >> editRowMorphForColumn: glamourColumn element: el
 						predicate: GLMPopupBrickOutisideClickPredicate new;
 						predicate: GLMPopupBrickEscPredicate new;
 						yourself);
-					textModel: (self valueFor: element withIndex: aRowIndex in: glamourColumn);
+					textModel: (self valueFor: aNode withIndex: aRowIndex in: glamourColumn);
+					when: #textAccepted do: [ :anEvent | glamourColumn modifiedBlock
+						cull: anEvent morph text
+						cull: aNode
+						cull: self glamourPresentation ];
 					openOn: rowMorph ]
-				ifFalse: [ event wasHandled: false ] ]."
+				ifFalse: [ event wasHandled: false ] ].
 	
 	^ rowMorph
 
 ]
 
 { #category : #rendering }
-TGLMFastTableColumnsRenderer >> rowMorphElementsForColumn: glamourColumn element: element withIndex: aRowIndex [ 
+TGLMFastTableColumnsRenderer >> rowMorphElementsForColumn: glamourColumn node: aNode withIndex: aRowIndex [ 
 	| rowElements contentMorph tagMorphs |
 		
 	contentMorph := glamourColumn modifiedBlock
-		ifNotNil: [ self editRowMorphForColumn: glamourColumn element: element withIndex: aRowIndex ]
-		ifNil: [ self viewRowMorphForColumn: glamourColumn element: element withIndex: aRowIndex ].
+		ifNotNil: [ self editRowMorphForColumn: glamourColumn node: aNode withIndex: aRowIndex ]
+		ifNil: [ self viewRowMorphForColumn: glamourColumn node: aNode withIndex: aRowIndex ].
 	
 	rowElements := OrderedCollection new
 		add: contentMorph;
 		yourself.
 	
-	tagMorphs := self tagMorphsFrom: glamourColumn for: element.
+	tagMorphs := self tagMorphsFrom: glamourColumn for: aNode.
 	tagMorphs ifNotEmpty: [
 		rowElements addAll: tagMorphs ].
 	
@@ -97,7 +101,7 @@ TGLMFastTableColumnsRenderer >> rowMorphForColumn: aColumn item: anItem withInde
 	rowElements
 		addAll: (self 
 			rowMorphElementsForColumn: aColumn glamourColumn 
-			element: (self dataFromPresentationItem: anItem)
+			node: (self dataFromPresentationItem: anItem)
 			withIndex: aRowIndex ).
 		
 	^ Smalltalk ui theme newRowIn: World for: rowElements
@@ -123,6 +127,6 @@ TGLMFastTableColumnsRenderer >> valueFor: anElement withIndex: anInteger in: aGl
 ]
 
 { #category : #rendering }
-TGLMFastTableColumnsRenderer >> viewRowMorphForColumn: aGlamourColumn element: anElement withIndex: anInteger [
-	^ (self valueFor: anElement withIndex: anInteger in: aGlamourColumn) asMorph asReadOnlyMorph
+TGLMFastTableColumnsRenderer >> viewRowMorphForColumn: aGlamourColumn node: aNode withIndex: anInteger [
+	^ (self valueFor: aNode withIndex: anInteger in: aGlamourColumn) asMorph asReadOnlyMorph
 ]
