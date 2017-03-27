@@ -35,7 +35,7 @@ GLMEditorPopupBrick class >> gtExampleBorder [
 		vShrinkWrap;
 		addBrickBack: (self createLabel: [ :b |
 			self new
-				in: [ :aPopup  | self haltOnce. aPopup themer: aPopup themer popupEditorBorderThemer themer ];
+				in: [ :aPopup  | aPopup themer: aPopup themer popupEditorBorderThemer themer ];
 				closer: (GLMPopupBrickCloser predicate: GLMPopupBrickOutisideClickPredicate new);
 				textModel: 'haba';
 				openOn: b ]);
@@ -57,6 +57,12 @@ GLMEditorPopupBrick class >> gtExampleShadow [
 				textModel: 'haba';
 				openOn: b ]);
 		yourself
+]
+
+{ #category : #visiting }
+GLMEditorPopupBrick >> acceptContents: anAnnouncement [
+	self announce: #textAccepted event: anAnnouncement.
+	self close
 ]
 
 { #category : #initialization }
@@ -105,7 +111,8 @@ GLMEditorPopupBrick >> textEditBrick [
 GLMEditorPopupBrick >> textEditBrick: aBrick [
 	textEditBrick := aBrick.
 	
-	self contentBrick addBrickBack: self textEditBrick
+	self contentBrick addBrickBack: self textEditBrick.
+	self textEditBrick rubric announcer when: RubTextAcceptRequest send: #acceptContents: to: self
 ]
 
 { #category : #accessing }
