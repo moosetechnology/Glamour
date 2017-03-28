@@ -555,7 +555,7 @@ ConfigurationOfGlamourCore >> stable: spec [
 
 	spec for: #'pharo5.x' version: '4.19.1'.
 
-	spec for: #'pharo6.x' version: '4.36'.
+	spec for: #'pharo6.x' version: '4.37'.
 
 ]
 
@@ -2935,7 +2935,7 @@ ConfigurationOfGlamourCore >> version437: spec [
 		spec description: 'GToolkit Version 3.37'.
 		spec author: 'AndreiChis'.
 		spec timestamp: '3/28/2017 16:27'.
-		spec project: 'FastTable' with: '0.11'.
+		spec project: 'FastTable' with: '0.12'.
 		spec 
 			package: 'Glamour-Announcements' with: 'Glamour-Announcements-AndreiChis.11';
 			package: 'Glamour-Helpers' with: 'Glamour-Helpers-TudorGirba.40';
