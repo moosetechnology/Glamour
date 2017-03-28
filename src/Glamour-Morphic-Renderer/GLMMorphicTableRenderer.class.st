@@ -4,11 +4,6 @@ Class {
 	#category : #'Glamour-Morphic-Renderer'
 }
 
-{ #category : #private }
-GLMMorphicTableRenderer >> newTreeMorph [
-	^ GLMPaginatedResizableMorphTreeMorph new.
-]
-
 { #category : #rendering }
 GLMMorphicTableRenderer >> render: aPresentation [
 	| container |
