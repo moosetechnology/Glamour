@@ -108,7 +108,10 @@ GLMMorphicFTRenderer >> initializeAnnouncementForDataSource [
 		do: [ :ann | tableModel glamourPresentation strongSelection: ann strongSelectionValue ].
 	tableMorph
 		onAnnouncement: FTStrongSelectionChanged send: #strongSelection: to: tableModel;
-		onAnnouncement: FTSelectionChanged send: #selection: to: tableModel
+		onAnnouncement: FTSelectionChanged send: #selection: to: tableModel.
+	self installActionsOnModel: tableModel fromPresentation: tableModel glamourPresentation.
+	self installKeystrokeActionsOnMorph: tableMorph fromPresentation: tableModel glamourPresentation.
+
 ]
 
 { #category : #initialization }
@@ -148,8 +151,6 @@ GLMMorphicFTRenderer >> render: aPresentation [
 	self initializeTableModel: aPresentation.
 	self initializeTableMorph.
 	self addFastTableIn: container.
-	self installActionsOnModel: tableModel fromPresentation: aPresentation.
-	self installKeystrokeActionsOnMorph: tableMorph fromPresentation: aPresentation.
 	aPresentation selection ifNotNil: [ tableModel announcer suspendAll: self suspendedAnnouncements while: [ tableModel explicitSelection: aPresentation selection ] ].
 	"No need to initialize the announcements here as setting the data source in a FTTableMorph will do it."
 	"self initializeAnnouncementForDataSource."
