@@ -61,6 +61,17 @@ TGLMFastTableFunctionsPresentation >> enableFilter [
 ]
 
 { #category : #'public api' }
+TGLMFastTableFunctionsPresentation >> enableFilter: aBlock [
+	"aBlock receives two parameters: 
+		- an item
+		- a pattern.
+	It should return true if the item should be displayed; false otherwise."
+	self enableFilter.
+	self parameters at: 'filterBlock' put: aBlock
+	
+]
+
+{ #category : #'public api' }
 TGLMFastTableFunctionsPresentation >> enableFilterWithAction: aBlock [
 	self enableFilter.
 	self parameters at: 'actionBlock' put: aBlock
@@ -79,9 +90,19 @@ TGLMFastTableFunctionsPresentation >> enableSearch [
 	self parameters at: 'isSearchable' put: true
 ]
 
+{ #category : #accessing }
+TGLMFastTableFunctionsPresentation >> filterBlock [
+	^ self parameters at: 'filterBlock'
+]
+
 { #category : #'public api' }
 TGLMFastTableFunctionsPresentation >> filterOn: aBlock [
 	self error: 'This presentation does not allow filtering with a block for now. In the futur we should have a new filter with FastTable to do that. If you want to give it a try look FTFunction and his subclasses.'
+]
+
+{ #category : #testing }
+TGLMFastTableFunctionsPresentation >> hasFilterBlock [
+	^ self parameters at: 'filterBlock' ifPresent: [ true ] ifAbsent: [ false ]
 ]
 
 { #category : #testing }

@@ -151,8 +151,8 @@ TGLMFastTable >> menuColumn: column row: rowIndex [
 ]
 
 { #category : #'instance creation' }
-TGLMFastTable >> newDataSourceMatching: aRegex [
-	^ (super newDataSourceMatching: aRegex)
+TGLMFastTable >> newDataSourceMatching: aFTFilter [
+	^ (super newDataSourceMatching: aFTFilter)
 		glamourPresentation: self glamourPresentation;
 		yourself
 ]
@@ -194,6 +194,13 @@ TGLMFastTable >> strongSelection: ann [
 	self announcer announce: (GLMTreeMorphStrongSelectionChanged new 
 		strongSelectionValue: (self elementAt: ann selectedRowIndex);
 		yourself)
+]
+
+{ #category : #'instance creation' }
+TGLMFastTable >> toString: anObject [
+	^ self glamourPresentation hasFilterBlock
+		ifTrue: [ anObject ]
+		ifFalse: [ super toString: anObject ]
 ]
 
 { #category : #announcing }
