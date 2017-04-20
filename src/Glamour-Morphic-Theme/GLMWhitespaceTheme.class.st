@@ -396,6 +396,11 @@ GLMWhitespaceTheme >> dropListNormalFillStyleFor: aDropList [
 	^ SolidFillStyle color: Color white
 ]
 
+{ #category : #'basic-colors' }
+GLMWhitespaceTheme >> errorPopperBackgroundColor [
+	^ Color paleRed
+]
+
 { #category : #'fill-styles' }
 GLMWhitespaceTheme >> expanderTitleNormalFillStyleFor: anExpanderTitle [
 	"Return the normal expander title fillStyle for the given expander title."
