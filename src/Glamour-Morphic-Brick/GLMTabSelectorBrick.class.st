@@ -208,7 +208,7 @@ GLMTabSelectorBrick >> updateTabs [
 	selectedTab := self selectedTab.
 	self tabs do: [:t |
 		t selected: (t == selectedTab).
-		t hSpaceFill: 100 / self tabs size ].
+		t hSpaceFill: (100 / self tabs size) asFloat ].
 	self
 		addAllBricks: self tabs
 ]
