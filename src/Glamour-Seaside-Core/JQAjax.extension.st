@@ -41,8 +41,30 @@ JQAjax >> sglPostCallback: aBlock forEvent: anArraySpec [
 ]
 
 { #category : #'*Glamour-Seaside-Core' }
+JQAjax >> sglRoassalCallbackContentURL: aBlock [
+	^ self
+		html: [ :aRenderer ||width height|
+			width := (self requestContext request at: 'width') asInteger.
+			height := (self requestContext request at: 'height') asInteger.
+			aBlock value: aRenderer value: width@height ];
+		fullUrl
+]
+
+{ #category : #'*Glamour-Seaside-Core' }
+JQAjax >> sglRoassalCallbackImageURL: aBlock [
+	^ self
+		"dataType: 'text';"
+		respond: [ :response  | |width height|
+			width :=  self requestContext request at: 'width'.
+			height :=  self requestContext request at: 'height'.
+			response 
+				doNotCache;
+				document: (aBlock value: width value: height) ]
+]
+
+{ #category : #'*Glamour-Seaside-Core' }
 JQAjax >> sglTreeCallbackAppendRootsURL: aBlock [
-	| aTab |
+	
 	^ self 
 		script: [ :script | 	
 			|result|
@@ -54,7 +76,7 @@ JQAjax >> sglTreeCallbackAppendRootsURL: aBlock [
 
 { #category : #'*Glamour-Seaside-Core' }
 JQAjax >> sglTreeCallbackAppendURL: aBlock [
-	| aTab |
+	
 	^ self 
 		html: [ :aRenderer | 	
 			|result|
@@ -66,7 +88,7 @@ JQAjax >> sglTreeCallbackAppendURL: aBlock [
 
 { #category : #'*Glamour-Seaside-Core' }
 JQAjax >> sglTreeCallbackSelectURL: aBlock [
-	| aTab |
+	
 	^ self 
 		script: [ :script | 	
 			|result|

@@ -14,9 +14,10 @@ SGLComponent class >> applyPreferencesOn: anApplication [
 		addParent: WADevelopmentConfiguration instance;
 		at: #rootDecorationClasses put: #().
 	anApplication 
-		addLibrary: JQGoogleLibrary;
-		addLibrary: JQUiGoogleLibrary;
-		addLibrary: JQSGLTheme.
+		addLibrary: JQGoogleLibrary172;
+		addLibrary: JQUiGoogleLibrary1818;
+		addLibrary: JQSGLTheme;
+		addLibrary: SGLTBSDeploymentLibrary.
 		"addLibrary: JQRedmondTheme."
 
 ]
@@ -95,11 +96,13 @@ SGLComponent >> updateRoot: aHtmlRoot [
 	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #scrollToJs).
 	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #typeWatchJs).
 	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #sglTreeJs).
+	"aHtmlRoot javascript url: (SGLJsLibrary urlOf: #sglTableJs)."
 	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #sglResizeJs).
 	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #sglStackJs).
 	aHtmlRoot javascript url: (SGLJsLibrary urlOf: #glamourSeasideJs).
 	
-	aHtmlRoot javascript url: JQWidgetBoxDeploymentLibrary / #mbMenuJs.
-	aHtmlRoot javascript url: JQWidgetBoxDeploymentLibrary / #jqueryhoverintentJs.
+	"aHtmlRoot javascript url: JQWidgetBoxDeploymentLibrary / #mbMenuJs.
+	aHtmlRoot javascript url: JQWidgetBoxDeploymentLibrary / #jqueryhoverintentJs."
+	
 	"aHtmlRoot javascript url: 'http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'"
 ]

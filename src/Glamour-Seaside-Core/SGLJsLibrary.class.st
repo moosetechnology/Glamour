@@ -13,7 +13,7 @@ SGLJsLibrary >> caretJs [
  * http://www.opensource.org/licenses/mit-license.php
  *
  */
-ï»¿(function($,len,createRange,duplicate){
+(function($,len,createRange,duplicate){
 	$.fn.caret=function(options,opt2){
 		var start,end,t=this[0],browser=$.browser.msie;
 		if(typeof options==="object" && typeof options.start==="number" && typeof options.end==="number") {
@@ -477,7 +477,7 @@ SGLJsLibrary >> glamourSeasideJs [
 	};
 	
 	$(Glamour.resize);
-	$(window).resize(Glamour.resize);
+	/**$(window).resize(Glamour.resize);*/
 	
 	/**
 	 * Set the HTML contents of each element in the set of matched elements and  
@@ -547,6 +547,8 @@ SGLJsLibrary >> glamourSeasideJs [
 	, self sglValidatorBrowserJs 
 	, self sglWizardJs 
 	, self sglDropDownJs
+	, self sglTableJs
+	, self sglRoassalJs
 ]
 
 { #category : #uploaded }
@@ -1729,6 +1731,63 @@ SGLJsLibrary >> sglResizeJs [
 ]
 
 { #category : #created }
+SGLJsLibrary >> sglRoassalJs [
+	^ '
+	;( function($) {
+		$.widget("ui.sglRoassal", {
+		
+			options: {	
+				contentURL: null,
+			},
+		
+			_create: function() {					
+				var that = this;
+				
+				this.view = this.element;
+				
+				console.log(''_create:'');
+				this.element.parent().bind("resize", function(event, data) {
+					that._loadContentFromURL(that.options.contentURL);
+				});
+			},
+			
+			_init: function() {
+				this._loadContentFromURL(this.options.contentURL);
+			},
+			
+			_setOption: function(key, value) {
+				console.log(key);
+				switch (key) {
+					case "contentURL": {
+						this._loadContentFromURL(value);
+						break
+					}
+				}
+			},
+			
+			_loadContentFromURL: function(url) {
+				var that = this;
+				console.log(that.view.parent());
+				if ( this.options.contentURL && that.view.parent().height() > 0) {
+					$.ajax({
+						"dataType": "html",
+						"url": this.options.contentURL,
+						"data": [
+							"width="+encodeURIComponent(that.view.parent().width()),
+							"height="+encodeURIComponent(that.view.parent().height())
+							].join("&"),
+						"success": function(data) {
+							that.view.html(data)
+						},
+					});
+				} 
+			},
+			
+		});
+	})(jQuery);'
+]
+
+{ #category : #created }
 SGLJsLibrary >> sglStackJs [
 	^ '
 	;( function($) {
@@ -1775,12 +1834,141 @@ SGLJsLibrary >> sglTableJs [
 		$.widget("ui.sglTable", {
 		
 			options: {	
-					
+				selectedNodes: [],
+				selectURL: null,
 			},
 		
 			_create: function() {					
+				var that = this;
+				
+				this.table = this.element;
+				this._addMarkupAndBindingsForTable(this.table);	
+			},
+			
+			_init: function() {
+				this._handleSelectedNodesOption(this.options.selectedNodes, true);				
+			},
+			
+			_setOption: function(key, value) {
+				
+				switch (key) {
+					case "selectedNodes": {
+						this._handleSelectedNodesOption(value, true);
+						break
+					}
+				}
+			},
+			
+			_handleSelectedNodesOption:  function(value, triggerEvent) {
+				var containsReference = false;
+				var referenceNodeId;
+				var $selectedNodes = [];
+				var ids = [];
+			
+
+				// Set the referenceNode.
+				if ( value.length == 0 ) {
+					this.referenceNode = null;
+				} else if ( value.length == 1 || ! this.referenceNode ) {
+					this.referenceNode = $("#"+value[0]);
+				} else {
+					referenceNodeId = this.referenceNode.attr("id");
+					$.each(value, function(index, id) {
+						if (id==referenceNodeId) containsReference=true;
+					});
+					if (!containsReference) {
+						this.referenceNode = $("#"+value[0]);
+					}
+				}
+		
+				// Obtain the selected nodes.
+				$.each(value, function(index, nodeId) {
+					var $node = $("#"+nodeId);
+				
+					if ( $node.size() != 0 ) {
+						$selectedNodes.push($node);
+						ids.push(nodeId);
+					}
+				});
+				
+				this._performNodesSelection($selectedNodes);
+				
+				// Trigger an event.
+				if (triggerEvent) {
+					this._trigger("select", null, {"nodes": $selectedNodes, "ids": ids});
+				}
+
+				this.options.selectedNodes = ids;
+			},
+			
+			_performNodesSelection: function ($nodes) {
+				
+				$.each(this.options.selectedNodes, function(index, nodeId) {
+					$("#"+nodeId).removeClass("sgl-table-node-selected");
+				});
+				
+				$.each($nodes, function(index, $node) {
+					$node.addClass("sgl-table-node-selected");
+				});
+				
+				if ( $nodes.length )  {
+					// Scroll to the last added element if it is not visible
+					this._scrollToNode($nodes[$nodes.length-1]);
+				}
+			},
+			
+			_addMarkupAndBindingsForTable: function($table) {
+				var that = this;
+				
+				$table.addClass("sgl-table-container");
+				// Get the body of the table and then all elements.
+				$table.children().first().children(''tr'').slice(1).each(function(){
+					that._addMarkupAndBindingsForNode($(this));
+				});
+			},
+			
+			_addMarkupAndBindingsForNode: function($node){
+				var that = this;
+				
+				// Add the necessary CSS classes.
+				$node.addClass("sgl-table-node");
+
+				// Add the bindings.
+				$node.bind("click", function(event) {
+					that._handleSelectionClickEvent(event, $node);
+					return false;
+				});
+			},
+			
+			_handleSelectionClickEvent: function(event, $node) {
+				var ids = [$node.attr("id")];
+				var $selectedNodes ;
+				
+				// No support for multiple selection for now
+				
+				// Handle the click event
+				if ( this.options.selectURL ) {
+					$.ajax({
+						"dataType": "script",
+						"url": this.options.selectURL,
+						"data": [
+							"selectedIds="+encodeURIComponent(ids.join(","))
+							].join("&")
+					});
+				} else {
+					this._handleSelectedNodesOption(ids, true);
+				}
 				
 			},
+			
+			_scrollToNode: function ($node) {
+				var nodeTopOffset = $node.offset().top;
+				var listTopOffset = this.element.offset().top;
+
+				if (  (nodeTopOffset < listTopOffset) || ( listTopOffset + this.element.height() < nodeTopOffset + $node.height() ) ) {
+					this.element.scrollTo($node); 
+				}
+			},		
 			
 		});
 	})(jQuery);'

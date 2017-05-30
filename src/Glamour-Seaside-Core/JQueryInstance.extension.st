@@ -44,6 +44,11 @@ JQueryInstance >> glamourResize [
 ]
 
 { #category : #'*Glamour-Seaside-Core' }
+JQueryInstance >> glamourRoassal [
+	^ self create: JQSGLRoassalView
+]
+
+{ #category : #'*Glamour-Seaside-Core' }
 JQueryInstance >> glamourScrollTo [
 	^ self create: JQScrollTo
 ]
@@ -51,6 +56,11 @@ JQueryInstance >> glamourScrollTo [
 { #category : #'*Glamour-Seaside-Core' }
 JQueryInstance >> glamourStack [
 	^ self create: JQSGLStack 
+]
+
+{ #category : #'*Glamour-Seaside-Core' }
+JQueryInstance >> glamourTable [
+	^ self create: JQSGLTable
 ]
 
 { #category : #'*Glamour-Seaside-Core' }

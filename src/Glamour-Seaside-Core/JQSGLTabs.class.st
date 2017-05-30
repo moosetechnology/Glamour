@@ -1,6 +1,6 @@
 Class {
 	#name : #JQSGLTabs,
-	#superclass : #JQTabs,
+	#superclass : #JQTabsOld,
 	#category : #'Glamour-Seaside-Core'
 }
 
