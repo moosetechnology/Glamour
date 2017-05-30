@@ -26,7 +26,7 @@ SGLMooseMetaBrowser >> browser [
 { #category : #initialization }
 SGLMooseMetaBrowser >> initialize [ 
 	super initialize.
-	mooseMetaBrowser := MooseMetaBrowser new
+	mooseMetaBrowser := MooseMetaBrowser  new
 ]
 
 { #category : #accessing }

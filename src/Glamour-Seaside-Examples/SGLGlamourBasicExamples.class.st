@@ -11,7 +11,7 @@ SGLGlamourBasicExamples class >> initialize [
 
 { #category : #accessing }
 SGLGlamourBasicExamples >> browserFromPragma: pragma [
-	^ GLMBasicExamples new perform: pragma selector
+	^ GLMBasicExamples new perform: pragma methodSelector
 ]
 
 { #category : #accessing }
@@ -21,7 +21,7 @@ SGLGlamourBasicExamples >> model [
 
 { #category : #accessing }
 SGLGlamourBasicExamples >> sourceFromPragma: pragma [
-	^ GLMBasicExamples sourceCodeAt: pragma selector
+	^ GLMBasicExamples sourceCodeAt: pragma methodSelector
 ]
 
 { #category : #accessing }

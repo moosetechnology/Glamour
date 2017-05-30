@@ -27,14 +27,14 @@ SGLExamples >> browser [
 						presentation: [ :some :each | some custom: ((self browserFromPragma: each) startOn: (Compiler evaluate: (each argumentAt: 2) logged: false)) ].
 					(a text)
 						title: 'Source code';
-						forSmalltalk: self class;
+						"smalltalkClass: self class;"
 						display: [ :each | self sourceFromPragma: each ] ].
 	^ browser
 ]
 
 { #category : #accessing }
 SGLExamples >> browserFromPragma: pragma [
-	^ self class new perform: pragma selector
+	^ self class new perform: pragma methodSelector
 ]
 
 { #category : #accessing }
@@ -44,5 +44,5 @@ SGLExamples >> model [
 
 { #category : #accessing }
 SGLExamples >> sourceFromPragma: each [
-	^ self class sourceCodeAt: each selector
+	^ self class sourceCodeAt: each methodSelector
 ]
