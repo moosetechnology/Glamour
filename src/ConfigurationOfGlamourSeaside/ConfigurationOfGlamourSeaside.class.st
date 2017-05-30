@@ -435,7 +435,7 @@ ConfigurationOfGlamourSeaside >> baseline06: spec [
 			package: 'Glamour-Seaside-Rendering' with: [
 				spec requires: #('Glamour-Seaside-Core') ];
 			package: 'Glamour-Seaside-Examples' with: [
-				spec requires: #('Seaside' 'Glamour-Seaside-Rendering') ];
+				spec requires: #('Glamour-Seaside-Rendering') ];
 			package: 'Glamour-Seaside-Tests' with: [
 				spec requires: #('Glamour-Seaside-Rendering' 'SeasideTesting' 'BeachParasol') ];
 			package: 'JQWidgetBox-Core' with: [
@@ -461,7 +461,7 @@ ConfigurationOfGlamourSeaside >> baseline06: spec [
 
 		spec
 			group: 'default' with: #( 'Examples' );
-			group: 'Core' with: #( 'Glamour-Seaside-Core' 'Glamour-Seaside-Rendering' 'Glamour-Seaside-Rendering' );
+			group: 'Core' with: #( 'Glamour-Seaside-Core' 'Glamour-Seaside-Rendering' 'Glamour-Seaside-Examples' );
 			group: 'Examples' with: #( 'Glamour-Seaside-Examples' );
 			group: 'Tests' with: #( 'Glamour-Seaside-Tests' ) ]
 ]
