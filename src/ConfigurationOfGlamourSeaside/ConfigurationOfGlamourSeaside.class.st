@@ -388,6 +388,84 @@ ConfigurationOfGlamourSeaside >> baseline05: spec [
 			group: 'Tests' with: #( 'Glamour-Seaside-Tests' ) ]
 ]
 
+{ #category : #baselines }
+ConfigurationOfGlamourSeaside >> baseline06: spec [ 
+	<version: '0.6-baseline'>
+	
+	spec for: #common do: [
+		spec blessing: #baseline.
+		spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'.
+
+		spec
+			project: 'Glamour' with: [
+				spec
+					className: 'ConfigurationOfGlamour';
+					version: #development;
+					loads: #( 'Core' );
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main' ];
+			project: 'Seaside' with: [
+				spec
+					className: 'ConfigurationOfSeaside3';
+					versionString: #'release3.2';
+					loads: #('Zinc' 'JQuery' 'JQueryUI');
+					repository: 'http://www.smalltalkhub.com/mc/Seaside/MetacelloConfigurations/main' ];
+			project: 'SeasideTesting' with: [
+				spec
+					className: 'ConfigurationOfSeasideTesting';
+					version: #'development';
+					loads: #('SimulatedBrowserTesting');
+					repository: 'http://www.smalltalkhub.com/mc/Seaside/MetacelloConfigurations/main' ];
+			project: 'BeachParasol' with: [
+				spec
+					className: 'ConfigurationOfParasol';
+					version: #'development';
+					loads: #('dev');
+					repository: 'http://ss3.gemstone.com/ss/Parasol' ].
+		spec project: 'Magritte3' with: [
+			spec
+					className: 'ConfigurationOfMagritte3';
+					file: 'ConfigurationOfMagritte3';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/Magritte/Magritte3/main';
+					loads: #('Magritte-Seaside') ].
+				
+		spec
+			package: 'Glamour-Seaside-Core' "with: [
+				spec requires: #('Seaside' 'Glamour' 'JQWidgetBox-Core' 'JQWidgetBox-MbMenu-Core' 'JQWidgetBox-HoverIntent-Core' 'Glamour-Morphic-Theme' 'Magritte3') ]";
+			package: 'Glamour-Seaside-Rendering' with: [
+				spec requires: #('Glamour-Seaside-Core') ];
+			package: 'Glamour-Seaside-Examples' with: [
+				spec requires: #('Seaside' 'Glamour-Seaside-Rendering') ];
+			package: 'Glamour-Seaside-Tests' with: [
+				spec requires: #('Glamour-Seaside-Rendering' 'SeasideTesting' 'BeachParasol') ];
+			package: 'JQWidgetBox-Core' with: [
+				spec requires: #('Seaside').
+				spec repository: 'http://www.smalltalkhub.com/mc/Seaside/JQueryWidgetBox/main'];
+			package: 'JQWidgetBox-MbMenu-Core' with: [
+				spec repository: 'http://www.smalltalkhub.com/mc/Seaside/JQueryWidgetBox/main'.
+				spec requires: #('Seaside') ];
+			package: 'JQWidgetBox-HoverIntent-Core' with: [
+				spec requires: #('Seaside').
+				spec repository: 'http://www.smalltalkhub.com/mc/Seaside/JQueryWidgetBox/main'];
+			package: 'Glamour-Morphic-Theme'.
+	spec
+		for: #pharo
+		do: [ 
+			spec
+				project: 'Seaside Zinc' copyFrom: 'Seaside' with: [ spec loads: #('Zinc') ];
+				package: 'Glamour-Seaside-Core'
+					with: [ 
+							spec
+								requires: #('Seaside Zinc');
+								postLoadDoIt: #startSeaside ] ].
+
+		spec
+			group: 'default' with: #( 'Examples' );
+			group: 'Core' with: #( 'Glamour-Seaside-Core' 'Glamour-Seaside-Rendering' 'Glamour-Seaside-Rendering' );
+			group: 'Examples' with: #( 'Glamour-Seaside-Examples' );
+			group: 'Tests' with: #( 'Glamour-Seaside-Tests' ) ]
+]
+
 { #category : #'symbolic versions' }
 ConfigurationOfGlamourSeaside >> bleedingEdge: spec [
 	<symbolicVersion: #'bleedingEdge'>
