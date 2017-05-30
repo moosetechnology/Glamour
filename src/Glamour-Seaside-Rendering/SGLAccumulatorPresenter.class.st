@@ -63,8 +63,8 @@ SGLAccumulatorPresenter >> onSelectScriptWith: html [
 
 { #category : #initialization }
 SGLAccumulatorPresenter >> registerAnnouncers [
-	self browser on: GLMPaneAdded send: #actOnPaneAdded: to: self.
-	self browser on: GLMPaneSelected send: #actOnPaneSelected: to: self.
+	self browser when: GLMPaneAdded send: #actOnPaneAdded: to: self.
+	self browser when: GLMPaneSelected send: #actOnPaneSelected: to: self.
 ]
 
 { #category : #rendering }

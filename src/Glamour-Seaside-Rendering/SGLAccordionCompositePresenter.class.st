@@ -14,7 +14,7 @@ SGLAccordionCompositePresenter >> renderContentOn: html [
 	index := self indexForSelectedPresentation.
 	html div
 		class: 'accordion-arrangement';
-  	      script: (html jQuery new accordion animated: false; clearStyle: true; active: index-1);
+  	      script: (html jQuery new accordion "animated: false; clearStyle: true;" active: index-1);
    	      with: [
          		presentations withIndexDo: [ :each :i | 
 				html div: [ 

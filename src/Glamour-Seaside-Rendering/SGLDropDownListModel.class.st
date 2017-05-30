@@ -14,7 +14,7 @@ SGLDropDownListModel class >> for: aPresentation [
 	model := self new glamourPresentation: aPresentation.
 	
 	"When the morph changes, we want to update the glamour model"
-	model announcer on: GLMDropDownListMorphSelectionChanged do: [ :ann | 
+	model announcer when: GLMDropDownListMorphSelectionChanged do: [ :ann | 
 		"aPresentation announcer suspendAllWhile: ["
 			aPresentation selection: ann selectionValue ] .
 	

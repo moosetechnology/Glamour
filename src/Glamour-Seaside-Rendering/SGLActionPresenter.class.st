@@ -94,9 +94,9 @@ SGLActionPresenter >> renderMbMenuActionOrCategory: anActionOrCategory withMenuI
 	
 	anchor := anActionOrCategory seasideAnchorFrom: self on: html.
 	
-	anId 
+	"anId 
 		ifNotNil: [anchor menu: anId].
-		
+		"
 	anchor 	with: [
 			"html image form: (actions at: index) icon."
 			html text: (anId ifNil: [anActionOrCategory title] ifNotNil: [anActionOrCategory]) ]
@@ -132,10 +132,10 @@ SGLActionPresenter >> renderMbMenuHeaderContentForMenu: aMenuId on: html [
 	html tableRow: [ 
 		html tableData
 			class: 'rootVoices';
-			menu: aMenuId;
+			"menu: aMenuId;"
 			with: [ 
 				html image
-					form: GLMUIThemeIcons windowMenuForm;
+					form: Smalltalk ui theme windowMenuForm;
 					class: 'glm-mbMenu-header-icon'
 					"url: (SGLFileLibrary urlOf: #arrowDownPng)" ] ]
 ]
@@ -145,12 +145,12 @@ SGLActionPresenter >> renderMbMenuHeaderForMenu: aMenuId on:  html [
 	html div 
 		id: html nextId;
 		class: 'glm-ac-container-menu';
-		script: (self menuScriptWith: html);
+		"script: (self menuScriptWith: html);"
 		with: [
 			html table 
 				class: 'rootVoices';
 				cellpadding: 0; cellspacing: 0;
-				border: 0;
+				"border: 0;"
 				with: [
 					self renderMbMenuHeaderContentForMenu: aMenuId on: html ] ]
 

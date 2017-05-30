@@ -15,13 +15,13 @@ SGLTextModel class >> for: aPresentation [
 	model := self new glamourPresentation: aPresentation.
 	
 	"When the presenter changes, we want to update the glamour model"
-	model announcer on: SGLTextPresenterTextChanged do: [ :ann | 
+	model announcer when: SGLTextPresenterTextChanged do: [ :ann | 
 		aPresentation announcer suspendAllWhile: [
 			aPresentation text: ann text ] ].
-	model announcer on: SGLTextPresenterSelectedTextChanged do: [ :ann | 
+	model announcer when: SGLTextPresenterSelectedTextChanged do: [ :ann | 
 		aPresentation announcer suspendAllWhile: [
 			aPresentation selectedText: ann selectedText ] ].
-	model announcer on: SGLTextPresenterSelectionIntervalChanged do: [ :ann | 
+	model announcer when: SGLTextPresenterSelectionIntervalChanged do: [ :ann | 
 		aPresentation announcer suspendAllWhile: [
 			aPresentation selectionInterval: ann selectionInterval ] ].
 	^ model

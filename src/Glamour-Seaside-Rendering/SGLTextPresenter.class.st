@@ -48,7 +48,7 @@ SGLTextPresenter >> initializeFor: aPresentation [
 	model := SGLTextModel for: aPresentation.
 	
 	"When the glamour model changes, we want to update the presenter"
-	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
+	aPresentation when: GLMContextChanged send: #actOnContextChanged: to: self.
 	"aPresentation when: GLMPresentationUpdated do: [:ann | ]."
 	
 ]

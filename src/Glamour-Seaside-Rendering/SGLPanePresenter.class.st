@@ -24,7 +24,7 @@ SGLPanePresenter >> initializeFor: aPane [
 { #category : #rendering }
 SGLPanePresenter >> renderContentOn: html [
 	pane 
-		on: GLMMatchingPresentationsChanged 
+		when: GLMMatchingPresentationsChanged 
 		send: #actOnMatchingPresentationChanged: 
 		to: self.
 	self renderPaneOn: html

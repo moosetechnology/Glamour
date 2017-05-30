@@ -21,7 +21,7 @@ SGLTreeModel class >> for: aPresentation [
 	model := self new glamourPresentation: aPresentation.
 	
 	"When the morph changes, we want to update the glamour model"
-	model announcer on: GLMTreeMorphSelectionChanged do: [ :ann | 
+	model announcer when: GLMTreeMorphSelectionChanged do: [ :ann | 
 		aPresentation announcer suspendAllWhile: [
 			aPresentation selection: ann selectionValue.
 			aPresentation selectionPath: ann selectionPathValue] ].

@@ -35,9 +35,9 @@ SGLFinderPresenter >> initializeFor: aBrowser [
 
 { #category : #initialization }
 SGLFinderPresenter >> registerAnnouncers [
-	self browser on: GLMPaneAdded send: #actOnPaneAdded: to: self.
-	self browser on: GLMPaneRemoved send: #actOnPaneRemoved: to: self.
-	self browser on: GLMPaneReplaced send: #actOnPaneReplaced: to: self.
+	self browser when: GLMPaneAdded send: #actOnPaneAdded: to: self.
+	self browser when: GLMPaneRemoved send: #actOnPaneRemoved: to: self.
+	self browser when: GLMPaneReplaced send: #actOnPaneReplaced: to: self.
 ]
 
 { #category : #callbacks }

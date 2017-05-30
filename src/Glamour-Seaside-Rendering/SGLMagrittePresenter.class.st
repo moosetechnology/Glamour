@@ -30,6 +30,7 @@ SGLMagrittePresenter >> renderContentOn: html [
 
 		| toShow description magritteComponent |
 		toShow := self presentation displayValue.
+		
 		description := (self presentation magritteDescription glamourValue: toShow) copy.
 		magritteComponent := (description asComponentOn: toShow)
 			addValidatedForm;

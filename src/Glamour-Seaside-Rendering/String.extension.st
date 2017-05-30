@@ -26,7 +26,7 @@ String >> seasideAnchorFrom: actionPresenter on: html [
 
 	|tmpAnchor|
 	tmpAnchor := html anchor.
-	tmpAnchor 
-		action: (actionPresenter actionScriptFor: self with: html).
+	"tmpAnchor 
+		action: (actionPresenter actionScriptFor: self with: html)."
 	^ tmpAnchor
 ]

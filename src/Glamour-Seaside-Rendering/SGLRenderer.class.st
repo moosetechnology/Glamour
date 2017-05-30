@@ -109,6 +109,21 @@ SGLRenderer >> renderEyeSeePresentation: aPresentation [
 	html render: (SGLEyeSeePresenter for: aPresentation from: self)
 ]
 
+{ #category : #'rendering presentations' }
+SGLRenderer >> renderFastListPresentation: aPresentation [ 
+	self renderListPresentation: aPresentation
+]
+
+{ #category : #'rendering presentations' }
+SGLRenderer >> renderFastTablePresentation: aPresentation [ 
+	self renderTablePresentation: aPresentation
+]
+
+{ #category : #'rendering presentations' }
+SGLRenderer >> renderFastTreeWithColumnsPresentation: aPresentation [ 
+	self renderTablePresentation: aPresentation
+]
+
 { #category : #'rendering browsers' }
 SGLRenderer >> renderFinder: aBrowser [
 	html render: (SGLFinderPresenter for: aBrowser from: self)
@@ -132,6 +147,7 @@ SGLRenderer >> renderListPresentation: aPresentation [
 
 { #category : #'rendering presentations' }
 SGLRenderer >> renderMagrittePresentation: aPresentation [
+	
 	html render: (SGLMagrittePresenter for: aPresentation from: self)
 ]
 
@@ -148,9 +164,43 @@ SGLRenderer >> renderMorphPresentation: aMorphPresentation [
 	self renderEmptyPresentation.
 ]
 
+{ #category : #'rendering browsers' }
+SGLRenderer >> renderPager: aBrowser [ 
+
+	self renderFinder: aBrowser
+]
+
 { #category : #rendering }
 SGLRenderer >> renderPane: aPane [
 	html render: (SGLPanePresenter for: aPane from: self)
+]
+
+{ #category : #'rendering presentations' }
+SGLRenderer >> renderPharoMethodPresentation: aTextPresentation [
+
+	^ self renderTextPresentation: aTextPresentation
+	
+]
+
+{ #category : #'rendering presentations' }
+SGLRenderer >> renderPharoScriptPresentation: aTextPresentation [
+
+	^ self renderTextPresentation: aTextPresentation
+	
+]
+
+{ #category : #'rendering presentations' }
+SGLRenderer >> renderRoassal2Presentation: aPresentation [
+	html render: (SGLMondrianPresenter for: aPresentation from: self)
+
+	
+]
+
+{ #category : #'rendering presentations' }
+SGLRenderer >> renderRubricTextPresentation: aTextPresentation [
+
+	^ self renderTextPresentation: aTextPresentation
+	
 ]
 
 { #category : #'rendering presentations' }
@@ -170,8 +220,10 @@ SGLRenderer >> renderTabbedCompositePresentation: aCompositePresentation [
 
 { #category : #'rendering presentations' }
 SGLRenderer >> renderTablePresentation: aPresentation [
-	
-	html render: (SGLTablePresenter for: aPresentation from: self)
+	| tablePresenter |
+	tablePresenter := SGLTablePresenter for: aPresentation from: self.
+	tablePresenter htmlId: (self uuidFor: aPresentation).
+	html render: tablePresenter
 ]
 
 { #category : #'rendering browsers' }

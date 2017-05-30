@@ -79,8 +79,8 @@ SGLTreePresenter >> initializeFor: aPresentation [
 	nodesId := Dictionary new.
 	
 	"When the glamour model changes, we want to update the morph"
-	aPresentation on: GLMContextChanged send: #actOnContextChanged: to: self.
-	aPresentation on: GLMPresentationUpdated send: #actOnUpdatedPresentation: to: self.
+	aPresentation when: GLMContextChanged send: #actOnContextChanged: to: self.
+	aPresentation when: GLMPresentationUpdated send: #actOnUpdatedPresentation: to: self.
 ]
 
 { #category : #initialization }
@@ -261,11 +261,11 @@ SGLTreePresenter >> renderNodeTitleFor: aNode on: html [
 	|tmpDiv|
 	tmpDiv := html div.
 	tmpDiv
-		script: (self fullTextCssScriptForNode: aNode With: html);
-		script: (self menuScriptWith: html).
+		script: (self fullTextCssScriptForNode: aNode With: html)";
+		script: (self menuScriptWith: html)".
 		
 	self model glamourPresentation allSelectionActions ifNotEmpty: [
-		tmpDiv contextMenu: self contextMenuId.
+		"tmpDiv contextMenu: self contextMenuId."
 		].
 	
 	tmpDiv	
@@ -300,6 +300,7 @@ SGLTreePresenter >> renderNodes: nodes asListFromLevel: level on: html [
 SGLTreePresenter >> renderRootNodesFrom: startIndex to: endIndex on: html [
 	|nodes|
 	nodes := self model allRoots.
+	nodes ifEmpty: [ ^ self ].
 	(startIndex > 0 and: [endIndex > 0 and: [startIndex <= endIndex] ]) ifTrue: [
 		( (startIndex min: self model allRoots size) to: (endIndex min: self model allRoots size) ) do: [ :each |   
 			self renderNode: (nodes at: each)  fromLevel: 0 on: html ] ]

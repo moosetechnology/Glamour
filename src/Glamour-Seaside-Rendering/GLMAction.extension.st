@@ -5,7 +5,12 @@ GLMAction >> seasideAnchorFrom: actionPresenter on: html [
 
 	|tmpAnchor|
 	tmpAnchor := html anchor.
-	tmpAnchor 
-		action: (actionPresenter actionScriptFor: self with: html).
+	"tmpAnchor 
+		action: (actionPresenter actionScriptFor: self with: html)."
 	^ tmpAnchor
+]
+
+{ #category : #'*glamour-seaside-rendering' }
+GLMAction >> worksWithSeaside [
+	^ false
 ]
