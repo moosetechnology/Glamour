@@ -235,17 +235,10 @@ GLMAction >> shortcut [
 ]
 
 { #category : #accessing }
-GLMAction >> shortcut: aCharacter [ 
+GLMAction >> shortcut: aCharacterOrKeymap [
 	"Shortcut character that this action should be triggered with when the focus rests on the corresponding presentation. 
-	Modifiers are platform specific an can not be defined." 
-	 
-	aCharacter ifNil: [ 
-		keymap := nil.
-		^ self ].
-	keymap := 
-		(aCharacter isUppercase 
-			ifTrue: [ aCharacter meta shift ]
-			ifFalse: [ aCharacter meta ])
+	Modifiers are platform specific and can not be defined using this public method."
+	keymap := aCharacterOrKeymap glmAsKeymap
 ]
 
 { #category : #accessing }
