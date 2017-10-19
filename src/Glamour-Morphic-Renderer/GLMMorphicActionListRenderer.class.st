@@ -10,7 +10,7 @@ Class {
 
 { #category : #defaults }
 GLMMorphicActionListRenderer class >> defaultWidth [ 
-	^100
+	^150
 ]
 
 { #category : #rendering }
@@ -19,9 +19,10 @@ GLMMorphicActionListRenderer >> actOnPresentationUpdated: ann [
 	container addMorphBack: (self morphFrom: ann presentation)
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 GLMMorphicActionListRenderer >> buttonMorph: aModel [
-	^UITheme current 
+	| button |
+	button := UITheme current 
 		newButtonIn: nil 
 		for: aModel 
 		getState: nil
@@ -29,7 +30,12 @@ GLMMorphicActionListRenderer >> buttonMorph: aModel [
 		arguments: nil 
 		getEnabled: nil 
 		label: aModel buttonLabel
-		help: nil
+		help: nil.
+	aModel glamourAction icon ifNotNil: [ :anIcon |
+		button 
+			icon: anIcon;
+			label: aModel buttonLabel ].
+	^ button
 ]
 
 { #category : #rendering }
