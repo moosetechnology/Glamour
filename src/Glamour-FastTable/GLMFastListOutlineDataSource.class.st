@@ -94,6 +94,12 @@ GLMFastListOutlineDataSource >> resetDataCache [
 	dataCache := nil
 ]
 
+{ #category : #accessing }
+GLMFastListOutlineDataSource >> resetElements [
+	self resetDataCache.
+	self items: nil
+]
+
 { #category : #factory }
 GLMFastListOutlineDataSource >> rowMorphForElement: element [
 	| rowElements |
