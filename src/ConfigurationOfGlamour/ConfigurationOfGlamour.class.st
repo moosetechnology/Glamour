@@ -2101,6 +2101,47 @@ ConfigurationOfGlamour >> baseline35: spec [
 					loads: #('Magritte-Tests-Pharo-Model' 'Magritte-Tests-Model' 'Magritte-Morph') ] ]
 ]
 
+{ #category : #baselines }
+ConfigurationOfGlamour >> baseline36: spec [ 
+	<version: '3.6-baseline'>
+	
+	spec for: #common do: [
+		spec blessing: #development.
+		spec description: 'fixed magritte dependency'.
+		spec repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'.
+		spec 
+			package: 'Glamour-Tools' with: [spec requires: #('GlamourCore')];
+			package: 'Glamour-Examples-Extras' with: [spec requires: #('Glamour-Tools')];
+			package: 'Glamour-Magritte-Presentations' with: [spec requires: #('Magritte3')];	
+			package: 'Glamour-Morphic-Brick-Experiments'].
+
+	spec for: #squeakCommon do: [ 
+		spec
+			package: 'CollectionExtensions' with: [spec repository: 'http://www.smalltalkhub.com/mc/Moose/CollectionExtensions/main'];
+			package: 'Glamour-Tools' with: [spec requires: #('GlamourCore' 'CollectionExtensions')] ].
+
+	spec for: #common do: [ 						
+		spec group: 'default' with: #(
+						'GlamourCore'
+						'Glamour-Magritte-Presentations'
+						'Glamour-Tools'
+						'Glamour-Examples-Extras' ).
+		spec 
+			project: 'GlamourCore' with: [ 
+				spec 
+					className: 'ConfigurationOfGlamourCore';
+					file: 'ConfigurationOfGlamourCore';
+					version: #development;
+					repository: 'http://www.smalltalkhub.com/mc/Moose/Glamour/main'].
+		spec 
+			project: 'Magritte3' with: [
+				spec
+					className: 'ConfigurationOfMagritte3';
+					file: 'ConfigurationOfMagritte3';
+					version: #stable;
+					repository: 'http://www.smalltalkhub.com/mc/Magritte/Magritte3/main' ] ]
+]
+
 { #category : #'symbolic versions' }
 ConfigurationOfGlamour >> development: spec [
 	<symbolicVersion: #'development'>
