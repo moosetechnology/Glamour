@@ -10,6 +10,7 @@ Class {
 
 { #category : #tests }
 GLMTreePresentationTest >> setUp [
+	super setUp.
 	pane := GLMPane named: 'test'.
 	presentation := GLMTreePresentation new.
 	pane addPresentation: presentation.

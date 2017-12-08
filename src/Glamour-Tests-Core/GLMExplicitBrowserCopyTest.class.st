@@ -11,8 +11,8 @@ Class {
 { #category : #tests }
 GLMExplicitBrowserCopyTest >> setUp [
 	| pane1 pane2 transmission1 transmission2 | 
-	browser := GLMExplicitBrowser new. 
-	
+	super setUp.
+	browser := GLMExplicitBrowser new. 	
 	pane1 := browser addNewPane name: 'pane1'. 
 	pane2 := browser addNewPane name: 'pane2'. 
 	transmission1 := GLMTransmission new

@@ -11,6 +11,7 @@ GLMAnnouncementPropagationTest >> expectedFailures [
 
 { #category : #setup }
 GLMAnnouncementPropagationTest >> setUp [
+	super setUp.
 	GLMLogger instance: GLMMemoryLogger new
 ]
 
