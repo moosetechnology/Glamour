@@ -92,8 +92,22 @@ GLMExamplesBrowser >> exampleIn: composer [
 { #category : #building }
 GLMExamplesBrowser >> exampleListIn: a [
 	^ a list
-		title: 'Examples';
+		title: 'Examples' translated;
 		display: [ :exampleClass | exampleClass allExamples ];
 		sorted: [ :x :y | (x argumentAt: 1) < (y argumentAt: 1) ];
-		format: [ :each | each argumentAt: 1 ]
+		format: [ :each | each argumentAt: 1 ];
+		filterOn: [ :pattern :each | 
+			self satisfy: each pattern: pattern ];
+		helpMessage: 'Filter example names and source code';
+		yourself
+]
+
+{ #category : #testing }
+GLMExamplesBrowser >> satisfy: aPragma pattern: patternString [ 
+	"aPragma holds the example.
+	example name: aPragma argumentAt: 1.
+	Return true if the example satisfy the pattern, false otherwise.
+	"
+	^ (('*', patternString asString, '*') match: (aPragma argumentAt: 1)) or: [ 
+		 ('*', patternString asString, '*') match: aPragma method sourceCode ]
 ]
