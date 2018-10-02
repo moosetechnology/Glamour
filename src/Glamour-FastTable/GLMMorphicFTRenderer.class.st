@@ -159,7 +159,7 @@ GLMMorphicFTRenderer >> render: aPresentation [
 
 { #category : #'build ui' }
 GLMMorphicFTRenderer >> setFastTableLayoutFrame: newTableMorph [
-	newTableMorph layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1))
+	newTableMorph layoutFrame: LayoutFrame identity
 ]
 
 { #category : #initialization }
