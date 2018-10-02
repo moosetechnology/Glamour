@@ -158,10 +158,13 @@ GLMMorphicWidgetRenderer >> morph: aMorph withToolbarOf: aPresentation [
 	offset := 0.
 	dock := self renderToolbarForPresentation: aPresentation inMorph: container.
 	offset := dock minExtent y.
-	container addMorph: dock fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 0) offsets: (0 @ 0 corner: 0 @ offset)).	
-	container 
-		addMorph: aMorph 
-		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ offset corner: 0 @ 0)).
+	container
+		addMorph: dock
+		fullFrame:
+			(LayoutFrame identity
+				bottomFraction: 0; 
+				bottomOffset: offset).
+	container addMorph: aMorph fullFrame: (LayoutFrame identity topOffset: offset).
 	^ container
 ]
 
@@ -227,7 +230,7 @@ GLMMorphicWidgetRenderer >> scrollMorphFor: aMorph [
 	^ GeneralScrollPane new
 			changeScrollerTableLayout;
 			scrollTarget: aMorph;
-			layoutFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ 25 corner: 0 @ 0));
+			layoutFrame: (LayoutFrame identity topOffset: 25);
 			yourself
 	
 ]
