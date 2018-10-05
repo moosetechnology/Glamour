@@ -21,7 +21,7 @@ BaselineOfGlamourCore >> baseline: spec [
 			package: 'Glamour-Examples' with: [
 				spec requires: #('Glamour-Core' ). ];
 			package: 'Glamour-FastTable' with: [
-				spec requires: #('FastTable' 'Glamour-Examples' 'Glamour-Core' 'Glamour-Presentations' 'Glamour-Morphic-Renderer' 'Glamour-Tests-Morphic'). ];
+				spec requires: #('Glamour-Examples' 'Glamour-Core' 'Glamour-Presentations' 'Glamour-Morphic-Renderer' 'Glamour-Tests-Morphic'). ];
 			package: 'Glamour-Morphic-Brick' with: [
 				spec requires: #('Glamour-Core' ). ];
 			package: 'Glamour-Morphic-Brick-Tests' with: [
@@ -42,11 +42,5 @@ BaselineOfGlamourCore >> baseline: spec [
 			package: 'Glamour-Tests-Rubric' with: [
 				spec requires: #('Glamour-Tests-Morphic' 'Glamour-Rubric-Presentations' ). ];
 			package: 'Glamour-SpecIntegration' with: [
-				spec requires: #('Glamour-Core' 'Glamour-Examples' 'Glamour-Morphic-Renderer' 'Glamour-Rubric-Presentations'). ].
-			
-		spec project: 'FastTable' with: [
-				spec
-					className: #ConfigurationOfFastTable;
-					versionString: #'development';
-					repository: 'http://smalltalkhub.com/mc/estebanlm/FastTable/main/' ] ].
+				spec requires: #('Glamour-Core' 'Glamour-Examples' 'Glamour-Morphic-Renderer' 'Glamour-Rubric-Presentations'). ] ].
 ]
