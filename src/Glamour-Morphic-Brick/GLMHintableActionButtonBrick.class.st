@@ -119,7 +119,7 @@ GLMHintableActionButtonBrick >> hintTitle: anObject [
 	hintTitle := anObject
 ]
 
-{ #category : #initialization }
+{ #category : #'brick-interactable-actions' }
 GLMHintableActionButtonBrick >> initialize [
 	super initialize.
 	

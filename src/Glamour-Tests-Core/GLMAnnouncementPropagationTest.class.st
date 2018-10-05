@@ -9,13 +9,13 @@ GLMAnnouncementPropagationTest >> expectedFailures [
 	^ #(testEntityPropogationAnnouncements testSimplePropagation)
 ]
 
-{ #category : #setup }
+{ #category : #running }
 GLMAnnouncementPropagationTest >> setUp [
 	super setUp.
 	GLMLogger instance: GLMMemoryLogger new
 ]
 
-{ #category : #setup }
+{ #category : #running }
 GLMAnnouncementPropagationTest >> tearDown [
 	GLMLogger reset.
 	super tearDown

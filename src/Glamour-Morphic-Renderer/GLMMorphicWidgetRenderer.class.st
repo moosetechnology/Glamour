@@ -153,7 +153,8 @@ GLMMorphicWidgetRenderer >> morph: aMorph withTitleOrNilOf: aPresentation [
 { #category : #private }
 GLMMorphicWidgetRenderer >> morph: aMorph withToolbarOf: aPresentation [
 	| container offset dock |
-	aPresentation hasActions ifFalse: [ ^ aMorph ].
+	aPresentation hasActions
+		ifFalse: [ ^ aMorph ].
 	container := GLMMorphic containerMorph.
 	offset := 0.
 	dock := self renderToolbarForPresentation: aPresentation inMorph: container.

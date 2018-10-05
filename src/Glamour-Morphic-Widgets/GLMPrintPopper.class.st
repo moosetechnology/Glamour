@@ -63,7 +63,11 @@ GLMPrintPopper >> initializeInspectButton [
 		setBalloonText: 'Inspect' translated.
 	self
 		addMorph: inspectButton
-		fullFrame: (LayoutFrame fractions: (1 @ 0 corner: 1 @ 0) offsets: (inspectButton width  @ 0 corner: 0 @ (2*inspectButton width) ))
+		fullFrame: (LayoutFrame identity 
+			leftFraction: 1;
+			bottomFraction: 0;
+			leftOffset: inspectButton width;
+			bottomOffset: (2*inspectButton width))
 ]
 
 { #category : #initialization }
@@ -78,7 +82,7 @@ GLMPrintPopper >> initializeTextMorph [
 	self
 		vResizing: #spaceFill;
 		hResizing: #spaceFill;
-		addMorph: textMorph fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 1) offsets: (0 @ 0 corner: 0 @ 0))
+		addMorph: textMorph fullFrame: LayoutFrame identity
 ]
 
 { #category : #public }

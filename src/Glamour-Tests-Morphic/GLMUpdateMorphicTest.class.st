@@ -20,7 +20,7 @@ GLMUpdateMorphicTest >> expectedFailures [
 	^ #(testUpdatePresentationTitle)
 ]
 
-{ #category : #tests }
+{ #category : #running }
 GLMUpdateMorphicTest >> setUp [
 	super setUp.
 	announcer := Announcer new.

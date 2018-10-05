@@ -1,7 +1,7 @@
-Extension { #name : #TClassDescription }
+Extension { #name : #ClassDescription }
 
 { #category : #'*Glamour-Morphic-Brick' }
-TClassDescription >> slotsDictionary [
+ClassDescription >> slotsDictionary [
 	^ self isTrait 
 		ifTrue: [ Dictionary new ]
 		ifFalse: [ self layout slotsDictionary ]

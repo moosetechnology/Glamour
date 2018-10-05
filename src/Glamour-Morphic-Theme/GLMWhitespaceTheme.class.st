@@ -17,7 +17,7 @@ The theme is developed in the context of the Glamour project, and its goal is to
 "
 Class {
 	#name : #GLMWhitespaceTheme,
-	#superclass : #UIThemeWatery,
+	#superclass : #UITheme,
 	#category : #'Glamour-Morphic-Theme'
 }
 
@@ -64,7 +64,7 @@ GLMWhitespaceTheme class >> importGlamorousIcons [
 	"self importIcons: icons fromFolder: 'icons' inClass: GLMThemeIcons category: '*glamour-morphic-theme'"
 ]
 
-{ #category : #testing }
+{ #category : #accessing }
 GLMWhitespaceTheme class >> isAbstract [
 	"Answer whether the receiver is considered to be abstract."
 
@@ -83,22 +83,9 @@ GLMWhitespaceTheme class >> lightSelectionColor [
 
 { #category : #settings }
 GLMWhitespaceTheme class >> newDefaultSettings [
-	self setPreferredPreferences.
 	
 	BalloonMorph setBalloonColorTo: self veryLightSelectionColor.
 	^super newDefaultSettings
-		menuColor: self baseColor;
-		menuTitleColor: self baseColor;
-		windowColor: self baseColor;
-		selectionColor: self lightSelectionColor;
-		menuSelectionColor: self baseSelectionColor;
-		progressBarColor: self baseColor;
-		standardColorsOnly: true;
-		autoSelectionColor: false;
-		preferRoundCorner: false;
-		fadedBackgroundWindows: false;
-		secondarySelectionColor: self veryLightSelectionColor;
-		flatMenu: true
 ]
 
 { #category : #settings }
@@ -123,33 +110,12 @@ GLMWhitespaceTheme >> borderColor [
 	^ Color transparent
 ]
 
-{ #category : #'border-styles-buttons' }
-GLMWhitespaceTheme >> buttonCornerStyleIn: aThemedMorph [
-	"If asked, we only allow square corners"
-	
-	^ #square
-]
-
 { #category : #'label-styles' }
 GLMWhitespaceTheme >> buttonLabelForText: aTextOrString [
 	"Answer the label to use for the given text."
 	^aTextOrString isString
 		ifTrue: [(LabelMorph contents: aTextOrString) color: Color black]
 		ifFalse: [super buttonLabelForText: aTextOrString]
-]
-
-{ #category : #defaults }
-GLMWhitespaceTheme >> buttonMinHeight [
-	"Answer the minumum height of a button for this theme."
-	
-	^24
-]
-
-{ #category : #defaults }
-GLMWhitespaceTheme >> buttonMinWidth [
-	"Answer the minumum width of a button for this theme."
-	
-	^24
 ]
 
 { #category : #'border-styles-buttons' }
@@ -159,19 +125,6 @@ GLMWhitespaceTheme >> buttonNormalBorderStyleFor: aButton [
 	(aButton valueOfProperty: #noBorder ifAbsent: [false]) ifTrue: [
 		^ SimpleBorder new width: 0; baseColor: Color transparent ].
 	^ self glamorousNoBorderFor: aButton
-]
-
-{ #category : #'fill-styles-buttons' }
-GLMWhitespaceTheme >> buttonNormalFillStyleFor: aButton [
-	"Return the normal button fillStyle for the given button."
-	
-	(aButton valueOfProperty: #noFill ifAbsent: [false]) ifTrue: [^ SolidFillStyle color: Color transparent ].
-	^ self glamorousNormalFillStyleFor: aButton height: aButton height
-]
-
-{ #category : #'border-styles-buttons' }
-GLMWhitespaceTheme >> buttonSelectedBorderStyleFor: aButton [
-	^ self buttonNormalBorderStyleFor: aButton
 ]
 
 { #category : #'fill-styles-buttons' }
@@ -188,27 +141,6 @@ GLMWhitespaceTheme >> buttonSelectedFillStyleFor: aButton [
 		origin: aButton bounds origin;
 		direction: 0 @ aButton height;
 		radial: false
-]
-
-{ #category : #forms }
-GLMWhitespaceTheme >> checkboxForm [
-	"Answer the form to use for a normal checkbox."
-
-	^self  checkboxUnselectedForm
-]
-
-{ #category : #forms }
-GLMWhitespaceTheme >> checkboxSelectedForm [
-	"Answer the form to use for a selected checkbox."
-
-	^ self iconNamed: #checkboxSelectedForm
-]
-
-{ #category : #forms }
-GLMWhitespaceTheme >> checkboxUnselectedForm [
-	"Answer the form to use for a selected checkbox."
-
-	^ self iconNamed: #checkboxUnselectedForm
 ]
 
 { #category : #'watcher window' }
@@ -237,11 +169,6 @@ GLMWhitespaceTheme >> configureWindowBorderFor: aWindow [
 	^ self glamorousThickBorderFor: aWindow
 ]
 
-{ #category : #'border-styles' }
-GLMWhitespaceTheme >> configureWindowDropShadowFor: aWindow [
-	aWindow hasDropShadow: false
-]
-
 { #category : #'label-styles' }
 GLMWhitespaceTheme >> configureWindowLabelAreaFor: aWindow [
 	"Configure the label area for the given window."
@@ -267,96 +194,6 @@ GLMWhitespaceTheme >> configureWindowLabelAreaFor: aWindow [
 		addMorphBack: (Morph new extent: aWindow class borderWidth @ 0)
 ]
 
-{ #category : #'label-styles' }
-GLMWhitespaceTheme >> createCollapseBoxFor: aSystemWindow [
-	"Answer a button for minimising the window."
-	
-	|form msb|
-	form := self windowMinimizeForm.
-	msb := MultistateButtonMorph new extent: form extent.
-	msb activeEnabledNotOverUpFillStyle: (ImageFillStyle form: form).
-	form := self windowMinimizePassiveForm.
-	msb extent: form extent.
-	msb passiveEnabledNotOverUpFillStyle: (ImageFillStyle form: form).
-	form := self windowMinimizeOverForm.
-	msb extent: form extent.
-	msb
-		activeEnabledOverUpFillStyle: (ImageFillStyle form: form);
-		passiveEnabledOverUpFillStyle: (ImageFillStyle form: form).
-	form := self windowMinimizePassiveForm.
-	msb
-		extent: form extent;
-		activeEnabledOverDownFillStyle: (ImageFillStyle form: form);
-		passiveEnabledOverDownFillStyle: (ImageFillStyle form: form);
-		addUpAction: [aSystemWindow collapseBoxHit];
-		setBalloonText: 'Collapse this window' translated;
-		extent: aSystemWindow boxExtent.
-	^msb
-]
-
-{ #category : #'label-styles' }
-GLMWhitespaceTheme >> createExpandBoxFor: aSystemWindow [
-	"Answer a button for maximising/restoring the window."
-	
-	|form msb|
-	form := self windowMaximizeForm.
-	msb := MultistateButtonMorph new extent: form extent.
-	msb activeEnabledNotOverUpFillStyle: (ImageFillStyle form: form).
-	form := self windowMaximizePassiveForm.
-	msb extent: form extent.
-	msb passiveEnabledNotOverUpFillStyle: (ImageFillStyle form: form).
-	form := self windowMaximizeOverForm.
-	msb extent: form extent.
-	msb
-		activeEnabledOverUpFillStyle: (ImageFillStyle form: form);
-		passiveEnabledOverUpFillStyle: (ImageFillStyle form: form).
-	form := self windowMaximizePassiveForm.
-	msb
-		extent: form extent;
-		activeEnabledOverDownFillStyle: (ImageFillStyle form: form);
-		passiveEnabledOverDownFillStyle: (ImageFillStyle form: form);
-		addUpAction: [aSystemWindow expandBoxHit];
-		setBalloonText: 'Expand to full screen' translated;
-		extent: aSystemWindow boxExtent.
-	^msb
-]
-
-{ #category : #'label-styles' }
-GLMWhitespaceTheme >> createMenuBoxFor: aSystemWindow [
-	"Answer a button for the window menu."
-	
-"	^aSystemWindow createBox
-		labelGraphic: (self windowMenuIconFor: aSystemWindow);
-		extent: aSystemWindow boxExtent;
-		actWhen: #buttonDown;
-		actionSelector: #offerWindowMenu;
-		setBalloonText: 'window menu' translated"
-	
-	|form msb|
-	form := self windowMenuForm.
-	msb := MultistateButtonMorph new extent: form extent.
-	msb activeEnabledNotOverUpFillStyle: (ImageFillStyle form: form).
-	form := self windowMenuPassiveForm.
-	msb extent: form extent.
-	msb activeDisabledNotOverUpFillStyle: (ImageFillStyle form: form).
-	msb passiveEnabledNotOverUpFillStyle: (ImageFillStyle form: form).
-	msb passiveDisabledNotOverUpFillStyle: (ImageFillStyle form: form).
-	form := self windowMenuForm.
-	msb extent: form extent.
-	msb
-		activeEnabledOverUpFillStyle: (ImageFillStyle form: form);
-		passiveEnabledOverUpFillStyle: (ImageFillStyle form: form).
-	form := self windowMenuPassiveForm.
-	msb
-		extent: form extent;
-		activeEnabledOverDownFillStyle: (ImageFillStyle form: form);
-		passiveEnabledOverDownFillStyle: (ImageFillStyle form: form);
-		addUpAction: [aSystemWindow offerWindowMenu];
-		setBalloonText: 'window menu' translated;
-		extent: aSystemWindow boxExtent.
-	^msb
-]
-
 { #category : #'fill-styles' }
 GLMWhitespaceTheme >> desktopColor [
 
@@ -370,42 +207,11 @@ GLMWhitespaceTheme >> dialogWindowPreferredCornerStyleFor: aDialogWindow [
 	^#square
 ]
 
-{ #category : #'fill-styles' }
-GLMWhitespaceTheme >> dockingBarNormalFillStyleFor: aToolDockingBar [
-	^ SolidFillStyle color: Color transparent
-]
-
-{ #category : #'fill-styles' }
-GLMWhitespaceTheme >> dropListDisabledFillStyleFor: aDropList [
-	"Return the disabled fillStyle for the given drop list."
-	
-	^ self textEditorDisabledFillStyleFor: aDropList
-]
-
 { #category : #'border-styles' }
 GLMWhitespaceTheme >> dropListNormalBorderStyleFor: aDropList [
 	"Return the normal borderStyle for the given drop list"
 
 	^ self glamorousLightBorderStyleFor: aDropList
-]
-
-{ #category : #'fill-styles' }
-GLMWhitespaceTheme >> dropListNormalFillStyleFor: aDropList [
-	"Return the normal fillStyle for the given drop list."
-	
-	^ SolidFillStyle color: Color white
-]
-
-{ #category : #'basic-colors' }
-GLMWhitespaceTheme >> errorPopperBackgroundColor [
-	^ Color paleRed
-]
-
-{ #category : #'fill-styles' }
-GLMWhitespaceTheme >> expanderTitleNormalFillStyleFor: anExpanderTitle [
-	"Return the normal expander title fillStyle for the given expander title."
-	
-	^ self buttonNormalFillStyleFor: anExpanderTitle
 ]
 
 { #category : #private }
@@ -520,16 +326,6 @@ GLMWhitespaceTheme >> growlContentsColorFor: aGrowlMorph [
 ]
 
 { #category : #'growl - specific' }
-GLMWhitespaceTheme >> growlDismissHandleFor: aGrowlMorph [
-	| form image |
-	form := self windowCloseForm.
-	image := ImageMorph new.
-	image image: form.
-	image color: Color yellow.
-	^ image
-]
-
-{ #category : #'growl - specific' }
 GLMWhitespaceTheme >> growlFillColorFor: aGrowlMorph [
 	^ Color white darker
 ]
@@ -547,29 +343,6 @@ GLMWhitespaceTheme >> initialize [
 	self windowActiveDropShadowStyle: #diffuse
 ]
 
-{ #category : #'initialize-release' }
-GLMWhitespaceTheme >> initializeForms [
-	"Initialize the receiver's image forms."
-
-	|inactiveForm|
-	super initializeForms.
-	inactiveForm := self newWindowInactiveControlForm.
-	self forms
-		at: #windowCloseOver put: self newWindowCloseOverForm;
-		at: #windowMinimizeOver put: self newWindowMinimizeOverForm;
-		at: #windowMaximizeOver put: self newWindowMaximizeOverForm;
-		at: #windowClosePassive put: inactiveForm;
-		at: #windowMinimizePassive put: inactiveForm;
-		at: #windowMaximizePassive put: inactiveForm
-]
-
-{ #category : #'fill-styles' }
-GLMWhitespaceTheme >> listDisabledFillStyleFor: aList [
-	"Return the disabled fillStyle for the given list."
-	
-	^ self textEditorDisabledFillStyleFor: aList
-]
-
 { #category : #'border-styles' }
 GLMWhitespaceTheme >> listNormalBorderStyleFor: aList [
 	"Return the normal borderStyle for the given list"
@@ -577,62 +350,9 @@ GLMWhitespaceTheme >> listNormalBorderStyleFor: aList [
 	^ self glamorousNoBorderFor: aList
 ]
 
-{ #category : #'fill-styles-buttons' }
-GLMWhitespaceTheme >> menuItemInDockingBarSelectedFillStyleFor: aMenuItem [
-	"Answer the selected fill style to use for the given menu item that is in a docking bar."
-	^ self buttonSelectedFillStyleFor: aMenuItem
-]
-
-{ #category : #forms }
-GLMWhitespaceTheme >> menuPinForm [
-	"Answer the form to use for the pin button of a menu."
-
-	^ self iconNamed: #menuPinForm
-]
-
 { #category : #'fill-styles' }
 GLMWhitespaceTheme >> morphTreeSplitterNormalFillStyleFor: aSplitter [	
 	^ SolidFillStyle color: Color transparent
-]
-
-{ #category : #'fill-styles' }
-GLMWhitespaceTheme >> morphTreeSplitterPressedFillStyleFor: aSplitter [	
-	^ self splitterPressedFillStyleFor: aSplitter
-]
-
-{ #category : #forms }
-GLMWhitespaceTheme >> newCheckboxMarkerForm [
-	"Answer a new checkbox marker form."
-
-	^ self iconNamed: #checkboxMarkerForm
-]
-
-{ #category : #'morph creation' }
-GLMWhitespaceTheme >> newCloseControlIn: aThemedMorph for: aModel action: aValuable help: helpText [
-	"Answer a button for closing things."
-	
-	|form msb|
-	form := self windowCloseForm.
-	msb := MultistateButtonMorph new extent: form extent.
-	msb activeEnabledNotOverUpFillStyle: (ImageFillStyle form: form).
-	form := self windowClosePassiveForm.
-	msb extent: form extent.
-	msb activeDisabledNotOverUpFillStyle: (ImageFillStyle form: form).
-	msb passiveEnabledNotOverUpFillStyle: (ImageFillStyle form: form).
-	msb passiveDisabledNotOverUpFillStyle: (ImageFillStyle form: form).
-	form := self windowCloseOverForm.
-	msb extent: form extent.
-	msb
-		activeEnabledOverUpFillStyle: (ImageFillStyle form: form);
-		passiveEnabledOverUpFillStyle: (ImageFillStyle form: form).
-	form := self windowClosePassiveForm.
-	msb
-		extent: form extent;
-		activeEnabledOverDownFillStyle: (ImageFillStyle form: form);
-		passiveEnabledOverDownFillStyle: (ImageFillStyle form: form);
-		addUpAction: aValuable;
-		setBalloonText: helpText.
-	^msb
 ]
 
 { #category : #'morph creation' }
@@ -647,13 +367,6 @@ GLMWhitespaceTheme >> newFocusIndicatorMorphFor: aMorph [
 			 width: 1;
 			baseColor: (self glamorousBaseSelectionColorFor: aMorph));
 		bounds: aMorph focusBounds
-]
-
-{ #category : #forms }
-GLMWhitespaceTheme >> newRadioButtonMarkerForm [
-	"Answer a new radio button marker form. We make it empty because we already have the selected radio button take care of the state."
-
-	^ self iconNamed: #radioButtonMarkerForm
 ]
 
 { #category : #'initialize-release' }
@@ -685,20 +398,6 @@ GLMWhitespaceTheme >> newTreeUnexpandedForm [
 	offset: 0@0)
 ]
 
-{ #category : #forms }
-GLMWhitespaceTheme >> newWindowCloseForm [
-	"Answer a new form for a window close box."
-
-	^ self iconNamed: #windowCloseForm
-]
-
-{ #category : #forms }
-GLMWhitespaceTheme >> newWindowCloseOverForm [
-	"Answer a new form for a window menu box."
-
-	^ self newWindowCloseForm
-]
-
 { #category : #'initialize-release' }
 GLMWhitespaceTheme >> newWindowInactiveControlForm [
 	"Answer a new form for an inactive window control box."
@@ -710,48 +409,6 @@ GLMWhitespaceTheme >> newWindowInactiveControlForm [
 	offset: 0@0)
 ]
 
-{ #category : #forms }
-GLMWhitespaceTheme >> newWindowMaximizeForm [
-	"Answer a new form for a window maximize box."
-
-	^ self iconNamed: #windowMaximizeForm
-]
-
-{ #category : #forms }
-GLMWhitespaceTheme >> newWindowMaximizeOverForm [
-	"Answer a new form for a window menu box."
-
-	^ self newWindowMaximizeForm
-]
-
-{ #category : #forms }
-GLMWhitespaceTheme >> newWindowMenuForm [
-	"Answer a new form for a window menu box."
-
-	^ self iconNamed: #windowMenuForm
-]
-
-{ #category : #forms }
-GLMWhitespaceTheme >> newWindowMenuPassiveForm [
-	"Answer a new form for a window menu box."
-
-	^ self iconNamed: #windowMenuInactiveForm
-]
-
-{ #category : #forms }
-GLMWhitespaceTheme >> newWindowMinimizeForm [
-	"Answer a new form for a window minimize box."
-
-	^ self iconNamed: #windowMinimizeForm
-]
-
-{ #category : #forms }
-GLMWhitespaceTheme >> newWindowMinimizeOverForm [
-	"Answer a new form for a window menu box."
-
-	^ self newWindowMinimizeForm
-]
-
 { #category : #'border-styles' }
 GLMWhitespaceTheme >> plainGroupPanelBorderStyleFor: aGroupPanel [
 	"Answer the normal border style for a plain group panel."
@@ -759,36 +416,6 @@ GLMWhitespaceTheme >> plainGroupPanelBorderStyleFor: aGroupPanel [
 	^SimpleBorder new
 		width: 1;
 		baseColor: Color transparent
-]
-
-{ #category : #'fill-styles' }
-GLMWhitespaceTheme >> progressBarFillStyleFor: aProgressBar [
-	^ self glamorousBasePassiveBackgroundColorFor: aProgressBar
-]
-
-{ #category : #'fill-styles' }
-GLMWhitespaceTheme >> progressBarProgressFillStyleFor: aProgressBar [
-	^ (self glamorousLightSelectionColorFor: aProgressBar)
-]
-
-{ #category : #'fill-styles' }
-GLMWhitespaceTheme >> progressFillStyleFor: aProgress [
-	"Return the progress fillStyle for the given progress morph."
-	^ self windowActiveFillStyleFor: aProgress  
-]
-
-{ #category : #forms }
-GLMWhitespaceTheme >> radioButtonForm [
-	"Answer the form to use for a normal radio button."
-
-	^ self iconNamed: #radioButtonUnselectedForm
-]
-
-{ #category : #forms }
-GLMWhitespaceTheme >> radioButtonSelectedForm [
-	"Answer the form to use for a selected radio button."
-
-	^ self iconNamed: #radioButtonSelectedForm
 ]
 
 { #category : #'fill-styles' }
@@ -812,6 +439,11 @@ GLMWhitespaceTheme >> rubScrolledTextMorphThemer [
 ]
 
 { #category : #scrollbars }
+GLMWhitespaceTheme >> scrollBarButtonArrowVertices: aRectangle [ 
+	^ self verticesForComplexArrow: aRectangle
+]
+
+{ #category : #scrollbars }
 GLMWhitespaceTheme >> scrollbarArrowOfDirection: aSymbol size: finalSizeInteger color: aColor [
 	^ Form extent: 1@1
 ]
@@ -830,40 +462,6 @@ GLMWhitespaceTheme >> scrollbarNormalFillStyleFor: aScrollbar [
 	"Return the normal scrollbar fillStyle for the given scrollbar."
 	
 	^ Color transparent
-]
-
-{ #category : #'border-styles-scrollbars' }
-GLMWhitespaceTheme >> scrollbarNormalThumbBorderStyleFor: aScrollbar [
-	"Return the normal thumb borderStyle for the given scrollbar."
-
-	^ BorderStyle simple
-		width: 0;
-		baseColor: Color transparent
-]
-
-{ #category : #'fill-styles-scrollbars' }
-GLMWhitespaceTheme >> scrollbarNormalThumbFillStyleFor: aScrollbar [
-	"Return the normal scrollbar fillStyle for the given scrollbar."
-	^ self 
-		glamorousVisibleFillStyleFor: aScrollbar 
-		height: aScrollbar height
-]
-
-{ #category : #'border-styles-scrollbars' }
-GLMWhitespaceTheme >> scrollbarPagingAreaCornerStyleIn: aThemedMorph [	
-	^#square
-]
-
-{ #category : #'border-styles-scrollbars' }
-GLMWhitespaceTheme >> scrollbarThumbCornerStyleIn: aThemedMorph [	
-	^#square
-]
-
-{ #category : #'fill-styles' }
-GLMWhitespaceTheme >> separatorFillStyleFor: aSeparator [
-	"Return the separator fillStyle for the given separator."
-	
-	^ SolidFillStyle color: (self glamorousBaseColorFor: aSeparator) darker
 ]
 
 { #category : #defaults }
@@ -982,13 +580,6 @@ GLMWhitespaceTheme >> shStyleTable [
 ]
 
 { #category : #'fill-styles' }
-GLMWhitespaceTheme >> sliderDisabledFillStyleFor: aSlider [
-	"Return the disabled fillStyle for the given slider."
-	
-	^ self textEditorDisabledFillStyleFor: aSlider
-]
-
-{ #category : #'fill-styles' }
 GLMWhitespaceTheme >> splitterNormalFillStyleFor: aSplitter [
 	"Return the normal splitter fillStyle for the given splitter."
 	
@@ -1012,24 +603,6 @@ GLMWhitespaceTheme >> subgroupColorFrom: paneColor [
 ]
 
 { #category : #'border-styles' }
-GLMWhitespaceTheme >> tabLabelNormalBorderStyleFor: aTabLabel [
-"	^SimpleBorder new
-		width: 0;
-		baseColor: (self buttonBaseColorFor: aTabLabel) darker
-"	^ self buttonNormalBorderStyleFor: aTabLabel
-]
-
-{ #category : #'fill-styles-buttons' }
-GLMWhitespaceTheme >> tabLabelNormalFillStyleFor: aTabLabel [
-	^ self buttonNormalFillStyleFor: aTabLabel 
-]
-
-{ #category : #'fill-styles-buttons' }
-GLMWhitespaceTheme >> tabLabelSelectedFillStyleFor: aTabLabel [
-	^ self buttonSelectedFillStyleFor: aTabLabel 
-]
-
-{ #category : #'border-styles' }
 GLMWhitespaceTheme >> tabPanelBorderStyleFor: aTabGroup [
 	^ GLMTabPanelBorder new 
 		width: 1;
@@ -1037,73 +610,11 @@ GLMWhitespaceTheme >> tabPanelBorderStyleFor: aTabGroup [
 		tabSelector: aTabGroup tabSelectorMorph
 ]
 
-{ #category : #'basic-colors' }
-GLMWhitespaceTheme >> taskbarButtonLabelColorFor: aButton [
-	"Answer the colour for the label of the given taskbar button."
-
-	^aButton model
-		ifNil: [super taskbarButtonLabelColorFor: aButton]
-		ifNotNil: [:win |
-			win isActive
-				ifTrue: [Color black]
-				ifFalse: [Color gray darker]]
-]
-
-{ #category : #'fill-styles' }
-GLMWhitespaceTheme >> taskbarFillStyleFor: aTaskbar [
-	^ "self buttonNormalFillStyleFor: aTaskbar"
-	SolidFillStyle color: Color transparent 
-]
-
-{ #category : #'border-styles' }
-GLMWhitespaceTheme >> taskbarThumbnailCornerStyleFor: aMorph [
-	"Answer the corner style for the taskbar thumbnail/tasklist."
-	
-	^#square
-]
-
-{ #category : #'border-styles' }
-GLMWhitespaceTheme >> taskbarThumbnailNormalBorderStyleFor: aWindow [
-	^ self buttonNormalBorderStyleFor: aWindow
-]
-
-{ #category : #'fill-styles' }
-GLMWhitespaceTheme >> textEditorDisabledFillStyleFor: aTextEditor [
-	"Return the disabled fillStyle for the given text editor."
-	
-	^self glamorousBasePassiveBackgroundColorFor: aTextEditor
-]
-
 { #category : #'border-styles' }
 GLMWhitespaceTheme >> textEditorNormalBorderStyleFor: aTextEditor [
 	"Return the normal text editor borderStyle for the given text editor."
 
 	^ self glamorousLightBorderStyleFor: aTextEditor
-]
-
-{ #category : #'basic-colors' }
-GLMWhitespaceTheme >> treeLineWidth [
-	"Answer the width of the tree lines."
-
-	^0
-]
-
-{ #category : #'watcher window' }
-GLMWhitespaceTheme >> watcherWindowActiveFillStyleFor: aWindow [
-
-	^ SolidFillStyle color: (Color veryVeryLightGray alpha: 0.6)
-]
-
-{ #category : #'watcher window' }
-GLMWhitespaceTheme >> watcherWindowInactiveFillStyleFor: aWindow [
-
-	^ SolidFillStyle color: (Color veryVeryLightGray alpha: 0.6)
-]
-
-{ #category : #accessing }
-GLMWhitespaceTheme >> windowActiveDropShadowStyle: anObject [
-	"Set the value of windowActiveDropShadowStyle"
-	windowActiveDropShadowStyle := anObject
 ]
 
 { #category : #'fill-styles' }
@@ -1126,66 +637,12 @@ GLMWhitespaceTheme >> windowCloseOverForm [
 	^self forms at: #windowCloseOver ifAbsent: [Form extent: 16@16 depth: Display depth]
 ]
 
-{ #category : #forms }
-GLMWhitespaceTheme >> windowClosePassiveForm [
-	"Answer the form to use for passive (background) window close buttons"
-
-	^ self iconNamed: #windowCloseInactiveForm
-]
-
 { #category : #'fill-styles' }
 GLMWhitespaceTheme >> windowEdgeNormalFillStyleFor: anEdgeGrip [
 	"Return the normal window edge fillStyle for the given edge grip."
 	self flag: 'this is used for the long edges'.
 	^ super windowEdgeNormalFillStyleFor: anEdgeGrip
 	"self glamorousDarkBaseColorFor: anEdgeGrip"
-]
-
-{ #category : #'fill-styles' }
-GLMWhitespaceTheme >> windowInactiveFillStyleFor: aWindow [
-	"We do not want the lighting effect when the window goes inactive"
-	^self windowActiveFillStyleFor: aWindow
-]
-
-{ #category : #'fill-styles' }
-GLMWhitespaceTheme >> windowInactiveTitleFillStyleFor: aWindow [
-	"We do not want the lighting effect when the window goes inactive"
-	^ SolidFillStyle color: Color transparent
-]
-
-{ #category : #'label-styles' }
-GLMWhitespaceTheme >> windowMaximizeOverForm [
-	"Answer the form to use for mouse over window maximize buttons"
-
-	^self forms at: #windowMaximizeOver ifAbsent: [Form extent: 16@16 depth: Display depth]
-]
-
-{ #category : #forms }
-GLMWhitespaceTheme >> windowMaximizePassiveForm [
-	"Answer the form to use for passive (background) window maximize/restore buttons"
-
-	^ self iconNamed: #windowMaximizeInactiveForm
-]
-
-{ #category : #'label-styles' }
-GLMWhitespaceTheme >> windowMenuPassiveForm [
-	"Answer the form to use for passive (background) window menu buttons"
-
-	^self newWindowMenuPassiveForm
-]
-
-{ #category : #'label-styles' }
-GLMWhitespaceTheme >> windowMinimizeOverForm [
-	"Answer the form to use for mouse over window minimize buttons"
-
-	^self forms at: #windowMinimizeOver ifAbsent: [Form extent: 16@16 depth: Display depth]
-]
-
-{ #category : #forms }
-GLMWhitespaceTheme >> windowMinimizePassiveForm [
-	"Answer the form to use for passive (background) window minimize buttons"
-
-	^ self iconNamed: #windowMinimizeInactiveForm
 ]
 
 { #category : #defaults }

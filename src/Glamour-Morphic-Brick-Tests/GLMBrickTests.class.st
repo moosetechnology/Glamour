@@ -65,14 +65,14 @@ GLMBrickTests >> assertWidthDirty: aBrick [
 	self assert: aBrick wrappedBounds isWidthClean not
 ]
 
-{ #category : #'instance-creation' }
+{ #category : #'instance creation' }
 GLMBrickTests >> markFullyClean: aBrick [ 
 
 	aBrick withAllSubbricks do: [ :each | each wrappedBounds markWidthClean; markHeightClean ].
 	^ aBrick
 ]
 
-{ #category : #'instance-creation' }
+{ #category : #'instance creation' }
 GLMBrickTests >> newBrickFullHeightAndWidthDependsOnParent: anInteger [
 
 	^ GLMBrick new
@@ -82,7 +82,7 @@ GLMBrickTests >> newBrickFullHeightAndWidthDependsOnParent: anInteger [
 		yourself
 ]
 
-{ #category : #'instance-creation' }
+{ #category : #'instance creation' }
 GLMBrickTests >> newBrickWithFullDependsOnChildren [
 
 	^ GLMBrick new 
@@ -92,7 +92,7 @@ GLMBrickTests >> newBrickWithFullDependsOnChildren [
 		yourself
 ]
 
-{ #category : #'instance-creation' }
+{ #category : #'instance creation' }
 GLMBrickTests >> newBrickWithFullFill [
 
 	^ GLMBrick new 
@@ -102,7 +102,7 @@ GLMBrickTests >> newBrickWithFullFill [
 		yourself
 ]
 
-{ #category : #'instance-creation' }
+{ #category : #'instance creation' }
 GLMBrickTests >> newBrickWithSmallStaticExtent [
 
 	^ GLMBrick new 
@@ -112,7 +112,7 @@ GLMBrickTests >> newBrickWithSmallStaticExtent [
 		yourself
 ]
 
-{ #category : #'instance-creation' }
+{ #category : #'instance creation' }
 GLMBrickTests >> newBrickWithStaticExtent [
 
 	^ GLMBrick new 
@@ -138,7 +138,7 @@ GLMBrickTests >> staticExtent [
 { #category : #defaults }
 GLMBrickTests >> staticHeight [
 
-	^ 100
+	^ 100 * World displayScaleFactor
 ]
 
 { #category : #defaults }
@@ -150,19 +150,19 @@ GLMBrickTests >> staticSmallExtent [
 { #category : #defaults }
 GLMBrickTests >> staticSmallHeight [
 
-	^ 50
+	^ 50 * World displayScaleFactor
 ]
 
 { #category : #defaults }
 GLMBrickTests >> staticSmallWidth [
 
-	^ 50
+	^ 50 * World displayScaleFactor
 ]
 
 { #category : #defaults }
 GLMBrickTests >> staticWidth [
 
-	^ 100
+	^ 100 * World displayScaleFactor
 ]
 
 { #category : #'tests-layouter' }

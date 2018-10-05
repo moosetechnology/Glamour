@@ -236,7 +236,7 @@ GLMCompositePresentation >> pane: aPane [
 	self presentations do: [:each | each pane: aPane ]
 ]
 
-{ #category : #comparison }
+{ #category : #copying }
 GLMCompositePresentation >> postCopy [
 	super postCopy.
 	presentations ifNotNil: [ :arg | 

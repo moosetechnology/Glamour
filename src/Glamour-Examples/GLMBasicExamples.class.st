@@ -664,12 +664,12 @@ GLMBasicExamples >> multipleFinderWithFilter [
 			title: 'List';
 			beMultiple;
 			dynamicActions: [:list | self actionsFor: list];
-			filterOn: [:text :each | Smalltalk compiler evaluate: '| each | each := self. ', text for: each logged: false ];
+			filterOn: [:text :each | Smalltalk compiler receiver: each; evaluate: '| each | each := self. ', text ];
 			helpMessage:  'Enter a filtering request (e.g., "each > $f")'. 
 		a tree
 			title: 'Tree';
 			dynamicActions: [:list | self actionsFor: list];
-			filterOn: [:text :each | Smalltalk compiler evaluate: '| each | each := self. ', text for: each logged: false ];
+			filterOn: [:text :each | Smalltalk compiler receiver: each; evaluate: '| each | each := self. ', text ];
 			helpMessage:  'Enter a filtering request (e.g., "each > $f")' ].
 	^ finder 
 ]
@@ -729,7 +729,7 @@ GLMBasicExamples >> pharoScript [
 		a text 
 			title: 'Evaluated result';
 			display: [:code | [Smalltalk compiler evaluate: code ] on: Error do: ['Error']];
-			act: [:text | text displayValue explore] icon: GLMUIThemeExtraIcons glamorousInspect entitled: 'Explore' ].
+			act: [:text | text displayValue inspect] icon: GLMUIThemeExtraIcons glamorousInspect entitled: 'Inspect' ].
 	^ browser
 ]
 
@@ -774,8 +774,7 @@ GLMBasicExamples >> simpleActionList [
 	browser column: #one.
 	browser transmit to: #one; andShow: [ :a |
 		a actionList
-			act: [:entity | entity inspect ] entitled: 'Inspect';
-			act: [:entity | entity explore ] entitled: 'Explore'].
+			act: [:entity | entity inspect ] entitled: 'Inspect'].
 	^ browser
 ]
 

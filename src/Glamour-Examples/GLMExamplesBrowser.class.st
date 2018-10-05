@@ -16,8 +16,9 @@ GLMExamplesBrowser class >> menuExamplesOn: aBuilder [
 		iconName: #glamorousHelp;
 		parent: #Help;
 		order: 4.0;
-		help: 'Open Glamour Example Browser';
-		action: [ self open ]
+		help: 'Open Glamour Example Browser.';
+		action: [ self open ].
+	aBuilder withSeparatorAfter	
 ]
 
 { #category : #'user interface' }
@@ -47,6 +48,7 @@ GLMExamplesBrowser >> compose [
 
 { #category : #private }
 GLMExamplesBrowser >> exampleBrowserForPragma: each in: aClass [
+	<sampleInstance>
 	| exampleBrowser wrapperBrowser |
 	exampleBrowser := aClass new perform: each methodSelector.
 	wrapperBrowser := GLMTabulator new.
@@ -56,11 +58,12 @@ GLMExamplesBrowser >> exampleBrowserForPragma: each in: aClass [
 		to: #theOuterPane;
 		andShow: [ :a | a custom: exampleBrowser ].
 	^ wrapperBrowser
-		startOn: (Smalltalk compiler evaluate: (each argumentAt: 2) logged: false)
+		startOn: (Smalltalk compiler evaluate: (each argumentAt: 2))
 ]
 
 { #category : #building }
 GLMExamplesBrowser >> exampleIn: composer [
+
 	| dynamicPresentation |
 	dynamicPresentation := composer dynamic
 		title: 'Browser';
@@ -91,8 +94,9 @@ GLMExamplesBrowser >> exampleIn: composer [
 
 { #category : #building }
 GLMExamplesBrowser >> exampleListIn: a [
+	<sampleInstance>
 	^ a list
-		title: 'Examples' translated;
+		title: 'Examples';
 		display: [ :exampleClass | exampleClass allExamples ];
 		sorted: [ :x :y | (x argumentAt: 1) < (y argumentAt: 1) ];
 		format: [ :each | each argumentAt: 1 ];

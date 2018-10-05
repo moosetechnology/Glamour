@@ -21,7 +21,7 @@ GLMPortReference >> port: aPort [
 	port := aPort
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #copying }
 GLMPortReference >> postCopy [ 
 	port := port copy
 ]

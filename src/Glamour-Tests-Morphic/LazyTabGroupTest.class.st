@@ -8,7 +8,7 @@ Class {
 	#category : #'Glamour-Tests-Morphic'
 }
 
-{ #category : #'setup - tear down' }
+{ #category : #running }
 LazyTabGroupTest >> setUp [
 	super setUp.
 	tabs := LazyTabGroupMorph new.
@@ -18,9 +18,10 @@ LazyTabGroupTest >> setUp [
 
 ]
 
-{ #category : #'setup - tear down' }
+{ #category : #running }
 LazyTabGroupTest >> tearDown [
-	window ifNotNil: [window delete]
+	window ifNotNil: [ window delete ].
+	super tearDown
 ]
 
 { #category : #tests }

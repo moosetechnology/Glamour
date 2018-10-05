@@ -8,7 +8,7 @@ Class {
 	#category : #'Glamour-Tests-Core'
 }
 
-{ #category : #tests }
+{ #category : #running }
 GLMTreePresentationTest >> setUp [
 	super setUp.
 	pane := GLMPane named: 'test'.
