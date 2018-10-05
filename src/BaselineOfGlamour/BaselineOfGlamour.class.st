@@ -10,7 +10,7 @@ BaselineOfGlamour >> baseline: spec [
 	spec for: #common do: [
 		spec
 			baseline: 'GlamourCore' with: [ 
-				spec repository: 'github://moosetechnology/Glamour:pharo6/src' ].
+				spec repository: 'github://moosetechnology/Glamour/src' ].
 		spec 
 			package: 'Glamour-Tools' with: [
 				spec requires: #('GlamourCore')];
