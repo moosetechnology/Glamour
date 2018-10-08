@@ -8,7 +8,7 @@ Glamour is present by default in both Pharo 6 and Pharo 7. To update Glamour to 
 ```
 Metacello new
    baseline: 'GToolkit';
-   repository: 'github://feenkcom/gtoolkit:pharo6/src';
+   repository: 'github://feenkcom/gtoolkit/src';
    load.
 ```
 
@@ -16,7 +16,7 @@ Metacello new
 ```
 Metacello new
    baseline: 'GToolkit';
-   repository: 'github://feenkcom/gtoolkit/src';
+   repository: 'github://feenkcom/gtoolkit:pharo6/src';
    load.
 ```
 
